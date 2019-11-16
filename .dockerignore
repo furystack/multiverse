@@ -1,0 +1,9 @@
+node_modules
+packages
+npm-debug.log
+
+.dockerignore
+.gitignore
+.npmrc
+.travis.yml
+Dockerfile

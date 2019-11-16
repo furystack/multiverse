@@ -1,0 +1,43 @@
+# Node.js
+
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+  - master
+  - develop
+  - feature/*
+  - release/*
+  - greenkeeper/*
+
+pool:
+  vmImage: "ubuntu-latest"
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "12.x"
+    displayName: "Install Node.js"
+  - script: yarn install
+    displayName: "Yarn install"
+
+  - script: yarn lint
+    displayName: "Yarn Lint"
+
+  - script: yarn test:cypress
+    displayName: "Cypress tests"
+
+  - task: PublishTestResults@2
+    displayName: Publish test results
+    condition: always()
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: "$(System.DefaultWorkingDirectory)/frontend/testresults/output.xml"
+
+  - task: PublishBuildArtifacts@1
+    displayName: Publish Cypress test artifacts
+    condition: failed()
+    inputs:
+      pathtoPublish: "$(System.DefaultWorkingDirectory)/frontend/cypress/videos"
+      artifactName: cypress_videos
