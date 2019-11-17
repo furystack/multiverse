@@ -1,3 +1,7 @@
 {
+  "compilerOptions": {
+    "composite": true
+  },
+  "include": [],
   "references": [{ "path": "wrap-r" }]
 }
