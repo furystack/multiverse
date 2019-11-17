@@ -51,7 +51,7 @@ module.exports = {
       DEBUG: true,
       APP_VERSION: require("./package.json").version,
       BUILD_DATE: new Date().toISOString(),
-      SERVICE_URL: "http://localhost:9090"
+      SERVICE_URL: "http://localhost/api/wrap-r/"
     })
   ],
   module: {

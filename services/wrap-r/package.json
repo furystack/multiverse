@@ -1,5 +1,5 @@
 {
-  "name": "service",
+  "name": "wrap-r-service",
   "version": "1.0.0",
   "main": "dist/index.js",
   "license": "GPL-2.0-only",
@@ -12,16 +12,16 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/node": "^12.11.1"
+    "@types/node": "^12.12.8"
   },
   "dependencies": {
-    "@furystack/core": "^6.0.3",
-    "@furystack/http-api": "^5.2.3",
-    "@furystack/inject": "^4.0.2",
-    "@furystack/logging": "^2.0.5",
-    "@furystack/odata": "^2.1.0",
-    "@furystack/repository": "^2.0.6",
-    "@furystack/typeorm-store": "^3.0.5",
+    "@furystack/core": "^6.0.6",
+    "@furystack/http-api": "^5.3.4",
+    "@furystack/inject": "^4.0.3",
+    "@furystack/logging": "^2.0.8",
+    "@furystack/odata": "^2.1.6",
+    "@furystack/repository": "^2.0.9",
+    "@furystack/typeorm-store": "^3.0.7",
     "sqlite3": "^4.1.0",
     "tslib": "^1.10.0"
   }

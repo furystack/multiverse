@@ -1,0 +1,16 @@
+version: "3"
+services:
+  proxy:
+    build:
+      context: ./
+      dockerfile: ./proxy/Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - /frontends/wrap-r:/frontends/wrap-r/bundle
+  wrapr-service:
+    build:
+      context: ./
+      dockerfile: ./services/wrap-r/Dockerfile
+    ports:
+      - "9090:9090"
