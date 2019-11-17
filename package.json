@@ -56,7 +56,7 @@
     "start": "concurrently --kill-others \"yarn startService\" \"yarn startFrontend\"  ",
     "startService": "yarn workspace wrap-r-service start",
     "startFrontend": "yarn workspace wrap-r-frontend start --env.APP_SERVICE_URL=http://localhost:9090",
-    "clean": "rimraf service/dist frontend/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
+    "clean": "rimraf services/*/dist frontends/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache"
   }
 }
