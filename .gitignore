@@ -60,6 +60,8 @@ typings/
 # next.js build output
 .next
 
+data.sqlite
+
 dist
 *.tsbuildinfo
 frontend/bundle

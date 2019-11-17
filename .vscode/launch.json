@@ -8,8 +8,8 @@
       "type": "node",
       "request": "launch",
       "name": "Service",
-      "program": "${workspaceFolder}/services/wrap-r/src/index.ts",
-      "outFiles": ["${workspaceFolder}/services/wrap-r/dist/index.js"]
+      "program": "${workspaceFolder}/services/wrap-r/src/service.ts",
+      "outFiles": ["${workspaceFolder}/services/wrap-r/dist/service.js"]
     }
   ]
 }

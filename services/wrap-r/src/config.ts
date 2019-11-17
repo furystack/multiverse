@@ -49,10 +49,19 @@ export const injector = new Injector()
   .setupRepository(repo =>
     repo.createDataSet(User, {
       ...authorizedDataSet,
+      authorizeAdd: async authorize => {
+        const success = await authorize.injector
+          .getInstance(HttpUserContext)
+          .isAuthorized("user-admin");
+        return {
+          isAllowed: success ? true : false,
+          message: success ? "" : "Role 'user-admin' required."
+        };
+      },
       name: "users"
     })
   )
-  .useOdata("odata", odata =>
+  .useOdata("/api/wrap-r/", odata =>
     odata.addNameSpace("default", ns => {
       ns.setupEntities(entities =>
         entities.addEntityType({
