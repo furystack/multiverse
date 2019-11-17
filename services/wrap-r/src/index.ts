@@ -69,7 +69,7 @@ export const i = new Injector()
       name: "users"
     })
   )
-  .useOdata("odata", odata =>
+  .useOdata("api/wrap-r", odata =>
     odata.addNameSpace("default", ns => {
       ns.setupEntities(entities =>
         entities.addEntityType({

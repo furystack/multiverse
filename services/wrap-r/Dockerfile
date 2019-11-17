@@ -14,7 +14,7 @@ COPY --chown=node:node . .
 
 RUN npm install -g yarn
 
-RUN yarn workspace wrap-r-service install
+RUN yarn install
 RUN yarn workspace wrap-r-service build
 
 EXPOSE 9090
