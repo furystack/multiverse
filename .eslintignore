@@ -1,4 +1,4 @@
-frontend/node_modules/*
-frontend/dist/*
-service/node_modules/*
-service/dist/*
+frontends/*/node_modules/*
+frontends/*/dist/*
+services/*/node_modules/*
+services/*/dist/*
