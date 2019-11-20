@@ -4,13 +4,7 @@ import { registerExitHandler } from "./exitHandler";
 import { User, Session } from "./models";
 
 injector
-  .useHttpApi({
-    corsOptions: {
-      credentials: true,
-      origins: ["http://localhost:8080"],
-      headers: ["cache", "content-type"]
-    }
-  })
+  .useHttpApi()
   .useHttpAuthentication({
     getUserStore: sm => sm.getStoreFor(User),
     getSessionStore: sm => sm.getStoreFor(Session)

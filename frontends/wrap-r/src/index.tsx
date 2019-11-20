@@ -10,11 +10,11 @@ export const environmentOptions = {
   debug: Boolean(process.env.DEBUG),
   appVersion: process.env.APP_VERSION as string,
   buildDate: new Date(process.env.BUILD_DATE as string),
-  serviceUrl: process.env.SERVICE_URL as string
+  serviceUrl: process.env.APP_SERVICE_URL as string
 };
 
 shadeInjector.useOdata({
-  serviceEndpoint: PathHelper.joinPaths(environmentOptions.serviceUrl, "odata"),
+  serviceEndpoint: PathHelper.joinPaths(environmentOptions.serviceUrl, "/"),
   defaultInit: {}
 });
 

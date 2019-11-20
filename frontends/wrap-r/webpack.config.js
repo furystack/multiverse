@@ -14,7 +14,8 @@ module.exports = {
     path: path.resolve(__dirname + "/bundle")
   },
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: true,
+    disableHostCheck: true
   },
   optimization: {
     splitChunks: {
@@ -51,7 +52,7 @@ module.exports = {
       DEBUG: true,
       APP_VERSION: require("./package.json").version,
       BUILD_DATE: new Date().toISOString(),
-      SERVICE_URL: "http://localhost/api/wrap-r/"
+      APP_SERVICE_URL: "/api/wrap-r/"
     })
   ],
   module: {
