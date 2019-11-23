@@ -43,7 +43,7 @@ export const Login = Shade({
         <Paper>
           <form
             style={{
-              padding: "30px 20px"
+              padding: "10px 30px"
             }}
             className="login-form"
             onsubmit={ev => {
@@ -55,10 +55,11 @@ export const Login = Shade({
             <h2
               style={{
                 color: "#444",
-                fontWeight: "lighter"
+                fontWeight: "lighter",
+                textAlign: "center"
               }}
             >
-              Login
+              It's good to see you!
             </h2>
             <Input
               labelTitle="Username"
@@ -129,6 +130,15 @@ export const Login = Shade({
             <p style={{ fontSize: "10px" }}>
               You can login with the default 'testuser' / 'password' credentials
             </p>
+
+            <p style={{ fontSize: "10px", textAlign: "center" }}>
+              You can also log in with
+            </p>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <Button disabled>Google</Button>
+              <Button disabled>Facebook</Button>{" "}
+              <Button disabled>GitHub</Button>
+            </div>
           </form>
         </Paper>
       </div>

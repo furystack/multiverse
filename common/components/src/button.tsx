@@ -16,7 +16,7 @@ export const Button = Shade<PartialElement<HTMLButtonElement>>({
         {...props}
         style={{
           background: "rgba(0,0,0,0.05)",
-          cursor: "pointer",
+          cursor: props.disabled ? "inherits" : "pointer",
           border: "none",
           padding: "12px 20px",
           transition: "background .41s linear",
