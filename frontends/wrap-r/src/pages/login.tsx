@@ -1,4 +1,5 @@
 import { Shade, createComponent } from "@furystack/shades";
+import { Button } from "common-components";
 import { SessionService } from "../services/session";
 import { Loader } from "../components/loader";
 
@@ -176,6 +177,12 @@ export const Login = Shade({
             You can login with the default 'testuser' / 'password' credentials
           </p>
         </form>
+        <Button
+          title="alma"
+          onClick={() => {
+            alert("ALMAAA");
+          }}
+        />
       </div>
     );
   }

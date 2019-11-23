@@ -1,0 +1,21 @@
+{
+  "name": "common-components",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "@furystack/shades": "^2.1.5"
+  },
+  "typings": "dist/index.d.ts",
+  "main": "dist/index.js"
+}

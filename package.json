@@ -11,8 +11,7 @@
     "packages": [
       "frontends/*",
       "services/*",
-      "common/components/*",
-      "common/service-utils/*"
+      "common/*"
     ],
     "nohoist": []
   },
