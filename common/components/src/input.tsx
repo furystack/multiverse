@@ -5,7 +5,7 @@ export interface InputProps extends PartialElement<HTMLInputElement> {
 }
 
 export const Input = Shade<InputProps>({
-  constructed: () => {},
+  shadowDomName: "shade-input",
   render: ({ props, element }) => {
     return (
       <label

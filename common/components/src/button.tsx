@@ -20,6 +20,9 @@ export const Button = Shade<PartialElement<HTMLButtonElement>>({
           border: "none",
           padding: "12px 20px",
           transition: "background .41s linear",
+          borderRadius: "3px",
+          fontWeight: "bolder",
+          fontVariant: "all-petite-caps",
           ...props.style
         }}
       >

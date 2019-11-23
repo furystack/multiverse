@@ -1,4 +1,5 @@
 import { Shade, createComponent } from "@furystack/shades";
+import { Button } from "common-components";
 import { SessionService } from "../services/session";
 
 export const HelloWorld = Shade({
@@ -43,13 +44,13 @@ export const HelloWorld = Shade({
       >
         <h2> Hello, {getState().userName || "unknown"} !</h2>
       </div>
-      <button
+      <Button
         onclick={() => {
           injector.getInstance(SessionService).logout();
         }}
       >
         Log out
-      </button>
+      </Button>
     </div>
   )
 });
