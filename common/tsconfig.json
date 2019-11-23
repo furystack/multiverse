@@ -2,5 +2,6 @@
   "compilerOptions": {
     "composite": true
   },
-  "references": [{ "path": "components" }]
+  "references": [{ "path": "components" }],
+  "include": []
 }
