@@ -1,20 +1,21 @@
 {
-  "name": "wrap-r-service",
+  "name": "common-service-utils",
   "version": "1.0.0",
   "main": "dist/index.js",
   "license": "GPL-2.0-only",
   "private": true,
   "scripts": {
-    "start": "yarn build && node ./dist/service.js",
+    "start": "yarn build && yarn seed && node ./dist/service.js",
+    "seed": "yarn build && node ./dist/seed.js",
     "write-metadata": "yarn build && node ./dist/write-metadata.js",
     "clean": "rimraf dist && rimraf tsconfig.tsbuildinfo",
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/node": "^12.12.8"
+    "@types/node": "^12.12.8",
+    "@types/redis": "^2.8.14"
   },
   "dependencies": {
-    "common-service-utils": "1.0.0",
     "@furystack/core": "^6.0.6",
     "@furystack/http-api": "^5.3.4",
     "@furystack/inject": "^4.0.3",
@@ -22,7 +23,9 @@
     "@furystack/odata": "^2.1.6",
     "@furystack/repository": "^2.0.9",
     "@furystack/typeorm-store": "^3.0.7",
-    "sqlite3": "^4.1.0",
+    "@furystack/redis-store": "2.0.7",
+    "redis": "^2.8.0",
+    "pg": "^7.14.0",
     "tslib": "^1.10.0"
   }
 }

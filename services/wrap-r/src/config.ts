@@ -1,5 +1,3 @@
-import { join } from "path";
-import { InMemoryStore } from "@furystack/core";
 import { Injector } from "@furystack/inject";
 import { VerboseConsoleLogger } from "@furystack/logging";
 import {
@@ -12,7 +10,7 @@ import {
 import "@furystack/typeorm-store";
 import { EdmType } from "@furystack/odata";
 import { DataSetSettings } from "@furystack/repository";
-import { User, Session } from "./models";
+import { User } from "common-service-utils";
 
 export const authorizedOnly = async (options: { injector: Injector }) => {
   const authorized = await options.injector
@@ -33,19 +31,8 @@ export const authorizedDataSet: Partial<DataSetSettings<any>> = {
 };
 
 export const injector = new Injector()
+  .useCommonHttpAuth()
   .useLogging(VerboseConsoleLogger)
-  .useTypeOrm({
-    type: "sqlite",
-    database: join(process.cwd(), "data.sqlite"),
-    entities: [User, Session],
-    logging: false,
-    synchronize: true
-  })
-  .setupStores(stores =>
-    stores
-      .useTypeOrmStore(User)
-      .addStore(new InMemoryStore({ model: Session, primaryKey: "sessionId" }))
-  )
   .setupRepository(repo =>
     repo.createDataSet(User, {
       ...authorizedDataSet,
