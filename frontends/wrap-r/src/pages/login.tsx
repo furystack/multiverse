@@ -1,5 +1,5 @@
 import { Shade, createComponent } from "@furystack/shades";
-import { Button } from "common-components";
+import { Button, Input, Paper } from "common-components";
 import { SessionService } from "../services/session";
 import { Loader } from "../components/loader";
 
@@ -40,68 +40,29 @@ export const Login = Shade({
           padding: "0 100px"
         }}
       >
-        <style>{`
-          label {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: space-between;
-            font-size: 10px;
-            color: #999;
-            margin-bottom: 1em;
-            padding: 1em;
-            border-radius: 5px;
-            transition: background-color 300ms cubic-bezier(0.455, 0.030, 0.515, 0.955), box-shadow 300ms cubic-bezier(0.455, 0.030, 0.515, 0.955);
-          }
-
-          label:focus-within {
-            background-color: rgba(255,255,255,0.2);
-            box-shadow: 0px 0px 5px rgba(0,0,0,.1)
-          }
-
-          label input{
-            border: none;
-            background-color: transparent;
-            outline: none;
-            font-size: 12px;
-          }
-
-          form.login-form {
-            border: 1px solid #aaa;
-            padding: 10px 30px;
-            border-radius: 8px;
-            box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-            background-color: rgba(255,255,255,0.4);
-          }
-
-          button.login-button {
-            background: rgba(0,0,0,0.05);
-            cursor: pointer;
-            border: none;
-            padding: 12px 20px;
-          }
-
-          button.login-button:hover:not(:disabled){
-            background: rgba(0,0,0,0.25);
-          }
-
-          h2 {
-            color: #444;
-            font-weight: lighter;
-          }
-        `}</style>
-        <form
-          className="login-form"
-          onsubmit={ev => {
-            ev.preventDefault();
-            const state = getState();
-            sessinService.login(state.username, state.password);
-          }}
-        >
-          <h2>Login</h2>
-          <label>
-            Username
-            <input
+        <Paper>
+          <form
+            style={{
+              padding: "10px 30px"
+            }}
+            className="login-form"
+            onsubmit={ev => {
+              ev.preventDefault();
+              const state = getState();
+              sessinService.login(state.username, state.password);
+            }}
+          >
+            <h2
+              style={{
+                color: "#444",
+                fontWeight: "lighter",
+                textAlign: "center"
+              }}
+            >
+              It's good to see you!
+            </h2>
+            <Input
+              labelTitle="Username"
               required
               disabled={getState().isOperationInProgress}
               placeholder="The user's login name"
@@ -116,10 +77,8 @@ export const Login = Shade({
               }}
               type="text"
             />
-          </label>
-          <label>
-            Password
-            <input
+            <Input
+              labelTitle="Password"
               required
               disabled={getState().isOperationInProgress}
               placeholder="The password for the user"
@@ -134,55 +93,54 @@ export const Login = Shade({
                 );
               }}
             />
-          </label>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexDirection: "row",
-              padding: "1em 0"
-            }}
-          >
-            {error ? (
-              <div style={{ color: "red", fontSize: "12px" }}>{error}</div>
-            ) : (
-              <div />
-            )}
-            <button
-              className="login-button"
-              disabled={getState().isOperationInProgress}
-              type="submit"
+            <div
+              style={{
+                padding: "1em 0"
+              }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyItems: "center"
-                }}
+              {error ? (
+                <div style={{ color: "red", fontSize: "12px" }}>{error}</div>
+              ) : (
+                <div />
+              )}
+              <Button
+                style={{ width: "100%" }}
+                disabled={getState().isOperationInProgress}
+                type="submit"
               >
-                Login
-                {getState().isOperationInProgress ? (
-                  <Loader
-                    style={{
-                      width: "20px",
-                      height: "20px"
-                    }}
-                  />
-                ) : null}
-              </div>
-            </button>
-          </div>
-          <p style={{ fontSize: "10px" }}>
-            You can login with the default 'testuser' / 'password' credentials
-          </p>
-        </form>
-        <Button
-          title="alma"
-          onClick={() => {
-            alert("ALMAAA");
-          }}
-        />
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  Login
+                  {getState().isOperationInProgress ? (
+                    <Loader
+                      style={{
+                        width: "20px",
+                        height: "20px"
+                      }}
+                    />
+                  ) : null}
+                </div>
+              </Button>
+            </div>
+            <p style={{ fontSize: "10px" }}>
+              You can login with the default 'testuser' / 'password' credentials
+            </p>
+
+            <p style={{ fontSize: "10px", textAlign: "center" }}>
+              You can also log in with
+            </p>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <Button disabled>Google</Button>
+              <Button disabled>Facebook</Button>{" "}
+              <Button disabled>GitHub</Button>
+            </div>
+          </form>
+        </Paper>
       </div>
     );
   }

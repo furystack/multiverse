@@ -22,7 +22,7 @@ export const Layout = Shade({
         }}
         className="eee"
       >
-        <Header title="🧩 FuryStack Boilerplate" links={[]} />
+        <Header title="🌀 Multiverse" links={[]} />
         <Body />
       </div>
     );
