@@ -1,7 +1,11 @@
-import { createComponent, Shade } from "@furystack/shades";
+import { createComponent, Shade, Router } from "@furystack/shades";
 import { SessionService, sessionState } from "../services/session";
 import { User } from "../odata/entity-types";
 import { Init, HelloWorld, Offline, Login } from "../pages";
+import { RegisterPage } from "../pages/register";
+import { ResetPasswordPage } from "../pages/reset-password";
+import { ContactPage } from "../pages/contact";
+import { DocsPage } from "../pages/docs";
 
 export const Body = Shade({
   shadowDomName: "shade-app-body",
@@ -38,11 +42,42 @@ export const Body = Shade({
         {(() => {
           switch (getState().sessionState) {
             case "authenticated":
-              return <HelloWorld />;
+              return (
+                <Router
+                  routeMatcher={(current, component) =>
+                    current.pathname === component
+                  }
+                  notFound={() => <div>Route not found</div>}
+                  routes={[{ url: "/", component: () => <HelloWorld /> }]}
+                ></Router>
+              );
             case "offline":
               return <Offline />;
             case "unauthenticated":
-              return <Login />;
+              return (
+                <Router
+                  routeMatcher={(current, component) =>
+                    current.pathname === component
+                  }
+                  notFound={() => <div>Route not found</div>}
+                  routes={[
+                    { url: "/", component: () => <Login /> },
+                    { url: "/register", component: () => <RegisterPage /> },
+                    {
+                      url: "/reset-password",
+                      component: () => <ResetPasswordPage />
+                    },
+                    {
+                      url: "/contact",
+                      component: () => <ContactPage />
+                    },
+                    {
+                      url: "/docs",
+                      component: () => <DocsPage />
+                    }
+                  ]}
+                />
+              );
             default:
               return <Init />;
           }

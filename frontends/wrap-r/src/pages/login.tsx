@@ -1,5 +1,5 @@
-import { Shade, createComponent } from "@furystack/shades";
-import { Button, Input, Paper } from "common-components";
+import { Shade, createComponent, RouteLink } from "@furystack/shades";
+import { Button, Input } from "common-components";
 import { SessionService } from "../services/session";
 import { Loader } from "../components/loader";
 import { GoogleOauthProvider } from "../services/google-auth-provider";
@@ -41,7 +41,7 @@ export const Login = Shade({
           padding: "0 100px"
         }}
       >
-        <Paper>
+        <div>
           <form
             style={{
               padding: "10px 30px"
@@ -131,10 +131,6 @@ export const Login = Shade({
                 </div>
               </Button>
             </div>
-            <p style={{ fontSize: "10px" }}>
-              You can login with the default 'testuser' / 'password' credentials
-            </p>
-
             <p style={{ fontSize: "10px", textAlign: "center" }}>
               You can also log in with
             </p>
@@ -156,8 +152,22 @@ export const Login = Shade({
               </Button>{" "}
               <Button disabled>GitHub</Button>
             </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-evenly",
+                fontSize: "10px",
+                marginTop: "1em",
+                textDecoration: "underline"
+              }}
+            >
+              <RouteLink href="/register">Sign up</RouteLink>
+              <RouteLink href="/reset-password">Reset password</RouteLink>
+              <RouteLink href="/contact">Contact</RouteLink>
+              <RouteLink href="/docs">Docs</RouteLink>
+            </div>
           </form>
-        </Paper>
+        </div>
       </div>
     );
   }
