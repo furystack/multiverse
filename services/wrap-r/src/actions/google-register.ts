@@ -54,5 +54,5 @@ export const GoogleRegisterAction: RequestAction = async injector => {
     injector.getResponse(),
     token
   );
-  return JsonResult({ user });
+  return JsonResult({ ...user });
 };

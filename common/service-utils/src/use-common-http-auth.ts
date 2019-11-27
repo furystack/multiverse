@@ -1,4 +1,4 @@
-import { Injector } from "@furystack/inject/dist/Injector";
+import { Injector } from "@furystack/inject";
 import "@furystack/redis-store";
 import "@furystack/http-api";
 import "@furystack/typeorm-store";

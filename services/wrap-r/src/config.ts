@@ -32,7 +32,9 @@ export const authorizedDataSet: Partial<DataSetSettings<any>> = {
   authroizeRemoveEntity: authorizedOnly
 };
 
-export const injector = new Injector()
+export const injector = new Injector();
+
+injector
   .useCommonHttpAuth()
   .useLogging(VerboseConsoleLogger)
   .setupRepository(repo =>

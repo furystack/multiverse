@@ -75,4 +75,7 @@ export const seed = async (i: Injector) => {
   logger.verbose({ message: "Seeding data completed." });
 };
 
-seed(injector);
+seed(injector).then(async () => {
+  injector.dispose();
+  process.exit(0);
+});

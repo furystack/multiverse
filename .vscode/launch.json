@@ -9,7 +9,8 @@
       "request": "launch",
       "name": "Service",
       "program": "${workspaceFolder}/services/wrap-r/src/service.ts",
-      "outFiles": ["${workspaceFolder}/services/wrap-r/dist/service.js"]
+      "outFiles": ["${workspaceFolder}/services/wrap-r/dist/service.js"],
+      "skipFiles": ["<node_internals>/**"]
     }
   ]
 }

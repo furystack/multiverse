@@ -22,7 +22,7 @@ export const GoogleLoginAction: RequestAction = async injector => {
         injector.getResponse(),
         loginData.token
       );
-    return JsonResult({ user });
+    return JsonResult({ ...user });
   } catch (error) {
     return JsonResult({ error }, 400);
   }
