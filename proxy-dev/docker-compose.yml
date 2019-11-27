@@ -2,9 +2,9 @@ version: "3"
 services:
   proxy:
     build: .
+    # network_mode: host
     ports:
       - "80:80"
-    network_mode: host
   pgsql:
     image: "postgres:11"
     environment:

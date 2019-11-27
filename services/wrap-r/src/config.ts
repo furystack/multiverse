@@ -1,3 +1,4 @@
+import "@furystack/auth-google";
 import { Injector } from "@furystack/inject";
 import { VerboseConsoleLogger } from "@furystack/logging";
 import {
@@ -11,6 +12,7 @@ import "@furystack/typeorm-store";
 import { EdmType } from "@furystack/odata";
 import { DataSetSettings } from "@furystack/repository";
 import { User } from "common-service-utils";
+import { GoogleLoginAction } from "./actions/google-login";
 
 export const authorizedOnly = async (options: { injector: Injector }) => {
   const authorized = await options.injector
@@ -84,6 +86,17 @@ export const injector = new Injector()
                 { name: "password", type: EdmType.String, nullable: false }
               ],
               returnType: User
+            },
+            {
+              action: GoogleLoginAction,
+              name: "googleLogin",
+              parameters: [
+                {
+                  name: "token",
+                  type: EdmType.String,
+                  nullable: false
+                }
+              ]
             },
             { action: LogoutAction, name: "logout" }
           ]

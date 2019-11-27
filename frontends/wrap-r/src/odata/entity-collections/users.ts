@@ -13,6 +13,13 @@ export class Users {
    */
   public login = (params: { username: string; password: string }) =>
     this.getService().execCustomCollectionAction<User>("login", params);
+
+  /**
+   *
+   */
+  public googleLogin = (params: { token: string }) =>
+    this.getService().execCustomCollectionAction<User>("googleLogin", params);
+
   /**
    * Custom collection action 'logout'
    */

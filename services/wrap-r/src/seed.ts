@@ -44,7 +44,10 @@ export const seed = async (i: Injector) => {
   const logger = i.logger.withScope("seeder");
   logger.verbose({ message: "Seeding data..." });
   const sm = i.getInstance(StoreManager);
-  const userStore = sm.getStoreFor<User, PhysicalStore<User>>(User);
+  const userStore: PhysicalStore<User> = sm.getStoreFor<
+    User,
+    PhysicalStore<User>
+  >(User);
   await getOrCreate(
     { filter: { username: "testuser" } },
     {
@@ -54,7 +57,18 @@ export const seed = async (i: Injector) => {
         .hashMethod("password"),
       roles: []
     } as User,
-    userStore as PhysicalStore<User>,
+    userStore,
+    i
+  );
+
+  await getOrCreate(
+    { filter: { username: "gallay.lajos@gmail.com" } },
+    {
+      username: "gallay.lajos@gmail.com",
+      roles: ["demigod"],
+      password: ""
+    } as User,
+    userStore,
     i
   );
 

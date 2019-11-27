@@ -2,6 +2,7 @@ import { Shade, createComponent } from "@furystack/shades";
 import { Button, Input, Paper } from "common-components";
 import { SessionService } from "../services/session";
 import { Loader } from "../components/loader";
+import { GoogleOauthProvider } from "../services/google-auth-provider";
 
 export const Login = Shade({
   shadowDomName: "shade-login",
@@ -112,15 +113,18 @@ export const Login = Shade({
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center"
+                    justifyContent: "center",
+                    position: "relative"
                   }}
                 >
                   Login
                   {getState().isOperationInProgress ? (
                     <Loader
                       style={{
-                        width: "20px",
-                        height: "20px"
+                        width: "12px",
+                        height: "12px",
+                        position: "absolute",
+                        top: "-2px"
                       }}
                     />
                   ) : null}
@@ -135,8 +139,21 @@ export const Login = Shade({
               You can also log in with
             </p>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <Button disabled>Google</Button>
-              <Button disabled>Facebook</Button>{" "}
+              <Button
+                type="button"
+                onclick={async () => {
+                  try {
+                    await injector.getInstance(GoogleOauthProvider).login();
+                  } catch (e) {
+                    updateState({ error: e.body.error });
+                  }
+                }}
+              >
+                Google
+              </Button>
+              <Button disabled style={{ margin: "0 .3em" }}>
+                Facebook
+              </Button>{" "}
               <Button disabled>GitHub</Button>
             </div>
           </form>
