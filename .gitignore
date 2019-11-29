@@ -60,13 +60,10 @@ typings/
 # next.js build output
 .next
 
-data.sqlite
-
 dist
 *.tsbuildinfo
 frontend/bundle
 
-service/data.sqlite
 frontend/cypress/videos
 frontend/cypress/screenshots
 frontend/testresults
