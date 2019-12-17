@@ -1,17 +1,17 @@
-var path = require("path");
+const path = require("path");
 const webpack = require("webpack");
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TsConfigWebpackPlugin = require("ts-config-webpack-plugin");
 
 module.exports = {
-  mode: "development",
+  mode: "production", // "development",
   entry: "./src/index.tsx",
   output: {
     filename: "[name].bundle.js",
     chunkFilename: "[name].bundle.js",
     publicPath: "/",
-    path: path.resolve(__dirname + "/bundle")
+    path: path.resolve(`${__dirname}/bundle`)
   },
   devServer: {
     historyApiFallback: true,
@@ -42,7 +42,7 @@ module.exports = {
     extensions: [".ts", ".tsx", ".js", ".json"]
   },
   plugins: [
-    //new BundleAnalyzerPlugin({ analyzerPort: 8745 }),
+    // new BundleAnalyzerPlugin({ analyzerPort: 8745 }),
     new TsConfigWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: "./index.html"
