@@ -1,10 +1,13 @@
 /** ToDo: Main entry point */
 import { PathHelper } from '@furystack/utils'
-import { createComponent, shadeInjector } from '@furystack/shades'
+import { createComponent, initializeShadeRoot } from '@furystack/shades'
 import { VerboseConsoleLogger } from '@furystack/logging'
+import { Injector } from '@furystack/inject'
 import { Layout } from './components/layout'
 import './services/google-auth-provider'
 import '@furystack/odata-fetchr'
+
+const shadeInjector = new Injector()
 
 export const environmentOptions = {
   nodeEnv: process.env.NODE_ENV as 'development' | 'production',
@@ -30,5 +33,9 @@ shadeInjector.useGoogleAuth({
   clientId: '626364599424-47aut7jidipmngkt4r7inda1erl8ckqg.apps.googleusercontent.com',
 })
 
-const root: HTMLDivElement = document.getElementById('root') as HTMLDivElement
-root.appendChild(<Layout />)
+const rootElement: HTMLDivElement = document.getElementById('root') as HTMLDivElement
+initializeShadeRoot({
+  rootElement,
+  injector: shadeInjector,
+  jsxElement: <Layout />,
+})
