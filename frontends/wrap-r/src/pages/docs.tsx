@@ -1,5 +1,5 @@
-import { Shade, createComponent } from "@furystack/shades";
+import { Shade, createComponent } from '@furystack/shades'
 
 export const DocsPage = Shade({
-  render: () => <h2>Docs</h2>
-});
+  render: () => <h2>Docs</h2>,
+})

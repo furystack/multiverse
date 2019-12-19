@@ -1,88 +1,82 @@
-import { createComponent, Shade, Router } from "@furystack/shades";
-import { SessionService, sessionState } from "../services/session";
-import { User } from "../odata/entity-types";
-import { Init, HelloWorld, Offline, Login } from "../pages";
-import { RegisterPage } from "../pages/register";
-import { ResetPasswordPage } from "../pages/reset-password";
-import { ContactPage } from "../pages/contact";
-import { DocsPage } from "../pages/docs";
+import { createComponent, Shade, Router } from '@furystack/shades'
+import { SessionService, sessionState } from '../services/session'
+import { User } from '../odata/entity-types'
+import { Init, HelloWorld, Offline, Login } from '../pages'
+import { RegisterPage } from '../pages/register'
+import { ResetPasswordPage } from '../pages/reset-password'
+import { ContactPage } from '../pages/contact'
+import { DocsPage } from '../pages/docs'
 
 export const Body = Shade({
-  shadowDomName: "shade-app-body",
+  shadowDomName: 'shade-app-body',
   initialState: {
-    sessionState: "initial" as sessionState,
-    currentUser: null as User | null
+    sessionState: 'initial' as sessionState,
+    currentUser: null as User | null,
   },
   constructed: async ({ injector, updateState }) => {
-    const session = injector.getInstance(SessionService);
+    const session = injector.getInstance(SessionService)
     const observables = [
       session.state.subscribe(newState =>
         updateState({
-          sessionState: newState
-        })
+          sessionState: newState,
+        }),
       ),
-      session.currentUser.subscribe(usr => updateState({ currentUser: usr }))
-    ];
-    return () => observables.forEach(o => o.dispose());
+      session.currentUser.subscribe(usr => updateState({ currentUser: usr })),
+    ]
+    return () => observables.forEach(o => o.dispose())
   },
   render: ({ getState }) => {
     return (
       <div
         id="Body"
         style={{
-          margin: "10px",
-          padding: "10px",
-          position: "fixed",
-          top: "40px",
-          width: "calc(100% - 40px)",
-          height: "calc(100% - 80px)",
-          overflow: "hidden"
-        }}
-      >
+          margin: '10px',
+          padding: '10px',
+          position: 'fixed',
+          top: '40px',
+          width: 'calc(100% - 40px)',
+          height: 'calc(100% - 80px)',
+          overflow: 'hidden',
+        }}>
         {(() => {
           switch (getState().sessionState) {
-            case "authenticated":
+            case 'authenticated':
               return (
                 <Router
-                  routeMatcher={(current, component) =>
-                    current.pathname === component
-                  }
+                  routeMatcher={(current, component) => current.pathname === component}
                   notFound={() => <div>Route not found</div>}
-                  routes={[{ url: "/", component: () => <HelloWorld /> }]}
-                ></Router>
-              );
-            case "offline":
-              return <Offline />;
-            case "unauthenticated":
+                  routes={[{ url: '/', component: () => <HelloWorld /> }]}></Router>
+              )
+            case 'offline':
+              return <Offline />
+            case 'unauthenticated':
               return (
                 <Router
-                  routeMatcher={(current, component) =>
-                    current.pathname === component
-                  }
+                  routeMatcher={(current, component) => current.pathname === component}
                   notFound={() => <div>Route not found</div>}
                   routes={[
-                    { url: "/", component: () => <Login /> },
-                    { url: "/register", component: () => <RegisterPage /> },
+                    { url: '/', component: () => <Login /> },
+                    { url: '/register', component: () => <RegisterPage /> },
                     {
-                      url: "/reset-password",
-                      component: () => <ResetPasswordPage />
+                      url: '/reset-password',
+                      component: () => <ResetPasswordPage />,
                     },
                     {
-                      url: "/contact",
-                      component: () => <ContactPage />
+                      url: '/contact',
+                      component: () => <ContactPage />,
                     },
                     {
-                      url: "/docs",
-                      component: () => <DocsPage />
-                    }
+                      url: '/docs',
+                      component: () => <DocsPage />,
+                    },
                   ]}
                 />
-              );
+              )
             default:
-              return <Init />;
+              return <Init />
           }
         })()}
       </div>
-    );
-  }
-});
+    )
+  },
+})

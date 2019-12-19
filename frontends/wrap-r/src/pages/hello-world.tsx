@@ -1,19 +1,17 @@
-import { Shade, createComponent } from "@furystack/shades";
-import { Button } from "common-components";
-import { SessionService } from "../services/session";
+import { Shade, createComponent } from '@furystack/shades'
+import { Button } from 'common-components'
+import { SessionService } from '../services/session'
 
 export const HelloWorld = Shade({
-  shadowDomName: "hello-world",
+  shadowDomName: 'hello-world',
   initialState: {
-    userName: ""
+    userName: '',
   },
   constructed: async ({ injector, updateState }) => {
-    const observable = injector
-      .getInstance(SessionService)
-      .currentUser.subscribe(usr => {
-        updateState({ userName: usr ? usr.username : "" });
-      }, true);
-    return () => observable.dispose();
+    const observable = injector.getInstance(SessionService).currentUser.subscribe(usr => {
+      updateState({ userName: usr ? usr.username : '' })
+    }, true)
+    return () => observable.dispose()
   },
   render: ({ injector, getState }) => (
     <div>
@@ -36,21 +34,19 @@ export const HelloWorld = Shade({
       <div
         className="initLoader"
         style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
-        <h2> Hello, {getState().userName || "unknown"} !</h2>
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <h2> Hello, {getState().userName || 'unknown'} !</h2>
       </div>
       <Button
         onclick={() => {
-          injector.getInstance(SessionService).logout();
-        }}
-      >
+          injector.getInstance(SessionService).logout()
+        }}>
         Log out
       </Button>
     </div>
-  )
-});
+  ),
+})
