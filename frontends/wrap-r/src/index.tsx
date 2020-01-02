@@ -1,4 +1,3 @@
-/** ToDo: Main entry point */
 import { PathHelper } from '@furystack/utils'
 import { createComponent, initializeShadeRoot } from '@furystack/shades'
 import { VerboseConsoleLogger } from '@furystack/logging'
