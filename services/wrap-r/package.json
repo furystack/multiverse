@@ -12,7 +12,7 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/node": "^12.12.8"
+    "@types/node": "^13.1.6"
   },
   "dependencies": {
     "@furystack/auth-google": "^3.0.22",

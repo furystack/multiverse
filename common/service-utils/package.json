@@ -12,7 +12,7 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/node": "^12.12.8",
+    "@types/node": "^13.1.6",
     "@types/redis": "^2.8.14"
   },
   "dependencies": {
