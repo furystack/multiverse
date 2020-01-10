@@ -1,7 +1,7 @@
 import { HttpUserContext, RequestAction, JsonResult } from '@furystack/http-api'
 import { GoogleLoginService } from '@furystack/auth-google'
 import { StoreManager } from '@furystack/core'
-import { GoogleAccount } from 'common-service-utils'
+import { GoogleAccount, User } from 'common-service-utils'
 
 /**
  * HTTP Request action for Google Logins
@@ -12,7 +12,9 @@ export const GoogleRegisterAction: RequestAction = async injector => {
 
   const userContext = injector.getInstance(HttpUserContext)
   const googleAcccounts = injector.getInstance(StoreManager).getStoreFor(GoogleAccount)
+  const users = injector.getInstance(StoreManager).getStoreFor(User)
   const { token } = await injector.getRequest().readPostBody<{ token: string }>()
+  const registrationDate = new Date().toISOString()
 
   if (!token) {
     return JsonResult({ error: 'Token missing' }, 400)
@@ -33,16 +35,18 @@ export const GoogleRegisterAction: RequestAction = async injector => {
     return JsonResult({ error: 'Email address already registered.' }, 500)
   }
 
-  const { password, ...newUser } = await userContext.users.add({
+  const { password, ...newUser } = await users.add({
     password: '',
-    roles: [],
+    roles: ['terms-accepted'],
+    registrationDate,
     username: googleUserData.email,
-  })
+  } as User)
 
   await googleAcccounts.add({
     googleId: googleUserData.sub,
     googleApiPayload: googleUserData,
     username: googleUserData.email,
+    accountLinkDate: registrationDate,
   } as GoogleAccount)
 
   logger.information({

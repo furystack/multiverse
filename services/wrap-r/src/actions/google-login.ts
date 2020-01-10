@@ -19,7 +19,7 @@ export const GoogleLoginAction: RequestAction = async injector => {
       return JsonResult({ error: 'Email address not verified' }, 400)
     }
     const googleAccount = await googleAccountStore.search({ filter: { googleId: googleUserData.sub } })
-    if (googleAccount) {
+    if (googleAccount.length === 1) {
       const googleUser = await userStore.search({ top: 2, filter: { username: googleAccount[0].username } })
       if (googleUser.length !== 1) {
         return JsonResult(
@@ -28,7 +28,8 @@ export const GoogleLoginAction: RequestAction = async injector => {
         )
       }
       await injector.getInstance(HttpUserContext).cookieLogin(googleUser[0], injector.getResponse())
-      return JsonResult({ ...googleUser })
+      delete googleUser[0].password
+      return JsonResult({ ...googleUser[0] })
     } else {
       return JsonResult({ error: 'No user registered with this Google account.' }, 400)
     }

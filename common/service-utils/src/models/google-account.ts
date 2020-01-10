@@ -8,4 +8,5 @@ export class GoogleAccount {
   public googleApiPayload!: GoogleApiPayload
 
   public username!: string
+  public accountLinkDate!: string
 }
