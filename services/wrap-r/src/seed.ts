@@ -12,7 +12,7 @@ import { injector } from './config'
  */
 export const getOrCreate = async <T>(
   filter: SearchOptions<T, Array<keyof T>>,
-  instance: T,
+  instance: Partial<T>,
   store: PhysicalStore<T>,
   i: Injector,
 ) => {
@@ -24,7 +24,7 @@ export const getOrCreate = async <T>(
     logger.verbose({
       message: `Entity of type '${store.model.name}' not exists, adding: '${JSON.stringify(filter)}'`,
     })
-    return await store.add(instance)
+    return await store.add(instance as T)
   } else {
     const message = `Seed filter contains '${result.length}' results for ${JSON.stringify(filter)}`
     logger.warning({ message })
@@ -47,22 +47,10 @@ export const seed = async (i: Injector) => {
       username: 'testuser',
       password: i.getInstance(HttpAuthenticationSettings).hashMethod('password'),
       roles: [],
-    } as User,
+    },
     userStore,
     i,
   )
-
-  await getOrCreate(
-    { filter: { username: 'gallay.lajos@gmail.com' } },
-    {
-      username: 'gallay.lajos@gmail.com',
-      roles: ['demigod'],
-      password: '',
-    } as User,
-    userStore,
-    i,
-  )
-
   logger.verbose({ message: 'Seeding data completed.' })
 }
 

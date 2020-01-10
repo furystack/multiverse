@@ -2,11 +2,11 @@ import '@furystack/auth-google'
 import { Injector } from '@furystack/inject'
 import { VerboseConsoleLogger } from '@furystack/logging'
 import { LoginAction, LogoutAction, GetCurrentUser, HttpUserContext, IsAuthenticated } from '@furystack/http-api'
-import '@furystack/typeorm-store'
 import { EdmType } from '@furystack/odata'
 import { DataSetSettings } from '@furystack/repository'
 import { User } from 'common-service-utils'
 import { GoogleLoginAction } from './actions/google-login'
+import { GoogleRegisterAction } from './actions/google-register'
 
 export const authorizedOnly = async (options: { injector: Injector }) => {
   const authorized = await options.injector.getInstance(HttpUserContext).isAuthenticated()
@@ -80,6 +80,17 @@ injector
             {
               action: GoogleLoginAction,
               name: 'googleLogin',
+              parameters: [
+                {
+                  name: 'token',
+                  type: EdmType.String,
+                  nullable: false,
+                },
+              ],
+            },
+            {
+              action: GoogleRegisterAction,
+              name: 'googleRegister',
               parameters: [
                 {
                   name: 'token',

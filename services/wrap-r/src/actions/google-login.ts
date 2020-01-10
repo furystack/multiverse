@@ -1,5 +1,7 @@
-import { HttpUserContext, RequestAction, JsonResult } from '@furystack/http-api'
+import { RequestAction, JsonResult, HttpUserContext } from '@furystack/http-api'
 import { GoogleLoginService } from '@furystack/auth-google'
+import { GoogleAccount, User } from 'common-service-utils'
+import { StoreManager } from '@furystack/core'
 
 /**
  * HTTP Request action for Google Logins
@@ -8,12 +10,29 @@ import { GoogleLoginService } from '@furystack/auth-google'
 export const GoogleLoginAction: RequestAction = async injector => {
   const loginData = await injector.getRequest().readPostBody<{ token: string }>()
 
+  const googleAccountStore = await injector.getInstance(StoreManager).getStoreFor(GoogleAccount)
+  const userStore = await injector.getInstance(StoreManager).getStoreFor(User)
+
   try {
-    const user = await injector
-      .getInstance(HttpUserContext)
-      .externalLogin(GoogleLoginService, injector.getResponse(), loginData.token)
-    return JsonResult({ ...user })
+    const googleUserData = await injector.getInstance(GoogleLoginService).getGoogleUserData(loginData.token)
+    if (!googleUserData.email_verified) {
+      return JsonResult({ error: 'Email address not verified' }, 400)
+    }
+    const googleAccount = await googleAccountStore.search({ filter: { googleId: googleUserData.sub } })
+    if (googleAccount) {
+      const googleUser = await userStore.search({ top: 2, filter: { username: googleAccount[0].username } })
+      if (googleUser.length !== 1) {
+        return JsonResult(
+          { error: `Found ${googleUser.length} user(s) with the username '${googleAccount[0].username}'` },
+          500,
+        )
+      }
+      await injector.getInstance(HttpUserContext).cookieLogin(googleUser[0], injector.getResponse())
+      return JsonResult({ ...googleUser })
+    } else {
+      return JsonResult({ error: 'No user registered with this Google account.' }, 400)
+    }
   } catch (error) {
-    return JsonResult({ error }, 400)
+    return JsonResult({ error: error.toString() }, 400)
   }
 }

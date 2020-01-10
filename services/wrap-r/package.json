@@ -15,14 +15,14 @@
     "@types/node": "^13.1.6"
   },
   "dependencies": {
-    "@furystack/auth-google": "^3.0.22",
-    "@furystack/core": "^6.0.6",
+    "@furystack/auth-google": "^4.0.0",
+    "@furystack/core": "^7.0.0",
     "@furystack/http-api": "^5.3.4",
     "@furystack/inject": "^4.0.3",
     "@furystack/logging": "^2.0.8",
     "@furystack/odata": "^2.1.6",
     "@furystack/repository": "^2.0.9",
-    "@furystack/typeorm-store": "^3.0.7",
+    "@furystack/mongodb-store": "^2.0.12",
     "common-service-utils": "1.0.0",
     "tslib": "^1.10.0"
   }

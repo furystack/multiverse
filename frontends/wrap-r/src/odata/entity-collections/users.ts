@@ -20,6 +20,9 @@ export class Users {
   public googleLogin = (params: { token: string }) =>
     this.getService().execCustomCollectionAction<User>('googleLogin', params)
 
+  public googleRegister = (params: { token: string }) =>
+    this.getService().execCustomCollectionAction<User>('googleRegister', params)
+
   /**
    * Custom collection action 'logout'
    */

@@ -76,6 +76,23 @@ export class GoogleOauthProvider {
     }
   }
 
+  /**
+   * Sign up the current user with Google credentials
+   */
+  public async signup() {
+    try {
+      this.session.isOperationInProgress.setValue(true)
+      const token = await this.getToken()
+      const user = await this.usersService.googleRegister({ token })
+      if (user) {
+        this.session.currentUser.setValue(user)
+        this.session.state.setValue('authenticated')
+      }
+    } finally {
+      this.session.isOperationInProgress.setValue(false)
+    }
+  }
+
   private popup!: Window | null
 
   /**

@@ -1,9 +1,10 @@
 import { Injector } from '@furystack/inject'
 import '@furystack/redis-store'
 import '@furystack/http-api'
-import '@furystack/typeorm-store'
+import '@furystack/mongodb-store'
 import { createClient } from 'redis'
-import { Session, User } from './models'
+import { GoogleAccount, Session, User } from './models'
+import { createIndexes } from './create-indexes'
 
 declare module '@furystack/inject/dist/Injector' {
   interface Injector {
@@ -12,20 +13,12 @@ declare module '@furystack/inject/dist/Injector' {
 }
 
 Injector.prototype.useCommonHttpAuth = function() {
-  this.useTypeOrm({
-    type: 'postgres',
-    host: 'localhost',
-    port: 54321,
-    username: 'multiverse',
-    password: 'pwd0123456789',
-    database: 'multiverse',
-    entities: [User],
-    logging: true,
-    synchronize: true,
-  })
-    .setupStores(sm =>
-      sm.useTypeOrmStore(User).useRedis(Session, 'sessionId', createClient({ port: 63790, host: 'localhost' })),
-    )
+  this.setupStores(sm =>
+    sm
+      .useMongoDb(User, 'mongodb://localhost:27017', 'multiverse-common-auth', 'users')
+      .useMongoDb(GoogleAccount, 'mongodb://localhost:27017', 'multiverse-common-auth', 'google-accounts')
+      .useRedis(Session, 'sessionId', createClient({ port: 63790, host: 'localhost' })),
+  )
     .useHttpApi()
     .useHttpAuthentication({
       enableBasicAuth: false,
@@ -34,5 +27,6 @@ Injector.prototype.useCommonHttpAuth = function() {
       getUserStore: sm => sm.getStoreFor(User),
       getSessionStore: sm => sm.getStoreFor(Session),
     })
+  createIndexes(this)
   return this
 }
