@@ -5,8 +5,8 @@ import { Loader } from '../components/loader'
 import { GithubAuthProvider } from '../services/github-auth-provider'
 import { SessionService } from '../services/session'
 
-export const GithubLogin = Shade<{ code: string }, { loginError?: string }>({
-  shadowDomName: 'shade-github-login',
+export const GithubRegister = Shade<{ code: string }, { loginError?: string }>({
+  shadowDomName: 'shade-github-register',
   initialState: {
     loginError: undefined,
   },
@@ -15,7 +15,7 @@ export const GithubLogin = Shade<{ code: string }, { loginError?: string }>({
       window.history.pushState('', '', '/')
     })
     try {
-      await injector.getInstance(GithubAuthProvider).login(props.code)
+      await injector.getInstance(GithubAuthProvider).register(props.code)
     } catch (error) {
       updateState({ loginError: error.body.error })
     }
@@ -41,7 +41,7 @@ export const GithubLogin = Shade<{ code: string }, { loginError?: string }>({
               flexDirection: 'column',
             }}>
             <Loader style={{ width: '128px', height: '128px', marginBottom: '32px' }} />
-            Logging in with GitHub
+            Registering account with GitHub
           </div>
         ) : (
           <div
@@ -52,7 +52,7 @@ export const GithubLogin = Shade<{ code: string }, { loginError?: string }>({
               flexDirection: 'column',
               animation: 'shake 150ms 2 linear',
             }}>
-            <p>😱 There was an error during Github login: {loginError}</p>
+            <p> 😱 There was an error during Github registration: {loginError}</p>
             <RouteLink href="/">
               <Button style={{}}>Return Home</Button>{' '}
             </RouteLink>

@@ -132,7 +132,8 @@ export const Login = Shade({
                 Facebook
               </Button>{' '}
               <Button
-                onclick={() => {
+                onclick={ev => {
+                  ev.preventDefault()
                   window.location.replace(
                     `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${window.location.origin}/github-login`,
                   )

@@ -6,7 +6,7 @@ import { User } from 'common-service-utils'
 import { GithubAccount } from '../models/github-account'
 import { GithubApiPayload } from '../services/github-login-service'
 
-export const GithubLoginAction: RequestAction = async injector => {
+export const GithubRegisterAction: RequestAction = async injector => {
   const { code, clientId } = await injector.getRequest().readPostBody<{ code: string; clientId: string }>()
   const clientSecret = process.env.GITHUB_CLIENT_SECRET
 
@@ -16,7 +16,8 @@ export const GithubLoginAction: RequestAction = async injector => {
     client_secret: clientSecret,
   })
   try {
-    const response = await got.post({
+    const registrationDate = new Date().toISOString()
+    const response = await got.post<string>({
       href: 'https://github.com/login/oauth/access_token',
       body,
       headers: {
@@ -37,19 +38,32 @@ export const GithubLoginAction: RequestAction = async injector => {
       .getInstance(StoreManager)
       .getStoreFor(GithubAccount)
       .search({ filter: { githubId: githubApiPayload.id }, top: 2 })
-    if (existingGhUsers.length === 0) {
-      return JsonResult({ error: `Github user not registered` }, 500)
+    if (existingGhUsers.length !== 0) {
+      return JsonResult({ error: `Github user already registered` }, 500)
     }
-    const users = await injector
+    const newUser = await injector
       .getInstance(StoreManager)
       .getStoreFor(User)
-      .search({ filter: { username: existingGhUsers[0].username }, top: 2 })
-    if (users.length !== 1) {
-      return JsonResult({ error: `Found '${users.length}' associated user(s)` }, 500)
-    }
-    await injector.getInstance(HttpUserContext).cookieLogin(users[0], injector.getResponse())
-    delete users[0].password
-    return JsonResult({ ...users[0] })
+      .add(({
+        password: '',
+        roles: ['terms-accepted'],
+        username: githubApiPayload.email || `${githubApiPayload.login}@github.com`,
+        registrationDate,
+      } as unknown) as User)
+
+    await injector
+      .getInstance(StoreManager)
+      .getStoreFor(GithubAccount)
+      .add({
+        accountLinkDate: registrationDate,
+        username: newUser.username,
+        githubId: githubApiPayload.id,
+        githubApiPayload,
+      } as GithubAccount)
+
+    await injector.getInstance(HttpUserContext).cookieLogin(newUser, injector.getResponse())
+    delete newUser.password
+    return JsonResult({ ...newUser })
   } catch (error) {
     return JsonResult({ error: error.toString() }, 500)
   }

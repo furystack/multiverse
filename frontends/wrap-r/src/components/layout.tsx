@@ -1,4 +1,6 @@
-import { createComponent, Shade } from '@furystack/shades'
+import { createComponent, Shade, Router } from '@furystack/shades'
+import { GithubRegister } from '../pages/github-register'
+import { GithubLogin } from '../pages/github-login'
 import { Body } from './body'
 import { Header } from './header'
 
@@ -22,7 +24,24 @@ export const Layout = Shade({
         }}
         className="eee">
         <Header title="🌀 Multiverse" links={[]} />
-        <Body />
+        <Router
+          routeMatcher={(url, component) => url.pathname.startsWith(component)}
+          notFound={() => <Body />}
+          routes={[
+            {
+              url: '/github-login',
+              component: currentUrl => <GithubLogin code={currentUrl.search.replace('?', '').split('=')[1]} />,
+            },
+            {
+              url: '/github-register',
+              component: currentUrl => <GithubRegister code={currentUrl.search.replace('?', '').split('=')[1]} />,
+            },
+            {
+              url: '/',
+              component: () => <Body />,
+            },
+          ]}
+        />
       </div>
     )
   },

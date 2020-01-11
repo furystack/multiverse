@@ -22,6 +22,7 @@ export const RegisterPage = Shade({
               alignItems: 'center',
               justifyContent: 'center',
               flexDirection: 'column',
+              animation: 'shake 150ms 2 linear',
             }}>
             <h2>Failed to sign up :(</h2>
             <p style={{ color: 'red' }}>Something went wrong during registration: {getState().error}</p>

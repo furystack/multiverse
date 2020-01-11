@@ -87,6 +87,7 @@ export class GoogleOauthProvider {
       if (user) {
         this.session.currentUser.setValue(user)
         this.session.state.setValue('authenticated')
+        window.history.pushState('', '', '/')
       }
     } finally {
       this.session.isOperationInProgress.setValue(false)

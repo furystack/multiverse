@@ -6,7 +6,6 @@ import { RegisterPage } from '../pages/register'
 import { ResetPasswordPage } from '../pages/reset-password'
 import { ContactPage } from '../pages/contact'
 import { DocsPage } from '../pages/docs'
-import { GithubLogin } from '../pages/github-login'
 
 export const Body = Shade({
   shadowDomName: 'shade-app-body',
@@ -23,7 +22,7 @@ export const Body = Shade({
             sessionState: newState,
           })
         }
-      }),
+      }, true),
       session.currentUser.subscribe(usr => updateState({ currentUser: usr })),
     ]
     return () => observables.forEach(o => o.dispose())
@@ -31,7 +30,6 @@ export const Body = Shade({
   render: ({ getState }) => {
     return (
       <div
-        id="Body"
         style={{
           margin: '10px',
           padding: '10px',
@@ -56,13 +54,7 @@ export const Body = Shade({
               return (
                 <Router
                   routeMatcher={(current, component) => current.pathname === component}
-                  notFound={currentUrl => {
-                    if (currentUrl.pathname.startsWith('/github-login')) {
-                      // ToDO: fix me:(
-                      return <GithubLogin code={currentUrl.search.replace('?', '').split('=')[1]} />
-                    }
-                    return <div>Route not found</div>
-                  }}
+                  notFound={() => <div>Route not found</div>}
                   routes={[
                     { url: '/', component: () => <Login /> },
                     { url: '/register', component: () => <RegisterPage /> },
