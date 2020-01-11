@@ -27,13 +27,13 @@ export const GoogleRegisterAction: RequestAction = async injector => {
     logger.warning({
       message: `User '${googleUserData.email}' tried to register with a not-verified e-mail. `,
     })
-    return JsonResult({ error: 'Email address not verified' }, 500)
+    return JsonResult({ error: 'Email address for account not verified' }, 500)
   }
 
   const existing = await googleAcccounts.search({ filter: { googleId: googleUserData.sub }, top: 1 })
 
   if (existing && existing.length) {
-    return JsonResult({ error: 'Email address already registered.' }, 500)
+    return JsonResult({ error: 'Google account already registered.' }, 500)
   }
 
   const { password, ...newUser } = await users.add({

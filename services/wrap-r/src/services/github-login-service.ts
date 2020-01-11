@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { get } from 'https'
-import { Injectable } from '@furystack/inject'
-import { Utils } from '@furystack/http-api'
+import { Injectable, Injector } from '@furystack/inject'
+import got from 'got'
+import { ScopedLogger } from '@furystack/logging'
 
 export interface GithubApiPayload {
   login: string
@@ -41,21 +43,46 @@ export class GithubAuthService {
   public authUrl = 'https://api.github.com/user'
 
   public get = get
+  public readonly logger: ScopedLogger
   /**
    * Returns the extracted Github Authentication data from the token.
    * @param token
    */
-  public async getGithubUserData(token: string): Promise<GithubApiPayload> {
-    return await new Promise<GithubApiPayload>((resolve, reject) =>
-      this.get({ href: this.authUrl, headers: { Authorization: `token ${token}` } }, async response => {
-        if (response.statusCode && response.statusCode < 400) {
-          const body = await this.utils.readPostBody<GithubApiPayload>(response)
-          return resolve(body)
-        } else {
-          return reject(new Error('Invalid response!'))
-        }
-      }),
-    )
+  public async getGithubUserData(options: { code: string; clientId: string }): Promise<GithubApiPayload> {
+    const clientSecret = process.env.GITHUB_CLIENT_SECRET
+    if (!clientSecret) {
+      this.logger.error({
+        message: `Github Client secret has not been set up in the GITHUB_CLIENT_SECRET env. variable.`,
+      })
+      throw Error('Github Authentication failed')
+    }
+    const body = JSON.stringify({
+      code: options.code,
+      client_id: options.clientId,
+      client_secret: clientSecret,
+    })
+    const response = await got.post({
+      href: 'https://github.com/login/oauth/access_token',
+      body,
+      headers: {
+        'Content-type': 'application/json',
+        Accept: 'application/json',
+      },
+    })
+    const accessToken = JSON.parse(response.body).access_token
+    const currentUserResponse = await got.get({
+      href: 'https://api.github.com/user',
+      headers: {
+        Authorization: `token ${accessToken}`,
+      },
+    })
+    return JSON.parse(currentUserResponse.body) as GithubApiPayload
   }
-  constructor(private utils: Utils) {}
+
+  /**
+   *
+   */
+  constructor(injector: Injector) {
+    this.logger = injector.logger.withScope('GithubAuthService')
+  }
 }

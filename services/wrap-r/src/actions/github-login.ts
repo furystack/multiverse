@@ -1,38 +1,14 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { RequestAction, JsonResult, HttpUserContext } from '@furystack/http-api'
-import got from 'got'
 import { StoreManager } from '@furystack/core'
 import { User } from 'common-service-utils'
 import { GithubAccount } from '../models/github-account'
-import { GithubApiPayload } from '../services/github-login-service'
+import { GithubAuthService } from '../services/github-login-service'
 
 export const GithubLoginAction: RequestAction = async injector => {
   const { code, clientId } = await injector.getRequest().readPostBody<{ code: string; clientId: string }>()
-  const clientSecret = process.env.GITHUB_CLIENT_SECRET
 
-  const body = JSON.stringify({
-    code,
-    client_id: clientId,
-    client_secret: clientSecret,
-  })
   try {
-    const response = await got.post({
-      href: 'https://github.com/login/oauth/access_token',
-      body,
-      headers: {
-        'Content-type': 'application/json',
-        Accept: 'application/json',
-      },
-    })
-    const accessToken = JSON.parse(response.body).access_token
-    const currentUserResponse = await got.get({
-      href: 'https://api.github.com/user',
-      headers: {
-        Authorization: `token ${accessToken}`,
-      },
-    })
-    const githubApiPayload = JSON.parse(currentUserResponse.body) as GithubApiPayload
-
+    const githubApiPayload = await injector.getInstance(GithubAuthService).getGithubUserData({ code, clientId })
     const existingGhUsers = await injector
       .getInstance(StoreManager)
       .getStoreFor(GithubAccount)
