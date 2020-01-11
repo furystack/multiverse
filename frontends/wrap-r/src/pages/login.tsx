@@ -131,7 +131,14 @@ export const Login = Shade({
               <Button disabled style={{ margin: '0 .3em' }}>
                 Facebook
               </Button>{' '}
-              <Button disabled>GitHub</Button>
+              <Button
+                onclick={() => {
+                  window.location.replace(
+                    `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${window.location.origin}/github-login`,
+                  )
+                }}>
+                GitHub
+              </Button>
             </div>
             <div
               style={{

@@ -12,8 +12,7 @@
       "frontends/*",
       "services/*",
       "common/*"
-    ],
-    "nohoist": []
+    ]
   },
   "dependencies": {
     "tslib": "^1.10.0"

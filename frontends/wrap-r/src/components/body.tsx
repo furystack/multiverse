@@ -6,6 +6,7 @@ import { RegisterPage } from '../pages/register'
 import { ResetPasswordPage } from '../pages/reset-password'
 import { ContactPage } from '../pages/contact'
 import { DocsPage } from '../pages/docs'
+import { GithubLogin } from '../pages/github-login'
 
 export const Body = Shade({
   shadowDomName: 'shade-app-body',
@@ -13,14 +14,16 @@ export const Body = Shade({
     sessionState: 'initial' as sessionState,
     currentUser: null as User | null,
   },
-  constructed: async ({ injector, updateState }) => {
+  constructed: async ({ injector, updateState, getState }) => {
     const session = injector.getInstance(SessionService)
     const observables = [
-      session.state.subscribe(newState =>
-        updateState({
-          sessionState: newState,
-        }),
-      ),
+      session.state.subscribe(newState => {
+        if (newState !== getState().sessionState) {
+          updateState({
+            sessionState: newState,
+          })
+        }
+      }),
       session.currentUser.subscribe(usr => updateState({ currentUser: usr })),
     ]
     return () => observables.forEach(o => o.dispose())
@@ -53,7 +56,13 @@ export const Body = Shade({
               return (
                 <Router
                   routeMatcher={(current, component) => current.pathname === component}
-                  notFound={() => <div>Route not found</div>}
+                  notFound={currentUrl => {
+                    if (currentUrl.pathname.startsWith('/github-login')) {
+                      // ToDO: fix me:(
+                      return <GithubLogin code={currentUrl.search.replace('?', '').split('=')[1]} />
+                    }
+                    return <div>Route not found</div>
+                  }}
                   routes={[
                     { url: '/', component: () => <Login /> },
                     { url: '/register', component: () => <RegisterPage /> },

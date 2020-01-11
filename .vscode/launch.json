@@ -10,6 +10,7 @@
       "name": "Service",
       "program": "${workspaceFolder}/services/wrap-r/src/service.ts",
       "outFiles": ["${workspaceFolder}/services/wrap-r/dist/service.js"],
+      "cwd": "${workspaceFolder}/services/wrap-r",
       "skipFiles": ["<node_internals>/**"]
     }
   ]

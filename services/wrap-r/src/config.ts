@@ -4,9 +4,12 @@ import { VerboseConsoleLogger } from '@furystack/logging'
 import { LoginAction, LogoutAction, GetCurrentUser, HttpUserContext, IsAuthenticated } from '@furystack/http-api'
 import { EdmType } from '@furystack/odata'
 import { DataSetSettings } from '@furystack/repository'
-import { User } from 'common-service-utils'
+import { User, verifyAndCreateIndexes } from 'common-service-utils'
 import { GoogleLoginAction } from './actions/google-login'
 import { GoogleRegisterAction } from './actions/google-register'
+import { GithubLoginAction } from './actions/github-login'
+import { GoogleAccount } from './models'
+import { GithubAccount } from './models/github-account'
 
 export const authorizedOnly = async (options: { injector: Injector }) => {
   const authorized = await options.injector.getInstance(HttpUserContext).isAuthenticated()
@@ -28,6 +31,11 @@ export const injector = new Injector()
 
 injector
   .useCommonHttpAuth()
+  .setupStores(sm =>
+    sm
+      .useMongoDb(GoogleAccount, 'mongodb://localhost:27017', 'multiverse-common-auth', 'google-accounts')
+      .useMongoDb(GithubAccount, 'mongodb://localhost:27017', 'multiverse-common-auth', 'github-accounts'),
+  )
   .useLogging(VerboseConsoleLogger)
   .setupRepository(repo =>
     repo.createDataSet(User, {
@@ -89,6 +97,22 @@ injector
               ],
             },
             {
+              action: GithubLoginAction,
+              name: 'githubLogin',
+              parameters: [
+                {
+                  name: 'code',
+                  type: EdmType.String,
+                  nullable: false,
+                },
+                {
+                  name: 'clientId',
+                  type: EdmType.String,
+                  nullable: false,
+                },
+              ],
+            },
+            {
               action: GoogleRegisterAction,
               name: 'googleRegister',
               parameters: [
@@ -106,3 +130,18 @@ injector
       return ns
     }),
   )
+
+verifyAndCreateIndexes({
+  injector,
+  model: GoogleAccount,
+  indexName: 'googleId',
+  indexSpecification: { googleId: 1 },
+  indexOptions: { unique: true },
+})
+verifyAndCreateIndexes({
+  injector,
+  model: GithubAccount,
+  indexName: 'githubId',
+  indexSpecification: { githubId: 1 },
+  indexOptions: { unique: true },
+})

@@ -14,14 +14,14 @@ export class Users {
   public login = (params: { username: string; password: string }) =>
     this.getService().execCustomCollectionAction<User>('login', params)
 
-  /**
-   *
-   */
   public googleLogin = (params: { token: string }) =>
     this.getService().execCustomCollectionAction<User>('googleLogin', params)
 
   public googleRegister = (params: { token: string }) =>
     this.getService().execCustomCollectionAction<User>('googleRegister', params)
+
+  public githubLogin = (params: { code: string; clientId: string }) =>
+    this.getService().execCustomCollectionAction<User>('githubLogin', params)
 
   /**
    * Custom collection action 'logout'

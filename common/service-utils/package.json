@@ -25,6 +25,7 @@
     "@furystack/odata": "^2.1.6",
     "@furystack/redis-store": "^2.0.9",
     "@furystack/repository": "^2.0.9",
+    "got": "^10.2.1",
     "mongodb": "^3.4.1",
     "redis": "^2.8.0",
     "tslib": "^1.10.0"

@@ -3,8 +3,8 @@ import '@furystack/redis-store'
 import '@furystack/http-api'
 import '@furystack/mongodb-store'
 import { createClient } from 'redis'
-import { GoogleAccount, Session, User } from './models'
-import { createIndexes } from './create-indexes'
+import { Session, User } from './models'
+import { verifyAndCreateIndexes } from './create-indexes'
 
 declare module '@furystack/inject/dist/Injector' {
   interface Injector {
@@ -16,7 +16,6 @@ Injector.prototype.useCommonHttpAuth = function() {
   this.setupStores(sm =>
     sm
       .useMongoDb(User, 'mongodb://localhost:27017', 'multiverse-common-auth', 'users')
-      .useMongoDb(GoogleAccount, 'mongodb://localhost:27017', 'multiverse-common-auth', 'google-accounts')
       .useRedis(Session, 'sessionId', createClient({ port: 63790, host: 'localhost' })),
   )
     .useHttpApi()
@@ -27,6 +26,14 @@ Injector.prototype.useCommonHttpAuth = function() {
       getUserStore: sm => sm.getStoreFor(User),
       getSessionStore: sm => sm.getStoreFor(Session),
     })
-  createIndexes(this)
+
+  verifyAndCreateIndexes({
+    injector: this,
+    model: User,
+    indexSpecification: { username: 1 },
+    indexName: 'username',
+    indexOptions: { unique: true },
+  })
+
   return this
 }

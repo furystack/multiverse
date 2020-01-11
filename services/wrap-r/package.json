@@ -20,9 +20,9 @@
     "@furystack/http-api": "^5.3.4",
     "@furystack/inject": "^4.0.3",
     "@furystack/logging": "^2.0.8",
+    "@furystack/mongodb-store": "^2.0.12",
     "@furystack/odata": "^2.1.6",
     "@furystack/repository": "^2.0.9",
-    "@furystack/mongodb-store": "^2.0.12",
     "common-service-utils": "1.0.0",
     "tslib": "^1.10.0"
   }

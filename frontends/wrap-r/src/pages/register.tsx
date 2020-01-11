@@ -55,8 +55,14 @@ export const RegisterPage = Shade({
               <Button style={{ margin: '0 .3em' }} disabled>
                 Facebook
               </Button>
-              <Button style={{ margin: '0 .3em' }} disabled>
-                Github
+              <Button
+                style={{ margin: '0 .3em' }}
+                onclick={() => {
+                  window.location.replace(
+                    `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${window.location.origin}/github-register`,
+                  )
+                }}>
+                GitHub
               </Button>
             </div>
           </div>
