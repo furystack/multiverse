@@ -71,6 +71,7 @@ export const Login = Shade({
                 )
               }}
               title="username"
+              autofocus
               type="text"
             />
             <Input
