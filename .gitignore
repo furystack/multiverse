@@ -64,6 +64,6 @@ dist
 *.tsbuildinfo
 frontend/bundle
 
-frontend/cypress/videos
-frontend/cypress/screenshots
-frontend/testresults
+frontends/wrap-r/cypress/videos
+frontends/wrap-r/cypress/screenshots
+frontends/wrap-r/testresults
