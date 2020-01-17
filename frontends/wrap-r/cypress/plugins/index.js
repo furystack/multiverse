@@ -11,13 +11,14 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
-const webpack = require("@cypress/webpack-preprocessor");
-const fs = require("fs");
-const path = require("path");
+const webpack = require('@cypress/webpack-preprocessor')
+const { initPlugin } = require('cypress-plugin-snapshots/plugin')
+const fs = require('fs')
+const path = require('path')
 
 const webpackOptions = {
   resolve: {
-    extensions: [".ts", ".js"]
+    extensions: ['.ts', '.js'],
   },
   module: {
     rules: [
@@ -26,37 +27,37 @@ const webpackOptions = {
         exclude: [/node_modules/],
         use: [
           {
-            loader: "ts-loader",
+            loader: 'ts-loader',
             options: {
-              transpileOnly: true
-            }
-          }
-        ]
-      }
-    ]
-  }
-};
+              transpileOnly: true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
 
 const options = {
-  webpackOptions
-};
+  webpackOptions,
+}
 
 const getCurrentUser = filePath => {
   try {
-    const user = JSON.parse(
-      fs.readFileSync(path.join(__dirname, filePath), "utf8")
-    );
-    return user;
+    const user = JSON.parse(fs.readFileSync(path.join(__dirname, filePath), 'utf8'))
+    return user
   } catch (error) {
-    return { email: "", password: "" };
+    return { email: '', password: '' }
   }
-};
+}
 
-module.exports = on => {
-  on("file:preprocessor", webpack(options)),
-    on("task", {
-      getCurrentUser(filePath) {
-        return getCurrentUser(filePath);
-      }
-    });
-};
+module.exports = (on, config) => {
+  on('file:preprocessor', webpack(options))
+  on('task', {
+    getCurrentUser(filePath) {
+      return getCurrentUser(filePath)
+    },
+  })
+  initPlugin(on, config)
+  return config
+}

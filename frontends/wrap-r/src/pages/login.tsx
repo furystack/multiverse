@@ -70,6 +70,7 @@ export const Login = Shade({
                   true,
                 )
               }}
+              title="username"
               type="text"
             />
             <Input
