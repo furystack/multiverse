@@ -12,32 +12,32 @@ trigger:
   - greenkeeper/*
 
 pool:
-  vmImage: "ubuntu-latest"
+  vmImage: 'ubuntu-latest'
 
 steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: "12.x"
-    displayName: "Install Node.js"
+      versionSpec: '12.x'
+    displayName: 'Install Node.js'
   - script: yarn install
-    displayName: "Yarn install"
+    displayName: 'Yarn install'
 
   - script: yarn lint
-    displayName: "Yarn Lint"
+    displayName: 'Yarn Lint'
 
   - script: yarn test:cypress
-    displayName: "Cypress tests"
+    displayName: 'Cypress tests'
 
   - task: PublishTestResults@2
     displayName: Publish test results
     condition: always()
     inputs:
       testRunner: JUnit
-      testResultsFiles: "$(System.DefaultWorkingDirectory)/frontend/testresults/output.xml"
+      testResultsFiles: '$(System.DefaultWorkingDirectory)/frontends/wrap-r/testresults/output.xml'
 
   - task: PublishBuildArtifacts@1
     displayName: Publish Cypress test artifacts
     condition: failed()
     inputs:
-      pathtoPublish: "$(System.DefaultWorkingDirectory)/frontend/cypress/videos"
+      pathtoPublish: '$(System.DefaultWorkingDirectory)/frontends/wrap-r/cypress/videos'
       artifactName: cypress_videos
