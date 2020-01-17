@@ -130,9 +130,6 @@ export const Login = Shade({
                 }}>
                 Google
               </Button>
-              <Button disabled style={{ margin: '0 .3em' }}>
-                Facebook
-              </Button>{' '}
               <Button
                 onclick={ev => {
                   ev.preventDefault()

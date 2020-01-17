@@ -53,9 +53,6 @@ export const RegisterPage = Shade({
                 }}>
                 Google
               </Button>
-              <Button style={{ margin: '0 .3em' }} disabled>
-                Facebook
-              </Button>
               <Button
                 style={{ margin: '0 .3em' }}
                 onclick={() => {
