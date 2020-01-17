@@ -22,12 +22,13 @@ export const GithubRegisterAction: RequestAction = async injector => {
     const newUser = await injector
       .getInstance(StoreManager)
       .getStoreFor(User)
-      .add(({
+      .add({
         password: '',
         roles: ['terms-accepted'],
         username: githubApiPayload.email || `${githubApiPayload.login}@github.com`,
         registrationDate,
-      } as unknown) as User)
+        avatarUrl: githubApiPayload.avatar_url || undefined,
+      } as User)
 
     await injector
       .getInstance(StoreManager)

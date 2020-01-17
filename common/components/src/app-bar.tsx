@@ -24,6 +24,8 @@ export const AppBar = Shade({
             'opacity .35s cubic-bezier(0.550, 0.085, 0.680, 0.530), padding .2s cubic-bezier(0.550, 0.085, 0.680, 0.530)',
           padding: '2px 8px',
           opacity: '0',
+          height: '48px',
+          overflow: 'hidden',
         }}>
         {children}
       </div>

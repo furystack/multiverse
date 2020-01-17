@@ -5,5 +5,6 @@ export class User implements FUser {
   public username!: string
   public password!: string
   public registrationDate!: string
+  public avatarUrl?: string
   public roles!: string[]
 }

@@ -1,31 +1,22 @@
 import { createComponent, RouteLink, Shade } from '@furystack/shades'
 import { AppBar } from 'common-components'
 
-export interface HeaderProps {
-  title: string
-  links: Array<{ name: string; url: string }>
-}
-
 const urlStyle: Partial<CSSStyleDeclaration> = {
   color: '#aaa',
   textDecoration: 'none',
 }
 
-export const Header = Shade<HeaderProps>({
+export const Header = Shade({
   shadowDomName: 'shade-app-header',
-  render: ({ props }) => {
+  render: ({ children }) => {
     return (
       <AppBar>
         <h3 style={{ margin: '0 2em 0 0', cursor: 'pointer' }}>
-          <RouteLink title={props.title} href="/" style={urlStyle}>
-            {props.title}
+          <RouteLink title="🌀 Multiverse" href="/" style={urlStyle}>
+            🌀 Multiverse
           </RouteLink>
         </h3>
-        {props.links.map(link => (
-          <RouteLink title={link.name} href={link.url} style={{ ...urlStyle, padding: '0 8px', cursor: 'pointer' }}>
-            {link.name || ''}
-          </RouteLink>
-        ))}
+        {children}
       </AppBar>
     )
   },

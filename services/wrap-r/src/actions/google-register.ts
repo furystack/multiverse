@@ -41,6 +41,7 @@ export const GoogleRegisterAction: RequestAction = async injector => {
     roles: ['terms-accepted'],
     registrationDate,
     username: googleUserData.email,
+    avatarUrl: googleUserData.picture,
   } as User)
 
   await googleAcccounts.add({

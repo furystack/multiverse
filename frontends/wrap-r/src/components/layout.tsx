@@ -3,6 +3,7 @@ import { GithubRegister } from '../pages/github-register'
 import { GithubLogin } from '../pages/github-login'
 import { Body } from './body'
 import { Header } from './header'
+import { CurrentUserMenu } from './current-user-menu'
 
 export const Layout = Shade({
   shadowDomName: 'shade-app-layout',
@@ -23,7 +24,11 @@ export const Layout = Shade({
           lineHeight: '1.6',
         }}
         className="eee">
-        <Header title="🌀 Multiverse" links={[]} />
+        <Header>
+          <div style={{ flex: '1' }} />
+          <CurrentUserMenu />
+          <div style={{ width: '1em' }} />
+        </Header>
         <Router
           routeMatcher={(url, component) => url.pathname.startsWith(component)}
           notFound={() => <Body />}
