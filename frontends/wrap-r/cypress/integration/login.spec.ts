@@ -9,6 +9,7 @@ describe('Wrap-R Application', () => {
     cy.visit('/')
     cy.log('Checking Login form...')
     cy.get(loginFormSelector).should('be.visible')
+    cy.get(usernameInputSelector).focus()
     cy.get(loginFormSelector).toMatchImageSnapshot({
       threshold: 0.001,
     })
