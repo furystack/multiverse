@@ -6,7 +6,7 @@ export const Loader = Shade<{ style?: PartialElement<CSSStyleDeclaration> }>({
     return (
       <div
         style={{
-          ...props.style,
+          ...((props && props.style) || {}),
         }}>
         <style>
           {`/* LOADER 1 */

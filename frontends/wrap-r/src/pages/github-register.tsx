@@ -31,6 +31,7 @@ export const GithubRegister = Shade<{ code: string }, { loginError?: string }>({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          marginTop: '32px',
         }}>
         {!loginError ? (
           <div
