@@ -94,7 +94,13 @@ export const Login = Shade({
               style={{
                 padding: '1em 0',
               }}>
-              {error ? <div style={{ color: 'red', fontSize: '12px' }}>{error}</div> : <div />}
+              {error ? (
+                <div className="login-error" style={{ color: 'red', fontSize: '12px' }}>
+                  {error}
+                </div>
+              ) : (
+                <div />
+              )}
               <Button style={{ width: '100%' }} disabled={getState().isOperationInProgress} type="submit">
                 <div
                   style={{

@@ -3,6 +3,7 @@ import { Button } from 'common-components/src'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 
 export const RegisterPage = Shade({
+  shadowDomName: 'register-page',
   initialState: { error: '' },
   render: ({ injector, getState, updateState }) => {
     return (
