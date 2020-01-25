@@ -1,8 +1,19 @@
 const path = require('path')
 const webpack = require('webpack')
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TsConfigWebpackPlugin = require('ts-config-webpack-plugin')
+const { services, frontends } = require('sites')
+
+const serviceEnvs = Object.entries(services).reduce((last, [serviceName, serviceValue]) => {
+  last[`MULTIVERSE_SERVICE_${serviceName}`] = serviceValue
+  return last
+}, {})
+
+const frontendEnvs = Object.entries(frontends).reduce((last, [serviceName, serviceValue]) => {
+  last[`MULTIVERSE_FRONTEND_${serviceName}`] = serviceValue
+  return last
+}, {})
 
 module.exports = {
   mode: 'production', // "development",
@@ -52,8 +63,9 @@ module.exports = {
       DEBUG: true,
       APP_VERSION: require('./package.json').version,
       BUILD_DATE: new Date().toISOString(),
-      APP_SERVICE_URL: '/api/wrap-r/',
       GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
+      ...serviceEnvs,
+      ...frontendEnvs,
     }),
   ],
   module: {

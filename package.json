@@ -53,10 +53,8 @@
     "test:cypress": "yarn workspace wrap-r-service seed && concurrently --kill-others \"yarn startService\" \"yarn startFrontend\" \"yarn workspace wrap-r-frontend run cypress run\" --success first ",
     "start": "concurrently --kill-others \"yarn startService\" \"yarn startFrontend\"  ",
     "startService": "yarn workspace wrap-r-service start",
-    "startFrontend": "yarn workspace wrap-r-frontend start --env.APP_SERVICE_URL=http://localhost:9090",
+    "startFrontend": "yarn workspace wrap-r-frontend start",
     "clean": "rimraf services/**/dist frontends/**/dist common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
-    "lint": "eslint . --ext .tsx,.ts --cache",
-    "startDevProxy": "cd proxy-dev && docker-compose up --build -d",
-    "startReleaseImage": "docker-compose up --build -d"
+    "lint": "eslint . --ext .tsx,.ts --cache"
   }
 }

@@ -1,3 +1,5 @@
+import { PathHelper } from '@furystack/utils'
+import { services } from 'sites'
 /**
  * The OData endpoint context
  */
@@ -5,7 +7,7 @@ export const odataContext = {
   /**
    * The root of the odata service endpoint, e.g.: http://my-site/odata/
    */
-  odataRootPath: 'http://localhost/odata',
+  odataRootPath: PathHelper.joinPaths(services.wrapr, 'odata'),
   /**
    * Metadata creation date
    */

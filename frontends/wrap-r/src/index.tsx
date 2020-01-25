@@ -1,6 +1,7 @@
 import { PathHelper } from '@furystack/utils'
 import { createComponent, initializeShadeRoot } from '@furystack/shades'
 import { VerboseConsoleLogger } from '@furystack/logging'
+import { services } from 'sites'
 import { Injector } from '@furystack/inject'
 import { Layout } from './components/layout'
 import './services/google-auth-provider'
@@ -17,7 +18,7 @@ export const environmentOptions = {
 }
 
 shadeInjector.useOdata({
-  serviceEndpoint: PathHelper.joinPaths(environmentOptions.serviceUrl, '/'),
+  serviceEndpoint: PathHelper.joinPaths(services.wrapr, '/'),
   defaultInit: {},
 })
 

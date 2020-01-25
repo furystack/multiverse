@@ -2,6 +2,6 @@
   "compilerOptions": {
     "composite": true
   },
-  "references": [{ "path": "components" }, { "path": "service-utils" }],
+  "references": [{ "path": "components" }, { "path": "service-utils" }, { "path": "sites" }],
   "include": []
 }
