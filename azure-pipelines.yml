@@ -25,6 +25,9 @@ steps:
   - script: yarn lint
     displayName: 'Yarn Lint'
 
+  - script: yarn startDevProxy
+    displayName: Start Dev proxy
+
   - script: yarn test:cypress
     displayName: 'Cypress tests'
 
