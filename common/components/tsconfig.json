@@ -54,5 +54,6 @@
     "pretty": true,
     "skipLibCheck": false
   },
+  "references": [{ "path": "../service-utils" }],
   "include": ["src"]
 }
