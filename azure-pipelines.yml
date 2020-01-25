@@ -25,6 +25,10 @@ steps:
   - script: yarn lint
     displayName: 'Yarn Lint'
 
+  - script: yarn build
+    displayName: 'Yarn build'
+
+
   - script: yarn startDevProxy
     displayName: Start Dev proxy
 
