@@ -29,8 +29,13 @@ steps:
     displayName: 'Yarn build'
 
 
-  - script: yarn startDevProxy
-    displayName: Start Dev proxy
+  - task: DockerCompose@0
+    displayName: Start the Dev Proxy Image
+    inputs:
+      dockerComposeFile: '$(System.DefaultWorkingDirectory)/proxy-dev/docker-compose.yml'
+      projectName: $(Build.Repository.Name)
+      detached: true
+      buildImages: true
 
   - script: yarn test:cypress
     displayName: 'Cypress tests'
