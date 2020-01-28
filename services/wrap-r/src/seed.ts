@@ -3,6 +3,8 @@ import { HttpAuthenticationSettings } from '@furystack/http-api'
 import { Injector } from '@furystack/inject'
 import { User } from 'common-service-utils'
 import { injector } from './config'
+import { GithubAccount } from './models/github-account'
+import { GoogleAccount } from './models'
 
 /**
  * gets an existing instance if exists or create and return if not. Throws error on multiple result
@@ -40,8 +42,11 @@ export const seed = async (i: Injector) => {
   const logger = i.logger.withScope('seeder')
   logger.verbose({ message: 'Seeding data...' })
   const sm = i.getInstance(StoreManager)
-  const userStore: PhysicalStore<User> = sm.getStoreFor<User, PhysicalStore<User>>(User)
-  await getOrCreate(
+  const userStore = sm.getStoreFor(User)
+  const ghAccountStore = sm.getStoreFor(GithubAccount)
+  const googleAccountStore = sm.getStoreFor(GoogleAccount)
+
+  const testUser = await getOrCreate(
     { filter: { username: 'testuser' } },
     {
       username: 'testuser',
@@ -51,6 +56,23 @@ export const seed = async (i: Injector) => {
     userStore,
     i,
   )
+
+  await getOrCreate(
+    {
+      filter: { username: testUser.username },
+    },
+    { githubId: 666, username: testUser.username },
+    ghAccountStore,
+    i,
+  )
+
+  await getOrCreate(
+    { filter: { username: testUser.username } },
+    { googleId: 666, username: testUser.username },
+    googleAccountStore,
+    i,
+  )
+
   logger.verbose({ message: 'Seeding data completed.' })
 }
 
