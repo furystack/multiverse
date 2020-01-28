@@ -12,7 +12,7 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/mongodb": "^3.3.14",
+    "@types/mongodb": "^3.3.15",
     "@types/node": "^13.1.6",
     "@types/redis": "^2.8.14"
   },
