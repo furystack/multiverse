@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { Shade, createComponent, RouteLink } from '@furystack/shades'
+import { Shade, createComponent, RouteLink, LocationService } from '@furystack/shades'
 import { Button } from 'common-components'
 import { Loader } from '../components/loader'
 import { GithubAuthProvider } from '../services/github-auth-provider'
@@ -13,6 +13,7 @@ export const GithubRegister = Shade<{ code: string }, { loginError?: string }>({
   constructed: async ({ props, injector, updateState }) => {
     const location = injector.getInstance(SessionService).currentUser.subscribe(() => {
       window.history.pushState('', '', '/')
+      injector.getInstance(LocationService).updateState()
     })
     try {
       await injector.getInstance(GithubAuthProvider).register(props.code)

@@ -26,6 +26,9 @@ export class Users {
   public githubRegister = (params: { code: string; clientId: string }) =>
     this.getService().execCustomCollectionAction<User>('githubRegister', params)
 
+  public register = (params: { email: string; password: string }) =>
+    this.getService().execCustomCollectionAction<User>('register', params)
+
   /**
    * Custom collection action 'logout'
    */

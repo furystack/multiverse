@@ -1,10 +1,12 @@
-import { Shade, createComponent } from '@furystack/shades'
-import { Button } from 'common-components/src'
+import { Shade, createComponent, LocationService } from '@furystack/shades'
+import { Button, Input } from 'common-components'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
+import { Users } from '../odata/entity-collections'
+import { SessionService } from '../services/session'
 
 export const RegisterPage = Shade({
   shadowDomName: 'register-page',
-  initialState: { error: '' },
+  initialState: { error: '', email: '', password: '', confirmPassword: '', isOperationInProgress: false },
   render: ({ injector, getState, updateState }) => {
     return (
       <div
@@ -39,9 +41,68 @@ export const RegisterPage = Shade({
               alignItems: 'center',
               justifyContent: 'center',
               flexDirection: 'column',
+              overflowX: 'auto',
+              width: '100%',
+              paddingTop: '1em',
+              marginTop: '1em',
             }}>
             <h2>Sign up</h2>
-            <p>By signing up with the available account types here, you accepts the corporate blahblahblah...</p>
+            <p>By signing up with you accept the corporate blahblahblah...</p>
+
+            <form
+              onsubmit={async ev => {
+                ev.preventDefault()
+                const { email, password, confirmPassword } = getState()
+                if (password !== confirmPassword) {
+                  alert('Password and Confirm Password does not match :(')
+                  return
+                }
+                const sessionService = injector.getInstance(SessionService)
+                sessionService.isOperationInProgress.setValue(true)
+
+                try {
+                  const user = await injector.getInstance(Users).register({ email, password })
+                  if (user && user.username === email) {
+                    window.history.pushState('', '', '/')
+                    injector.getInstance(LocationService).updateState()
+                    sessionService.currentUser.setValue(user)
+                    sessionService.state.setValue('authenticated')
+                  }
+                } catch (error) {
+                  updateState({ error: error.message.toString() })
+                }
+                sessionService.isOperationInProgress.setValue(false)
+              }}>
+              <Input
+                type="email"
+                labelTitle="E-mail"
+                required
+                autofocus
+                value={getState().email}
+                disabled={getState().isOperationInProgress}
+                onchange={ev => {
+                  updateState({ email: (ev.target as HTMLInputElement).value }, true)
+                }}
+              />
+              <Input
+                type="password"
+                value={getState().password}
+                labelTitle="Password"
+                required
+                disabled={getState().isOperationInProgress}
+                onchange={ev => updateState({ password: (ev.target as HTMLInputElement).value }, true)}
+              />
+              <Input
+                type="password"
+                value={getState().confirmPassword}
+                labelTitle="Confirm password"
+                required
+                disabled={getState().isOperationInProgress}
+                onchange={ev => updateState({ confirmPassword: (ev.target as HTMLInputElement).value }, true)}
+              />
+              <Button type="submit">Register</Button>
+            </form>
+            <p>You can also sign up using the following accounts:</p>
             <div>
               <Button
                 style={{ margin: '0 .3em' }}

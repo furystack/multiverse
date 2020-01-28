@@ -11,6 +11,7 @@ import { GithubLoginAction } from './actions/github-login'
 import { GoogleAccount } from './models'
 import { GithubAccount } from './models/github-account'
 import { GithubRegisterAction } from './actions/github-register'
+import { RegisterAction } from './actions/register'
 
 export const authorizedOnly = async (options: { injector: Injector }) => {
   const authorized = await options.injector.getInstance(HttpUserContext).isAuthenticated()
@@ -135,6 +136,22 @@ injector
                 },
                 {
                   name: 'clientId',
+                  type: EdmType.String,
+                  nullable: false,
+                },
+              ],
+            },
+            {
+              action: RegisterAction,
+              name: 'register',
+              parameters: [
+                {
+                  name: 'email',
+                  type: EdmType.String,
+                  nullable: false,
+                },
+                {
+                  name: 'password',
                   type: EdmType.String,
                   nullable: false,
                 },
