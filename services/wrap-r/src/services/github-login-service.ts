@@ -3,6 +3,7 @@ import { get } from 'https'
 import { Injectable, Injector } from '@furystack/inject'
 import got from 'got'
 import { ScopedLogger } from '@furystack/logging'
+import { tokens } from 'sites'
 
 export interface GithubApiPayload {
   login: string
@@ -49,7 +50,7 @@ export class GithubAuthService {
    * @param token
    */
   public async getGithubUserData(options: { code: string; clientId: string }): Promise<GithubApiPayload> {
-    const clientSecret = process.env.GITHUB_CLIENT_SECRET
+    const clientSecret = tokens.githubClientSecret
     if (!clientSecret) {
       this.logger.error({
         message: `Github Client secret has not been set up in the GITHUB_CLIENT_SECRET env. variable.`,

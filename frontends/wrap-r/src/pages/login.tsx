@@ -127,6 +127,7 @@ export const Login = Shade({
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Button
                 type="button"
+                title="Google"
                 onclick={async () => {
                   try {
                     await injector.getInstance(GoogleOauthProvider).login()
@@ -140,9 +141,10 @@ export const Login = Shade({
                 onclick={ev => {
                   ev.preventDefault()
                   window.location.replace(
-                    `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${window.location.origin}/github-login`,
+                    `https://github.com/login/oauth/authorize?client_id=${process.env.MULTIVERSE_TOKEN_githubClientId}&redirect_uri=${window.location.origin}/github-login`,
                   )
-                }}>
+                }}
+                title="Github">
                 GitHub
               </Button>
             </div>

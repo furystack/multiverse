@@ -1,8 +1,8 @@
-import { PathHelper } from '@furystack/utils'
 import { createComponent, initializeShadeRoot } from '@furystack/shades'
 import { VerboseConsoleLogger } from '@furystack/logging'
-import { services } from 'sites'
 import { Injector } from '@furystack/inject'
+import { PathHelper } from '@furystack/utils'
+import { services } from 'sites/src'
 import { Layout } from './components/layout'
 import './services/google-auth-provider'
 import '@furystack/odata-fetchr'
@@ -14,11 +14,11 @@ export const environmentOptions = {
   debug: Boolean(process.env.DEBUG),
   appVersion: process.env.APP_VERSION as string,
   buildDate: new Date(process.env.BUILD_DATE as string),
-  serviceUrl: process.env.APP_SERVICE_URL as string,
+  serviceUrl: (process.env.MULTIVERSE_SERVICE_wrapr as string) || services.wrapr,
 }
 
 shadeInjector.useOdata({
-  serviceEndpoint: PathHelper.joinPaths(services.wrapr, '/'),
+  serviceEndpoint: PathHelper.joinPaths(environmentOptions.serviceUrl, '/'),
   defaultInit: {},
 })
 
@@ -30,7 +30,7 @@ shadeInjector.logger.withScope('Startup').verbose({
 })
 
 shadeInjector.useGoogleAuth({
-  clientId: '626364599424-47aut7jidipmngkt4r7inda1erl8ckqg.apps.googleusercontent.com',
+  clientId: process.env.MULTIVERSE_TOKEN_googleClientId as string,
 })
 
 const rootElement: HTMLDivElement = document.getElementById('root') as HTMLDivElement

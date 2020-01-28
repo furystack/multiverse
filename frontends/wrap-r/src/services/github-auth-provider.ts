@@ -7,7 +7,10 @@ export class GithubAuthProvider {
   public async login(code: string) {
     try {
       this.session.isOperationInProgress.setValue(true)
-      const user = await this.users.githubLogin({ code, clientId: process.env.GITHUB_CLIENT_ID as string })
+      const user = await this.users.githubLogin({
+        code,
+        clientId: process.env.MULTIVERSE_TOKEN_githubClientId as string,
+      })
       if (user) {
         this.session.currentUser.setValue(user)
         this.session.state.setValue('authenticated')

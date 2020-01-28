@@ -3,7 +3,7 @@ import '@furystack/redis-store'
 import '@furystack/http-api'
 import '@furystack/mongodb-store'
 import { createClient } from 'redis'
-import { frontends } from 'sites'
+import { frontends, databases, sessionStore } from 'sites'
 import { Session, User } from './models'
 import { verifyAndCreateIndexes } from './create-indexes'
 
@@ -16,8 +16,12 @@ declare module '@furystack/inject/dist/Injector' {
 Injector.prototype.useCommonHttpAuth = function() {
   this.setupStores(sm =>
     sm
-      .useMongoDb(User, 'mongodb://localhost:27017', 'multiverse-common-auth', 'users')
-      .useRedis(Session, 'sessionId', createClient({ port: 63790, host: 'localhost' })),
+      .useMongoDb(User, databases.commonAuth, 'multiverse-common-auth', 'users')
+      .useRedis(
+        Session,
+        'sessionId',
+        createClient({ port: parseInt(sessionStore.port, 10) || undefined, host: sessionStore.host }),
+      ),
   )
     .useHttpApi({
       corsOptions: {
