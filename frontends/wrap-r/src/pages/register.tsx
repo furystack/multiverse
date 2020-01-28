@@ -80,6 +80,7 @@ export const RegisterPage = Shade({
                 autofocus
                 value={getState().email}
                 disabled={getState().isOperationInProgress}
+                title="E-mail"
                 onchange={ev => {
                   updateState({ email: (ev.target as HTMLInputElement).value }, true)
                 }}
@@ -88,6 +89,7 @@ export const RegisterPage = Shade({
                 type="password"
                 value={getState().password}
                 labelTitle="Password"
+                title="Password"
                 required
                 disabled={getState().isOperationInProgress}
                 onchange={ev => updateState({ password: (ev.target as HTMLInputElement).value }, true)}
@@ -96,11 +98,14 @@ export const RegisterPage = Shade({
                 type="password"
                 value={getState().confirmPassword}
                 labelTitle="Confirm password"
+                title="Confirm password"
                 required
                 disabled={getState().isOperationInProgress}
                 onchange={ev => updateState({ confirmPassword: (ev.target as HTMLInputElement).value }, true)}
               />
-              <Button type="submit">Register</Button>
+              <Button title="Register" type="submit">
+                Register
+              </Button>
             </form>
             <p>You can also sign up using the following accounts:</p>
             <div>
