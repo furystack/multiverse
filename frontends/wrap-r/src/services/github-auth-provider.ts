@@ -1,6 +1,6 @@
+import { Injectable } from '@furystack/inject'
 import { Users } from '../odata/entity-collections'
 import { SessionService } from './session'
-import { Injectable } from '@furystack/inject'
 
 @Injectable({ lifetime: 'singleton' })
 export class GithubAuthProvider {

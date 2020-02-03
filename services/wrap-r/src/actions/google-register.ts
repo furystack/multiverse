@@ -1,8 +1,8 @@
-import { GoogleAccount } from '../models'
 import { HttpUserContext, RequestAction, JsonResult } from '@furystack/http-api'
 import { GoogleLoginService } from '@furystack/auth-google'
 import { StoreManager } from '@furystack/core'
 import { User } from 'common-service-utils'
+import { GoogleAccount } from '../models'
 
 /**
  * HTTP Request action for Google Logins

@@ -1,8 +1,8 @@
+import { Button, Input } from 'common-components'
+import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 import { Users } from '../odata/entity-collections'
 import { SessionService } from '../services/session'
-import { Button, Input } from 'common-components'
-import { Shade, createComponent, LocationService } from '@furystack/shades'
 
 export const RegisterPage = Shade({
   shadowDomName: 'register-page',

@@ -1,9 +1,9 @@
+import { createComponent, Shade, Router } from '@furystack/shades'
 import { GithubRegister } from '../pages/github-register'
 import { GithubLogin } from '../pages/github-login'
 import { Body } from './body'
 import { Header } from './header'
 import { CurrentUserMenu } from './current-user-menu'
-import { createComponent, Shade, Router } from '@furystack/shades'
 
 export const Layout = Shade({
   shadowDomName: 'shade-app-layout',

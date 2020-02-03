@@ -1,4 +1,10 @@
 import '@furystack/auth-google'
+import { User, verifyAndCreateIndexes } from 'common-service-utils'
+import { DataSetSettings } from '@furystack/repository'
+import { EdmType } from '@furystack/odata'
+import { LoginAction, LogoutAction, GetCurrentUser, HttpUserContext, IsAuthenticated } from '@furystack/http-api'
+import { VerboseConsoleLogger } from '@furystack/logging'
+import { Injector } from '@furystack/inject'
 import { GoogleLoginAction } from './actions/google-login'
 import { GoogleRegisterAction } from './actions/google-register'
 import { GithubLoginAction } from './actions/github-login'
@@ -6,12 +12,6 @@ import { GoogleAccount } from './models'
 import { GithubAccount } from './models/github-account'
 import { GithubRegisterAction } from './actions/github-register'
 import { RegisterAction } from './actions/register'
-import { User, verifyAndCreateIndexes } from 'common-service-utils'
-import { DataSetSettings } from '@furystack/repository'
-import { EdmType } from '@furystack/odata'
-import { LoginAction, LogoutAction, GetCurrentUser, HttpUserContext, IsAuthenticated } from '@furystack/http-api'
-import { VerboseConsoleLogger } from '@furystack/logging'
-import { Injector } from '@furystack/inject'
 
 export const authorizedOnly = async (options: { injector: Injector }) => {
   const authorized = await options.injector.getInstance(HttpUserContext).isAuthenticated()

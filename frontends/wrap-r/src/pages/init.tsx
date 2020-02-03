@@ -1,5 +1,5 @@
-import { Loader } from '../components/loader'
 import { Shade, createComponent } from '@furystack/shades'
+import { Loader } from '../components/loader'
 
 export const Init = Shade({
   shadowDomName: 'shade-init',

@@ -1,11 +1,11 @@
 import '@furystack/redis-store'
 import '@furystack/http-api'
 import '@furystack/mongodb-store'
-import { Session, User } from './models'
-import { verifyAndCreateIndexes } from './create-indexes'
 import { Injector } from '@furystack/inject'
 import { createClient } from 'redis'
 import { frontends, databases, sessionStore } from 'sites'
+import { verifyAndCreateIndexes } from './create-indexes'
+import { Session, User } from './models'
 
 declare module '@furystack/inject/dist/Injector' {
   interface Injector {

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { GithubAccount } from '../models/github-account'
-import { GithubAuthService } from '../services/github-login-service'
 import { RequestAction, JsonResult, HttpUserContext } from '@furystack/http-api'
 import { StoreManager } from '@furystack/core'
 import { User } from 'common-service-utils'
+import { GithubAuthService } from '../services/github-login-service'
+import { GithubAccount } from '../models/github-account'
 
 export const GithubRegisterAction: RequestAction = async injector => {
   const { code, clientId } = await injector.getRequest().readPostBody<{ code: string; clientId: string }>()

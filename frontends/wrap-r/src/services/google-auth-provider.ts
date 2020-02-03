@@ -1,8 +1,8 @@
-import { Users } from '../odata/entity-collections'
-import { SessionService } from './session'
 import { Retrier } from '@furystack/utils'
 import { Injector } from '@furystack/inject/dist/Injector'
 import { Injectable } from '@furystack/inject'
+import { Users } from '../odata/entity-collections'
+import { SessionService } from './session'
 
 /**
  * Options for Google OAuth Authentication
