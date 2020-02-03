@@ -34,7 +34,7 @@
     "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
-    "@furystack/odata-fetchr": "^0.3.3",
+    "@furystack/odata-fetchr": "^1.0.0",
     "@furystack/shades": "^2.1.5"
   }
 }

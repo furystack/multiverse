@@ -1,7 +1,7 @@
+import { SessionService } from '../services/session'
 import { Shade, createComponent } from '@furystack/shades'
 import { User } from 'common-service-utils'
 import { Avatar, Button } from 'common-components'
-import { SessionService } from '../services/session'
 
 export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean }>({
   shadowDomName: 'shade-current-user-menu',

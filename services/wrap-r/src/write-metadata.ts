@@ -1,7 +1,7 @@
 import { join } from 'path'
 import { writeFile } from 'fs'
-import { ModelBuilder, xmlToString } from '@furystack/odata/dist/'
 import { injector } from './config'
+import { ModelBuilder, xmlToString } from '@furystack/odata/dist/'
 ;(async () => {
   const logger = injector.logger.withScope('metadata-writer')
   const model = injector.getInstance(ModelBuilder)

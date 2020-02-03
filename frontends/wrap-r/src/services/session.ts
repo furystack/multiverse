@@ -1,7 +1,7 @@
-import { Injectable } from '@furystack/inject'
-import { ObservableValue, usingAsync, sleepAsync } from '@furystack/utils'
 import { Users } from '../odata/entity-collections'
 import { User } from '../odata/entity-types'
+import { Injectable } from '@furystack/inject'
+import { ObservableValue, usingAsync } from '@furystack/utils'
 
 export type sessionState = 'initializing' | 'offline' | 'unauthenticated' | 'authenticated'
 
@@ -36,7 +36,6 @@ export class SessionService {
   public async login(username: string, password: string) {
     await usingAsync(this.operation(), async () => {
       try {
-        await sleepAsync(2000)
         const usr = await this.users.login({ username, password })
         this.currentUser.setValue(usr)
         this.state.setValue('authenticated')
