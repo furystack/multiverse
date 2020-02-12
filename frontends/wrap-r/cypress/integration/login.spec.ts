@@ -45,7 +45,6 @@ describe('Wrap-R Application', () => {
       cy.log('Logging in...')
       cy.get(loginButtonSelector).click()
 
-      cy.get('shade-login shade-loader div').should('be.visible')
       cy.log('Checking Welcome screen...')
       cy.get('welcome-page div h2').should('be.visible')
       cy.get('welcome-page div h2').contains('Hello, testuser !')

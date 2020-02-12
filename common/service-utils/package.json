@@ -24,10 +24,10 @@
     "@furystack/mongodb-store": "^2.0.12",
     "@furystack/odata": "^2.1.6",
     "@furystack/redis-store": "^2.0.9",
-    "@furystack/repository": "^2.0.9",
-    "got": "^10.2.1",
-    "mongodb": "^3.4.1",
-    "redis": "^2.8.0",
+    "@furystack/repository": "^2.0.16",
+    "got": "^10.5.5",
+    "mongodb": "^3.5.2",
+    "redis": "^3.0.2",
     "tslib": "^1.10.0"
   }
 }

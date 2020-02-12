@@ -18,7 +18,7 @@
     "awesome-typescript-loader": "^5.2.1",
     "common-components": "1.0.0",
     "css-loader": "^3.2.0",
-    "cypress": "^3.6.1",
+    "cypress": "^4.0.1",
     "cypress-plugin-snapshots": "^1.2.9",
     "eslint-plugin-cypress": "^2.7.0",
     "file-loader": "^5.0.2",

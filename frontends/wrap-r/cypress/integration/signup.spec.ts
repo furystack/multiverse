@@ -16,7 +16,7 @@ describe('Sign up', () => {
       .should('be.visible')
       .type('89715264')
     cy.get('register-page > div > div').toMatchImageSnapshot()
-    cy.get('button[title=Register]').click()
+    // cy.get('button[title=Register]').click()
   })
 
   it('Should log in a registered user', () => {
