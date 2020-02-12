@@ -33,7 +33,7 @@ describe('Wrap-R Application', () => {
         .should('be.visible')
         .should('be.enabled')
       cy.get(usernameInputSelector)
-        .type('testuser')
+        .type('testuser@gmail.com')
         .blur()
       cy.get(passwordFieldSelector)
         .should('be.visible')
@@ -47,7 +47,7 @@ describe('Wrap-R Application', () => {
 
       cy.log('Checking Welcome screen...')
       cy.get('welcome-page div h2').should('be.visible')
-      cy.get('welcome-page div h2').contains('Hello, testuser !')
+      cy.get('welcome-page div h2').contains('Hello, testuser@gmail.com !')
 
       cy.get(headerSelector).toMatchImageSnapshot({ threshold: 0.001 }) // with avatar and menu
       cy.get('shade-current-user-menu').click()
@@ -82,7 +82,9 @@ describe('Wrap-R Application', () => {
 
     it.skip('Log in and log out roundtrip', () => {
       cy.server()
-      cy.route('POST', 'http://localhost:9090/users/githubLogin', { username: 'testuser' }).as('ghLoginRequest')
+      cy.route('POST', 'http://localhost:9090/users/githubLogin', { username: 'testuser@gmail.com' }).as(
+        'ghLoginRequest',
+      )
       cy.visit('/github-login?code=123456')
       cy.wait('@ghLoginRequest')
 

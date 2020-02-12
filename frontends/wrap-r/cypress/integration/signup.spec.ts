@@ -51,7 +51,7 @@ describe('Sign up', () => {
 
     cy.get('input[required][title=E-mail]')
       .should('be.visible')
-      .type('alma@gmail.com')
+      .type('testuser@gmail.com')
     cy.get('input[required][title=Password]')
       .should('be.visible')
       .type('asdasd123')

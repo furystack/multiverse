@@ -47,9 +47,9 @@ export const seed = async (i: Injector) => {
   const googleAccountStore = sm.getStoreFor(GoogleAccount)
 
   const testUser = await getOrCreate(
-    { filter: { username: 'testuser' } },
+    { filter: { username: 'testuser@gmail.com' } },
     {
-      username: 'testuser',
+      username: 'testuser@gmail.com',
       password: i.getInstance(HttpAuthenticationSettings).hashMethod('password'),
       roles: [],
     },
