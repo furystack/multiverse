@@ -1,3 +1,5 @@
+import { v4 } from 'uuid'
+
 describe('Sign up', () => {
   it('Should alert if the password and the confirm password is different', done => {
     cy.on('window:alert', () => {
@@ -9,14 +11,17 @@ describe('Sign up', () => {
     cy.get('input[required][title=E-mail]')
       .should('be.visible')
       .type('alma@gmail.com')
+      .blur()
     cy.get('input[required][title=Password]')
       .should('be.visible')
       .type('asdasd')
+      .blur()
     cy.get('input[required][title="Confirm password"]')
       .should('be.visible')
       .type('89715264')
+      .blur()
+    cy.get('button[title=Register]').click()
     cy.get('register-page > div > div').toMatchImageSnapshot()
-    // cy.get('button[title=Register]').click()
   })
 
   it('Should log in a registered user', () => {
@@ -26,7 +31,7 @@ describe('Sign up', () => {
 
     cy.get('input[required][title=E-mail]')
       .should('be.visible')
-      .type('alma@gmail.com')
+      .type(`${v4()}@testusers.com`)
     cy.get('input[required][title=Password]')
       .should('be.visible')
       .type('asdasd123')
@@ -34,7 +39,6 @@ describe('Sign up', () => {
       .should('be.visible')
       .type('asdasd123')
     cy.get('button[title=Register]').click()
-    cy.get('shade-current-user-menu').toMatchImageSnapshot()
     cy.get('shade-current-user-menu').click()
     cy.get('shade-current-user-menu Button[title=logout]').click()
     cy.get('shade-login>div>div>form').should('be.visible')
