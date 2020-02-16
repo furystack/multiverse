@@ -35,8 +35,18 @@ injector
   .useCommonHttpAuth()
   .setupStores(sm =>
     sm
-      .useMongoDb(GoogleAccount, 'mongodb://localhost:27017', 'multiverse-common-auth', 'google-accounts')
-      .useMongoDb(GithubAccount, 'mongodb://localhost:27017', 'multiverse-common-auth', 'github-accounts'),
+      .useMongoDb({
+        model: GoogleAccount,
+        url: 'mongodb://localhost:27017',
+        db: 'multiverse-common-auth',
+        collection: 'google-accounts',
+      })
+      .useMongoDb({
+        model: GithubAccount,
+        url: 'mongodb://localhost:27017',
+        db: 'multiverse-common-auth',
+        collection: 'github-accounts',
+      }),
   )
   .useLogging(VerboseConsoleLogger)
   .setupRepository(repo =>

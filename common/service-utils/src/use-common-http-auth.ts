@@ -16,7 +16,7 @@ declare module '@furystack/inject/dist/Injector' {
 Injector.prototype.useCommonHttpAuth = function() {
   this.setupStores(sm =>
     sm
-      .useMongoDb(User, databases.commonAuth, 'multiverse-common-auth', 'users')
+      .useMongoDb({ model: User, url: databases.commonAuth, db: 'multiverse-common-auth', collection: 'users' })
       .useRedis(
         Session,
         'sessionId',
