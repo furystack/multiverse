@@ -7,7 +7,7 @@ import { frontends, databases, sessionStore } from 'sites'
 import { verifyAndCreateIndexes } from './create-indexes'
 import { Session, User } from './models'
 
-declare module '@furystack/inject/dist/Injector' {
+declare module '@furystack/inject/dist/injector' {
   interface Injector {
     useCommonHttpAuth: () => Injector
   }
