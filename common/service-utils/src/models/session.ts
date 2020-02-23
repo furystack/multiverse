@@ -1,4 +1,4 @@
-import { DefaultSession } from '@furystack/http-api/dist/Models/DefaultSession'
+import { DefaultSession } from '@furystack/http-api/dist/models/default-session'
 
 export class Session extends DefaultSession {
   public sessionId!: string
