@@ -1,9 +1,13 @@
 import '@furystack/http-api'
+import { services } from 'sites'
 import { injector } from './config'
+
+const serviceUrl = new URL(services.wrapr)
 
 injector
   .useDefaultLoginRoutes()
   .listenHttp({
-    port: parseInt(process.env.APP_SERVICE_PORT as string, 10) || 9090,
+    port: parseInt(serviceUrl.port, 10),
+    hostName: serviceUrl.hostname,
   })
   .disposeOnProcessExit()

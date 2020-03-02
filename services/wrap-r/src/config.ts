@@ -32,6 +32,7 @@ export const authorizedDataSet: Partial<DataSetSettings<any>> = {
 export const injector = new Injector()
 
 injector
+  .useDbLogger()
   .useCommonHttpAuth()
   .setupStores(sm =>
     sm

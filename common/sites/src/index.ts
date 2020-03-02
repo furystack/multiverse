@@ -32,6 +32,7 @@ export const frontends = updateFromEnvValues(
 export const databases = updateFromEnvValues(
   {
     commonAuth: 'mongodb://localhost:27017',
+    logs: 'mongodb://localhost:27017',
   },
   'MULTIVERSE_DATABASE_',
 )
