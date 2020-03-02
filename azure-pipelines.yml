@@ -28,7 +28,6 @@ steps:
   - script: yarn build
     displayName: 'Yarn build'
 
-
   - task: DockerCompose@0
     displayName: Start the Dev Proxy Image
     inputs:
@@ -46,11 +45,11 @@ steps:
     condition: always()
     inputs:
       testRunner: JUnit
-      testResultsFiles: '$(System.DefaultWorkingDirectory)/frontends/wrap-r/testresults/output.xml'
+      testResultsFiles: '$(System.DefaultWorkingDirectory)/testresults/output.xml'
 
   - task: PublishBuildArtifacts@1
     displayName: Publish Cypress test artifacts
     condition: failed()
     inputs:
-      pathtoPublish: '$(System.DefaultWorkingDirectory)/frontends/wrap-r/cypress/videos'
+      pathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/videos'
       artifactName: cypress_videos

@@ -20,6 +20,9 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.18.0",
+    "cypress-plugin-snapshots": "^1.2.9",
+    "cypress": "^4.0.1",
+    "eslint-plugin-cypress": "^2.7.0",
     "concurrently": "^5.1.0",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
@@ -50,11 +53,12 @@
   },
   "scripts": {
     "build": "tsc -b && yarn workspace wrap-r-frontend build",
-    "test:cypress": "yarn workspace wrap-r-service seed && concurrently --kill-others \"yarn startService\" \"yarn startFrontend\" \"yarn workspace wrap-r-frontend run cypress run\" --success first ",
+    "test:cypress": "yarn workspace wrap-r-service seed && concurrently --kill-others \"yarn startService\" \"yarn startFrontend\" \"yarn cypress run\" --success first ",
     "start": "concurrently --kill-others \"yarn startService\" \"yarn startFrontend\"  ",
     "startService": "yarn workspace wrap-r-service start",
     "startFrontend": "yarn workspace wrap-r-frontend start",
     "clean": "rimraf services/**/dist frontends/**/dist common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
-    "lint": "eslint . --ext .tsx,.ts --cache"
+    "lint": "eslint . --ext .tsx,.ts --cache",
+    "seed": "yarn workspace wrap-r-service seed"
   }
 }
