@@ -2,12 +2,18 @@ const path = require('path')
 const webpack = require('webpack')
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const TsConfigWebpackPlugin = require('ts-config-webpack-plugin')
 const { getAllEnvVariables } = require('sites')
 
 module.exports = {
   mode: 'production', // "development",
   entry: './src/index.tsx',
+  stats: {
+    context: path.join(process.cwd(), './src'),
+    assets: true,
+    entrypoints: true,
+    chunks: true,
+    modules: true,
+  },
   output: {
     filename: '[name].bundle.js',
     chunkFilename: '[name].bundle.js',
@@ -44,7 +50,6 @@ module.exports = {
   },
   plugins: [
     // new BundleAnalyzerPlugin({ analyzerPort: 8745 }),
-    new TsConfigWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './index.html',
     }),
@@ -60,7 +65,7 @@ module.exports = {
     rules: [
       // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
       // { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
-
+      { test: /\.tsx?$/, loader: 'ts-loader' },
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
       {
         enforce: 'pre',

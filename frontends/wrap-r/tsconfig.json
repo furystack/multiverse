@@ -54,6 +54,10 @@
     "pretty": true,
     "skipLibCheck": false
   },
-  "references": [{ "path": "../../common/components" }],
+  "references": [
+    { "path": "../../common/components" },
+    { "path": "../../common/service-utils" },
+    { "path": "../../common/sites" }
+  ],
   "include": ["src"]
 }

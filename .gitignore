@@ -63,6 +63,7 @@ typings/
 dist
 *.tsbuildinfo
 frontend/bundle
+frontends/*/webpack-stats.json
 
 cypress/videos
 cypress/screenshots

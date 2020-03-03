@@ -47,6 +47,8 @@ steps:
       testRunner: JUnit
       testResultsFiles: '$(System.DefaultWorkingDirectory)/testresults/output.xml'
 
+  - script: yarn run relative-ci-agent
+
   - task: PublishBuildArtifacts@1
     displayName: Publish Cypress test artifacts
     condition: failed()
