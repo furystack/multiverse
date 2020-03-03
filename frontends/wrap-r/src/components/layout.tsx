@@ -1,6 +1,8 @@
 import { createComponent, Shade, Router } from '@furystack/shades'
 import { GithubRegister } from '../pages/github-register'
 import { GithubLogin } from '../pages/github-login'
+import { DocsPage } from '../pages/docs'
+import { ContactPage } from '../pages/contact'
 import { Body } from './body'
 import { Header } from './header'
 import { CurrentUserMenu } from './current-user-menu'
@@ -40,6 +42,14 @@ export const Layout = Shade({
             {
               url: '/github-register',
               component: currentUrl => <GithubRegister code={currentUrl.search.replace('?', '').split('=')[1]} />,
+            },
+            {
+              url: '/contact',
+              component: () => <ContactPage />,
+            },
+            {
+              url: '/docs',
+              component: () => <DocsPage />,
             },
             {
               url: '/',

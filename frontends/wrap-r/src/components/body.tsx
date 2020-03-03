@@ -4,8 +4,6 @@ import { User } from '../odata/entity-types'
 import { Init, WelcomePage, Offline, Login } from '../pages'
 import { RegisterPage } from '../pages/register'
 import { ResetPasswordPage } from '../pages/reset-password'
-import { ContactPage } from '../pages/contact'
-import { DocsPage } from '../pages/docs'
 import { Loader } from './loader'
 
 export const Body = Shade({
@@ -66,14 +64,6 @@ export const Body = Shade({
                     {
                       url: '/reset-password',
                       component: () => <ResetPasswordPage />,
-                    },
-                    {
-                      url: '/contact',
-                      component: () => <ContactPage />,
-                    },
-                    {
-                      url: '/docs',
-                      component: () => <DocsPage />,
                     },
                   ]}
                 />
