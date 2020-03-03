@@ -7,13 +7,6 @@ const { getAllEnvVariables } = require('sites')
 module.exports = {
   mode: 'production', // "development",
   entry: './src/index.tsx',
-  stats: {
-    context: path.join(process.cwd(), './src'),
-    assets: true,
-    entrypoints: true,
-    chunks: true,
-    modules: true,
-  },
   output: {
     filename: '[name].bundle.js',
     chunkFilename: '[name].bundle.js',

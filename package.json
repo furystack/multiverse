@@ -18,7 +18,6 @@
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@relative-ci/agent": "^1.2.0",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.18.0",
     "concurrently": "^5.1.0",
