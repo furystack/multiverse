@@ -1,10 +1,8 @@
-import { createComponent, Shade, Router } from '@furystack/shades'
+import { createComponent, Shade, Router, LazyLoad } from '@furystack/shades'
+import { User } from 'common-models'
 import { SessionService, sessionState } from '../services/session'
-import { User } from '../odata/entity-types'
 import { Init, WelcomePage, Offline, Login } from '../pages'
-import { RegisterPage } from '../pages/register'
-import { ResetPasswordPage } from '../pages/reset-password'
-import { ProfilePage } from '../pages/profile'
+import { Page404 } from '../pages/404'
 import { Loader } from './loader'
 
 export const Body = Shade({
@@ -28,6 +26,7 @@ export const Body = Shade({
     return () => observables.forEach(o => o.dispose())
   },
   render: ({ getState }) => {
+    const { currentUser } = getState()
     return (
       <div
         style={{
@@ -42,13 +41,42 @@ export const Body = Shade({
         {(() => {
           switch (getState().sessionState) {
             case 'authenticated':
-              return getState().currentUser ? (
+              return currentUser ? (
                 <Router
                   routeMatcher={(current, component) => current.pathname === component}
-                  notFound={() => <div>Route not found</div>}
+                  notFound={() => <Page404 />}
                   routes={[
-                    { url: '/profile', component: () => <ProfilePage /> },
+                    {
+                      url: '/profile',
+                      component: () => (
+                        <LazyLoad
+                          component={async () => {
+                            const { ProfilePage } = await import(/* webpackChunkName: "profile" */ '../pages/profile')
+                            return <ProfilePage />
+                          }}
+                          loader={<Loader />}
+                        />
+                      ),
+                    },
                     { url: '/', component: () => <WelcomePage /> },
+                    ...(currentUser.roles.includes('sys-logs')
+                      ? [
+                          {
+                            url: '/sys-logs',
+                            component: () => (
+                              <LazyLoad
+                                component={async () => {
+                                  const { SystemLogs } = await import(
+                                    /* webpackChunkName: "system-logs" */ '../pages/system-logs'
+                                  )
+                                  return <SystemLogs />
+                                }}
+                                loader={<Loader />}
+                              />
+                            ),
+                          },
+                        ]
+                      : []),
                   ]}></Router>
               ) : (
                 <Loader
@@ -61,13 +89,36 @@ export const Body = Shade({
               return (
                 <Router
                   routeMatcher={(current, component) => current.pathname === component}
-                  notFound={() => <div>Route not found</div>}
+                  notFound={() => <Page404 />}
                   routes={[
                     { url: '/', component: () => <Login /> },
-                    { url: '/register', component: () => <RegisterPage /> },
+                    {
+                      url: '/register',
+                      component: () => (
+                        <LazyLoad
+                          component={async () => {
+                            const { RegisterPage } = await import(
+                              /* webpackChunkName: "register" */ '../pages/register'
+                            )
+                            return <RegisterPage />
+                          }}
+                          loader={<Loader />}
+                        />
+                      ),
+                    },
                     {
                       url: '/reset-password',
-                      component: () => <ResetPasswordPage />,
+                      component: () => (
+                        <LazyLoad
+                          component={async () => {
+                            const { ResetPasswordPage } = await import(
+                              /* webpackChunkName: "reset-password" */ '../pages/reset-password'
+                            )
+                            return <ResetPasswordPage />
+                          }}
+                          loader={<Loader />}
+                        />
+                      ),
                     },
                   ]}
                 />

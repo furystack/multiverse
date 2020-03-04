@@ -1,6 +1,6 @@
 // import '@furystack/odata-fetchr/dist/injector-extensions'
 import { Injectable, Injector } from '@furystack/inject'
-import { User } from '../entity-types/user'
+import { User } from 'common-models'
 
 /**
  * Service class for collection users

@@ -1,11 +1,10 @@
-import { createComponent, Shade, Router } from '@furystack/shades'
-import { GithubRegister } from '../pages/github-register'
-import { GithubLogin } from '../pages/github-login'
+import { createComponent, Shade, Router, LazyLoad } from '@furystack/shades'
 import { DocsPage } from '../pages/docs'
 import { ContactPage } from '../pages/contact'
 import { Body } from './body'
 import { Header } from './header'
 import { CurrentUserMenu } from './current-user-menu'
+import { Loader } from './loader'
 
 export const Layout = Shade({
   shadowDomName: 'shade-app-layout',
@@ -38,11 +37,29 @@ export const Layout = Shade({
             /** If you needs routes with session dependency, use the <Body /> */
             {
               url: '/github-login',
-              component: currentUrl => <GithubLogin code={currentUrl.search.replace('?', '').split('=')[1]} />,
+              component: currentUrl => (
+                <LazyLoad
+                  component={async () => {
+                    const { GithubLogin } = await import(/* webpackChunkName: "github-login" */ '../pages/github-login')
+                    return <GithubLogin code={currentUrl.search.replace('?', '').split('=')[1]} />
+                  }}
+                  loader={<Loader />}
+                />
+              ),
             },
             {
               url: '/github-register',
-              component: currentUrl => <GithubRegister code={currentUrl.search.replace('?', '').split('=')[1]} />,
+              component: currentUrl => (
+                <LazyLoad
+                  component={async () => {
+                    const { GithubRegister } = await import(
+                      /* webpackChunkName: "github-register" */ '../pages/github-register'
+                    )
+                    return <GithubRegister code={currentUrl.search.replace('?', '').split('=')[1]} />
+                  }}
+                  loader={<Loader />}
+                />
+              ),
             },
             {
               url: '/contact',

@@ -1,7 +1,7 @@
 import { Injectable } from '@furystack/inject'
 import { ObservableValue, usingAsync } from '@furystack/utils'
+import { User } from 'common-models'
 import { Users } from '../odata/entity-collections'
-import { User } from '../odata/entity-types'
 
 export type sessionState = 'initializing' | 'offline' | 'unauthenticated' | 'authenticated'
 
