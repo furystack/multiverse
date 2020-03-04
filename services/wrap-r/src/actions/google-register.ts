@@ -1,7 +1,7 @@
 import { HttpUserContext, RequestAction, JsonResult } from '@furystack/http-api'
 import { GoogleLoginService } from '@furystack/auth-google'
 import { StoreManager } from '@furystack/core'
-import { User } from 'common-service-utils'
+import { User } from 'common-models'
 import { GoogleAccount } from '../models'
 
 /**
@@ -30,7 +30,7 @@ export const GoogleRegisterAction: RequestAction = async injector => {
     return JsonResult({ error: 'Email address for account not verified' }, 500)
   }
 
-  const existing = await googleAcccounts.search({ filter: { googleId: googleUserData.sub }, top: 1 })
+  const existing = await googleAcccounts.search({ filter: { googleId: { $eq: googleUserData.sub } }, top: 1 })
 
   if (existing && existing.length) {
     return JsonResult({ error: 'Google account already registered.' }, 500)

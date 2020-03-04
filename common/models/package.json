@@ -1,0 +1,16 @@
+{
+  "name": "common-models",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "GPL-2.0-only",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf dist && rimraf tsconfig.tsbuildinfo",
+    "build": "tsc -b"
+  },
+  "types": "dist/index.d.ts",
+  "devDependencies": {},
+  "dependencies": {
+    "tslib": "^1.10.0"
+  }
+}

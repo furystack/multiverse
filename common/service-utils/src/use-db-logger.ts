@@ -1,12 +1,11 @@
 import { AbstractLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject/dist/injector'
-import { StoreManager } from '@furystack/core'
+import { StoreManager, globalDisposables } from '@furystack/core'
 import { Injectable } from '@furystack/inject'
 import { Disposable } from '@furystack/utils'
 import { databases } from 'sites'
 import { MongodbStore } from '@furystack/mongodb-store'
-import { globalDisposables } from '@furystack/core/dist/global-disposables'
-import { LogEntry } from './models/log-entry'
+import { LogEntry } from 'common-models'
 
 @Injectable({ lifetime: 'singleton' })
 export class DbLogger extends AbstractLogger implements Disposable {

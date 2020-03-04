@@ -17,14 +17,15 @@
     "@types/redis": "^2.8.14"
   },
   "dependencies": {
-    "@furystack/core": "^7.0.0",
-    "@furystack/http-api": "^5.3.4",
-    "@furystack/inject": "^4.0.3",
+    "@furystack/core": "^7.0.9",
+    "@furystack/http-api": "^5.3.18",
+    "@furystack/inject": "^4.0.13",
     "@furystack/logging": "^2.0.8",
     "@furystack/mongodb-store": "^2.0.12",
     "@furystack/odata": "^2.1.6",
     "@furystack/redis-store": "^2.0.9",
     "@furystack/repository": "^2.0.16",
+    "common-models": "1.0.0",
     "got": "^10.5.5",
     "mongodb": "^3.5.2",
     "redis": "^3.0.2",

@@ -1,12 +1,12 @@
 import { RequestAction, JsonResult, HttpUserContext } from '@furystack/http-api'
 import { StoreManager } from '@furystack/core'
-import { User } from 'common-service-utils'
+import { User } from 'common-models'
 
 export const RegisterAction: RequestAction = async injector => {
   const logger = injector.logger.withScope('RegisterAction')
   const { email, password } = await injector.getRequest().readPostBody<{ email: string; password: string }>()
   const userStore = injector.getInstance(StoreManager).getStoreFor(User)
-  const existing = await userStore.search({ filter: { username: email } })
+  const existing = await userStore.search({ filter: { username: { $eq: email } } })
   if (existing && existing.length) {
     logger.information({ message: 'Tried to register an already existing user', data: { email, user: existing[0] } })
     return JsonResult({ message: 'Failed to register user' }, 500)

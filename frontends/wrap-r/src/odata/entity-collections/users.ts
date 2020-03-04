@@ -1,4 +1,4 @@
-import '@furystack/odata-fetchr'
+// import '@furystack/odata-fetchr/dist/injector-extensions'
 import { Injectable, Injector } from '@furystack/inject'
 import { User } from '../entity-types/user'
 

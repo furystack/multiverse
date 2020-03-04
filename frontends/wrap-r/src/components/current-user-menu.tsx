@@ -1,5 +1,5 @@
-import { Shade, createComponent } from '@furystack/shades'
-import { User } from 'common-service-utils'
+import { Shade, createComponent, LocationService } from '@furystack/shades'
+import { User } from 'common-models'
 import { Avatar, Button } from 'common-components'
 import { SessionService } from '../services/session'
 
@@ -42,7 +42,15 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
               border: '1px solid #888',
               borderRadius: '3px',
               padding: '1em',
+              display: 'flex',
+              flexDirection: 'column',
+              // alignItems: 'center',
             }}>
+            <Button
+              title="Profile"
+              onclick={() => injector.getInstance(LocationService).onLocationChanged.setValue(new URL('/profile'))}>
+              Profile
+            </Button>
             <Button title="logout" onclick={() => injector.getInstance(SessionService).logout()}>
               Log out
             </Button>

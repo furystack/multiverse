@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { RequestAction, JsonResult, HttpUserContext } from '@furystack/http-api'
 import { StoreManager } from '@furystack/core'
-import { User } from 'common-service-utils'
+import { User } from 'common-models'
 import { GithubAuthService } from '../services/github-login-service'
 import { GithubAccount } from '../models/github-account'
 
@@ -15,7 +15,7 @@ export const GithubRegisterAction: RequestAction = async injector => {
     const existingGhUsers = await injector
       .getInstance(StoreManager)
       .getStoreFor(GithubAccount)
-      .search({ filter: { githubId: githubApiPayload.id }, top: 2 })
+      .search({ filter: { githubId: { $eq: githubApiPayload.id } }, top: 2 })
     if (existingGhUsers.length !== 0) {
       return JsonResult({ error: `Github user already registered` }, 500)
     }

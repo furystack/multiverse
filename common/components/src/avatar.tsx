@@ -1,5 +1,5 @@
 import { Shade, createComponent, PartialElement } from '@furystack/shades'
-import { User } from 'common-service-utils'
+import { User } from 'common-models'
 
 export type AvatarProps = { user: User } & PartialElement<HTMLDivElement>
 

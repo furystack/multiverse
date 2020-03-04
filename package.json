@@ -57,7 +57,7 @@
     "start": "concurrently --kill-others \"yarn startService\" \"yarn startFrontend\"  ",
     "startService": "yarn workspace wrap-r-service start",
     "startFrontend": "yarn workspace wrap-r-frontend start",
-    "clean": "rimraf services/**/dist frontends/**/dist common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
+    "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache",
     "seed": "yarn workspace wrap-r-service seed"
   }

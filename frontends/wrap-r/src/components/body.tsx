@@ -4,6 +4,7 @@ import { User } from '../odata/entity-types'
 import { Init, WelcomePage, Offline, Login } from '../pages'
 import { RegisterPage } from '../pages/register'
 import { ResetPasswordPage } from '../pages/reset-password'
+import { ProfilePage } from '../pages/profile'
 import { Loader } from './loader'
 
 export const Body = Shade({
@@ -45,7 +46,10 @@ export const Body = Shade({
                 <Router
                   routeMatcher={(current, component) => current.pathname === component}
                   notFound={() => <div>Route not found</div>}
-                  routes={[{ url: '/', component: () => <WelcomePage /> }]}></Router>
+                  routes={[
+                    { url: '/profile', component: () => <ProfilePage /> },
+                    { url: '/', component: () => <WelcomePage /> },
+                  ]}></Router>
               ) : (
                 <Loader
                   style={{ animation: 'show 100ms linear', width: '128px', height: '128px', marginTop: '16px' }}

@@ -1,6 +1,6 @@
 import { RequestAction, JsonResult, HttpUserContext } from '@furystack/http-api'
 import { GoogleLoginService } from '@furystack/auth-google'
-import { User } from 'common-service-utils'
+import { User } from 'common-models'
 import { StoreManager } from '@furystack/core'
 import { GoogleAccount } from '../models'
 
@@ -19,9 +19,9 @@ export const GoogleLoginAction: RequestAction = async injector => {
     if (!googleUserData.email_verified) {
       return JsonResult({ error: 'Email address not verified' }, 400)
     }
-    const googleAccount = await googleAccountStore.search({ filter: { googleId: googleUserData.sub } })
+    const googleAccount = await googleAccountStore.search({ filter: { googleId: { $eq: googleUserData.sub } } })
     if (googleAccount.length === 1) {
-      const googleUser = await userStore.search({ top: 2, filter: { username: googleAccount[0].username } })
+      const googleUser = await userStore.search({ top: 2, filter: { username: { $eq: googleAccount[0].username } } })
       if (googleUser.length !== 1) {
         return JsonResult(
           { error: `Found ${googleUser.length} user(s) with the username '${googleAccount[0].username}'` },

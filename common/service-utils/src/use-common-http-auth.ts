@@ -1,15 +1,15 @@
 import '@furystack/redis-store'
 import '@furystack/http-api'
 import '@furystack/mongodb-store'
-import { Injector } from '@furystack/inject'
+import { Injector } from '@furystack/inject/dist/injector'
 import { createClient } from 'redis'
 import { frontends, databases, sessionStore } from 'sites'
+import { Session, User } from 'common-models'
 import { verifyAndCreateIndexes } from './create-indexes'
-import { Session, User } from './models'
 
 declare module '@furystack/inject/dist/injector' {
   interface Injector {
-    useCommonHttpAuth: () => Injector
+    useCommonHttpAuth: () => this
   }
 }
 
@@ -47,3 +47,5 @@ Injector.prototype.useCommonHttpAuth = function() {
 
   return this
 }
+
+export {}

@@ -35,6 +35,7 @@ export const Layout = Shade({
           routeMatcher={(url, component) => url.pathname.startsWith(component)}
           notFound={() => <Body />}
           routes={[
+            /** If you needs routes with session dependency, use the <Body /> */
             {
               url: '/github-login',
               component: currentUrl => <GithubLogin code={currentUrl.search.replace('?', '').split('=')[1]} />,

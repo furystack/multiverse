@@ -53,19 +53,11 @@ module.exports = {
       BUILD_DATE: new Date().toISOString(),
       ...getAllEnvVariables(),
     }),
+    new webpack.WatchIgnorePlugin([/\.js$/, /\.d\.ts$/]),
   ],
   module: {
     rules: [
-      // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
-      // { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
       { test: /\.tsx?$/, loader: 'ts-loader' },
-      // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-      {
-        enforce: 'pre',
-        test: /\.js$/,
-        loader: 'source-map-loader',
-        exclude: /monaco-editor/,
-      },
       {
         test: /\.css$/,
         use: [

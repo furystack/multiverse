@@ -54,6 +54,6 @@
     "pretty": true,
     "skipLibCheck": false
   },
-  "references": [{ "path": "../service-utils" }],
+  "references": [{ "path": "../models" }],
   "include": ["src"]
 }

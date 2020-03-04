@@ -6,6 +6,5 @@
     "rootDir": "src",
     "composite": true
   },
-  "include": ["src"],
-  "references": [{ "path": "../sites" }, { "path": "../models" }]
+  "include": ["src"]
 }
