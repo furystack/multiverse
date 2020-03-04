@@ -48,7 +48,10 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
             }}>
             <Button
               title="Profile"
-              onclick={() => injector.getInstance(LocationService).onLocationChanged.setValue(new URL('/profile'))}>
+              onclick={() => {
+                history.pushState({}, 'Profile', '/profile')
+                injector.getInstance(LocationService).updateState()
+              }}>
               Profile
             </Button>
             <Button title="logout" onclick={() => injector.getInstance(SessionService).logout()}>

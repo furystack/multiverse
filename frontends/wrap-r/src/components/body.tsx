@@ -23,7 +23,7 @@ export const Body = Shade({
           })
         }
       }, true),
-      session.currentUser.subscribe(usr => updateState({ currentUser: usr })),
+      session.currentUser.subscribe(usr => updateState({ currentUser: usr }), true),
     ]
     return () => observables.forEach(o => o.dispose())
   },
