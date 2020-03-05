@@ -2,16 +2,26 @@ import { Shade, createComponent, PartialElement } from '@furystack/shades'
 import { LogLevel } from '@furystack/logging'
 import { LogEntry } from 'common-models'
 
-export const SystemLogs = Shade<unknown, { entries: Array<LogEntry<any>> }>({
+export interface SystemLogsState {
+  entries: Array<LogEntry<any>>
+  order: [keyof LogEntry<any>, 'asc' | 'desc']
+  minLevel: LogLevel
+}
+
+export const SystemLogs = Shade<unknown, SystemLogsState>({
   initialState: {
     entries: [],
+    order: ['_id', 'desc'],
+    minLevel: LogLevel.Information,
   },
   shadowDomName: 'system-logs-page',
-  constructed: async ({ injector, updateState }) => {
+  constructed: async ({ injector, updateState, getState }) => {
+    const state = getState()
     const logStore = injector.getOdataServiceFor(LogEntry, 'logEntries')
     const entries = await logStore
       .query()
-      .orderBy(['creationDate', 'desc'])
+      .buildFilter(f => f.greaterThan('level', state.minLevel))
+      .orderBy(state.order)
       .top(100)
       .exec()
     updateState({ entries: entries.value })
