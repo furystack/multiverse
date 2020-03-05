@@ -45,6 +45,9 @@ Injector.prototype.useDbLogger = function() {
       collection: 'multiverse-log',
       url: databases.logs,
       db: 'logging',
+      options: {
+        useUnifiedTopology: true,
+      },
     }),
   )
   this.useLogging(DbLogger)

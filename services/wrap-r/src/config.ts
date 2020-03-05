@@ -42,12 +42,18 @@ injector
         url: 'mongodb://localhost:27017',
         db: 'multiverse-common-auth',
         collection: 'google-accounts',
+        options: {
+          useUnifiedTopology: true,
+        },
       })
       .useMongoDb({
         model: GithubAccount,
         url: 'mongodb://localhost:27017',
         db: 'multiverse-common-auth',
         collection: 'github-accounts',
+        options: {
+          useUnifiedTopology: true,
+        },
       }),
   )
   .useLogging(VerboseConsoleLogger)
