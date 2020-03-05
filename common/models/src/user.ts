@@ -1,4 +1,4 @@
-export const roles = ['terms-accepted', 'sys-logs'] as const
+export const roles = ['terms-accepted', 'sys-logs', 'feature-switch-admin', 'user-admin'] as const
 
 export class User {
   public _id!: string

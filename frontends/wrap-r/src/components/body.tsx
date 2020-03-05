@@ -31,11 +31,10 @@ export const Body = Shade({
       <div
         style={{
           margin: '10px',
-          padding: '10px',
           position: 'fixed',
-          top: '40px',
+          top: '64px',
           width: 'calc(100% - 40px)',
-          height: 'calc(100% - 80px)',
+          height: 'calc(100% - 84px)',
           overflow: 'hidden',
         }}>
         {(() => {
@@ -70,6 +69,24 @@ export const Body = Shade({
                                     /* webpackChunkName: "system-logs" */ '../pages/system-logs'
                                   )
                                   return <SystemLogs />
+                                }}
+                                loader={<Loader />}
+                              />
+                            ),
+                          },
+                        ]
+                      : []),
+                    ...(currentUser.roles.includes('feature-switch-admin')
+                      ? [
+                          {
+                            url: '/feature-switches',
+                            component: () => (
+                              <LazyLoad
+                                component={async () => {
+                                  const { FeatureSwitchesPage } = await import(
+                                    /* webpackChunkName: "feature-switches" */ '../pages/feature-switches'
+                                  )
+                                  return <FeatureSwitchesPage />
                                 }}
                                 loader={<Loader />}
                               />

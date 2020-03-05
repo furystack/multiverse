@@ -1,6 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { getAllEnvVariables } = require('sites')
 
@@ -44,7 +44,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
   plugins: [
-    new BundleAnalyzerPlugin({ analyzerPort: 8745 }),
+    // new BundleAnalyzerPlugin({ analyzerPort: 8745 }),
     new HtmlWebpackPlugin({
       template: './index.html',
     }),
