@@ -1,11 +1,10 @@
 import { createComponent, initializeShadeRoot } from '@furystack/shades'
 import { VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
-import { PathHelper } from '@furystack/utils'
 import { services } from 'sites'
 import { Layout } from './components/layout'
 import './services/google-auth-provider'
-import '@furystack/odata-fetchr'
+import '@furystack/rest'
 
 const shadeInjector = new Injector()
 
@@ -16,11 +15,6 @@ export const environmentOptions = {
   buildDate: new Date(process.env.BUILD_DATE as string),
   serviceUrl: (process.env.MULTIVERSE_SERVICE_wrapr as string) || services.wrapr,
 }
-
-shadeInjector.useOdataClient({
-  serviceEndpoint: PathHelper.joinPaths(environmentOptions.serviceUrl, '/'),
-  defaultInit: {},
-})
 
 shadeInjector.useLogging(VerboseConsoleLogger)
 

@@ -1,4 +1,4 @@
-import { RequestAction, JsonResult } from '@furystack/rest'
+import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { GoogleLoginService } from '@furystack/auth-google'
 import { StoreManager } from '@furystack/core'
 import { User, GoogleAccount } from 'common-models'
@@ -8,7 +8,10 @@ import { HttpUserContext } from '@furystack/rest-service'
  * HTTP Request action for Google Logins
  */
 
-export const GoogleRegisterAction: RequestAction<{ body: { token: string } }> = async ({ injector, getBody }) => {
+export const GoogleRegisterAction: RequestAction<{ body: { token: string }; result: User }> = async ({
+  injector,
+  getBody,
+}) => {
   const logger = injector.logger.withScope('GoogleRegisterAction')
 
   const userContext = injector.getInstance(HttpUserContext)
@@ -18,7 +21,7 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string } }> = 
   const registrationDate = new Date().toISOString()
 
   if (!token) {
-    return JsonResult({ error: 'Token missing' }, 400)
+    throw new RequestError('Token missing', 400)
   }
 
   const googleUserData = await injector.getInstance(GoogleLoginService).getGoogleUserData(token)
@@ -27,13 +30,13 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string } }> = 
     logger.warning({
       message: `User '${googleUserData.email}' tried to register with a not-verified e-mail. `,
     })
-    return JsonResult({ error: 'Email address for account not verified' }, 500)
+    throw new RequestError('Email address for account not verified', 401)
   }
 
   const existing = await googleAcccounts.search({ filter: { googleId: { $eq: googleUserData.sub } }, top: 1 })
 
   if (existing && existing.length) {
-    return JsonResult({ error: 'Google account already registered.' }, 500)
+    throw new RequestError('Google account already registered.', 401)
   }
 
   const { password, ...newUser } = await users.add({
@@ -57,5 +60,5 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string } }> = 
   })
 
   const user = await userContext.cookieLogin(newUser, injector.getResponse())
-  return JsonResult({ ...user })
+  return JsonResult(user as User)
 }

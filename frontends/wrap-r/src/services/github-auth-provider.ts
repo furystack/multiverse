@@ -1,5 +1,5 @@
 import { Injectable } from '@furystack/inject'
-import { Users } from '../odata/entity-collections'
+import { WrapRApiService } from '../services/wrap-r-api'
 import { SessionService } from './session'
 
 @Injectable({ lifetime: 'singleton' })
@@ -7,9 +7,13 @@ export class GithubAuthProvider {
   public async login(code: string) {
     try {
       this.session.isOperationInProgress.setValue(true)
-      const user = await this.users.githubLogin({
-        code,
-        clientId: process.env.MULTIVERSE_TOKEN_githubClientId as string,
+      const user = await this.api.call({
+        method: 'POST',
+        action: '/githubLogin',
+        body: {
+          code,
+          clientId: process.env.MULTIVERSE_TOKEN_githubClientId as string,
+        },
       })
       if (user) {
         this.session.currentUser.setValue(user)
@@ -23,7 +27,11 @@ export class GithubAuthProvider {
   public async register(code: string) {
     try {
       this.session.isOperationInProgress.setValue(true)
-      const user = await this.users.githubRegister({ code, clientId: process.env.GITHUB_CLIENT_ID as string })
+      const user = await this.api.call({
+        method: 'POST',
+        action: '/githubRegister',
+        body: { code, clientId: process.env.GITHUB_CLIENT_ID as string },
+      })
       if (user) {
         this.session.currentUser.setValue(user)
         this.session.state.setValue('authenticated')
@@ -36,5 +44,5 @@ export class GithubAuthProvider {
   /**
    *
    */
-  constructor(private readonly session: SessionService, private readonly users: Users) {}
+  constructor(private readonly session: SessionService, private readonly api: WrapRApiService) {}
 }

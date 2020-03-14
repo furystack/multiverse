@@ -17,7 +17,7 @@
     "@types/redis": "^2.8.14"
   },
   "dependencies": {
-    "@furystack/core": "^7.0.9",
+    "@furystack/core": "^8.0.2",
     "@furystack/inject": "^4.0.13",
     "@furystack/logging": "^2.0.8",
     "@furystack/mongodb-store": "^2.0.12",

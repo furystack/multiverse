@@ -6,7 +6,6 @@
   "scripts": {
     "build": "webpack --config webpack.config.js --mode=production",
     "start": "webpack-dev-server --mode=development",
-    "update-metadata": "yarn odata-fetchr",
     "clean": "rimraf dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -29,7 +28,8 @@
     "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
-    "@furystack/odata-fetchr": "^1.0.0",
+    "@furystack/rest": "^1.1.1",
+    "@furystack/rest-client-fetch": "^1.1.2",
     "@furystack/shades": "^2.1.5"
   }
 }

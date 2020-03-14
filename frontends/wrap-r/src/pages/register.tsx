@@ -1,7 +1,7 @@
 import { Button, Input } from 'common-components'
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
-import { Users } from '../odata/entity-collections'
+import { WrapRApiService } from '../services/wrap-r-api'
 import { SessionService } from '../services/session'
 
 export const RegisterPage = Shade({
@@ -61,7 +61,9 @@ export const RegisterPage = Shade({
                 sessionService.isOperationInProgress.setValue(true)
 
                 try {
-                  const user = await injector.getInstance(Users).register({ email, password })
+                  const user = await injector
+                    .getInstance(WrapRApiService)
+                    .call({ method: 'POST', action: '/register', body: { email, password } })
                   if (user && user.username === email) {
                     window.history.pushState('', '', '/')
                     injector.getInstance(LocationService).updateState()

@@ -15,16 +15,17 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
     minLevel: LogLevel.Information,
   },
   shadowDomName: 'system-logs-page',
-  constructed: async ({ injector, updateState, getState }) => {
-    const state = getState()
-    const logStore = injector.getOdataServiceFor(LogEntry, 'logEntries')
-    const entries = await logStore
-      .query()
-      .buildFilter(f => f.greaterThan('level', state.minLevel))
-      .orderBy(state.order)
-      .top(100)
-      .exec()
-    updateState({ entries: entries.value })
+  constructed: async ({ updateState }) => {
+    // ToDo: Separate service?
+    // const state = getState()
+    // const logStore = injector.getOdataServiceFor(LogEntry, 'logEntries')
+    // const entries = await logStore
+    //   .query()
+    //   .buildFilter(f => f.greaterThan('level', state.minLevel))
+    //   .orderBy(state.order)
+    //   .top(100)
+    //   .exec()
+    updateState({ entries: [] })
   },
   render: ({ getState }) => {
     const headerStyle: PartialElement<CSSStyleDeclaration> = {
