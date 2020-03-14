@@ -1,10 +1,14 @@
-import { RequestAction, JsonResult, HttpUserContext } from '@furystack/http-api'
+import { RequestAction, JsonResult } from '@furystack/rest'
 import { StoreManager } from '@furystack/core'
 import { User } from 'common-models'
+import { HttpUserContext } from '@furystack/rest-service'
 
-export const RegisterAction: RequestAction = async injector => {
+export const RegisterAction: RequestAction<{ body: { email: string; password: string } }> = async ({
+  injector,
+  getBody,
+}) => {
   const logger = injector.logger.withScope('RegisterAction')
-  const { email, password } = await injector.getRequest().readPostBody<{ email: string; password: string }>()
+  const { email, password } = await getBody()
   const userStore = injector.getInstance(StoreManager).getStoreFor(User)
   const existing = await userStore.search({ filter: { username: { $eq: email } } })
   if (existing && existing.length) {

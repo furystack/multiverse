@@ -1,20 +1,20 @@
-import { HttpUserContext, RequestAction, JsonResult } from '@furystack/http-api'
+import { RequestAction, JsonResult } from '@furystack/rest'
 import { GoogleLoginService } from '@furystack/auth-google'
 import { StoreManager } from '@furystack/core'
-import { User } from 'common-models'
-import { GoogleAccount } from '../models'
+import { User, GoogleAccount } from 'common-models'
+import { HttpUserContext } from '@furystack/rest-service'
 
 /**
  * HTTP Request action for Google Logins
  */
 
-export const GoogleRegisterAction: RequestAction = async injector => {
+export const GoogleRegisterAction: RequestAction<{ body: { token: string } }> = async ({ injector, getBody }) => {
   const logger = injector.logger.withScope('GoogleRegisterAction')
 
   const userContext = injector.getInstance(HttpUserContext)
   const googleAcccounts = injector.getInstance(StoreManager).getStoreFor(GoogleAccount)
   const users = injector.getInstance(StoreManager).getStoreFor(User)
-  const { token } = await injector.getRequest().readPostBody<{ token: string }>()
+  const { token } = await getBody()
   const registrationDate = new Date().toISOString()
 
   if (!token) {

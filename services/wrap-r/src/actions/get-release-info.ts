@@ -1,7 +1,7 @@
 import { join } from 'path'
-import { RequestAction, JsonResult } from '@furystack/http-api'
+import { RequestAction, JsonResult } from '@furystack/rest'
 
-export const GetReleaseInfoAction: RequestAction = async () => {
+export const GetReleaseInfoAction: RequestAction<{ result: {} }> = async () => {
   try {
     const responseBody = await import(join(process.cwd(), 'releaseinfo.json'))
     return JsonResult(responseBody)

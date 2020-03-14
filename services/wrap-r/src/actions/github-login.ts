@@ -1,11 +1,14 @@
-import { RequestAction, JsonResult, HttpUserContext } from '@furystack/http-api'
+import { RequestAction, JsonResult } from '@furystack/rest'
+import { HttpUserContext } from '@furystack/rest-service'
 import { StoreManager } from '@furystack/core'
-import { User } from 'common-models'
+import { GithubAccount, User } from 'common-models'
 import { GithubAuthService } from '../services/github-login-service'
-import { GithubAccount } from '../models/github-account'
 
-export const GithubLoginAction: RequestAction = async injector => {
-  const { code, clientId } = await injector.getRequest().readPostBody<{ code: string; clientId: string }>()
+export const GithubLoginAction: RequestAction<{ body: { code: string; clientId: string } }> = async ({
+  injector,
+  getBody,
+}) => {
+  const { code, clientId } = await getBody()
 
   try {
     const githubApiPayload = await injector.getInstance(GithubAuthService).getGithubUserData({ code, clientId })

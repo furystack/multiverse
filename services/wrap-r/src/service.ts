@@ -1,4 +1,4 @@
-import '@furystack/http-api'
+import '@furystack/rest-service'
 import { services } from 'sites'
 import { injector } from './config'
 
