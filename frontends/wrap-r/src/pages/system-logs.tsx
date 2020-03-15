@@ -1,31 +1,36 @@
 import { Shade, createComponent, PartialElement } from '@furystack/shades'
 import { LogLevel } from '@furystack/logging'
 import { LogEntry } from 'common-models'
+import { LoggRApiService } from 'common-frontend-utils'
 
 export interface SystemLogsState {
   entries: Array<LogEntry<any>>
-  order: [keyof LogEntry<any>, 'asc' | 'desc']
-  minLevel: LogLevel
+  orderBy: keyof LogEntry<any>
+  orderDirection: 'ASC' | 'DESC'
+  levels: LogLevel[]
+  scope?: string
+  message?: string
+  top?: number
+  skip?: number
 }
 
 export const SystemLogs = Shade<unknown, SystemLogsState>({
   initialState: {
     entries: [],
-    order: ['_id', 'desc'],
-    minLevel: LogLevel.Information,
+    orderBy: '_id',
+    orderDirection: 'DESC',
+    levels: [LogLevel.Information, LogLevel.Warning, LogLevel.Error, LogLevel.Fatal],
   },
   shadowDomName: 'system-logs-page',
-  constructed: async ({ updateState }) => {
-    // ToDo: Separate service?
-    // const state = getState()
-    // const logStore = injector.getOdataServiceFor(LogEntry, 'logEntries')
-    // const entries = await logStore
-    //   .query()
-    //   .buildFilter(f => f.greaterThan('level', state.minLevel))
-    //   .orderBy(state.order)
-    //   .top(100)
-    //   .exec()
-    updateState({ entries: [] })
+  constructed: async ({ getState, injector, updateState }) => {
+    const logApi = injector.getInstance(LoggRApiService)
+    const { entries: e, ...query } = getState()
+    const entries = await logApi.call({
+      method: 'GET',
+      action: '/entries',
+      query,
+    })
+    updateState({ entries })
   },
   render: ({ getState }) => {
     const headerStyle: PartialElement<CSSStyleDeclaration> = {

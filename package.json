@@ -53,9 +53,10 @@
   },
   "scripts": {
     "build": "tsc -b && yarn workspace wrap-r-frontend build",
-    "test:cypress": "yarn workspace wrap-r-service seed && concurrently --kill-others \"yarn startService\" \"yarn startFrontend\" \"yarn cypress run\" --success first ",
-    "start": "concurrently --kill-others \"yarn startService\" \"yarn startFrontend\"  ",
-    "startService": "yarn workspace wrap-r-service start",
+    "test:cypress": "yarn workspace wrap-r-service seed && concurrently --kill-others \"yarn start\" \"yarn cypress run\" --success first ",
+    "start": "concurrently --kill-others \"yarn startWrapR\" \"yarn startLoggR\" \"yarn startFrontend\"  ",
+    "startWrapR": "yarn workspace wrap-r-service start",
+    "startLoggR": "yarn workspace logg-r-service start",
     "startFrontend": "yarn workspace wrap-r-frontend start",
     "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache",
