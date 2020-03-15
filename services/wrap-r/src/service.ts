@@ -1,5 +1,5 @@
 import { GetCurrentUser, IsAuthenticated, LoginAction, LogoutAction } from '@furystack/rest-service'
-import { services, frontends } from 'sites'
+import { sites } from 'common-config'
 import { User, WrapRApi } from 'common-models'
 import { RequestAction } from '@furystack/rest'
 import {
@@ -11,7 +11,7 @@ import {
 } from './actions'
 import { injector } from './config'
 
-const serviceUrl = new URL(services.wrapr)
+const serviceUrl = new URL(sites.services['wrap-r'])
 
 injector.useRestService<WrapRApi>({
   port: parseInt(serviceUrl.port, 10),
@@ -34,7 +34,7 @@ injector.useRestService<WrapRApi>({
   },
   cors: {
     credentials: true,
-    origins: Object.values(frontends),
+    origins: Object.values(sites.frontends),
   },
 })
 injector.disposeOnProcessExit()

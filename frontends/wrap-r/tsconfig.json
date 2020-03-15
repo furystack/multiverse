@@ -57,7 +57,7 @@
   "references": [
     { "path": "../../common/components" },
     { "path": "../../common/service-utils" },
-    { "path": "../../common/sites" }
+    { "path": "../../common/config" }
   ],
   "include": ["src"]
 }

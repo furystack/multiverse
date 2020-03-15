@@ -1,5 +1,5 @@
 {
-  "name": "wrap-r-service",
+  "name": "logg-r-service",
   "version": "1.0.0",
   "main": "dist/index.js",
   "license": "GPL-2.0-only",
@@ -23,7 +23,6 @@
     "@furystack/rest-service": "^1.1.1",
     "@furystack/repository": "^2.0.9",
     "common-service-utils": "1.0.0",
-    "config": "1.0.0",
     "tslib": "^1.10.0"
   }
 }

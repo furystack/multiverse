@@ -3,7 +3,7 @@ import { get } from 'https'
 import { Injectable, Injector } from '@furystack/inject'
 import got from 'got'
 import { ScopedLogger } from '@furystack/logging'
-import { tokens } from 'sites'
+import { tokens } from 'common-config'
 import { GithubApiPayload } from 'common-models'
 
 @Injectable()

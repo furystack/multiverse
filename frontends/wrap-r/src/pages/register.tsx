@@ -1,8 +1,7 @@
 import { Button, Input } from 'common-components'
 import { Shade, createComponent, LocationService } from '@furystack/shades'
+import { WrapRApiService, SessionService } from 'common-frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
-import { WrapRApiService } from '../services/wrap-r-api'
-import { SessionService } from '../services/session'
 
 export const RegisterPage = Shade({
   shadowDomName: 'register-page',

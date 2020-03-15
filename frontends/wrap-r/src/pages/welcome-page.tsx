@@ -1,6 +1,6 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { Button } from 'common-components'
-import { SessionService } from '../services/session'
+import { SessionService } from 'common-frontend-utils'
 
 export const WelcomePage = Shade({
   shadowDomName: 'welcome-page',

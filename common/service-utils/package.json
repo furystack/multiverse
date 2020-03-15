@@ -7,7 +7,6 @@
   "scripts": {
     "start": "yarn build && yarn seed && node ./dist/service.js",
     "seed": "yarn build && node ./dist/seed.js",
-    "write-metadata": "yarn build && node ./dist/write-metadata.js",
     "clean": "rimraf dist && rimraf tsconfig.tsbuildinfo",
     "build": "tsc -b"
   },
@@ -25,6 +24,7 @@
     "@furystack/rest-service": "^1.1.2",
     "@furystack/redis-store": "^2.0.9",
     "@furystack/repository": "^2.0.16",
+    "common-config": "1.0.0",
     "common-models": "1.0.0",
     "got": "^10.5.5",
     "mongodb": "^3.5.2",

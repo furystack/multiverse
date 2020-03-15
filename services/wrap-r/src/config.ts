@@ -6,6 +6,7 @@ import { HttpUserContext } from '@furystack/rest-service'
 import { VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { User, LogEntry, GoogleAccount, GithubAccount } from 'common-models'
+import { databases } from 'common-config'
 
 export const authorizedOnly = async (options: { injector: Injector }) => {
   const authorized = await options.injector.getInstance(HttpUserContext).isAuthenticated()
@@ -32,8 +33,8 @@ injector
     sm
       .useMongoDb({
         model: GoogleAccount,
-        url: 'mongodb://localhost:27017',
-        db: 'multiverse-common-auth',
+        url: databases['common-auth'].mongoUrl,
+        db: databases['common-auth'].dbName,
         collection: 'google-accounts',
         options: {
           useUnifiedTopology: true,
@@ -41,8 +42,8 @@ injector
       })
       .useMongoDb({
         model: GithubAccount,
-        url: 'mongodb://localhost:27017',
-        db: 'multiverse-common-auth',
+        url: databases['common-auth'].mongoUrl,
+        db: databases['common-auth'].dbName,
         collection: 'github-accounts',
         options: {
           useUnifiedTopology: true,

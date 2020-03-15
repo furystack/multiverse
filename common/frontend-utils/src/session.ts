@@ -1,7 +1,7 @@
 import { Injectable } from '@furystack/inject'
 import { ObservableValue, usingAsync } from '@furystack/utils'
 import { User } from 'common-models'
-import { WrapRApiService } from '../services/wrap-r-api'
+import { WrapRApiService } from './apis/wrap-r-api'
 
 export type sessionState = 'initializing' | 'offline' | 'unauthenticated' | 'authenticated'
 

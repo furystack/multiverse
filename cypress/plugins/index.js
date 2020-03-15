@@ -16,7 +16,7 @@ const { initPlugin } = require('cypress-plugin-snapshots/plugin')
 const fs = require('fs')
 const path = require('path')
 
-const { frontends } = require('sites')
+const { frontends } = require('config')
 
 const webpackOptions = {
   resolve: {

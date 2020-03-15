@@ -1,6 +1,6 @@
 import { createComponent, Shade, Router, LazyLoad } from '@furystack/shades'
 import { User } from 'common-models'
-import { SessionService, sessionState } from '../services/session'
+import { SessionService, sessionState } from 'common-frontend-utils'
 import { Init, WelcomePage, Offline, Login } from '../pages'
 import { Page404 } from '../pages/404'
 import { Loader } from './loader'

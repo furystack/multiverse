@@ -1,6 +1,6 @@
 import { Button, Input } from 'common-components'
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
-import { SessionService } from '../services/session'
+import { SessionService } from 'common-frontend-utils'
 import { Loader } from '../components/loader'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 
