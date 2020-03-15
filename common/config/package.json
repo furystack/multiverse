@@ -1,0 +1,15 @@
+{
+  "name": "common-config",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "GPL-2.0-only",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf dist && rimraf tsconfig.tsbuildinfo",
+    "build": "tsc -b"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "tslib": "^1.10.0"
+  }
+}
