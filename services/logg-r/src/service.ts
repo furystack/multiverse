@@ -1,23 +1,10 @@
 import { sites } from 'common-config'
-import { LoggRApi, SessionApi, LogEntry } from 'common-models'
-import { SetSessionAction } from 'common-service-utils'
+import { LoggRApi, LogEntry } from 'common-models'
 import { JsonResult } from '@furystack/rest'
 import { StoreManager } from '@furystack/core'
-import { HttpUserContext } from '@furystack/rest-service'
 import { injector } from './config'
 
 const serviceUrl = new URL(sites.services['logg-r'])
-
-injector.useRestService<SessionApi>({
-  port: parseInt(serviceUrl.port, 10),
-  hostName: serviceUrl.hostname,
-  root: '/logg-r-session',
-  api: {
-    GET: {
-      '/setSession': SetSessionAction,
-    },
-  },
-})
 
 injector.useRestService<LoggRApi>({
   port: parseInt(serviceUrl.port, 10),
