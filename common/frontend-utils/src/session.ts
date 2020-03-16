@@ -1,8 +1,8 @@
 import { Injectable } from '@furystack/inject'
 import { ObservableValue, usingAsync } from '@furystack/utils'
 import { User } from 'common-models'
-import { ResponseError } from '@furystack/rest-client-fetch/dist/response-error'
 import { WrapRApiService } from './apis/wrap-r-api'
+import { getErrorMessage } from './get-error-message'
 
 export type sessionState = 'initializing' | 'offline' | 'unauthenticated' | 'authenticated'
 
@@ -41,12 +41,8 @@ export class SessionService {
         this.currentUser.setValue(usr)
         this.state.setValue('authenticated')
       } catch (error) {
-        if (error instanceof ResponseError) {
-          const responseBody = await error.response.json()
-          this.loginError.setValue(responseBody.message)
-        } else {
-          this.loginError.setValue(error.toString())
-        }
+        const errorMsg = await getErrorMessage(error)
+        this.loginError.setValue(errorMsg)
       }
     })
   }
