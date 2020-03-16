@@ -18,7 +18,7 @@ describe('Wrap-R Application', () => {
       cy.get(loginButtonSelector).click()
       cy.get(loginErrorSelector)
         .should('be.visible')
-        .contains('Login failed')
+        .contains('Login Failed')
     })
 
     it('Login and logout roundtrip', () => {
@@ -51,7 +51,7 @@ describe('Wrap-R Application', () => {
 
       cy.get(headerSelector).toMatchImageSnapshot({ threshold: 0.001 }) // with avatar and menu
       cy.get('shade-current-user-menu').click()
-      cy.get('shade-current-user-menu Button[title=logout]').click()
+      cy.get('shade-current-user-menu a[title="Log out"]').click()
 
       cy.log('Logging out...')
       cy.log('Checking Login form...')
