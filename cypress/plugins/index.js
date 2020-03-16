@@ -16,7 +16,7 @@ const { initPlugin } = require('cypress-plugin-snapshots/plugin')
 const fs = require('fs')
 const path = require('path')
 
-const { frontends } = require('config')
+const { sites } = require('common-config')
 
 const webpackOptions = {
   resolve: {
@@ -54,7 +54,7 @@ const getCurrentUser = filePath => {
 }
 
 module.exports = (on, config) => {
-  config.baseUrl = frontends.wrapr
+  config.baseUrl = sites.frontends['wrap-r']
   on('file:preprocessor', webpack(options))
   on('task', {
     getCurrentUser(filePath) {
