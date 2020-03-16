@@ -3,7 +3,7 @@ import { verifyAndCreateIndexes } from 'common-service-utils'
 import { DataSetSettings } from '@furystack/repository'
 import '@furystack/repository/dist/injector-extension'
 import { HttpUserContext } from '@furystack/rest-service'
-import { VerboseConsoleLogger } from '@furystack/logging'
+import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { User, LogEntry, GoogleAccount, GithubAccount } from 'common-models'
 import { databases } from 'common-config'
@@ -50,7 +50,7 @@ injector
         },
       }),
   )
-  .useLogging(VerboseConsoleLogger)
+  .useLogging(ConsoleLogger)
   .setupRepository(repo =>
     repo
       .createDataSet(User, {

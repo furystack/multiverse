@@ -1,7 +1,7 @@
 import '@furystack/auth-google'
 import { verifyAndCreateIndexes } from 'common-service-utils'
 import '@furystack/repository/dist/injector-extension'
-import { VerboseConsoleLogger } from '@furystack/logging'
+import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { LogEntry } from 'common-models'
 
@@ -10,7 +10,7 @@ export const injector = new Injector()
 injector
   .useDbLogger()
   .useCommonHttpAuth()
-  .useLogging(VerboseConsoleLogger)
+  .useLogging(ConsoleLogger)
 
 verifyAndCreateIndexes({
   injector,
