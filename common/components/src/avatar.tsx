@@ -15,8 +15,8 @@ export const Avatar = Shade<AvatarProps>({
           height: '100%',
           overflow: 'hidden',
           borderRadius: '50%',
-          boxShadow: '0px 0px 2px 3px rgba(128,128,128,0.5)',
-          backgroundColor: 'rgba(128,128,128,0.8)',
+          boxShadow: '0px 0px 8px 3px rgba(128,128,128,0.2)',
+          backgroundColor: 'rgba(128,128,128,0.3)',
           ...(props.style || {}),
         }}>
         {props.user.avatarUrl ? (

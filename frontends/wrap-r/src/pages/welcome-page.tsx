@@ -40,7 +40,7 @@ export const WelcomePage = Shade({
           justifyContent: 'center',
           padding: '2em',
         }}>
-        <h2> Hello, {getState().userName || 'unknown'} !</h2>
+        <h2 style={{ marginTop: '0' }}> Hello, {getState().userName || 'unknown'} !</h2>
         <p>Welcome to FuryStack multiverse, have fun!</p>
         <Button
           onclick={() => {

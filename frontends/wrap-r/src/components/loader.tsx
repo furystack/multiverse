@@ -27,7 +27,7 @@ export const Loader = Shade<{ style?: PartialElement<CSSStyleDeclaration> }>({
         }
         
         #loader-1:after{
-          border: 10px solid #ccc;
+          border: 10px solid rgba(128,128,128,0.3);
         }
         
         @keyframes spin{
