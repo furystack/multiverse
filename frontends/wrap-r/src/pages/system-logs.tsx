@@ -1,7 +1,7 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { LogLevel } from '@furystack/logging'
 import { LogEntry } from 'common-models'
-import { Grid, Button, Modal, Input } from 'common-components'
+import { Grid, Button, Modal, Input, styles } from 'common-components'
 import { LoggRApiService } from 'common-frontend-utils'
 
 export interface SystemLogsState {
@@ -73,7 +73,10 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
           styles={{
             cell: {
               textAlign: 'center',
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
             },
+            wrapper: styles.glassBox,
           }}
           rowComponents={{
             level: entry => <LogLevelCell level={entry.level} />,
@@ -90,13 +93,19 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
         />
         <Modal isVisible={isDetailsOpened} onClose={() => updateState({ isDetailsOpened: false })}>
           <div
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              height: '100%',
+            }}>
             <div
               style={{
-                background: '#ccc',
-                padding: '1em',
+                background: '#252525',
+                padding: '2em',
                 borderRadius: '3px',
-                boxShadow: 'rgba(128, 128, 128, 0.5) 5px 5px 10px',
+                boxShadow: 'rgba(0,0,0, 0.2) 5px 5px 10px 15px',
                 minWidth: '350px',
               }}
               onclick={ev => ev.stopPropagation()}>

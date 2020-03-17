@@ -27,7 +27,7 @@ export const Grid: <T>(props: GridOptions<T>, children: ChildrenList) => JSX.Ele
   render: ({ props }) => {
     const headerStyle: PartialElement<CSSStyleDeclaration> = {
       padding: '0 0.51em',
-      backgroundColor: '#ccc',
+      backgroundColor: '#333',
       borderRadius: '2px',
       top: '0',
       position: 'sticky',

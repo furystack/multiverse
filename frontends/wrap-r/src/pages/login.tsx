@@ -1,4 +1,4 @@
-import { Button, Input } from 'common-components'
+import { Button, Input, styles } from 'common-components'
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { SessionService } from 'common-frontend-utils'
 import { Loader } from '../components/loader'
@@ -39,9 +39,12 @@ export const Login = Shade({
         }}>
         <div>
           <form
-            style={{
-              padding: '10px 30px',
-            }}
+            style={
+              {
+                ...styles.glassBox,
+                padding: '10px 55px 30px',
+              } as any
+            }
             className="login-form"
             onsubmit={ev => {
               ev.preventDefault()
@@ -50,7 +53,6 @@ export const Login = Shade({
             }}>
             <h2
               style={{
-                color: '#444',
                 fontWeight: 'lighter',
                 textAlign: 'center',
               }}>

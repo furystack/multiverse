@@ -1,4 +1,4 @@
-import { Button, Input } from 'common-components'
+import { Button, Input, styles } from 'common-components'
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { WrapRApiService, SessionService } from 'common-frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
@@ -20,6 +20,7 @@ export const RegisterPage = Shade({
         {getState().error ? (
           <div
             style={{
+              ...styles.glassBox,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -36,13 +37,13 @@ export const RegisterPage = Shade({
         ) : (
           <div
             style={{
+              ...styles.glassBox,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               flexDirection: 'column',
               overflowX: 'auto',
-              width: '100%',
-              paddingTop: '1em',
+              padding: '1em 40px 2em',
               marginTop: '1em',
             }}>
             <h2>Sign up</h2>

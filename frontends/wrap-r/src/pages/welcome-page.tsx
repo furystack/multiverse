@@ -1,5 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { Button } from 'common-components'
+import { Button, styles } from 'common-components'
 import { SessionService } from 'common-frontend-utils'
 
 export const WelcomePage = Shade({
@@ -23,24 +23,32 @@ export const WelcomePage = Shade({
     <div
       style={{
         opacity: '0',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%',
         transition:
           'opacity .35s cubic-bezier(0.550, 0.085, 0.680, 0.530), padding .2s cubic-bezier(0.550, 0.085, 0.680, 0.530)',
       }}>
       <div
         style={{
+          ...styles.glassBox,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
+          padding: '2em',
         }}>
         <h2> Hello, {getState().userName || 'unknown'} !</h2>
+        <p>Welcome to FuryStack multiverse, have fun!</p>
+        <Button
+          onclick={() => {
+            injector.getInstance(SessionService).logout()
+          }}>
+          Log out
+        </Button>
       </div>
-      <Button
-        onclick={() => {
-          injector.getInstance(SessionService).logout()
-        }}>
-        Log out
-      </Button>
     </div>
   ),
 })

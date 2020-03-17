@@ -34,12 +34,14 @@ export const Input = Shade<TextInputProps>({
         {props.multiLine ? (
           <div
             onfocus={() => {
-              ;(element.querySelector('label') as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.2)'
-              ;(element.querySelector('label') as HTMLElement).style.boxShadow = '0px 0px 5px rgba(0,0,0,.1)'
+              const labelStyle = (element.querySelector('label') as HTMLElement).style
+              labelStyle.backgroundColor = 'rgba(255,255,255,0.05)'
+              labelStyle.boxShadow = '0px 0px 5px rgba(0,0,0,.1)'
             }}
             onblur={() => {
-              ;(element.querySelector('label') as HTMLElement).style.backgroundColor = 'transparent'
-              ;(element.querySelector('label') as HTMLElement).style.boxShadow = 'none'
+              const labelStyle = (element.querySelector('label') as HTMLElement).style
+              labelStyle.backgroundColor = 'transparent'
+              labelStyle.boxShadow = 'none'
             }}
             contentEditable={props.readOnly === true || props.disabled === true ? 'inherit' : 'true'}
             {...props}
@@ -58,15 +60,18 @@ export const Input = Shade<TextInputProps>({
         ) : (
           <input
             onfocus={() => {
-              ;(element.querySelector('label') as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.2)'
-              ;(element.querySelector('label') as HTMLElement).style.boxShadow = '0px 0px 5px rgba(0,0,0,.1)'
+              const labelStyle = (element.querySelector('label') as HTMLElement).style
+              labelStyle.backgroundColor = 'rgba(255,255,255,0.05)'
+              labelStyle.boxShadow = '0px 0px 5px rgba(0,0,0,.1)'
             }}
             onblur={() => {
-              ;(element.querySelector('label') as HTMLElement).style.backgroundColor = 'transparent'
-              ;(element.querySelector('label') as HTMLElement).style.boxShadow = 'none'
+              const labelStyle = (element.querySelector('label') as HTMLElement).style
+              labelStyle.backgroundColor = 'transparent'
+              labelStyle.boxShadow = 'none'
             }}
             {...props}
             style={{
+              color: 'inherit',
               border: 'none',
               backgroundColor: 'transparent',
               outline: 'none',

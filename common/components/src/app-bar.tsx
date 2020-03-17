@@ -19,7 +19,7 @@ export const AppBar = Shade({
           display: 'flex',
           justifyContent: 'flex-start',
           alignItems: 'center',
-          boxShadow: '0 0 3px rgba(0,0,0,0.6)',
+          boxShadow: '0 0 12px rgba(0,0,0,0.6)',
           transition:
             'opacity .35s cubic-bezier(0.550, 0.085, 0.680, 0.530), padding .2s cubic-bezier(0.550, 0.085, 0.680, 0.530)',
           padding: '2px 8px',
