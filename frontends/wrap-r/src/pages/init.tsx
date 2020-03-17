@@ -1,9 +1,9 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { Loader } from '../components/loader'
 
-export const Init = Shade({
+export const Init = Shade<{ message: string }>({
   shadowDomName: 'shade-init',
-  render: () => (
+  render: ({ props }) => (
     <div
       style={{
         display: 'flex',
@@ -41,7 +41,7 @@ export const Init = Shade({
             height: '128px',
           }}
         />
-        <h2>Initializing app...</h2>
+        <h2>{props.message}</h2>
       </div>
     </div>
   ),

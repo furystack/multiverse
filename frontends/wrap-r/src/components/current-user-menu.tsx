@@ -43,6 +43,7 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
           <div
             style={{
               ...styles.glassBox,
+              backdropFilter: 'blur(4px)brightness(.2)contrast(0.8)',
               position: 'relative',
               width: '192px',
               zIndex: '2',
@@ -84,19 +85,16 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
             />
           </div>
           <div
-            style={
-              {
-                position: 'fixed',
-                top: '0',
-                left: '0',
-                width: '100%',
-                height: '100%',
-                zIndex: '1',
-                // background: 'rgba(128,128,128,0.2)',
-                backdropFilter: 'blur(1px)',
-                animation: 'show 200ms cubic-bezier(0.455, 0.030, 0.515, 0.955)',
-              } as any
-            }
+            style={{
+              position: 'fixed',
+              top: '0',
+              left: '0',
+              width: '100%',
+              height: '100%',
+              zIndex: '1',
+              backdropFilter: 'blur(1px)',
+              animation: 'show 200ms cubic-bezier(0.455, 0.030, 0.515, 0.955)',
+            }}
             onclick={ev => {
               ev.stopPropagation()
               updateState({ isOpened: false })

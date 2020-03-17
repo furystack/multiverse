@@ -53,7 +53,7 @@ export const Body = Shade({
                             const { ProfilePage } = await import(/* webpackChunkName: "profile" */ '../pages/profile')
                             return <ProfilePage />
                           }}
-                          loader={<Loader />}
+                          loader={<Init message="Loading your Profile..." />}
                         />
                       ),
                     },
@@ -70,7 +70,7 @@ export const Body = Shade({
                                   )
                                   return <SystemLogs />
                                 }}
-                                loader={<Loader />}
+                                loader={<Init message="Loading Logs page..." />}
                               />
                             ),
                           },
@@ -88,7 +88,7 @@ export const Body = Shade({
                                   )
                                   return <FeatureSwitchesPage />
                                 }}
-                                loader={<Loader />}
+                                loader={<Init message="Loading feature switches..." />}
                               />
                             ),
                           },
@@ -119,7 +119,7 @@ export const Body = Shade({
                             )
                             return <RegisterPage />
                           }}
-                          loader={<Loader />}
+                          loader={<Init message="Loading Registration Page..." />}
                         />
                       ),
                     },
@@ -133,7 +133,7 @@ export const Body = Shade({
                             )
                             return <ResetPasswordPage />
                           }}
-                          loader={<Loader />}
+                          loader={<Init message="Loading Password Reset Page..." />}
                         />
                       ),
                     },
@@ -141,7 +141,7 @@ export const Body = Shade({
                 />
               )
             default:
-              return <Init />
+              return <Init message="Initializing app..." />
           }
         })()}
       </div>
