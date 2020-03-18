@@ -1,5 +1,6 @@
 import { sites } from 'common-config'
 import { LoggRApi } from 'common-models'
+import { Authorize } from '@furystack/rest-service'
 import { injector } from './config'
 import { GetEntries } from './actions/get-entries'
 
@@ -11,7 +12,7 @@ injector.useRestService<LoggRApi>({
   root: '/logg-r',
   api: {
     GET: {
-      '/entries': GetEntries,
+      '/entries': Authorize('sys-logs')(GetEntries),
     },
   },
   cors: {

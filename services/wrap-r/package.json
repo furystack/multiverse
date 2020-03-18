@@ -19,9 +19,9 @@
     "@furystack/inject": "^4.0.3",
     "@furystack/logging": "^2.0.8",
     "@furystack/mongodb-store": "^2.0.12",
+    "@furystack/repository": "^2.0.9",
     "@furystack/rest": "^1.1.1",
     "@furystack/rest-service": "^1.1.1",
-    "@furystack/repository": "^2.0.9",
     "common-service-utils": "1.0.0",
     "config": "1.0.0",
     "tslib": "^1.10.0"
