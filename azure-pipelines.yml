@@ -63,7 +63,7 @@ jobs:
   - deployment: deploy
     displayName: Deploy images
     # dependsOn: buildAndTest
-    timeoutInMinutes: 10
+    timeoutInMinutes: 10  
     environment:
       name: Live
     strategy:
@@ -80,22 +80,22 @@ jobs:
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                Dockerfile: 'base.Dockerfile'
-                repository: furystack/multiverse-base
-                tags: latest
+                Dockerfile: base.Dockerfile
+                repository: furystack
+                tags: multiverse-base:latest
             - task: Docker@2
               displayName: Build WrapR docker image
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                Dockerfile: 'wrapr.Dockerfile'
-                repository: furystack/multiverse-wrap-r
-                tags: latest
+                Dockerfile: wrapr.Dockerfile
+                repository: furystack
+                tags: multiverse-wrap-r:latest
             - task: Docker@2
               displayName: Build LoggR docker image
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                Dockerfile: 'loggr.Dockerfile'
-                repository: furystack/multiverse-logg-r
-                tags: latest
+                Dockerfile: loggr.Dockerfile
+                repository: furystack
+                tags: multiverse-logg-r:latest
