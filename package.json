@@ -63,9 +63,9 @@
     "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache",
     "seed": "yarn workspace wrap-r-service seed",
-    "docker:base": "docker build . --file ./base.Dockerfile --tag multiverse-base:latest",
-    "docker:wrapr": "docker build . --file ./wrapr.Dockerfile --tag multiverse-wrap-r:latest",
-    "docker:loggr": "docker build . --file ./loggr.Dockerfile --tag multiverse-logg-r:latest",
+    "docker:base": "docker build . --file ./base.Dockerfile --tag furystack/multiverse-base:latest",
+    "docker:wrapr": "docker build . --file ./wrapr.Dockerfile --tag furystack/multiverse-wrap-r:latest",
+    "docker:loggr": "docker build . --file ./loggr.Dockerfile --tag furystack/multiverse-logg-r:latest",
     "dockerize": "yarn docker:base && yarn docker:wrapr && yarn docker:loggr"
   }
 }
