@@ -18,7 +18,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
-  - job: buildAndTest
+  - job: buildAndTest    
     timeoutInMinutes: 10
     displayName: Build and test
     steps:
@@ -80,7 +80,7 @@ jobs:
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                Dockerfile: base.Dockerfile
+                Dockerfile: base
                 repository: furystack
                 tags: multiverse-base:latest
             - task: Docker@2
@@ -88,7 +88,7 @@ jobs:
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                Dockerfile: wrapr.Dockerfile
+                Dockerfile: wrapr
                 repository: furystack
                 tags: multiverse-wrap-r:latest
             - task: Docker@2
@@ -96,6 +96,6 @@ jobs:
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                Dockerfile: loggr.Dockerfile
+                Dockerfile: loggr
                 repository: furystack
                 tags: multiverse-logg-r:latest
