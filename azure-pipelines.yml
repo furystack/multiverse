@@ -74,12 +74,12 @@ jobs:
               displayName: Login to Docker
               inputs:
                 command: login
-                containerRegistry: ${dockerHubServiceConnection}
+                containerRegistry: dockerHubServiceConnection
             - task: Docker@2
               displayName: Build base docker image
               inputs:
                 command: build
-                containerRegistry: ${dockerHubServiceConnection}
+                containerRegistry: dockerHubServiceConnection
                 Dockerfile: '$(System.DefaultWorkingDirectory)/base.Dockerfile'
                 repository: multiverse-base
                 tags: latest
@@ -87,7 +87,7 @@ jobs:
               displayName: Build WrapR docker image
               inputs:
                 command: buildAndPush
-                containerRegistry: ${dockerHubServiceConnection}
+                containerRegistry: dockerHubServiceConnection
                 Dockerfile: '$(System.DefaultWorkingDirectory)/wrapr.Dockerfile'
                 repository: furystack/multiverse-wrap-r
                 tags: latest
@@ -95,7 +95,7 @@ jobs:
               displayName: Build LoggR docker image
               inputs:
                 command: buildAndPush
-                containerRegistry: ${dockerHubServiceConnection}
+                containerRegistry: dockerHubServiceConnection
                 Dockerfile: '$(System.DefaultWorkingDirectory)/loggr.Dockerfile'
                 repository: furystack/multiverse-logg-r
                 tags: latest
