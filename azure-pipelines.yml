@@ -62,7 +62,7 @@ jobs:
           artifactName: cypress_videos
   - deployment: deploy
     displayName: Deploy images
-    dependsOn: buildAndTest
+    # dependsOn: buildAndTest
     timeoutInMinutes: 10
     environment:
       name: Live
@@ -78,17 +78,17 @@ jobs:
             - task: Docker@2
               displayName: Build base docker image
               inputs:
-                command: build
+                command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                Dockerfile: '$(System.DefaultWorkingDirectory)/base.Dockerfile'
-                repository: multiverse-base
+                Dockerfile: 'base.Dockerfile'
+                repository: furystack/multiverse-base
                 tags: latest
             - task: Docker@2
               displayName: Build WrapR docker image
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                Dockerfile: '$(System.DefaultWorkingDirectory)/wrapr.Dockerfile'
+                Dockerfile: 'wrapr.Dockerfile'
                 repository: furystack/multiverse-wrap-r
                 tags: latest
             - task: Docker@2
@@ -96,6 +96,6 @@ jobs:
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                Dockerfile: '$(System.DefaultWorkingDirectory)/loggr.Dockerfile'
+                Dockerfile: 'loggr.Dockerfile'
                 repository: furystack/multiverse-logg-r
                 tags: latest
