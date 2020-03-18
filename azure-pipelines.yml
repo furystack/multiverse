@@ -63,6 +63,8 @@ jobs:
   - deployment: deploy
     dependsOn: buildAndTest
     timeoutInMinutes: 10
+    environment:
+      name: Live
     strategy:
       runOnce:
         deploy:
