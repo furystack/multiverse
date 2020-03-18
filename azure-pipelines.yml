@@ -61,6 +61,7 @@ jobs:
           pathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/videos'
           artifactName: cypress_videos
   - deployment: deploy
+    displayName: Deploy images
     dependsOn: buildAndTest
     timeoutInMinutes: 10
     environment:
