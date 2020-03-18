@@ -70,6 +70,7 @@ jobs:
       runOnce:
         deploy:
           steps:
+            - script: ls
             - task: Docker@2
               displayName: Login to Docker
               inputs:
@@ -80,28 +81,22 @@ jobs:
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                Dockerfile: '*.Dockerfile'
+                Dockerfile: base.dockerfile
                 repository: furystack
                 tags: multiverse-base:latest
-                arguments: 
-                  "--file base.Dockerfile "
             - task: Docker@2
               displayName: Build WrapR docker image
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                Dockerfile: '*.Dockerfile'
+                Dockerfile: wrapr.dockerfile
                 repository: furystack
                 tags: multiverse-wrap-r:latest
-                arguments: 
-                  "--file wrapr.Dockerfile "
             - task: Docker@2
               displayName: Build LoggR docker image
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                Dockerfile: '*.Dockerfile'
+                Dockerfile: loggr.dockerfile
                 repository: furystack
                 tags: multiverse-logg-r:latest
-                arguments:
-                  "--file loggr.Dockerfile "
