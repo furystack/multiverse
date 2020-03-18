@@ -70,7 +70,7 @@ jobs:
       runOnce:
         deploy:
           steps:
-            - script: cat *Dockerfile
+            - script: ls -a
             - task: Docker@2
               displayName: Login to Docker
               inputs:
