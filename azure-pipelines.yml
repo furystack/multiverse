@@ -19,6 +19,7 @@ pool:
 
 jobs:
   - job: buildAndTest
+    timeoutInMinutes: 10
     displayName: Build and test
     steps:
       - task: NodeTool@0
@@ -59,3 +60,28 @@ jobs:
         inputs:
           pathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/videos'
           artifactName: cypress_videos
+  - deployment: deploy
+    dependsOn: buildAndTest
+    timeoutInMinutes: 10
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: Docker@2
+              displayName: Build base docker image
+              inputs:
+                command: build
+                Dockerfile: ./base.Dockerfile
+                tags: multiverse-base:latest
+            - task: Docker@2
+              displayName: Build WrapR docker image
+              inputs:
+                command: build
+                Dockerfile: ./wrapr.Dockerfile
+                tags: multiverse-wrap-r:latest
+            - task: Docker@2
+              displayName: Build LoggR docker image
+              inputs:
+                command: build
+                Dockerfile: ./loggr.Dockerfile
+                tags: multiverse-logg-r:latest
