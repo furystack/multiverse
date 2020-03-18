@@ -1,0 +1,20 @@
+{
+  "name": "common-frontend-utils",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "GPL-2.0-only",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf dist && rimraf tsconfig.tsbuildinfo",
+    "build": "tsc -b"
+  },
+  "devDependencies": {
+    "@types/redis": "^2.8.14",
+    "@types/uuid": "^7.0.2"
+  },
+  "dependencies": {
+    "common-models": "1.0.0",
+    "tslib": "^1.10.0",
+    "uuid": "^7.0.2"
+  }
+}

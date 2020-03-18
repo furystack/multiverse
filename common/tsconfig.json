@@ -2,6 +2,12 @@
   "compilerOptions": {
     "composite": true
   },
-  "references": [{ "path": "models" }, { "path": "components" }, { "path": "service-utils" }, { "path": "sites" }],
+  "references": [
+    { "path": "components" },
+    { "path": "config" },
+    { "path": "frontend-utils" },
+    { "path": "models" },
+    { "path": "service-utils" }
+  ],
   "include": []
 }

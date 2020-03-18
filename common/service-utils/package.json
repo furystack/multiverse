@@ -7,7 +7,6 @@
   "scripts": {
     "start": "yarn build && yarn seed && node ./dist/service.js",
     "seed": "yarn build && node ./dist/seed.js",
-    "write-metadata": "yarn build && node ./dist/write-metadata.js",
     "clean": "rimraf dist && rimraf tsconfig.tsbuildinfo",
     "build": "tsc -b"
   },
@@ -17,14 +16,15 @@
     "@types/redis": "^2.8.14"
   },
   "dependencies": {
-    "@furystack/core": "^7.0.9",
-    "@furystack/http-api": "^5.3.18",
+    "@furystack/core": "^8.0.2",
     "@furystack/inject": "^4.0.13",
     "@furystack/logging": "^2.0.8",
     "@furystack/mongodb-store": "^2.0.12",
-    "@furystack/odata": "^2.1.6",
     "@furystack/redis-store": "^2.0.9",
     "@furystack/repository": "^2.0.16",
+    "@furystack/rest": "^1.1.1",
+    "@furystack/rest-service": "^1.1.2",
+    "common-config": "1.0.0",
     "common-models": "1.0.0",
     "got": "^10.5.5",
     "mongodb": "^3.5.2",

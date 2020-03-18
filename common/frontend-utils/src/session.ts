@@ -1,7 +1,8 @@
 import { Injectable } from '@furystack/inject'
 import { ObservableValue, usingAsync } from '@furystack/utils'
 import { User } from 'common-models'
-import { Users } from '../odata/entity-collections'
+import { WrapRApiService } from './apis/wrap-r-api'
+import { getErrorMessage } from './get-error-message'
 
 export type sessionState = 'initializing' | 'offline' | 'unauthenticated' | 'authenticated'
 
@@ -21,10 +22,10 @@ export class SessionService {
   private async init() {
     await usingAsync(this.operation(), async () => {
       try {
-        const { isAuthenticated } = await this.users.isAuthenticated()
+        const { isAuthenticated } = await this.api.call({ method: 'GET', action: '/isAuthenticated' })
         this.state.setValue(isAuthenticated ? 'authenticated' : 'unauthenticated')
         if (isAuthenticated) {
-          const usr = await this.users.current()
+          const usr = await this.api.call({ method: 'GET', action: '/currentUser' })
           this.currentUser.setValue(usr)
         }
       } catch (error) {
@@ -36,24 +37,25 @@ export class SessionService {
   public async login(username: string, password: string) {
     await usingAsync(this.operation(), async () => {
       try {
-        const usr = await this.users.login({ username, password })
+        const usr = await this.api.call({ method: 'POST', action: '/login', body: { username, password } })
         this.currentUser.setValue(usr)
         this.state.setValue('authenticated')
       } catch (error) {
-        this.loginError.setValue(error.body.message)
+        const errorMsg = await getErrorMessage(error)
+        this.loginError.setValue(errorMsg)
       }
     })
   }
 
   public async logout() {
     await usingAsync(this.operation(), async () => {
-      this.users.logout()
+      this.api.call({ method: 'POST', action: '/logout' })
       this.currentUser.setValue(null)
       this.state.setValue('unauthenticated')
     })
   }
 
-  constructor(private users: Users) {
+  constructor(private api: WrapRApiService) {
     this.init()
   }
 }

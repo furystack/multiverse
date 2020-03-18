@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { getAllEnvVariables } = require('sites')
+const { sites } = require('common-config')
 
 module.exports = {
   mode: 'production', // "development",
@@ -53,7 +53,8 @@ module.exports = {
       DEBUG: true,
       APP_VERSION: require('./package.json').version,
       BUILD_DATE: new Date().toISOString(),
-      ...getAllEnvVariables(),
+      ...sites.frontends,
+      ...sites.services,
     }),
     new webpack.WatchIgnorePlugin([/\.js$/, /\.d\.ts$/]),
   ],

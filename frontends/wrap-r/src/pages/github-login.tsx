@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { Button } from 'common-components'
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
+import { getErrorMessage, SessionService } from 'common-frontend-utils'
 import { Loader } from '../components/loader'
 import { GithubAuthProvider } from '../services/github-auth-provider'
-import { SessionService } from '../services/session'
 
 export const GithubLogin = Shade<{ code: string }, { loginError?: string }>({
   shadowDomName: 'shade-github-login',
@@ -17,7 +17,8 @@ export const GithubLogin = Shade<{ code: string }, { loginError?: string }>({
     try {
       await injector.getInstance(GithubAuthProvider).login(props.code)
     } catch (error) {
-      updateState({ loginError: error.body.error })
+      const errorMsg = await getErrorMessage(error)
+      updateState({ loginError: errorMsg })
     }
     return () => location.dispose()
   },

@@ -7,11 +7,19 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Service",
-      "program": "${workspaceFolder}/services/wrap-r/src/service.ts",
-      "outFiles": ["${workspaceFolder}/services/wrap-r/dist/service.js"],
-      "cwd": "${workspaceFolder}/services/wrap-r",
+      "name": "Attach to Service",
+      "program": "${workspaceFolder}/services/${input:service}/src/service.ts",
+      "outFiles": ["${workspaceFolder}/services/${input:service}/dist/service.js"],
+      "cwd": "${workspaceFolder}/services/${input:service}",
       "skipFiles": ["<node_internals>/**"]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "service",
+      "type": "pickString",
+      "description": "Select one service from above",
+      "options": ["wrap-r", "logg-r"]
     }
   ]
 }

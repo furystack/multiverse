@@ -7,7 +7,6 @@
   "scripts": {
     "start": "yarn build && node ./dist/service.js",
     "seed": "yarn build && node ./dist/seed.js",
-    "write-metadata": "yarn build && node ./dist/write-metadata.js",
     "clean": "rimraf dist && rimraf tsconfig.tsbuildinfo",
     "build": "tsc -b"
   },
@@ -16,14 +15,15 @@
   },
   "dependencies": {
     "@furystack/auth-google": "^4.0.0",
-    "@furystack/core": "^7.0.0",
-    "@furystack/http-api": "^5.3.4",
+    "@furystack/core": "^8.0.2",
     "@furystack/inject": "^4.0.3",
     "@furystack/logging": "^2.0.8",
     "@furystack/mongodb-store": "^2.0.12",
-    "@furystack/odata": "^2.1.6",
     "@furystack/repository": "^2.0.9",
+    "@furystack/rest": "^1.1.1",
+    "@furystack/rest-service": "^1.1.1",
     "common-service-utils": "1.0.0",
+    "config": "1.0.0",
     "tslib": "^1.10.0"
   }
 }

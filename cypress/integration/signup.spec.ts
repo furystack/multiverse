@@ -40,7 +40,7 @@ describe('Sign up', () => {
       .type('asdasd123')
     cy.get('button[title=Register]').click()
     cy.get('shade-current-user-menu').click()
-    cy.get('shade-current-user-menu Button[title=logout]').click()
+    cy.get('shade-current-user-menu a[title="Log out"]').click()
     cy.get('shade-login>div>div>form').should('be.visible')
   })
 

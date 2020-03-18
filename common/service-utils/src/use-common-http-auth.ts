@@ -1,9 +1,9 @@
 import '@furystack/redis-store'
-import '@furystack/http-api'
+import '@furystack/rest-service'
 import '@furystack/mongodb-store'
 import { Injector } from '@furystack/inject/dist/injector'
 import { createClient } from 'redis'
-import { frontends, databases, sessionStore } from 'sites'
+import { databases } from 'common-config'
 import { Session, User } from 'common-models'
 import { verifyAndCreateIndexes } from './create-indexes'
 
@@ -18,30 +18,26 @@ Injector.prototype.useCommonHttpAuth = function() {
     sm
       .useMongoDb({
         model: User,
-        url: databases.commonAuth,
-        db: 'multiverse-common-auth',
-        collection: 'users',
+        url: databases['common-auth'].mongoUrl,
+        db: databases['common-auth'].dbName,
+        collection: databases['common-auth'].usersCollection,
         options: { useUnifiedTopology: true },
       })
       .useRedis(
         Session,
         'sessionId',
-        createClient({ port: parseInt(sessionStore.port, 10) || undefined, host: sessionStore.host }),
+        createClient({
+          port: parseInt(databases['common-auth'].sessionStore.port, 10) || undefined,
+          host: databases['common-auth'].sessionStore.host,
+        }),
       ),
-  )
-    .useHttpApi({
-      corsOptions: {
-        credentials: true,
-        origins: Object.values(frontends),
-      },
-    })
-    .useHttpAuthentication({
-      enableBasicAuth: true,
-      cookieName: 'fsmvsc',
-      model: User,
-      getUserStore: sm => sm.getStoreFor(User),
-      getSessionStore: sm => sm.getStoreFor(Session),
-    })
+  ).useHttpAuthentication({
+    enableBasicAuth: true,
+    cookieName: 'fsmvsc',
+    model: User,
+    getUserStore: sm => sm.getStoreFor(User),
+    getSessionStore: sm => sm.getStoreFor(Session),
+  })
 
   verifyAndCreateIndexes({
     injector: this,

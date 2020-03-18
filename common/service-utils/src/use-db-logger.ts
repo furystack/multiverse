@@ -3,7 +3,7 @@ import { Injector } from '@furystack/inject/dist/injector'
 import { StoreManager, globalDisposables } from '@furystack/core'
 import { Injectable } from '@furystack/inject'
 import { Disposable } from '@furystack/utils'
-import { databases } from 'sites'
+import { databases } from 'common-config'
 import { MongodbStore } from '@furystack/mongodb-store'
 import { LogEntry } from 'common-models'
 
@@ -42,9 +42,9 @@ Injector.prototype.useDbLogger = function() {
   this.setupStores(sm =>
     sm.useMongoDb({
       model: LogEntry,
-      collection: 'multiverse-log',
-      url: databases.logs,
-      db: 'logging',
+      collection: databases.logging.logCollection,
+      url: databases.logging.mongoUrl,
+      db: databases.logging.dbName,
       options: {
         useUnifiedTopology: true,
       },

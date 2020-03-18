@@ -3,5 +3,5 @@
     "composite": true
   },
   "include": [],
-  "references": [{ "path": "wrap-r" }]
+  "references": [{ "path": "wrap-r" }, { "path": "logg-r" }]
 }

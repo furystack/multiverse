@@ -1,8 +1,7 @@
 import { Retrier } from '@furystack/utils'
 import { Injector } from '@furystack/inject/dist/injector'
 import { Injectable } from '@furystack/inject'
-import { Users } from '../odata/entity-collections'
-import { SessionService } from './session'
+import { WrapRApiService, SessionService } from 'common-frontend-utils'
 
 /**
  * Options for Google OAuth Authentication
@@ -66,7 +65,7 @@ export class GoogleOauthProvider {
     try {
       this.session.isOperationInProgress.setValue(true)
       const token = await this.getToken()
-      const user = await this.usersService.googleLogin({ token })
+      const user = await this.api.call({ method: 'POST', action: '/googleLogin', body: { token } })
       if (user) {
         this.session.currentUser.setValue(user)
         this.session.state.setValue('authenticated')
@@ -83,7 +82,7 @@ export class GoogleOauthProvider {
     try {
       this.session.isOperationInProgress.setValue(true)
       const token = await this.getToken()
-      const user = await this.usersService.googleRegister({ token })
+      const user = await this.api.call({ method: 'POST', action: '/googleRegister', body: { token } })
       if (user) {
         this.session.currentUser.setValue(user)
         this.session.state.setValue('authenticated')
@@ -227,7 +226,7 @@ export class GoogleOauthProvider {
    */
   constructor(
     private readonly options: GoogleAuthenticationOptions,
-    private readonly usersService: Users,
+    private readonly api: WrapRApiService,
     private readonly session: SessionService,
   ) {}
 }

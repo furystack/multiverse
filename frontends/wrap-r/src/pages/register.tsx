@@ -1,8 +1,7 @@
-import { Button, Input } from 'common-components'
+import { Button, Input, styles } from 'common-components'
 import { Shade, createComponent, LocationService } from '@furystack/shades'
+import { WrapRApiService, SessionService } from 'common-frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
-import { Users } from '../odata/entity-collections'
-import { SessionService } from '../services/session'
 
 export const RegisterPage = Shade({
   shadowDomName: 'register-page',
@@ -21,6 +20,7 @@ export const RegisterPage = Shade({
         {getState().error ? (
           <div
             style={{
+              ...styles.glassBox,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -37,13 +37,13 @@ export const RegisterPage = Shade({
         ) : (
           <div
             style={{
+              ...styles.glassBox,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               flexDirection: 'column',
               overflowX: 'auto',
-              width: '100%',
-              paddingTop: '1em',
+              padding: '1em 40px 2em',
               marginTop: '1em',
             }}>
             <h2>Sign up</h2>
@@ -61,7 +61,9 @@ export const RegisterPage = Shade({
                 sessionService.isOperationInProgress.setValue(true)
 
                 try {
-                  const user = await injector.getInstance(Users).register({ email, password })
+                  const user = await injector
+                    .getInstance(WrapRApiService)
+                    .call({ method: 'POST', action: '/register', body: { email, password } })
                   if (user && user.username === email) {
                     window.history.pushState('', '', '/')
                     injector.getInstance(LocationService).updateState()
