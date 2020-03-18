@@ -80,7 +80,7 @@ jobs:
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                # Dockerfile: base.dockerfile
+                Dockerfile: '*.Dockerfile'
                 repository: furystack
                 tags: multiverse-base:latest
                 arguments: 
@@ -90,7 +90,7 @@ jobs:
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                # Dockerfile: wrapr.dockerfile
+                Dockerfile: '*.Dockerfile'
                 repository: furystack
                 tags: multiverse-wrap-r:latest
                 arguments: 
@@ -100,7 +100,7 @@ jobs:
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                # Dockerfile: loggr.dockerfile
+                Dockerfile: '*.Dockerfile'
                 repository: furystack
                 tags: multiverse-logg-r:latest
                 arguments:
