@@ -80,22 +80,28 @@ jobs:
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                Dockerfile: base.dockerfile
+                # Dockerfile: base.dockerfile
                 repository: furystack
                 tags: multiverse-base:latest
+                arguments: 
+                  "--file base.Dockerfile "
             - task: Docker@2
               displayName: Build WrapR docker image
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                Dockerfile: wrapr.dockerfile
+                # Dockerfile: wrapr.dockerfile
                 repository: furystack
                 tags: multiverse-wrap-r:latest
+                arguments: 
+                  "--file wrapr.Dockerfile "
             - task: Docker@2
               displayName: Build LoggR docker image
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                Dockerfile: loggr.dockerfile
+                # Dockerfile: loggr.dockerfile
                 repository: furystack
                 tags: multiverse-logg-r:latest
+                arguments:
+                  "--file loggr.Dockerfile "
