@@ -13,7 +13,7 @@ export const environmentOptions = {
   debug: Boolean(process.env.DEBUG),
   appVersion: process.env.APP_VERSION as string,
   buildDate: new Date(process.env.BUILD_DATE as string),
-  serviceUrl: (process.env.MULTIVERSE_SERVICE_wrapr as string) || sites.services['wrap-r'],
+  serviceUrl: sites.services['wrap-r'],
 }
 
 shadeInjector.useLogging(VerboseConsoleLogger)

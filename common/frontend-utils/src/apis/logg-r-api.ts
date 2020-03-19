@@ -7,7 +7,7 @@ import { sites } from 'common-config'
 @Injectable({ lifetime: 'singleton' })
 export class LoggRApiService {
   public call = createClient<LoggRApi>({
-    endpointUrl: PathHelper.joinPaths(sites.services['logg-r'], '/logg-r'),
+    endpointUrl: PathHelper.joinPaths(sites.services['logg-r'].externalPath, '/logg-r'),
     requestInit: {
       credentials: 'include',
     },

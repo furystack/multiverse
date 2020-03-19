@@ -11,11 +11,8 @@ import {
 } from './actions'
 import { injector } from './config'
 
-const serviceUrl = new URL(sites.services['wrap-r'])
-
 injector.useRestService<WrapRApi>({
-  port: parseInt(serviceUrl.port, 10),
-  hostName: serviceUrl.hostname,
+  port: parseInt(sites.services['wrap-r'].internalPort as any, 10),
   root: '/wrap-r',
   api: {
     GET: {

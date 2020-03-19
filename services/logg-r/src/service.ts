@@ -4,11 +4,8 @@ import { Authorize } from '@furystack/rest-service'
 import { injector } from './config'
 import { GetEntries } from './actions/get-entries'
 
-const serviceUrl = new URL(sites.services['logg-r'])
-
 injector.useRestService<LoggRApi>({
-  port: parseInt(serviceUrl.port, 10),
-  hostName: serviceUrl.hostname,
+  port: parseInt(sites.services['logg-r'].internalPort as string, 10),
   root: '/logg-r',
   api: {
     GET: {

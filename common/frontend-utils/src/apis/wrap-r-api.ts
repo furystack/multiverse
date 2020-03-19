@@ -7,7 +7,7 @@ import { sites } from 'common-config'
 @Injectable({ lifetime: 'singleton' })
 export class WrapRApiService {
   public call = createClient<WrapRApi>({
-    endpointUrl: PathHelper.joinPaths(sites.services['wrap-r'], '/wrap-r'),
+    endpointUrl: PathHelper.joinPaths(sites.services['wrap-r'].externalPath, '/wrap-r'),
     requestInit: {
       credentials: 'include',
     },

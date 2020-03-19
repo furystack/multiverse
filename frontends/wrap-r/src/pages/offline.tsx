@@ -29,8 +29,8 @@ export const Offline = Shade({
           <h3>The service seems to be offline 😓</h3>
           <p>
             There was a trouble connecting to the backend service at{' '}
-            <a href={environmentOptions.serviceUrl} target="_blank">
-              {environmentOptions.serviceUrl}
+            <a href={environmentOptions.serviceUrl.externalPath} target="_blank">
+              {environmentOptions.serviceUrl.externalPath}
             </a>
             . It seems to be the service is unaccessible at the moment. You can check the following things:
           </p>
