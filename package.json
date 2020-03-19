@@ -17,7 +17,8 @@
   "dependencies": {
     "tslib": "^1.10.0"
   },
-  "devDependencies": {
+  "optionalDependencies": {
+    "@cypress/webpack-preprocessor": "^4.1.1",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.18.0",
     "concurrently": "^5.1.0",
@@ -31,7 +32,9 @@
     "eslint-plugin-prettier": "^3.1.1",
     "husky": "^4.0.6",
     "lint-staged": "^10.0.3",
-    "prettier": "^1.19.1",
+    "prettier": "^1.19.1"
+  },
+  "devDependencies": {
     "rimraf": "^3.0.1",
     "typescript": "^3.7.2"
   },
