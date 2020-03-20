@@ -6,7 +6,7 @@ import { GetEntries } from './actions/get-entries'
 
 injector.useRestService<LoggRApi>({
   port: parseInt(sites.services['logg-r'].internalPort as string, 10),
-  root: '/logg-r',
+  root: '/api/logg-r',
   api: {
     GET: {
       '/entries': Authorize('sys-logs')(GetEntries),

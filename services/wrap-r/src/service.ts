@@ -13,7 +13,7 @@ import { injector } from './config'
 
 injector.useRestService<WrapRApi>({
   port: parseInt(sites.services['wrap-r'].internalPort as any, 10),
-  root: '/wrap-r',
+  root: '/api/wrap-r',
   api: {
     GET: {
       '/currentUser': (GetCurrentUser as unknown) as RequestAction<{ result: User }>,
