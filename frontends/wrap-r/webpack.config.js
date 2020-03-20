@@ -57,6 +57,7 @@ module.exports = {
       WRAPPR_SERVICE_EXTENRAL_URL: process.env.WRAPPR_SERVICE_EXTENRAL_URL,
       LOGGR_SERVICE_INTERNAL_PORT: process.env.LOGGR_SERVICE_INTERNAL_PORT,
       LOGGR_SERVICE_EXTENAL_URL: process.env.LOGGR_SERVICE_EXTENAL_URL,
+      GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
       ...sites.frontends,
       ...sites.services,
     }),
