@@ -8,7 +8,7 @@ import { LogEntry } from 'common-models'
 export const injector = new Injector()
 
 injector
-  .useDbLogger()
+  .useDbLogger({ appName: 'logg-r' })
   .useCommonHttpAuth()
   .useLogging(ConsoleLogger)
 

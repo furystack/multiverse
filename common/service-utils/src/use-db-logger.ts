@@ -8,6 +8,11 @@ import { MongodbStore } from '@furystack/mongodb-store'
 import { LogEntry } from 'common-models'
 
 @Injectable({ lifetime: 'singleton' })
+export class DbLoggerSettings {
+  public appName!: string
+}
+
+@Injectable({ lifetime: 'singleton' })
 export class DbLogger extends AbstractLogger implements Disposable {
   private isDisposing = false
 
@@ -23,10 +28,11 @@ export class DbLogger extends AbstractLogger implements Disposable {
       (await this.store.add({
         ...entry,
         creationDate: new Date(),
+        appName: this.settings.appName,
       } as LogEntry<T>))
   }
 
-  constructor(private injector: Injector) {
+  constructor(private injector: Injector, private readonly settings: DbLoggerSettings) {
     super()
     this.store = injector.getInstance(StoreManager).getStoreFor(LogEntry)
   }
@@ -34,11 +40,11 @@ export class DbLogger extends AbstractLogger implements Disposable {
 
 declare module '@furystack/inject/dist/injector' {
   interface Injector {
-    useDbLogger: () => Injector
+    useDbLogger: (settings: DbLoggerSettings) => Injector
   }
 }
 
-Injector.prototype.useDbLogger = function() {
+Injector.prototype.useDbLogger = function(settings) {
   this.setupStores(sm =>
     sm.useMongoDb({
       model: LogEntry,
@@ -50,6 +56,8 @@ Injector.prototype.useDbLogger = function() {
       },
     }),
   )
+
+  this.setExplicitInstance(settings, DbLoggerSettings)
   this.useLogging(DbLogger)
   const dbLogger = this.getInstance(DbLogger)
   globalDisposables.add(dbLogger)

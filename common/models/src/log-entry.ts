@@ -6,5 +6,6 @@ export class LogEntry<T> implements LeveledLogEntry<T> {
   public scope!: string
   public message!: string
   public data?: T | undefined
+  public appName?: string
   public creationDate?: Date
 }

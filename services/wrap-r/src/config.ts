@@ -27,7 +27,7 @@ export const authorizedDataSet: Partial<DataSetSettings<any>> = {
 export const injector = new Injector()
 
 injector
-  .useDbLogger()
+  .useDbLogger({ appName: 'wrap-r' })
   .useCommonHttpAuth()
   .setupStores(sm =>
     sm
