@@ -50,7 +50,7 @@ export const RegisterPage = Shade({
             <p>By signing up with you accept the corporate blahblahblah...</p>
 
             <form
-              onsubmit={async ev => {
+              onsubmit={async (ev) => {
                 ev.preventDefault()
                 const { email, password, confirmPassword } = getState()
                 if (password !== confirmPassword) {
@@ -83,7 +83,7 @@ export const RegisterPage = Shade({
                 value={getState().email}
                 disabled={getState().isOperationInProgress}
                 title="E-mail"
-                onchange={ev => {
+                onchange={(ev) => {
                   updateState({ email: (ev.target as HTMLInputElement).value }, true)
                 }}
               />
@@ -94,7 +94,7 @@ export const RegisterPage = Shade({
                 title="Password"
                 required
                 disabled={getState().isOperationInProgress}
-                onchange={ev => updateState({ password: (ev.target as HTMLInputElement).value }, true)}
+                onchange={(ev) => updateState({ password: (ev.target as HTMLInputElement).value }, true)}
               />
               <Input
                 type="password"
@@ -103,7 +103,7 @@ export const RegisterPage = Shade({
                 title="Confirm password"
                 required
                 disabled={getState().isOperationInProgress}
-                onchange={ev => updateState({ confirmPassword: (ev.target as HTMLInputElement).value }, true)}
+                onchange={(ev) => updateState({ confirmPassword: (ev.target as HTMLInputElement).value }, true)}
               />
               <Button title="Register" type="submit">
                 Register

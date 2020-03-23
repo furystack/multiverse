@@ -20,8 +20,8 @@ export const GetEntries: RequestAction<{
   query.orderBy && (order[query.orderBy] = query.orderDirection || 'DESC')
   const levels = ((query.levels as any) as string)
     .split(',')
-    .map(s => parseInt(s, 10))
-    .filter(s => s)
+    .map((s) => parseInt(s, 10))
+    .filter((s) => s)
   const entries = await ds.search({
     order,
     top: query.top || 100,

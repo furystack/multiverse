@@ -18,7 +18,7 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
   shadowDomName: 'shade-current-user-menu',
   initialState: { currentUser: undefined, isOpened: false },
   constructed: ({ injector, updateState }) => {
-    const observer = injector.getInstance(SessionService).currentUser.subscribe(usr => {
+    const observer = injector.getInstance(SessionService).currentUser.subscribe((usr) => {
       updateState({ currentUser: usr || undefined })
     }, true)
     return () => observer.dispose()
@@ -29,7 +29,7 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
     return currentUser ? (
       <div
         style={{ width: '48px', height: '48px' }}
-        onclick={ev => {
+        onclick={(ev) => {
           ev.preventDefault()
           updateState({ isOpened: !isOpened })
         }}>
@@ -95,7 +95,7 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
               backdropFilter: 'blur(1px)',
               animation: 'show 200ms cubic-bezier(0.455, 0.030, 0.515, 0.955)',
             }}
-            onclick={ev => {
+            onclick={(ev) => {
               ev.stopPropagation()
               updateState({ isOpened: false })
             }}></div>

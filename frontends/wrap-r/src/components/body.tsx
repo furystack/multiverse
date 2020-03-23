@@ -14,16 +14,16 @@ export const Body = Shade({
   constructed: async ({ injector, updateState, getState }) => {
     const session = injector.getInstance(SessionService)
     const observables = [
-      session.state.subscribe(newState => {
+      session.state.subscribe((newState) => {
         if (newState !== getState().sessionState) {
           updateState({
             sessionState: newState,
           })
         }
       }, true),
-      session.currentUser.subscribe(usr => updateState({ currentUser: usr }), true),
+      session.currentUser.subscribe((usr) => updateState({ currentUser: usr }), true),
     ]
-    return () => observables.forEach(o => o.dispose())
+    return () => observables.forEach((o) => o.dispose())
   },
   render: ({ getState }) => {
     const { currentUser } = getState()

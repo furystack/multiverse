@@ -15,13 +15,13 @@ export const Login = Shade({
   constructed: ({ injector, updateState }) => {
     const sessionService = injector.getInstance(SessionService)
     const subscriptions = [
-      sessionService.loginError.subscribe(error => updateState({ error }), true),
+      sessionService.loginError.subscribe((error) => updateState({ error }), true),
       sessionService.isOperationInProgress.subscribe(
-        isOperationInProgress => updateState({ isOperationInProgress }),
+        (isOperationInProgress) => updateState({ isOperationInProgress }),
         true,
       ),
     ]
-    return () => subscriptions.map(s => s.dispose())
+    return () => subscriptions.map((s) => s.dispose())
   },
   render: ({ injector, getState, updateState }) => {
     const { error, username, password } = getState()
@@ -46,7 +46,7 @@ export const Login = Shade({
               } as any
             }
             className="login-form"
-            onsubmit={ev => {
+            onsubmit={(ev) => {
               ev.preventDefault()
               const state = getState()
               sessinService.login(state.username, state.password)
@@ -64,7 +64,7 @@ export const Login = Shade({
               disabled={getState().isOperationInProgress}
               placeholder="The user's login name"
               value={username}
-              onchange={ev => {
+              onchange={(ev) => {
                 updateState(
                   {
                     username: (ev.target as HTMLInputElement).value,
@@ -83,7 +83,7 @@ export const Login = Shade({
               placeholder="The password for the user"
               value={password}
               type="password"
-              onchange={ev => {
+              onchange={(ev) => {
                 updateState(
                   {
                     password: (ev.target as HTMLInputElement).value,
@@ -140,7 +140,7 @@ export const Login = Shade({
                 Google
               </Button>
               <Button
-                onclick={ev => {
+                onclick={(ev) => {
                   ev.preventDefault()
                   window.location.replace(
                     `https://github.com/login/oauth/authorize?client_id=${process.env.MULTIVERSE_TOKEN_githubClientId}&redirect_uri=${window.location.origin}/github-login`,

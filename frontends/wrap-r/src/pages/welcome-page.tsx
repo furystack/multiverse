@@ -8,7 +8,7 @@ export const WelcomePage = Shade({
     userName: '',
   },
   constructed: async ({ injector, updateState, element }) => {
-    const observable = injector.getInstance(SessionService).currentUser.subscribe(usr => {
+    const observable = injector.getInstance(SessionService).currentUser.subscribe((usr) => {
       updateState({ userName: usr ? usr.username : '' })
     }, true)
     setTimeout(() => {

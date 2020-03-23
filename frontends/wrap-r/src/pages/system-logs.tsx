@@ -79,8 +79,8 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
             wrapper: styles.glassBox,
           }}
           rowComponents={{
-            level: entry => <LogLevelCell level={entry.level} />,
-            details: entry => {
+            level: (entry) => <LogLevelCell level={entry.level} />,
+            details: (entry) => {
               return (
                 <Button
                   title="Show details"
@@ -108,7 +108,7 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
                 boxShadow: 'rgba(0,0,0, 0.2) 5px 5px 10px 15px',
                 minWidth: '350px',
               }}
-              onclick={ev => ev.stopPropagation()}>
+              onclick={(ev) => ev.stopPropagation()}>
               <h1 style={{ marginTop: '0' }}>
                 Event Details{' '}
                 <span style={{ float: 'right' }}>{getLevelIcon(selectedEntry?.level || LogLevel.Information)} </span>

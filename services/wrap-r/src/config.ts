@@ -29,7 +29,7 @@ export const injector = new Injector()
 injector
   .useDbLogger({ appName: 'wrap-r' })
   .useCommonHttpAuth()
-  .setupStores(sm =>
+  .setupStores((sm) =>
     sm
       .useMongoDb({
         model: GoogleAccount,
@@ -51,11 +51,11 @@ injector
       }),
   )
   .useLogging(ConsoleLogger)
-  .setupRepository(repo =>
+  .setupRepository((repo) =>
     repo
       .createDataSet(User, {
         ...authorizedDataSet,
-        authorizeAdd: async authorize => {
+        authorizeAdd: async (authorize) => {
           const success = await authorize.injector.getInstance(HttpUserContext).isAuthorized('user-admin')
           return {
             isAllowed: success ? true : false,
@@ -69,7 +69,7 @@ injector
         authorizeAdd: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
         authorizeRemove: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
         authorizeUpdate: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
-        authorizeGet: async options => {
+        authorizeGet: async (options) => {
           const result = await options.injector.getInstance(HttpUserContext).isAuthorized('sys-logs')
           return {
             isAllowed: result,

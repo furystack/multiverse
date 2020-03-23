@@ -47,15 +47,15 @@ export const Grid: <T>(props: GridOptions<T>, children: ChildrenList) => JSX.Ele
         <table style={{ width: '100%', position: 'relative' }}>
           <thead>
             <tr>
-              {props.columns.map(column => {
+              {props.columns.map((column) => {
                 return <th style={headerStyle}>{props.headerComponents?.[column]?.() || <span>{column}</span>} </th>
               })}
             </tr>
           </thead>
           <tbody>
-            {props.entries.map(entry => (
+            {props.entries.map((entry) => (
               <tr>
-                {props.columns.map(column => (
+                {props.columns.map((column) => (
                   <td style={props.styles?.cell}>
                     {props.rowComponents?.[column]?.(entry) || <span>{entry[column]}</span>}
                   </td>

@@ -39,7 +39,7 @@ export const Layout = Shade({
             /** If you needs routes with session dependency, use the <Body /> */
             {
               url: '/github-login',
-              component: currentUrl => (
+              component: (currentUrl) => (
                 <LazyLoad
                   component={async () => {
                     const { GithubLogin } = await import(/* webpackChunkName: "github-login" */ '../pages/github-login')
@@ -51,7 +51,7 @@ export const Layout = Shade({
             },
             {
               url: '/github-register',
-              component: currentUrl => (
+              component: (currentUrl) => (
                 <LazyLoad
                   component={async () => {
                     const { GithubRegister } = await import(

@@ -13,8 +13,8 @@ declare module '@furystack/inject/dist/injector' {
   }
 }
 
-Injector.prototype.useCommonHttpAuth = function() {
-  this.setupStores(sm =>
+Injector.prototype.useCommonHttpAuth = function () {
+  this.setupStores((sm) =>
     sm
       .useMongoDb({
         model: User,
@@ -35,8 +35,8 @@ Injector.prototype.useCommonHttpAuth = function() {
     enableBasicAuth: true,
     cookieName: 'fsmvsc',
     model: User,
-    getUserStore: sm => sm.getStoreFor(User),
-    getSessionStore: sm => sm.getStoreFor(Session),
+    getUserStore: (sm) => sm.getStoreFor(User),
+    getSessionStore: (sm) => sm.getStoreFor(Session),
   })
 
   verifyAndCreateIndexes({
