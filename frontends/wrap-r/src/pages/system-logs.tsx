@@ -1,18 +1,13 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { LogLevel } from '@furystack/logging'
-import { LogEntry } from 'common-models'
+import { LogEntry, LoggREntryQuerySettings } from 'common-models'
 import { Grid, Button, Modal, Input, styles } from 'common-components'
-import { LoggRApiService } from 'common-frontend-utils'
+import { LoggREntries, defaultLoggrQuerySettings } from '../services/logg-r-entries'
 
 export interface SystemLogsState {
   entries: Array<LogEntry<any>>
-  orderBy: keyof LogEntry<any>
-  orderDirection: 'ASC' | 'DESC'
-  levels: LogLevel[]
-  scope?: string
-  message?: string
-  top?: number
-  skip?: number
+  settings: LoggREntryQuerySettings
+  error?: Error
   isDetailsOpened: boolean
   selectedEntry?: LogEntry<any>
 }
@@ -39,30 +34,27 @@ export const getLevelIcon = (level: LogLevel) => {
 export const LogLevelCell = Shade<{ level: LogLevel }>({
   shadowDomName: 'log-level-cell',
   render: ({ props }) => {
-    return <span>{getLevelIcon(props.level)}</span>
+    return <span title={LogLevel[props.level]}>{getLevelIcon(props.level)}</span>
   },
 })
 
 export const SystemLogs = Shade<unknown, SystemLogsState>({
   initialState: {
     entries: [],
-    orderBy: '_id',
-    orderDirection: 'DESC',
-    levels: [LogLevel.Information, LogLevel.Warning, LogLevel.Error, LogLevel.Fatal],
+    settings: defaultLoggrQuerySettings,
     isDetailsOpened: false,
   },
   shadowDomName: 'system-logs-page',
-  constructed: async ({ getState, injector, updateState }) => {
-    const logApi = injector.getInstance(LoggRApiService)
-    const { entries: e, ...query } = getState()
-    const entries = await logApi.call({
-      method: 'GET',
-      action: '/entries',
-      query,
-    })
-    updateState({ entries })
+  constructed: async ({ injector, updateState }) => {
+    const entriesService = injector.getInstance(LoggREntries)
+    const observables = [
+      entriesService.entries.subscribe((entries) => updateState({ entries }), true),
+      entriesService.settings.subscribe((settings) => updateState({ settings }), true),
+      entriesService.error.subscribe((error) => updateState({ error }), true),
+    ]
+    return () => observables.map((i) => i.dispose())
   },
-  render: ({ getState, updateState }) => {
+  render: ({ getState, updateState, injector }) => {
     const { entries, isDetailsOpened, selectedEntry } = getState()
     return (
       <div style={{ width: '100%', height: '100%' }}>
@@ -78,8 +70,50 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
             },
             wrapper: styles.glassBox,
           }}
+          headerComponents={{
+            default: (name) => {
+              const isOrderedBy = getState().settings.orderBy === name
+              const { orderDirection } = getState().settings
+              return (
+                <span
+                  style={{
+                    fontWeight: isOrderedBy ? 'bolder' : 'lighter',
+                    display: 'flex',
+                    padding: '1em',
+                    whiteSpace: 'nowrap',
+                    justifyContent: 'space-between',
+                    flexWrap: 'nowrap',
+                  }}
+                  onclick={() => {
+                    if (name === 'details') {
+                      return
+                    }
+                    const state = getState()
+                    if (state.settings.orderBy === name) {
+                      const newDirection = state.settings.orderDirection === 'ASC' ? 'DESC' : 'ASC'
+                      injector
+                        .getInstance(LoggREntries)
+                        .settings.setValue({ ...state.settings, orderDirection: newDirection })
+                    } else {
+                      injector.getInstance(LoggREntries).settings.setValue({ ...state.settings, orderBy: name })
+                    }
+                  }}>
+                  {name}
+                  {isOrderedBy ? (
+                    orderDirection === 'ASC' ? (
+                      <span style={{ float: 'right' }}> ⬆️</span>
+                    ) : (
+                      <span style={{ float: 'right' }}> ⬇️</span>
+                    )
+                  ) : null}
+                </span>
+              )
+            },
+          }}
           rowComponents={{
             level: (entry) => <LogLevelCell level={entry.level} />,
+            message: (entry) => <span style={{ wordBreak: 'break-all' }}>{entry.message}</span>,
+            creationDate: (entry) => <span>{entry.creationDate.toString().replace('T', ' ')}</span>,
             details: (entry) => {
               return (
                 <Button

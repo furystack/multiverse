@@ -24,6 +24,10 @@ export const Header = Shade({
                 url: '/profile',
                 component: () => <span> - Profile</span>,
               },
+              {
+                url: '/sys-logs',
+                component: () => <span> - System Logs</span>,
+              },
             ]}
           />
         </h3>

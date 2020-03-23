@@ -27,6 +27,7 @@ module.exports = {
     jsdoc: { exemptEmptyFunctions: false },
   },
   rules: {
+    'arrow-parens': ['error', 'always'],
     'no-unused-vars': 'off',
     'no-console': 'off',
     '@typescript-eslint/no-unused-vars': 'off', // Use Typescript own check for this
