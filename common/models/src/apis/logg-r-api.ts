@@ -1,3 +1,4 @@
+import { PartialResult } from '@furystack/core'
 import { LogLevel } from '@furystack/logging'
 import { RestApi, RequestAction } from '@furystack/rest'
 import { LogEntry } from '../log-entry'
@@ -16,7 +17,7 @@ export interface LoggRApi extends RestApi {
   GET: {
     '/entries': RequestAction<{
       query: { filter: string }
-      result: Array<LogEntry<any>>
+      result: Array<PartialResult<LogEntry<any>, any>>
     }>
   }
 }

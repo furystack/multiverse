@@ -1,12 +1,10 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { LogLevel } from '@furystack/logging'
-import { LogEntry, LoggREntryQuerySettings } from 'common-models'
-import { Grid, Button, Modal, Input, styles } from 'common-components'
-import { LoggREntries, defaultLoggrQuerySettings } from '../services/logg-r-entries'
+import { LogEntry } from 'common-models'
+import { Button, Modal, Input, DataGrid, styles } from 'common-components'
+import { LoggRApiService } from 'common-frontend-utils'
 
 export interface SystemLogsState {
-  entries: Array<LogEntry<any>>
-  settings: LoggREntryQuerySettings
   error?: Error
   isDetailsOpened: boolean
   selectedEntry?: LogEntry<any>
@@ -40,28 +38,20 @@ export const LogLevelCell = Shade<{ level: LogLevel }>({
 
 export const SystemLogs = Shade<unknown, SystemLogsState>({
   initialState: {
-    entries: [],
-    settings: defaultLoggrQuerySettings,
     isDetailsOpened: false,
   },
   shadowDomName: 'system-logs-page',
-  constructed: async ({ injector, updateState }) => {
-    const entriesService = injector.getInstance(LoggREntries)
-    const observables = [
-      entriesService.entries.subscribe((entries) => updateState({ entries }), true),
-      entriesService.settings.subscribe((settings) => updateState({ settings }), true),
-      entriesService.error.subscribe((error) => updateState({ error }), true),
-    ]
-    return () => observables.map((i) => i.dispose())
-  },
   render: ({ getState, updateState, injector }) => {
-    const { entries, isDetailsOpened, selectedEntry } = getState()
+    const { isDetailsOpened, selectedEntry } = getState()
     return (
       <div style={{ width: '100%', height: '100%' }}>
-        <Grid<LogEntry<any> & { details?: undefined }>
-          entries={entries}
-          columns={['level', 'scope', 'message', 'creationDate', 'details']}
-          select="single"
+        <DataGrid<LogEntry<any> & { details: any }>
+          columns={['level', 'appName', 'scope', 'message', 'creationDate', 'details']}
+          loadItems={(filter) =>
+            injector
+              .getInstance(LoggRApiService)
+              .call({ method: 'GET', action: '/entries', query: { filter: JSON.stringify(filter) } })
+          }
           styles={{
             cell: {
               textAlign: 'center',
@@ -70,6 +60,26 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
             },
             wrapper: styles.glassBox,
           }}
+          defaultOptions={{}}
+          headerComponents={{}}
+          rowComponents={{
+            level: (entry) => <LogLevelCell level={entry.level} />,
+            message: (entry) => <span style={{ wordBreak: 'break-all' }}>{entry.message}</span>,
+            creationDate: (entry) => <span>{entry.creationDate.toString().replace('T', ' ')}</span>,
+            details: (entry) => {
+              return (
+                <Button
+                  title="Show details"
+                  onclick={() => updateState({ isDetailsOpened: true, selectedEntry: entry })}>
+                  🔍
+                </Button>
+              )
+            },
+          }}
+        />
+        {/* <Grid<LogEntry<any> & { details?: undefined }>
+          entries={entries}
+          columns={['level', 'scope', 'message', 'creationDate', 'details']}
           headerComponents={{
             default: (name) => {
               const isOrderedBy = getState().settings.orderBy === name
@@ -110,21 +120,7 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
               )
             },
           }}
-          rowComponents={{
-            level: (entry) => <LogLevelCell level={entry.level} />,
-            message: (entry) => <span style={{ wordBreak: 'break-all' }}>{entry.message}</span>,
-            creationDate: (entry) => <span>{entry.creationDate.toString().replace('T', ' ')}</span>,
-            details: (entry) => {
-              return (
-                <Button
-                  title="Show details"
-                  onclick={() => updateState({ isDetailsOpened: true, selectedEntry: entry })}>
-                  🔍
-                </Button>
-              )
-            },
-          }}
-        />
+        /> */}
         <Modal isVisible={isDetailsOpened} onClose={() => updateState({ isDetailsOpened: false })}>
           <div
             style={{
