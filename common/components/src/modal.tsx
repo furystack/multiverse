@@ -11,7 +11,7 @@ export const Modal = Shade<{ isVisible: boolean; onClose?: () => void }>({
           width: '100%',
           height: '100%',
           backgroundColor: 'rgba(128,128,128,0.03)',
-          position: 'fixed',
+          position: 'absolute',
           top: '0',
           left: '0',
           animation: 'show 100ms linear',

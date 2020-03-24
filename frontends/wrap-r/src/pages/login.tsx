@@ -6,12 +6,12 @@ import { GoogleOauthProvider } from '../services/google-auth-provider'
 
 export const Login = Shade({
   shadowDomName: 'shade-login',
-  initialState: {
+  getInitialState: () => ({
     username: '',
     password: '',
     error: '',
     isOperationInProgress: true,
-  },
+  }),
   constructed: ({ injector, updateState }) => {
     const sessionService = injector.getInstance(SessionService)
     const subscriptions = [

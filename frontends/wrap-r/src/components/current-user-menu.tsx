@@ -16,7 +16,7 @@ const CurrentUserMenuItem = Shade<{ title: string; onclick: () => void }>({
 
 export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean }>({
   shadowDomName: 'shade-current-user-menu',
-  initialState: { currentUser: undefined, isOpened: false },
+  getInitialState: () => ({ currentUser: undefined, isOpened: false }),
   constructed: ({ injector, updateState }) => {
     const observer = injector.getInstance(SessionService).currentUser.subscribe((usr) => {
       updateState({ currentUser: usr || undefined })

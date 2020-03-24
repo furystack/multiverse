@@ -15,7 +15,7 @@
     "common-components": "1.0.0",
     "css-loader": "^3.2.0",
     "file-loader": "^6.0.0",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^4.0.1",
     "style-loader": "^1.0.0",
     "ts-loader": "^6.2.1",
     "tslib": "^1.11.1",
@@ -29,6 +29,6 @@
   "dependencies": {
     "@furystack/rest": "^1.1.1",
     "@furystack/rest-client-fetch": "^1.1.2",
-    "@furystack/shades": "^2.1.5"
+    "@furystack/shades": "^3.0.0"
   }
 }

@@ -5,11 +5,13 @@ import { Init, WelcomePage, Offline, Login } from '../pages'
 import { Page404 } from '../pages/404'
 import { Loader } from './loader'
 
-export const Body = Shade({
+export const Body = Shade<unknown, { sessionState: sessionState; currentUser: User | null }>({
   shadowDomName: 'shade-app-body',
-  initialState: {
-    sessionState: 'initial' as sessionState,
-    currentUser: null as User | null,
+  getInitialState: ({ injector }) => {
+    return {
+      sessionState: 'initializing',
+      currentUser: injector.getInstance(SessionService).currentUser.getValue(),
+    }
   },
   constructed: async ({ injector, updateState, getState }) => {
     const session = injector.getInstance(SessionService)

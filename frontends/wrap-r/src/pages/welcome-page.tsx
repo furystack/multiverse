@@ -4,9 +4,9 @@ import { SessionService } from 'common-frontend-utils'
 
 export const WelcomePage = Shade({
   shadowDomName: 'welcome-page',
-  initialState: {
+  getInitialState: () => ({
     userName: '',
-  },
+  }),
   constructed: async ({ injector, updateState, element }) => {
     const observable = injector.getInstance(SessionService).currentUser.subscribe((usr) => {
       updateState({ userName: usr ? usr.username : '' })

@@ -7,9 +7,9 @@ import { GithubAuthProvider } from '../services/github-auth-provider'
 
 export const GithubRegister = Shade<{ code: string }, { loginError?: string }>({
   shadowDomName: 'shade-github-register',
-  initialState: {
+  getInitialState: () => ({
     loginError: undefined,
-  },
+  }),
   constructed: async ({ props, injector, updateState }) => {
     const location = injector.getInstance(SessionService).currentUser.subscribe(() => {
       window.history.pushState('', '', '/')

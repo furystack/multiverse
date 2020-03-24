@@ -5,7 +5,7 @@ import { GoogleOauthProvider } from '../services/google-auth-provider'
 
 export const RegisterPage = Shade({
   shadowDomName: 'register-page',
-  initialState: { error: '', email: '', password: '', confirmPassword: '', isOperationInProgress: false },
+  getInitialState: () => ({ error: '', email: '', password: '', confirmPassword: '', isOperationInProgress: false }),
   render: ({ injector, getState, updateState }) => {
     return (
       <div
