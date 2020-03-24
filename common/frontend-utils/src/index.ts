@@ -1,5 +1,6 @@
 export * from './apis/logg-r-api'
 export * from './apis/wrap-r-api'
+export * from './collection-service'
 export * from './get-error-message'
 export * from './session'
 export * from './rest-params'

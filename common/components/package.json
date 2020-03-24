@@ -14,7 +14,8 @@
     "typescript": "^3.7.2"
   },
   "dependencies": {
-    "@furystack/shades": "^2.1.5"
+    "@furystack/shades": "^2.1.5",
+    "common-frontend-utils": "1.0.0"
   },
   "typings": "dist/index.d.ts",
   "main": "dist/index.js"

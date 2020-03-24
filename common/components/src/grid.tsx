@@ -2,12 +2,11 @@ import { Shade, createComponent, ChildrenList, PartialElement } from '@furystack
 
 // ToDo: https://stackoverflow.com/questions/51459971/type-of-generic-stateless-component-react-or-extending-generic-function-interfa
 
-export interface GridOptions<T> {
+export interface GridProps<T> {
   entries: T[]
   columns: Array<keyof T>
   headerComponents?: HeaderCells<T>
   rowComponents?: RowCells<T>
-  select?: 'single' | 'multi' | 'none'
   styles?: {
     wrapper?: PartialElement<CSSStyleDeclaration>
     header?: PartialElement<CSSStyleDeclaration>
@@ -16,13 +15,13 @@ export interface GridOptions<T> {
 }
 
 export type HeaderCells<T> = {
-  [TKey in keyof T]?: () => JSX.Element
+  [TKey in keyof T | 'default']?: (name: keyof T) => JSX.Element
 }
 export type RowCells<T> = {
-  [TKey in keyof T]?: (element: T) => JSX.Element
+  [TKey in keyof T | 'default']?: (element: T) => JSX.Element
 }
 
-export const Grid: <T>(props: GridOptions<T>, children: ChildrenList) => JSX.Element<any, any> = Shade({
+export const Grid: <T>(props: GridProps<T>, children: ChildrenList) => JSX.Element<any, any> = Shade({
   shadowDomName: 'shade-grid',
   render: ({ props }) => {
     const headerStyle: PartialElement<CSSStyleDeclaration> = {
@@ -48,7 +47,13 @@ export const Grid: <T>(props: GridOptions<T>, children: ChildrenList) => JSX.Ele
           <thead>
             <tr>
               {props.columns.map((column) => {
-                return <th style={headerStyle}>{props.headerComponents?.[column]?.() || <span>{column}</span>} </th>
+                return (
+                  <th style={headerStyle}>
+                    {props.headerComponents?.[column]?.(column) || props.headerComponents?.default?.(column) || (
+                      <span>{column}</span>
+                    )}{' '}
+                  </th>
+                )
               })}
             </tr>
           </thead>
@@ -57,7 +62,9 @@ export const Grid: <T>(props: GridOptions<T>, children: ChildrenList) => JSX.Ele
               <tr>
                 {props.columns.map((column) => (
                   <td style={props.styles?.cell}>
-                    {props.rowComponents?.[column]?.(entry) || <span>{entry[column]}</span>}
+                    {props.rowComponents?.[column]?.(entry) || props.rowComponents?.default?.(entry) || (
+                      <span>{entry[column]}</span>
+                    )}
                   </td>
                 ))}
               </tr>

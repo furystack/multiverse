@@ -1,6 +1,7 @@
 export * from './app-bar'
 export * from './avatar'
 export * from './button'
+export * from './data-grid'
 export * from './grid'
 export * from './input'
 export * from './modal'

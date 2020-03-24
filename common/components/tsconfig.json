@@ -54,6 +54,6 @@
     "pretty": true,
     "skipLibCheck": false
   },
-  "references": [{ "path": "../models" }],
+  "references": [{ "path": "../models" }, { "path": "../frontend-utils" }],
   "include": ["src"]
 }

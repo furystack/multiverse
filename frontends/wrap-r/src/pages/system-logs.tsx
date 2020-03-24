@@ -1,18 +1,11 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { LogLevel } from '@furystack/logging'
 import { LogEntry } from 'common-models'
-import { Grid, Button, Modal, Input, styles } from 'common-components'
+import { Button, Modal, Input, DataGrid, styles } from 'common-components'
 import { LoggRApiService } from 'common-frontend-utils'
 
 export interface SystemLogsState {
-  entries: Array<LogEntry<any>>
-  orderBy: keyof LogEntry<any>
-  orderDirection: 'ASC' | 'DESC'
-  levels: LogLevel[]
-  scope?: string
-  message?: string
-  top?: number
-  skip?: number
+  error?: Error
   isDetailsOpened: boolean
   selectedEntry?: LogEntry<any>
 }
@@ -39,37 +32,26 @@ export const getLevelIcon = (level: LogLevel) => {
 export const LogLevelCell = Shade<{ level: LogLevel }>({
   shadowDomName: 'log-level-cell',
   render: ({ props }) => {
-    return <span>{getLevelIcon(props.level)}</span>
+    return <span title={LogLevel[props.level]}>{getLevelIcon(props.level)}</span>
   },
 })
 
 export const SystemLogs = Shade<unknown, SystemLogsState>({
   initialState: {
-    entries: [],
-    orderBy: '_id',
-    orderDirection: 'DESC',
-    levels: [LogLevel.Information, LogLevel.Warning, LogLevel.Error, LogLevel.Fatal],
     isDetailsOpened: false,
   },
   shadowDomName: 'system-logs-page',
-  constructed: async ({ getState, injector, updateState }) => {
-    const logApi = injector.getInstance(LoggRApiService)
-    const { entries: e, ...query } = getState()
-    const entries = await logApi.call({
-      method: 'GET',
-      action: '/entries',
-      query,
-    })
-    updateState({ entries })
-  },
-  render: ({ getState, updateState }) => {
-    const { entries, isDetailsOpened, selectedEntry } = getState()
+  render: ({ getState, updateState, injector }) => {
+    const { isDetailsOpened, selectedEntry } = getState()
     return (
       <div style={{ width: '100%', height: '100%' }}>
-        <Grid<LogEntry<any> & { details?: undefined }>
-          entries={entries}
-          columns={['level', 'scope', 'message', 'creationDate', 'details']}
-          select="single"
+        <DataGrid<LogEntry<any> & { details: any }>
+          columns={['level', 'appName', 'scope', 'message', 'creationDate', 'details']}
+          loadItems={(filter) =>
+            injector
+              .getInstance(LoggRApiService)
+              .call({ method: 'GET', action: '/entries', query: { filter: JSON.stringify(filter) } })
+          }
           styles={{
             cell: {
               textAlign: 'center',
@@ -78,8 +60,12 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
             },
             wrapper: styles.glassBox,
           }}
+          defaultOptions={{}}
+          headerComponents={{}}
           rowComponents={{
             level: (entry) => <LogLevelCell level={entry.level} />,
+            message: (entry) => <span style={{ wordBreak: 'break-all' }}>{entry.message}</span>,
+            creationDate: (entry) => <span>{entry.creationDate.toString().replace('T', ' ')}</span>,
             details: (entry) => {
               return (
                 <Button
@@ -91,6 +77,50 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
             },
           }}
         />
+        {/* <Grid<LogEntry<any> & { details?: undefined }>
+          entries={entries}
+          columns={['level', 'scope', 'message', 'creationDate', 'details']}
+          headerComponents={{
+            default: (name) => {
+              const isOrderedBy = getState().settings.orderBy === name
+              const { orderDirection } = getState().settings
+              return (
+                <span
+                  style={{
+                    fontWeight: isOrderedBy ? 'bolder' : 'lighter',
+                    display: 'flex',
+                    padding: '1em',
+                    whiteSpace: 'nowrap',
+                    justifyContent: 'space-between',
+                    flexWrap: 'nowrap',
+                  }}
+                  onclick={() => {
+                    if (name === 'details') {
+                      return
+                    }
+                    const state = getState()
+                    if (state.settings.orderBy === name) {
+                      const newDirection = state.settings.orderDirection === 'ASC' ? 'DESC' : 'ASC'
+                      injector
+                        .getInstance(LoggREntries)
+                        .settings.setValue({ ...state.settings, orderDirection: newDirection })
+                    } else {
+                      injector.getInstance(LoggREntries).settings.setValue({ ...state.settings, orderBy: name })
+                    }
+                  }}>
+                  {name}
+                  {isOrderedBy ? (
+                    orderDirection === 'ASC' ? (
+                      <span style={{ float: 'right' }}> ⬆️</span>
+                    ) : (
+                      <span style={{ float: 'right' }}> ⬇️</span>
+                    )
+                  ) : null}
+                </span>
+              )
+            },
+          }}
+        /> */}
         <Modal isVisible={isDetailsOpened} onClose={() => updateState({ isDetailsOpened: false })}>
           <div
             style={{
