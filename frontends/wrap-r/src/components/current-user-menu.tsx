@@ -24,7 +24,7 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
     return () => observer.dispose()
   },
 
-  render: ({ getState, updateState, injector }) => {
+  render: ({ getState, updateState, injector, element }) => {
     const { currentUser, isOpened } = getState()
     return currentUser ? (
       <div
@@ -32,6 +32,23 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
         onclick={(ev) => {
           ev.preventDefault()
           updateState({ isOpened: !isOpened })
+          // eslint-disable-next-line no-unused-expressions
+          element?.querySelector('.current-user-menu')?.animate(
+            [
+              { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
+              { transform: 'scale(1) translateY(0)', opacity: 1 },
+            ],
+            {
+              duration: 300,
+              easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
+            },
+          )
+
+          // eslint-disable-next-line no-unused-expressions
+          element?.querySelector('.user-menu-backdrop')?.animate([{ opacity: 0 }, { opacity: 1 }], {
+            duration: 300,
+            easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
+          })
         }}>
         <Avatar user={currentUser} />
         <div
@@ -41,6 +58,7 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
             position: 'absolute',
           }}>
           <div
+            className="current-user-menu"
             style={{
               ...styles.glassBox,
               backdropFilter: 'blur(4px)brightness(.2)contrast(0.8)',
@@ -49,10 +67,6 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
               zIndex: '2',
               right: '174px',
               top: '14px',
-              // background: '#dedede',
-              // color: '#444',
-              // border: '1px solid #888',
-              // borderRadius: '3px',
               padding: '1em',
               textAlign: 'right',
             }}>
@@ -85,6 +99,7 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
             />
           </div>
           <div
+            className="user-menu-backdrop"
             style={{
               position: 'fixed',
               top: '0',
@@ -93,10 +108,34 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
               height: '100%',
               zIndex: '1',
               backdropFilter: 'blur(1px)',
-              animation: 'show 200ms cubic-bezier(0.455, 0.030, 0.515, 0.955)',
             }}
-            onclick={(ev) => {
+            onclick={async (ev) => {
               ev.stopPropagation()
+              const hideMenu = new Promise((resolve) => {
+                const animation = element?.querySelector('.current-user-menu')?.animate(
+                  [
+                    { transform: 'scale(1) translateY(0)', opacity: 1 },
+                    { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
+                  ],
+                  {
+                    duration: 300,
+                    easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
+                  },
+                )
+                animation && (animation.onfinish = () => resolve())
+              })
+
+              const hideBackdrop = new Promise((resolve) => {
+                const animation = element
+                  ?.querySelector('.user-menu-backdrop')
+                  ?.animate([{ opacity: 1 }, { opacity: 0 }], {
+                    duration: 300,
+                    easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
+                  })
+                animation && (animation.onfinish = () => resolve())
+              })
+
+              await Promise.all([hideMenu, hideBackdrop])
               updateState({ isOpened: false })
             }}></div>
         </div>
