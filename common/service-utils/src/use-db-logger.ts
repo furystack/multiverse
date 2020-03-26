@@ -6,6 +6,8 @@ import { Disposable } from '@furystack/utils'
 import { databases } from 'common-config'
 import { MongodbStore } from '@furystack/mongodb-store'
 import { LogEntry } from 'common-models'
+import '@furystack/repository'
+import { HttpUserContext } from '@furystack/rest-service'
 
 @Injectable({ lifetime: 'singleton' })
 export class DbLoggerSettings {
@@ -53,6 +55,24 @@ Injector.prototype.useDbLogger = function (settings) {
       db: databases.logging.dbName,
       options: {
         useUnifiedTopology: true,
+      },
+    }),
+  )
+
+  this.setupRepository((repo) =>
+    repo.createDataSet(LogEntry, {
+      authorizeUpdate: async () => ({ isAllowed: false, message: 'The Log is read only, updates are permitted!' }),
+      authorizeGet: async ({ injector }) => {
+        const isAllowed = await injector.getInstance(HttpUserContext).isAuthorized('sys-logs')
+        if (!isAllowed) {
+          return {
+            isAllowed,
+            message: "You need 'sys-logs' role to see the entries",
+          }
+        }
+        return {
+          isAllowed,
+        }
       },
     }),
   )
