@@ -24,9 +24,10 @@ export class CollectionService<T> implements Disposable {
 
   public isLoading = new ObservableValue<boolean>(false)
 
-  public querySettings = new ObservableValue<SearchOptions<T, any>>({ top: 100 })
+  public querySettings: ObservableValue<SearchOptions<T, any>>
 
-  constructor(fetch: EntryLoader<T>) {
+  constructor(fetch: EntryLoader<T>, defaultSettings: SearchOptions<T, any>) {
+    this.querySettings = new ObservableValue<SearchOptions<T, any>>(defaultSettings)
     this.getEntries = debounce(async (options) => {
       await this.loadLock.acquire()
       try {

@@ -19,5 +19,9 @@ export interface LoggRApi extends RestApi {
       query: { filter: string }
       result: Array<PartialResult<LogEntry<any>, any>>
     }>
+    '/entry/:_id': RequestAction<{
+      urlParams: { _id: string }
+      result: LogEntry<any>
+    }>
   }
 }

@@ -1,6 +1,5 @@
 import { createComponent, RouteLink, Shade, Router } from '@furystack/shades'
-import { AppBar } from 'common-components'
-
+import { AppBar, animations } from 'common-components'
 export const Header = Shade({
   shadowDomName: 'shade-app-header',
   render: ({ children }) => {
@@ -17,16 +16,19 @@ export const Header = Shade({
             🌀 Multiverse
           </RouteLink>
           <Router
-            routeMatcher={(current, component) => current.pathname === component}
             notFound={() => <div />}
             routes={[
               {
                 url: '/profile',
-                component: () => <span> - Profile</span>,
+                component: () => <span style={{ display: 'inline-block' }}> - Profile</span>,
+                onVisit: animations.showSlide,
+                onLeave: animations.hideSlide,
               },
               {
-                url: '/sys-logs',
-                component: () => <span> - System Logs</span>,
+                url: '/sys-logs/:_id?',
+                component: () => <span style={{ display: 'inline-block' }}> - System Logs</span>,
+                onVisit: animations.showSlide,
+                onLeave: animations.hideSlide,
               },
             ]}
           />

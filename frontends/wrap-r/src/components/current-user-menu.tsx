@@ -69,6 +69,7 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
               top: '14px',
               padding: '1em',
               textAlign: 'right',
+              userSelect: 'none',
             }}>
             <CurrentUserMenuItem
               title="Profile"
@@ -107,7 +108,8 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
               width: '100%',
               height: '100%',
               zIndex: '1',
-              backdropFilter: 'blur(1px)',
+              backgroundColor: 'rgba(0,0,0,0.3)',
+              // backdropFilter: 'blur(10000px)',
             }}
             onclick={async (ev) => {
               ev.stopPropagation()

@@ -4,22 +4,25 @@ import { SessionService } from 'common-frontend-utils'
 import { Loader } from '../components/loader'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 
-export const Login = Shade({
+export const Login = Shade<
+  unknown,
+  { username: string; password: string; error: string; isOperationInProgress: boolean }
+>({
   shadowDomName: 'shade-login',
-  getInitialState: () => ({
-    username: '',
-    password: '',
-    error: '',
-    isOperationInProgress: true,
-  }),
+  getInitialState: ({ injector }) => {
+    const sessionService = injector.getInstance(SessionService)
+    return {
+      username: '',
+      password: '',
+      error: sessionService.loginError.getValue(),
+      isOperationInProgress: sessionService.isOperationInProgress.getValue(),
+    }
+  },
   constructed: ({ injector, updateState }) => {
     const sessionService = injector.getInstance(SessionService)
     const subscriptions = [
-      sessionService.loginError.subscribe((error) => updateState({ error }), true),
-      sessionService.isOperationInProgress.subscribe(
-        (isOperationInProgress) => updateState({ isOperationInProgress }),
-        true,
-      ),
+      sessionService.loginError.subscribe((error) => updateState({ error })),
+      sessionService.isOperationInProgress.subscribe((isOperationInProgress) => updateState({ isOperationInProgress })),
     ]
     return () => subscriptions.map((s) => s.dispose())
   },

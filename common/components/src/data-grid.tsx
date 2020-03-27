@@ -1,4 +1,3 @@
-import { SearchOptions } from '@furystack/core'
 import { ChildrenList, createComponent, Shade, PartialElement } from '@furystack/shades'
 import { CollectionService } from 'common-frontend-utils'
 import { GridProps } from './grid'
@@ -14,7 +13,6 @@ export interface DataGridProps<T> {
   columns: Array<keyof T>
   styles: GridProps<T>['styles']
   service: CollectionService<T>
-  defaultOptions: SearchOptions<T, any>
   headerComponents: DataHeaderCells<T>
   rowComponents: DataRowCells<T>
   onSelectionChange?: (selection: T[]) => void
@@ -31,36 +29,43 @@ export interface DataGridState<T> {
   orderDirection?: 'ASC' | 'DESC'
 }
 
-export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => JSX.Element<any, any> = Shade({
+export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => JSX.Element<any, any> = Shade<
+  DataGridProps<any>,
+  DataGridState<any>
+>({
   shadowDomName: 'shade-data-grid',
-  getInitialState: () =>
+  getInitialState: ({ props }) =>
     ({
       entries: [],
       isLoading: false,
       selection: [],
+      order: Object.keys(props.service.querySettings.getValue().order || {})[0],
+      orderDirection: Object.values(props.service.querySettings.getValue().order || {})[0],
     } as DataGridState<any>),
   constructed: ({ props, updateState }) => {
-    const itemsSubscription = props.service.entries.subscribe((entries) => updateState({ entries }))
-    return () => itemsSubscription.dispose()
+    const subscriptions = [
+      props.service.entries.subscribe((entries) => updateState({ entries })),
+      props.service.error.subscribe((error) => updateState({ error })),
+      props.service.isLoading.subscribe((isLoading) => updateState({ isLoading })),
+    ]
+    return () => Promise.all(subscriptions.map((s) => s.dispose()))
   },
   render: ({ props, getState, updateState }) => {
     const state = getState()
-
-    if (state.isLoading) {
-      return <div>Loading...</div>
-    }
     if (state.error) {
       return <div style={{ color: 'red' }}>{JSON.stringify(state.error)}</div>
     }
 
     const headerStyle: PartialElement<CSSStyleDeclaration> = {
-      padding: '0 0.51em',
+      padding: '1em 3em',
       backgroundColor: '#333',
       borderRadius: '2px',
       top: '0',
       position: 'sticky',
       cursor: 'pointer',
       fontVariant: 'all-petite-caps',
+      zIndex: '1',
+      boxShadow: '3px 3px 4px rgba(0,0,0,0.3)',
       ...props.styles?.header,
     }
 
@@ -72,32 +77,47 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
           width: '100%',
           height: '100%',
           overflow: 'auto',
+          zIndex: '1',
         }}>
         <table style={{ width: '100%', position: 'relative' }}>
           <thead>
             <tr>
-              {props.columns.map((column) => {
+              {props.columns.map((column: any) => {
                 return (
                   <th
                     style={headerStyle}
-                    onclick={() => {
-                      const currentState = getState()
-                      const currentQuerySettings = props.service.querySettings.getValue()
-                      let newDirection: 'ASC' | 'DESC' = 'ASC'
-                      const newOrder: { [K in keyof any]: 'ASC' | 'DESC' } = {}
-
-                      if (currentState.order === column) {
-                        newDirection = currentState.orderDirection === 'ASC' ? 'DESC' : 'ASC'
-                      }
-                      newOrder[column] = newDirection
-                      props.service.querySettings.setValue({
-                        ...currentQuerySettings,
-                        order: newOrder,
-                      })
-                      updateState({ order: column, orderDirection: newDirection })
+                    onmouseenter={(ev) => {
+                      ;(ev.target as HTMLTableHeaderCellElement).style.backgroundColor = 'rgba(122,128,122,0.1)'
+                    }}
+                    onmouseleave={(ev) => {
+                      ;(ev.target as HTMLTableHeaderCellElement).style.backgroundColor = '#333'
                     }}>
                     {props.headerComponents?.[column]?.(column, state) ||
-                      props.headerComponents?.default?.(column, state) || <span>{column}</span>}{' '}
+                      props.headerComponents?.default?.(column, state) || (
+                        <span
+                          style={{ display: 'inline-flex', width: '100%', justifyContent: 'center', cursor: 'pointer' }}
+                          onclick={() => {
+                            const currentState = getState()
+                            const currentQuerySettings = props.service.querySettings.getValue()
+                            let newDirection: 'ASC' | 'DESC' = 'ASC'
+                            const newOrder: { [K in keyof any]: 'ASC' | 'DESC' } = {}
+
+                            if (currentState.order === column) {
+                              newDirection = currentState.orderDirection === 'ASC' ? 'DESC' : 'ASC'
+                            }
+                            newOrder[column] = newDirection
+                            props.service.querySettings.setValue({
+                              ...currentQuerySettings,
+                              order: newOrder,
+                            })
+                            updateState({ order: column, orderDirection: newDirection })
+                          }}>
+                          <div>{column}</div>
+                          <div style={{ marginLeft: '1em' }}>
+                            {getState().order === column ? (getState().orderDirection === 'ASC' ? '⬆' : '⬇') : null}
+                          </div>
+                        </span>
+                      )}{' '}
                   </th>
                 )
               })}
@@ -110,13 +130,14 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
                   background: state.selection.includes(entry) ? 'rgba(128,128,128,0.3)' : 'transparent',
                   filter: state.focus === entry ? 'brightness(1.5)' : 'brightness(1)',
                   cursor: 'default',
+                  boxShadow: '2px 1px 0px rgba(255,255,255,0.07)',
                 }}
                 onclick={() => {
                   updateState({ focus: entry })
                   props.onSelectionChange && props.onSelectionChange([entry])
                   props.onFocusChange && props.onFocusChange(entry)
                 }}>
-                {props.columns.map((column) => (
+                {props.columns.map((column: any) => (
                   <td style={props.styles?.cell}>
                     {props.rowComponents?.[column]?.(entry, state) || props.rowComponents?.default?.(entry, state) || (
                       <span>{entry[column]}</span>

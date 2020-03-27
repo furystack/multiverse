@@ -15,6 +15,7 @@
     "common-components": "1.0.0",
     "css-loader": "^3.2.0",
     "file-loader": "^6.0.0",
+    "fork-ts-checker-webpack-plugin": "^4.1.2",
     "html-webpack-plugin": "^4.0.1",
     "style-loader": "^1.0.0",
     "ts-loader": "^6.2.1",

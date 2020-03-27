@@ -1,16 +1,21 @@
-import { createComponent, Shade, Router, LazyLoad } from '@furystack/shades'
+import { createComponent, Shade, Route, Router, LazyLoad } from '@furystack/shades'
 import { User } from 'common-models'
-import { SessionService, sessionState } from 'common-frontend-utils'
+import { SessionService, sessionState, promisifyAnimation } from 'common-frontend-utils'
 import { Init, WelcomePage, Offline, Login } from '../pages'
 import { Page404 } from '../pages/404'
 import { Loader } from './loader'
 
-export const Body = Shade<unknown, { sessionState: sessionState; currentUser: User | null }>({
+export const Body = Shade<
+  unknown,
+  { sessionState: sessionState; currentUser: User | null; isOperationInProgress: boolean }
+>({
   shadowDomName: 'shade-app-body',
   getInitialState: ({ injector }) => {
+    const sessionService = injector.getInstance(SessionService)
     return {
-      sessionState: 'initializing',
-      currentUser: injector.getInstance(SessionService).currentUser.getValue(),
+      sessionState: sessionService.state.getValue(),
+      currentUser: sessionService.currentUser.getValue(),
+      isOperationInProgress: sessionService.isOperationInProgress.getValue(),
     }
   },
   constructed: async ({ injector, updateState, getState }) => {
@@ -23,12 +28,17 @@ export const Body = Shade<unknown, { sessionState: sessionState; currentUser: Us
           })
         }
       }, true),
-      session.currentUser.subscribe((usr) => updateState({ currentUser: usr }), true),
+      session.currentUser.subscribe((currentUser) => updateState({ currentUser })),
+      session.isOperationInProgress.subscribe((isOperationInProgress) => updateState({ isOperationInProgress })),
     ]
     return () => observables.forEach((o) => o.dispose())
   },
   render: ({ getState }) => {
-    const { currentUser } = getState()
+    // eslint-disable-next-line no-shadow
+    const { currentUser, sessionState, isOperationInProgress } = getState()
+
+    if (isOperationInProgress) return <Init message="Initializing app..." />
+
     return (
       <div
         style={{
@@ -40,63 +50,79 @@ export const Body = Shade<unknown, { sessionState: sessionState; currentUser: Us
           overflow: 'hidden',
         }}>
         {(() => {
-          switch (getState().sessionState) {
+          switch (sessionState) {
             case 'authenticated':
               return currentUser ? (
                 <Router
-                  routeMatcher={(current, component) => current.pathname === component}
                   notFound={() => <Page404 />}
-                  routes={[
-                    {
-                      url: '/profile',
-                      component: () => (
-                        <LazyLoad
-                          component={async () => {
-                            const { ProfilePage } = await import(/* webpackChunkName: "profile" */ '../pages/profile')
-                            return <ProfilePage />
-                          }}
-                          loader={<Init message="Loading your Profile..." />}
-                        />
-                      ),
-                    },
-                    { url: '/', component: () => <WelcomePage /> },
-                    ...(currentUser.roles.includes('sys-logs')
-                      ? [
-                          {
-                            url: '/sys-logs',
-                            component: () => (
-                              <LazyLoad
-                                component={async () => {
-                                  const { SystemLogs } = await import(
-                                    /* webpackChunkName: "system-logs" */ '../pages/system-logs'
-                                  )
-                                  return <SystemLogs />
-                                }}
-                                loader={<Init message="Loading Logs page..." />}
-                              />
-                            ),
-                          },
-                        ]
-                      : []),
-                    ...(currentUser.roles.includes('feature-switch-admin')
-                      ? [
-                          {
-                            url: '/feature-switches',
-                            component: () => (
-                              <LazyLoad
-                                component={async () => {
-                                  const { FeatureSwitchesPage } = await import(
-                                    /* webpackChunkName: "feature-switches" */ '../pages/feature-switches'
-                                  )
-                                  return <FeatureSwitchesPage />
-                                }}
-                                loader={<Init message="Loading feature switches..." />}
-                              />
-                            ),
-                          },
-                        ]
-                      : []),
-                  ]}></Router>
+                  routes={
+                    [
+                      {
+                        url: '/profile',
+                        component: () => (
+                          <LazyLoad
+                            component={async () => {
+                              const { ProfilePage } = await import(/* webpackChunkName: "profile" */ '../pages/profile')
+                              return <ProfilePage />
+                            }}
+                            loader={<Init message="Loading your Profile..." />}
+                          />
+                        ),
+                      },
+                      { url: '/', component: () => <WelcomePage /> },
+                      ...(currentUser.roles.includes('sys-logs')
+                        ? [
+                            {
+                              url: '/sys-logs',
+                              component: () => (
+                                <LazyLoad
+                                  component={async () => {
+                                    const { SystemLogs } = await import(
+                                      /* webpackChunkName: "system-logs" */ '../pages/system-logs'
+                                    )
+                                    return <SystemLogs />
+                                  }}
+                                  loader={<Init message="Loading Logs page..." />}
+                                />
+                              ),
+                            },
+                            {
+                              url: '/sys-logs/:logGuid',
+                              component: ({ match }) => (
+                                <LazyLoad
+                                  component={async () => {
+                                    const guid = match.params.logGuid
+                                    const { EntryDetails } = await import(
+                                      /* webpackChunkName: "system-logs" */ '../pages/system-logs/entry-details'
+                                    )
+                                    return <EntryDetails guid={guid} />
+                                  }}
+                                  loader={<Init message="Loading Logs Details page..." />}
+                                />
+                              ),
+                            } as Route<{ logGuid: string }>,
+                          ]
+                        : []),
+                      ...(currentUser.roles.includes('feature-switch-admin')
+                        ? [
+                            {
+                              url: '/feature-switches',
+                              component: () => (
+                                <LazyLoad
+                                  component={async () => {
+                                    const { FeatureSwitchesPage } = await import(
+                                      /* webpackChunkName: "feature-switches" */ '../pages/feature-switches'
+                                    )
+                                    return <FeatureSwitchesPage />
+                                  }}
+                                  loader={<Init message="Loading feature switches..." />}
+                                />
+                              ),
+                            },
+                          ]
+                        : []),
+                    ] as Array<Route<any>>
+                  }></Router>
               ) : (
                 <Loader
                   style={{ animation: 'show 100ms linear', width: '128px', height: '128px', marginTop: '16px' }}
@@ -107,12 +133,46 @@ export const Body = Shade<unknown, { sessionState: sessionState; currentUser: Us
             case 'unauthenticated':
               return (
                 <Router
-                  routeMatcher={(current, component) => current.pathname === component}
                   notFound={() => <Page404 />}
                   routes={[
-                    { url: '/', component: () => <Login /> },
+                    {
+                      url: '/',
+                      component: () => <Login />,
+                      onVisit: async ({ element }) => {
+                        const form = element.querySelector('form')
+                        form &&
+                          (await promisifyAnimation(form, [{ opacity: '0' }, { opacity: '1' }], {
+                            duration: 750,
+                            easing: 'cubic-bezier(0.165, 0.840, 0.440, 1.000)',
+                          }))
+                      },
+                      onLeave: async ({ element }) => {
+                        const form = element.querySelector('form')
+                        form &&
+                          (await promisifyAnimation(form, [{ opacity: '1' }, { opacity: '0' }], {
+                            duration: 750,
+                            easing: 'cubic-bezier(0.165, 0.840, 0.440, 1.000)',
+                          }))
+                      },
+                    },
                     {
                       url: '/register',
+                      onVisit: async ({ element }) => {
+                        const form = element.querySelector('form')
+                        form &&
+                          (await promisifyAnimation(form, [{ opacity: '0' }, { opacity: '1' }], {
+                            duration: 750,
+                            easing: 'cubic-bezier(0.165, 0.840, 0.440, 1.000)',
+                          }))
+                      },
+                      onLeave: async ({ element }) => {
+                        const form = element.querySelector('form')
+                        form &&
+                          (await promisifyAnimation(form, [{ opacity: '1' }, { opacity: '0' }], {
+                            duration: 750,
+                            easing: 'cubic-bezier(0.165, 0.840, 0.440, 1.000)',
+                          }))
+                      },
                       component: () => (
                         <LazyLoad
                           component={async () => {

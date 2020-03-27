@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
 const webpack = require('webpack')
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { sites } = require('common-config')
+const { sites, tokens } = require('common-config')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 module.exports = {
+  context: process.cwd(),
   mode: 'production', // "development",
   entry: './src/index.tsx',
   output: {
@@ -44,6 +47,9 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
   plugins: [
+    new ForkTsCheckerWebpackPlugin({
+      eslint: true,
+    }),
     // new BundleAnalyzerPlugin({ analyzerPort: 8745 }),
     new HtmlWebpackPlugin({
       template: './index.html',
@@ -53,20 +59,35 @@ module.exports = {
       DEBUG: true,
       APP_VERSION: require('./package.json').version,
       BUILD_DATE: new Date().toISOString(),
-      WRAPPR_SERVICE_INTERNAL_PORT: process.env.WRAPPR_SERVICE_INTERNAL_PORT,
-      WRAPPR_SERVICE_EXTENRAL_URL: process.env.WRAPPR_SERVICE_EXTENRAL_URL,
-      LOGGR_SERVICE_INTERNAL_PORT: process.env.LOGGR_SERVICE_INTERNAL_PORT,
-      LOGGR_SERVICE_EXTENAL_URL: process.env.LOGGR_SERVICE_EXTENAL_URL,
-      GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
-      GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+      WRAPPR_SERVICE_INTERNAL_PORT: process.env.WRAPPR_SERVICE_INTERNAL_PORT || sites.services['wrap-r'].internalPort,
+      WRAPPR_SERVICE_EXTENRAL_URL: process.env.WRAPPR_SERVICE_EXTENRAL_URL || sites.services['wrap-r'].externalPath,
+      LOGGR_SERVICE_INTERNAL_PORT: process.env.LOGGR_SERVICE_INTERNAL_PORT || sites.services['logg-r'].internalPort,
+      LOGGR_SERVICE_EXTENAL_URL: process.env.LOGGR_SERVICE_EXTENAL_URL || sites.services['logg-r'].externalPath,
+      GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID || tokens.githubClientId,
+      GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || tokens.googleClientId,
       ...sites.frontends,
       ...sites.services,
     }),
-    new webpack.WatchIgnorePlugin([/\.js$/, /\.d\.ts$/]),
   ],
   module: {
     rules: [
-      { test: /\.tsx?$/, loader: 'ts-loader' },
+      // { test: /\.tsx?$/, loader: 'ts-loader', options: { projectReferences: true } },
+      {
+        test: /.tsx?$/,
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+              projectReferences: true,
+              experimentalFileCaching: false,
+              logLevel: 'info',
+              onlyCompileBundledFiles: true,
+            },
+          },
+        ],
+        exclude: /node_modules/,
+      },
       {
         test: /\.css$/,
         use: [

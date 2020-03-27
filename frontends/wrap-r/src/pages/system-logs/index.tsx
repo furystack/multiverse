@@ -1,16 +1,14 @@
-import { Shade, createComponent } from '@furystack/shades'
+import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { LogLevel } from '@furystack/logging'
 import { LogEntry } from 'common-models'
 import { DataGrid, styles } from 'common-components'
 import { LoggRApiService, CollectionService } from 'common-frontend-utils'
-import { EntryDetails } from './entry-details'
 import { getLevelIcon } from './get-level-icon'
 
 export interface SystemLogsState {
   error?: Error
-  isDetailsOpened: boolean
   selectedEntry?: LogEntry<any>
-  systemLogsService: CollectionService<LogEntry<any> & { details: any }>
+  systemLogsService: CollectionService<LogEntry<any>>
 }
 
 export const LogLevelCell = Shade<{ level: LogLevel }>({
@@ -23,20 +21,21 @@ export const LogLevelCell = Shade<{ level: LogLevel }>({
 export const SystemLogs = Shade<unknown, SystemLogsState>({
   shadowDomName: 'system-logs-page',
   getInitialState: ({ injector }) => ({
-    isDetailsOpened: false,
-    systemLogsService: new CollectionService((filter) =>
-      injector.getInstance(LoggRApiService).call({
-        method: 'GET',
-        action: '/entries',
-        query: { filter: JSON.stringify(filter) },
-      } as any),
-    ) as CollectionService<LogEntry<any> & { details: any }>,
+    systemLogsService: new CollectionService<LogEntry<any>>(
+      (filter) =>
+        injector.getInstance(LoggRApiService).call({
+          method: 'GET',
+          action: '/entries',
+          query: { filter: JSON.stringify(filter) },
+        }),
+      { top: 20, order: { creationDate: 'DESC' } },
+    ) as CollectionService<LogEntry<any>>,
   }),
   render: ({ getState }) => {
     return (
       <div style={{ width: '100%', height: '100%' }}>
-        <DataGrid<LogEntry<any> & { details: any }>
-          columns={['level', 'appName', 'scope', 'message', 'creationDate', 'details']}
+        <DataGrid<LogEntry<any>>
+          columns={['level', 'appName', 'scope', 'message', 'creationDate']}
           service={getState().systemLogsService}
           styles={{
             cell: {
@@ -46,13 +45,15 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
             },
             wrapper: styles.glassBox,
           }}
-          defaultOptions={{}}
           headerComponents={{}}
           rowComponents={{
-            level: (entry) => <LogLevelCell level={entry.level} />,
+            level: (entry) => (
+              <RouteLink href={`/sys-logs/${entry._id}`}>
+                <LogLevelCell level={entry.level} />
+              </RouteLink>
+            ),
             message: (entry) => <span style={{ wordBreak: 'break-all' }}>{entry.message}</span>,
-            creationDate: (entry) => <span>{entry.creationDate.toString().replace('T', ' ')}</span>,
-            details: (entry) => <EntryDetails entry={entry} />,
+            creationDate: (entry) => <span>{entry.creationDate.toString().replace(/([T|Z])/g, ' ')}</span>,
           }}
         />
       </div>

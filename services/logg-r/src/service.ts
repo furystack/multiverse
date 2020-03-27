@@ -2,7 +2,7 @@ import { sites } from 'common-config'
 import { LoggRApi } from 'common-models'
 import { Authorize } from '@furystack/rest-service'
 import { injector } from './config'
-import { GetEntries } from './actions/get-entries'
+import { GetEntries, GetEntry } from './actions'
 
 injector.useRestService<LoggRApi>({
   port: parseInt(sites.services['logg-r'].internalPort as string, 10),
@@ -10,6 +10,7 @@ injector.useRestService<LoggRApi>({
   api: {
     GET: {
       '/entries': Authorize('sys-logs')(GetEntries),
+      '/entry/:_id': Authorize('sys-logs')(GetEntry),
     },
   },
   cors: {

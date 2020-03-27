@@ -1,3 +1,4 @@
+export * from './animations'
 export * from './app-bar'
 export * from './avatar'
 export * from './button'

@@ -35,8 +35,8 @@ export const Input = Shade<TextInputProps>({
           <div
             onfocus={() => {
               const labelStyle = (element.querySelector('label') as HTMLElement).style
-              labelStyle.backgroundColor = 'rgba(255,255,255,0.05)'
-              labelStyle.boxShadow = '0px 0px 5px rgba(0,0,0,.1)'
+              labelStyle.backgroundColor = 'rgba(255,255,255,0.02)'
+              labelStyle.boxShadow = '0px 0px 5px rgba(0,0,0,.05)'
             }}
             onblur={() => {
               const labelStyle = (element.querySelector('label') as HTMLElement).style
