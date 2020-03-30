@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
 const webpack = require('webpack')
-// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { sites, tokens } = require('common-config')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 module.exports = {
   entry: './src/index.tsx',
