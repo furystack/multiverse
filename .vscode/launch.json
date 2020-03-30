@@ -11,7 +11,8 @@
       "program": "${workspaceFolder}/services/${input:service}/src/service.ts",
       "outFiles": ["${workspaceFolder}/services/${input:service}/dist/service.js"],
       "cwd": "${workspaceFolder}/services/${input:service}",
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal"
     }
   ],
   "inputs": [
