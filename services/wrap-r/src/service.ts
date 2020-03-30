@@ -2,6 +2,7 @@ import { GetCurrentUser, IsAuthenticated, LoginAction, LogoutAction } from '@fur
 import { sites } from 'common-config'
 import { User, WrapRApi } from 'common-models'
 import { RequestAction } from '@furystack/rest'
+import { attachShutdownHandler } from 'common-service-utils'
 import {
   GithubLoginAction,
   GithubRegisterAction,
@@ -34,4 +35,5 @@ injector.useRestService<WrapRApi>({
     origins: Object.values(sites.frontends),
   },
 })
-injector.disposeOnProcessExit()
+
+attachShutdownHandler(injector)

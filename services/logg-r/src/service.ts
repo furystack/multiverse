@@ -1,6 +1,7 @@
 import { sites } from 'common-config'
 import { LoggRApi } from 'common-models'
 import { Authorize } from '@furystack/rest-service'
+import { attachShutdownHandler } from 'common-service-utils'
 import { injector } from './config'
 import { GetEntries, GetEntry } from './actions'
 
@@ -18,4 +19,5 @@ injector.useRestService<LoggRApi>({
     origins: Object.values(sites.frontends),
   },
 })
-injector.disposeOnProcessExit()
+
+attachShutdownHandler(injector)
