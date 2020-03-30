@@ -7,56 +7,16 @@ const { sites, tokens } = require('common-config')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 module.exports = {
-  context: process.cwd(),
-  mode: 'production', // "development",
   entry: './src/index.tsx',
   output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
     publicPath: '/',
     path: path.resolve(`${__dirname}/bundle`),
   },
-  devServer: {
-    historyApiFallback: true,
-    disableHostCheck: true,
-    hot: false,
-    inline: false,
-  },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        commons: {
-          minChunks: 2,
-          name: 'vendors',
-          chunks: 'all',
-        },
-        furystack: {
-          test: /([\\/]node_modules[\\/]@furystack[\\/]|[\\/]furystack[\\/]packages[\\/])/gm,
-          name: 'furystack',
-          chunks: 'all',
-        },
-      },
-    },
-    runtimeChunk: false,
-  },
-  // Enable sourcemaps for debugging webpack's output.
-  devtool: 'source-map',
   resolve: {
-    // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin({
-      eslint: true,
-    }),
-    // new BundleAnalyzerPlugin({ analyzerPort: 8745 }),
-    new HtmlWebpackPlugin({
-      template: './index.html',
-    }),
     new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
-      DEBUG: true,
       APP_VERSION: require('./package.json').version,
       BUILD_DATE: new Date().toISOString(),
       WRAPPR_SERVICE_INTERNAL_PORT: process.env.WRAPPR_SERVICE_INTERNAL_PORT || sites.services['wrap-r'].internalPort,
@@ -71,7 +31,6 @@ module.exports = {
   ],
   module: {
     rules: [
-      // { test: /\.tsx?$/, loader: 'ts-loader', options: { projectReferences: true } },
       {
         test: /.tsx?$/,
         use: [
@@ -79,7 +38,6 @@ module.exports = {
             loader: 'ts-loader',
             options: {
               transpileOnly: true,
-              projectReferences: true,
             },
           },
         ],
