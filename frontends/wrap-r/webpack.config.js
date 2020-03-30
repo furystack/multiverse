@@ -80,9 +80,6 @@ module.exports = {
             options: {
               transpileOnly: true,
               projectReferences: true,
-              experimentalFileCaching: false,
-              logLevel: 'info',
-              onlyCompileBundledFiles: true,
             },
           },
         ],
