@@ -1,5 +1,3 @@
-# boilerplate
+# multiverse
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/furystack/boilerplate.svg)](https://greenkeeper.io/)
-
-Boilerplate app with Furystack
+App with multiple microservices and common packages with Furystack
