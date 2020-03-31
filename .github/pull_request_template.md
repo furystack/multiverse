@@ -1,11 +1,3 @@
----
-name: 🙋 New Feature
-about: New feature implementation
-title: '[FEAT]'
-labels: enhancement
-assignees: ''
----
-
 <!---
 Thanks for filing a pull request 😄 ! Before you submit, please check open/closed issues since someone might have pushed the same thing before!
 -->
