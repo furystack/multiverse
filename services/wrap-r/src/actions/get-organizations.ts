@@ -1,12 +1,12 @@
 import { RequestAction, JsonResult } from '@furystack/rest'
-import { Profile } from 'common-models'
+import { Organization } from 'common-models'
 import { PartialResult } from '@furystack/core'
 
-export const GetProfiles: RequestAction<{
+export const GetOrganizations: RequestAction<{
   query: { search?: string; top?: number; skip?: number }
-  result: Array<PartialResult<Profile, any>>
+  result: Array<PartialResult<Organization, any>>
 }> = async ({ injector, getQuery }) => {
-  const profileStore = injector.getDataSetFor(Profile)
+  const profileStore = injector.getDataSetFor(Organization)
   const { search, top, skip } = getQuery()
   const result = await profileStore.filter(injector, {
     top,
@@ -14,12 +14,12 @@ export const GetProfiles: RequestAction<{
     filter: {
       $or: [
         {
-          displayName: {
+          name: {
             $regex: search || '.',
           },
         },
         {
-          username: {
+          description: {
             $regex: search || '.',
           },
         },

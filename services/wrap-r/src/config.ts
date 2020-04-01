@@ -5,7 +5,7 @@ import '@furystack/repository/dist/injector-extension'
 import { HttpUserContext } from '@furystack/rest-service'
 import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
-import { User, LogEntry, GoogleAccount, GithubAccount } from 'common-models'
+import { User, LogEntry, GoogleAccount, GithubAccount, Organization } from 'common-models'
 import { databases } from 'common-config'
 
 export const authorizedOnly = async (options: { injector: Injector }) => {
@@ -48,6 +48,15 @@ injector
         options: {
           useUnifiedTopology: true,
         },
+      })
+      .useMongoDb({
+        model: Organization,
+        url: databases['common-auth'].mongoUrl,
+        db: databases['common-auth'].dbName,
+        collection: 'organizations',
+        options: {
+          useUnifiedTopology: true,
+        },
       }),
   )
   .useLogging(ConsoleLogger)
@@ -76,6 +85,16 @@ injector
             message: result ? '' : "Role 'sys-logs' required",
           }
         },
+      })
+      .createDataSet(Organization, {
+        name: 'organizations',
+        authorizeUpdateEntity: async ({ injector: i, entity }) => {
+          const currentUser = await i.getInstance(HttpUserContext).getCurrentUser()
+          if (entity.ownerName === currentUser.username || entity.adminNames.includes(currentUser.username)) {
+            return { isAllowed: true }
+          }
+          return { isAllowed: false, message: 'Only the owner or admins can modify an organization' }
+        },
       }),
   )
 
@@ -91,5 +110,13 @@ verifyAndCreateIndexes({
   model: GithubAccount,
   indexName: 'githubId',
   indexSpecification: { githubId: 1 },
+  indexOptions: { unique: true },
+})
+
+verifyAndCreateIndexes({
+  injector,
+  model: Organization,
+  indexName: 'orgName',
+  indexSpecification: { name: 1 },
   indexOptions: { unique: true },
 })

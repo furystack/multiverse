@@ -70,6 +70,34 @@ export const Body = Shade<
                         ),
                       },
                       { url: '/', component: () => <WelcomePage /> },
+                      {
+                        url: '/organizations',
+                        component: () => (
+                          <LazyLoad
+                            component={async () => {
+                              const { OrganizationsPage } = await import(
+                                /* webpackChunkName: "organizations" */ '../pages/organizations'
+                              )
+                              return <OrganizationsPage />
+                            }}
+                            loader={<Init message="Loading your Profile..." />}
+                          />
+                        ),
+                      },
+                      {
+                        url: '/organizations/:organizationId',
+                        component: ({ match }) => (
+                          <LazyLoad
+                            component={async () => {
+                              const { OrganizationDetailsPage } = await import(
+                                /* webpackChunkName: "organizations" */ '../pages/organizations/organization-details'
+                              )
+                              return <OrganizationDetailsPage organizationId={match.params.organizationId} />
+                            }}
+                            loader={<Init message="Loading your Profile..." />}
+                          />
+                        ),
+                      },
                       ...(currentUser.roles.includes('sys-logs')
                         ? [
                             {

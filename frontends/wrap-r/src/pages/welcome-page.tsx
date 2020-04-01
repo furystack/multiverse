@@ -82,6 +82,7 @@ export const WelcomePage = Shade<{}, { currentUser: User | null }>({
         justifyContent: 'center',
         width: '100%',
         height: '100%',
+        overflow: 'auto',
         transition:
           'opacity .35s cubic-bezier(0.550, 0.085, 0.680, 0.530), padding .2s cubic-bezier(0.550, 0.085, 0.680, 0.530)',
       }}>
@@ -96,7 +97,7 @@ export const WelcomePage = Shade<{}, { currentUser: User | null }>({
           flexGrow: '1',
         }}>
         <h2 style={{ margin: '0' }}> Welcome, {getState().currentUser?.username || 'unknown'} !</h2>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
           {serviceList
             .filter((service) => service.requiredRoles.every((role) => getState().currentUser?.roles.includes(role)))
             .map((service, index) => (

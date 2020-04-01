@@ -12,6 +12,10 @@ import {
   GetAvatar,
   GetProfiles,
   GetProfile,
+  GetOrganizations,
+  GetOrganization,
+  PatchOrganization,
+  PostOrganization,
 } from './actions'
 import { injector } from './config'
 
@@ -25,6 +29,8 @@ injector.useRestService<WrapRApi>({
       '/profiles': GetProfiles,
       '/profiles/:username': GetProfile,
       '/profiles/:username/avatar': GetAvatar,
+      '/organizations': GetOrganizations,
+      '/organization/:organizationName': GetOrganization,
     },
     POST: {
       '/githubLogin': GithubLoginAction,
@@ -34,6 +40,10 @@ injector.useRestService<WrapRApi>({
       '/login': LoginAction as any,
       '/logout': LogoutAction,
       '/register': RegisterAction,
+      '/organizations': PostOrganization,
+    },
+    PATCH: {
+      '/organizations/:organizationName': PatchOrganization,
     },
   },
   cors: {
