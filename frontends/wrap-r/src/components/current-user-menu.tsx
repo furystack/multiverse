@@ -1,14 +1,14 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { User } from 'common-models'
 import { Avatar, styles } from 'common-components'
-import { SessionService } from 'common-frontend-utils'
+import { SessionService, serviceList } from 'common-frontend-utils'
 
-const CurrentUserMenuItem = Shade<{ title: string; onclick: () => void }>({
+const CurrentUserMenuItem = Shade<{ title: string; icon: string; onclick: () => void }>({
   shadowDomName: 'current-user-menu-item',
   render: ({ props }) => {
     return (
       <a onclick={props.onclick} style={{ cursor: 'pointer', display: 'block' }} title={props.title}>
-        {props.title}
+        {props.icon} &nbsp; {props.title}
       </a>
     )
   },
@@ -71,28 +71,24 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
               textAlign: 'right',
               userSelect: 'none',
             }}>
-            <CurrentUserMenuItem
-              title="Profile"
-              onclick={() => {
-                history.pushState({}, 'Profile', '/profile')
-              }}
-            />
-            {currentUser.roles.includes('feature-switch-admin') ? (
-              <CurrentUserMenuItem
-                title="Feature switches"
-                onclick={() => history.pushState({}, 'Feature Switches', '/feature-switches')}
-              />
-            ) : null}
-            {currentUser.roles.includes('sys-logs') ? (
-              <CurrentUserMenuItem
-                title="System Log"
-                onclick={() => history.pushState({}, 'System Log', '/sys-logs')}
-              />
-            ) : null}
+            {serviceList
+              .filter((service) =>
+                service.requiredRoles.every((requiredRole) => currentUser.roles.includes(requiredRole)),
+              )
+              .map((service) => (
+                <CurrentUserMenuItem
+                  icon={service.icon}
+                  title={service.name}
+                  onclick={() => {
+                    history.pushState({}, service.name, service.url)
+                  }}
+                />
+              ))}
 
             <hr style={{ boxShadow: '1px 1px 1px solid rgba(0,0,0,0.1)' }} />
             <CurrentUserMenuItem
               title="Log out"
+              icon={'🚪'}
               onclick={() => {
                 injector.getInstance(SessionService).logout()
                 history.pushState({}, 'Home', '/')
