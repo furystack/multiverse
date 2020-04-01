@@ -9,7 +9,8 @@ declare global {
 const glassBox: PartialElement<CSSStyleDeclaration> = {
   backdropFilter: 'blur(4px)',
   borderRadius: '5px',
-  boxShadow: 'rgba(0, 0, 0, 0.5) 0px 0px 50px 15px, inset 0px 0px 45px -5px rgba(192,192,192,0.2)',
+  border: '1px solid rgba(128,128,128,.3)',
+  boxShadow: 'rgba(0, 0, 0, 0.3) 2px 2px 2px, 1px 1px 3px -2px rgba(255,255,255,0.3) inset',
 }
 
 export const styles = {
