@@ -1,3 +1,6 @@
+export * from './get-avatar'
+export * from './get-profile'
+export * from './get-profiles'
 export * from './get-release-info'
 export * from './github-login'
 export * from './github-register'

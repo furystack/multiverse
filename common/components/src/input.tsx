@@ -1,4 +1,5 @@
 import { Shade, PartialElement, createComponent } from '@furystack/shades'
+import { promisifyAnimation } from 'common-frontend-utils'
 
 export interface InputProps extends PartialElement<HTMLInputElement> {
   labelTitle?: string
@@ -23,26 +24,13 @@ export const Input = Shade<TextInputProps>({
           alignItems: 'flex-start',
           justifyContent: 'space-between',
           fontSize: '10px',
-          color: '#999',
+          color: props.disabled ? 'rgb(170, 170, 170)' : 'rgb(84, 84, 84)',
           marginBottom: '1em',
           padding: '1em',
-          borderRadius: '5px',
-          transition:
-            'background-color 300ms cubic-bezier(0.455, 0.030, 0.515, 0.955), box-shadow 300ms cubic-bezier(0.455, 0.030, 0.515, 0.955)',
         }}>
         {props.labelTitle}
         {props.multiLine ? (
           <div
-            onfocus={() => {
-              const labelStyle = (element.querySelector('label') as HTMLElement).style
-              labelStyle.backgroundColor = 'rgba(255,255,255,0.02)'
-              labelStyle.boxShadow = '0px 0px 5px rgba(0,0,0,.05)'
-            }}
-            onblur={() => {
-              const labelStyle = (element.querySelector('label') as HTMLElement).style
-              labelStyle.backgroundColor = 'transparent'
-              labelStyle.boxShadow = 'none'
-            }}
             contentEditable={props.readOnly === true || props.disabled === true ? 'inherit' : 'true'}
             {...props}
             style={{
@@ -52,7 +40,6 @@ export const Input = Shade<TextInputProps>({
               fontSize: '12px',
               width: '100%',
               textOverflow: 'ellipsis',
-              color: props.disabled ? 'rgb(170, 170, 170)' : 'rgb(84, 84, 84)',
               ...props.style,
             }}>
             {props.value}
@@ -60,14 +47,44 @@ export const Input = Shade<TextInputProps>({
         ) : (
           <input
             onfocus={() => {
-              const labelStyle = (element.querySelector('label') as HTMLElement).style
-              labelStyle.backgroundColor = 'rgba(255,255,255,0.05)'
-              labelStyle.boxShadow = '0px 0px 5px rgba(0,0,0,.1)'
+              if (!props.disabled) {
+                promisifyAnimation(element.querySelector('label'), [{ color: '#999' }, { color: '#ddd' }], {
+                  duration: 500,
+                  easing: 'cubic-bezier(0.455, 0.030, 0.515, 0.955)',
+                  fill: 'forwards',
+                })
+                promisifyAnimation(
+                  element.querySelector('input'),
+                  [
+                    { boxShadow: '0px 0px 0px rgba(128,128,128,0.1)' },
+                    { boxShadow: '0px 3px 0px rgba(128,128,128,0.4)' },
+                  ],
+                  {
+                    duration: 200,
+                    fill: 'forwards',
+                  },
+                )
+              }
             }}
             onblur={() => {
-              const labelStyle = (element.querySelector('label') as HTMLElement).style
-              labelStyle.backgroundColor = 'transparent'
-              labelStyle.boxShadow = 'none'
+              if (!props.disabled) {
+                promisifyAnimation(element.querySelector('label'), [{ color: '#ddd' }, { color: '#999' }], {
+                  duration: 200,
+                  easing: 'cubic-bezier(0.455, 0.030, 0.515, 0.955)',
+                  fill: 'forwards',
+                })
+                promisifyAnimation(
+                  element.querySelector('input'),
+                  [
+                    { boxShadow: '0px 3px 0px rgba(128,128,128,0.4)' },
+                    { boxShadow: '0px 0px 0px rgba(128,128,128,0.1)' },
+                  ],
+                  {
+                    duration: 400,
+                    fill: 'forwards',
+                  },
+                )
+              }
             }}
             {...props}
             style={{
@@ -78,6 +95,7 @@ export const Input = Shade<TextInputProps>({
               fontSize: '12px',
               width: '100%',
               textOverflow: 'ellipsis',
+              padding: '0.6em 0',
               ...props.style,
             }}
           />

@@ -9,6 +9,9 @@ import {
   GoogleRegisterAction,
   RegisterAction,
   GoogleLoginAction,
+  GetAvatar,
+  GetProfiles,
+  GetProfile,
 } from './actions'
 import { injector } from './config'
 
@@ -19,6 +22,9 @@ injector.useRestService<WrapRApi>({
     GET: {
       '/currentUser': (GetCurrentUser as unknown) as RequestAction<{ result: User }>,
       '/isAuthenticated': IsAuthenticated,
+      '/profiles': GetProfiles,
+      '/profiles/:username': GetProfile,
+      '/profiles/:username/avatar': GetAvatar,
     },
     POST: {
       '/githubLogin': GithubLoginAction,
