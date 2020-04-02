@@ -142,7 +142,7 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
                 }}
                 ondblclick={() => props.onDoubleClick?.(entry)}>
                 {props.columns.map((column: any) => (
-                  <td style={props.styles?.cell}>
+                  <td style={{ padding: '0.5em', ...props.styles?.cell }}>
                     {props.rowComponents?.[column]?.(entry, state) || props.rowComponents?.default?.(entry, state) || (
                       <span>{entry[column]}</span>
                     )}

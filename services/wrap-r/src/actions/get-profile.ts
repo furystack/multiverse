@@ -6,7 +6,7 @@ export const GetProfile: RequestAction<{
   result: PartialResult<Profile, any>
   urlParams: { username: string }
 }> = async ({ injector, getUrlParams }) => {
-  const profileStore = injector.getDataSetFor(Profile)
+  const profileStore = injector.getDataSetFor<Profile>('profiles')
   const { username } = getUrlParams()
   const result = await profileStore.filter(injector, {
     filter: {
