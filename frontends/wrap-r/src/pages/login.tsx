@@ -1,6 +1,7 @@
 import { Button, Input, styles } from 'common-components'
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { SessionService } from 'common-frontend-utils'
+import { tokens } from 'common-config'
 import { Loader } from '../components/loader'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 
@@ -146,7 +147,7 @@ export const Login = Shade<
                 onclick={(ev) => {
                   ev.preventDefault()
                   window.location.replace(
-                    `https://github.com/login/oauth/authorize?client_id=${process.env.MULTIVERSE_TOKEN_githubClientId}&redirect_uri=${window.location.origin}/github-login`,
+                    `https://github.com/login/oauth/authorize?client_id=${tokens.githubClientId}&redirect_uri=${window.location.origin}/github-login`,
                   )
                 }}
                 title="Github">

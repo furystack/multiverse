@@ -4,7 +4,6 @@ export const ProfilePage = Shade({
   render: () => (
     <div>
       <h1>Profile Page</h1>
-      Profile settings stub...
     </div>
   ),
 })

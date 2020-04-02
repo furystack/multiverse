@@ -1,10 +1,27 @@
 import { RequestAction, RestApi } from '@furystack/rest'
+import { PartialResult } from '@furystack/core'
 import { User } from '../user'
+import { Profile } from '../profile'
+import { Organization } from '../organization'
 
 export interface WrapRApi extends RestApi {
   GET: {
     '/isAuthenticated': RequestAction<{ result: { isAuthenticated: boolean } }>
     '/currentUser': RequestAction<{ result: User }>
+    '/profiles/:username': RequestAction<{ result: PartialResult<Profile, any>; urlParams: { username: string } }>
+    '/profiles/:username/avatar': RequestAction<{ result: any; urlParams: { username: string } }>
+    '/profiles': RequestAction<{
+      query: { search?: string; top?: number; skip?: number }
+      result: Array<PartialResult<Profile, any>>
+    }>
+    '/organizations': RequestAction<{
+      query: { search?: string; top?: number; skip?: number }
+      result: Array<PartialResult<Organization, any>>
+    }>
+    '/organization/:organizationName': RequestAction<{
+      result: PartialResult<Organization, any>
+      urlParams: { organizationName: string }
+    }>
   }
   POST: {
     '/login': RequestAction<{ body: { username: string; password: string }; result: User }>
@@ -14,5 +31,14 @@ export interface WrapRApi extends RestApi {
     '/githubLogin': RequestAction<{ body: { code: string; clientId: string }; result: User }>
     '/githubRegister': RequestAction<{ body: { code: string; clientId: string }; result: User }>
     '/logout': RequestAction<{}>
+
+    '/organizations': RequestAction<{ body: Omit<Organization, '_id'>; result: Organization }>
+  }
+  PATCH: {
+    '/organizations/:organizationName': RequestAction<{
+      body: Partial<Organization>
+      result: Organization
+      urlParams: { organizationName: string }
+    }>
   }
 }

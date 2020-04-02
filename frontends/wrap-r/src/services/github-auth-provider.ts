@@ -1,5 +1,6 @@
 import { Injectable } from '@furystack/inject'
 import { WrapRApiService, SessionService } from 'common-frontend-utils'
+import { tokens } from 'common-config/src'
 
 @Injectable({ lifetime: 'singleton' })
 export class GithubAuthProvider {
@@ -11,7 +12,7 @@ export class GithubAuthProvider {
         action: '/githubLogin',
         body: {
           code,
-          clientId: process.env.MULTIVERSE_TOKEN_githubClientId as string,
+          clientId: tokens.githubClientId,
         },
       })
       if (user) {

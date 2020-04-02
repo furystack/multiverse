@@ -1,16 +1,70 @@
-import { Shade, createComponent } from '@furystack/shades'
-import { Button, styles } from 'common-components'
-import { SessionService } from 'common-frontend-utils'
+import { Shade, createComponent, RouteLink } from '@furystack/shades'
+import { styles } from 'common-components'
+import { SessionService, ServiceDescription, serviceList, promisifyAnimation } from 'common-frontend-utils'
+import { User } from 'common-models'
 
-export const WelcomePage = Shade({
+export const Widget = Shade<ServiceDescription & { index: number }>({
+  shadowDomName: 'shade-welcome-screen-widget',
+  render: ({ props, element }) => {
+    setTimeout(() => {
+      promisifyAnimation(element.querySelector('a'), [{ transform: 'scale(0)' }, { transform: 'scale(1)' }], {
+        fill: 'forwards',
+        delay: 500 + props.index * 100,
+        duration: 200,
+      })
+    })
+
+    return (
+      <RouteLink
+        onmouseenter={(ev) =>
+          promisifyAnimation(
+            ev.target as any,
+            [{ filter: 'saturate(0.3)brightness(0.6)' }, { filter: 'saturate(1)brightness(1)' }],
+            {
+              duration: 500,
+              fill: 'forwards',
+              easing: 'cubic-bezier(0.230, 1.000, 0.320, 1.000)',
+            },
+          )
+        }
+        onmouseleave={(ev) =>
+          promisifyAnimation(
+            ev.target as any,
+            [{ filter: 'saturate(1)brightness(1)' }, { filter: 'saturate(0.3)brightness(0.6)' }],
+            {
+              duration: 500,
+              fill: 'forwards',
+              easing: 'cubic-bezier(0.230, 1.000, 0.320, 1.000)',
+            },
+          )
+        }
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+          width: '256px',
+          height: '256px',
+          filter: 'saturate(0.3)brightness(0.6)',
+          transform: 'scale(0)',
+        }}
+        href={props.url}>
+        <div style={{ fontSize: '128px' }}>{props.icon}</div>
+        <div>{props.name}</div>
+      </RouteLink>
+    )
+  },
+})
+
+export const WelcomePage = Shade<{}, { currentUser: User | null }>({
   shadowDomName: 'welcome-page',
-  getInitialState: () => ({
-    userName: '',
+  getInitialState: ({ injector }) => ({
+    currentUser: injector.getInstance(SessionService).currentUser.getValue(),
   }),
   constructed: async ({ injector, updateState, element }) => {
-    const observable = injector.getInstance(SessionService).currentUser.subscribe((usr) => {
-      updateState({ userName: usr ? usr.username : '' })
-    }, true)
+    const observable = injector.getInstance(SessionService).currentUser.subscribe((currentUser) => {
+      updateState({ currentUser })
+    })
     setTimeout(() => {
       requestAnimationFrame(() => {
         const container = element.children[0] as HTMLElement
@@ -19,15 +73,16 @@ export const WelcomePage = Shade({
     }, 200)
     return () => observable.dispose()
   },
-  render: ({ injector, getState }) => (
+  render: ({ getState }) => (
     <div
       style={{
         opacity: '0',
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'center',
         width: '100%',
         height: '100%',
+        overflow: 'auto',
         transition:
           'opacity .35s cubic-bezier(0.550, 0.085, 0.680, 0.530), padding .2s cubic-bezier(0.550, 0.085, 0.680, 0.530)',
       }}>
@@ -39,15 +94,16 @@ export const WelcomePage = Shade({
           alignItems: 'center',
           justifyContent: 'center',
           padding: '2em',
+          flexGrow: '1',
         }}>
-        <h2 style={{ marginTop: '0' }}> Hello, {getState().userName || 'unknown'} !</h2>
-        <p>Welcome to FuryStack multiverse, have fun!</p>
-        <Button
-          onclick={() => {
-            injector.getInstance(SessionService).logout()
-          }}>
-          Log out
-        </Button>
+        <h2 style={{ margin: '0' }}> Welcome, {getState().currentUser?.username || 'unknown'} !</h2>
+        <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
+          {serviceList
+            .filter((service) => service.requiredRoles.every((role) => getState().currentUser?.roles.includes(role)))
+            .map((service, index) => (
+              <Widget {...service} index={index} />
+            ))}
+        </div>
       </div>
     </div>
   ),
