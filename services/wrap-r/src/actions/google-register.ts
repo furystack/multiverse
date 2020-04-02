@@ -1,7 +1,7 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { GoogleLoginService } from '@furystack/auth-google'
 import { StoreManager } from '@furystack/core'
-import { User, GoogleAccount } from 'common-models'
+import { User, GoogleAccount, Profile } from 'common-models'
 import { HttpUserContext } from '@furystack/rest-service'
 
 /**
@@ -13,10 +13,10 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string }; resu
   getBody,
 }) => {
   const logger = injector.logger.withScope('GoogleRegisterAction')
-
+  const storeManager = injector.getInstance(StoreManager)
   const userContext = injector.getInstance(HttpUserContext)
-  const googleAcccounts = injector.getInstance(StoreManager).getStoreFor(GoogleAccount)
-  const users = injector.getInstance(StoreManager).getStoreFor(User)
+  const googleAcccounts = storeManager.getStoreFor(GoogleAccount)
+  const users = storeManager.getStoreFor(User)
   const { token } = await getBody()
   const registrationDate = new Date().toISOString()
 
@@ -53,6 +53,10 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string }; resu
     username: googleUserData.email,
     accountLinkDate: registrationDate,
   } as GoogleAccount)
+
+  await storeManager
+    .getStoreFor(Profile)
+    .add({ username: newUser.username, displayName: googleUserData.name } as Profile)
 
   logger.information({
     message: `User ${newUser.username} has been registered with Google Auth.`,
