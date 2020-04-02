@@ -1,11 +1,20 @@
 import { createComponent, Shade } from '@furystack/shades'
-import { Tabs, styles, Avatar, Input } from 'common-components'
-import { User, Profile } from 'common-models'
+import { Tabs, styles, Avatar, Input, Button } from 'common-components'
+import { User, Profile, GithubAccount, GoogleAccount } from 'common-models'
 import { WrapRApiService, SessionService } from 'common-frontend-utils'
+import { GoogleOauthProvider } from '../services/google-auth-provider'
 import { Init } from './init'
 
-export const ProfilePage = Shade<{}, { currentUser?: User; profile?: Profile }>({
-  getInitialState: () => ({}),
+export const ProfilePage = Shade<
+  {},
+  {
+    currentTab: number
+    currentUser?: User
+    profile?: Profile
+    loginProviderDetails?: { google?: GoogleAccount; github?: GithubAccount }
+  }
+>({
+  getInitialState: () => ({ currentTab: 0 }),
   constructed: async ({ injector, updateState }) => {
     const currentUser = injector.getInstance(SessionService).currentUser.getValue() as User
     const api = injector.getInstance(WrapRApiService)
@@ -14,19 +23,26 @@ export const ProfilePage = Shade<{}, { currentUser?: User; profile?: Profile }>(
       action: '/profiles/:username',
       url: { username: currentUser.username },
     })) as Profile
+    const loginProviderDetails = await api.call({
+      method: 'GET',
+      action: '/loginProviderDetails',
+    })
     updateState({
       currentUser,
       profile,
+      loginProviderDetails,
     })
   },
-  render: ({ getState }) => {
-    const { currentUser, profile } = getState()
-    if (!currentUser || !profile) {
+  render: ({ getState, injector, updateState }) => {
+    const { currentUser, profile, loginProviderDetails, currentTab } = getState()
+    if (!currentUser || !profile || !loginProviderDetails) {
       return <Init message="Loading profile..." />
     }
     return (
       <Tabs
         style={{ ...styles.glassBox, height: '100%', padding: '1em' }}
+        activeTab={currentTab}
+        onChange={(tab) => updateState({ currentTab: tab }, true)}
         tabs={[
           {
             header: <div>🎴 General info</div>,
@@ -46,7 +62,71 @@ export const ProfilePage = Shade<{}, { currentUser?: User; profile?: Profile }>(
           },
           {
             header: <div> 🧩 Connected accounts</div>,
-            component: <div>Connect and disconnect 3rd party auth. accounts</div>,
+            component: (
+              <div style={{ border: '1px solid #aaa', padding: '1em' }}>
+                <div style={{ borderBottom: '1px solid #555', paddingBottom: '2em' }}>
+                  <h4>Google</h4>
+                  {loginProviderDetails.google ? (
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Avatar
+                        style={{ width: '48px', height: '48px' }}
+                        user={
+                          {
+                            username: loginProviderDetails.google.googleApiPayload.email,
+                            avatarUrl: loginProviderDetails.google.googleApiPayload.picture,
+                          } as User
+                        }
+                      />
+                      <div style={{ margin: '0 2em' }}>
+                        Connected with <strong>{loginProviderDetails.google.googleApiPayload.email}</strong>
+                      </div>
+                      <Button
+                        title="Disconnect"
+                        style={{ color: '#772211' }}
+                        onclick={async () => {
+                          if (
+                            confirm(
+                              "Once disconnected, you won't be able to login with this Google account. Are you sure to disconnect?",
+                            )
+                          ) {
+                            await injector
+                              .getInstance(WrapRApiService)
+                              .call({ method: 'POST', action: '/detachGoogleAccount' })
+                            const providerDetails = await injector.getInstance(WrapRApiService).call({
+                              method: 'GET',
+                              action: '/loginProviderDetails',
+                            })
+                            updateState({
+                              loginProviderDetails: providerDetails,
+                            })
+                            /** */
+                          }
+                        }}>
+                        Disconnect
+                      </Button>
+                    </div>
+                  ) : (
+                    <div>
+                      Account not connected &nbsp;
+                      <Button
+                        style={{ color: 'rgba(16,92,32)' }}
+                        onclick={async () => {
+                          /** */
+                          const token = await injector.getInstance(GoogleOauthProvider).getToken()
+                          await injector.getInstance(WrapRApiService).call({
+                            method: 'POST',
+                            action: '/attachGoogleAccount',
+                            body: { token },
+                          })
+                        }}>
+                        Connect
+                      </Button>
+                    </div>
+                  )}
+                </div>
+                <div style={{ borderBottom: '1px solid #555', paddingBottom: '2em' }}></div>
+              </div>
+            ),
           },
           { header: <div> 🔑 Change Password</div>, component: <div>Change Password form</div> },
         ]}

@@ -12,6 +12,7 @@ export const Tabs = Shade<
     containerStyle?: PartialElement<CSSStyleDeclaration>
     style?: PartialElement<CSSStyleDeclaration>
     activeTab?: number
+    onChange?: (page: number) => void
   },
   { activeIndex: number }
 >({
@@ -34,7 +35,10 @@ export const Tabs = Shade<
                   fontWeight: isActive ? 'bolder' : 'inherit',
                   background: isActive ? '#2a2a2a' : '#222',
                 }}
-                onclick={() => updateState({ activeIndex: index })}>
+                onclick={() => {
+                  props.onChange && props.onChange(index)
+                  updateState({ activeIndex: index })
+                }}>
                 {tab.header}
               </div>
             )

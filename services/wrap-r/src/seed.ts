@@ -68,7 +68,7 @@ export const seed = async (i: Injector) => {
 
   await getOrCreate(
     { filter: { username: { $eq: testUser.username } } },
-    { googleId: 666, username: testUser.username },
+    { googleId: 666, username: testUser.username, googleApiPayload: { email: testUser.username } } as any,
     googleAccountStore,
     i,
   )

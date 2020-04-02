@@ -1,4 +1,4 @@
-import { GetCurrentUser, IsAuthenticated, LoginAction, LogoutAction } from '@furystack/rest-service'
+import { GetCurrentUser, IsAuthenticated, LoginAction, LogoutAction, Authenticate } from '@furystack/rest-service'
 import { sites } from 'common-config'
 import { User, WrapRApi } from 'common-models'
 import { RequestAction } from '@furystack/rest'
@@ -16,6 +16,11 @@ import {
   GetOrganization,
   PatchOrganization,
   PostOrganization,
+  GetLoginProviderDetails,
+  AttachGithubAccount,
+  DetachGithubAccount,
+  AttachGoogleAccountAction,
+  DetachGoogleAccount,
 } from './actions'
 import { injector } from './config'
 
@@ -31,12 +36,17 @@ injector.useRestService<WrapRApi>({
       '/profiles/:username/avatar': GetAvatar,
       '/organizations': GetOrganizations,
       '/organization/:organizationName': GetOrganization,
+      '/loginProviderDetails': Authenticate()(GetLoginProviderDetails),
     },
     POST: {
       '/githubLogin': GithubLoginAction,
       '/githubRegister': GithubRegisterAction,
+      '/attachGithubAccount': Authenticate()(AttachGithubAccount),
+      '/detachGithubAccount': Authenticate()(DetachGithubAccount),
       '/googleLogin': GoogleLoginAction,
       '/googleRegister': GoogleRegisterAction,
+      '/attachGoogleAccount': Authenticate()(AttachGoogleAccountAction),
+      '/detachGoogleAccount': Authenticate()(DetachGoogleAccount),
       '/login': LoginAction as any,
       '/logout': LogoutAction,
       '/register': RegisterAction,

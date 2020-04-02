@@ -3,11 +3,14 @@ import { PartialResult } from '@furystack/core'
 import { User } from '../user'
 import { Profile } from '../profile'
 import { Organization } from '../organization'
+import { GoogleAccount } from '../google-account'
+import { GithubAccount } from '../github-account'
 
 export interface WrapRApi extends RestApi {
   GET: {
     '/isAuthenticated': RequestAction<{ result: { isAuthenticated: boolean } }>
     '/currentUser': RequestAction<{ result: User }>
+    '/loginProviderDetails': RequestAction<{ result: { google?: GoogleAccount; github?: GithubAccount } }>
     '/profiles/:username': RequestAction<{ result: PartialResult<Profile, any>; urlParams: { username: string } }>
     '/profiles/:username/avatar': RequestAction<{ result: any; urlParams: { username: string } }>
     '/profiles': RequestAction<{
@@ -28,8 +31,12 @@ export interface WrapRApi extends RestApi {
     '/register': RequestAction<{ body: { email: string; password: string }; result: User }>
     '/googleLogin': RequestAction<{ body: { token: string }; result: User }>
     '/googleRegister': RequestAction<{ body: { token: string }; result: User }>
+    '/attachGoogleAccount': RequestAction<{ body: { token: string }; result: User }>
+    '/detachGoogleAccount': RequestAction<{ result: User }>
     '/githubLogin': RequestAction<{ body: { code: string; clientId: string }; result: User }>
     '/githubRegister': RequestAction<{ body: { code: string; clientId: string }; result: User }>
+    '/attachGithubAccount': RequestAction<{ body: { code: string; clientId: string }; result: User }>
+    '/detachGithubAccount': RequestAction<{ result: User }>
     '/logout': RequestAction<{}>
 
     '/organizations': RequestAction<{ body: Omit<Organization, '_id'>; result: Organization }>
