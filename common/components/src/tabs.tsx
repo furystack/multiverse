@@ -1,4 +1,4 @@
-import { Shade, createComponent, PartialElement } from '@furystack/shades'
+import { Shade, createComponent, PartialElement, LocationService } from '@furystack/shades'
 import { promisifyAnimation } from 'common-frontend-utils/src'
 
 export interface Tab {
@@ -37,6 +37,7 @@ export const Tabs = Shade<
                 }}
                 onclick={() => {
                   props.onChange && props.onChange(index)
+                  window.history.pushState({}, '', `#tab-${index}`)
                   updateState({ activeIndex: index })
                 }}>
                 {tab.header}

@@ -1,4 +1,4 @@
-import { createComponent, Shade } from '@furystack/shades'
+import { createComponent, Shade, LocationService } from '@furystack/shades'
 import { Tabs, styles, Avatar, Input, Button } from 'common-components'
 import { User, Profile, GithubAccount, GoogleAccount } from 'common-models'
 import { WrapRApiService, SessionService } from 'common-frontend-utils'
@@ -11,7 +11,7 @@ export const ProfilePage = Shade<
     currentTab: number
     currentUser?: User
     profile?: Profile
-    loginProviderDetails?: { google?: GoogleAccount; github?: GithubAccount }
+    loginProviderDetails?: { hasPassword: boolean; google?: GoogleAccount; github?: GithubAccount }
   }
 >({
   getInitialState: () => ({ currentTab: 0 }),
@@ -27,11 +27,18 @@ export const ProfilePage = Shade<
       method: 'GET',
       action: '/loginProviderDetails',
     })
+    const locationSubscription = injector.getInstance(LocationService).onLocationChanged.subscribe((loc) => {
+      if (loc.hash && loc.hash.startsWith('#tab-')) {
+        const page = parseInt(loc.hash.replace('#tab-', ''), 10)
+        page && updateState({ currentTab: page })
+      }
+    }, true)
     updateState({
       currentUser,
       profile,
       loginProviderDetails,
     })
+    return () => locationSubscription.dispose()
   },
   render: ({ getState, injector, updateState }) => {
     const { currentUser, profile, loginProviderDetails, currentTab } = getState()
@@ -61,9 +68,27 @@ export const ProfilePage = Shade<
             ),
           },
           {
-            header: <div> 🧩 Connected accounts</div>,
+            header: <div> 🚪 Login</div>,
             component: (
               <div style={{ border: '1px solid #aaa', padding: '1em' }}>
+                <div style={{ borderBottom: '1px solid #555', paddingBottom: '2em' }}>
+                  <h4>Password login</h4>
+                  {loginProviderDetails.hasPassword ? (
+                    <div>
+                      The password has been set up correctly. You can change your password{' '}
+                      <a
+                        href="#"
+                        onclick={(ev) => {
+                          ev.preventDefault()
+                          updateState({ currentTab: 2 })
+                        }}>
+                        here
+                      </a>{' '}
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
+                </div>
                 <div style={{ borderBottom: '1px solid #555', paddingBottom: '2em' }}>
                   <h4>Google</h4>
                   {loginProviderDetails.google ? (

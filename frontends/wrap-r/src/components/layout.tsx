@@ -33,7 +33,7 @@ export const Layout = Shade({
           <div style={{ width: '1em' }} />
         </Header>
         <Router
-          notFound={() => <Body />}
+          // notFound={() => <Body />}
           routes={[
             /** If you needs routes with session dependency, use the <Body /> */
             {
@@ -73,6 +73,7 @@ export const Layout = Shade({
             {
               url: '/',
               component: () => <Body />,
+              routingOptions: { end: false },
             },
           ]}
         />

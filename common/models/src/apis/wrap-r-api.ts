@@ -10,7 +10,9 @@ export interface WrapRApi extends RestApi {
   GET: {
     '/isAuthenticated': RequestAction<{ result: { isAuthenticated: boolean } }>
     '/currentUser': RequestAction<{ result: User }>
-    '/loginProviderDetails': RequestAction<{ result: { google?: GoogleAccount; github?: GithubAccount } }>
+    '/loginProviderDetails': RequestAction<{
+      result: { google?: GoogleAccount; github?: GithubAccount; hasPassword: boolean }
+    }>
     '/profiles/:username': RequestAction<{ result: PartialResult<Profile, any>; urlParams: { username: string } }>
     '/profiles/:username/avatar': RequestAction<{ result: any; urlParams: { username: string } }>
     '/profiles': RequestAction<{
