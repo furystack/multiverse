@@ -17,6 +17,7 @@ export interface DataGridProps<T> {
   rowComponents: DataRowCells<T>
   onSelectionChange?: (selection: T[]) => void
   onFocusChange?: (focus: T) => void
+  onDoubleClick?: (entry: T) => void
 }
 
 export interface DataGridState<T> {
@@ -133,10 +134,13 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
                   boxShadow: '2px 1px 0px rgba(255,255,255,0.07)',
                 }}
                 onclick={() => {
-                  updateState({ focus: entry })
-                  props.onSelectionChange && props.onSelectionChange([entry])
-                  props.onFocusChange && props.onFocusChange(entry)
-                }}>
+                  if (getState().focus !== entry) {
+                    updateState({ focus: entry })
+                    props.onSelectionChange && props.onSelectionChange([entry])
+                    props.onFocusChange && props.onFocusChange(entry)
+                  }
+                }}
+                ondblclick={() => props.onDoubleClick?.(entry)}>
                 {props.columns.map((column: any) => (
                   <td style={props.styles?.cell}>
                     {props.rowComponents?.[column]?.(entry, state) || props.rowComponents?.default?.(entry, state) || (
