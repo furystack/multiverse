@@ -1,6 +1,6 @@
 import { colors, Button, Input, styles } from 'common-components'
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
-import { SessionService } from 'common-frontend-utils'
+import { SessionService, getErrorMessage } from 'common-frontend-utils'
 import { tokens } from 'common-config'
 import { Loader } from '../components/loader'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
@@ -142,7 +142,8 @@ export const Login = Shade<
                   try {
                     await injector.getInstance(GoogleOauthProvider).login()
                   } catch (e) {
-                    updateState({ error: e.body.error })
+                    const errorMessage = await getErrorMessage(e)
+                    updateState({ error: errorMessage })
                   }
                 }}>
                 Google

@@ -118,7 +118,8 @@ export const RegisterPage = Shade({
                   try {
                     await injector.getInstance(GoogleOauthProvider).signup()
                   } catch (error) {
-                    updateState({ error: error.body.error })
+                    const errorMessage = await getErrorMessage(error)
+                    updateState({ error: errorMessage })
                   }
                 }}>
                 Google
