@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { Button } from 'common-components'
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
+import { getErrorMessage } from 'common-frontend-utils'
 import { Loader } from '../../components/loader'
 import { GithubAuthProvider } from '../../services/github-auth-provider'
 
@@ -14,7 +15,11 @@ export const GithubAttach = Shade<{ code: string }, { loginError?: string }>({
       await injector.getInstance(GithubAuthProvider).attach(props.code)
       history.pushState({}, '', '/profile#tab-1')
     } catch (error) {
-      updateState({ loginError: error.body.error })
+      const loginError =
+        (await getErrorMessage(error)) || 'There was an error during you have tried attaching the account.'
+      updateState({
+        loginError,
+      })
     }
   },
   render: ({ getState }) => {
