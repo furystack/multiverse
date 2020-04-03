@@ -210,7 +210,7 @@ export const ProfilePage = Shade<
                         onclick={(ev) => {
                           ev.preventDefault()
                           window.location.replace(
-                            `https://github.com/login/oauth/authorize?client_id=${tokens.githubClientId}&redirect_uri=${window.location.origin}/github-login`,
+                            `https://github.com/login/oauth/authorize?client_id=${tokens.githubClientId}&redirect_uri=${window.location.origin}/github-attach`,
                           )
                         }}>
                         Connect
