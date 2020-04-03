@@ -1,6 +1,6 @@
 import { Button, Input, styles, colors } from 'common-components'
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { WrapRApiService, SessionService } from 'common-frontend-utils'
+import { WrapRApiService, SessionService, getErrorMessage } from 'common-frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 
 export const RegisterPage = Shade({
@@ -71,7 +71,8 @@ export const RegisterPage = Shade({
                     sessionService.state.setValue('authenticated')
                   }
                 } catch (error) {
-                  updateState({ error: error.message.toString() })
+                  const errorMessage = (await getErrorMessage(error)) || 'Failed to register.'
+                  updateState({ error: errorMessage })
                 }
                 sessionService.isOperationInProgress.setValue(false)
               }}>
