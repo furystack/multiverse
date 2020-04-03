@@ -42,7 +42,7 @@ export class GithubAuthProvider {
   }
 
   public async attach(code: string) {
-    this.api.call({
+    await this.api.call({
       method: 'POST',
       action: '/attachGithubAccount',
       body: { clientId: tokens.githubClientId, code },
