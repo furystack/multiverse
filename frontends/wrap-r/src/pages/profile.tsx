@@ -47,6 +47,17 @@ export const ProfilePage = Shade<
     if (!currentUser || !profile || !loginProviderDetails) {
       return <Init message="Loading profile..." />
     }
+
+    const reloadProviderDetails = async () => {
+      const providerDetails = await injector.getInstance(WrapRApiService).call({
+        method: 'GET',
+        action: '/loginProviderDetails',
+      })
+      updateState({
+        loginProviderDetails: providerDetails,
+      })
+    }
+
     return (
       <Tabs
         style={{ ...styles.glassBox, height: '100%', padding: '1em' }}
@@ -121,14 +132,7 @@ export const ProfilePage = Shade<
                             await injector
                               .getInstance(WrapRApiService)
                               .call({ method: 'POST', action: '/detachGoogleAccount' })
-                            const providerDetails = await injector.getInstance(WrapRApiService).call({
-                              method: 'GET',
-                              action: '/loginProviderDetails',
-                            })
-                            updateState({
-                              loginProviderDetails: providerDetails,
-                            })
-                            /** */
+                            await reloadProviderDetails()
                           }
                         }}>
                         Disconnect
@@ -147,6 +151,7 @@ export const ProfilePage = Shade<
                             action: '/attachGoogleAccount',
                             body: { token },
                           })
+                          await reloadProviderDetails()
                         }}>
                         Connect
                       </Button>
@@ -189,13 +194,7 @@ export const ProfilePage = Shade<
                             await injector
                               .getInstance(WrapRApiService)
                               .call({ method: 'POST', action: '/detachGithubAccount' })
-                            const providerDetails = await injector.getInstance(WrapRApiService).call({
-                              method: 'GET',
-                              action: '/loginProviderDetails',
-                            })
-                            updateState({
-                              loginProviderDetails: providerDetails,
-                            })
+                            await reloadProviderDetails()
                             /** */
                           }
                         }}>
