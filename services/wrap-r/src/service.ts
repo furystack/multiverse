@@ -21,6 +21,7 @@ import {
   DetachGithubAccount,
   AttachGoogleAccountAction,
   DetachGoogleAccount,
+  ChangePasswordAction,
 } from './actions'
 import { injector } from './config'
 
@@ -51,6 +52,7 @@ injector.useRestService<WrapRApi>({
       '/logout': LogoutAction,
       '/register': RegisterAction,
       '/organizations': PostOrganization,
+      '/changePassword': Authenticate()(ChangePasswordAction),
     },
     PATCH: {
       '/organizations/:organizationName': PatchOrganization,

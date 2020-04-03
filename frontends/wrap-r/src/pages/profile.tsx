@@ -3,6 +3,7 @@ import { Tabs, styles, Avatar, Input, Button } from 'common-components'
 import { User, Profile, GithubAccount, GoogleAccount } from 'common-models'
 import { WrapRApiService, SessionService } from 'common-frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
+import { ChangePasswordForm } from '../components/change-password-form'
 import { Init } from './init'
 
 export const ProfilePage = Shade<
@@ -63,7 +64,9 @@ export const ProfilePage = Shade<
                   <h3 style={{ marginLeft: '2em' }}>General Info</h3>
                 </div>
                 <Input type="text" labelTitle="Login name" value={currentUser.username} disabled />
+                <Input type="text" labelTitle="Display name" value={profile.displayName} disabled />
                 <Input type="text" labelTitle="Registration date" value={currentUser.registrationDate} disabled />
+                <Input type="text" labelTitle="Roles" value={currentUser.roles.join(', ')} disabled />
               </div>
             ),
           },
@@ -153,7 +156,14 @@ export const ProfilePage = Shade<
               </div>
             ),
           },
-          { header: <div> 🔑 Change Password</div>, component: <div>Change Password form</div> },
+          {
+            header: <div> 🔑 Change Password</div>,
+            component: (
+              <div>
+                <ChangePasswordForm showCurrentPassword={loginProviderDetails.hasPassword} />
+              </div>
+            ),
+          },
         ]}
       />
     )

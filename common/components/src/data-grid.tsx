@@ -1,6 +1,7 @@
 import { ChildrenList, createComponent, Shade, PartialElement } from '@furystack/shades'
 import { CollectionService } from 'common-frontend-utils'
 import { GridProps } from './grid'
+import { colors } from './styles'
 
 export type DataHeaderCells<T> = {
   [TKey in keyof T | 'default']?: (name: keyof T, state: DataGridState<T>) => JSX.Element
@@ -54,7 +55,7 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
   render: ({ props, getState, updateState }) => {
     const state = getState()
     if (state.error) {
-      return <div style={{ color: 'red' }}>{JSON.stringify(state.error)}</div>
+      return <div style={{ color: colors.error.main }}>{JSON.stringify(state.error)}</div>
     }
 
     const headerStyle: PartialElement<CSSStyleDeclaration> = {

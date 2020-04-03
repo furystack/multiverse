@@ -1,29 +1,50 @@
 import { Shade, createComponent, PartialElement } from '@furystack/shades'
 import { promisifyAnimation } from 'common-frontend-utils/src'
+import { colors } from './styles'
 
-const defaultStyle: PartialElement<CSSStyleDeclaration> = {
-  background: 'rgba(255, 255, 255, 0.6)',
+const getDefaultStyle: (props: ButtonProps) => PartialElement<CSSStyleDeclaration> = (props) => ({
+  background: props.variant
+    ? props.variant === 'primary'
+      ? colors.primary.main
+      : colors.secondary.main
+    : 'rgb(128, 128, 128)',
   border: '1px solid rgba(0, 0, 0, 0.3)',
   padding: '12px 20px',
   transition: 'background .41s linear',
   borderRadius: '3px',
   fontWeight: 'bolder',
   fontVariant: 'all-petite-caps',
-  color: '#333',
-  backdropFilter: 'blur(2px)',
-  // boxShadow: 'inset 0px 0px 26px 0px rgba(0,0,0,.2), 4px 4px 9px rgba(0,0,0,0.21)',
+  color: props.variant
+    ? props.variant === 'primary'
+      ? colors.primary.contrastText
+      : colors.secondary.contrastText
+    : '#333',
+})
+
+const getHoverStyle: (props: ButtonProps) => PartialElement<CSSStyleDeclaration> = (props) => ({
+  background: props.variant
+    ? props.variant === 'primary'
+      ? colors.primary.light
+      : colors.secondary.light
+    : 'rgb(156,156,156)',
+})
+
+export interface ButtonProps {
+  variant?: 'primary' | 'secondary'
 }
 
-export const Button = Shade<PartialElement<HTMLButtonElement>>({
+export const Button = Shade<PartialElement<HTMLButtonElement> & ButtonProps>({
   shadowDomName: 'shade-button',
   render: ({ props, children }) => {
+    const style = getDefaultStyle(props)
+    const hoverStyle = getHoverStyle(props)
     return (
       <button
         onmouseenter={(ev) => {
           {
             promisifyAnimation(
               ev.target as any,
-              [{ background: defaultStyle.background }, { background: 'rgba(255,255,255,0.9)' }],
+              [{ background: style.background }, { background: hoverStyle.background }],
               { duration: 500, fill: 'forwards', easing: 'cubic-bezier(0.215, 0.610, 0.355, 1.000)' },
             )
           }
@@ -31,7 +52,7 @@ export const Button = Shade<PartialElement<HTMLButtonElement>>({
         onmouseleave={(ev) => {
           promisifyAnimation(
             ev.target as any,
-            [{ background: 'rgba(255,255,255,0.9)' }, { background: defaultStyle.background }],
+            [{ background: hoverStyle.background }, { background: style.background }],
             {
               duration: 500,
               fill: 'forwards',
@@ -41,7 +62,7 @@ export const Button = Shade<PartialElement<HTMLButtonElement>>({
         }}
         {...props}
         style={{
-          ...defaultStyle,
+          ...style,
           cursor: props.disabled ? 'inherits' : 'pointer',
           ...props.style,
         }}>

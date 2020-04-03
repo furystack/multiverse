@@ -1,5 +1,6 @@
 export * from './attach-github-account'
 export * from './attach-google-account'
+export * from './change-password.action'
 export * from './detach-github-account'
 export * from './detach-google-account'
 export * from './get-avatar'

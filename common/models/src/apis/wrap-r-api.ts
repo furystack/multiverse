@@ -40,6 +40,10 @@ export interface WrapRApi extends RestApi {
     '/attachGithubAccount': RequestAction<{ body: { code: string; clientId: string }; result: User }>
     '/detachGithubAccount': RequestAction<{ result: User }>
     '/logout': RequestAction<{}>
+    '/changePassword': RequestAction<{
+      body: { currentPassword: string; newPassword: string }
+      result: { success: boolean }
+    }>
 
     '/organizations': RequestAction<{ body: Omit<Organization, '_id'>; result: Organization }>
   }
