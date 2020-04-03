@@ -30,7 +30,7 @@ export class GithubAuthProvider {
       const user = await this.api.call({
         method: 'POST',
         action: '/githubRegister',
-        body: { code, clientId: process.env.GITHUB_CLIENT_ID as string },
+        body: { code, clientId: tokens.githubClientId as string },
       })
       if (user) {
         this.session.currentUser.setValue(user)
@@ -39,6 +39,14 @@ export class GithubAuthProvider {
     } finally {
       this.session.isOperationInProgress.setValue(false)
     }
+  }
+
+  public async attach(code: string) {
+    this.api.call({
+      method: 'POST',
+      action: '/attachGithubAccount',
+      body: { clientId: tokens.githubClientId, code },
+    })
   }
 
   /**

@@ -1,7 +1,8 @@
 import { createComponent, Shade, LocationService } from '@furystack/shades'
-import { Tabs, styles, Avatar, Input, Button } from 'common-components'
+import { Tabs, styles, Avatar, Input, Button, colors } from 'common-components'
 import { User, Profile, GithubAccount, GoogleAccount } from 'common-models'
 import { WrapRApiService, SessionService } from 'common-frontend-utils'
+import { tokens } from 'common-config'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 import { ChangePasswordForm } from '../components/change-password-form'
 import { Init } from './init'
@@ -152,7 +153,71 @@ export const ProfilePage = Shade<
                     </div>
                   )}
                 </div>
-                <div style={{ borderBottom: '1px solid #555', paddingBottom: '2em' }}></div>
+                <div>
+                  <h4>GitHub</h4>
+                  {loginProviderDetails.github ? (
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Avatar
+                        style={{ width: '48px', height: '48px' }}
+                        user={
+                          {
+                            username: loginProviderDetails.github.githubApiPayload.login,
+                            avatarUrl: loginProviderDetails.github.githubApiPayload.avatar_url,
+                          } as User
+                        }
+                      />
+                      <div style={{ margin: '0 2em' }}>
+                        Connected with account &nbsp;
+                        <strong>
+                          <a
+                            href={loginProviderDetails.github.githubApiPayload.html_url}
+                            target="_blank"
+                            style={{ color: colors.secondary.main }}>
+                            {loginProviderDetails.github.githubApiPayload.login}
+                          </a>
+                        </strong>
+                      </div>
+                      <Button
+                        title="Disconnect"
+                        style={{ color: '#772211' }}
+                        onclick={async () => {
+                          if (
+                            confirm(
+                              "Once disconnected, you won't be able to login with this Github account. Are you sure to disconnect?",
+                            )
+                          ) {
+                            await injector
+                              .getInstance(WrapRApiService)
+                              .call({ method: 'POST', action: '/detachGithubAccount' })
+                            const providerDetails = await injector.getInstance(WrapRApiService).call({
+                              method: 'GET',
+                              action: '/loginProviderDetails',
+                            })
+                            updateState({
+                              loginProviderDetails: providerDetails,
+                            })
+                            /** */
+                          }
+                        }}>
+                        Disconnect
+                      </Button>
+                    </div>
+                  ) : (
+                    <div>
+                      Account not connected &nbsp;
+                      <Button
+                        style={{ color: 'rgba(16,92,32)' }}
+                        onclick={(ev) => {
+                          ev.preventDefault()
+                          window.location.replace(
+                            `https://github.com/login/oauth/authorize?client_id=${tokens.githubClientId}&redirect_uri=${window.location.origin}/github-login`,
+                          )
+                        }}>
+                        Connect
+                      </Button>
+                    </div>
+                  )}
+                </div>
               </div>
             ),
           },

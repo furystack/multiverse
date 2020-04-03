@@ -1,26 +1,21 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { Button } from 'common-components'
-import { Shade, createComponent, RouteLink, LocationService } from '@furystack/shades'
-import { SessionService } from 'common-frontend-utils'
-import { Loader } from '../components/loader'
-import { GithubAuthProvider } from '../services/github-auth-provider'
+import { Shade, createComponent, RouteLink } from '@furystack/shades'
+import { Loader } from '../../components/loader'
+import { GithubAuthProvider } from '../../services/github-auth-provider'
 
-export const GithubRegister = Shade<{ code: string }, { loginError?: string }>({
-  shadowDomName: 'shade-github-register',
+export const GithubAttach = Shade<{ code: string }, { loginError?: string }>({
+  shadowDomName: 'shade-github-attach',
   getInitialState: () => ({
     loginError: undefined,
   }),
   constructed: async ({ props, injector, updateState }) => {
-    const location = injector.getInstance(SessionService).currentUser.subscribe(() => {
-      window.history.pushState('', '', '/')
-      injector.getInstance(LocationService).updateState()
-    })
     try {
-      await injector.getInstance(GithubAuthProvider).register(props.code)
+      await injector.getInstance(GithubAuthProvider).attach(props.code)
+      history.pushState({}, '', '/profile#tab-1')
     } catch (error) {
       updateState({ loginError: error.body.error })
     }
-    return () => location.dispose()
   },
   render: ({ getState }) => {
     const { loginError } = getState()
@@ -43,7 +38,7 @@ export const GithubRegister = Shade<{ code: string }, { loginError?: string }>({
               flexDirection: 'column',
             }}>
             <Loader style={{ width: '128px', height: '128px', marginBottom: '32px' }} />
-            Registering account with GitHub
+            Attaching Github Account
           </div>
         ) : (
           <div
@@ -54,7 +49,7 @@ export const GithubRegister = Shade<{ code: string }, { loginError?: string }>({
               flexDirection: 'column',
               animation: 'shake 150ms 2 linear',
             }}>
-            <p> 😱 There was an error during Github registration: {loginError}</p>
+            <p> 😱 There was an error during Github account attach: {loginError}</p>
             <RouteLink href="/">
               <Button style={{}}>Return Home</Button>{' '}
             </RouteLink>

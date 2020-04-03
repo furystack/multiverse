@@ -1,24 +1,24 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { Button } from 'common-components'
-import { Shade, createComponent, RouteLink } from '@furystack/shades'
-import { getErrorMessage, SessionService } from 'common-frontend-utils'
-import { Loader } from '../components/loader'
-import { GithubAuthProvider } from '../services/github-auth-provider'
+import { Shade, createComponent, RouteLink, LocationService } from '@furystack/shades'
+import { SessionService } from 'common-frontend-utils'
+import { Loader } from '../../components/loader'
+import { GithubAuthProvider } from '../../services/github-auth-provider'
 
-export const GithubLogin = Shade<{ code: string }, { loginError?: string }>({
-  shadowDomName: 'shade-github-login',
+export const GithubRegister = Shade<{ code: string }, { loginError?: string }>({
+  shadowDomName: 'shade-github-register',
   getInitialState: () => ({
     loginError: undefined,
   }),
   constructed: async ({ props, injector, updateState }) => {
     const location = injector.getInstance(SessionService).currentUser.subscribe(() => {
       window.history.pushState('', '', '/')
+      injector.getInstance(LocationService).updateState()
     })
     try {
-      await injector.getInstance(GithubAuthProvider).login(props.code)
+      await injector.getInstance(GithubAuthProvider).register(props.code)
     } catch (error) {
-      const errorMsg = await getErrorMessage(error)
-      updateState({ loginError: errorMsg })
+      updateState({ loginError: error.body.error })
     }
     return () => location.dispose()
   },
@@ -43,7 +43,7 @@ export const GithubLogin = Shade<{ code: string }, { loginError?: string }>({
               flexDirection: 'column',
             }}>
             <Loader style={{ width: '128px', height: '128px', marginBottom: '32px' }} />
-            Logging in with GitHub
+            Registering account with GitHub
           </div>
         ) : (
           <div
@@ -54,7 +54,7 @@ export const GithubLogin = Shade<{ code: string }, { loginError?: string }>({
               flexDirection: 'column',
               animation: 'shake 150ms 2 linear',
             }}>
-            <p>😱 There was an error during Github login: {loginError}</p>
+            <p> 😱 There was an error during Github registration: {loginError}</p>
             <RouteLink href="/">
               <Button style={{}}>Return Home</Button>{' '}
             </RouteLink>
