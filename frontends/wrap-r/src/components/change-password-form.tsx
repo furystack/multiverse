@@ -3,7 +3,7 @@ import { Input, Button } from 'common-components'
 import { WrapRApiService } from 'common-frontend-utils/src'
 
 export const ChangePasswordForm = Shade<
-  { style?: PartialElement<CSSStyleDeclaration>; showCurrentPassword?: boolean },
+  { style?: PartialElement<CSSStyleDeclaration>; showCurrentPassword?: boolean; onUpdated?: () => void },
   { currentPassword: string; newPassword: string; confirmNewPassword: string }
 >({
   shadowDomName: 'shade-change-password-form',
@@ -31,6 +31,7 @@ export const ChangePasswordForm = Shade<
             if (result.success) {
               alert('Your password has been changed.')
               updateState({ confirmNewPassword: '', currentPassword: '', newPassword: '' })
+              props.onUpdated && props.onUpdated()
               return
             }
           } catch (error) {

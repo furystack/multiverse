@@ -224,7 +224,10 @@ export const ProfilePage = Shade<
             header: <div> 🔑 Change Password</div>,
             component: (
               <div>
-                <ChangePasswordForm showCurrentPassword={loginProviderDetails.hasPassword} />
+                <ChangePasswordForm
+                  showCurrentPassword={loginProviderDetails.hasPassword}
+                  onUpdated={() => reloadProviderDetails()}
+                />
               </div>
             ),
           },
