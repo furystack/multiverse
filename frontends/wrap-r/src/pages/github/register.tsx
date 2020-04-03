@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { Button } from 'common-components'
 import { Shade, createComponent, RouteLink, LocationService } from '@furystack/shades'
-import { SessionService } from 'common-frontend-utils'
+import { SessionService, getErrorMessage } from 'common-frontend-utils'
 import { Loader } from '../../components/loader'
 import { GithubAuthProvider } from '../../services/github-auth-provider'
 
@@ -18,7 +18,8 @@ export const GithubRegister = Shade<{ code: string }, { loginError?: string }>({
     try {
       await injector.getInstance(GithubAuthProvider).register(props.code)
     } catch (error) {
-      updateState({ loginError: error.body.error })
+      const loginError = (await getErrorMessage(error)) || 'Failed to register.'
+      updateState({ loginError })
     }
     return () => location.dispose()
   },
