@@ -44,7 +44,6 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string }; resu
     roles: ['terms-accepted'],
     registrationDate,
     username: googleUserData.email,
-    avatarUrl: googleUserData.picture,
   } as User)
 
   await googleAcccounts.add({
@@ -56,7 +55,7 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string }; resu
 
   await storeManager
     .getStoreFor(Profile)
-    .add({ username: newUser.username, displayName: googleUserData.name } as Profile)
+    .add({ username: newUser.username, displayName: googleUserData.name, avatarUrl: googleUserData.picture } as Profile)
 
   logger.information({
     message: `User ${newUser.username} has been registered with Google Auth.`,

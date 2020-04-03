@@ -27,7 +27,6 @@ export const GithubRegisterAction: RequestAction<{ body: { code: string; clientI
     roles: ['terms-accepted'],
     username: githubApiPayload.email || `${githubApiPayload.login}@github.com`,
     registrationDate,
-    avatarUrl: githubApiPayload.avatar_url || undefined,
   } as User)
 
   await storeManager.getStoreFor(GithubAccount).add({
@@ -37,7 +36,11 @@ export const GithubRegisterAction: RequestAction<{ body: { code: string; clientI
     githubApiPayload,
   } as GithubAccount)
 
-  await storeManager.getStoreFor(Profile).add({ username: newUser.username, displayName: newUser.username } as Profile)
+  await storeManager.getStoreFor(Profile).add({
+    username: newUser.username,
+    displayName: newUser.username,
+    avatarUrl: githubApiPayload.avatar_url || undefined,
+  } as Profile)
 
   await injector.getInstance(HttpUserContext).cookieLogin(newUser, injector.getResponse())
   delete newUser.password

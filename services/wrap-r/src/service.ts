@@ -4,6 +4,11 @@ import { User, WrapRApi } from 'common-models'
 import { RequestAction } from '@furystack/rest'
 import { attachShutdownHandler } from 'common-service-utils'
 import {
+  AttachGithubAccount,
+  AttachGoogleAccountAction,
+  DetachGithubAccount,
+  DetachGoogleAccount,
+  ChangePasswordAction,
   GithubLoginAction,
   GithubRegisterAction,
   GoogleRegisterAction,
@@ -17,11 +22,6 @@ import {
   PatchOrganization,
   PostOrganization,
   GetLoginProviderDetails,
-  AttachGithubAccount,
-  DetachGithubAccount,
-  AttachGoogleAccountAction,
-  DetachGoogleAccount,
-  ChangePasswordAction,
 } from './actions'
 import { injector } from './config'
 

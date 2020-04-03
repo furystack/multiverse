@@ -70,7 +70,7 @@ export const ProfilePage = Shade<
               <div>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <Avatar
-                    user={currentUser}
+                    userName={currentUser.username}
                     style={{ display: 'inline-block', width: '3em', height: '3em', cursor: 'pointer' }}
                   />
                   <h3 style={{ marginLeft: '2em' }}>General Info</h3>
@@ -110,12 +110,7 @@ export const ProfilePage = Shade<
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                       <Avatar
                         style={{ width: '48px', height: '48px' }}
-                        user={
-                          {
-                            username: loginProviderDetails.google.googleApiPayload.email,
-                            avatarUrl: loginProviderDetails.google.googleApiPayload.picture,
-                          } as User
-                        }
+                        avatarUrl={loginProviderDetails.google.googleApiPayload.picture}
                       />
                       <div style={{ margin: '0 2em' }}>
                         Connected with <strong>{loginProviderDetails.google.googleApiPayload.email}</strong>
@@ -164,12 +159,7 @@ export const ProfilePage = Shade<
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                       <Avatar
                         style={{ width: '48px', height: '48px' }}
-                        user={
-                          {
-                            username: loginProviderDetails.github.githubApiPayload.login,
-                            avatarUrl: loginProviderDetails.github.githubApiPayload.avatar_url,
-                          } as User
-                        }
+                        avatarUrl={loginProviderDetails.github.githubApiPayload.avatar_url}
                       />
                       <div style={{ margin: '0 2em' }}>
                         Connected with account &nbsp;
