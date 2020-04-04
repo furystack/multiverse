@@ -29,7 +29,7 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
           query: { filter: JSON.stringify(filter) },
         }),
       { top: 20, order: { creationDate: 'DESC' } },
-    ) as CollectionService<LogEntry<any>>,
+    ),
   }),
   render: ({ getState }) => {
     return (

@@ -1,12 +1,24 @@
 import { Shade, createComponent, PartialElement } from '@furystack/shades'
-import { User } from 'common-models'
+import { PathHelper } from '@furystack/utils'
+import { sites } from 'common-config'
 
-export type AvatarProps = { user: User } & PartialElement<HTMLDivElement>
+export type AvatarPropsUsername = { userName: string } & PartialElement<HTMLDivElement>
+export type AvatarPropsUrl = { avatarUrl: string } & PartialElement<HTMLDivElement>
+
+export type AvatarProps = AvatarPropsUsername | AvatarPropsUrl
+
+export const p: AvatarProps = {
+  userName: 'anyád',
+}
+
+export const isUsernameProps = (obj: AvatarProps): obj is AvatarPropsUsername => {
+  return (obj as any).userName ? true : false
+}
 
 export const Avatar = Shade<AvatarProps>({
   shadowDomName: 'shade-avatar',
   render: ({ props }) => {
-    const { user, ...divProps } = props
+    const { ...divProps } = props
     return (
       <div
         {...divProps}
@@ -19,22 +31,37 @@ export const Avatar = Shade<AvatarProps>({
           backgroundColor: 'rgba(128,128,128,0.3)',
           ...(props.style || {}),
         }}>
-        {props.user.avatarUrl ? (
-          <img style={{ width: '100%', height: '100%' }} alt={props.user.username} src={props.user.avatarUrl} />
-        ) : (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-            <div
-              style={{
-                fontVariant: 'all-petite-caps',
-                fontSize: '2em',
-                height: 'calc(100% + 7px)',
-                cursor: 'default',
-                userSelect: 'none',
-              }}>
-              {props.user.username[0]}
-            </div>
-          </div>
-        )}{' '}
+        <img
+          style={{ width: '100%', height: '100%' }}
+          alt={isUsernameProps(props) ? props.userName : 'unknown avatar'}
+          src={
+            isUsernameProps(props)
+              ? PathHelper.joinPaths(
+                  sites.services['wrap-r'].externalPath,
+                  'wrap-r',
+                  'profiles',
+                  props.userName,
+                  'avatar',
+                )
+              : props.avatarUrl
+          }
+          onerror={(ev) => {
+            ;((ev as Event).target as HTMLImageElement).replaceWith(
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+                <div
+                  style={{
+                    fontVariant: 'all-petite-caps',
+                    fontSize: '2em',
+                    height: 'calc(100% + 7px)',
+                    cursor: 'default',
+                    userSelect: 'none',
+                  }}>
+                  {isUsernameProps(props) ? props.userName[0] : 'X'}
+                </div>
+              </div>,
+            )
+          }}
+        />
       </div>
     )
   },

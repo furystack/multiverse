@@ -1,5 +1,6 @@
 import { Shade, PartialElement, createComponent } from '@furystack/shades'
 import { promisifyAnimation } from 'common-frontend-utils'
+import { colors } from './styles'
 
 export interface InputProps extends PartialElement<HTMLInputElement> {
   labelTitle?: string
@@ -24,7 +25,7 @@ export const Input = Shade<TextInputProps>({
           alignItems: 'flex-start',
           justifyContent: 'space-between',
           fontSize: '10px',
-          color: props.disabled ? 'rgb(170, 170, 170)' : 'rgb(84, 84, 84)',
+          color: props.disabled ? 'rgb(170, 170, 170)' : '#bbb',
           marginBottom: '1em',
           padding: '1em',
         }}>
@@ -48,16 +49,20 @@ export const Input = Shade<TextInputProps>({
           <input
             onfocus={() => {
               if (!props.disabled) {
-                promisifyAnimation(element.querySelector('label'), [{ color: '#999' }, { color: '#ddd' }], {
-                  duration: 500,
-                  easing: 'cubic-bezier(0.455, 0.030, 0.515, 0.955)',
-                  fill: 'forwards',
-                })
+                promisifyAnimation(
+                  element.querySelector('label'),
+                  [{ color: '#bbb' }, { color: colors.primary.main }],
+                  {
+                    duration: 500,
+                    easing: 'cubic-bezier(0.455, 0.030, 0.515, 0.955)',
+                    fill: 'forwards',
+                  },
+                )
                 promisifyAnimation(
                   element.querySelector('input'),
                   [
                     { boxShadow: '0px 0px 0px rgba(128,128,128,0.1)' },
-                    { boxShadow: '0px 3px 0px rgba(128,128,128,0.4)' },
+                    { boxShadow: `0px 3px 0px ${colors.primary.dark}` },
                   ],
                   {
                     duration: 200,
@@ -68,11 +73,15 @@ export const Input = Shade<TextInputProps>({
             }}
             onblur={() => {
               if (!props.disabled) {
-                promisifyAnimation(element.querySelector('label'), [{ color: '#ddd' }, { color: '#999' }], {
-                  duration: 200,
-                  easing: 'cubic-bezier(0.455, 0.030, 0.515, 0.955)',
-                  fill: 'forwards',
-                })
+                promisifyAnimation(
+                  element.querySelector('label'),
+                  [{ color: colors.primary.main }, { color: '#bbb' }],
+                  {
+                    duration: 200,
+                    easing: 'cubic-bezier(0.455, 0.030, 0.515, 0.955)',
+                    fill: 'forwards',
+                  },
+                )
                 promisifyAnimation(
                   element.querySelector('input'),
                   [

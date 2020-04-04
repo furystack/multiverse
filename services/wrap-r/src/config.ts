@@ -5,7 +5,7 @@ import '@furystack/repository/dist/injector-extension'
 import { HttpUserContext } from '@furystack/rest-service'
 import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
-import { User, LogEntry, GoogleAccount, GithubAccount, Organization } from 'common-models'
+import { User, LogEntry, GoogleAccount, GithubAccount, Organization, Profile } from 'common-models'
 import { databases } from 'common-config'
 
 export const authorizedOnly = async (options: { injector: Injector }) => {
@@ -57,6 +57,15 @@ injector
         options: {
           useUnifiedTopology: true,
         },
+      })
+      .useMongoDb({
+        model: Profile,
+        url: databases['common-auth'].mongoUrl,
+        db: databases['common-auth'].dbName,
+        collection: 'profiles',
+        options: {
+          useUnifiedTopology: true,
+        },
       }),
   )
   .useLogging(ConsoleLogger)
@@ -86,6 +95,16 @@ injector
           }
         },
       })
+      .createDataSet(Profile, {
+        name: 'profiles',
+        authorizeUpdateEntity: async ({ injector: i, entity: profile }) => {
+          const currentUser = await i.getInstance(HttpUserContext).getCurrentUser()
+          if (profile.username === currentUser.username) {
+            return { isAllowed: true }
+          }
+          return { isAllowed: false, message: 'Only the owner can modify its profile' }
+        },
+      })
       .createDataSet(Organization, {
         name: 'organizations',
         authorizeUpdateEntity: async ({ injector: i, entity }) => {
@@ -110,6 +129,14 @@ verifyAndCreateIndexes({
   model: GithubAccount,
   indexName: 'githubId',
   indexSpecification: { githubId: 1 },
+  indexOptions: { unique: true },
+})
+
+verifyAndCreateIndexes({
+  injector,
+  model: Profile,
+  indexName: 'profileUserName',
+  indexSpecification: { username: 1 },
   indexOptions: { unique: true },
 })
 

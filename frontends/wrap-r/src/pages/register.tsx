@@ -1,6 +1,6 @@
-import { Button, Input, styles } from 'common-components'
+import { Button, Input, styles, colors } from 'common-components'
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { WrapRApiService, SessionService } from 'common-frontend-utils'
+import { WrapRApiService, SessionService, getErrorMessage } from 'common-frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 
 export const RegisterPage = Shade({
@@ -28,7 +28,7 @@ export const RegisterPage = Shade({
               animation: 'shake 150ms 2 linear',
             }}>
             <h2>Failed to sign up :(</h2>
-            <p style={{ color: 'red' }}>Something went wrong during registration: {getState().error}</p>
+            <p style={{ color: colors.error.main }}>Something went wrong during registration: {getState().error}</p>
             <div>
               <Button onclick={() => updateState({ error: '' })}>Try again</Button> or&nbsp;
               <Button onclick={() => window.history.pushState('/', '', '/')}>Back to Home</Button>
@@ -71,7 +71,8 @@ export const RegisterPage = Shade({
                     sessionService.state.setValue('authenticated')
                   }
                 } catch (error) {
-                  updateState({ error: error.message.toString() })
+                  const errorMessage = (await getErrorMessage(error)) || 'Failed to register.'
+                  updateState({ error: errorMessage })
                 }
                 sessionService.isOperationInProgress.setValue(false)
               }}>
@@ -117,7 +118,8 @@ export const RegisterPage = Shade({
                   try {
                     await injector.getInstance(GoogleOauthProvider).signup()
                   } catch (error) {
-                    updateState({ error: error.body.error })
+                    const errorMessage = await getErrorMessage(error)
+                    updateState({ error: errorMessage })
                   }
                 }}>
                 Google

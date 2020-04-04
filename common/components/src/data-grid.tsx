@@ -1,6 +1,7 @@
 import { ChildrenList, createComponent, Shade, PartialElement } from '@furystack/shades'
 import { CollectionService } from 'common-frontend-utils'
 import { GridProps } from './grid'
+import { colors } from './styles'
 
 export type DataHeaderCells<T> = {
   [TKey in keyof T | 'default']?: (name: keyof T, state: DataGridState<T>) => JSX.Element
@@ -17,6 +18,7 @@ export interface DataGridProps<T> {
   rowComponents: DataRowCells<T>
   onSelectionChange?: (selection: T[]) => void
   onFocusChange?: (focus: T) => void
+  onDoubleClick?: (entry: T) => void
 }
 
 export interface DataGridState<T> {
@@ -53,7 +55,7 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
   render: ({ props, getState, updateState }) => {
     const state = getState()
     if (state.error) {
-      return <div style={{ color: 'red' }}>{JSON.stringify(state.error)}</div>
+      return <div style={{ color: colors.error.main }}>{JSON.stringify(state.error)}</div>
     }
 
     const headerStyle: PartialElement<CSSStyleDeclaration> = {
@@ -133,12 +135,15 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
                   boxShadow: '2px 1px 0px rgba(255,255,255,0.07)',
                 }}
                 onclick={() => {
-                  updateState({ focus: entry })
-                  props.onSelectionChange && props.onSelectionChange([entry])
-                  props.onFocusChange && props.onFocusChange(entry)
-                }}>
+                  if (getState().focus !== entry) {
+                    updateState({ focus: entry })
+                    props.onSelectionChange && props.onSelectionChange([entry])
+                    props.onFocusChange && props.onFocusChange(entry)
+                  }
+                }}
+                ondblclick={() => props.onDoubleClick?.(entry)}>
                 {props.columns.map((column: any) => (
-                  <td style={props.styles?.cell}>
+                  <td style={{ padding: '0.5em', ...props.styles?.cell }}>
                     {props.rowComponents?.[column]?.(entry, state) || props.rowComponents?.default?.(entry, state) || (
                       <span>{entry[column]}</span>
                     )}

@@ -6,7 +6,7 @@ export const GetProfiles: RequestAction<{
   query: { search?: string; top?: number; skip?: number }
   result: Array<PartialResult<Profile, any>>
 }> = async ({ injector, getQuery }) => {
-  const profileStore = injector.getDataSetFor(Profile)
+  const profileStore = injector.getDataSetFor<Profile>('profiles')
   const { search, top, skip } = getQuery()
   const result = await profileStore.filter(injector, {
     top,

@@ -1,6 +1,6 @@
-import { Button, Input, styles } from 'common-components'
+import { colors, Button, Input, styles } from 'common-components'
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
-import { SessionService } from 'common-frontend-utils'
+import { SessionService, getErrorMessage } from 'common-frontend-utils'
 import { tokens } from 'common-config'
 import { Loader } from '../components/loader'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
@@ -101,13 +101,17 @@ export const Login = Shade<
                 padding: '1em 0',
               }}>
               {error ? (
-                <div className="login-error" style={{ color: 'red', fontSize: '12px' }}>
+                <div className="login-error" style={{ color: colors.error.main, fontSize: '12px' }}>
                   {error}
                 </div>
               ) : (
                 <div />
               )}
-              <Button style={{ width: '100%' }} disabled={getState().isOperationInProgress} type="submit">
+              <Button
+                style={{ width: '100%' }}
+                disabled={getState().isOperationInProgress}
+                type="submit"
+                variant="primary">
                 <div
                   style={{
                     display: 'flex',
@@ -138,7 +142,8 @@ export const Login = Shade<
                   try {
                     await injector.getInstance(GoogleOauthProvider).login()
                   } catch (e) {
-                    updateState({ error: e.body.error })
+                    const errorMessage = await getErrorMessage(e)
+                    updateState({ error: errorMessage })
                   }
                 }}>
                 Google

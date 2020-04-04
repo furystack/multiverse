@@ -33,7 +33,7 @@ export const Layout = Shade({
           <div style={{ width: '1em' }} />
         </Header>
         <Router
-          notFound={() => <Body />}
+          // notFound={() => <Body />}
           routes={[
             /** If you needs routes with session dependency, use the <Body /> */
             {
@@ -41,7 +41,7 @@ export const Layout = Shade({
               component: ({ currentUrl }) => (
                 <LazyLoad
                   component={async () => {
-                    const { GithubLogin } = await import(/* webpackChunkName: "github-login" */ '../pages/github-login')
+                    const { GithubLogin } = await import(/* webpackChunkName: "github-login" */ '../pages/github/login')
                     return <GithubLogin code={currentUrl.search.replace('?', '').split('=')[1]} />
                   }}
                   loader={<Loader />}
@@ -54,9 +54,23 @@ export const Layout = Shade({
                 <LazyLoad
                   component={async () => {
                     const { GithubRegister } = await import(
-                      /* webpackChunkName: "github-register" */ '../pages/github-register'
+                      /* webpackChunkName: "github-register" */ '../pages/github/register'
                     )
                     return <GithubRegister code={currentUrl.search.replace('?', '').split('=')[1]} />
+                  }}
+                  loader={<Loader />}
+                />
+              ),
+            },
+            {
+              url: '/github-attach',
+              component: ({ currentUrl }) => (
+                <LazyLoad
+                  component={async () => {
+                    const { GithubAttach } = await import(
+                      /* webpackChunkName: "github-register" */ '../pages/github/attach'
+                    )
+                    return <GithubAttach code={currentUrl.search.replace('?', '').split('=')[1]} />
                   }}
                   loader={<Loader />}
                 />
@@ -73,6 +87,7 @@ export const Layout = Shade({
             {
               url: '/',
               component: () => <Body />,
+              routingOptions: { end: false },
             },
           ]}
         />

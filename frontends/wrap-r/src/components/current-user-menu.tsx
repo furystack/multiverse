@@ -50,7 +50,7 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
             easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
           })
         }}>
-        <Avatar user={currentUser} />
+        <Avatar userName={currentUser.username} />
         <div
           style={{
             display: isOpened ? 'block' : 'none',

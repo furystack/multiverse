@@ -1,7 +1,7 @@
 import { PhysicalStore, StoreManager, SearchOptions } from '@furystack/core'
 import { HttpAuthenticationSettings } from '@furystack/rest-service'
 import { Injector } from '@furystack/inject'
-import { GoogleAccount, GithubAccount, User } from 'common-models'
+import { GoogleAccount, GithubAccount, User, Profile } from 'common-models'
 import { injector } from './config'
 
 /**
@@ -44,6 +44,8 @@ export const seed = async (i: Injector) => {
   const ghAccountStore = sm.getStoreFor(GithubAccount)
   const googleAccountStore = sm.getStoreFor(GoogleAccount)
 
+  const profileStore = sm.getStoreFor(Profile)
+
   const testUser = await getOrCreate(
     { filter: { username: { $eq: 'testuser@gmail.com' } } },
     {
@@ -66,8 +68,17 @@ export const seed = async (i: Injector) => {
 
   await getOrCreate(
     { filter: { username: { $eq: testUser.username } } },
-    { googleId: 666, username: testUser.username },
+    { googleId: 666, username: testUser.username, googleApiPayload: { email: testUser.username } } as any,
     googleAccountStore,
+    i,
+  )
+
+  await getOrCreate(
+    {
+      filter: { username: testUser.username },
+    },
+    { displayName: 'Test User', username: testUser.username },
+    profileStore,
     i,
   )
 
