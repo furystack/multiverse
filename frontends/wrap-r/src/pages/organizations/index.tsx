@@ -1,7 +1,7 @@
-import { Shade, createComponent } from '@furystack/shades'
+import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { CollectionService, WrapRApiService } from 'common-frontend-utils'
 import { Organization } from 'common-models'
-import { DataGrid, styles } from 'common-components'
+import { DataGrid, styles, Fab, colors } from 'common-components'
 
 export const OrganizationsPage = Shade<{}, { service: CollectionService<Organization> }>({
   shadowDomName: 'shade-organizations-page',
@@ -17,7 +17,7 @@ export const OrganizationsPage = Shade<{}, { service: CollectionService<Organiza
     )
     return { service }
   },
-  render: ({ getState }) => {
+  render: ({ getState, injector }) => {
     return (
       <div style={{ ...styles.glassBox, width: '100%', height: '100%' }}>
         <DataGrid<Organization>
@@ -26,8 +26,21 @@ export const OrganizationsPage = Shade<{}, { service: CollectionService<Organiza
           headerComponents={{}}
           rowComponents={{}}
           styles={{}}
-          onDoubleClick={(entry) => history.pushState({}, '', `/organizations/${encodeURIComponent(entry.name)}`)}
+          onDoubleClick={(entry) => {
+            history.pushState({}, '', `/organization/${encodeURIComponent(entry.name)}`)
+            injector.getInstance(LocationService).updateState()
+          }}
         />
+        <Fab
+          title="Create new organization"
+          style={{ fontSize: '32px', background: colors.primary.main, color: colors.primary.contrastText }}
+          onclick={() => {
+            /** */
+            history.pushState({}, '', '/add-organization')
+            injector.getInstance(LocationService).updateState()
+          }}>
+          ➕
+        </Fab>
       </div>
     )
   },

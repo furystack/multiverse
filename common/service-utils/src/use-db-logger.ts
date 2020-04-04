@@ -47,16 +47,14 @@ declare module '@furystack/inject/dist/injector' {
   }
 }
 
-Injector.prototype.useDbLogger = function(settings) {
+Injector.prototype.useDbLogger = function (settings) {
   this.setupStores((sm) =>
     sm.useMongoDb({
       model: LogEntry,
       collection: databases.logging.logCollection,
       url: databases.logging.mongoUrl,
       db: databases.logging.dbName,
-      options: {
-        useUnifiedTopology: true,
-      },
+      options: databases.standardOptions,
     }),
   )
 

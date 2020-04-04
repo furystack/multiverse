@@ -1,6 +1,6 @@
 import { GetCurrentUser, IsAuthenticated, LoginAction, LogoutAction, Authenticate } from '@furystack/rest-service'
 import { sites } from 'common-config'
-import { User, WrapRApi } from 'common-models'
+import { User, apis } from 'common-models'
 import { RequestAction } from '@furystack/rest'
 import { attachShutdownHandler } from 'common-service-utils'
 import {
@@ -25,7 +25,7 @@ import {
 } from './actions'
 import { injector } from './config'
 
-injector.useRestService<WrapRApi>({
+injector.useRestService<apis.WrapRApi>({
   port: parseInt(sites.services['wrap-r'].internalPort as any, 10),
   root: '/api/wrap-r',
   api: {

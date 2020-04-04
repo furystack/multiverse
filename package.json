@@ -62,6 +62,7 @@
     "start": "concurrently --kill-others \"yarn startWrapR\" \"yarn startLoggR\" \"yarn startFrontend\"  ",
     "startWrapR": "yarn workspace wrap-r-service start",
     "startLoggR": "yarn workspace logg-r-service start",
+    "startXpense": "yarn workspace xpense-service start",
     "startFrontend": "yarn workspace wrap-r-frontend start",
     "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache",

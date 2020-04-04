@@ -8,6 +8,10 @@ export const sites = {
       internalPort: process.env.LOGGR_SERVICE_INTERNAL_PORT || 9091,
       externalPath: process.env.LOGGR_SERVICE_EXTENAL_URL || 'http://localhost:9091/api',
     },
+    xpense: {
+      internalPort: process.env.XPENSE_SERVICE_INTERNAL_PORT || 9092,
+      externalPath: process.env.XPENSE_SERVICE_EXTENAL_URL || 'http://localhost:9092/api',
+    },
   },
   frontends: {
     'wrap-r': process.env.WRAPPR_FRONTEND_URL || 'http://localhost:8080',

@@ -21,7 +21,7 @@ Injector.prototype.useCommonHttpAuth = function () {
         url: databases['common-auth'].mongoUrl,
         db: databases['common-auth'].dbName,
         collection: databases['common-auth'].usersCollection,
-        options: { useUnifiedTopology: true },
+        options: databases.standardOptions,
       })
       .useRedis(
         Session,

@@ -13,4 +13,16 @@ export const databases = {
     dbName: 'multiverse-logs',
     logCollection: 'entries',
   },
+  xpense: {
+    mongoUrl: process.env.MONGO_XPENSE_URL || process.env.MONGO_URL || 'mongodb://localhost:27017',
+    dbName: 'multiverse-xpense',
+    accounts: 'accounts',
+    items: 'items',
+    replenishments: 'replenishments',
+    shops: 'shops',
+    shoppings: 'private-xpenses',
+  },
+  standardOptions: {
+    useUnifiedTopology: true,
+  },
 }

@@ -1,11 +1,11 @@
 import { sites } from 'common-config'
-import { LoggRApi } from 'common-models'
+import { apis } from 'common-models'
 import { Authorize } from '@furystack/rest-service'
 import { attachShutdownHandler } from 'common-service-utils'
 import { injector } from './config'
 import { GetEntries, GetEntry } from './actions'
 
-injector.useRestService<LoggRApi>({
+injector.useRestService<apis.LoggRApi>({
   port: parseInt(sites.services['logg-r'].internalPort as string, 10),
   root: '/api/logg-r',
   api: {

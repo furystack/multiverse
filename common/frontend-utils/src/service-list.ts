@@ -21,6 +21,15 @@ export const serviceList: ServiceDescription[] = [
     requiredRoles: ['terms-accepted'],
   },
   {
+    name: 'Xpense',
+    icon: '💰',
+    description: 'Manage accounts, incomes and expences',
+    showInMenu: true,
+    showInDashboard: true,
+    requiredRoles: ['terms-accepted'],
+    url: '/xpense',
+  },
+  {
     name: 'Organizations',
     icon: '🏢',
     description: 'Create and edit organizations, review your memberships',

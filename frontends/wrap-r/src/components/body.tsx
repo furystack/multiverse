@@ -85,14 +85,54 @@ export const Body = Shade<
                         ),
                       },
                       {
-                        url: '/organizations/:organizationId',
+                        url: '/add-organization',
+                        component: () => (
+                          <LazyLoad
+                            component={async () => {
+                              const { AddOrganizationPage } = await import(
+                                /* webpackChunkName: "add-organization" */ '../pages/organizations/add-organization'
+                              )
+                              return <AddOrganizationPage />
+                            }}
+                            loader={<Init message="Loading your Profile..." />}
+                          />
+                        ),
+                      },
+                      {
+                        url: '/organization/:organizationName',
                         component: ({ match }) => (
                           <LazyLoad
                             component={async () => {
                               const { OrganizationDetailsPage } = await import(
-                                /* webpackChunkName: "organizations" */ '../pages/organizations/organization-details'
+                                /* webpackChunkName: "edit-organization" */ '../pages/organizations/organization-details'
                               )
-                              return <OrganizationDetailsPage organizationId={match.params.organizationId} />
+                              return <OrganizationDetailsPage organizationId={match.params.organizationName} />
+                            }}
+                            loader={<Init message="Loading your Profile..." />}
+                          />
+                        ),
+                      },
+                      {
+                        url: '/xpense',
+                        component: () => (
+                          <LazyLoad
+                            component={async () => {
+                              const { XpensePage } = await import(/* webpackChunkName: "xpense" */ '../pages/xpense')
+                              return <XpensePage />
+                            }}
+                            loader={<Init message="Loading your Profile..." />}
+                          />
+                        ),
+                      },
+                      {
+                        url: '/xpense/add-account',
+                        component: () => (
+                          <LazyLoad
+                            component={async () => {
+                              const { AddXpenseAccountPage } = await import(
+                                /* webpackChunkName: "xpense-add-account" */ '../pages/xpense/add-account'
+                              )
+                              return <AddXpenseAccountPage />
                             }}
                             loader={<Init message="Loading your Profile..." />}
                           />

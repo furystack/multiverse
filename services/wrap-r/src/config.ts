@@ -36,36 +36,28 @@ injector
         url: databases['common-auth'].mongoUrl,
         db: databases['common-auth'].dbName,
         collection: 'google-accounts',
-        options: {
-          useUnifiedTopology: true,
-        },
+        options: databases.standardOptions,
       })
       .useMongoDb({
         model: GithubAccount,
         url: databases['common-auth'].mongoUrl,
         db: databases['common-auth'].dbName,
         collection: 'github-accounts',
-        options: {
-          useUnifiedTopology: true,
-        },
+        options: databases.standardOptions,
       })
       .useMongoDb({
         model: Organization,
         url: databases['common-auth'].mongoUrl,
         db: databases['common-auth'].dbName,
         collection: 'organizations',
-        options: {
-          useUnifiedTopology: true,
-        },
+        options: databases.standardOptions,
       })
       .useMongoDb({
         model: Profile,
         url: databases['common-auth'].mongoUrl,
         db: databases['common-auth'].dbName,
         collection: 'profiles',
-        options: {
-          useUnifiedTopology: true,
-        },
+        options: databases.standardOptions,
       }),
   )
   .useLogging(ConsoleLogger)
