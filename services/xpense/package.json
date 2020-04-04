@@ -1,0 +1,27 @@
+{
+  "name": "xpense-service",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "GPL-2.0-only",
+  "private": true,
+  "scripts": {
+    "start": "node ./dist/service.js",
+    "clean": "rimraf dist && rimraf tsconfig.tsbuildinfo",
+    "build": "tsc -b"
+  },
+  "devDependencies": {
+    "@types/node": "^13.7.1"
+  },
+  "dependencies": {
+    "@furystack/auth-google": "^4.0.0",
+    "@furystack/core": "^8.0.2",
+    "@furystack/inject": "^4.0.3",
+    "@furystack/logging": "^2.0.8",
+    "@furystack/mongodb-store": "^2.0.12",
+    "@furystack/repository": "^2.0.9",
+    "@furystack/rest": "^1.1.1",
+    "@furystack/rest-service": "^1.1.1",
+    "common-service-utils": "1.0.0",
+    "tslib": "^1.10.0"
+  }
+}
