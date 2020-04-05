@@ -134,9 +134,9 @@ export const Body = Shade<
                               const { XpensePage } = await import(/* webpackChunkName: "xpense" */ '../pages/xpense')
                               return (
                                 <XpensePage
-                                  initialAccount={
-                                    match.params.accountName && decodeURIComponent(match.params.accountName)
-                                  }
+                                  accountName={decodeURIComponent(match.params.accountName)}
+                                  accountType={decodeURIComponent(match.params.type) as 'user' | 'organization'}
+                                  accountOwner={decodeURIComponent(match.params.owner)}
                                 />
                               )
                             }}

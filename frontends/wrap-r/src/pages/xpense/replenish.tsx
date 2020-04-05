@@ -67,11 +67,10 @@ export const ReplenishPage = Shade<
           The current balance is: <strong>{account.current || 0}</strong>
         </h3>
         <form
-          onsubmit={(ev) => {
+          onsubmit={async (ev) => {
             ev.preventDefault()
-            injector
-              .getInstance(XpenseApiService)
-              .call({
+            try {
+              await injector.getInstance(XpenseApiService).call({
                 method: 'POST',
                 action: '/:type/:owner/:accountName/replenish',
                 body: {
@@ -79,14 +78,17 @@ export const ReplenishPage = Shade<
                   comment: getState().comment,
                 },
               })
-              .catch((e) => updateState({ error: e }))
+              history.back()
+            } catch (e) {
+              updateState({ error: e })
+            }
           }}>
           <Input
             labelTitle="Amount"
             type="number"
             value={getState().amount.toString()}
             onchange={(ev) => {
-              updateState({ amount: parseInt((ev.target as any).value as string, 10) })
+              updateState({ amount: parseInt((ev.target as any).value as string, 10) }, true)
             }}
             required
           />
@@ -95,7 +97,7 @@ export const ReplenishPage = Shade<
             labelTitle="Comment"
             value={getState().comment || ''}
             onchange={(ev) => {
-              updateState({ comment: (ev.target as any).value })
+              updateState({ comment: (ev.target as any).value }, true)
             }}
           />
           <Button type="submit" variant="primary">

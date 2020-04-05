@@ -5,7 +5,7 @@ import { xpense } from 'common-models'
 import { Widget } from '../welcome-page'
 
 export const XpensePage = Shade<
-  { initialAccount?: string },
+  { accountOwner?: string; accountType?: 'user' | 'organization'; accountName: string },
   {
     selectedAccountName: string
     accounts: Array<{
@@ -17,10 +17,10 @@ export const XpensePage = Shade<
     accountNames: string[]
   }
 >({
-  getInitialState: ({ props }) => ({
+  getInitialState: () => ({
     accounts: [],
     accountNames: [],
-    selectedAccountName: props.initialAccount || '',
+    selectedAccountName: ``,
   }),
   constructed: async ({ injector, updateState, getState }) => {
     const accounts = await injector.getInstance(XpenseApiService).call({
@@ -44,8 +44,9 @@ export const XpensePage = Shade<
     return (
       <div style={styles.glassBox}>
         <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-          <p style={{ padding: '0 2em', fontVariant: 'all-petite-caps' }}>{selectedAccount?.name}</p>
-          <p>{selectedAccount?.current}</p>
+          <p style={{ padding: '0 2em', fontVariant: 'all-petite-caps' }}>
+            {selectedAccount?.name} <strong>${selectedAccount?.current.toString()}</strong>
+          </p>
           <div style={{ flex: '1' }} />
           <Autocomplete
             strict
