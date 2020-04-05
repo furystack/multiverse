@@ -11,15 +11,19 @@ export const AddXpenseAccountPage = Shade<{}, { accountName: string }>({
           onsubmit={(ev) => {
             ev.preventDefault()
             const { accountName: name } = getState()
-            injector.getInstance(XpenseApiService).call({
-              method: 'POST',
-              action: '/accounts',
-              body: {
-                name,
-              },
-            })
+            injector
+              .getInstance(XpenseApiService)
+              .call({
+                method: 'POST',
+                action: '/accounts',
+                body: {
+                  name,
+                },
+              })
+              .then(() => history.pushState({}, '', '/xpense'))
           }}>
           <Input
+            required
             type="text"
             labelTitle="Name"
             onchange={(ev) => updateState({ accountName: (ev.target as any).value }, true)}

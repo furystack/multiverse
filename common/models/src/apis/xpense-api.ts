@@ -6,7 +6,12 @@ export interface XpenseApi extends RestApi {
     '/shops': RequestAction<{ result: Shop[] }>
     '/items': RequestAction<{ result: Item[] }>
     '/availableAccounts': RequestAction<{
-      result: Array<{ name: string; ownerType: Account['ownerType']; ownerName: Account['ownerName'] }>
+      result: Array<{
+        name: string
+        ownerType: Account['ownerType']
+        ownerName: Account['ownerName']
+        current: Account['current']
+      }>
     }>
     '/:type/:owner/:accountName': RequestAction<{
       result: Account

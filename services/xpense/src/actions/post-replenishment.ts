@@ -25,12 +25,14 @@ export const PostReplenishment: RequestAction<{
     accountId: account._id,
   } as xpense.Replenishment)
 
+  const current = account.current + createdReplenishment.amount
   await ds.update(injector, account._id, {
     ...account,
+    current,
     history: [
       ...account.history,
       {
-        balance: account.current + createdReplenishment.amount,
+        balance: current,
         change: createdReplenishment.amount,
         date: new Date().toISOString(),
         changePerCategory: [],

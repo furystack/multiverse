@@ -20,12 +20,13 @@ export const Header = Shade({
             notFound={() => <div />}
             routes={serviceList.map((s) => ({
               url: s.url,
+              routingOptions: { end: false },
               onVisit: animations.showSlide,
               onLeave: animations.hideSlide,
               component: () => (
-                <span style={{ display: 'inline-block' }}>
+                <RouteLink style={{ display: 'inline-block' }} href={s.url}>
                   - {s.icon} {s.name}
-                </span>
+                </RouteLink>
               ),
             }))}
           />

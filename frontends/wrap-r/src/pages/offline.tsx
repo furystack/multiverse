@@ -14,10 +14,6 @@ export const Offline = Shade({
           justifyContent: 'center',
           padding: '0 100px',
         }}>
-        <style>{`
-        
-
-        `}</style>
         <div
           style={{
             display: 'flex',

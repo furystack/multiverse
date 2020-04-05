@@ -16,6 +16,8 @@ export const PostAccount: RequestAction<{ result: xpense.Account; body: { name: 
     ownerName: currentUser.username,
     createdBy: currentUser.username,
     creationDate: new Date().toISOString(),
+    history: [] as xpense.Account['history'],
+    current: 0,
   } as xpense.Account)
   return JsonResult(created)
 }

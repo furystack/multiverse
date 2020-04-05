@@ -1,9 +1,9 @@
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { styles } from 'common-components'
-import { SessionService, ServiceDescription, serviceList, promisifyAnimation } from 'common-frontend-utils'
+import { SessionService, serviceList, promisifyAnimation } from 'common-frontend-utils'
 import { User } from 'common-models'
 
-export const Widget = Shade<ServiceDescription & { index: number }>({
+export const Widget = Shade<{ url: string; icon: string; name: string; description: string; index: number }>({
   shadowDomName: 'shade-welcome-screen-widget',
   render: ({ props, element }) => {
     setTimeout(() => {
@@ -16,6 +16,7 @@ export const Widget = Shade<ServiceDescription & { index: number }>({
 
     return (
       <RouteLink
+        title={props.description}
         onmouseenter={(ev) =>
           promisifyAnimation(
             ev.target as any,
@@ -101,7 +102,13 @@ export const WelcomePage = Shade<{}, { currentUser: User | null }>({
           {serviceList
             .filter((service) => service.requiredRoles.every((role) => getState().currentUser?.roles.includes(role)))
             .map((service, index) => (
-              <Widget {...service} index={index} />
+              <Widget
+                name={service.name}
+                icon={service.icon}
+                description={service.description}
+                url={service.url}
+                index={index}
+              />
             ))}
         </div>
       </div>
