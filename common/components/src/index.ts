@@ -1,6 +1,5 @@
 export * from './animations'
 export * from './app-bar'
-export * from './auto-complete'
 export * from './avatar'
 export * from './button'
 export * from './data-grid'
