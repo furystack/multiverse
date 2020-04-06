@@ -1,5 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { Input, Autocomplete } from 'common-components'
+import { Input, Autocomplete, Button } from 'common-components'
 import { xpense } from 'common-models'
 
 export interface ShoppingEntry {
@@ -43,7 +43,7 @@ export const ShoppingEntryRow = Shade<ShoppingEntryProps>({
     return (
       <div style={{ display: 'inline-flex' }}>
         <Autocomplete
-          inputProps={{ labelTitle: 'Select an item', value: props.entry.name, name: 'entryName' }}
+          inputProps={{ labelTitle: 'Select an item', value: props.entry.name, name: 'entryName', required: true }}
           suggestions={props.items.map((i) => i.name)}
           onchange={(value) => {
             props.onChange({ ...props.entry, name: value })
@@ -54,6 +54,7 @@ export const ShoppingEntryRow = Shade<ShoppingEntryProps>({
           labelTitle="Unit price"
           name="unitPrice"
           value={props.entry.unitPrice.toString()}
+          required
           onTextChange={(value) => {
             const valueNo = parseFloat(value)
             const totalPrice = valueNo * getAmount()
@@ -72,6 +73,7 @@ export const ShoppingEntryRow = Shade<ShoppingEntryProps>({
           name="amount"
           value={props.entry.amount.toString()}
           min="1"
+          required
           onTextChange={(value) => {
             const amountNo = parseFloat(value)
             const unitPrice = getUnitPrice()
@@ -91,6 +93,7 @@ export const ShoppingEntryRow = Shade<ShoppingEntryProps>({
           type="number"
           labelTitle="Total Price"
           value={props.entry.totalPrice.toString()}
+          required
           onTextChange={(value) => {
             const totalPriceNo = parseFloat(value)
             const unitPrice = totalPriceNo / getAmount()
@@ -101,6 +104,9 @@ export const ShoppingEntryRow = Shade<ShoppingEntryProps>({
             })
           }}
         />
+        <Button type="button" onclick={() => props.onRemove(props.entry)}>
+          🚮
+        </Button>
       </div>
     )
   },

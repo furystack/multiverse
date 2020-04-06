@@ -94,9 +94,12 @@ export const XpenseShoppingPage = Shade<
             suggestions={props.shops.map((s) => s.name)}
             onchange={(shopName) => {
               updateState({ shopName })
+              if (getState().entries.length < 1) {
+                updateState({ entries: [{ name: '', amount: 1, totalPrice: 0, unitPrice: 0 }] })
+              }
             }}
           />
-          <div>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             {getState().entries.map((entry, index) => (
               <ShoppingEntryRow
                 items={props.items}
