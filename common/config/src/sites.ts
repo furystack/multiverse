@@ -2,15 +2,15 @@ export const sites = {
   services: {
     'wrap-r': {
       internalPort: process.env.WRAPPR_SERVICE_INTERNAL_PORT || 9090,
-      externalPath: process.env.WRAPPR_SERVICE_EXTENRAL_URL || 'http://localhost:9090/api',
+      externalPath: process.env.WRAPPR_SERVICE_EXTERNAL_URL || 'http://localhost:9090/api',
     },
     'logg-r': {
       internalPort: process.env.LOGGR_SERVICE_INTERNAL_PORT || 9091,
-      externalPath: process.env.LOGGR_SERVICE_EXTENAL_URL || 'http://localhost:9091/api',
+      externalPath: process.env.LOGGR_SERVICE_EXTERNAL_URL || 'http://localhost:9091/api',
     },
     xpense: {
       internalPort: process.env.XPENSE_SERVICE_INTERNAL_PORT || 9092,
-      externalPath: process.env.XPENSE_SERVICE_EXTENAL_URL || 'http://localhost:9092/api',
+      externalPath: process.env.XPENSE_SERVICE_EXTERNAL_URL || 'http://localhost:9092/api',
     },
   },
   frontends: {

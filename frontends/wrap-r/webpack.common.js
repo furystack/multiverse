@@ -17,9 +17,9 @@ module.exports = {
       APP_VERSION: require('./package.json').version,
       BUILD_DATE: new Date().toISOString(),
       WRAPPR_SERVICE_INTERNAL_PORT: process.env.WRAPPR_SERVICE_INTERNAL_PORT || sites.services['wrap-r'].internalPort,
-      WRAPPR_SERVICE_EXTENRAL_URL: process.env.WRAPPR_SERVICE_EXTENRAL_URL || sites.services['wrap-r'].externalPath,
+      WRAPPR_SERVICE_EXTERNAL_URL: process.env.WRAPPR_SERVICE_EXTERNAL_URL || sites.services['wrap-r'].externalPath,
       LOGGR_SERVICE_INTERNAL_PORT: process.env.LOGGR_SERVICE_INTERNAL_PORT || sites.services['logg-r'].internalPort,
-      LOGGR_SERVICE_EXTENAL_URL: process.env.LOGGR_SERVICE_EXTENAL_URL || sites.services['logg-r'].externalPath,
+      LOGGR_SERVICE_EXTERNAL_URL: process.env.LOGGR_SERVICE_EXTERNAL_URL || sites.services['logg-r'].externalPath,
       XPENSE_SERVICE_INTERNAL_PORT: process.env.XPENSE_SERVICE_INTERNAL_PORT || sites.services.xpense.internalPort,
       XPENSE_SERVICE_EXTERNAL_URL: process.env.XPENSE_SERVICE_EXTERNAL_URL || sites.services.xpense.externalPath,
 
