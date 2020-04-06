@@ -9,13 +9,14 @@ import { XpenseShoppingPage } from './shopping'
 
 export const AccountContext = Shade<
   { type: 'user' | 'organization'; accountName: string; owner: string },
-  { account?: xpense.Account; items?: xpense.Item[]; isLoading: boolean; error?: Error }
+  { account?: xpense.Account; items: xpense.Item[]; shops: xpense.Shop[]; isLoading: boolean; error?: Error }
 >({
   getInitialState: () => ({
     isLoading: true,
     items: [],
+    shops: [],
   }),
-  constructed: ({ injector, updateState, props, getState }) => {
+  constructed: ({ injector, updateState, getState }) => {
     const subscriptions = [
       injector.getInstance(LocationService).onLocationChanged.subscribe(async (l) => {
         const matcher = match<{ type: 'user' | 'organization'; owner: string; accountName: string }>(
@@ -57,10 +58,16 @@ export const AccountContext = Shade<
       .then((items) => {
         updateState({ items })
       })
+    injector
+      .getInstance(XpenseApiService)
+      .call({ method: 'GET', action: '/shops' })
+      .then((shops) => {
+        updateState({ shops })
+      })
     return () => subscriptions.map((s) => s.dispose())
   },
   render: ({ props, getState, updateState }) => {
-    const { account, isLoading, error } = getState()
+    const { account, isLoading, error, shops, items } = getState()
     if (isLoading) {
       return <Init message="Loading account details..." />
     }
@@ -124,7 +131,10 @@ export const AccountContext = Shade<
                 />
               ),
             },
-            { url: '/xpense/:type/:owner/:accountName/shopping', component: () => <XpenseShoppingPage {...account} /> },
+            {
+              url: '/xpense/:type/:owner/:accountName/shopping',
+              component: () => <XpenseShoppingPage {...account} shops={shops} items={items} />,
+            },
             { url: '/', routingOptions: { end: false }, component: () => <AccountDashboard {...account} /> },
           ]}
         />

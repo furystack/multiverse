@@ -3,6 +3,7 @@ import { promisifyAnimation } from 'common-frontend-utils'
 import { colors } from './styles'
 
 export interface InputProps extends PartialElement<HTMLInputElement> {
+  onTextChange?: (text: string) => void
   labelTitle?: string
   multiLine?: false
 }
@@ -47,6 +48,10 @@ export const Input = Shade<TextInputProps>({
           </div>
         ) : (
           <input
+            onchange={(ev) => {
+              props.onTextChange && props.onTextChange((ev.target as any).value)
+              props.onchange && (props.onchange as any)(ev)
+            }}
             onfocus={() => {
               if (!props.disabled) {
                 promisifyAnimation(

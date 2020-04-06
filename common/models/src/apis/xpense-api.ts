@@ -28,7 +28,7 @@ export interface XpenseApi extends RestApi {
       result: Replenishment
     }>
     '/:type/:owner/:accountName/shop': RequestAction<{
-      body: Array<{ itemName: string; amount: number; unitPrice: number }>
+      body: { shopName: string; entries: Array<{ itemName: string; amount: number; unitPrice: number }> }
       urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
       result: Shopping
     }>

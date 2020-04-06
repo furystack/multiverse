@@ -1,9 +1,10 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { xpense } from 'common-models'
 import { HttpUserContext } from '@furystack/rest-service'
+import { ensureItemsForShopping } from '../services/ensure-items-for-shopping'
 
 export const PostShopping: RequestAction<{
-  body: Array<{ itemName: string; amount: number; unitPrice: number }>
+  body: { shopName: string; entries: Array<{ itemName: string; amount: number; unitPrice: number }> }
   urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
   result: xpense.Shopping
 }> = async ({ injector, getBody, getUrlParams }) => {
@@ -21,15 +22,18 @@ export const PostShopping: RequestAction<{
 
   const createdShopping = await injector.getDataSetFor<xpense.Shopping>('shoppings').add(injector, {
     createdBy: currentUser.username,
-    entries: body,
+    entries: body.entries,
     creationDate: new Date().toISOString(),
     accountId: account._id,
-    sumAmount: body.reduce<number>((last, current) => last + current.amount, 0),
-    _id: '',
-  })
+    sumAmount: body.entries.reduce((last, current) => last + current.unitPrice * current.amount, 0),
+    shopName: body.shopName,
+  } as xpense.Shopping)
+
+  ensureItemsForShopping({ injector, shopping: createdShopping })
 
   await ds.update(injector, account._id, {
     ...account,
+    current: account.current - createdShopping.sumAmount,
     history: [
       ...account.history,
       {

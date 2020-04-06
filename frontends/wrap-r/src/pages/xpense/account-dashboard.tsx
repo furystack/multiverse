@@ -11,7 +11,7 @@ export const AccountDashboard = Shade<xpense.Account>({
     return (
       <div style={{ padding: '1em' }}>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <SelectedAccountHeader {...props} />
+          <SelectedAccountHeader area="Dashboard" {...props} />
           <div style={{ flex: '1' }} />
           <AccountSelector onSelectAccount={(account) => history.pushState({}, '', `/xpense/${account}`)} />
         </div>

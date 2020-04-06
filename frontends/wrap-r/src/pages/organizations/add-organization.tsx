@@ -19,15 +19,11 @@ export const AddOrganizationPage = Shade<{}, Omit<Organization, '_id'>>({
             })
             history.pushState({}, '', `/organization/${encodeURIComponent(created.name)}`)
           }}>
-          <Input
-            type="text"
-            labelTitle="Name"
-            onchange={(ev) => updateState({ name: (ev.target as any).value }, true)}
-          />
+          <Input type="text" labelTitle="Name" onTextChange={(value) => updateState({ name: value }, true)} />
           <Input
             type="text"
             labelTitle="Description"
-            onchange={(ev) => updateState({ description: (ev.target as any).value }, true)}
+            onTextChange={(value) => updateState({ description: value }, true)}
           />
           <Button
             title="Back to Organization List"
