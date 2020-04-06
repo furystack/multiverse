@@ -23,5 +23,10 @@
     "@furystack/rest-service": "^1.1.1",
     "common-service-utils": "1.0.0",
     "tslib": "^1.10.0"
+  },
+  "optionalDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.21.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "prettier": "^2.0.1"
   }
 }
