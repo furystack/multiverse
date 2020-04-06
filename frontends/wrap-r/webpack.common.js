@@ -21,7 +21,7 @@ module.exports = {
       LOGGR_SERVICE_INTERNAL_PORT: process.env.LOGGR_SERVICE_INTERNAL_PORT || sites.services['logg-r'].internalPort,
       LOGGR_SERVICE_EXTENAL_URL: process.env.LOGGR_SERVICE_EXTENAL_URL || sites.services['logg-r'].externalPath,
       XPENSE_SERVICE_INTERNAL_PORT: process.env.XPENSE_SERVICE_INTERNAL_PORT || sites.services.xpense.internalPort,
-      XPENSE_SERVICE_EXTENAL_URL: process.env.XPENSE_SERVICE_EXTENAL_URL || sites.services.xpense.externalPath,
+      XPENSE_SERVICE_EXTERNAL_URL: process.env.XPENSE_SERVICE_EXTERNAL_URL || sites.services.xpense.externalPath,
 
       GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID || tokens.githubClientId,
       GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET || tokens.githubClientSecret,
