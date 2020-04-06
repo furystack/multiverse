@@ -15,7 +15,7 @@ export interface XpenseApi extends RestApi {
     }>
     '/:type/:owner/:accountName': RequestAction<{
       result: Account
-      query: { type: 'user' | 'organization'; owner: string; accountName: string }
+      urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
     }>
   }
   POST: {
@@ -24,12 +24,12 @@ export interface XpenseApi extends RestApi {
     '/items': RequestAction<{ result: Item; body: { name: string; description: string; category?: string } }>
     '/:type/:owner/:accountName/replenish': RequestAction<{
       body: { amount: number; comment?: string }
-      query: { type: 'user' | 'organization'; owner: string; accountName: string }
+      urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
       result: Replenishment
     }>
     '/:type/:owner/:accountName/shop': RequestAction<{
       body: Array<{ itemName: string; amount: number; unitPrice: number }>
-      query: { type: 'user' | 'organization'; owner: string; accountName: string }
+      urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
       result: Shopping
     }>
   }

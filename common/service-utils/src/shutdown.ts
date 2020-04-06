@@ -5,11 +5,15 @@ import { DbLogger } from './use-db-logger'
 export const attachShutdownHandler = (i: Injector) => {
   const logger = i.logger.withScope('shutdown-handler')
 
-  const onExit = async ({ code, reason }: { code: number; reason: string }) => {
+  const onExit = async ({ code, reason }: { code: number; reason: string; error?: any }) => {
     try {
       if (code) {
         await logger.warning({
           message: `Something bad happened, starting shutdown with code '${code}' due '${reason}'`,
+          data: {
+            code,
+            reason,
+          },
         })
       } else {
         await logger.warning({ message: `Shutting down gracefully due '${reason}'` })
@@ -35,7 +39,9 @@ export const attachShutdownHandler = (i: Injector) => {
   process.once('SIGUSR2', () => onExit({ code: 0, reason: 'SIGUSR2' }))
 
   // catches uncaught exceptions
-  process.once('uncaughtException', () => onExit({ code: 1, reason: 'uncaughtException' }))
+  process.once('uncaughtException', (error) => {
+    onExit({ code: 1, reason: 'uncaughtException', error })
+  })
 
-  process.once('unhandledRejection', () => onExit({ code: 1, reason: 'unhandledRejection' }))
+  process.once('unhandledRejection', (error) => onExit({ code: 1, reason: 'unhandledRejection', error }))
 }

@@ -128,52 +128,15 @@ export const Body = Shade<
                       },
                       {
                         url: '/xpense/:type?/:owner?/:accountName?',
+                        routingOptions: {
+                          end: false,
+                        },
                         component: ({ match }) => (
                           <LazyLoad
                             component={async () => {
                               const { XpensePage } = await import(/* webpackChunkName: "xpense" */ '../pages/xpense')
                               return (
                                 <XpensePage
-                                  accountName={decodeURIComponent(match.params.accountName)}
-                                  accountType={decodeURIComponent(match.params.type) as 'user' | 'organization'}
-                                  accountOwner={decodeURIComponent(match.params.owner)}
-                                />
-                              )
-                            }}
-                            loader={<Init message="Loading your Profile..." />}
-                          />
-                        ),
-                      },
-                      {
-                        url: '/xpense/:type/:owner/:accountName/replenish',
-                        component: ({ match }) => (
-                          <LazyLoad
-                            component={async () => {
-                              const { ReplenishPage } = await import(
-                                /* webpackChunkName: "xpense-replenish-account" */ '../pages/xpense/replenish'
-                              )
-                              return (
-                                <ReplenishPage
-                                  accountName={decodeURIComponent(match.params.accountName)}
-                                  accountType={decodeURIComponent(match.params.type) as 'user' | 'organization'}
-                                  accountOwner={decodeURIComponent(match.params.owner)}
-                                />
-                              )
-                            }}
-                            loader={<Init message="Loading your Profile..." />}
-                          />
-                        ),
-                      },
-                      {
-                        url: '/xpense/:type/:owner/:accountName/shopping',
-                        component: ({ match }) => (
-                          <LazyLoad
-                            component={async () => {
-                              const { XpenseShoppingPage } = await import(
-                                /* webpackChunkName: "xpense-shopping-page" */ '../pages/xpense/shopping'
-                              )
-                              return (
-                                <XpenseShoppingPage
                                   accountName={decodeURIComponent(match.params.accountName)}
                                   accountType={decodeURIComponent(match.params.type) as 'user' | 'organization'}
                                   accountOwner={decodeURIComponent(match.params.owner)}

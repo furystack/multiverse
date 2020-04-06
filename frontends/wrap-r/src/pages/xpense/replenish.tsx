@@ -2,37 +2,18 @@ import { Shade, createComponent } from '@furystack/shades'
 import { styles, Input, Button, colors } from 'common-components'
 import { XpenseApiService } from 'common-frontend-utils'
 import { xpense } from 'common-models'
-import { Init } from '../init'
+import { SelectedAccountHeader } from './components/header'
 
 export const ReplenishPage = Shade<
-  { accountOwner: string; accountType: 'user' | 'organization'; accountName: string },
-  { amount: number; comment?: string; error?: Error; account?: xpense.Account }
+  xpense.Account & { onReplenished: (replenishment: xpense.Replenishment) => void },
+  { amount: number; comment?: string; error?: Error }
 >({
   getInitialState: () => ({
     amount: 0,
   }),
-  constructed: async ({ injector, props, updateState }) => {
-    try {
-      const account: xpense.Account = await injector.getInstance(XpenseApiService).call({
-        method: 'GET',
-        action: '/:type/:owner/:accountName',
-        query: {
-          accountName: props.accountName,
-          owner: props.accountOwner,
-          type: props.accountType,
-        },
-      })
-      updateState({ account })
-    } catch (error) {
-      updateState({ error })
-    }
-  },
   shadowDomName: 'replenish-page',
   render: ({ props, getState, updateState, injector }) => {
-    const { account, error } = getState()
-    if (!account) {
-      return <Init message="Loading account details..." />
-    }
+    const { error } = getState()
     if (error) {
       return (
         <div
@@ -53,7 +34,7 @@ export const ReplenishPage = Shade<
             }}>
             <h1>WhoOoOops... 😱</h1>
             <h3>Failed to add to the balance 😓</h3>
-            <p>Something went wrong during replenishing the balance for account '{props.accountName}'</p>
+            <p>Something went wrong during replenishing the balance for account '{props.name}'</p>
             <pre style={{ color: colors.error.main }}>{JSON.stringify(error)}</pre>
           </div>
           <a href="/">Go to home...</a>
@@ -62,22 +43,21 @@ export const ReplenishPage = Shade<
     }
     return (
       <div style={{ ...styles.glassBox, padding: '1em' }}>
-        <h1>Replenish the balance for {props.accountName}</h1>
-        <h3>
-          The current balance is: <strong>{account.current || 0}</strong>
-        </h3>
+        <SelectedAccountHeader {...props} />
         <form
           onsubmit={async (ev) => {
             ev.preventDefault()
             try {
-              await injector.getInstance(XpenseApiService).call({
+              const replenishment = await injector.getInstance(XpenseApiService).call({
                 method: 'POST',
                 action: '/:type/:owner/:accountName/replenish',
+                url: { type: props.ownerType, owner: props.ownerName, accountName: props.name },
                 body: {
                   amount: getState().amount,
                   comment: getState().comment,
                 },
               })
+              props.onReplenished(replenishment)
               history.back()
             } catch (e) {
               updateState({ error: e })
@@ -100,6 +80,9 @@ export const ReplenishPage = Shade<
               updateState({ comment: (ev.target as any).value }, true)
             }}
           />
+          <Button type="button" onclick={() => history.back()} style={{ marginRight: '1em' }}>
+            Back
+          </Button>
           <Button type="submit" variant="primary">
             Replenish
           </Button>

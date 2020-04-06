@@ -1,12 +1,13 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { Input, Button } from 'common-components/src'
+import { Input, Button, styles } from 'common-components/src'
 import { XpenseApiService } from 'common-frontend-utils/src'
 
 export const AddXpenseAccountPage = Shade<{}, { accountName: string }>({
   getInitialState: () => ({ accountName: '' }),
   render: ({ injector, getState, updateState }) => {
     return (
-      <div>
+      <div style={{ ...styles.glassBox, padding: '1em' }}>
+        <h3>Create new account</h3>
         <form
           onsubmit={(ev) => {
             ev.preventDefault()
@@ -29,7 +30,7 @@ export const AddXpenseAccountPage = Shade<{}, { accountName: string }>({
             onchange={(ev) => updateState({ accountName: (ev.target as any).value }, true)}
           />
           <Input type="text" labelTitle="Description" multiLine />
-          <Button onclick={() => history.back()} style={{ marginRight: '2em' }}>
+          <Button type="button" onclick={() => history.back()} style={{ marginRight: '2em' }}>
             Back
           </Button>
           <Button type="submit" variant="primary">

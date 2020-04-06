@@ -5,7 +5,6 @@ import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { xpense } from 'common-models'
 import { databases } from 'common-config'
-import { HttpUserContext } from '@furystack/rest-service'
 
 export const injector = new Injector()
 
@@ -54,14 +53,6 @@ injector.setupRepository((repo) =>
   repo
     .createDataSet(xpense.Account, {
       name: 'accounts',
-      addFilter: async ({ injector: i }) => {
-        const user = await i.getInstance(HttpUserContext).getCurrentUser()
-        return {
-          filter: {
-            ownerName: user.username,
-          },
-        }
-      },
     })
     .createDataSet(xpense.Item, {
       name: 'items',

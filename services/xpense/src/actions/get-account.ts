@@ -3,12 +3,12 @@ import { xpense } from 'common-models'
 
 export const GetAccount: RequestAction<{
   result: xpense.Account
-  query: { type: 'user' | 'organization'; owner: string; accountName: string }
-}> = async ({ injector, getQuery }) => {
-  const { accountName, owner, type } = getQuery()
+  urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
+}> = async ({ injector, getUrlParams }) => {
+  const { accountName, owner, type } = getUrlParams()
   const ds = injector.getDataSetFor<xpense.Account>('accounts')
   const [account] = await ds.filter(injector, {
-    filter: { name: accountName, ownerType: type, ownerName: owner },
+    filter: { $and: [{ name: accountName }, { ownerType: type }, { ownerName: owner }] },
     top: 1,
   })
   if (!account) {

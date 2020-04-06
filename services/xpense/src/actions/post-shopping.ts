@@ -4,12 +4,12 @@ import { HttpUserContext } from '@furystack/rest-service'
 
 export const PostShopping: RequestAction<{
   body: Array<{ itemName: string; amount: number; unitPrice: number }>
-  query: { type: 'user' | 'organization'; owner: string; accountName: string }
+  urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
   result: xpense.Shopping
-}> = async ({ injector, getBody, getQuery }) => {
+}> = async ({ injector, getBody, getUrlParams }) => {
   const currentUser = await injector.getInstance(HttpUserContext).getCurrentUser()
   const body = await getBody()
-  const { accountName, owner, type } = getQuery()
+  const { accountName, owner, type } = getUrlParams()
   const ds = injector.getDataSetFor<xpense.Account>('accounts')
   const [account] = await ds.filter(injector, {
     filter: { name: accountName, ownerType: type, ownerName: owner },

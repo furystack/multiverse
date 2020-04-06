@@ -5,7 +5,7 @@ export const databases = {
     usersCollection: 'users',
     sessionStore: {
       host: process.env.SESSION_STORE_HOST || process.env.REDIS_HOST || 'localhost',
-      port: process.env.SESSION_STORE_PORT || process.env.REDIS_PORT || '63790',
+      port: process.env.SESSION_STORE_PORT || process.env.REDIS_PORT || '6379',
     },
   },
   logging: {
