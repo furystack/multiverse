@@ -103,6 +103,8 @@ injector.setupRepository((repo) =>
         await injector.getDataSetFor<Account>('accounts').get(i, entity.accountId)
         return { isAllowed: true }
       },
+      authorizeRemove: async () => ({ isAllowed: false, message: 'Replenishments are permanent.' }),
+      authorizeUpdate: async () => ({ isAllowed: false, message: 'Replenishments are read-only.' }),
     })
     .createDataSet(xpense.Shop, {
       name: 'shops',
@@ -113,6 +115,8 @@ injector.setupRepository((repo) =>
         await injector.getDataSetFor<Account>('accounts').get(i, entity.accountId)
         return { isAllowed: true }
       },
+      authorizeRemove: async () => ({ isAllowed: false, message: 'Shoppings are permanent.' }),
+      authorizeUpdate: async () => ({ isAllowed: false, message: 'Shoppings are read-only.' }),
     }),
 )
 
