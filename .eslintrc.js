@@ -73,6 +73,7 @@ module.exports = {
     'cypress/no-unnecessary-waiting': 'error',
     'cypress/assertion-before-screenshot': 'warn',
     'default-case': 'error',
+    indent: 'off',
   },
   overrides: [
     {

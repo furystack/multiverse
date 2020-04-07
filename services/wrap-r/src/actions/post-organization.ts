@@ -6,7 +6,7 @@ export const PostOrganization: RequestAction<{ body: Omit<Organization, '_id'>; 
   injector,
   getBody,
 }) => {
-  const dataSet = injector.getDataSetFor(Organization)
+  const dataSet = injector.getDataSetFor<Organization>('organizations')
   const currentUser = await injector.getInstance(HttpUserContext).getCurrentUser()
   const postData = await getBody()
   const result = await dataSet.add(injector, { ...postData, ownerName: currentUser.username } as any)

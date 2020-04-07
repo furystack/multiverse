@@ -1,4 +1,6 @@
 import './use-common-http-auth'
 import './use-db-logger'
+export * from './authorized-data-set'
 export * from './create-indexes'
 export * from './shutdown'
+export * from './get-orgs-for-user'

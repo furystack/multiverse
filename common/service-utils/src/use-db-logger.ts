@@ -54,25 +54,21 @@ Injector.prototype.useDbLogger = function(settings) {
       collection: databases.logging.logCollection,
       url: databases.logging.mongoUrl,
       db: databases.logging.dbName,
-      options: {
-        useUnifiedTopology: true,
-      },
+      options: databases.standardOptions,
     }),
   )
 
   this.setupRepository((repo) =>
     repo.createDataSet(LogEntry, {
-      authorizeUpdate: async () => ({ isAllowed: false, message: 'The Log is read only, updates are permitted!' }),
-      authorizeGet: async ({ injector }) => {
-        const isAllowed = await injector.getInstance(HttpUserContext).isAuthorized('sys-logs')
-        if (!isAllowed) {
-          return {
-            isAllowed,
-            message: "You need 'sys-logs' role to see the entries",
-          }
-        }
+      name: 'logEntries',
+      authorizeAdd: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
+      authorizeRemove: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
+      authorizeUpdate: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
+      authorizeGet: async (options) => {
+        const result = await options.injector.getInstance(HttpUserContext).isAuthorized('sys-logs')
         return {
-          isAllowed,
+          isAllowed: result,
+          message: result ? '' : "Role 'sys-logs' required",
         }
       },
     }),

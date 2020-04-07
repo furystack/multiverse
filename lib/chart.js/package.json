@@ -1,0 +1,5 @@
+{
+  "name": "chart.js",
+  "version": "2.9.3",
+  "main": "Chart.bundle.min.js"
+}

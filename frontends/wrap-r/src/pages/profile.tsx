@@ -1,4 +1,4 @@
-import { createComponent, Shade, LocationService } from '@furystack/shades'
+import { createComponent, Shade } from '@furystack/shades'
 import { Tabs, styles, Avatar, Input, Button, colors } from 'common-components'
 import { User, Profile, GithubAccount, GoogleAccount } from 'common-models'
 import { WrapRApiService, SessionService } from 'common-frontend-utils'
@@ -10,13 +10,12 @@ import { Init } from './init'
 export const ProfilePage = Shade<
   {},
   {
-    currentTab: number
     currentUser?: User
     profile?: Profile
     loginProviderDetails?: { hasPassword: boolean; google?: GoogleAccount; github?: GithubAccount }
   }
 >({
-  getInitialState: () => ({ currentTab: 0 }),
+  getInitialState: () => ({}),
   constructed: async ({ injector, updateState }) => {
     const currentUser = injector.getInstance(SessionService).currentUser.getValue() as User
     const api = injector.getInstance(WrapRApiService)
@@ -29,21 +28,14 @@ export const ProfilePage = Shade<
       method: 'GET',
       action: '/loginProviderDetails',
     })
-    const locationSubscription = injector.getInstance(LocationService).onLocationChanged.subscribe((loc) => {
-      if (loc.hash && loc.hash.startsWith('#tab-')) {
-        const page = parseInt(loc.hash.replace('#tab-', ''), 10)
-        page && updateState({ currentTab: page })
-      }
-    }, true)
     updateState({
       currentUser,
       profile,
       loginProviderDetails,
     })
-    return () => locationSubscription.dispose()
   },
   render: ({ getState, injector, updateState }) => {
-    const { currentUser, profile, loginProviderDetails, currentTab } = getState()
+    const { currentUser, profile, loginProviderDetails } = getState()
     if (!currentUser || !profile || !loginProviderDetails) {
       return <Init message="Loading profile..." />
     }
@@ -61,8 +53,6 @@ export const ProfilePage = Shade<
     return (
       <Tabs
         style={{ ...styles.glassBox, height: '100%', padding: '1em' }}
-        activeTab={currentTab}
-        onChange={(tab) => updateState({ currentTab: tab }, true)}
         tabs={[
           {
             header: <div>🎴 General info</div>,
@@ -91,12 +81,7 @@ export const ProfilePage = Shade<
                   {loginProviderDetails.hasPassword ? (
                     <div>
                       The password has been set up correctly. You can change your password{' '}
-                      <a
-                        href="#"
-                        onclick={(ev) => {
-                          ev.preventDefault()
-                          updateState({ currentTab: 2 })
-                        }}>
+                      <a href="#tab-2" style={{ color: colors.primary.light }}>
                         here
                       </a>{' '}
                     </div>

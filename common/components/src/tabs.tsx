@@ -1,4 +1,4 @@
-import { Shade, createComponent, PartialElement } from '@furystack/shades'
+import { Shade, createComponent, PartialElement, LocationService } from '@furystack/shades'
 import { promisifyAnimation } from 'common-frontend-utils/src'
 
 export interface Tab {
@@ -18,6 +18,15 @@ export const Tabs = Shade<
 >({
   shadowDomName: 'shade-tabs',
   getInitialState: ({ props }) => ({ activeIndex: props.activeTab || 0 }),
+  constructed: ({ injector, updateState }) => {
+    const locationSubscription = injector.getInstance(LocationService).onLocationChanged.subscribe((loc) => {
+      if (loc.hash && loc.hash.startsWith('#tab-')) {
+        const page = parseInt(loc.hash.replace('#tab-', ''), 10)
+        page && updateState({ activeIndex: page })
+      }
+    }, true)
+    return () => locationSubscription.dispose()
+  },
   render: ({ props, getState, updateState }) => {
     return (
       <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', ...props.containerStyle }}>

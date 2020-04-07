@@ -6,7 +6,7 @@ export const GetEntries: RequestAction<{
   query: { filter: string }
   result: Array<PartialResult<LogEntry<any>, any>>
 }> = async ({ injector, getQuery }) => {
-  const ds = injector.getDataSetFor(LogEntry)
+  const ds = injector.getDataSetFor<LogEntry<any>>('logEntries')
   const search = JSON.parse(getQuery().filter) as SearchOptions<LogEntry<any>, any>
   const entries = await ds.filter(injector, search)
   return JsonResult(entries)

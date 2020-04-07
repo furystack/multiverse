@@ -5,7 +5,7 @@ export const GetEntry: RequestAction<{
   urlParams: { _id: string }
   result: LogEntry<any>
 }> = async ({ injector, getUrlParams }) => {
-  const ds = injector.getDataSetFor(LogEntry)
+  const ds = injector.getDataSetFor<LogEntry<any>>('logEntries')
   const { _id } = getUrlParams()
   const entry = await ds.get(injector, _id)
   if (!entry) {

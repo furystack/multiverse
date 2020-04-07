@@ -1,4 +1,4 @@
-import { roles } from 'common-models/src'
+import { roles } from 'common-models'
 
 export interface ServiceDescription {
   name: string
@@ -19,6 +19,15 @@ export const serviceList: ServiceDescription[] = [
     showInMenu: true,
     showInDashboard: true,
     requiredRoles: ['terms-accepted'],
+  },
+  {
+    name: 'Xpense',
+    icon: '💰',
+    description: 'Manage accounts, incomes and expences',
+    showInMenu: true,
+    showInDashboard: true,
+    requiredRoles: ['terms-accepted'],
+    url: '/xpense',
   },
   {
     name: 'Organizations',
