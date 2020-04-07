@@ -26,7 +26,7 @@ export const GetAvailableAccounts: RequestAction<{
           { ownerType: 'user', ownerName: currentUser.username },
         ],
       },
-      select: ['name', 'ownerName', 'ownerType', 'current'],
+      select: ['name', 'ownerName', 'ownerType', 'current', 'icon'],
     })
   return JsonResult(entries)
 }

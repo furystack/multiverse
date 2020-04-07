@@ -11,7 +11,10 @@ export const ItemDetails = Shade<{ item: xpense.Item; account: xpense.Account }>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <SelectedAccountHeader area={`${props.item.name} details`} account={props.account} />
           <div style={{ flex: '1' }} />
-          <AccountSelector onSelectAccount={(account) => history.pushState({}, '', `/xpense/${account}`)} />
+          <AccountSelector
+            onSelectAccount={(account) => history.pushState({}, '', `/xpense/${account}`)}
+            currentAccount={props.account}
+          />
         </div>
         <pre>
           <code>{JSON.stringify(props.item, undefined, 2)}</code>

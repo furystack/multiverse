@@ -22,7 +22,7 @@ export interface XpenseApi extends RestApi {
     }>
   }
   POST: {
-    '/accounts': RequestAction<{ result: Account; body: { name: string } }>
+    '/accounts': RequestAction<{ result: Account; body: { name: string; description: string; icon: string } }>
     '/shops': RequestAction<{ result: Shop; body: { name: string } }>
     '/items': RequestAction<{ result: Item; body: { name: string; description: string; category?: string } }>
     '/:type/:owner/:accountName/replenish': RequestAction<{

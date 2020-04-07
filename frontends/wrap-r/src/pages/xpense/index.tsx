@@ -1,17 +1,47 @@
 import { Shade, createComponent, Router } from '@furystack/shades'
-import { styles } from 'common-components'
+import { styles, Fab, colors } from 'common-components'
+import { Widget } from '../welcome-page'
 import { AccountContext } from './account-context'
-import { AccountSelector } from './components/account-selector'
+import { AvailableAccountsContext, AvailableAccount } from './services/available-accounts-context'
 
-export const XpensePage = Shade<{ accountOwner?: string; accountType?: 'user' | 'organization'; accountName: string }>({
-  render: () => {
+export const XpensePage = Shade<
+  { accountOwner?: string; accountType?: 'user' | 'organization'; accountName: string },
+  { availableAccounts?: AvailableAccount[] }
+>({
+  getInitialState: () => ({ availableAccounts: [] }),
+  constructed: ({ injector, updateState }) => {
+    injector
+      .getInstance(AvailableAccountsContext)
+      .accounts.then((availableAccounts) => updateState({ availableAccounts }))
+  },
+  render: ({ getState }) => {
     return (
       <div style={{ ...styles.glassBox, height: 'calc(100% - 2px)', width: 'calc(100% - 2px)' }}>
         <Router
           notFound={() => (
-            <div style={{ padding: '2em', textAlign: 'center' }}>
-              <AccountSelector onSelectAccount={(account) => history.pushState({}, '', `/xpense/${account}`)} />
-              Select an account first.
+            <div
+              style={{
+                padding: '2em',
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              {getState().availableAccounts?.map((account, index) => (
+                <Widget
+                  icon={account.icon || (account.ownerType === 'user' ? '🧑' : '🏢')}
+                  name={account.name}
+                  index={index}
+                  url={`/xpense/${account.ownerType}/${account.ownerName}/${account.name}`}
+                  description=""
+                />
+              ))}
+              <Fab
+                style={{ backgroundColor: colors.primary.main }}
+                title="Create Account"
+                onclick={() => history.pushState({}, '', '/xpense/add-account')}>
+                ➕
+              </Fab>
             </div>
           )}
           routes={[

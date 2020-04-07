@@ -1,9 +1,10 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { Input, Button, styles } from 'common-components/src'
 import { XpenseApiService } from 'common-frontend-utils/src'
+import { AvailableAccountsContext } from './services/available-accounts-context'
 
-export const AddXpenseAccountPage = Shade<{}, { accountName: string }>({
-  getInitialState: () => ({ accountName: '' }),
+export const AddXpenseAccountPage = Shade<{}, { name: string; description: string; icon: string }>({
+  getInitialState: () => ({ name: '', description: '', icon: '💳' }),
   render: ({ injector, getState, updateState }) => {
     return (
       <div style={{ ...styles.glassBox, padding: '1em' }}>
@@ -11,25 +12,27 @@ export const AddXpenseAccountPage = Shade<{}, { accountName: string }>({
         <form
           onsubmit={(ev) => {
             ev.preventDefault()
-            const { accountName: name } = getState()
+            const account = getState()
             injector
               .getInstance(XpenseApiService)
               .call({
                 method: 'POST',
                 action: '/accounts',
-                body: {
-                  name,
-                },
+                body: account,
               })
-              .then(() => history.pushState({}, '', '/xpense'))
+              .then(() => {
+                injector.getInstance(AvailableAccountsContext).reload()
+                history.pushState({}, '', '/xpense')
+              })
           }}>
+          <Input required type="text" labelTitle="Icon" onTextChange={(value) => updateState({ icon: value }, true)} />
+          <Input required type="text" labelTitle="Name" onTextChange={(value) => updateState({ name: value }, true)} />
           <Input
-            required
             type="text"
-            labelTitle="Name"
-            onchange={(ev) => updateState({ accountName: (ev.target as any).value }, true)}
+            labelTitle="Description"
+            multiLine
+            onchange={(ev) => updateState({ description: (ev.target as any).value }, true)}
           />
-          <Input type="text" labelTitle="Description" multiLine />
           <Button type="button" onclick={() => history.back()} style={{ marginRight: '2em' }}>
             Back
           </Button>

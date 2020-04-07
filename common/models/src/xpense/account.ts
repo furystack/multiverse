@@ -3,6 +3,8 @@ export class Account {
   ownerType!: 'user' | 'organization'
   ownerName!: string
   name!: string
+  description!: string
+  icon!: string
   history!: Array<{
     balance: number
     date: string

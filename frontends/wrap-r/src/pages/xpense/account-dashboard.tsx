@@ -13,7 +13,10 @@ export const AccountDashboard = Shade<xpense.Account>({
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <SelectedAccountHeader area="Dashboard" account={props} />
           <div style={{ flex: '1' }} />
-          <AccountSelector onSelectAccount={(account) => history.pushState({}, '', `/xpense/${account}`)} />
+          <AccountSelector
+            onSelectAccount={(account) => history.pushState({}, '', `/xpense/${account}`)}
+            currentAccount={props}
+          />
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: '2em', flexWrap: 'wrap' }}>
           <Widget

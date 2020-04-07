@@ -1,31 +1,24 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { Autocomplete, Button } from 'common-components'
 import { xpense } from 'common-models'
-import { XpenseApiService } from 'common-frontend-utils/src'
+import { AvailableAccountsContext } from '../services/available-accounts-context'
 
 export const AccountSelector = Shade<
-  { onSelectAccount?: (accountUrlFragment: string) => void },
+  { currentAccount?: xpense.Account; onSelectAccount?: (accountUrlFragment: string) => void },
   {
-    selectedAccountName: string
-    accounts: Array<{
-      name: string
-      ownerType: xpense.Account['ownerType']
-      ownerName: xpense.Account['ownerName']
-      current: xpense.Account['current']
-    }>
+    selectedAccountName?: string
     accountNames: string[]
   }
 >({
-  getInitialState: () => ({
+  getInitialState: ({ props }) => ({
     accounts: [],
     accountNames: [],
-    selectedAccountName: ``,
+    selectedAccountName: props.currentAccount
+      ? `${props.currentAccount.ownerType}/${props.currentAccount.ownerName}/${props.currentAccount.name}`
+      : '',
   }),
   constructed: async ({ injector, updateState }) => {
-    const accounts = await injector.getInstance(XpenseApiService).call({
-      method: 'GET',
-      action: '/availableAccounts',
-    })
+    const accounts = await injector.getInstance(AvailableAccountsContext).accounts
     updateState({
       accountNames: accounts.map((a) => `${a.ownerType}/${a.ownerName}/${a.name}`),
     })

@@ -4,7 +4,7 @@ import { Organization } from 'common-models'
 import { WrapRApiService } from 'common-frontend-utils'
 
 export const AddOrganizationPage = Shade<{}, Omit<Organization, '_id'>>({
-  getInitialState: () => ({ adminNames: [], memberNames: [], description: '', name: '', ownerName: '' }),
+  getInitialState: () => ({ adminNames: [], memberNames: [], description: '', name: '', ownerName: '', icon: '💳' }),
   shadowDomName: 'shade-add-organization-page',
   render: ({ getState, injector, updateState }) => {
     return (
@@ -20,6 +20,7 @@ export const AddOrganizationPage = Shade<{}, Omit<Organization, '_id'>>({
             history.pushState({}, '', `/organization/${encodeURIComponent(created.name)}`)
           }}>
           <Input type="text" labelTitle="Name" onTextChange={(value) => updateState({ name: value }, true)} />
+          <Input type="text" labelTitle="Icon" onTextChange={(value) => updateState({ icon: value }, true)} />
           <Input
             type="text"
             labelTitle="Description"

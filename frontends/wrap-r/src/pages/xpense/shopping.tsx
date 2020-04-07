@@ -63,7 +63,10 @@ export const XpenseShoppingPage = Shade<
         <div style={{ display: 'flex' }}>
           <SelectedAccountHeader {...props} area="Shopping" account={props} />
           <div style={{ flex: '1' }} />
-          <AccountSelector onSelectAccount={(acc) => history.pushState({}, '', `/xpense/${acc}/shopping`)} />
+          <AccountSelector
+            onSelectAccount={(acc) => history.pushState({}, '', `/xpense/${acc}/shopping`)}
+            currentAccount={props}
+          />
         </div>
         <form
           onsubmit={async (ev) => {

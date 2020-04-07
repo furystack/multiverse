@@ -1,6 +1,7 @@
 export class Organization {
   _id!: string
   name!: string
+  icon!: string
   description!: string
   /**
    * The owner user name
