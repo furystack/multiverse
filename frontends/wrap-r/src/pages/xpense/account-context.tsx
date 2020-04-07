@@ -6,6 +6,7 @@ import { Init } from '../init'
 import { AccountDashboard } from './account-dashboard'
 import { ReplenishPage } from './replenish'
 import { XpenseShoppingPage } from './shopping'
+import { AccountHistory } from './account-history'
 
 export const AccountContext = Shade<
   { type: 'user' | 'organization'; accountName: string; owner: string },
@@ -139,9 +140,34 @@ export const AccountContext = Shade<
                   {...account}
                   shops={shops}
                   items={items}
-                  onShopped={(total) => {
-                    updateState({ account: { ...account, current: account?.current - total } })
+                  onShopped={(shopping) => {
+                    const currentBalance = account.current - shopping.sumAmount
+                    updateState({
+                      account: {
+                        ...account,
+                        current: currentBalance,
+                        history: [
+                          ...account.history,
+                          {
+                            balance: currentBalance,
+                            change: -shopping.sumAmount,
+                            date: shopping.creationDate,
+                            relatedEntry: { shoppingId: shopping._id },
+                          },
+                        ],
+                      },
+                    })
                   }}
+                />
+              ),
+            },
+            {
+              url: '/xpense/:type/:owner/:accountName/history',
+              component: () => (
+                <AccountHistory
+                  account={account}
+                  // shops={shops}
+                  // items={items}
                 />
               ),
             },

@@ -30,6 +30,13 @@ export const AccountDashboard = Shade<xpense.Account>({
             description={`Add to the balance of ${props.name}`}
             url={`/xpense/${accountUriFragment}/shopping`}
           />
+          <Widget
+            icon="📉"
+            name="History"
+            index={1}
+            description={`See the history of the balance for ${props.name}`}
+            url={`/xpense/${accountUriFragment}/history`}
+          />
         </div>
       </div>
     )

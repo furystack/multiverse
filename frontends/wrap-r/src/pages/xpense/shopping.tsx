@@ -8,7 +8,7 @@ import { SelectedAccountHeader } from './components/header'
 import { ShoppingEntry, ShoppingEntryRow } from './components/shopping-entry'
 
 export const XpenseShoppingPage = Shade<
-  xpense.Account & { shops: xpense.Shop[]; items: xpense.Item[]; onShopped: (total: number) => void },
+  xpense.Account & { shops: xpense.Shop[]; items: xpense.Item[]; onShopped: (total: xpense.Shopping) => void },
   { entries: ShoppingEntry[]; shopName: string; error?: Error; isSaveInProgress?: boolean }
 >({
   shadowDomName: 'xpense-shopping-page',
@@ -80,7 +80,7 @@ export const XpenseShoppingPage = Shade<
             }
             try {
               updateState({ isSaveInProgress: true })
-              await injector.getInstance(XpenseApiService).call({
+              const shopping = await injector.getInstance(XpenseApiService).call({
                 method: 'POST',
                 action: '/:type/:owner/:accountName/shop',
                 url: { type: props.ownerType, owner: props.ownerName, accountName: props.name },
@@ -93,7 +93,7 @@ export const XpenseShoppingPage = Shade<
                   })), //  as Array<{ itemName: string; amount: number; unitPrice: number }>,
                 },
               })
-              props.onShopped(total)
+              props.onShopped(shopping)
               history.pushState({}, '', `/xpense/${props.ownerType}/${props.ownerName}/${props.name}`)
             } catch (e) {
               updateState({ error: e })
