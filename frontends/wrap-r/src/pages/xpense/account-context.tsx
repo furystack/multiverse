@@ -163,13 +163,7 @@ export const AccountContext = Shade<
             },
             {
               url: '/xpense/:type/:owner/:accountName/history',
-              component: () => (
-                <AccountHistory
-                  account={account}
-                  // shops={shops}
-                  // items={items}
-                />
-              ),
+              component: () => <AccountHistory account={account} />,
             },
             { url: '/', routingOptions: { end: false }, component: () => <AccountDashboard {...account} /> },
           ]}
