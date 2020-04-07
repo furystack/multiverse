@@ -1,10 +1,11 @@
 import '@furystack/auth-google'
-import { verifyAndCreateIndexes } from 'common-service-utils'
+import { verifyAndCreateIndexes, getOrgsForCurrentUser } from 'common-service-utils'
 import '@furystack/repository/dist/injector-extension'
 import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
-import { xpense } from 'common-models'
+import { xpense, Organization } from 'common-models'
 import { databases } from 'common-config'
+import { HttpUserContext } from '@furystack/rest-service'
 
 export const injector = new Injector()
 
@@ -46,6 +47,13 @@ injector.setupStores((sm) =>
       db: databases.xpense.dbName,
       collection: databases.xpense.shoppings,
       options: databases.standardOptions,
+    })
+    .useMongoDb({
+      model: Organization,
+      url: databases['common-auth'].mongoUrl,
+      db: databases['common-auth'].dbName,
+      collection: 'organizations',
+      options: databases.standardOptions,
     }),
 )
 
@@ -53,18 +61,58 @@ injector.setupRepository((repo) =>
   repo
     .createDataSet(xpense.Account, {
       name: 'accounts',
+      addFilter: async ({ injector: i, filter }) => {
+        const currentUser = await i.getInstance(HttpUserContext).getCurrentUser()
+        const orgs = await getOrgsForCurrentUser(i, currentUser)
+        return {
+          ...filter,
+          filter: {
+            $and: [
+              filter.filter,
+              {
+                $or: [
+                  { ownerType: 'user', ownerName: currentUser.username },
+                  ...orgs.map((org) => ({ ownerType: 'organization', ownerName: org.name })),
+                ],
+              },
+            ],
+          },
+        } as typeof filter
+      },
+      authorizeGetEntity: async ({ entity, injector: i }) => {
+        const currentUser = await i.getInstance(HttpUserContext).getCurrentUser()
+        const orgs = await getOrgsForCurrentUser(i, currentUser)
+        if (entity.ownerType === 'user' && entity.ownerName === currentUser.username) {
+          return { isAllowed: true }
+        }
+        if (entity.ownerType === 'organization' && orgs.map((org) => org.name).includes(entity.ownerName)) {
+          return { isAllowed: true }
+        }
+        return {
+          isAllowed: false,
+          message: 'To view this account, you or one of your organizations have to own it.',
+        }
+      },
     })
     .createDataSet(xpense.Item, {
       name: 'items',
     })
     .createDataSet(xpense.Replenishment, {
       name: 'replenishments',
+      authorizeGetEntity: async ({ entity, injector: i }) => {
+        await injector.getDataSetFor<Account>('accounts').get(i, entity.accountId)
+        return { isAllowed: true }
+      },
     })
     .createDataSet(xpense.Shop, {
       name: 'shops',
     })
     .createDataSet(xpense.Shopping, {
       name: 'shoppings',
+      authorizeGetEntity: async ({ entity, injector: i }) => {
+        await injector.getDataSetFor<Account>('accounts').get(i, entity.accountId)
+        return { isAllowed: true }
+      },
     }),
 )
 
