@@ -36,7 +36,7 @@ export const PostReplenishment: RequestAction<{
         change: createdReplenishment.amount,
         date: new Date().toISOString(),
         changePerCategory: [],
-        relatedEntry: { replenishmentId: createdReplenishment._id },
+        relatedEntry: { type: 'replenishment', replenishmentId: createdReplenishment._id },
       },
     ],
   })

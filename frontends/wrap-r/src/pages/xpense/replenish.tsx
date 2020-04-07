@@ -43,7 +43,7 @@ export const ReplenishPage = Shade<
     }
     return (
       <div style={{ ...styles.glassBox, padding: '1em' }}>
-        <SelectedAccountHeader {...props} area="Replenish" />
+        <SelectedAccountHeader account={props} area="Replenish" />
         <form
           onsubmit={async (ev) => {
             ev.preventDefault()

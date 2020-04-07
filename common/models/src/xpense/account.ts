@@ -8,7 +8,7 @@ export class Account {
     date: string
     change: number
     changePerCategory: Array<{ categoryName: string; amount: number }>
-    relatedEntry: { replenishmentId: string } | { shoppingId: string }
+    relatedEntry: { type: 'replenishment'; replenishmentId: string } | { type: 'shopping'; shoppingId: string }
   }>
   current!: number
   createdBy!: string

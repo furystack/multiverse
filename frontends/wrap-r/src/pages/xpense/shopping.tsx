@@ -61,7 +61,7 @@ export const XpenseShoppingPage = Shade<
     return (
       <div style={{ ...styles.glassBox, padding: '1em', height: '100%', overflow: 'auto' }}>
         <div style={{ display: 'flex' }}>
-          <SelectedAccountHeader {...props} area="Shopping" />
+          <SelectedAccountHeader {...props} area="Shopping" account={props} />
           <div style={{ flex: '1' }} />
           <AccountSelector onSelectAccount={(acc) => history.pushState({}, '', `/xpense/${acc}/shopping`)} />
         </div>

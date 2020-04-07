@@ -7,6 +7,10 @@ import { AccountDashboard } from './account-dashboard'
 import { ReplenishPage } from './replenish'
 import { XpenseShoppingPage } from './shopping'
 import { AccountHistory } from './account-history'
+import { ItemDetails } from './item-details'
+import { ShoppingDetails } from './shopping-details'
+import { ShopDetails } from './shop-details'
+import { ReplenishmentDetails } from './replenishment-details'
 
 export const AccountContext = Shade<
   { type: 'user' | 'organization'; accountName: string; owner: string },
@@ -164,6 +168,26 @@ export const AccountContext = Shade<
             {
               url: '/xpense/:type/:owner/:accountName/history',
               component: () => <AccountHistory account={account} />,
+            },
+            {
+              url: '/xpense/:type/:owner/:accountName/shopping/:shoppingId',
+              component: ({ match: m }) => (
+                <ShoppingDetails shoppingId={m.params.shoppingId} account={account} items={items} />
+              ),
+            },
+            {
+              url: '/xpense/:type/:owner/:accountName/replenishment/:replenishmentId',
+              component: ({ match: m }) => <ReplenishmentDetails replenishmentId={m.params.replenishmentId} />,
+            },
+            {
+              url: '/xpense/:type/:owner/:accountName/shop/:shopId',
+              component: ({ match: m }) => <ShopDetails shopId={m.params.shopId} account={account} items={items} />,
+            },
+            {
+              url: '/xpense/:type/:owner/:accountName/item/:itemId',
+              component: ({ match: m }) => (
+                <ItemDetails account={account} item={items.find((i) => i._id === m.params.itemId) as xpense.Item} />
+              ),
             },
             { url: '/', routingOptions: { end: false }, component: () => <AccountDashboard {...account} /> },
           ]}

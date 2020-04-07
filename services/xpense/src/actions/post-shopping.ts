@@ -41,7 +41,7 @@ export const PostShopping: RequestAction<{
         change: -createdShopping.sumAmount,
         date: new Date().toISOString(),
         changePerCategory: [],
-        relatedEntry: { shoppingId: createdShopping._id },
+        relatedEntry: { type: 'shopping', shoppingId: createdShopping._id },
       },
     ],
   })

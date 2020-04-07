@@ -30,8 +30,18 @@ export const AccountHistory = Shade<{ account: xpense.Account }>({
               return
             }
             const ev: xpense.Account['history'][number] = props.account.history[(el as any)[0]?._index as number]
-            if ((ev.relatedEntry as any).replenishmentId) {
-              alert('Replenishment')
+            const { relatedEntry } = ev
+            if (relatedEntry.type === 'replenishment') {
+              history.pushState(
+                {},
+                '',
+                `/xpense/${props.account.ownerType}/${props.account.ownerName}/${props.account.name}/replenishment/${relatedEntry.replenishmentId}`,
+              )
+            } else if (relatedEntry.type === 'shopping') {
+              history.pushState(
+                {},
+                `/xpense/${props.account.ownerType}/${props.account.ownerName}/${props.account.name}/replenishment/${relatedEntry.shoppingId}`,
+              )
             }
           },
           elements: {
