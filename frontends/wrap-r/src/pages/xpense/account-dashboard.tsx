@@ -9,8 +9,8 @@ export const AccountDashboard = Shade<xpense.Account>({
   render: ({ props }) => {
     const accountUriFragment = encodeURI(`${props.ownerType}/${props.ownerName}/${props.name}`)
     return (
-      <div style={{ padding: '1em' }}>
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+      <div style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+        <div style={{ padding: '1em', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <SelectedAccountHeader area="Dashboard" account={props} />
           <div style={{ flex: '1' }} />
           <AccountSelector

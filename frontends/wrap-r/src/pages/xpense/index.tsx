@@ -19,29 +19,33 @@ export const XpensePage = Shade<
       <div style={{ ...styles.glassBox, height: 'calc(100% - 2px)', width: 'calc(100% - 2px)' }}>
         <Router
           notFound={() => (
-            <div
-              style={{
-                padding: '2em',
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              {getState().availableAccounts?.map((account, index) => (
-                <Widget
-                  icon={account.icon || (account.ownerType === 'user' ? '🧑' : '🏢')}
-                  name={account.name}
-                  index={index}
-                  url={`/xpense/${account.ownerType}/${account.ownerName}/${account.name}`}
-                  description=""
-                />
-              ))}
-              <Fab
-                style={{ backgroundColor: colors.primary.main }}
-                title="Create Account"
-                onclick={() => history.pushState({}, '', '/xpense/add-account')}>
-                ➕
-              </Fab>
+            <div style={{ overflow: 'auto', width: '100%', height: '100%' }}>
+              <div
+                style={{
+                  padding: '2em',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexWrap: 'wrap',
+                  overflow: 'auto',
+                }}>
+                {getState().availableAccounts?.map((account, index) => (
+                  <Widget
+                    icon={account.icon || (account.ownerType === 'user' ? '🧑' : '🏢')}
+                    name={account.name}
+                    index={index}
+                    url={`/xpense/${account.ownerType}/${account.ownerName}/${account.name}`}
+                    description=""
+                  />
+                ))}
+                <Fab
+                  style={{ backgroundColor: colors.primary.main }}
+                  title="Create Account"
+                  onclick={() => history.pushState({}, '', '/xpense/add-account')}>
+                  ➕
+                </Fab>
+              </div>
             </div>
           )}
           routes={[
