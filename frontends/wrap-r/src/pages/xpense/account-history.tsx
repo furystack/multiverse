@@ -40,7 +40,8 @@ export const AccountHistory = Shade<{ account: xpense.Account }>({
             } else if (relatedEntry.type === 'shopping') {
               history.pushState(
                 {},
-                `/xpense/${props.account.ownerType}/${props.account.ownerName}/${props.account.name}/replenishment/${relatedEntry.shoppingId}`,
+                '',
+                `/xpense/${props.account.ownerType}/${props.account.ownerName}/${props.account.name}/shopping/${relatedEntry.shoppingId}`,
               )
             }
           },

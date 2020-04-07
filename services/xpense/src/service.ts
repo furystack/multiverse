@@ -12,6 +12,9 @@ import {
   PostShopping,
   GetAvailableAccounts,
   PostAccount,
+  GetReplenishment,
+  GetShop,
+  GetShopping,
 } from './actions'
 
 injector.useRestService<apis.XpenseApi>({
@@ -23,6 +26,9 @@ injector.useRestService<apis.XpenseApi>({
       '/items': GetItems,
       '/:type/:owner/:accountName': GetAccount,
       '/availableAccounts': GetAvailableAccounts,
+      '/replenishments/:replenishmentId': GetReplenishment,
+      '/shops/:shopId': GetShop,
+      '/shopping/:shoppingId': GetShopping,
     },
     POST: {
       '/items': PostItem,

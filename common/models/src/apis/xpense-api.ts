@@ -13,6 +13,9 @@ export interface XpenseApi extends RestApi {
         current: Account['current']
       }>
     }>
+    '/replenishments/:replenishmentId': RequestAction<{ urlParams: { replenishmentId: string }; result: Replenishment }>
+    '/shops/:shopId': RequestAction<{ urlParams: { shopId: string }; result: Shop }>
+    '/shopping/:shoppingId': RequestAction<{ urlParams: { shoppingId: string }; result: Shopping }>
     '/:type/:owner/:accountName': RequestAction<{
       result: Account
       urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
