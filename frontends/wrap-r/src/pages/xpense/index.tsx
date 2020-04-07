@@ -6,7 +6,7 @@ import { AccountSelector } from './components/account-selector'
 export const XpensePage = Shade<{ accountOwner?: string; accountType?: 'user' | 'organization'; accountName: string }>({
   render: () => {
     return (
-      <div style={styles.glassBox}>
+      <div style={{ ...styles.glassBox, height: 'calc(100% - 2px)', width: 'calc(100% - 2px)' }}>
         <Router
           notFound={() => (
             <div style={{ padding: '2em', textAlign: 'center' }}>

@@ -71,8 +71,9 @@ export const ShoppingEntryRow = Shade<ShoppingEntryProps>({
           type="number"
           labelTitle="Amount"
           name="amount"
+          step="any"
           value={props.entry.amount.toString()}
-          min="1"
+          min="0"
           required
           onTextChange={(value) => {
             const amountNo = parseFloat(value)

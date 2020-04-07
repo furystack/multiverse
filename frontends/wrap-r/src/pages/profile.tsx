@@ -19,12 +19,11 @@ export const ProfilePage = Shade<
   constructed: async ({ injector, updateState }) => {
     const currentUser = injector.getInstance(SessionService).currentUser.getValue() as User
     const api = injector.getInstance(WrapRApiService)
-    const profile =
-      (await api.call({
-        method: 'GET',
-        action: '/profiles/:username',
-        url: { username: currentUser.username },
-      })) as Profile
+    const profile = (await api.call({
+      method: 'GET',
+      action: '/profiles/:username',
+      url: { username: currentUser.username },
+    })) as Profile
     const loginProviderDetails = await api.call({
       method: 'GET',
       action: '/loginProviderDetails',

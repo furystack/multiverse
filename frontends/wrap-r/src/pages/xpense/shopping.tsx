@@ -8,7 +8,7 @@ import { SelectedAccountHeader } from './components/header'
 import { ShoppingEntry, ShoppingEntryRow } from './components/shopping-entry'
 
 export const XpenseShoppingPage = Shade<
-  xpense.Account & { shops: xpense.Shop[]; items: xpense.Item[] },
+  xpense.Account & { shops: xpense.Shop[]; items: xpense.Item[]; onShopped: (total: number) => void },
   { entries: ShoppingEntry[]; shopName: string; error?: Error; isSaveInProgress?: boolean }
 >({
   shadowDomName: 'xpense-shopping-page',
@@ -21,8 +21,9 @@ export const XpenseShoppingPage = Shade<
 
     const updateTotal = () => {
       const { entries } = getState()
-      const total = entries.reduce((last, current) => last + current.totalPrice, 0)
+      const total = entries.reduce((last, current) => last + (current.totalPrice || 0), 0)
       ;(element.querySelector('#total') as HTMLInputElement).value = total.toString()
+      return total
     }
 
     if (isSaveInProgress) {
@@ -58,7 +59,7 @@ export const XpenseShoppingPage = Shade<
     }
 
     return (
-      <div style={{ ...styles.glassBox, padding: '1em' }}>
+      <div style={{ ...styles.glassBox, padding: '1em', height: '100%', overflow: 'auto' }}>
         <div style={{ display: 'flex' }}>
           <SelectedAccountHeader {...props} area="Shopping" />
           <div style={{ flex: '1' }} />
@@ -67,6 +68,16 @@ export const XpenseShoppingPage = Shade<
         <form
           onsubmit={async (ev) => {
             ev.preventDefault()
+            const total = updateTotal()
+            if (
+              !confirm(
+                `Are you sure to save your shopping? \r\n The total amount is '${total}'. The account balance is ${
+                  props.current
+                }. The balance will be ${props.current - total} after submitting.`,
+              )
+            ) {
+              return
+            }
             try {
               updateState({ isSaveInProgress: true })
               await injector.getInstance(XpenseApiService).call({
@@ -82,6 +93,7 @@ export const XpenseShoppingPage = Shade<
                   })), //  as Array<{ itemName: string; amount: number; unitPrice: number }>,
                 },
               })
+              props.onShopped(total)
               history.pushState({}, '', `/xpense/${props.ownerType}/${props.ownerName}/${props.name}`)
             } catch (e) {
               updateState({ error: e })
@@ -104,14 +116,12 @@ export const XpenseShoppingPage = Shade<
               <ShoppingEntryRow
                 items={props.items}
                 entry={entry}
-                onRemove={(deleted) =>
-                  updateState(
-                    {
-                      entries: getState().entries.filter((e) => e !== deleted),
-                    },
-                    true,
-                  )
-                }
+                onRemove={() => {
+                  updateState({
+                    entries: getState().entries.filter((e) => e !== getState().entries[index]),
+                  })
+                  updateTotal()
+                }}
                 onChange={(change) => {
                   const { entries } = getState()
                   entries[index] = change
@@ -121,7 +131,7 @@ export const XpenseShoppingPage = Shade<
               />
             ))}
           </div>
-          <div style={{ paddingTop: '1em' }}>
+          <div style={{ marginBottom: '2em' }}>
             <Input
               id="total"
               readOnly
@@ -132,9 +142,10 @@ export const XpenseShoppingPage = Shade<
             <hr />
             <Button
               type="button"
-              onclick={() =>
+              onclick={() => {
                 updateState({ entries: [...getState().entries, { name: '', totalPrice: 0, unitPrice: 0, amount: 1 }] })
-              }>
+                updateTotal()
+              }}>
               Add entry
             </Button>
             <Button type="submit">Save shopping</Button>

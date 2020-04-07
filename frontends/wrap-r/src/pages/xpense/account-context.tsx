@@ -11,6 +11,7 @@ export const AccountContext = Shade<
   { type: 'user' | 'organization'; accountName: string; owner: string },
   { account?: xpense.Account; items: xpense.Item[]; shops: xpense.Shop[]; isLoading: boolean; error?: Error }
 >({
+  shadowDomName: 'xpense-account-context',
   getInitialState: () => ({
     isLoading: true,
     items: [],
@@ -133,7 +134,16 @@ export const AccountContext = Shade<
             },
             {
               url: '/xpense/:type/:owner/:accountName/shopping',
-              component: () => <XpenseShoppingPage {...account} shops={shops} items={items} />,
+              component: () => (
+                <XpenseShoppingPage
+                  {...account}
+                  shops={shops}
+                  items={items}
+                  onShopped={(total) => {
+                    updateState({ account: { ...account, current: account?.current - total } })
+                  }}
+                />
+              ),
             },
             { url: '/', routingOptions: { end: false }, component: () => <AccountDashboard {...account} /> },
           ]}
