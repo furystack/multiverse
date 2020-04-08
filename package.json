@@ -58,7 +58,7 @@
   },
   "scripts": {
     "build:services": "tsc -b",
-    "build:frontends": "yarn workspace wrap-r-frontend build",
+    "build:frontends": "yarn workspace @frontend/core build",
     "build": "yarn build:services && yarn build:frontends",
     "start:watch": "tsc -b common && tsc -b services && concurrently --kill-others \"tsc -b --watch services\" \"yarn workspace wrap-r-service start:watch\" \"yarn workspace logg-r-service start:watch\" \"yarn workspace xpense-service start:watch\" \"yarn startFrontend\"",
     "test:cypress": "yarn workspace wrap-r-service seed && concurrently --kill-others \"yarn start\" \"yarn cypress run\" --success first ",
@@ -66,7 +66,7 @@
     "startWrapR": "yarn workspace wrap-r-service start",
     "startLoggR": "yarn workspace logg-r-service start",
     "startXpense": "yarn workspace xpense-service start",
-    "startFrontend": "yarn workspace wrap-r-frontend start",
+    "startFrontend": "yarn workspace @frontend/core start",
     "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache",
     "seed": "yarn workspace wrap-r-service seed",
