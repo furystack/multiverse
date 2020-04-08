@@ -18,7 +18,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
-  - job: buildAndTest    
+  - job: buildAndTest
     timeoutInMinutes: 10
     displayName: Build and test
     steps:
@@ -28,13 +28,10 @@ jobs:
         displayName: 'Install Node.js'
       # - script: yarn install
       #   displayName: 'Yarn install'
-
       # - script: yarn lint
       #   displayName: 'Yarn Lint'
-
       # - script: yarn build
       #   displayName: 'Yarn build'
-
       # - task: DockerCompose@0
       #   displayName: Start the Dev Proxy Image
       #   inputs:
@@ -43,10 +40,8 @@ jobs:
       #     projectName: $(Build.Repository.Name)
       #     detached: true
       #     buildImages: true
-
       # - script: yarn test:cypress
       #   displayName: 'Cypress tests'
-
       # - task: PublishTestResults@2
       #   displayName: Publish test results
       #   condition: always()
@@ -94,10 +89,10 @@ jobs:
                 repository: furystack/multiverse-wrap-r
                 tags: latest
             - task: Docker@2
-              displayName: Build LoggR docker image
+              displayName: Build Diag docker image
               inputs:
                 command: buildAndPush
                 containerRegistry: dockerHubServiceConnection
-                Dockerfile: loggr.Dockerfile
-                repository: furystack/multiverse-logg-r
+                Dockerfile: diag.Dockerfile
+                repository: furystack/multiverse-diag
                 tags: latest
