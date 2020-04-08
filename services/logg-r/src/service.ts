@@ -5,13 +5,13 @@ import { attachShutdownHandler } from '@common/service-utils'
 import { injector } from './config'
 import { GetEntries, GetEntry } from './actions'
 
-injector.useRestService<apis.LoggRApi>({
-  port: parseInt(sites.services['logg-r'].internalPort as string, 10),
-  root: '/api/logg-r',
+injector.useRestService<apis.DiagApi>({
+  port: parseInt(sites.services.diag.internalPort as string, 10),
+  root: '/diag',
   api: {
     GET: {
-      '/entries': Authorize('sys-logs')(GetEntries),
-      '/entry/:_id': Authorize('sys-logs')(GetEntry),
+      '/logEntries': Authorize('sys-logs')(GetEntries),
+      '/logEntry/:_id': Authorize('sys-logs')(GetEntry),
     },
   },
   cors: {

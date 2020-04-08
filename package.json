@@ -60,11 +60,11 @@
     "build:services": "tsc -b",
     "build:frontends": "yarn workspace @frontend/core build",
     "build": "yarn build:services && yarn build:frontends",
-    "start:watch": "tsc -b common && tsc -b services && concurrently --kill-others \"tsc -b --watch services\" \"yarn workspace @service/auth start:watch\" \"yarn workspace logg-r-service start:watch\" \"yarn workspace xpense-service start:watch\" \"yarn startFrontend\"",
+    "start:watch": "tsc -b common && tsc -b services && concurrently --kill-others \"tsc -b --watch services\" \"yarn workspace @service/auth start:watch\" \"yarn workspace @service/diag start:watch\" \"yarn workspace xpense-service start:watch\" \"yarn startFrontend\"",
     "test:cypress": "yarn workspace @service/auth seed && concurrently --kill-others \"yarn start\" \"yarn cypress run\" --success first ",
-    "start": "concurrently --kill-others \"yarn startAuth\" \"yarn startLoggR\" \"yarn startFrontend\"  ",
+    "start": "concurrently --kill-others \"yarn startAuth\" \"yarn startDiag\" \"yarn startFrontend\"  ",
     "startAuth": "yarn workspace @service/auth start",
-    "startLoggR": "yarn workspace logg-r-service start",
+    "startDiag": "yarn workspace @service/diag start",
     "startXpense": "yarn workspace xpense-service start",
     "startFrontend": "yarn workspace @frontend/core start",
     "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
@@ -72,7 +72,7 @@
     "seed": "yarn workspace @service/auth seed",
     "docker:base": "docker build . --file ./base.Dockerfile --tag furystack/multiverse-base:latest",
     "docker:auth": "docker build . --file ./auth.Dockerfile --tag furystack/multiverse-auth:latest",
-    "docker:loggr": "docker build . --file ./loggr.Dockerfile --tag furystack/multiverse-logg-r:latest",
-    "dockerize": "yarn docker:base && yarn docker:auth && yarn docker:loggr"
+    "docker:diag": "docker build . --file ./diag.Dockerfile --tag furystack/multiverse-diag:latest",
+    "dockerize": "yarn docker:base && yarn docker:auth && yarn docker:diag"
   }
 }

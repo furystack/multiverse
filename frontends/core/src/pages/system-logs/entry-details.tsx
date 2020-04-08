@@ -1,7 +1,7 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { LogEntry } from '@common/models'
 import { Button, Input, styles } from '@common/components'
-import { LoggRApiService } from '@common/frontend-utils'
+import { DiagApiService } from '@common/frontend-utils'
 import { Init } from '../init'
 import { getLevelIcon } from './get-level-icon'
 
@@ -10,9 +10,9 @@ export const EntryDetails = Shade<{ guid: string }, { entry?: LogEntry<any>; err
   getInitialState: () => ({}),
   constructed: async ({ props, injector, updateState }) => {
     try {
-      const entry = await injector.getInstance(LoggRApiService).call({
+      const entry = await injector.getInstance(DiagApiService).call({
         method: 'GET',
-        action: '/entry/:_id',
+        action: '/logEntry/:_id',
         url: { _id: props.guid },
       })
       updateState({ entry })

@@ -2,7 +2,7 @@ import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { LogLevel } from '@furystack/logging'
 import { LogEntry } from '@common/models'
 import { DataGrid, styles } from '@common/components'
-import { LoggRApiService, CollectionService } from '@common/frontend-utils'
+import { DiagApiService, CollectionService } from '@common/frontend-utils'
 import { getLevelIcon } from './get-level-icon'
 
 export interface SystemLogsState {
@@ -23,9 +23,9 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
   getInitialState: ({ injector }) => ({
     systemLogsService: new CollectionService<LogEntry<any>>(
       (filter) =>
-        injector.getInstance(LoggRApiService).call({
+        injector.getInstance(DiagApiService).call({
           method: 'GET',
-          action: '/entries',
+          action: '/logEntries',
           query: { filter: JSON.stringify(filter) },
         }),
       { top: 20, order: { creationDate: 'DESC' } },
