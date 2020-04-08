@@ -24,6 +24,7 @@ export class DbLogger extends AbstractLogger implements Disposable {
       .information({ message: 'Disposing, no logs will be saved to the DB...' })
     this.isDisposing = true
     this.injector.getInstance(LoggerCollection).detach(this)
+    this.addEntry = () => Promise.resolve()
   }
   public readonly store: MongodbStore<LogEntry<any>>
   public async addEntry<T>(entry: import('@furystack/logging').LeveledLogEntry<T>): Promise<void> {
@@ -47,7 +48,7 @@ declare module '@furystack/inject/dist/injector' {
   }
 }
 
-Injector.prototype.useDbLogger = function(settings) {
+Injector.prototype.useDbLogger = function (settings) {
   this.setupStores((sm) =>
     sm.useMongoDb({
       model: LogEntry,

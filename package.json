@@ -36,6 +36,7 @@
     "prettier": "^2.0.1"
   },
   "devDependencies": {
+    "nodemon": "^2.0.2",
     "rimraf": "^3.0.1",
     "typescript": "^3.7.2"
   },
@@ -59,6 +60,7 @@
     "build:services": "tsc -b",
     "build:frontends": "yarn workspace wrap-r-frontend build",
     "build": "yarn build:services && yarn build:frontends",
+    "start:watch": "tsc -b common && tsc -b services && concurrently --kill-others \"tsc -b --watch services\" \"yarn workspace wrap-r-service start:watch\" \"yarn workspace logg-r-service start:watch\" \"yarn workspace xpense-service start:watch\" \"yarn startFrontend\"",
     "test:cypress": "yarn workspace wrap-r-service seed && concurrently --kill-others \"yarn start\" \"yarn cypress run\" --success first ",
     "start": "concurrently --kill-others \"yarn startWrapR\" \"yarn startLoggR\" \"yarn startFrontend\"  ",
     "startWrapR": "yarn workspace wrap-r-service start",
