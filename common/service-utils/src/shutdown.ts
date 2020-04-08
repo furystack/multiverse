@@ -20,11 +20,10 @@ export const attachShutdownHandler = (i: Injector) => {
       }
       await i.getInstance(ServerManager).dispose()
       await i.getInstance(DbLogger).dispose()
+      await i.dispose()
     } catch (error) {
       console.error('Error during shutdown', error)
       process.exit(1)
-    } finally {
-      await i.dispose()
     }
     process.exit(code)
   }
