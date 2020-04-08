@@ -1,6 +1,6 @@
 import { Shade, createComponent, LocationService, Router } from '@furystack/shades'
-import { xpense } from 'common-models'
-import { XpenseApiService } from 'common-frontend-utils'
+import { xpense } from '@common/models'
+import { XpenseApiService } from '@common/frontend-utils'
 import { match } from 'path-to-regexp'
 import { Init } from '../init'
 import { AccountDashboard } from './account-dashboard'

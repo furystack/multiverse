@@ -1,5 +1,5 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
-import { xpense } from 'common-models'
+import { xpense } from '@common/models'
 
 export const GetReplenishment: RequestAction<{
   urlParams: { replenishmentId: string }

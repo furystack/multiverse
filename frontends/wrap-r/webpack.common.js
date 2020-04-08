@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
 const webpack = require('webpack')
-const { sites, tokens } = require('common-config')
+const { sites, tokens } = require('@common/config')
 
 module.exports = {
   entry: './src/index.tsx',

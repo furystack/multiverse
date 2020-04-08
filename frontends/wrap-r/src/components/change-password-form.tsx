@@ -1,6 +1,6 @@
 import { Shade, createComponent, PartialElement } from '@furystack/shades'
-import { Input, Button } from 'common-components'
-import { WrapRApiService } from 'common-frontend-utils/src'
+import { Input, Button } from '@common/components'
+import { WrapRApiService } from '@common/frontend-utils/src'
 
 export const ChangePasswordForm = Shade<
   { style?: PartialElement<CSSStyleDeclaration>; showCurrentPassword?: boolean; onUpdated?: () => void },

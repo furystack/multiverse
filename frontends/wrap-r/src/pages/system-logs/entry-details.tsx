@@ -1,7 +1,7 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { LogEntry } from 'common-models'
-import { Button, Input, styles } from 'common-components'
-import { LoggRApiService } from 'common-frontend-utils'
+import { LogEntry } from '@common/models'
+import { Button, Input, styles } from '@common/components'
+import { LoggRApiService } from '@common/frontend-utils'
 import { Init } from '../init'
 import { getLevelIcon } from './get-level-icon'
 

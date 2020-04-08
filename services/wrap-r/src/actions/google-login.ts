@@ -1,6 +1,6 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { GoogleLoginService } from '@furystack/auth-google'
-import { User, GoogleAccount } from 'common-models'
+import { User, GoogleAccount } from '@common/models'
 import { StoreManager } from '@furystack/core'
 import { HttpUserContext } from '@furystack/rest-service'
 

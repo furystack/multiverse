@@ -1,6 +1,6 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { Input, Autocomplete, Button } from 'common-components'
-import { xpense } from 'common-models'
+import { Input, Autocomplete, Button } from '@common/components'
+import { xpense } from '@common/models'
 
 export interface ShoppingEntry {
   name: string

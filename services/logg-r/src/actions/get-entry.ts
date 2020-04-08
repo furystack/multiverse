@@ -1,5 +1,5 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
-import { LogEntry } from 'common-models'
+import { LogEntry } from '@common/models'
 
 export const GetEntry: RequestAction<{
   urlParams: { _id: string }

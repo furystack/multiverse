@@ -1,5 +1,5 @@
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
-import { xpense } from 'common-models'
+import { xpense } from '@common/models'
 
 export const SelectedAccountHeader = Shade<{ area: string; account: xpense.Account }>({
   render: ({ props }) => {

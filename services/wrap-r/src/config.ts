@@ -1,11 +1,11 @@
 import '@furystack/auth-google'
-import { verifyAndCreateIndexes } from 'common-service-utils'
+import { verifyAndCreateIndexes } from '@common/service-utils'
 import '@furystack/repository/dist/injector-extension'
 import { HttpUserContext } from '@furystack/rest-service'
 import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
-import { GoogleAccount, GithubAccount, Organization, Profile } from 'common-models'
-import { databases } from 'common-config'
+import { GoogleAccount, GithubAccount, Organization, Profile } from '@common/models'
+import { databases } from '@common/config'
 
 export const injector = new Injector()
 

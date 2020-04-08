@@ -1,4 +1,4 @@
-import { roles } from 'common-models'
+import { roles } from '@common/models'
 
 export interface ServiceDescription {
   name: string

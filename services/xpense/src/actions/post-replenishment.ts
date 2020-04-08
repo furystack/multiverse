@@ -1,5 +1,5 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
-import { xpense } from 'common-models'
+import { xpense } from '@common/models'
 import { HttpUserContext } from '@furystack/rest-service'
 
 export const PostReplenishment: RequestAction<{

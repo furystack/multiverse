@@ -1,7 +1,7 @@
 import { createComponent, initializeShadeRoot } from '@furystack/shades'
 import { VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
-import { sites, tokens } from 'common-config'
+import { sites, tokens } from '@common/config'
 import { Layout } from './components/layout'
 import './services/google-auth-provider'
 import '@furystack/rest'

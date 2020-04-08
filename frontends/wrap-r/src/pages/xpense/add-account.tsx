@@ -1,6 +1,6 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { Input, Button, styles } from 'common-components/src'
-import { XpenseApiService } from 'common-frontend-utils/src'
+import { Input, Button, styles } from '@common/components/src'
+import { XpenseApiService } from '@common/frontend-utils/src'
 import { AvailableAccountsContext } from './services/available-accounts-context'
 
 export const AddXpenseAccountPage = Shade<{}, { name: string; description: string; icon: string }>({

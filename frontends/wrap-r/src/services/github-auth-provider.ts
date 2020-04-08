@@ -1,6 +1,6 @@
 import { Injectable } from '@furystack/inject'
-import { WrapRApiService, SessionService } from 'common-frontend-utils'
-import { tokens } from 'common-config'
+import { WrapRApiService, SessionService } from '@common/frontend-utils'
+import { tokens } from '@common/config'
 
 @Injectable({ lifetime: 'singleton' })
 export class GithubAuthProvider {

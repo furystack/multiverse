@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { StoreManager } from '@furystack/core'
-import { User, GithubAccount, Profile } from 'common-models'
+import { User, GithubAccount, Profile } from '@common/models'
 import { HttpUserContext } from '@furystack/rest-service'
 import { GithubAuthService } from '../services/github-login-service'
 

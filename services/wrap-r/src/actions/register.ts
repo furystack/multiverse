@@ -1,6 +1,6 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { StoreManager } from '@furystack/core'
-import { User, Profile } from 'common-models'
+import { User, Profile } from '@common/models'
 import { HttpUserContext } from '@furystack/rest-service'
 
 export const RegisterAction: RequestAction<{ body: { email: string; password: string }; result: User }> = async ({

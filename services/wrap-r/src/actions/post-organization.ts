@@ -1,5 +1,5 @@
 import { RequestAction, JsonResult } from '@furystack/rest'
-import { Organization } from 'common-models'
+import { Organization } from '@common/models'
 import { HttpUserContext } from '@furystack/rest-service'
 
 export const PostOrganization: RequestAction<{ body: Omit<Organization, '_id'>; result: Organization }> = async ({

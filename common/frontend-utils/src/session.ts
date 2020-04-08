@@ -1,6 +1,6 @@
 import { Injectable } from '@furystack/inject'
 import { ObservableValue, usingAsync } from '@furystack/utils'
-import { User } from 'common-models'
+import { User } from '@common/models'
 import { WrapRApiService } from './apis/wrap-r-api'
 import { getErrorMessage } from './get-error-message'
 

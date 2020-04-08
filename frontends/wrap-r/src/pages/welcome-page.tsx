@@ -1,7 +1,7 @@
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
-import { styles } from 'common-components'
-import { SessionService, serviceList, promisifyAnimation } from 'common-frontend-utils'
-import { User } from 'common-models'
+import { styles } from '@common/components'
+import { SessionService, serviceList, promisifyAnimation } from '@common/frontend-utils'
+import { User } from '@common/models'
 
 export const Widget = Shade<{ url: string; icon: string; name: string; description: string; index: number }>({
   shadowDomName: 'shade-welcome-screen-widget',

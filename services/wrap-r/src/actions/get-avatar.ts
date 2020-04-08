@@ -1,5 +1,5 @@
 import { RequestAction, RequestError, BypassResult } from '@furystack/rest'
-import { Profile } from 'common-models'
+import { Profile } from '@common/models'
 import got from 'got'
 
 export const GetAvatar: RequestAction<{

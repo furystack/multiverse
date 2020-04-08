@@ -1,7 +1,7 @@
 import { RequestAction, JsonResult } from '@furystack/rest'
 import { HttpUserContext } from '@furystack/rest-service'
 import { StoreManager } from '@furystack/core'
-import { GoogleAccount, User } from 'common-models'
+import { GoogleAccount, User } from '@common/models'
 
 export const DetachGoogleAccount: RequestAction<{ result: User }> = async ({ injector }) => {
   const logger = injector.logger.withScope('DetachGithubAccountAction')

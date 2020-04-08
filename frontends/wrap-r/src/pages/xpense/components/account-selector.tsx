@@ -1,6 +1,6 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { Autocomplete, Button } from 'common-components'
-import { xpense } from 'common-models'
+import { Autocomplete, Button } from '@common/components'
+import { xpense } from '@common/models'
 import { AvailableAccountsContext } from '../services/available-accounts-context'
 
 export const AccountSelector = Shade<

@@ -1,6 +1,6 @@
 import { createComponent, RouteLink, Shade, Router } from '@furystack/shades'
-import { AppBar, animations } from 'common-components'
-import { serviceList } from 'common-frontend-utils/src'
+import { AppBar, animations } from '@common/components'
+import { serviceList } from '@common/frontend-utils/src'
 export const Header = Shade({
   shadowDomName: 'shade-app-header',
   render: ({ children }) => {

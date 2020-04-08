@@ -1,8 +1,8 @@
 import { RequestAction, JsonResult } from '@furystack/rest'
-import { xpense } from 'common-models'
+import { xpense } from '@common/models'
 
 import { StoreManager } from '@furystack/core'
-import { getOrgsForCurrentUser } from 'common-service-utils'
+import { getOrgsForCurrentUser } from '@common/service-utils'
 import { HttpUserContext } from '@furystack/rest-service'
 
 export const GetAvailableAccounts: RequestAction<{

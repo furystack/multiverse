@@ -1,5 +1,5 @@
 import { ChildrenList, createComponent, Shade, PartialElement } from '@furystack/shades'
-import { CollectionService } from 'common-frontend-utils'
+import { CollectionService } from '@common/frontend-utils'
 import { GridProps } from './grid'
 import { colors } from './styles'
 

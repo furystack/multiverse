@@ -1,5 +1,5 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
-import { User } from 'common-models'
+import { User } from '@common/models'
 import { HttpUserContext, HttpAuthenticationSettings } from '@furystack/rest-service'
 import { StoreManager } from '@furystack/core'
 

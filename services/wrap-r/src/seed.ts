@@ -1,7 +1,7 @@
 import { PhysicalStore, StoreManager, SearchOptions } from '@furystack/core'
 import { HttpAuthenticationSettings } from '@furystack/rest-service'
 import { Injector } from '@furystack/inject'
-import { GoogleAccount, GithubAccount, User, Profile } from 'common-models'
+import { GoogleAccount, GithubAccount, User, Profile } from '@common/models'
 import { injector } from './config'
 
 /**

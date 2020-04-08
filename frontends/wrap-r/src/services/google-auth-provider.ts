@@ -1,7 +1,7 @@
 import { Retrier } from '@furystack/utils'
 import { Injector } from '@furystack/inject/dist/injector'
 import { Injectable } from '@furystack/inject'
-import { WrapRApiService, SessionService } from 'common-frontend-utils'
+import { WrapRApiService, SessionService } from '@common/frontend-utils'
 
 /**
  * Options for Google OAuth Authentication

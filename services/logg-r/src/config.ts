@@ -1,9 +1,9 @@
 import '@furystack/auth-google'
-import { verifyAndCreateIndexes } from 'common-service-utils'
+import { verifyAndCreateIndexes } from '@common/service-utils'
 import '@furystack/repository/dist/injector-extension'
 import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
-import { LogEntry } from 'common-models'
+import { LogEntry } from '@common/models'
 
 export const injector = new Injector()
 

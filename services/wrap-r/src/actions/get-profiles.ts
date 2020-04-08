@@ -1,5 +1,5 @@
 import { RequestAction, JsonResult } from '@furystack/rest'
-import { Profile } from 'common-models'
+import { Profile } from '@common/models'
 import { PartialResult } from '@furystack/core'
 
 export const GetProfiles: RequestAction<{

@@ -1,5 +1,5 @@
 import { RequestAction, JsonResult } from '@furystack/rest'
-import { Organization } from 'common-models'
+import { Organization } from '@common/models'
 import { PartialResult } from '@furystack/core'
 
 export const GetOrganizations: RequestAction<{

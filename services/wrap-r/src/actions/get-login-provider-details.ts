@@ -1,7 +1,7 @@
 import { RequestAction, JsonResult } from '@furystack/rest'
 import { HttpUserContext } from '@furystack/rest-service'
 import { StoreManager } from '@furystack/core'
-import { GoogleAccount, GithubAccount, User } from 'common-models'
+import { GoogleAccount, GithubAccount, User } from '@common/models'
 
 export const GetLoginProviderDetails: RequestAction<{
   result: {

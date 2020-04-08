@@ -1,7 +1,7 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { User } from 'common-models'
-import { Avatar, styles } from 'common-components'
-import { SessionService, serviceList } from 'common-frontend-utils'
+import { User } from '@common/models'
+import { Avatar, styles } from '@common/components'
+import { SessionService, serviceList } from '@common/frontend-utils'
 
 const CurrentUserMenuItem = Shade<{ title: string; icon: string; onclick: () => void }>({
   shadowDomName: 'current-user-menu-item',

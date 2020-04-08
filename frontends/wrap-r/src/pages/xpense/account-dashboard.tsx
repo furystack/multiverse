@@ -1,5 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { xpense } from 'common-models'
+import { xpense } from '@common/models'
 import { Widget } from '../welcome-page'
 import { AccountSelector } from './components/account-selector'
 import { SelectedAccountHeader } from './components/header'

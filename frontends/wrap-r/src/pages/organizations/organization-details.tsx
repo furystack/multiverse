@@ -1,7 +1,7 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { Tabs, styles, Input } from 'common-components'
-import { Organization } from 'common-models'
-import { WrapRApiService, SessionService } from 'common-frontend-utils'
+import { Tabs, styles, Input } from '@common/components'
+import { Organization } from '@common/models'
+import { WrapRApiService, SessionService } from '@common/frontend-utils'
 
 export const OrganizationDetailsPage = Shade<{ organizationId: string }, { loadedOrganization?: Organization }>({
   getInitialState: () => ({}),

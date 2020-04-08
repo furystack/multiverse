@@ -1,6 +1,6 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { XpenseApiService, getErrorMessage } from 'common-frontend-utils'
-import { xpense } from 'common-models'
+import { XpenseApiService, getErrorMessage } from '@common/frontend-utils'
+import { xpense } from '@common/models'
 import { Init } from '../init'
 
 export const ReplenishmentDetails = Shade<

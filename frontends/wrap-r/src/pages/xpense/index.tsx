@@ -1,5 +1,5 @@
 import { Shade, createComponent, Router } from '@furystack/shades'
-import { styles, Fab, colors } from 'common-components'
+import { styles, Fab, colors } from '@common/components'
 import { Widget } from '../welcome-page'
 import { AccountContext } from './account-context'
 import { AvailableAccountsContext, AvailableAccount } from './services/available-accounts-context'

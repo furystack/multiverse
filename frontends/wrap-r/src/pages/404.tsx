@@ -1,5 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { styles } from 'common-components'
+import { styles } from '@common/components'
 
 export const Page404 = Shade({
   shadowDomName: 'shade-404-not-found',

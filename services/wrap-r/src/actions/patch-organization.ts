@@ -1,5 +1,5 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
-import { Organization } from 'common-models'
+import { Organization } from '@common/models'
 
 export const PatchOrganization: RequestAction<{
   body: Partial<Organization>

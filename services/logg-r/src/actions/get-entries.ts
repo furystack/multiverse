@@ -1,6 +1,6 @@
 import { RequestAction, JsonResult } from '@furystack/rest'
 import { SearchOptions, PartialResult } from '@furystack/core'
-import { LogEntry } from 'common-models'
+import { LogEntry } from '@common/models'
 
 export const GetEntries: RequestAction<{
   query: { filter: string }

@@ -1,7 +1,7 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { styles, Input, Button, colors } from 'common-components'
-import { Organization } from 'common-models'
-import { WrapRApiService } from 'common-frontend-utils'
+import { styles, Input, Button, colors } from '@common/components'
+import { Organization } from '@common/models'
+import { WrapRApiService } from '@common/frontend-utils'
 
 export const AddOrganizationPage = Shade<{}, Omit<Organization, '_id'>>({
   getInitialState: () => ({ adminNames: [], memberNames: [], description: '', name: '', ownerName: '', icon: '💳' }),

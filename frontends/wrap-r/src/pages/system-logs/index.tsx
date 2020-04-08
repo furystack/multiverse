@@ -1,8 +1,8 @@
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { LogLevel } from '@furystack/logging'
-import { LogEntry } from 'common-models'
-import { DataGrid, styles } from 'common-components'
-import { LoggRApiService, CollectionService } from 'common-frontend-utils'
+import { LogEntry } from '@common/models'
+import { DataGrid, styles } from '@common/components'
+import { LoggRApiService, CollectionService } from '@common/frontend-utils'
 import { getLevelIcon } from './get-level-icon'
 
 export interface SystemLogsState {

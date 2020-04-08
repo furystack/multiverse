@@ -1,8 +1,8 @@
 import { GetCurrentUser, IsAuthenticated, LoginAction, LogoutAction, Authenticate } from '@furystack/rest-service'
-import { sites } from 'common-config'
-import { User, apis } from 'common-models'
+import { sites } from '@common/config'
+import { User, apis } from '@common/models'
 import { RequestAction } from '@furystack/rest'
-import { attachShutdownHandler } from 'common-service-utils'
+import { attachShutdownHandler } from '@common/service-utils'
 import {
   AttachGithubAccount,
   AttachGoogleAccountAction,

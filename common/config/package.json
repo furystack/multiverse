@@ -1,5 +1,5 @@
 {
-  "name": "common-config",
+  "name": "@common/config",
   "version": "1.0.0",
   "main": "dist/index.js",
   "license": "GPL-2.0-only",

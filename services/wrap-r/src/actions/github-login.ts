@@ -1,7 +1,7 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { HttpUserContext } from '@furystack/rest-service'
 import { StoreManager } from '@furystack/core'
-import { GithubAccount, User } from 'common-models'
+import { GithubAccount, User } from '@common/models'
 import { GithubAuthService } from '../services/github-login-service'
 
 export const GithubLoginAction: RequestAction<{ body: { code: string; clientId: string }; result: User }> = async ({

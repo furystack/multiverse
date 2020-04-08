@@ -1,5 +1,5 @@
 import { Injectable } from '@furystack/inject'
-import { XpenseApiService } from 'common-frontend-utils'
+import { XpenseApiService } from '@common/frontend-utils'
 
 export interface AvailableAccount {
   name: string

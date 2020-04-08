@@ -1,7 +1,7 @@
-import { sites } from 'common-config'
-import { apis } from 'common-models'
+import { sites } from '@common/config'
+import { apis } from '@common/models'
 import { Authorize } from '@furystack/rest-service'
-import { attachShutdownHandler } from 'common-service-utils'
+import { attachShutdownHandler } from '@common/service-utils'
 import { injector } from './config'
 import { GetEntries, GetEntry } from './actions'
 

@@ -1,7 +1,7 @@
-import { colors, Button, Input, styles } from 'common-components'
+import { colors, Button, Input, styles } from '@common/components'
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
-import { SessionService, getErrorMessage } from 'common-frontend-utils'
-import { tokens } from 'common-config'
+import { SessionService, getErrorMessage } from '@common/frontend-utils'
+import { tokens } from '@common/config'
 import { Loader } from '../components/loader'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 

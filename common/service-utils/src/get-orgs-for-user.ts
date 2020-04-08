@@ -1,6 +1,6 @@
 import { Injector } from '@furystack/inject'
 import { MongodbStore } from '@furystack/mongodb-store'
-import { Organization } from 'common-models'
+import { Organization } from '@common/models'
 import { StoreManager, User } from '@furystack/core'
 
 export const getOrgsForCurrentUser = async (injector: Injector, user: User) => {
