@@ -1,7 +1,7 @@
 import { Retrier } from '@furystack/utils'
 import { Injector } from '@furystack/inject/dist/injector'
 import { Injectable } from '@furystack/inject'
-import { WrapRApiService, SessionService } from '@common/frontend-utils'
+import { AuthApiService, SessionService } from '@common/frontend-utils'
 
 /**
  * Options for Google OAuth Authentication
@@ -226,7 +226,7 @@ export class GoogleOauthProvider {
    */
   constructor(
     private readonly options: GoogleAuthenticationOptions,
-    private readonly api: WrapRApiService,
+    private readonly api: AuthApiService,
     private readonly session: SessionService,
   ) {}
 }

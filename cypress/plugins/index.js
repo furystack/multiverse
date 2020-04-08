@@ -54,7 +54,7 @@ const getCurrentUser = (filePath) => {
 }
 
 module.exports = (on, config) => {
-  config.baseUrl = sites.frontends['wrap-r']
+  config.baseUrl = sites.frontends.core
   on('file:preprocessor', webpack(options))
   on('task', {
     getCurrentUser(filePath) {

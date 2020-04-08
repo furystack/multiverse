@@ -1,6 +1,6 @@
 import { Button, Input, styles, colors } from '@common/components'
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { WrapRApiService, SessionService, getErrorMessage } from '@common/frontend-utils'
+import { AuthApiService, SessionService, getErrorMessage } from '@common/frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 
 export const RegisterPage = Shade({
@@ -62,7 +62,7 @@ export const RegisterPage = Shade({
 
                 try {
                   const user = await injector
-                    .getInstance(WrapRApiService)
+                    .getInstance(AuthApiService)
                     .call({ method: 'POST', action: '/register', body: { email, password } })
                   if (user && user.username === email) {
                     window.history.pushState('', '', '/')

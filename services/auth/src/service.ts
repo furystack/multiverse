@@ -25,9 +25,9 @@ import {
 } from './actions'
 import { injector } from './config'
 
-injector.useRestService<apis.WrapRApi>({
-  port: parseInt(sites.services['wrap-r'].internalPort as any, 10),
-  root: '/api/wrap-r',
+injector.useRestService<apis.AuthApi>({
+  port: parseInt(sites.services.auth.internalPort as any, 10),
+  root: '/auth',
   api: {
     GET: {
       '/currentUser': (GetCurrentUser as unknown) as RequestAction<{ result: User }>,

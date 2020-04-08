@@ -5,9 +5,9 @@ import { createClient } from '@furystack/rest-client-fetch'
 import { sites } from '@common/config'
 
 @Injectable({ lifetime: 'singleton' })
-export class WrapRApiService {
-  public call = createClient<apis.WrapRApi>({
-    endpointUrl: PathHelper.joinPaths(sites.services['wrap-r'].externalPath, '/wrap-r'),
+export class AuthApiService {
+  public call = createClient<apis.AuthApi>({
+    endpointUrl: PathHelper.joinPaths(sites.services.auth.externalPath, '/auth'),
     requestInit: {
       credentials: 'include',
     },

@@ -36,13 +36,7 @@ export const Avatar = Shade<AvatarProps>({
           alt={isUsernameProps(props) ? props.userName : 'unknown avatar'}
           src={
             isUsernameProps(props)
-              ? PathHelper.joinPaths(
-                  sites.services['wrap-r'].externalPath,
-                  'wrap-r',
-                  'profiles',
-                  props.userName,
-                  'avatar',
-                )
+              ? PathHelper.joinPaths(sites.services.auth.externalPath, 'auth', 'profiles', props.userName, 'avatar')
               : props.avatarUrl
           }
           onerror={(ev) => {

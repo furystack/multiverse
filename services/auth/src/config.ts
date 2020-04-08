@@ -10,7 +10,7 @@ import { databases } from '@common/config'
 export const injector = new Injector()
 
 injector
-  .useDbLogger({ appName: 'wrap-r' })
+  .useDbLogger({ appName: 'auth' })
   .useCommonHttpAuth()
   .setupStores((sm) =>
     sm

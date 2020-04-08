@@ -1,13 +1,13 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { Tabs, styles, Input } from '@common/components'
 import { Organization } from '@common/models'
-import { WrapRApiService, SessionService } from '@common/frontend-utils'
+import { AuthApiService, SessionService } from '@common/frontend-utils'
 
 export const OrganizationDetailsPage = Shade<{ organizationId: string }, { loadedOrganization?: Organization }>({
   getInitialState: () => ({}),
   shadowDomName: 'shade-organization-details-page',
   constructed: async ({ injector, props, updateState }) => {
-    const org = await injector.getInstance(WrapRApiService).call({
+    const org = await injector.getInstance(AuthApiService).call({
       method: 'GET',
       action: '/organization/:organizationName',
       url: { organizationName: props.organizationId },

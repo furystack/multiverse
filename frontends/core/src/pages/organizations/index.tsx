@@ -1,5 +1,5 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { CollectionService, WrapRApiService } from '@common/frontend-utils'
+import { CollectionService, AuthApiService } from '@common/frontend-utils'
 import { Organization } from '@common/models'
 import { DataGrid, styles, Fab, colors } from '@common/components'
 
@@ -8,7 +8,7 @@ export const OrganizationsPage = Shade<{}, { service: CollectionService<Organiza
   getInitialState: ({ injector }) => {
     const service = new CollectionService<Organization>(
       (filter) =>
-        injector.getInstance(WrapRApiService).call({
+        injector.getInstance(AuthApiService).call({
           method: 'GET',
           action: '/organizations',
           query: { top: filter.top, skip: filter.skip },

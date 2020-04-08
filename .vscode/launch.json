@@ -20,7 +20,7 @@
       "id": "service",
       "type": "pickString",
       "description": "Select one service from above",
-      "options": ["wrap-r", "logg-r", "xpense"]
+      "options": ["auth", "logg-r", "xpense"]
     }
   ]
 }

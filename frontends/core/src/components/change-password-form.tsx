@@ -1,6 +1,6 @@
 import { Shade, createComponent, PartialElement } from '@furystack/shades'
 import { Input, Button } from '@common/components'
-import { WrapRApiService } from '@common/frontend-utils/src'
+import { AuthApiService } from '@common/frontend-utils/src'
 
 export const ChangePasswordForm = Shade<
   { style?: PartialElement<CSSStyleDeclaration>; showCurrentPassword?: boolean; onUpdated?: () => void },
@@ -20,7 +20,7 @@ export const ChangePasswordForm = Shade<
             return
           }
           try {
-            const result = await injector.getInstance(WrapRApiService).call({
+            const result = await injector.getInstance(AuthApiService).call({
               method: 'POST',
               action: '/changePassword',
               body: {

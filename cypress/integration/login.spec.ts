@@ -1,4 +1,4 @@
-describe('Wrap-R Application', () => {
+describe('Core Application', () => {
   const headerSelector = 'shade-app-header'
   const loginFormSelector = 'shade-login>div>div>form'
   const usernameInputSelector = 'shade-login input[type=text][title=username]'

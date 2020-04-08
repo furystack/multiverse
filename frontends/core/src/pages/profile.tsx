@@ -1,7 +1,7 @@
 import { createComponent, Shade } from '@furystack/shades'
 import { Tabs, styles, Avatar, Input, Button, colors } from '@common/components'
 import { User, Profile, GithubAccount, GoogleAccount } from '@common/models'
-import { WrapRApiService, SessionService } from '@common/frontend-utils'
+import { AuthApiService, SessionService } from '@common/frontend-utils'
 import { tokens } from '@common/config'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 import { ChangePasswordForm } from '../components/change-password-form'
@@ -18,7 +18,7 @@ export const ProfilePage = Shade<
   getInitialState: () => ({}),
   constructed: async ({ injector, updateState }) => {
     const currentUser = injector.getInstance(SessionService).currentUser.getValue() as User
-    const api = injector.getInstance(WrapRApiService)
+    const api = injector.getInstance(AuthApiService)
     const profile = (await api.call({
       method: 'GET',
       action: '/profiles/:username',
@@ -41,7 +41,7 @@ export const ProfilePage = Shade<
     }
 
     const reloadProviderDetails = async () => {
-      const providerDetails = await injector.getInstance(WrapRApiService).call({
+      const providerDetails = await injector.getInstance(AuthApiService).call({
         method: 'GET',
         action: '/loginProviderDetails',
       })
@@ -110,7 +110,7 @@ export const ProfilePage = Shade<
                             )
                           ) {
                             await injector
-                              .getInstance(WrapRApiService)
+                              .getInstance(AuthApiService)
                               .call({ method: 'POST', action: '/detachGoogleAccount' })
                             await reloadProviderDetails()
                           }
@@ -126,7 +126,7 @@ export const ProfilePage = Shade<
                         onclick={async () => {
                           /** */
                           const token = await injector.getInstance(GoogleOauthProvider).getToken()
-                          await injector.getInstance(WrapRApiService).call({
+                          await injector.getInstance(AuthApiService).call({
                             method: 'POST',
                             action: '/attachGoogleAccount',
                             body: { token },
@@ -167,7 +167,7 @@ export const ProfilePage = Shade<
                             )
                           ) {
                             await injector
-                              .getInstance(WrapRApiService)
+                              .getInstance(AuthApiService)
                               .call({ method: 'POST', action: '/detachGithubAccount' })
                             await reloadProviderDetails()
                             /** */

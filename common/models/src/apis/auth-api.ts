@@ -6,7 +6,7 @@ import { Organization } from '../organization'
 import { GoogleAccount } from '../google-account'
 import { GithubAccount } from '../github-account'
 
-export interface WrapRApi extends RestApi {
+export interface AuthApi extends RestApi {
   GET: {
     '/isAuthenticated': RequestAction<{ result: { isAuthenticated: boolean } }>
     '/currentUser': RequestAction<{ result: User }>

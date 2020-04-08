@@ -1,7 +1,7 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { styles, Input, Button, colors } from '@common/components'
 import { Organization } from '@common/models'
-import { WrapRApiService } from '@common/frontend-utils'
+import { AuthApiService } from '@common/frontend-utils'
 
 export const AddOrganizationPage = Shade<{}, Omit<Organization, '_id'>>({
   getInitialState: () => ({ adminNames: [], memberNames: [], description: '', name: '', ownerName: '', icon: '💳' }),
@@ -12,7 +12,7 @@ export const AddOrganizationPage = Shade<{}, Omit<Organization, '_id'>>({
         <form
           onsubmit={async (ev) => {
             ev.preventDefault()
-            const created = await injector.getInstance(WrapRApiService).call({
+            const created = await injector.getInstance(AuthApiService).call({
               method: 'POST',
               action: '/organizations',
               body: getState(),
