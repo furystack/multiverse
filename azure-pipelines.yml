@@ -139,7 +139,6 @@ jobs:
               archiveFile: package
               archiveType: 7z
               rootFolder: $(System.DefaultWorkingDirectory)
-              includeRootFolder: true
           - task: PublishBuildArtifacts@1
             displayName: Publish package artifact
             inputs:
