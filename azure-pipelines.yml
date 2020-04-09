@@ -58,7 +58,7 @@ jobs:
           artifactName: cypress_videos
 
   - deployment: deploy
-    displayName: Deploy images
+    displayName: Deploy images to Docker HUB
     dependsOn: buildAndTest
     timeoutInMinutes: 10
     environment:
