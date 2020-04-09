@@ -138,6 +138,7 @@ jobs:
             inputs:
               archiveFile: package
               archiveType: 7z
+              includeRootFolder: false
               rootFolder: $(System.DefaultWorkingDirectory)
           - task: PublishBuildArtifacts@1
             displayName: Publish package artifact
@@ -152,14 +153,21 @@ jobs:
               overwrite: true
               contents: package.7z
               targetFolder: ~/apps/multiverse
-          
+        
           - task: SSH@0
             displayName: Decompress package
             inputs:
               sshEndpoint: "multiverse.my.to"
               commands: "cd ~/apps/multiverse && 7z x package.7z -y" 
+
+          - task: SSH@0
+            displayName: Update Nginx config
+            inputs:
+              sshEndpoint: "multiverse.my.to"
+              commands: "cd ~/apps/multiverse && sudo cp nginx.conf /etc/nginx/ " 
+
           - task: SSH@0
             displayName: Restart services
             inputs:
               sshEndpoint: "multiverse.my.to"
-              commands: "sudo systemctl restart multiverse-auth && sudo systemctl restart multiverse-diag && sudo systemctl restart multiverse-xpense"
+              commands: "sudo systemctl restart multiverse-auth && sudo systemctl restart multiverse-diag && sudo systemctl restart multiverse-xpense && sudo systemctl restart nginx"
