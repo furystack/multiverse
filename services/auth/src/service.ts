@@ -1,6 +1,6 @@
 import { GetCurrentUser, IsAuthenticated, LoginAction, LogoutAction, Authenticate } from '@furystack/rest-service'
 import { sites } from '@common/config'
-import { User, apis } from '@common/models'
+import { User, apis, deserialize } from '@common/models'
 import { RequestAction } from '@furystack/rest'
 import { attachShutdownHandler } from '@common/service-utils'
 import {
@@ -28,6 +28,7 @@ import { injector } from './config'
 injector.useRestService<apis.AuthApi>({
   port: parseInt(sites.services.auth.internalPort as any, 10),
   root: '/api/auth',
+  deserializeQueryParams: deserialize,
   api: {
     GET: {
       '/currentUser': (GetCurrentUser as unknown) as RequestAction<{ result: User }>,

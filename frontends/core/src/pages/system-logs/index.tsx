@@ -26,7 +26,7 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
         injector.getInstance(DiagApiService).call({
           method: 'GET',
           action: '/logEntries',
-          query: { filter: JSON.stringify(filter) },
+          query: { filter },
         }),
       { top: 20, order: { creationDate: 'DESC' } },
     ),

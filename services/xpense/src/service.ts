@@ -1,5 +1,5 @@
 import { sites } from '@common/config'
-import { apis } from '@common/models'
+import { apis, deserialize } from '@common/models'
 import { attachShutdownHandler } from '@common/service-utils'
 import { injector } from './config'
 import {
@@ -19,6 +19,7 @@ import {
 
 injector.useRestService<apis.XpenseApi>({
   port: parseInt(sites.services.xpense.internalPort as string, 10),
+  deserializeQueryParams: deserialize,
   root: '/api/xpense',
   api: {
     GET: {

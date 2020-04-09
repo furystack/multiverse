@@ -1,4 +1,5 @@
 export * as apis from './apis'
+export * from './entity-serializer'
 export * from './github-account'
 export * from './github-api-payload'
 export * from './google-account'

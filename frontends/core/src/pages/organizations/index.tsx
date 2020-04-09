@@ -11,7 +11,7 @@ export const OrganizationsPage = Shade<{}, { service: CollectionService<Organiza
         injector.getInstance(AuthApiService).call({
           method: 'GET',
           action: '/organizations',
-          query: { top: filter.top, skip: filter.skip },
+          query: { filter },
         }),
       { top: 20, order: {} },
     )
