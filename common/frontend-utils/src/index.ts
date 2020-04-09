@@ -1,5 +1,5 @@
-export * from './apis/logg-r-api'
-export * from './apis/wrap-r-api'
+export * from './apis/auth-api'
+export * from './apis/diag-api'
 export * from './apis/xpense-api'
 export * from './collection-service'
 export * from './get-error-message'

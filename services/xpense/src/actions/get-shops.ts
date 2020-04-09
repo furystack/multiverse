@@ -1,5 +1,5 @@
 import { RequestAction, JsonResult } from '@furystack/rest'
-import { xpense } from 'common-models'
+import { xpense } from '@common/models'
 
 export const GetShops: RequestAction<{
   result: xpense.Shop[]

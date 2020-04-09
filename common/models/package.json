@@ -1,5 +1,5 @@
 {
-  "name": "common-models",
+  "name": "@common/models",
   "version": "1.0.0",
   "main": "dist/index.js",
   "license": "GPL-2.0-only",

@@ -1,5 +1,5 @@
 import { Injector } from '@furystack/inject'
-import { xpense } from 'common-models'
+import { xpense } from '@common/models'
 import { StoreManager } from '@furystack/core'
 import { MongodbStore } from '@furystack/mongodb-store'
 import { ObjectId } from 'mongodb'

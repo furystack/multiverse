@@ -1,7 +1,7 @@
 import { Injectable } from '@furystack/inject'
 import { ObservableValue, usingAsync } from '@furystack/utils'
-import { User } from 'common-models'
-import { WrapRApiService } from './apis/wrap-r-api'
+import { User } from '@common/models'
+import { AuthApiService } from './apis/auth-api'
 import { getErrorMessage } from './get-error-message'
 
 export type sessionState = 'initializing' | 'offline' | 'unauthenticated' | 'authenticated'
@@ -55,7 +55,7 @@ export class SessionService {
     })
   }
 
-  constructor(private api: WrapRApiService) {
+  constructor(private api: AuthApiService) {
     this.init()
   }
 }

@@ -1,6 +1,6 @@
 import { Shade, createComponent, PartialElement } from '@furystack/shades'
 import { PathHelper } from '@furystack/utils'
-import { sites } from 'common-config'
+import { sites } from '@common/config'
 
 export type AvatarPropsUsername = { userName: string } & PartialElement<HTMLDivElement>
 export type AvatarPropsUrl = { avatarUrl: string } & PartialElement<HTMLDivElement>
@@ -36,13 +36,7 @@ export const Avatar = Shade<AvatarProps>({
           alt={isUsernameProps(props) ? props.userName : 'unknown avatar'}
           src={
             isUsernameProps(props)
-              ? PathHelper.joinPaths(
-                  sites.services['wrap-r'].externalPath,
-                  'wrap-r',
-                  'profiles',
-                  props.userName,
-                  'avatar',
-                )
+              ? PathHelper.joinPaths(sites.services.auth.externalPath, 'auth', 'profiles', props.userName, 'avatar')
               : props.avatarUrl
           }
           onerror={(ev) => {

@@ -1,5 +1,5 @@
 import { Shade, PartialElement, createComponent } from '@furystack/shades'
-import { promisifyAnimation } from 'common-frontend-utils'
+import { promisifyAnimation } from '@common/frontend-utils'
 import { colors } from './styles'
 
 export interface InputProps extends PartialElement<HTMLInputElement> {

@@ -1,5 +1,5 @@
 {
-  "name": "common-service-utils",
+  "name": "@common/service-utils",
   "version": "1.0.0",
   "main": "dist/index.js",
   "license": "GPL-2.0-only",
@@ -24,8 +24,8 @@
     "@furystack/repository": "^2.0.16",
     "@furystack/rest": "^1.1.1",
     "@furystack/rest-service": "^1.1.2",
-    "common-config": "1.0.0",
-    "common-models": "1.0.0",
+    "@common/config": "1.0.0",
+    "@common/models": "1.0.0",
     "got": "^10.5.5",
     "mongodb": "^3.5.2",
     "redis": "^3.0.2",

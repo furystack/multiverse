@@ -1,8 +1,8 @@
 import { Injectable } from '@furystack/inject'
 import { PathHelper } from '@furystack/utils'
-import { apis } from 'common-models'
+import { apis } from '@common/models'
 import { createClient } from '@furystack/rest-client-fetch'
-import { sites } from 'common-config'
+import { sites } from '@common/config'
 
 @Injectable({ lifetime: 'singleton' })
 export class XpenseApiService {

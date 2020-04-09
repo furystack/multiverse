@@ -1,4 +1,4 @@
-import { promisifyAnimation } from 'common-frontend-utils'
+import { promisifyAnimation } from '@common/frontend-utils'
 
 export const animations = {
   showSlide: async (options: { element: Element }) => {

@@ -3,8 +3,8 @@ import { HttpUserContext } from '@furystack/rest-service'
 import '@furystack/mongodb-store'
 import { Injector } from '@furystack/inject/dist/injector'
 import { createClient } from 'redis'
-import { databases } from 'common-config'
-import { Session, User, Organization } from 'common-models'
+import { databases } from '@common/config'
+import { Session, User, Organization } from '@common/models'
 import { verifyAndCreateIndexes } from './create-indexes'
 import { authorizedDataSet } from './authorized-data-set'
 
@@ -14,7 +14,7 @@ declare module '@furystack/inject/dist/injector' {
   }
 }
 
-Injector.prototype.useCommonHttpAuth = function() {
+Injector.prototype.useCommonHttpAuth = function () {
   this.setupStores((sm) =>
     sm
       .useMongoDb({

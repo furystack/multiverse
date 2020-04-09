@@ -1,6 +1,6 @@
-import { sites } from 'common-config'
-import { apis } from 'common-models'
-import { attachShutdownHandler } from 'common-service-utils'
+import { sites } from '@common/config'
+import { apis } from '@common/models'
+import { attachShutdownHandler } from '@common/service-utils'
 import { injector } from './config'
 import {
   GetItems,
