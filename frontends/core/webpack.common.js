@@ -3,6 +3,8 @@ const path = require('path')
 const webpack = require('webpack')
 const { sites, tokens } = require('@common/config')
 
+const { RelativeCiAgentWebpackPlugin } = require('@relative-ci/agent')
+
 module.exports = {
   entry: './src/index.tsx',
   output: {
@@ -28,6 +30,7 @@ module.exports = {
       ...sites.frontends,
       ...sites.services,
     }),
+    new RelativeCiAgentWebpackPlugin(),
   ],
   module: {
     rules: [
