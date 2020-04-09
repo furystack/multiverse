@@ -125,11 +125,11 @@ jobs:
             inputs:
               versionSpec: '12.x'
             displayName: 'Install Node.js'
-          - script: yarn install
+          - script: yarn install --ignore-optional
             displayName: 'Yarn install'
           - script: yarn build
             displayName: Yarn Build
-          - script: yarn install --production=true
+          - script: yarn install --production=true --ignore-optional
             displayName: Slim install
           - task: ArchiveFiles@1
             inputs:
