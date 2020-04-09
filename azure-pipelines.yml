@@ -109,12 +109,12 @@ jobs:
   #               tags: latest
   
   - deployment: deploy
-    displayName: Deploy to multiverse.my.to
+    displayName: "Deploy to multiverse.my.to"
     dependsOn: buildAndTest
     timeoutInMinutes: 10
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     environment:
-      name: "multiverse.my.to"
+      name: multiverse
     strategy:
       runOnce:
         deploy:
