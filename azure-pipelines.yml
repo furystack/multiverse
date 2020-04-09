@@ -21,9 +21,6 @@ jobs:
   - job: buildAndTest
     timeoutInMinutes: 10
     displayName: Build and test
-    env:
-      - RELATIVE_CI_SLUG: 'furystack/multiverse'
-
     steps:
       - task: NodeTool@0
         inputs:
@@ -35,6 +32,8 @@ jobs:
         displayName: 'Yarn Lint'
       - script: yarn build
         displayName: 'Yarn build'
+        env:
+          RELATIVE_CI_SLUG: furystack/multiverse
       - task: DockerCompose@0
         displayName: Start the Dev Proxy Image
         inputs:
