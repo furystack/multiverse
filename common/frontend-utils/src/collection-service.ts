@@ -4,7 +4,7 @@ import { Disposable, debounce, ObservableValue } from '@furystack/utils'
 
 export type EntryLoader<T> = <TFields extends Array<keyof T>>(
   searchOptions: SearchOptions<T, TFields>,
-) => Promise<Array<PartialResult<T, TFields[number]>>>
+) => Promise<{ count: number; entries: Array<PartialResult<T, TFields[number]>> }>
 
 export class CollectionService<T> implements Disposable {
   public dispose() {
@@ -32,10 +32,10 @@ export class CollectionService<T> implements Disposable {
       await this.loadLock.acquire()
       try {
         this.isLoading.setValue(true)
-        const entries = await fetch(options)
-        this.entries.setValue(entries)
+        const result = await fetch(options)
+        this.entries.setValue(result.entries)
         this.error.setValue(undefined)
-        return entries
+        return result
       } catch (error) {
         this.error.setValue(error)
         throw error

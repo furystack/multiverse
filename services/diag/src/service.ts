@@ -7,7 +7,7 @@ import { GetEntries, GetEntry } from './actions'
 
 injector.useRestService<apis.DiagApi>({
   port: parseInt(sites.services.diag.internalPort as string, 10),
-  root: '/diag',
+  root: '/api/diag',
   api: {
     GET: {
       '/logEntries': Authorize('sys-logs')(GetEntries),

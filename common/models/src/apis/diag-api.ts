@@ -17,7 +17,7 @@ export interface DiagApi extends RestApi {
   GET: {
     '/logEntries': RequestAction<{
       query: { filter: string }
-      result: Array<PartialResult<LogEntry<any>, any>>
+      result: { count: number; entries: Array<PartialResult<LogEntry<any>, any>> }
     }>
     '/logEntry/:_id': RequestAction<{
       urlParams: { _id: string }

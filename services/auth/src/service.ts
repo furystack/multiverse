@@ -27,7 +27,7 @@ import { injector } from './config'
 
 injector.useRestService<apis.AuthApi>({
   port: parseInt(sites.services.auth.internalPort as any, 10),
-  root: '/auth',
+  root: '/api/auth',
   api: {
     GET: {
       '/currentUser': (GetCurrentUser as unknown) as RequestAction<{ result: User }>,
