@@ -149,7 +149,7 @@ jobs:
             inputs:
               sshEndpoint: "multiverse.my.to"
               overwrite: true
-              sourceFolder: $(System.DefaultWorkingDirectory)/package.7z
+              contents: package.7z
               targetFolder: ~/apps/multiverse
           
           - task: SSH@0
