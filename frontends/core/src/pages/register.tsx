@@ -26,6 +26,7 @@ export const RegisterPage = Shade({
               justifyContent: 'center',
               flexDirection: 'column',
               animation: 'shake 150ms 2 linear',
+              padding: '2em',
             }}>
             <h2>Failed to sign up :(</h2>
             <p style={{ color: colors.error.main }}>Something went wrong during registration: {getState().error}</p>
@@ -58,7 +59,7 @@ export const RegisterPage = Shade({
                   return
                 }
                 const sessionService = injector.getInstance(SessionService)
-                sessionService.isOperationInProgress.setValue(true)
+                updateState({ isOperationInProgress: true })
 
                 try {
                   const user = await injector
@@ -74,7 +75,7 @@ export const RegisterPage = Shade({
                   const errorMessage = (await getErrorMessage(error)) || 'Failed to register.'
                   updateState({ error: errorMessage })
                 }
-                sessionService.isOperationInProgress.setValue(false)
+                updateState({ isOperationInProgress: false })
               }}>
               <Input
                 type="email"

@@ -33,7 +33,7 @@ describe('Core Application', () => {
 
       cy.log('Checking Welcome screen...')
       cy.get('welcome-page div h2').should('be.visible')
-      cy.get('welcome-page div h2').contains('Hello, testuser@gmail.com !')
+      cy.get('welcome-page div h2').contains('Welcome, testuser@gmail.com !')
 
       cy.get(headerSelector).toMatchImageSnapshot({ threshold: 0.001 }) // with avatar and menu
       cy.get('shade-current-user-menu').click()
