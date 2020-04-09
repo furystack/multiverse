@@ -114,7 +114,7 @@ jobs:
     timeoutInMinutes: 10
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     environment:
-      name: multiverse.my.to
+      name: "multiverse.my.to"
     strategy:
       runOnce:
         deploy:
