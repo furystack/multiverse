@@ -156,4 +156,4 @@ jobs:
             displayName: Restart services on target
             inputs:
               sshEndpoint: "multiverse.my.to"
-              commands: "sudo systemctl restart multiverse-auth"
+              commands: "sudo systemctl restart multiverse-auth && sudo systemctl restart multiverse-diag && sudo systemctl restart multiverse-xpense"
