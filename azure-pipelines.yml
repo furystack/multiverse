@@ -132,13 +132,28 @@ jobs:
           - script: yarn install --production=true --ignore-optional
             displayName: Slim install
           - task: ArchiveFiles@1
+            displayName: Create package archive
             inputs:
               archiveFile: package
               archiveType: 7z
               rootFolder: $(System.DefaultWorkingDirectory)
               includeRootFolder: true
           - task: PublishBuildArtifacts@1
+            displayName: Publish package artifact
             inputs:
               ArtifactName: BuildArtifacts
               PathtoPublish: $(System.DefaultWorkingDirectory)/package.7z
-              
+
+          - task: CopyFilesOverSSH@0
+            displayName: Copy package to target
+            inputs:
+              sshEndpoint: "multiverse.my.to"
+              overwrite: true
+              sourceFolder: $(System.DefaultWorkingDirectory)/package.7z
+              targetFolder: ~/apps/multiverse
+          
+          - task: SSH@0
+            displayName: Restart services on target
+            inputs:
+              sshEndpoint: "multiverse.my.to"
+              commands: "sudo systemctl restart multiverse-auth"
