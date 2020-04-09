@@ -154,7 +154,12 @@ jobs:
               targetFolder: ~/apps/multiverse
           
           - task: SSH@0
-            displayName: Restart services on target
+            displayName: Decompress package
+            inputs:
+              sshEndpoint: "multiverse.my.to"
+              commands: "cd ~/apps/multiverse && 7z x package.7z -y" 
+          - task: SSH@0
+            displayName: Restart services
             inputs:
               sshEndpoint: "multiverse.my.to"
               commands: "sudo systemctl restart multiverse-auth && sudo systemctl restart multiverse-diag && sudo systemctl restart multiverse-xpense"
