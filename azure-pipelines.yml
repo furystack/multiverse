@@ -113,6 +113,8 @@ jobs:
     dependsOn: buildAndTest
     timeoutInMinutes: 10
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    variables:
+      - group: multiverse
     environment:
       name: multiverse
     strategy:
