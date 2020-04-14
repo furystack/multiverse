@@ -130,6 +130,11 @@ jobs:
             displayName: 'Yarn install'
           - script: yarn build
             displayName: Yarn Build
+            env:
+              GITHUB_CLIENT_ID: $(GITHUB_CLIENT_ID)
+              GITHUB_CLIENT_SECRET: $(GITHUB_CLIENT_SECRET)
+              GOOGLE_CLIENT_ID: $(GOOGLE_CLIENT_ID)
+
           - script: yarn install --production=true --ignore-optional
             displayName: Slim install
           - task: ArchiveFiles@1
