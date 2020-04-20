@@ -1,7 +1,7 @@
 import { ChildrenList, createComponent, Shade, PartialElement } from '@furystack/shades'
-import { CollectionService } from '@common/frontend-utils'
-import { GridProps } from './grid'
-import { colors } from './styles'
+import { CollectionService, CollectionData } from '@common/frontend-utils'
+import { GridProps } from '../grid'
+import { colors } from '../styles'
 
 export type DataHeaderCells<T> = {
   [TKey in keyof T | 'default']?: (name: keyof T, state: DataGridState<T>) => JSX.Element
@@ -22,7 +22,7 @@ export interface DataGridProps<T> {
 }
 
 export interface DataGridState<T> {
-  entries: T[]
+  data: CollectionData<T>
   isLoading: boolean
   selection: T[]
   focus?: T
@@ -38,7 +38,7 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
   shadowDomName: 'shade-data-grid',
   getInitialState: ({ props }) =>
     ({
-      entries: [],
+      data: { count: 0, entries: [] },
       isLoading: false,
       selection: [],
       order: Object.keys(props.service.querySettings.getValue().order || {})[0],
@@ -46,7 +46,7 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
     } as DataGridState<any>),
   constructed: ({ props, updateState }) => {
     const subscriptions = [
-      props.service.entries.subscribe((entries) => updateState({ entries })),
+      props.service.data.subscribe((data) => updateState({ data })),
       props.service.error.subscribe((error) => updateState({ error })),
       props.service.isLoading.subscribe((isLoading) => updateState({ isLoading })),
     ]
@@ -126,7 +126,7 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
             </tr>
           </thead>
           <tbody>
-            {state.entries.map((entry) => (
+            {state.data.entries.map((entry) => (
               <tr
                 style={{
                   background: state.selection.includes(entry) ? 'rgba(128,128,128,0.3)' : 'transparent',

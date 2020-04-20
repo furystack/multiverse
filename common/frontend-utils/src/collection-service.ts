@@ -2,14 +2,19 @@ import { PartialResult, SearchOptions } from '@furystack/core'
 import Semaphore from 'semaphore-async-await'
 import { Disposable, debounce, ObservableValue } from '@furystack/utils'
 
+export interface CollectionData<T> {
+  entries: T[]
+  count: number
+}
+
 export type EntryLoader<T> = <TFields extends Array<keyof T>>(
   searchOptions: SearchOptions<T, TFields>,
-) => Promise<{ count: number; entries: Array<PartialResult<T, TFields[number]>> }>
+) => Promise<CollectionData<PartialResult<T, TFields[number]>>>
 
 export class CollectionService<T> implements Disposable {
   public dispose() {
     this.querySettings.dispose()
-    this.entries.dispose()
+    this.data.dispose()
     this.error.dispose()
     this.isLoading.dispose()
   }
@@ -18,7 +23,7 @@ export class CollectionService<T> implements Disposable {
 
   public getEntries: EntryLoader<T>
 
-  public entries = new ObservableValue<T[]>([])
+  public data = new ObservableValue<CollectionData<T>>({ count: 0, entries: [] })
 
   public error = new ObservableValue<Error | undefined>(undefined)
 
@@ -33,7 +38,7 @@ export class CollectionService<T> implements Disposable {
       try {
         this.isLoading.setValue(true)
         const result = await fetch(options)
-        this.entries.setValue(result.entries)
+        this.data.setValue(result)
         this.error.setValue(undefined)
         return result
       } catch (error) {
