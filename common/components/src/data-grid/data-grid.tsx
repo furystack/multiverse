@@ -21,6 +21,8 @@ export interface DataGridProps<T> {
   onDoubleClick?: (entry: T) => void
 }
 
+export const dataGridItemsPerPage = [10, 20, 25, 50, 100]
+
 export interface DataGridState<T> {
   data: CollectionData<T>
   isLoading: boolean
@@ -39,6 +41,7 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
   getInitialState: ({ props }) =>
     ({
       data: { count: 0, entries: [] },
+      itemsPerPage: 10,
       isLoading: false,
       selection: [],
       order: Object.keys(props.service.querySettings.getValue().order || {})[0],
@@ -71,6 +74,9 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
       ...props.styles?.header,
     }
 
+    const currentQuerySettings = props.service.querySettings.getValue()
+    const currentPage = Math.ceil(currentQuerySettings.skip || 0) / (currentQuerySettings.top || 1)
+
     return (
       <div
         className="shade-grid-wrapper"
@@ -100,7 +106,6 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
                           style={{ display: 'inline-flex', width: '100%', justifyContent: 'center', cursor: 'pointer' }}
                           onclick={() => {
                             const currentState = getState()
-                            const currentQuerySettings = props.service.querySettings.getValue()
                             let newDirection: 'ASC' | 'DESC' = 'ASC'
                             const newOrder: { [K in keyof any]: 'ASC' | 'DESC' } = {}
 
@@ -153,6 +158,57 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
             ))}
           </tbody>
         </table>
+        <div
+          className="pager"
+          style={{
+            background: '#333',
+            position: 'sticky',
+            bottom: '0',
+            display: 'flex',
+            justifyContent: 'flex-end',
+            paddingRight: '1em',
+            alignItems: 'center',
+          }}>
+          <div>
+            Goto page
+            <select
+              style={{ margin: '0 1em' }}
+              onchange={(ev) => {
+                const value = parseInt((ev.target as any).value, 10)
+                const currentQuery = props.service.querySettings.getValue()
+                props.service.querySettings.setValue({ ...currentQuery, skip: (currentQuery.top || 0) * value })
+              }}>
+              {[
+                ...new Array(Math.ceil(state.data.count / (props.service.querySettings.getValue().top || Infinity))),
+              ].map((_val, index) => (
+                <option value={index.toString()} selected={currentPage === index}>
+                  {(index + 1).toString()}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            {' '}
+            Show
+            <select
+              style={{ margin: '0 1em' }}
+              onchange={(ev) => {
+                const value = parseInt((ev.currentTarget as any).value as string, 10)
+                props.service.querySettings.setValue({
+                  ...currentQuerySettings,
+                  top: value,
+                  skip: currentPage * value,
+                })
+              }}>
+              {dataGridItemsPerPage.map((no) => (
+                <option value={no.toString()} selected={no === currentQuerySettings.top}>
+                  {no.toString()}
+                </option>
+              ))}
+            </select>
+            items per page
+          </div>
+        </div>
       </div>
     )
   },
