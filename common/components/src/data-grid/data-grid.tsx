@@ -2,6 +2,7 @@ import { ChildrenList, createComponent, Shade, PartialElement } from '@furystack
 import { CollectionService, CollectionData } from '@common/frontend-utils'
 import { GridProps } from '../grid'
 import { colors } from '../styles'
+import { DataGridHeader } from './header'
 
 export type DataHeaderCells<T> = {
   [TKey in keyof T | 'default']?: (name: keyof T, state: DataGridState<T>) => JSX.Element
@@ -29,8 +30,6 @@ export interface DataGridState<T> {
   selection: T[]
   focus?: T
   error?: Error
-  order?: keyof T
-  orderDirection?: 'ASC' | 'DESC'
 }
 
 export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => JSX.Element<any, any> = Shade<
@@ -38,14 +37,12 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
   DataGridState<any>
 >({
   shadowDomName: 'shade-data-grid',
-  getInitialState: ({ props }) =>
+  getInitialState: () =>
     ({
       data: { count: 0, entries: [] },
       itemsPerPage: 10,
       isLoading: false,
       selection: [],
-      order: Object.keys(props.service.querySettings.getValue().order || {})[0],
-      orderDirection: Object.values(props.service.querySettings.getValue().order || {})[0],
     } as DataGridState<any>),
   constructed: ({ props, updateState }) => {
     const subscriptions = [
@@ -87,7 +84,7 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
           overflow: 'auto',
           zIndex: '1',
         }}>
-        <table style={{ width: '100%', position: 'relative' }}>
+        <table style={{ width: '100%', height: '100%', position: 'relative' }}>
           <thead>
             <tr>
               {props.columns.map((column: any) => {
@@ -102,29 +99,8 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
                     }}>
                     {props.headerComponents?.[column]?.(column, state) ||
                       props.headerComponents?.default?.(column, state) || (
-                        <span
-                          style={{ display: 'inline-flex', width: '100%', justifyContent: 'center', cursor: 'pointer' }}
-                          onclick={() => {
-                            const currentState = getState()
-                            let newDirection: 'ASC' | 'DESC' = 'ASC'
-                            const newOrder: { [K in keyof any]: 'ASC' | 'DESC' } = {}
-
-                            if (currentState.order === column) {
-                              newDirection = currentState.orderDirection === 'ASC' ? 'DESC' : 'ASC'
-                            }
-                            newOrder[column] = newDirection
-                            props.service.querySettings.setValue({
-                              ...currentQuerySettings,
-                              order: newOrder,
-                            })
-                            updateState({ order: column, orderDirection: newDirection })
-                          }}>
-                          <div>{column}</div>
-                          <div style={{ marginLeft: '1em' }}>
-                            {getState().order === column ? (getState().orderDirection === 'ASC' ? '⬆' : '⬇') : null}
-                          </div>
-                        </span>
-                      )}{' '}
+                        <DataGridHeader<any, typeof column> field={column} collectionService={props.service} />
+                      )}
                   </th>
                 )
               })}
