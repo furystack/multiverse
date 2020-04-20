@@ -11,6 +11,7 @@ export const animations = {
       {
         duration: 500,
         easing: 'cubic-bezier(0.215, 0.610, 0.355, 1.000)',
+        fill: 'forwards',
       },
     )
   },
@@ -24,6 +25,7 @@ export const animations = {
       {
         duration: 500,
         easing: 'cubic-bezier(0.215, 0.610, 0.355, 1.000)',
+        fill: 'forwards',
       },
     )
   },

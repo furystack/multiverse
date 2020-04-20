@@ -1,6 +1,7 @@
 import { SearchOptions } from '@furystack/core'
 import { ChildrenList, Shade, createComponent } from '@furystack/shades'
 import { CollectionService } from '@common/frontend-utils/src'
+import { animations } from '../animations'
 
 export interface DataGridHeaderProps<T, K extends keyof T> {
   collectionService: CollectionService<T>
@@ -8,7 +9,6 @@ export interface DataGridHeaderProps<T, K extends keyof T> {
 }
 
 export interface DataGridHeaderState<T> {
-  hovered: boolean
   querySettings: SearchOptions<T, any>
 }
 
@@ -18,7 +18,6 @@ export const DataGridHeader: <T, K extends keyof T>(
 ) => JSX.Element<any, any> = Shade<DataGridHeaderProps<any, any>, DataGridHeaderState<any>>({
   shadowDomName: 'data-grid-header',
   getInitialState: ({ props }) => ({
-    hovered: false,
     querySettings: props.collectionService.querySettings.getValue(),
   }),
   constructed: ({ props, updateState }) => {
@@ -27,31 +26,40 @@ export const DataGridHeader: <T, K extends keyof T>(
     )
     return () => disposable.dispose()
   },
-  render: ({ getState, props }) => {
+  render: ({ getState, props, element }) => {
     const currentState = getState()
     const currentOrder = Object.keys(currentState.querySettings.order || {})[0]
     const currentOrderDirection = Object.values(currentState.querySettings.order || {})[0]
+    const getControlsElement = () => element.querySelector('.header-controls') as HTMLDivElement
     return (
-      <span
-        style={{ display: 'inline-flex', width: '100%', justifyContent: 'center', cursor: 'pointer' }}
-        onclick={() => {
-          let newDirection: 'ASC' | 'DESC' = 'ASC'
-          const newOrder: { [K in keyof any]: 'ASC' | 'DESC' } = {}
-
-          if (currentOrder === props.field) {
-            newDirection = currentOrderDirection === 'ASC' ? 'DESC' : 'ASC'
-          }
-          newOrder[props.field] = newDirection
-          props.collectionService.querySettings.setValue({
-            ...currentState.querySettings,
-            order: newOrder,
-          })
-        }}>
+      <div
+        onmouseenter={() => {
+          animations.showSlide({ element: getControlsElement() })
+        }}
+        onmouseleave={() => {
+          animations.hideSlide({ element: getControlsElement() })
+        }}
+        style={{ display: 'flex', width: '100%', height: '100%', justifyContent: 'center' }}>
         <div>{props.field}</div>
-        <div style={{ marginLeft: '1em' }}>
-          {currentOrder === props.field ? (currentOrderDirection === 'ASC' ? '⬆' : '⬇') : null}
+        <div
+          className="header-controls"
+          style={{ padding: '0 1em', cursor: 'pointer', transform: 'scale(0)' }}
+          onclick={() => {
+            let newDirection: 'ASC' | 'DESC' = 'ASC'
+            const newOrder: { [K in keyof any]: 'ASC' | 'DESC' } = {}
+
+            if (currentOrder === props.field) {
+              newDirection = currentOrderDirection === 'ASC' ? 'DESC' : 'ASC'
+            }
+            newOrder[props.field] = newDirection
+            props.collectionService.querySettings.setValue({
+              ...currentState.querySettings,
+              order: newOrder,
+            })
+          }}>
+          {currentOrder === props.field && currentOrderDirection === 'ASC' ? '⬇' : '⬆'}
         </div>
-      </span>
+      </div>
     )
   },
 })

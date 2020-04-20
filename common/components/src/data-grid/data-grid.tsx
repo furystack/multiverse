@@ -89,14 +89,7 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
             <tr>
               {props.columns.map((column: any) => {
                 return (
-                  <th
-                    style={headerStyle}
-                    onmouseenter={(ev) => {
-                      ;(ev.target as HTMLTableHeaderCellElement).style.backgroundColor = 'rgba(122,128,122,0.1)'
-                    }}
-                    onmouseleave={(ev) => {
-                      ;(ev.target as HTMLTableHeaderCellElement).style.backgroundColor = '#333'
-                    }}>
+                  <th style={headerStyle}>
                     {props.headerComponents?.[column]?.(column, state) ||
                       props.headerComponents?.default?.(column, state) || (
                         <DataGridHeader<any, typeof column> field={column} collectionService={props.service} />
