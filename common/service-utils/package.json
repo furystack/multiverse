@@ -26,7 +26,7 @@
     "@furystack/repository": "^2.0.16",
     "@furystack/rest": "^1.1.1",
     "@furystack/rest-service": "^1.1.2",
-    "got": "^10.5.5",
+    "got": "^11.0.0",
     "mongodb": "^3.5.2",
     "redis": "^3.0.2",
     "tslib": "^1.10.0"

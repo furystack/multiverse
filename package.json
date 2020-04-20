@@ -19,7 +19,7 @@
     "tslib": "^1.10.0"
   },
   "optionalDependencies": {
-    "@cypress/webpack-preprocessor": "^4.1.1",
+    "@cypress/webpack-preprocessor": "^5.1.2",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.18.0",
     "concurrently": "^5.1.0",
@@ -28,8 +28,8 @@
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-cypress": "^2.7.0",
-    "eslint-plugin-import": "2.20.0",
-    "eslint-plugin-jsdoc": "^22.0.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsdoc": "^24.0.0",
     "eslint-plugin-prettier": "^3.1.1",
     "husky": "^4.0.6",
     "lint-staged": "^10.0.3",
