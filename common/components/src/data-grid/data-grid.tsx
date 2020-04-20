@@ -166,7 +166,7 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
             bottom: '0',
             display: 'flex',
             justifyContent: 'flex-end',
-            paddingRight: '1em',
+            padding: '1em',
             alignItems: 'center',
           }}>
           <div>
