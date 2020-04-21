@@ -1,5 +1,5 @@
 import { Shade, createComponent, PartialElement, LocationService } from '@furystack/shades'
-import { promisifyAnimation } from '@common/frontend-utils/src'
+import { promisifyAnimation } from '@common/frontend-utils'
 
 export interface Tab {
   header: JSX.Element

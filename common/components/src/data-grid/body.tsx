@@ -1,4 +1,4 @@
-import { CollectionService } from '@common/frontend-utils/src'
+import { CollectionService } from '@common/frontend-utils'
 import { ChildrenList, Shade, createComponent, PartialElement } from '@furystack/shades'
 import { DataRowCells } from './data-grid'
 

@@ -1,12 +1,13 @@
 import { ChildrenList, createComponent, Shade, PartialElement } from '@furystack/shades'
-import { CollectionService, CollectionData } from '@common/frontend-utils'
+import { CollectionService } from '@common/frontend-utils'
 import { GridProps } from '../grid'
 import { colors } from '../styles'
 import { DataGridHeader } from './header'
 import { DataGridBody, DataGridBodyState } from './body'
+import { DataGridFooter } from './footer'
 
 export type DataHeaderCells<T> = {
-  [TKey in keyof T | 'default']?: (name: keyof T, state: DataGridState<T>) => JSX.Element
+  [TKey in keyof T | 'default']?: (name: keyof T, state: DataGridState) => JSX.Element
 }
 export type DataRowCells<T> = {
   [TKey in keyof T | 'default']?: (element: T, state: DataGridBodyState<T>) => JSX.Element
@@ -21,32 +22,18 @@ export interface DataGridProps<T> {
   onDoubleClick?: (entry: T) => void
 }
 
-export const dataGridItemsPerPage = [10, 20, 25, 50, 100]
-
-export interface DataGridState<T> {
-  data: CollectionData<T>
-  isLoading: boolean
+export interface DataGridState {
   error?: Error
 }
 
 export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => JSX.Element<any, any> = Shade<
   DataGridProps<any>,
-  DataGridState<any>
+  DataGridState
 >({
   shadowDomName: 'shade-data-grid',
-  getInitialState: () =>
-    ({
-      data: { count: 0, entries: [] },
-      itemsPerPage: 10,
-      isLoading: false,
-      selection: [],
-    } as DataGridState<any>),
+  getInitialState: () => ({}),
   constructed: ({ props, updateState }) => {
-    const subscriptions = [
-      props.service.data.subscribe((data) => updateState({ data })),
-      props.service.error.subscribe((error) => updateState({ error })),
-      props.service.isLoading.subscribe((isLoading) => updateState({ isLoading })),
-    ]
+    const subscriptions = [props.service.error.subscribe((error) => updateState({ error }))]
     return () => Promise.all(subscriptions.map((s) => s.dispose()))
   },
   render: ({ props, getState }) => {
@@ -66,9 +53,6 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
       boxShadow: '3px 3px 4px rgba(0,0,0,0.3)',
       ...props.styles?.header,
     }
-
-    const currentQuerySettings = props.service.querySettings.getValue()
-    const currentPage = Math.ceil(currentQuerySettings.skip || 0) / (currentQuerySettings.top || 1)
 
     return (
       <div
@@ -103,57 +87,7 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
             onDoubleClick={props.onDoubleClick}
           />
         </table>
-        <div
-          className="pager"
-          style={{
-            background: '#333',
-            position: 'sticky',
-            bottom: '0',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            padding: '1em',
-            alignItems: 'center',
-          }}>
-          <div>
-            Goto page
-            <select
-              style={{ margin: '0 1em' }}
-              onchange={(ev) => {
-                const value = parseInt((ev.target as any).value, 10)
-                const currentQuery = props.service.querySettings.getValue()
-                props.service.querySettings.setValue({ ...currentQuery, skip: (currentQuery.top || 0) * value })
-              }}>
-              {[
-                ...new Array(Math.ceil(state.data.count / (props.service.querySettings.getValue().top || Infinity))),
-              ].map((_val, index) => (
-                <option value={index.toString()} selected={currentPage === index}>
-                  {(index + 1).toString()}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            {' '}
-            Show
-            <select
-              style={{ margin: '0 1em' }}
-              onchange={(ev) => {
-                const value = parseInt((ev.currentTarget as any).value as string, 10)
-                props.service.querySettings.setValue({
-                  ...currentQuerySettings,
-                  top: value,
-                  skip: currentPage * value,
-                })
-              }}>
-              {dataGridItemsPerPage.map((no) => (
-                <option value={no.toString()} selected={no === currentQuerySettings.top}>
-                  {no.toString()}
-                </option>
-              ))}
-            </select>
-            items per page
-          </div>
-        </div>
+        <DataGridFooter service={props.service} />
       </div>
     )
   },

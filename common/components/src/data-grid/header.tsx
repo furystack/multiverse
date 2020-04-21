@@ -1,7 +1,8 @@
 import { SearchOptions } from '@furystack/core'
 import { ChildrenList, Shade, createComponent } from '@furystack/shades'
-import { CollectionService } from '@common/frontend-utils/src'
-import { animations } from '../animations'
+import { debounce } from '@furystack/utils'
+import { CollectionService } from '@common/frontend-utils'
+import { Input } from '../input'
 
 export interface DataGridHeaderProps<T, K extends keyof T> {
   collectionService: CollectionService<T>
@@ -10,6 +11,8 @@ export interface DataGridHeaderProps<T, K extends keyof T> {
 
 export interface DataGridHeaderState<T> {
   querySettings: SearchOptions<T, any>
+  isSearchOpened: boolean
+  updateSearchValue: (value: string) => void
 }
 
 export const DataGridHeader: <T, K extends keyof T>(
@@ -19,34 +22,50 @@ export const DataGridHeader: <T, K extends keyof T>(
   shadowDomName: 'data-grid-header',
   getInitialState: ({ props }) => ({
     querySettings: props.collectionService.querySettings.getValue(),
+    isSearchOpened: false,
+    updateSearchValue: debounce((value: string) => {
+      const currentSettings = props.collectionService.querySettings.getValue()
+      const newSettings = {
+        ...currentSettings,
+        filter: {
+          ...currentSettings.filter,
+          [props.field]: value ? { $regex: value } : undefined,
+        },
+      }
+      props.collectionService.querySettings.setValue(newSettings)
+    }),
   }),
-  constructed: ({ props, updateState }) => {
+  constructed: ({ props, updateState, getState }) => {
     const disposable = props.collectionService.querySettings.subscribe((querySettings) =>
-      updateState({ querySettings }),
+      updateState({ querySettings }, getState().isSearchOpened),
     )
     return () => disposable.dispose()
   },
-  render: ({ getState, props, element }) => {
+  render: ({ getState, props, updateState }) => {
     const currentState = getState()
     const currentOrder = Object.keys(currentState.querySettings.order || {})[0]
     const currentOrderDirection = Object.values(currentState.querySettings.order || {})[0]
-    const getControlsElement = () => element.querySelector('.header-controls') as HTMLDivElement
+
+    const filterValue = (props.collectionService.querySettings.getValue().filter as any)?.[props.field]?.$regex || ''
+
+    if (currentState.isSearchOpened) {
+      return (
+        <Input
+          value={filterValue}
+          autofocus
+          onblur={() => updateState({ isSearchOpened: false })}
+          onkeyup={(ev) => currentState.updateSearchValue((ev.target as HTMLInputElement).value)}
+        />
+      )
+    }
+
     return (
-      <div
-        onmouseenter={() => {
-          animations.fadeIn(getControlsElement())
-        }}
-        onmouseleave={() => {
-          animations.fadeOut(getControlsElement())
-        }}
-        style={{ display: 'flex', width: '100%', height: '100%', justifyContent: 'space-evenly' }}>
+      <div style={{ display: 'flex', width: '100%', height: '100%', justifyContent: 'space-evenly' }}>
         <div>{props.field}</div>
-        <div
-          className="header-controls"
-          style={{ opacity: '0', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div className="header-controls" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <div
             title="Change order"
-            style={{ padding: '0 1em', cursor: 'pointer' }}
+            style={{ padding: '0 1em', cursor: 'pointer', opacity: currentOrder === props.field ? '1' : '0.5' }}
             onclick={() => {
               let newDirection: 'ASC' | 'DESC' = 'ASC'
               const newOrder: { [K in keyof any]: 'ASC' | 'DESC' } = {}
@@ -60,9 +79,12 @@ export const DataGridHeader: <T, K extends keyof T>(
                 order: newOrder,
               })
             }}>
-            {currentOrder === props.field && currentOrderDirection === 'ASC' ? '⬇' : '⬆'}
+            {(currentOrder === props.field && (currentOrderDirection === 'ASC' ? '⬇' : '⬆')) || '↕'}
           </div>
-          <div style={{ cursor: 'pointer' }} title="Search">
+          <div
+            style={{ cursor: 'pointer', opacity: filterValue ? '1' : '0.5' }}
+            title="Search"
+            onclick={() => updateState({ isSearchOpened: true })}>
             🔍
           </div>
         </div>
