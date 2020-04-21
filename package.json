@@ -60,7 +60,7 @@
     "build:services": "tsc -b",
     "build:frontends": "yarn workspace @frontend/core build",
     "build": "yarn build:services && yarn build:frontends",
-    "start:watch": "tsc -b common && tsc -b services && concurrently --kill-others \"tsc -b --watch services\" \"yarn workspace @service/auth start:watch\" \"yarn workspace @service/diag start:watch\" \"yarn workspace xpense-service start:watch\" \"yarn startFrontend\"",
+    "start:watch": "tsc -b common && tsc -b services && concurrently --kill-others \"tsc -b --watch\" \"yarn workspace @service/auth start:watch\" \"yarn workspace @service/diag start:watch\" \"yarn workspace xpense-service start:watch\" \"yarn startFrontend\"",
     "test:cypress": "yarn workspace @service/auth seed && concurrently --kill-others \"yarn start\" \"yarn cypress run\" --success first ",
     "start": "concurrently --kill-others \"yarn startAuth\" \"yarn startDiag\" \"yarn startXpense\" \"yarn startFrontend\"",
     "startAuth": "yarn workspace @service/auth start",
