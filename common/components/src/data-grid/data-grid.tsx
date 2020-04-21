@@ -3,12 +3,13 @@ import { CollectionService, CollectionData } from '@common/frontend-utils'
 import { GridProps } from '../grid'
 import { colors } from '../styles'
 import { DataGridHeader } from './header'
+import { DataGridBody, DataGridBodyState } from './body'
 
 export type DataHeaderCells<T> = {
   [TKey in keyof T | 'default']?: (name: keyof T, state: DataGridState<T>) => JSX.Element
 }
 export type DataRowCells<T> = {
-  [TKey in keyof T | 'default']?: (element: T, state: DataGridState<T>) => JSX.Element
+  [TKey in keyof T | 'default']?: (element: T, state: DataGridBodyState<T>) => JSX.Element
 }
 
 export interface DataGridProps<T> {
@@ -17,8 +18,6 @@ export interface DataGridProps<T> {
   service: CollectionService<T>
   headerComponents: DataHeaderCells<T>
   rowComponents: DataRowCells<T>
-  onSelectionChange?: (selection: T[]) => void
-  onFocusChange?: (focus: T) => void
   onDoubleClick?: (entry: T) => void
 }
 
@@ -27,8 +26,6 @@ export const dataGridItemsPerPage = [10, 20, 25, 50, 100]
 export interface DataGridState<T> {
   data: CollectionData<T>
   isLoading: boolean
-  selection: T[]
-  focus?: T
   error?: Error
 }
 
@@ -52,7 +49,7 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
     ]
     return () => Promise.all(subscriptions.map((s) => s.dispose()))
   },
-  render: ({ props, getState, updateState }) => {
+  render: ({ props, getState }) => {
     const state = getState()
     if (state.error) {
       return <div style={{ color: colors.error.main }}>{JSON.stringify(state.error)}</div>
@@ -64,7 +61,6 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
       borderRadius: '2px',
       top: '0',
       position: 'sticky',
-      cursor: 'pointer',
       fontVariant: 'all-petite-caps',
       zIndex: '1',
       boxShadow: '3px 3px 4px rgba(0,0,0,0.3)',
@@ -99,33 +95,13 @@ export const DataGrid: <T>(props: DataGridProps<T>, children: ChildrenList) => J
               })}
             </tr>
           </thead>
-          <tbody>
-            {state.data.entries.map((entry) => (
-              <tr
-                style={{
-                  background: state.selection.includes(entry) ? 'rgba(128,128,128,0.3)' : 'transparent',
-                  filter: state.focus === entry ? 'brightness(1.5)' : 'brightness(1)',
-                  cursor: 'default',
-                  boxShadow: '2px 1px 0px rgba(255,255,255,0.07)',
-                }}
-                onclick={() => {
-                  if (getState().focus !== entry) {
-                    updateState({ focus: entry })
-                    props.onSelectionChange && props.onSelectionChange([entry])
-                    props.onFocusChange && props.onFocusChange(entry)
-                  }
-                }}
-                ondblclick={() => props.onDoubleClick?.(entry)}>
-                {props.columns.map((column: any) => (
-                  <td style={{ padding: '0.5em', ...props.styles?.cell }}>
-                    {props.rowComponents?.[column]?.(entry, state) || props.rowComponents?.default?.(entry, state) || (
-                      <span>{entry[column]}</span>
-                    )}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
+          <DataGridBody
+            columns={props.columns}
+            service={props.service}
+            rowComponents={props.rowComponents}
+            style={props.styles?.cell}
+            onDoubleClick={props.onDoubleClick}
+          />
         </table>
         <div
           className="pager"

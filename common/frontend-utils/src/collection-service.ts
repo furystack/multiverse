@@ -31,6 +31,10 @@ export class CollectionService<T> implements Disposable {
 
   public querySettings: ObservableValue<SearchOptions<T, any>>
 
+  public focus = new ObservableValue<T | undefined>()
+
+  public selection = new ObservableValue<T[]>([])
+
   constructor(fetch: EntryLoader<T>, defaultSettings: SearchOptions<T, any>) {
     this.querySettings = new ObservableValue<SearchOptions<T, any>>(defaultSettings)
     this.getEntries = debounce(async (options) => {

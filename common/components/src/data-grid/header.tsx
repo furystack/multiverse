@@ -34,30 +34,37 @@ export const DataGridHeader: <T, K extends keyof T>(
     return (
       <div
         onmouseenter={() => {
-          animations.showSlide({ element: getControlsElement() })
+          animations.fadeIn(getControlsElement())
         }}
         onmouseleave={() => {
-          animations.hideSlide({ element: getControlsElement() })
+          animations.fadeOut(getControlsElement())
         }}
-        style={{ display: 'flex', width: '100%', height: '100%', justifyContent: 'center' }}>
+        style={{ display: 'flex', width: '100%', height: '100%', justifyContent: 'space-evenly' }}>
         <div>{props.field}</div>
         <div
           className="header-controls"
-          style={{ padding: '0 1em', cursor: 'pointer', transform: 'scale(0)' }}
-          onclick={() => {
-            let newDirection: 'ASC' | 'DESC' = 'ASC'
-            const newOrder: { [K in keyof any]: 'ASC' | 'DESC' } = {}
+          style={{ opacity: '0', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div
+            title="Change order"
+            style={{ padding: '0 1em', cursor: 'pointer' }}
+            onclick={() => {
+              let newDirection: 'ASC' | 'DESC' = 'ASC'
+              const newOrder: { [K in keyof any]: 'ASC' | 'DESC' } = {}
 
-            if (currentOrder === props.field) {
-              newDirection = currentOrderDirection === 'ASC' ? 'DESC' : 'ASC'
-            }
-            newOrder[props.field] = newDirection
-            props.collectionService.querySettings.setValue({
-              ...currentState.querySettings,
-              order: newOrder,
-            })
-          }}>
-          {currentOrder === props.field && currentOrderDirection === 'ASC' ? '⬇' : '⬆'}
+              if (currentOrder === props.field) {
+                newDirection = currentOrderDirection === 'ASC' ? 'DESC' : 'ASC'
+              }
+              newOrder[props.field] = newDirection
+              props.collectionService.querySettings.setValue({
+                ...currentState.querySettings,
+                order: newOrder,
+              })
+            }}>
+            {currentOrder === props.field && currentOrderDirection === 'ASC' ? '⬇' : '⬆'}
+          </div>
+          <div style={{ cursor: 'pointer' }} title="Search">
+            🔍
+          </div>
         </div>
       </div>
     )
