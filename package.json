@@ -19,7 +19,7 @@
     "tslib": "^1.10.0"
   },
   "optionalDependencies": {
-    "@cypress/webpack-preprocessor": "^4.1.1",
+    "@cypress/webpack-preprocessor": "^5.1.2",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.18.0",
     "concurrently": "^5.1.0",
@@ -28,8 +28,8 @@
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-cypress": "^2.7.0",
-    "eslint-plugin-import": "2.20.0",
-    "eslint-plugin-jsdoc": "^22.0.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsdoc": "^24.0.0",
     "eslint-plugin-prettier": "^3.1.1",
     "husky": "^4.0.6",
     "lint-staged": "^10.0.3",
@@ -60,7 +60,7 @@
     "build:services": "tsc -b",
     "build:frontends": "yarn workspace @frontend/core build",
     "build": "yarn build:services && yarn build:frontends",
-    "start:watch": "tsc -b common && tsc -b services && concurrently --kill-others \"tsc -b --watch services\" \"yarn workspace @service/auth start:watch\" \"yarn workspace @service/diag start:watch\" \"yarn workspace xpense-service start:watch\" \"yarn startFrontend\"",
+    "start:watch": "tsc -b common && tsc -b services && concurrently --kill-others \"tsc -b --watch\" \"yarn workspace @service/auth start:watch\" \"yarn workspace @service/diag start:watch\" \"yarn workspace xpense-service start:watch\" \"yarn startFrontend\"",
     "test:cypress": "yarn workspace @service/auth seed && concurrently --kill-others \"yarn start\" \"yarn cypress run\" --success first ",
     "start": "concurrently --kill-others \"yarn startAuth\" \"yarn startDiag\" \"yarn startXpense\" \"yarn startFrontend\"",
     "startAuth": "yarn workspace @service/auth start",

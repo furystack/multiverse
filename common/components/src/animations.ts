@@ -11,6 +11,7 @@ export const animations = {
       {
         duration: 500,
         easing: 'cubic-bezier(0.215, 0.610, 0.355, 1.000)',
+        fill: 'forwards',
       },
     )
   },
@@ -24,20 +25,21 @@ export const animations = {
       {
         duration: 500,
         easing: 'cubic-bezier(0.215, 0.610, 0.355, 1.000)',
+        fill: 'forwards',
       },
     )
   },
   fadeOut: async (element?: Element | null) => {
     element &&
       (await promisifyAnimation(element, [{ opacity: 1 }, { opacity: 0 }], {
-        duration: 5000,
+        duration: 500,
         easing: 'cubic-bezier(0.165, 0.840, 0.440, 1.000)',
       }))
   },
   fadeIn: async (element?: Element | null) => {
     element &&
       (await promisifyAnimation(element, [{ opacity: 0 }, { opacity: 1 }], {
-        duration: 5000,
+        duration: 500,
         easing: 'cubic-bezier(0.165, 0.840, 0.440, 1.000)',
       }))
   },

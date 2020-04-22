@@ -1,5 +1,5 @@
 import { Shade, createComponent, PartialElement } from '@furystack/shades'
-import { promisifyAnimation } from '@common/frontend-utils/src'
+import { promisifyAnimation } from '@common/frontend-utils'
 import { colors } from './styles'
 
 const getDefaultStyle: (props: ButtonProps) => PartialElement<CSSStyleDeclaration> = (props) => ({
