@@ -5,7 +5,6 @@ import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { xpense, Organization } from '@common/models'
 import { databases } from '@common/config'
-import { HttpUserContext } from '@furystack/rest-service'
 
 export const injector = new Injector()
 
@@ -62,7 +61,7 @@ injector.setupRepository((repo) =>
     .createDataSet(xpense.Account, {
       name: 'accounts',
       addFilter: async ({ injector: i, filter }) => {
-        const currentUser = await i.getInstance(HttpUserContext).getCurrentUser()
+        const currentUser = await i.getCurrentUser()
         const orgs = await getOrgsForCurrentUser(i, currentUser)
         return {
           ...filter,
@@ -80,7 +79,7 @@ injector.setupRepository((repo) =>
         } as typeof filter
       },
       authorizeGetEntity: async ({ entity, injector: i }) => {
-        const currentUser = await i.getInstance(HttpUserContext).getCurrentUser()
+        const currentUser = await i.getCurrentUser()
         const orgs = await getOrgsForCurrentUser(i, currentUser)
         if (entity.ownerType === 'user' && entity.ownerName === currentUser.username) {
           return { isAllowed: true }

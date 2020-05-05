@@ -6,6 +6,7 @@ import { HttpUserContext } from '@furystack/rest-service'
 export const RegisterAction: RequestAction<{ body: { email: string; password: string }; result: User }> = async ({
   injector,
   getBody,
+  response,
 }) => {
   const logger = injector.logger.withScope('RegisterAction')
   const storeManager = injector.getInstance(StoreManager)
@@ -24,7 +25,7 @@ export const RegisterAction: RequestAction<{ body: { email: string; password: st
     registrationDate: new Date().toISOString(),
   } as User)
   await storeManager.getStoreFor(Profile).add({ username: newUser.username, displayName: newUser.username } as Profile)
-  await userCtx.cookieLogin(newUser, injector.getResponse())
+  await userCtx.cookieLogin(newUser, response)
 
   delete newUser.password
   logger.information({ message: 'A New user has been registered', data: { ...newUser } })

@@ -5,7 +5,7 @@ import got from 'got'
 export const GetAvatar: RequestAction<{
   result: string
   urlParams: { username: string }
-}> = async ({ injector, getUrlParams }) => {
+}> = async ({ injector, getUrlParams, response }) => {
   const profileStore = injector.getDataSetFor<Profile>('profiles')
   const { username } = getUrlParams()
   const result = await profileStore.filter(injector, {
@@ -20,6 +20,6 @@ export const GetAvatar: RequestAction<{
   }
   const imgResult = got(profile.avatarUrl)
   const buffer = await imgResult.buffer()
-  injector.getResponse().end(buffer, 'binary')
+  response.end(buffer, 'binary')
   return BypassResult()
 }

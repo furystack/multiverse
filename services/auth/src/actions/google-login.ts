@@ -11,6 +11,7 @@ import { HttpUserContext } from '@furystack/rest-service'
 export const GoogleLoginAction: RequestAction<{ body: { token: string }; result: User }> = async ({
   injector,
   getBody,
+  response,
 }) => {
   const loginData = await getBody()
 
@@ -26,7 +27,7 @@ export const GoogleLoginAction: RequestAction<{ body: { token: string }; result:
     if (googleUser.length !== 1) {
       throw new RequestError(`Found ${googleUser.length} user(s) with the username '${googleAccount[0].username}'`, 500)
     }
-    await injector.getInstance(HttpUserContext).cookieLogin(googleUser[0], injector.getResponse())
+    await injector.getInstance(HttpUserContext).cookieLogin(googleUser[0], response)
     delete googleUser[0].password
     return JsonResult({ ...googleUser[0] })
   } else {

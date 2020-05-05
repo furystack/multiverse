@@ -1,5 +1,4 @@
 import { RequestAction, JsonResult } from '@furystack/rest'
-import { HttpUserContext } from '@furystack/rest-service'
 import { StoreManager } from '@furystack/core'
 import { GoogleAccount, GithubAccount, User } from '@common/models'
 
@@ -10,7 +9,7 @@ export const GetLoginProviderDetails: RequestAction<{
     github?: GithubAccount
   }
 }> = async ({ injector }) => {
-  const currentUser = await injector.getInstance(HttpUserContext).getCurrentUser()
+  const currentUser = await injector.getCurrentUser()
   const storeManager = injector.getInstance(StoreManager)
 
   const [loadedUser] = await storeManager

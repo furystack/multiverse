@@ -1,6 +1,5 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { xpense } from '@common/models'
-import { HttpUserContext } from '@furystack/rest-service'
 import { ensureItemsForShopping } from '../services/ensure-items-for-shopping'
 
 export const PostShopping: RequestAction<{
@@ -8,7 +7,7 @@ export const PostShopping: RequestAction<{
   urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
   result: xpense.Shopping
 }> = async ({ injector, getBody, getUrlParams }) => {
-  const currentUser = await injector.getInstance(HttpUserContext).getCurrentUser()
+  const currentUser = await injector.getCurrentUser()
   const body = await getBody()
   const { accountName, owner, type } = getUrlParams()
   const ds = injector.getDataSetFor<xpense.Account>('accounts')

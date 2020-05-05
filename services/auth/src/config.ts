@@ -1,7 +1,6 @@
 import '@furystack/auth-google'
 import { verifyAndCreateIndexes } from '@common/service-utils'
 import '@furystack/repository/dist/injector-extension'
-import { HttpUserContext } from '@furystack/rest-service'
 import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { GoogleAccount, GithubAccount, Organization, Profile } from '@common/models'
@@ -41,7 +40,7 @@ injector
     repo.createDataSet(Profile, {
       name: 'profiles',
       authorizeUpdateEntity: async ({ injector: i, entity: profile }) => {
-        const currentUser = await i.getInstance(HttpUserContext).getCurrentUser()
+        const currentUser = await i.getCurrentUser()
         if (profile.username === currentUser.username) {
           return { isAllowed: true }
         }

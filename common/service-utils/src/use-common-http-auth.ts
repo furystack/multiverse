@@ -1,8 +1,6 @@
-import '@furystack/redis-store'
-import { HttpUserContext } from '@furystack/rest-service'
+import { DefaultSession } from '@furystack/rest-service'
 import '@furystack/mongodb-store'
 import { Injector } from '@furystack/inject/dist/injector'
-import { createClient } from 'redis'
 import { databases } from '@common/config'
 import { Session, User, Organization } from '@common/models'
 import { verifyAndCreateIndexes } from './create-indexes'
@@ -31,20 +29,19 @@ Injector.prototype.useCommonHttpAuth = function () {
         collection: 'organizations',
         options: databases.standardOptions,
       })
-      .useRedis(
-        Session,
-        'sessionId',
-        createClient({
-          port: parseInt(databases['common-auth'].sessionStore.port, 10) || undefined,
-          host: databases['common-auth'].sessionStore.host,
-        }),
-      ),
+      .useMongoDb({
+        model: Session,
+        url: databases['common-auth'].sessionStoreUrl,
+        db: databases['common-auth'].dbName,
+        collection: 'sessions',
+        options: databases.standardOptions,
+      }),
   ).useHttpAuthentication({
     enableBasicAuth: true,
     cookieName: 'fsmvsc',
     model: User,
     getUserStore: (sm) => sm.getStoreFor(User),
-    getSessionStore: (sm) => sm.getStoreFor(Session),
+    getSessionStore: (sm) => sm.getStoreFor<DefaultSession>(Session),
   })
 
   this.setupRepository((repo) =>
@@ -52,7 +49,7 @@ Injector.prototype.useCommonHttpAuth = function () {
       .createDataSet(Organization, {
         name: 'organizations',
         authorizeUpdateEntity: async ({ injector: i, entity }) => {
-          const currentUser = await i.getInstance(HttpUserContext).getCurrentUser()
+          const currentUser = await i.getCurrentUser()
           if (entity.ownerName === currentUser.username || entity.adminNames.includes(currentUser.username)) {
             return { isAllowed: true }
           }
@@ -62,7 +59,7 @@ Injector.prototype.useCommonHttpAuth = function () {
       .createDataSet(User, {
         ...authorizedDataSet,
         authorizeAdd: async (authorize) => {
-          const success = await authorize.injector.getInstance(HttpUserContext).isAuthorized('user-admin')
+          const success = await authorize.injector.isAuthorized('user-admin')
           return {
             isAllowed: success ? true : false,
             message: success ? '' : "Role 'user-admin' required.",
@@ -77,6 +74,14 @@ Injector.prototype.useCommonHttpAuth = function () {
     model: User,
     indexSpecification: { username: 1 },
     indexName: 'username',
+    indexOptions: { unique: true },
+  })
+
+  verifyAndCreateIndexes({
+    injector: this,
+    model: Session,
+    indexSpecification: { sessionId: 1 },
+    indexName: 'sessionId',
     indexOptions: { unique: true },
   })
 

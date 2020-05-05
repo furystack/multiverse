@@ -3,7 +3,6 @@ import { xpense } from '@common/models'
 
 import { StoreManager } from '@furystack/core'
 import { getOrgsForCurrentUser } from '@common/service-utils'
-import { HttpUserContext } from '@furystack/rest-service'
 
 export const GetAvailableAccounts: RequestAction<{
   result: Array<{
@@ -13,7 +12,7 @@ export const GetAvailableAccounts: RequestAction<{
     current: xpense.Account['current']
   }>
 }> = async ({ injector }) => {
-  const currentUser = await injector.getInstance(HttpUserContext).getCurrentUser()
+  const currentUser = await injector.getCurrentUser()
   const orgs = await getOrgsForCurrentUser(injector, currentUser)
 
   const entries = await injector

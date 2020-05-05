@@ -1,6 +1,5 @@
 import { RequestAction, JsonResult } from '@furystack/rest'
 import { xpense } from '@common/models'
-import { HttpUserContext } from '@furystack/rest-service'
 
 export const PostAccount: RequestAction<{
   result: xpense.Account
@@ -8,7 +7,7 @@ export const PostAccount: RequestAction<{
 }> = async ({ injector, getBody }) => {
   const { name, description, icon } = await getBody()
   const ds = injector.getDataSetFor<xpense.Account>('accounts')
-  const currentUser = await injector.getInstance(HttpUserContext).getCurrentUser()
+  const currentUser = await injector.getCurrentUser()
 
   const created = await ds.add(injector, {
     name,

@@ -8,6 +8,7 @@ import { GithubAuthService } from '../services/github-login-service'
 export const GithubRegisterAction: RequestAction<{ body: { code: string; clientId: string }; result: User }> = async ({
   injector,
   getBody,
+  response,
 }) => {
   const { code, clientId } = await getBody()
 
@@ -42,7 +43,7 @@ export const GithubRegisterAction: RequestAction<{ body: { code: string; clientI
     avatarUrl: githubApiPayload.avatar_url || undefined,
   } as Profile)
 
-  await injector.getInstance(HttpUserContext).cookieLogin(newUser, injector.getResponse())
+  await injector.getInstance(HttpUserContext).cookieLogin(newUser, response)
   delete newUser.password
   return JsonResult({ ...newUser })
 }

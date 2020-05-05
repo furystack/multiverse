@@ -7,7 +7,6 @@ import { databases } from '@common/config'
 import { MongodbStore } from '@furystack/mongodb-store'
 import { LogEntry } from '@common/models'
 import '@furystack/repository'
-import { HttpUserContext } from '@furystack/rest-service'
 
 @Injectable({ lifetime: 'singleton' })
 export class DbLoggerSettings {
@@ -66,7 +65,7 @@ Injector.prototype.useDbLogger = function (settings) {
       authorizeRemove: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
       authorizeUpdate: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
       authorizeGet: async (options) => {
-        const result = await options.injector.getInstance(HttpUserContext).isAuthorized('sys-logs')
+        const result = await options.injector.isAuthorized('sys-logs')
         return {
           isAllowed: result,
           message: result ? '' : "Role 'sys-logs' required",

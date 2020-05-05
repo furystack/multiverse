@@ -11,6 +11,7 @@ import { HttpUserContext } from '@furystack/rest-service'
 export const GoogleRegisterAction: RequestAction<{ body: { token: string }; result: User }> = async ({
   injector,
   getBody,
+  response,
 }) => {
   const logger = injector.logger.withScope('GoogleRegisterAction')
   const storeManager = injector.getInstance(StoreManager)
@@ -62,6 +63,6 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string }; resu
     data: newUser,
   })
 
-  const user = await userContext.cookieLogin(newUser, injector.getResponse())
+  const user = await userContext.cookieLogin(newUser, response)
   return JsonResult(user as User)
 }
