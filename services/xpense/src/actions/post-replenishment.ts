@@ -1,8 +1,10 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { xpense } from '@common/models'
+import { ObjectId } from 'mongodb'
+import { recalculateHistory } from '../services/recalculate-history'
 
 export const PostReplenishment: RequestAction<{
-  body: { amount: number; comment?: string }
+  body: { amount: number; comment?: string; creationDate: string }
   urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
   result: xpense.Replenishment
 }> = async ({ injector, getBody, getUrlParams }) => {
@@ -20,25 +22,13 @@ export const PostReplenishment: RequestAction<{
 
   const createdReplenishment = await injector.getDataSetFor<xpense.Replenishment>('replenishments').add(injector, {
     ...body,
+    _id: new ObjectId().toHexString(),
+    creationDate: new Date(body.creationDate).toISOString(),
     createdBy: currentUser.username,
     accountId: account._id,
   } as xpense.Replenishment)
 
-  const current = account.current + createdReplenishment.amount
-  await ds.update(injector, account._id, {
-    ...account,
-    current,
-    history: [
-      ...account.history,
-      {
-        balance: current,
-        change: createdReplenishment.amount,
-        date: new Date().toISOString(),
-        changePerCategory: [],
-        relatedEntry: { type: 'replenishment', replenishmentId: createdReplenishment._id },
-      },
-    ],
-  })
+  await recalculateHistory({ injector, account })
 
   return JsonResult(createdReplenishment)
 }

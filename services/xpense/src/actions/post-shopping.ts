@@ -1,9 +1,14 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { xpense } from '@common/models'
 import { ensureItemsForShopping } from '../services/ensure-items-for-shopping'
+import { recalculateHistory } from '../services/recalculate-history'
 
 export const PostShopping: RequestAction<{
-  body: { shopName: string; entries: Array<{ itemName: string; amount: number; unitPrice: number }> }
+  body: {
+    shopName: string
+    creationDate: string
+    entries: Array<{ itemName: string; amount: number; unitPrice: number }>
+  }
   urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
   result: xpense.Shopping
 }> = async ({ injector, getBody, getUrlParams }) => {
@@ -22,28 +27,13 @@ export const PostShopping: RequestAction<{
   const createdShopping = await injector.getDataSetFor<xpense.Shopping>('shoppings').add(injector, {
     createdBy: currentUser.username,
     entries: body.entries,
-    creationDate: new Date().toISOString(),
+    creationDate: new Date(body.creationDate).toISOString(),
     accountId: account._id,
     sumAmount: body.entries.reduce((last, current) => last + current.unitPrice * current.amount, 0),
     shopName: body.shopName,
   } as xpense.Shopping)
 
   ensureItemsForShopping({ injector, shopping: createdShopping })
-
-  await ds.update(injector, account._id, {
-    ...account,
-    current: account.current - createdShopping.sumAmount,
-    history: [
-      ...account.history,
-      {
-        balance: account.current - createdShopping.sumAmount,
-        change: -createdShopping.sumAmount,
-        date: new Date().toISOString(),
-        changePerCategory: [],
-        relatedEntry: { type: 'shopping', shoppingId: createdShopping._id },
-      },
-    ],
-  })
-
+  await recalculateHistory({ injector, account })
   return JsonResult(createdShopping)
 }

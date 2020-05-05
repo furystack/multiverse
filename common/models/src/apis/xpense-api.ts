@@ -26,12 +26,16 @@ export interface XpenseApi extends RestApi {
     '/shops': RequestAction<{ result: Shop; body: { name: string } }>
     '/items': RequestAction<{ result: Item; body: { name: string; description: string; category?: string } }>
     '/:type/:owner/:accountName/replenish': RequestAction<{
-      body: { amount: number; comment?: string }
+      body: { amount: number; comment?: string; creationDate: string }
       urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
       result: Replenishment
     }>
     '/:type/:owner/:accountName/shop': RequestAction<{
-      body: { shopName: string; entries: Array<{ itemName: string; amount: number; unitPrice: number }> }
+      body: {
+        shopName: string
+        creationDate: string
+        entries: Array<{ itemName: string; amount: number; unitPrice: number }>
+      }
       urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
       result: Shopping
     }>

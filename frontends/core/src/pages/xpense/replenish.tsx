@@ -6,10 +6,11 @@ import { SelectedAccountHeader } from './components/header'
 
 export const ReplenishPage = Shade<
   xpense.Account & { onReplenished: (replenishment: xpense.Replenishment) => void },
-  { amount: number; comment?: string; error?: Error }
+  { amount: number; comment?: string; date: string; error?: Error }
 >({
   getInitialState: () => ({
     amount: 0,
+    date: new Date().toISOString(),
   }),
   shadowDomName: 'replenish-page',
   render: ({ props, getState, updateState, injector }) => {
@@ -48,13 +49,15 @@ export const ReplenishPage = Shade<
           onsubmit={async (ev) => {
             ev.preventDefault()
             try {
+              const state = getState()
               const replenishment = await injector.getInstance(XpenseApiService).call({
                 method: 'POST',
                 action: '/:type/:owner/:accountName/replenish',
                 url: { type: props.ownerType, owner: props.ownerName, accountName: props.name },
                 body: {
-                  amount: getState().amount,
-                  comment: getState().comment,
+                  creationDate: state.date,
+                  amount: state.amount,
+                  comment: state.comment,
                 },
               })
               props.onReplenished(replenishment)
@@ -63,6 +66,13 @@ export const ReplenishPage = Shade<
               updateState({ error: e })
             }
           }}>
+          <Input
+            labelTitle="Replenishment date"
+            value={getState().date}
+            type="datetime-local"
+            required={true}
+            onTextChange={(date) => updateState({ date }, true)}
+          />
           <Input
             labelTitle="Amount"
             type="number"

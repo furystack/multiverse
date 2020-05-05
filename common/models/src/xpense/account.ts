@@ -1,3 +1,10 @@
+export interface AccountHistoryEntry {
+  balance: number
+  date: string
+  change: number
+  relatedEntry: { type: 'replenishment'; replenishmentId: string } | { type: 'shopping'; shoppingId: string }
+}
+
 export class Account {
   _id!: string
   ownerType!: 'user' | 'organization'
@@ -5,13 +12,7 @@ export class Account {
   name!: string
   description!: string
   icon!: string
-  history!: Array<{
-    balance: number
-    date: string
-    change: number
-    changePerCategory: Array<{ categoryName: string; amount: number }>
-    relatedEntry: { type: 'replenishment'; replenishmentId: string } | { type: 'shopping'; shoppingId: string }
-  }>
+  history!: AccountHistoryEntry[]
   current!: number
   createdBy!: string
   creationDate!: string

@@ -1,4 +1,5 @@
 import { Shade, createComponent, LocationService, Router } from '@furystack/shades'
+import { Injector } from '@furystack/inject'
 import { xpense } from '@common/models'
 import { XpenseApiService } from '@common/frontend-utils'
 import { match } from 'path-to-regexp'
@@ -12,9 +13,37 @@ import { ShoppingDetails } from './shopping-details'
 import { ShopDetails } from './shop-details'
 import { ReplenishmentDetails } from './replenishment-details'
 
+const reloader = ({
+  injector,
+  updateState,
+}: {
+  injector: Injector
+  updateState: (state: any) => void
+}) => async (options: { accountName: string; owner: string; type: 'user' | 'organization' }) => {
+  updateState({ isLoading: true })
+  try {
+    const loadedAccount = await injector.getInstance(XpenseApiService).call({
+      method: 'GET',
+      action: '/:type/:owner/:accountName',
+      url: options,
+    })
+    updateState({ account: loadedAccount })
+  } catch (error) {
+    updateState({ error })
+  } finally {
+    updateState({ isLoading: false })
+  }
+}
+
 export const AccountContext = Shade<
   { type: 'user' | 'organization'; accountName: string; owner: string },
-  { account?: xpense.Account; items: xpense.Item[]; shops: xpense.Shop[]; isLoading: boolean; error?: Error }
+  {
+    account?: xpense.Account
+    items: xpense.Item[]
+    shops: xpense.Shop[]
+    isLoading: boolean
+    error?: Error
+  }
 >({
   shadowDomName: 'xpense-account-context',
   getInitialState: () => ({
@@ -23,6 +52,8 @@ export const AccountContext = Shade<
     shops: [],
   }),
   constructed: ({ injector, updateState, getState }) => {
+    const reloadAccount = reloader({ injector, updateState })
+
     const subscriptions = [
       injector.getInstance(LocationService).onLocationChanged.subscribe(async (l) => {
         const matcher = match<{ type: 'user' | 'organization'; owner: string; accountName: string }>(
@@ -41,19 +72,7 @@ export const AccountContext = Shade<
             account.ownerName !== matched.params.owner ||
             account.ownerType !== matched.params.type
           ) {
-            updateState({ isLoading: true })
-            try {
-              const loadedAccount = await injector.getInstance(XpenseApiService).call({
-                method: 'GET',
-                action: '/:type/:owner/:accountName',
-                url: matched.params,
-              })
-              updateState({ account: loadedAccount })
-            } catch (error) {
-              updateState({ error })
-            } finally {
-              updateState({ isLoading: false })
-            }
+            reloadAccount(matched.params)
           }
         }
       }, true),
@@ -72,11 +91,14 @@ export const AccountContext = Shade<
       })
     return () => subscriptions.map((s) => s.dispose())
   },
-  render: ({ props, getState, updateState }) => {
+  render: ({ props, getState, updateState, injector }) => {
     const { account, isLoading, error, shops, items } = getState()
+
     if (isLoading) {
       return <Init message="Loading account details..." />
     }
+    const reloadAccount = reloader({ injector, updateState })
+
     if (error || !account) {
       return (
         <div
@@ -112,28 +134,9 @@ export const AccountContext = Shade<
               component: () => (
                 <ReplenishPage
                   {...account}
-                  onReplenished={(replenishment) => {
-                    const { account: acc } = getState()
-                    if (acc) {
-                      updateState({
-                        account: {
-                          ...acc,
-                          current: acc.current + replenishment.amount,
-                          history: [
-                            ...acc.history,
-                            {
-                              balance: acc.current + replenishment.amount,
-                              change: replenishment.amount,
-                              date: new Date().toISOString(),
-                              relatedEntry: {
-                                replenishmentId: replenishment._id,
-                              },
-                            },
-                          ],
-                        },
-                      })
-                    }
-                  }}
+                  onReplenished={() =>
+                    reloadAccount({ type: account.ownerType, accountName: account.name, owner: account.ownerName })
+                  }
                 />
               ),
             },
@@ -144,23 +147,8 @@ export const AccountContext = Shade<
                   {...account}
                   shops={shops}
                   items={items}
-                  onShopped={(shopping) => {
-                    const currentBalance = account.current - shopping.sumAmount
-                    updateState({
-                      account: {
-                        ...account,
-                        current: currentBalance,
-                        history: [
-                          ...account.history,
-                          {
-                            balance: currentBalance,
-                            change: -shopping.sumAmount,
-                            date: shopping.creationDate,
-                            relatedEntry: { shoppingId: shopping._id },
-                          },
-                        ],
-                      },
-                    })
+                  onShopped={() => {
+                    reloadAccount({ type: account.ownerType, accountName: account.name, owner: account.ownerName })
                   }}
                 />
               ),

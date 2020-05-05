@@ -9,12 +9,13 @@ import { ShoppingEntry, ShoppingEntryRow } from './components/shopping-entry'
 
 export const XpenseShoppingPage = Shade<
   xpense.Account & { shops: xpense.Shop[]; items: xpense.Item[]; onShopped: (total: xpense.Shopping) => void },
-  { entries: ShoppingEntry[]; shopName: string; error?: Error; isSaveInProgress?: boolean }
+  { entries: ShoppingEntry[]; shopName: string; error?: Error; isSaveInProgress?: boolean; date: string }
 >({
   shadowDomName: 'xpense-shopping-page',
   getInitialState: () => ({
     shopName: '',
     entries: [],
+    date: new Date().toISOString(),
   }),
   render: ({ props, getState, updateState, element, injector }) => {
     const { error, isSaveInProgress } = getState()
@@ -82,14 +83,16 @@ export const XpenseShoppingPage = Shade<
               return
             }
             try {
+              const state = getState()
               updateState({ isSaveInProgress: true })
               const shopping = await injector.getInstance(XpenseApiService).call({
                 method: 'POST',
                 action: '/:type/:owner/:accountName/shop',
                 url: { type: props.ownerType, owner: props.ownerName, accountName: props.name },
                 body: {
-                  shopName: getState().shopName,
-                  entries: getState().entries.map((e) => ({
+                  creationDate: state.date,
+                  shopName: state.shopName,
+                  entries: state.entries.map((e) => ({
                     itemName: e.name,
                     amount: e.amount,
                     unitPrice: e.unitPrice,
@@ -113,6 +116,12 @@ export const XpenseShoppingPage = Shade<
                 updateState({ entries: [{ name: '', amount: 1, totalPrice: 0, unitPrice: 0 }] })
               }
             }}
+          />
+          <Input
+            type="datetime-local"
+            required={true}
+            onTextChange={(date) => updateState({ date }, true)}
+            value={getState().date}
           />
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {getState().entries.map((entry, index) => (
