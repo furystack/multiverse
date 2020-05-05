@@ -91,14 +91,14 @@
     lodash.once "^4.1.1"
 
 "@furystack/auth-google@^4.0.0":
-  version "4.0.31"
-  resolved "https://registry.yarnpkg.com/@furystack/auth-google/-/auth-google-4.0.31.tgz#833af9f34b6d0a001a7db6d5050651f329e94805"
-  integrity sha512-SXuBVLyxTfSJbN+pZ0C3g+S6PpYjdI7SfqWyVTsdmNNkAnYbQdwwycuFzRMka5zJrdUjESnS6sCSn9OYWroiRQ==
+  version "4.0.32"
+  resolved "https://registry.yarnpkg.com/@furystack/auth-google/-/auth-google-4.0.32.tgz#9c2dde7b7b0eceebb1d8fbf8b00a457c9ccf138a"
+  integrity sha512-77RZDQNGc++BVXmKOSOyafdODFD0mj++dYHCJTJQQF6xcfrLSbk71TvQTvoizbISNoFlPIyYdcsM5Q3M9UoAeQ==
   dependencies:
     "@furystack/core" "^8.1.0"
     "@furystack/inject" "^4.0.27"
     "@furystack/rest" "^1.1.11"
-    "@furystack/rest-service" "^2.1.1"
+    "@furystack/rest-service" "^2.1.2"
     "@furystack/utils" "^1.1.17"
     tslib "^1.11.1"
 
@@ -168,10 +168,10 @@
     path-to-regexp "^6.1.0"
     tslib "^1.11.1"
 
-"@furystack/rest-service@^2.0.0", "@furystack/rest-service@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@furystack/rest-service/-/rest-service-2.1.1.tgz#f8b717410aac706b1812c1f616372cef2412bfbc"
-  integrity sha512-vX6Sus5RpnvANclT0866GelF5g4daa8geEbKfFo+CiVshTEqb6U/5kdHSPzl3d21eQ6j0RCeO/WswyKgQpGg/A==
+"@furystack/rest-service@^2.0.0", "@furystack/rest-service@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@furystack/rest-service/-/rest-service-2.1.2.tgz#ad24af086ad8394c72d3e61b2f8032d0dace6a0d"
+  integrity sha512-hGt11NqOiQGtq72TTCemMS2OEnWcD5oGDtFIRRu0zuUHjWZuyvJ3EO+jveqy+JJgjtQ0IhSOEbZFn/9JmnoyuQ==
   dependencies:
     "@furystack/core" "^8.1.0"
     "@furystack/inject" "^4.0.27"
