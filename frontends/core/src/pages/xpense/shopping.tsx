@@ -119,6 +119,7 @@ export const XpenseShoppingPage = Shade<
           />
           <Input
             type="datetime-local"
+            labelTitle="Shopping date"
             required={true}
             onTextChange={(date) => updateState({ date }, true)}
             value={getState().date}

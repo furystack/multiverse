@@ -53,6 +53,7 @@ export const ShoppingEntryRow = Shade<ShoppingEntryProps>({
           type="number"
           labelTitle="Unit price"
           name="unitPrice"
+          step="any"
           value={props.entry.unitPrice.toString()}
           required
           onTextChange={(value) => {
