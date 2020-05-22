@@ -9,10 +9,11 @@ export const PostItem: RequestAction<{
   const ds = injector.getDataSetFor<xpense.Item>('items')
   const currentUser = await injector.getCurrentUser()
 
-  const created = await ds.add(injector, {
+  const created = {
     ...postData,
     createdBy: currentUser.username,
     creationDate: new Date().toISOString(),
-  } as xpense.Item)
+  } as xpense.Item
+  await ds.add(injector, created)
   return JsonResult(created)
 }

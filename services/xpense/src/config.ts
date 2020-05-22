@@ -13,6 +13,7 @@ injector.useCommonHttpAuth()
 injector.setupStores((sm) =>
   sm
     .useMongoDb({
+      primaryKey: '_id',
       model: xpense.Account,
       url: databases.xpense.mongoUrl,
       db: databases.xpense.dbName,
@@ -20,6 +21,7 @@ injector.setupStores((sm) =>
       options: databases.standardOptions,
     })
     .useMongoDb({
+      primaryKey: '_id',
       model: xpense.Item,
       url: databases.xpense.mongoUrl,
       db: databases.xpense.dbName,
@@ -27,6 +29,7 @@ injector.setupStores((sm) =>
       options: databases.standardOptions,
     })
     .useMongoDb({
+      primaryKey: '_id',
       model: xpense.Replenishment,
       url: databases.xpense.mongoUrl,
       db: databases.xpense.dbName,
@@ -34,6 +37,7 @@ injector.setupStores((sm) =>
       options: databases.standardOptions,
     })
     .useMongoDb({
+      primaryKey: '_id',
       model: xpense.Shop,
       url: databases.xpense.mongoUrl,
       db: databases.xpense.dbName,
@@ -41,6 +45,7 @@ injector.setupStores((sm) =>
       options: databases.standardOptions,
     })
     .useMongoDb({
+      primaryKey: '_id',
       model: xpense.Shopping,
       url: databases.xpense.mongoUrl,
       db: databases.xpense.dbName,
@@ -48,6 +53,7 @@ injector.setupStores((sm) =>
       options: databases.standardOptions,
     })
     .useMongoDb({
+      primaryKey: '_id',
       model: Organization,
       url: databases['common-auth'].mongoUrl,
       db: databases['common-auth'].dbName,

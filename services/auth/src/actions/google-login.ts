@@ -21,9 +21,9 @@ export const GoogleLoginAction: RequestAction<{ body: { token: string }; result:
   if (!googleUserData.email_verified) {
     throw new RequestError('Email address for account not verified', 401)
   }
-  const googleAccount = await googleAccountStore.search({ filter: { googleId: { $eq: googleUserData.sub } } })
+  const googleAccount = await googleAccountStore.find({ filter: { googleId: { $eq: googleUserData.sub } } })
   if (googleAccount.length === 1) {
-    const googleUser = await userStore.search({ top: 2, filter: { username: { $eq: googleAccount[0].username } } })
+    const googleUser = await userStore.find({ top: 2, filter: { username: { $eq: googleAccount[0].username } } })
     if (googleUser.length !== 1) {
       throw new RequestError(`Found ${googleUser.length} user(s) with the username '${googleAccount[0].username}'`, 500)
     }

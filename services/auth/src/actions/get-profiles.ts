@@ -8,7 +8,7 @@ export const GetProfiles: RequestAction<{
 }> = async ({ injector, getQuery }) => {
   const profileStore = injector.getDataSetFor<Profile>('profiles')
   const { search, top, skip } = getQuery()
-  const result = await profileStore.filter(injector, {
+  const result = await profileStore.find(injector, {
     top,
     skip,
     filter: {

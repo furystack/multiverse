@@ -17,12 +17,14 @@ Injector.prototype.useCommonHttpAuth = function () {
     sm
       .useMongoDb({
         model: User,
+        primaryKey: '_id',
         url: databases['common-auth'].mongoUrl,
         db: databases['common-auth'].dbName,
         collection: databases['common-auth'].usersCollection,
         options: databases.standardOptions,
       })
       .useMongoDb({
+        primaryKey: '_id',
         model: Organization,
         url: databases['common-auth'].mongoUrl,
         db: databases['common-auth'].dbName,
@@ -30,6 +32,7 @@ Injector.prototype.useCommonHttpAuth = function () {
         options: databases.standardOptions,
       })
       .useMongoDb({
+        primaryKey: '_id',
         model: Session,
         url: databases['common-auth'].sessionStoreUrl,
         db: databases['common-auth'].dbName,

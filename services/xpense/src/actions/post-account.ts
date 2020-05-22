@@ -9,7 +9,7 @@ export const PostAccount: RequestAction<{
   const ds = injector.getDataSetFor<xpense.Account>('accounts')
   const currentUser = await injector.getCurrentUser()
 
-  const created = await ds.add(injector, {
+  const created = {
     name,
     description,
     icon,
@@ -19,6 +19,8 @@ export const PostAccount: RequestAction<{
     creationDate: new Date().toISOString(),
     history: [] as xpense.Account['history'],
     current: 0,
-  } as xpense.Account)
+  } as xpense.Account
+
+  await ds.add(injector, created)
   return JsonResult(created)
 }

@@ -1,4 +1,4 @@
-import { PhysicalStore, StoreManager, SearchOptions } from '@furystack/core'
+import { PhysicalStore, StoreManager, FindOptions } from '@furystack/core'
 import { HttpAuthenticationSettings } from '@furystack/rest-service'
 import { Injector } from '@furystack/inject'
 import { GoogleAccount, GithubAccount, User, Profile } from '@common/models'
@@ -11,12 +11,12 @@ import { injector } from './config'
  * @param store The physical store to use
  */
 export const getOrCreate = async <T>(
-  filter: SearchOptions<T, Array<keyof T>>,
+  filter: FindOptions<T, Array<keyof T>>,
   instance: Partial<T>,
   store: PhysicalStore<T>,
   i: Injector,
 ) => {
-  const result = await store.search(filter)
+  const result = await store.find(filter)
   const logger = i.logger.withScope('Seeder')
   if (result.length === 1) {
     return result[0]
@@ -24,7 +24,8 @@ export const getOrCreate = async <T>(
     logger.verbose({
       message: `Entity of type '${store.model.name}' not exists, adding: '${JSON.stringify(filter)}'`,
     })
-    return await store.add(instance as T)
+    await store.add(instance as T)
+    return instance
   } else {
     const message = `Seed filter contains '${result.length}' results for ${JSON.stringify(filter)}`
     logger.warning({ message })
@@ -75,7 +76,7 @@ export const seed = async (i: Injector) => {
 
   await getOrCreate(
     {
-      filter: { username: testUser.username },
+      filter: { username: { $eq: testUser.username } },
     },
     { displayName: 'Test User', username: testUser.username },
     profileStore,

@@ -8,9 +8,9 @@ export const GetOrganization: RequestAction<{
 }> = async ({ injector, getUrlParams }) => {
   const profileStore = injector.getDataSetFor<Organization>('organizations')
   const { organizationName } = getUrlParams()
-  const result = await profileStore.filter(injector, {
+  const result = await profileStore.find(injector, {
     filter: {
-      name: organizationName,
+      name: { $eq: organizationName },
     },
     top: 1,
   })

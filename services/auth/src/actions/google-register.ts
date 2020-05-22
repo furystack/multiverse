@@ -34,18 +34,21 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string }; resu
     throw new RequestError('Email address for account not verified', 401)
   }
 
-  const existing = await googleAcccounts.search({ filter: { googleId: { $eq: googleUserData.sub } }, top: 1 })
+  const existing = await googleAcccounts.find({ filter: { googleId: { $eq: googleUserData.sub } }, top: 1 })
 
   if (existing && existing.length) {
     throw new RequestError('Google account already registered.', 401)
   }
 
-  const { password, ...newUser } = await users.add({
+  const userToAdd = {
     password: '',
     roles: ['terms-accepted'],
     registrationDate,
     username: googleUserData.email,
-  } as User)
+  } as User
+
+  await users.add(userToAdd)
+  delete userToAdd.password
 
   await googleAcccounts.add({
     googleId: googleUserData.sub,
@@ -54,15 +57,17 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string }; resu
     accountLinkDate: registrationDate,
   } as GoogleAccount)
 
-  await storeManager
-    .getStoreFor(Profile)
-    .add({ username: newUser.username, displayName: googleUserData.name, avatarUrl: googleUserData.picture } as Profile)
+  await storeManager.getStoreFor(Profile).add({
+    username: userToAdd.username,
+    displayName: googleUserData.name,
+    avatarUrl: googleUserData.picture,
+  } as Profile)
 
   logger.information({
-    message: `User ${newUser.username} has been registered with Google Auth.`,
-    data: newUser,
+    message: `User ${userToAdd.username} has been registered with Google Auth.`,
+    data: userToAdd,
   })
 
-  const user = await userContext.cookieLogin(newUser, response)
+  const user = await userContext.cookieLogin(userToAdd, response)
   return JsonResult(user as User)
 }

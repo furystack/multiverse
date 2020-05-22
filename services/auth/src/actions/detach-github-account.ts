@@ -7,7 +7,7 @@ export const DetachGithubAccount: RequestAction<{ result: User }> = async ({ inj
 
   const currentUser = (await injector.getCurrentUser()) as User
   const ghAccountStore = injector.getInstance(StoreManager).getStoreFor(GithubAccount)
-  const [ghAccount] = await ghAccountStore.search({ top: 1, filter: { username: currentUser.username } })
+  const [ghAccount] = await ghAccountStore.find({ top: 1, filter: { username: { $eq: currentUser.username } } })
 
   await ghAccountStore.remove(ghAccount._id)
   logger.information({ message: `User '${currentUser.username}' has detached a github account` })

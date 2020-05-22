@@ -17,10 +17,10 @@
   "dependencies": {
     "@common/service-utils": "1.0.0",
     "@furystack/auth-google": "^4.0.0",
-    "@furystack/core": "^8.0.2",
+    "@furystack/core": "^9.0.0",
     "@furystack/inject": "^4.0.3",
     "@furystack/logging": "^2.0.8",
-    "@furystack/mongodb-store": "^2.0.12",
+    "@furystack/mongodb-store": "^3.0.0",
     "@furystack/repository": "^2.0.9",
     "@furystack/rest": "^1.1.1",
     "@furystack/rest-service": "^2.0.0",

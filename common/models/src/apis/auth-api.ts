@@ -1,5 +1,5 @@
 import { RequestAction, RestApi } from '@furystack/rest'
-import { PartialResult, SearchOptions } from '@furystack/core'
+import { PartialResult, FindOptions } from '@furystack/core'
 import { User } from '../user'
 import { Profile } from '../profile'
 import { Organization } from '../organization'
@@ -20,7 +20,7 @@ export interface AuthApi extends RestApi {
       result: Array<PartialResult<Profile, any>>
     }>
     '/organizations': RequestAction<{
-      query: { filter: SearchOptions<Organization, any> }
+      query: { filter: FindOptions<Organization, any> }
       result: { entries: Array<PartialResult<Organization, any>>; count: number }
     }>
     '/organization/:organizationName': RequestAction<{

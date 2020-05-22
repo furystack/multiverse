@@ -50,6 +50,7 @@ declare module '@furystack/inject/dist/injector' {
 Injector.prototype.useDbLogger = function (settings) {
   this.setupStores((sm) =>
     sm.useMongoDb({
+      primaryKey: '_id',
       model: LogEntry,
       collection: databases.logging.logCollection,
       url: databases.logging.mongoUrl,

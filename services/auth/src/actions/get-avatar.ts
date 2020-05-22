@@ -8,9 +8,9 @@ export const GetAvatar: RequestAction<{
 }> = async ({ injector, getUrlParams, response }) => {
   const profileStore = injector.getDataSetFor<Profile>('profiles')
   const { username } = getUrlParams()
-  const result = await profileStore.filter(injector, {
+  const result = await profileStore.find(injector, {
     filter: {
-      username,
+      username: { $eq: username },
     },
     top: 1,
   })

@@ -31,7 +31,7 @@ export const AttachGoogleAccountAction: RequestAction<{ body: { token: string };
     throw new RequestError('Email address for account not verified', 401)
   }
 
-  const existing = await googleAcccounts.search({ filter: { googleId: { $eq: googleUserData.sub } }, top: 1 })
+  const existing = await googleAcccounts.find({ filter: { googleId: { $eq: googleUserData.sub } }, top: 1 })
 
   if (existing && existing.length) {
     throw new RequestError('Google account already registered.', 401)

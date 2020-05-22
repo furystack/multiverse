@@ -16,10 +16,10 @@ export const recalculateHistory = async ({
 
   const replenishPromise = injector
     .getDataSetFor<xpense.Replenishment>('replenishments')
-    .filter(injector, { filter: { accountId: { $eq: account._id } }, select: ['_id', 'amount', 'creationDate'] })
+    .find(injector, { filter: { accountId: { $eq: account._id } }, select: ['_id', 'amount', 'creationDate'] })
   const shoppingPromise = injector
     .getDataSetFor<xpense.Shopping>('shoppings')
-    .filter(injector, { filter: { accountId: { $eq: account._id } }, select: ['_id', 'sumAmount', 'creationDate'] })
+    .find(injector, { filter: { accountId: { $eq: account._id } }, select: ['_id', 'sumAmount', 'creationDate'] })
 
   const [replenishments, shoppings] = await Promise.all([replenishPromise, shoppingPromise])
 

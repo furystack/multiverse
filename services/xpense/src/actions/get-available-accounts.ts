@@ -18,11 +18,11 @@ export const GetAvailableAccounts: RequestAction<{
   const entries = await injector
     .getInstance(StoreManager)
     .getStoreFor(xpense.Account)
-    .search({
+    .find({
       filter: {
         $or: [
-          ...orgs.map((org) => ({ ownerType: 'organization', ownerName: org.name })),
-          { ownerType: 'user', ownerName: currentUser.username },
+          ...orgs.map((org) => ({ ownerType: { $eq: 'organization' as const }, ownerName: { $eq: org.name } })),
+          { ownerType: { $eq: 'user' }, ownerName: { $eq: currentUser.username } },
         ],
       },
       select: ['name', 'ownerName', 'ownerType', 'current', 'icon'],

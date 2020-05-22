@@ -7,8 +7,8 @@ export const GetAccount: RequestAction<{
 }> = async ({ injector, getUrlParams }) => {
   const { accountName, owner, type } = getUrlParams()
   const ds = injector.getDataSetFor<xpense.Account>('accounts')
-  const [account] = await ds.filter(injector, {
-    filter: { $and: [{ name: accountName }, { ownerType: type }, { ownerName: owner }] },
+  const [account] = await ds.find(injector, {
+    filter: { $and: [{ name: { $eq: accountName } }, { ownerType: { $eq: type } }, { ownerName: { $eq: owner } }] },
     top: 1,
   })
   if (!account) {

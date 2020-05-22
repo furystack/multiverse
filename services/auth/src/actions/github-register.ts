@@ -12,6 +12,8 @@ export const GithubRegisterAction: RequestAction<{ body: { code: string; clientI
 }) => {
   const { code, clientId } = await getBody()
 
+  const logger = injector.logger.withScope('GithubRegisterAction')
+
   const storeManager = injector.getInstance(StoreManager)
 
   const registrationDate = new Date().toISOString()
@@ -19,16 +21,18 @@ export const GithubRegisterAction: RequestAction<{ body: { code: string; clientI
 
   const existingGhUsers = await storeManager
     .getStoreFor(GithubAccount)
-    .search({ filter: { githubId: { $eq: githubApiPayload.id } }, top: 2 })
+    .find({ filter: { githubId: { $eq: githubApiPayload.id } }, top: 2 })
   if (existingGhUsers.length !== 0) {
     throw new RequestError(`Github user already registered`, 401)
   }
-  const newUser = await storeManager.getStoreFor(User).add({
+
+  const newUser = {
     password: '',
     roles: ['terms-accepted'],
     username: githubApiPayload.email || `${githubApiPayload.login}@github.com`,
     registrationDate,
-  } as User)
+  } as User
+  await storeManager.getStoreFor(User).add(newUser)
 
   await storeManager.getStoreFor(GithubAccount).add({
     accountLinkDate: registrationDate,
@@ -45,5 +49,9 @@ export const GithubRegisterAction: RequestAction<{ body: { code: string; clientI
 
   await injector.getInstance(HttpUserContext).cookieLogin(newUser, response)
   delete newUser.password
+  logger.information({
+    message: `User ${newUser.username} has been registered with Github Auth.`,
+    data: newUser,
+  })
   return JsonResult({ ...newUser })
 }

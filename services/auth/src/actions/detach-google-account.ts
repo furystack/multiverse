@@ -7,7 +7,7 @@ export const DetachGoogleAccount: RequestAction<{ result: User }> = async ({ inj
 
   const currentUser = (await injector.getCurrentUser()) as User
   const googleAccountStore = injector.getInstance(StoreManager).getStoreFor(GoogleAccount)
-  const [googleAccount] = await googleAccountStore.search({ top: 1, filter: { username: currentUser.username } })
+  const [googleAccount] = await googleAccountStore.find({ top: 1, filter: { username: { $eq: currentUser.username } } })
 
   await googleAccountStore.remove(googleAccount._id)
   logger.information({ message: `User '${currentUser.username}' has detached a google account` })

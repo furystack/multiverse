@@ -1,4 +1,4 @@
-import { SearchOptions } from '@furystack/core'
+import { FindOptions } from '@furystack/core'
 import { ChildrenList, Shade, createComponent } from '@furystack/shades'
 import { debounce } from '@furystack/utils'
 import { CollectionService } from '@common/frontend-utils'
@@ -10,7 +10,7 @@ export interface DataGridHeaderProps<T, K extends keyof T> {
 }
 
 export interface DataGridHeaderState<T> {
-  querySettings: SearchOptions<T, any>
+  querySettings: FindOptions<T, any>
   isSearchOpened: boolean
   updateSearchValue: (value: string) => void
 }
@@ -25,7 +25,7 @@ export const DataGridHeader: <T, K extends keyof T>(
     isSearchOpened: false,
     updateSearchValue: debounce((value: string) => {
       const currentSettings = props.collectionService.querySettings.getValue()
-      const newSettings = {
+      const newSettings: FindOptions<unknown, any> = {
         ...currentSettings,
         filter: {
           ...currentSettings.filter,

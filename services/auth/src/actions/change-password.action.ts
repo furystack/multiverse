@@ -12,11 +12,11 @@ export const ChangePasswordAction: RequestAction<{
   const userStore = injector.getInstance(StoreManager).getStoreFor<User & { password: string }>(User)
   const { currentPassword, newPassword } = await getBody()
 
-  const [userToUpdate] = await userStore.search({
+  const [userToUpdate] = await userStore.find({
     top: 1,
     filter: {
-      username: currentUser.username,
-      password: authSettings.hashMethod(currentPassword),
+      username: { $eq: currentUser.username },
+      password: { $eq: authSettings.hashMethod(currentPassword) },
     },
   })
   if (!userToUpdate) {

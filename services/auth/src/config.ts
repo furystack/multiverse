@@ -14,6 +14,7 @@ injector
   .setupStores((sm) =>
     sm
       .useMongoDb({
+        primaryKey: '_id',
         model: GoogleAccount,
         url: databases['common-auth'].mongoUrl,
         db: databases['common-auth'].dbName,
@@ -21,6 +22,7 @@ injector
         options: databases.standardOptions,
       })
       .useMongoDb({
+        primaryKey: '_id',
         model: GithubAccount,
         url: databases['common-auth'].mongoUrl,
         db: databases['common-auth'].dbName,
@@ -28,6 +30,7 @@ injector
         options: databases.standardOptions,
       })
       .useMongoDb({
+        primaryKey: '_id',
         model: Profile,
         url: databases['common-auth'].mongoUrl,
         db: databases['common-auth'].dbName,

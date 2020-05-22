@@ -1,4 +1,4 @@
-import { PartialResult, SearchOptions } from '@furystack/core'
+import { PartialResult, FindOptions } from '@furystack/core'
 import Semaphore from 'semaphore-async-await'
 import { Disposable, debounce, ObservableValue } from '@furystack/utils'
 
@@ -8,7 +8,7 @@ export interface CollectionData<T> {
 }
 
 export type EntryLoader<T> = <TFields extends Array<keyof T>>(
-  searchOptions: SearchOptions<T, TFields>,
+  searchOptions: FindOptions<T, TFields>,
 ) => Promise<CollectionData<PartialResult<T, TFields[number]>>>
 
 export class CollectionService<T> implements Disposable {
@@ -29,14 +29,14 @@ export class CollectionService<T> implements Disposable {
 
   public isLoading = new ObservableValue<boolean>(false)
 
-  public querySettings: ObservableValue<SearchOptions<T, any>>
+  public querySettings: ObservableValue<FindOptions<T, Array<keyof T>>>
 
   public focus = new ObservableValue<T | undefined>()
 
   public selection = new ObservableValue<T[]>([])
 
-  constructor(fetch: EntryLoader<T>, defaultSettings: SearchOptions<T, any>) {
-    this.querySettings = new ObservableValue<SearchOptions<T, any>>(defaultSettings)
+  constructor(fetch: EntryLoader<T>, defaultSettings: FindOptions<T, Array<keyof T>>) {
+    this.querySettings = new ObservableValue<FindOptions<T, Array<keyof T>>>(defaultSettings)
     this.getEntries = debounce(async (options) => {
       await this.loadLock.acquire()
       try {

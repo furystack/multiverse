@@ -5,6 +5,6 @@ export const GetShops: RequestAction<{
   result: xpense.Shop[]
 }> = async ({ injector }) => {
   const ds = injector.getDataSetFor<xpense.Shop>('shops')
-  const entries = await ds.filter(injector, {})
+  const entries = await ds.find(injector, {})
   return JsonResult(entries as xpense.Shop[])
 }

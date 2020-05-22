@@ -14,14 +14,14 @@ export const GithubLoginAction: RequestAction<{ body: { code: string; clientId: 
   const existingGhUsers = await injector
     .getInstance(StoreManager)
     .getStoreFor(GithubAccount)
-    .search({ filter: { githubId: { $eq: githubApiPayload.id } }, top: 2 })
+    .find({ filter: { githubId: { $eq: githubApiPayload.id } }, top: 2 })
   if (existingGhUsers.length === 0) {
     throw new RequestError(`Github user not registered`, 500)
   }
   const users = await injector
     .getInstance(StoreManager)
     .getStoreFor(User)
-    .search({ filter: { username: { $eq: existingGhUsers[0].username } }, top: 2 })
+    .find({ filter: { username: { $eq: existingGhUsers[0].username } }, top: 2 })
   if (users.length !== 1) {
     throw new RequestError(`Found '${users.length}' associated user(s)`, 500)
   }

@@ -7,7 +7,7 @@ export const GetReplenishment: RequestAction<{
 }> = async ({ injector, getUrlParams }) => {
   const { replenishmentId } = getUrlParams()
   const ds = injector.getDataSetFor<xpense.Replenishment>('replenishments')
-  const [replenishment] = await ds.filter(injector, { filter: { _id: { $eq: replenishmentId } }, top: 1 })
+  const [replenishment] = await ds.find(injector, { filter: { _id: { $eq: replenishmentId } }, top: 1 })
   if (!replenishment) {
     throw new RequestError(`Replenishment with id '${replenishmentId}' not found`, 404)
   }

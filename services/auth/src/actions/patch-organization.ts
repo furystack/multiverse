@@ -9,7 +9,7 @@ export const PatchOrganization: RequestAction<{
   const dataSet = injector.getDataSetFor(Organization)
   const { organizationName } = getUrlParams()
   const patchData = await getBody()
-  const [existing] = await dataSet.filter(injector, { top: 1, filter: { name: organizationName } })
+  const [existing] = await dataSet.find(injector, { top: 1, filter: { name: { $eq: organizationName } } })
 
   if (!existing) {
     throw new RequestError(`Organization with name '${organizationName}' does not exists`, 404)

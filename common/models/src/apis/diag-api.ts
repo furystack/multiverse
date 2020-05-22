@@ -1,4 +1,4 @@
-import { PartialResult, SearchOptions } from '@furystack/core'
+import { PartialResult, FindOptions } from '@furystack/core'
 import { LogLevel } from '@furystack/logging'
 import { RestApi, RequestAction } from '@furystack/rest'
 import { LogEntry } from '../log-entry'
@@ -16,7 +16,7 @@ export interface DiagLogEntryQuerySettings {
 export interface DiagApi extends RestApi {
   GET: {
     '/logEntries': RequestAction<{
-      query: { filter: SearchOptions<LogEntry<any>, any> }
+      query: { filter: FindOptions<LogEntry<any>, any> }
       result: { count: number; entries: Array<PartialResult<LogEntry<any>, any>> }
     }>
     '/logEntry/:_id': RequestAction<{
