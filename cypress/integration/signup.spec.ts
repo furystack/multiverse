@@ -34,6 +34,6 @@ describe('Sign up', () => {
     cy.get('input[required][title=Password]').should('be.visible').type('asdasd123')
     cy.get('input[required][title="Confirm password"]').should('be.visible').type('asdasd123')
     cy.get('button[title=Register]').click()
-    cy.get('h2').contains('Failed to sign up :(').should('be.visible')
+    cy.contains('Failed to sign up :(').should('be.visible')
   })
 })
