@@ -9,11 +9,11 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/uuid": "^7.0.2"
+    "@types/uuid": "^8.0.0"
   },
   "dependencies": {
     "@common/models": "1.0.0",
-    "tslib": "^1.10.0",
+    "tslib": "^2.0.0",
     "uuid": "^8.0.0"
   }
 }
