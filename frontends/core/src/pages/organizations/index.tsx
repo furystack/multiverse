@@ -1,7 +1,7 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { CollectionService, AuthApiService } from '@common/frontend-utils'
+import { AuthApiService } from '@common/frontend-utils'
 import { Organization } from '@common/models'
-import { DataGrid, styles, Fab, colors } from '@common/components'
+import { DataGrid, styles, Fab, colors, CollectionService } from '@furystack/shades-common-components'
 
 export const OrganizationsPage = Shade<{}, { service: CollectionService<Organization> }>({
   shadowDomName: 'shade-organizations-page',

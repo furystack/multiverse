@@ -1,5 +1,5 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { Autocomplete, Button } from '@common/components'
+import { Autocomplete, Button } from '@furystack/shades-common-components'
 import { xpense } from '@common/models'
 import { AvailableAccountsContext } from '../services/available-accounts-context'
 

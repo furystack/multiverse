@@ -1,5 +1,5 @@
 import { Shade, createComponent, Router, LocationService } from '@furystack/shades'
-import { styles, Fab, colors } from '@common/components'
+import { styles, Fab, colors } from '@furystack/shades-common-components'
 import { xpense } from '@common/models'
 import { Widget } from '../welcome-page'
 import { Init } from '../init'

@@ -1,5 +1,5 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { Input, Button, styles } from '@common/components'
+import { Input, Button, styles } from '@furystack/shades-common-components'
 import { XpenseApiService } from '@common/frontend-utils'
 import { AvailableAccountsContext } from './services/available-accounts-context'
 

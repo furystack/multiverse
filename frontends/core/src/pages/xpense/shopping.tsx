@@ -1,5 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { styles, Autocomplete, Button, Input, colors } from '@common/components'
+import { styles, Autocomplete, Button, Input, colors } from '@furystack/shades-common-components'
 import { xpense } from '@common/models'
 import { XpenseApiService } from '@common/frontend-utils'
 import { Init } from '../init'

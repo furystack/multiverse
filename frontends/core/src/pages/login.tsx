@@ -1,4 +1,4 @@
-import { colors, Button, Input, styles } from '@common/components'
+import { colors, Button, Input, styles } from '@furystack/shades-common-components'
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { SessionService, getErrorMessage } from '@common/frontend-utils'
 import { tokens } from '@common/config'

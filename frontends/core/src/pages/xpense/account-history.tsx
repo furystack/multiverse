@@ -1,7 +1,7 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { Chart, ChartPoint } from 'chart.js'
 import { xpense } from '@common/models'
-import { colors, Button } from '@common/components'
+import { colors, Button } from '@furystack/shades-common-components'
 
 export const AccountHistory = Shade<{ account: xpense.Account }>({
   shadowDomName: 'xpense-account-history-page',

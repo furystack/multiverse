@@ -1,6 +1,6 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { LogEntry } from '@common/models'
-import { Button, Input, styles } from '@common/components'
+import { Button, Input, styles } from '@furystack/shades-common-components'
 import { DiagApiService } from '@common/frontend-utils'
 import { Init } from '../init'
 import { getLevelIcon } from './get-level-icon'

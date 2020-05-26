@@ -1,5 +1,5 @@
 import { Shade, createComponent, PartialElement } from '@furystack/shades'
-import { Input, Button } from '@common/components'
+import { Input, Button } from '@furystack/shades-common-components'
 import { AuthApiService } from '@common/frontend-utils'
 
 export const ChangePasswordForm = Shade<

@@ -1,6 +1,7 @@
 import { createComponent, Shade, Route, Router, LazyLoad } from '@furystack/shades'
 import { User } from '@common/models'
-import { SessionService, sessionState, promisifyAnimation } from '@common/frontend-utils'
+import { SessionService, sessionState } from '@common/frontend-utils'
+import { promisifyAnimation } from '@furystack/shades-common-components'
 import { Init, WelcomePage, Offline, Login } from '../pages'
 import { Page404 } from '../pages/404'
 import { Loader } from './loader'
