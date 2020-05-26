@@ -1,4 +1,4 @@
-import { Shade, createComponent, RouteLink } from '@furystack/shades'
+import { Shade, createComponent, RouteLink, LocationService } from '@furystack/shades'
 import { LogLevel } from '@furystack/logging'
 import { LogEntry } from '@common/models'
 import { DataGrid, styles } from '@common/components'
@@ -31,7 +31,7 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
       { top: 20, order: { creationDate: 'DESC' } },
     ),
   }),
-  render: ({ getState }) => {
+  render: ({ getState, injector }) => {
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <DataGrid<LogEntry<any>>
@@ -47,13 +47,13 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
           }}
           headerComponents={{}}
           rowComponents={{
-            level: (entry) => (
-              <RouteLink href={`/sys-logs/${entry._id}`}>
-                <LogLevelCell level={entry.level} />
-              </RouteLink>
-            ),
+            level: (entry) => <LogLevelCell level={entry.level} />,
             message: (entry) => <span style={{ wordBreak: 'break-all' }}>{entry.message}</span>,
             creationDate: (entry) => <span>{entry.creationDate.toString().replace(/([T|Z])/g, ' ')}</span>,
+          }}
+          onDoubleClick={(entry) => {
+            window.history.pushState('', '', `/sys-logs/${entry._id}`)
+            injector.getInstance(LocationService).updateState()
           }}
         />
       </div>
