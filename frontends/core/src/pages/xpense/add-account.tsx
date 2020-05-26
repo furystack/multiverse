@@ -1,4 +1,4 @@
-import { Shade, createComponent } from '@furystack/shades'
+import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { Input, Button, styles } from '@common/components'
 import { XpenseApiService } from '@common/frontend-utils'
 import { AvailableAccountsContext } from './services/available-accounts-context'
@@ -23,14 +23,29 @@ export const AddXpenseAccountPage = Shade<{}, { name: string; description: strin
               .then(() => {
                 injector.getInstance(AvailableAccountsContext).reload()
                 history.pushState({}, '', '/xpense')
+                injector.getInstance(LocationService).updateState()
               })
           }}>
-          <Input required type="text" labelTitle="Icon" onTextChange={(value) => updateState({ icon: value }, true)} />
-          <Input required type="text" labelTitle="Name" onTextChange={(value) => updateState({ name: value }, true)} />
           <Input
+            name="icon"
+            required
+            type="text"
+            labelTitle="Icon"
+            onTextChange={(value) => updateState({ icon: value }, true)}
+          />
+          <Input
+            name="name"
+            required
+            type="text"
+            labelTitle="Name"
+            onTextChange={(value) => updateState({ name: value }, true)}
+          />
+          <Input
+            name="description"
             type="text"
             labelTitle="Description"
             multiLine
+            className="account-description"
             onchange={(ev) => updateState({ description: (ev.target as any).value }, true)}
           />
           <Button type="button" onclick={() => history.back()} style={{ marginRight: '2em' }}>

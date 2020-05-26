@@ -1,4 +1,4 @@
-import { Shade, createComponent, Router } from '@furystack/shades'
+import { Shade, createComponent, Router, LocationService } from '@furystack/shades'
 import { styles, Fab, colors } from '@common/components'
 import { Widget } from '../welcome-page'
 import { AccountContext } from './account-context'
@@ -8,13 +8,14 @@ export const XpensePage = Shade<
   { accountOwner?: string; accountType?: 'user' | 'organization'; accountName: string },
   { availableAccounts?: AvailableAccount[] }
 >({
+  shadowDomName: 'xpense-index',
   getInitialState: () => ({ availableAccounts: [] }),
   constructed: ({ injector, updateState }) => {
     injector
       .getInstance(AvailableAccountsContext)
       .accounts.then((availableAccounts) => updateState({ availableAccounts }))
   },
-  render: ({ getState }) => {
+  render: ({ getState, injector }) => {
     return (
       <div style={{ ...styles.glassBox, height: 'calc(100% - 2px)', width: 'calc(100% - 2px)' }}>
         <Router
@@ -42,7 +43,10 @@ export const XpensePage = Shade<
                 <Fab
                   style={{ backgroundColor: colors.primary.main }}
                   title="Create Account"
-                  onclick={() => history.pushState({}, '', '/xpense/add-account')}>
+                  onclick={() => {
+                    history.pushState({}, '', '/xpense/add-account')
+                    injector.getInstance(LocationService).updateState()
+                  }}>
                   ➕
                 </Fab>
               </div>
