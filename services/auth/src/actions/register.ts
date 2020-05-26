@@ -18,14 +18,14 @@ export const RegisterAction: RequestAction<{ body: { email: string; password: st
     throw new RequestError('Failed to register user', 400)
   }
   const userCtx = injector.getInstance(HttpUserContext)
-  const newUser = {
+  const { created } = await userStore.add({
     username: email,
     password: userCtx.authentication.hashMethod(password),
     roles: ['terms-accepted'],
     registrationDate: new Date().toISOString(),
-  } as User
-  await userStore.add(newUser)
-  await storeManager.getStoreFor(Profile).add({ username: newUser.username, displayName: newUser.username } as Profile)
+  })
+  const newUser = created[0]
+  await storeManager.getStoreFor(Profile).add({ username: newUser.username, displayName: newUser.username })
   await userCtx.cookieLogin(newUser, response)
 
   delete newUser.password

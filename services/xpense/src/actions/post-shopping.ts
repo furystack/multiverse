@@ -24,15 +24,16 @@ export const PostShopping: RequestAction<{
     throw new RequestError('Account not found!', 404)
   }
 
-  const createdShopping = {
+  const { created } = await injector.getDataSetFor<xpense.Shopping>('shoppings').add(injector, {
     createdBy: currentUser.username,
     entries: body.entries,
     creationDate: new Date(body.creationDate).toISOString(),
     accountId: account._id,
     sumAmount: body.entries.reduce((last, current) => last + current.unitPrice * current.amount, 0),
     shopName: body.shopName,
-  } as xpense.Shopping
-  await injector.getDataSetFor<xpense.Shopping>('shoppings').add(injector, createdShopping)
+  })
+
+  const createdShopping = created[0]
 
   ensureItemsForShopping({ injector, shopping: createdShopping })
   await recalculateHistory({ injector, account })

@@ -15,16 +15,16 @@ export const AttachGithubAccount: RequestAction<{ body: { code: string; clientId
   const ghAccountStore = injector.getInstance(StoreManager).getStoreFor(GithubAccount)
   const registrationDate = new Date().toISOString()
 
-  const githubAccount = await ghAccountStore.add({
+  const { created } = await ghAccountStore.add({
     accountLinkDate: registrationDate,
     username: currentUser.username,
     githubId: githubApiPayload.id,
     githubApiPayload,
-  } as GithubAccount)
+  })
 
   logger.information({
     message: `Github account '${githubApiPayload.name}' has been attached to user '${currentUser.username}' `,
-    data: { user: currentUser, githubAccount },
+    data: { user: currentUser, githubAccount: created[0] },
   })
 
   return JsonResult(currentUser)

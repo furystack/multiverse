@@ -9,12 +9,10 @@ export const PostShop: RequestAction<{ result: xpense.Shop; body: { name: string
   const ds = injector.getDataSetFor<xpense.Shop>('shops')
   const currentUser = await injector.getCurrentUser()
 
-  const created = {
+  const { created } = await ds.add(injector, {
     ...postData,
     createdBy: currentUser.username,
     creationDate: new Date().toISOString(),
-  } as xpense.Shop
-
-  await ds.add(injector, created)
-  return JsonResult(created)
+  })
+  return JsonResult(created[0])
 }

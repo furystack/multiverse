@@ -92,21 +92,21 @@
     lodash.once "^4.1.1"
 
 "@furystack/auth-google@^4.0.0":
-  version "4.0.34"
-  resolved "https://registry.yarnpkg.com/@furystack/auth-google/-/auth-google-4.0.34.tgz#e7337cb5e262703df5a4d1b72aa7d8173e9d50f7"
-  integrity sha512-f8A376w8xH/ZQ8xEUbM9/Xip7P0RZGkuYTWq0o5+AW009Sz+sxSsHiZBrHAW7I13lfDKyKgTK9LtpsW7F5jqfQ==
+  version "4.0.35"
+  resolved "https://registry.yarnpkg.com/@furystack/auth-google/-/auth-google-4.0.35.tgz#f5018100ed6b1712e7d5dec0094bb627baa49781"
+  integrity sha512-BkftKA5ST+lxoUfLzchVf3wvghBg6lIk5d5JVwYW0ubGCOBltvxdNNLoJ4ErCLvIyBhlIPJ8hNNLBeXfrMqkww==
   dependencies:
-    "@furystack/core" "^9.0.1"
+    "@furystack/core" "^9.1.0"
     "@furystack/inject" "^4.0.29"
     "@furystack/rest" "^1.1.13"
-    "@furystack/rest-service" "^2.1.4"
+    "@furystack/rest-service" "^2.1.5"
     "@furystack/utils" "^1.1.19"
     tslib "^2.0.0"
 
-"@furystack/core@^9.0.0", "@furystack/core@^9.0.1":
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/@furystack/core/-/core-9.0.1.tgz#12ba64a4833d6bebe200648a031a1521b14f779d"
-  integrity sha512-Pe7498J3kn24rY2Ob/QyD8tnSIKBnECR8s6ZN1fMYZpuwWgpA8UZw/GDdV4skeFHwfyrq+7hDGEsKb5/nVEUEQ==
+"@furystack/core@^9.0.0", "@furystack/core@^9.0.1", "@furystack/core@^9.1.0":
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/@furystack/core/-/core-9.1.0.tgz#d422b237bd502ad9e8f616294bcb421098d21cb4"
+  integrity sha512-19lLvyz77Dc+YGecIh8+9BH4JMq5byG0zI81QsNAT93JHabv09hMo3zJie9JxphHRx7AGcSSJXfri8zdCuLqDQ==
   dependencies:
     "@furystack/inject" "^4.0.29"
     "@furystack/logging" "^2.0.36"
@@ -132,11 +132,11 @@
     tslib "^2.0.0"
 
 "@furystack/mongodb-store@^3.0.0":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@furystack/mongodb-store/-/mongodb-store-3.0.1.tgz#304908691d00c47a25f59ea32a6ee99cdfa69875"
-  integrity sha512-/k6AS4edGOxEDHVZMOENyz0Rug8cNHQ9d1U17EFJ3XrPjDQlT8YNF5yVedHaqeEaQCdzkO/tJthVejPNFBKBAQ==
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@furystack/mongodb-store/-/mongodb-store-3.1.2.tgz#f2baa39a5f45b6b84e93b2aed27b609411866dc2"
+  integrity sha512-7wu+3xwSM8Gxmn9nxWj2u1oE9tNsnPHZLhw9/v94cjW9RqsDPRhM/TzJr8ncyZkbbKGzJDh9hm5SY3F0xHQRwQ==
   dependencies:
-    "@furystack/core" "^9.0.1"
+    "@furystack/core" "^9.1.0"
     "@furystack/inject" "^4.0.29"
     "@furystack/logging" "^2.0.36"
     "@furystack/utils" "^1.1.19"
@@ -146,11 +146,11 @@
     tslib "^2.0.0"
 
 "@furystack/repository@^2.0.16", "@furystack/repository@^2.0.9":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@furystack/repository/-/repository-2.1.1.tgz#1639a4cf5161bf935228d2c516c1c798b21030c3"
-  integrity sha512-iMnE1jgawjHFaBf+9Z9yFWd/6SLPRLGvYtp0DvIC2w1mhswhflANqEbxoWQDowVPqgwVg2s9A08CBcPd/RQQgw==
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@furystack/repository/-/repository-2.2.1.tgz#b9d1b0bf7cc480bff2a7453cac537305ba8df0d4"
+  integrity sha512-yUVz7zb69EPBUS/AQbLkPEWO7a/WMuNIceLrF9YA8zQ7i8CJnLHkEkA8TUB7X0XiP9F5YA4kG270cBA6PZSE0A==
   dependencies:
-    "@furystack/core" "^9.0.1"
+    "@furystack/core" "^9.1.0"
     "@furystack/inject" "^4.0.29"
     "@furystack/logging" "^2.0.36"
     "@furystack/utils" "^1.1.19"
@@ -168,12 +168,12 @@
     path-to-regexp "^6.1.0"
     tslib "^2.0.0"
 
-"@furystack/rest-service@^2.0.0", "@furystack/rest-service@^2.1.4":
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/@furystack/rest-service/-/rest-service-2.1.4.tgz#0afa0b878594cf513921ec347d76a9e68ca7cb59"
-  integrity sha512-HnZgaPqDOMlZHz8WGhoLQEi8vv/zdqQCwSMyHaMc6aBmzMMSCMmq8gm4DDGXLBAjMmySSVz8SczvXb4tkHMU5Q==
+"@furystack/rest-service@^2.0.0", "@furystack/rest-service@^2.1.5":
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/@furystack/rest-service/-/rest-service-2.1.5.tgz#fbeb39a241254c296a9ea0a142bc49609e3b86b4"
+  integrity sha512-tdRzgqVqvw1pw+YFbFOcrmCVljMdE8I1AnXpUs/NW2LPf5ygBl0w++X0yzw+hcQIRERoUYQ8xhqTWRXoN3JaNA==
   dependencies:
-    "@furystack/core" "^9.0.1"
+    "@furystack/core" "^9.1.0"
     "@furystack/inject" "^4.0.29"
     "@furystack/logging" "^2.0.36"
     "@furystack/rest" "^1.1.13"
@@ -193,9 +193,9 @@
     tslib "^2.0.0"
 
 "@furystack/shades@^3.0.0":
-  version "3.2.10"
-  resolved "https://registry.yarnpkg.com/@furystack/shades/-/shades-3.2.10.tgz#7aa08e9afda904ec586b3f538cd484a98d67929c"
-  integrity sha512-iLcAkatsER3QmPeeH1wWfSXByryranKbfiFUHhOSQ+tpaK/cET/lqRXK2TI6YozpaFrwZ/zdDgpUxwucg7EJ6g==
+  version "3.2.13"
+  resolved "https://registry.yarnpkg.com/@furystack/shades/-/shades-3.2.13.tgz#b9f28e95d2691138120ff33d053552886c4723a9"
+  integrity sha512-pcSt2pDPr9VElb1Npk48kb8WgntYTZM8otmCCAh8zdCrVLJp4z1CC1QtEoxJpBbFOqH4WljhdNlmcUB9L2Eb+w==
   dependencies:
     "@furystack/core" "^9.0.1"
     "@furystack/inject" "^4.0.29"
@@ -3617,9 +3617,9 @@ forever-agent@~0.6.1:
   integrity sha1-+8cfDEGt6zf5bFd60e1C2P2sypE=
 
 fork-ts-checker-webpack-plugin@^4.1.2:
-  version "4.1.4"
-  resolved "https://registry.yarnpkg.com/fork-ts-checker-webpack-plugin/-/fork-ts-checker-webpack-plugin-4.1.4.tgz#f0dc3ece19ec5b792d7b8ecd2a7f43509a5285ce"
-  integrity sha512-R0nTlZSyV0uCCzYe1kgR7Ve8mXyDvMm1pJwUFb6zzRVF5rTNb24G6gn2DFQy+W5aJYp2eq8aexpCOO+1SCyCSA==
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/fork-ts-checker-webpack-plugin/-/fork-ts-checker-webpack-plugin-4.1.5.tgz#780d52c65183742d8c885fff42a9ec9ea7006672"
+  integrity sha512-nuD4IDqoOfkEIlS6shhjLGaLBDSNyVJulAlr5lFbPe0saGqlsTo+/HmhtIrs/cNLFtmaudL10byivhxr+Qhh4w==
   dependencies:
     "@babel/code-frame" "^7.5.5"
     chalk "^2.4.1"
@@ -8138,9 +8138,9 @@ tryer@^1.0.1:
   integrity sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA==
 
 ts-loader@^7.0.0:
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-7.0.4.tgz#5d9b95227de5afb91fdd9668f8920eb193cfe0cc"
-  integrity sha512-5du6OQHl+4ZjO4crEyoYUyWSrmmo7bAO+inkaILZ68mvahqrfoa4nn0DRmpQ4ruT4l+cuJCgF0xD7SBIyLeeow==
+  version "7.0.5"
+  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-7.0.5.tgz#789338fb01cb5dc0a33c54e50558b34a73c9c4c5"
+  integrity sha512-zXypEIT6k3oTc+OZNx/cqElrsbBtYqDknf48OZos0NQ3RTt045fBIU8RRSu+suObBzYB355aIPGOe/3kj9h7Ig==
   dependencies:
     chalk "^2.3.0"
     enhanced-resolve "^4.0.0"

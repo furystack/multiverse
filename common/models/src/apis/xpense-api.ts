@@ -1,4 +1,5 @@
 import { RestApi, RequestAction } from '@furystack/rest'
+import { FindOptions, PartialResult } from '@furystack/core'
 import { Account, Shop, Item, Replenishment, Shopping } from '../xpense'
 
 export interface XpenseApi extends RestApi {
@@ -19,6 +20,14 @@ export interface XpenseApi extends RestApi {
     '/:type/:owner/:accountName': RequestAction<{
       result: Account
       urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
+    }>
+    '/:type/:owner/:accountName/shoppings': RequestAction<{
+      query: { filter: FindOptions<Shopping, any> }
+      result: { count: number; entries: Array<PartialResult<Shopping, any>> }
+    }>
+    '/:type/:owner/:accountName/replenishments': RequestAction<{
+      query: { filter: FindOptions<Replenishment, any> }
+      result: { count: number; entries: Array<PartialResult<Replenishment, any>> }
     }>
   }
   POST: {

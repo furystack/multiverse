@@ -37,16 +37,16 @@ export const AttachGoogleAccountAction: RequestAction<{ body: { token: string };
     throw new RequestError('Google account already registered.', 401)
   }
 
-  const googleAccount = await googleAcccounts.add({
+  const { created } = await googleAcccounts.add({
     googleId: googleUserData.sub,
     googleApiPayload: googleUserData,
     username: currentUser.username,
     accountLinkDate: registrationDate,
-  } as GoogleAccount)
+  })
 
   logger.information({
     message: `User ${currentUser.username} has attached a Google account.`,
-    data: { user: currentUser, googleAccount },
+    data: { user: currentUser, googleAccount: created[0] },
   })
 
   return JsonResult(currentUser as User)

@@ -15,7 +15,7 @@ export const XpenseShoppingPage = Shade<
   getInitialState: () => ({
     shopName: '',
     entries: [],
-    date: new Date().toISOString(),
+    date: new Date().toISOString().replace('Z', ''),
   }),
   render: ({ props, getState, updateState, element, injector }) => {
     const { error, isSaveInProgress } = getState()
@@ -122,7 +122,7 @@ export const XpenseShoppingPage = Shade<
             labelTitle="Shopping date"
             required={true}
             onTextChange={(date) => updateState({ date }, true)}
-            value={getState().date}
+            defaultValue={getState().date}
           />
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {getState().entries.map((entry, index) => (

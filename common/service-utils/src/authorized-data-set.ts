@@ -9,7 +9,7 @@ export const authorizedOnly = async (options: { injector: Injector }) => {
   }
 }
 
-export const authorizedDataSet: Partial<DataSetSettings<any>> = {
+export const authorizedDataSet: Partial<DataSetSettings<any, any>> = {
   authorizeAdd: authorizedOnly,
   authorizeGet: authorizedOnly,
   authorizeRemove: authorizedOnly,

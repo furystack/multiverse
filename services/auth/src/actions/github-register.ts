@@ -26,26 +26,27 @@ export const GithubRegisterAction: RequestAction<{ body: { code: string; clientI
     throw new RequestError(`Github user already registered`, 401)
   }
 
-  const newUser = {
+  const { created } = await storeManager.getStoreFor(User).add({
     password: '',
     roles: ['terms-accepted'],
     username: githubApiPayload.email || `${githubApiPayload.login}@github.com`,
     registrationDate,
-  } as User
-  await storeManager.getStoreFor(User).add(newUser)
+  })
+
+  const newUser = created[0]
 
   await storeManager.getStoreFor(GithubAccount).add({
     accountLinkDate: registrationDate,
     username: newUser.username,
     githubId: githubApiPayload.id,
     githubApiPayload,
-  } as GithubAccount)
+  })
 
   await storeManager.getStoreFor(Profile).add({
     username: newUser.username,
     displayName: newUser.username,
-    avatarUrl: githubApiPayload.avatar_url || undefined,
-  } as Profile)
+    avatarUrl: githubApiPayload.avatar_url,
+  })
 
   await injector.getInstance(HttpUserContext).cookieLogin(newUser, response)
   delete newUser.password

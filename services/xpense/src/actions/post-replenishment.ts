@@ -1,6 +1,5 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { xpense } from '@common/models'
-import { ObjectId } from 'mongodb'
 import { recalculateHistory } from '../services/recalculate-history'
 
 export const PostReplenishment: RequestAction<{
@@ -20,16 +19,14 @@ export const PostReplenishment: RequestAction<{
     throw new RequestError('Account not found!', 404)
   }
 
-  const createdReplenishment = {
+  const { created } = await injector.getDataSetFor<xpense.Replenishment>('replenishments').add(injector, {
     ...body,
-    _id: new ObjectId().toHexString(),
     creationDate: new Date(body.creationDate).toISOString(),
     createdBy: currentUser.username,
     accountId: account._id,
-  } as xpense.Replenishment
-  await injector.getDataSetFor<xpense.Replenishment>('replenishments').add(injector, createdReplenishment)
+  })
 
   await recalculateHistory({ injector, account })
 
-  return JsonResult(createdReplenishment)
+  return JsonResult(created[0])
 }

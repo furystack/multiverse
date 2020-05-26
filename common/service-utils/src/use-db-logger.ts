@@ -32,7 +32,7 @@ export class DbLogger extends AbstractLogger implements Disposable {
         ...entry,
         creationDate: new Date(),
         appName: this.settings.appName,
-      } as LogEntry<T>))
+      }))
   }
 
   constructor(private injector: Injector, private readonly settings: DbLoggerSettings) {

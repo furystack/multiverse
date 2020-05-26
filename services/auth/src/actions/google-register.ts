@@ -40,14 +40,15 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string }; resu
     throw new RequestError('Google account already registered.', 401)
   }
 
-  const userToAdd = {
+  const { created } = await users.add({
     password: '',
     roles: ['terms-accepted'],
     registrationDate,
     username: googleUserData.email,
-  } as User
+  })
 
-  await users.add(userToAdd)
+  const userToAdd = created[0]
+
   delete userToAdd.password
 
   await googleAcccounts.add({
@@ -55,13 +56,13 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string }; resu
     googleApiPayload: googleUserData,
     username: googleUserData.email,
     accountLinkDate: registrationDate,
-  } as GoogleAccount)
+  })
 
   await storeManager.getStoreFor(Profile).add({
     username: userToAdd.username,
     displayName: googleUserData.name,
     avatarUrl: googleUserData.picture,
-  } as Profile)
+  })
 
   logger.information({
     message: `User ${userToAdd.username} has been registered with Google Auth.`,

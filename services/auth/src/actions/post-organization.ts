@@ -8,7 +8,6 @@ export const PostOrganization: RequestAction<{ body: Omit<Organization, '_id'>; 
   const dataSet = injector.getDataSetFor<Organization>('organizations')
   const currentUser = await injector.getCurrentUser()
   const postData = await getBody()
-  const newOrg = { ...postData, ownerName: currentUser.username } as Organization
-  await dataSet.add(injector, newOrg)
-  return JsonResult(newOrg)
+  const { created } = await dataSet.add(injector, { ...postData, ownerName: currentUser.username })
+  return JsonResult(created[0])
 }
