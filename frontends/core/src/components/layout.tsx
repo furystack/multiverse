@@ -1,10 +1,10 @@
 import { createComponent, Shade, Router, LazyLoad } from '@furystack/shades'
 import { DocsPage } from '../pages/docs'
 import { ContactPage } from '../pages/contact'
+import { Init } from '../pages'
 import { Body } from './body'
 import { Header } from './header'
 import { CurrentUserMenu } from './current-user-menu'
-import { Loader } from './loader'
 
 export const Layout = Shade({
   shadowDomName: 'shade-app-layout',
@@ -44,7 +44,7 @@ export const Layout = Shade({
                     const { GithubLogin } = await import(/* webpackChunkName: "github-login" */ '../pages/github/login')
                     return <GithubLogin code={currentUrl.search.replace('?', '').split('=')[1]} />
                   }}
-                  loader={<Loader />}
+                  loader={<Init message="Loading Github Login..." />}
                 />
               ),
             },
@@ -58,7 +58,7 @@ export const Layout = Shade({
                     )
                     return <GithubRegister code={currentUrl.search.replace('?', '').split('=')[1]} />
                   }}
-                  loader={<Loader />}
+                  loader={<Init message="Loading Github Registration..." />}
                 />
               ),
             },
@@ -72,7 +72,7 @@ export const Layout = Shade({
                     )
                     return <GithubAttach code={currentUrl.search.replace('?', '').split('=')[1]} />
                   }}
-                  loader={<Loader />}
+                  loader={<Init message="Loading Github Attach..." />}
                 />
               ),
             },

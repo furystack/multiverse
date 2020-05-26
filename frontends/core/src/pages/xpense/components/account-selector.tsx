@@ -18,10 +18,15 @@ export const AccountSelector = Shade<
       : '',
   }),
   constructed: async ({ injector, updateState }) => {
-    const accounts = await injector.getInstance(AvailableAccountsContext).accounts
-    updateState({
-      accountNames: accounts.map((a) => `${a.ownerType}/${a.ownerName}/${a.name}`),
-    })
+    const disposable = injector.getInstance(AvailableAccountsContext).accounts.subscribe((accounts) =>
+      updateState(
+        {
+          accountNames: accounts.map((a) => `${a.ownerType}/${a.ownerName}/${a.name}`),
+        },
+        true,
+      ),
+    )
+    return () => disposable.dispose()
   },
   render: ({ injector, updateState, getState, props }) => {
     const { accountNames, selectedAccountName } = getState()

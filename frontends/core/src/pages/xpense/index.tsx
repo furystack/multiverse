@@ -1,21 +1,31 @@
 import { Shade, createComponent, Router, LocationService } from '@furystack/shades'
 import { styles, Fab, colors } from '@common/components'
 import { Widget } from '../welcome-page'
+import { Init } from '../init'
 import { AccountContext } from './account-context'
 import { AvailableAccountsContext, AvailableAccount } from './services/available-accounts-context'
 
 export const XpensePage = Shade<
   { accountOwner?: string; accountType?: 'user' | 'organization'; accountName: string },
-  { availableAccounts?: AvailableAccount[] }
+  { availableAccounts: AvailableAccount[]; isLoading: boolean }
 >({
   shadowDomName: 'xpense-index',
-  getInitialState: () => ({ availableAccounts: [] }),
+  getInitialState: () => ({ availableAccounts: [], isLoading: true }),
   constructed: ({ injector, updateState }) => {
-    injector
-      .getInstance(AvailableAccountsContext)
-      .accounts.then((availableAccounts) => updateState({ availableAccounts }))
+    const accountsCtx = injector.getInstance(AvailableAccountsContext)
+    const disposables = [
+      accountsCtx.isLoading.subscribe((isLoading) => {
+        updateState({ isLoading })
+      }, true),
+      accountsCtx.accounts.subscribe((availableAccounts) => updateState({ availableAccounts }), true),
+    ]
+    return () => disposables.map((d) => d.dispose())
   },
   render: ({ getState, injector }) => {
+    const state = getState()
+    if (state.isLoading) {
+      return <Init message="Loading Accounts..." />
+    }
     return (
       <div style={{ ...styles.glassBox, height: 'calc(100% - 2px)', width: 'calc(100% - 2px)' }}>
         <Router
@@ -31,7 +41,7 @@ export const XpensePage = Shade<
                   flexWrap: 'wrap',
                   overflow: 'auto',
                 }}>
-                {getState().availableAccounts?.map((account, index) => (
+                {state.availableAccounts?.map((account, index) => (
                   <Widget
                     icon={account.icon || (account.ownerType === 'user' ? '🧑' : '🏢')}
                     name={account.name}

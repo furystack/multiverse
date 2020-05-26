@@ -1,4 +1,4 @@
-import { Shade, createComponent } from '@furystack/shades'
+import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { User } from '@common/models'
 import { Avatar, styles } from '@common/components'
 import { SessionService, serviceList } from '@common/frontend-utils'
@@ -81,6 +81,7 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
                   title={service.name}
                   onclick={() => {
                     history.pushState({}, service.name, service.url)
+                    injector.getInstance(LocationService).updateState()
                   }}
                 />
               ))}

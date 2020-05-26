@@ -2,6 +2,7 @@ import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { xpense } from '@common/models'
 
 export const SelectedAccountHeader = Shade<{ area: string; account: xpense.Account }>({
+  shadowDomName: 'xpense-selected-account-header',
   render: ({ props }) => {
     return (
       <div>
@@ -24,7 +25,7 @@ export const SelectedAccountHeader = Shade<{ area: string; account: xpense.Accou
               🏢 {props.account.ownerName}{' '}
             </RouteLink>
           )}
-          &nbsp; 💲{props.account.current.toString()}{' '}
+          &nbsp; <span className="balance">💲{props.account.current.toString()}</span>
         </h5>
       </div>
     )

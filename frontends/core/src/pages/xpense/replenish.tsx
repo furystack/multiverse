@@ -10,7 +10,7 @@ export const ReplenishPage = Shade<
 >({
   getInitialState: () => ({
     amount: 0,
-    date: new Date().toISOString(),
+    date: new Date().toISOString().split('.')[0],
   }),
   shadowDomName: 'replenish-page',
   render: ({ props, getState, updateState, injector }) => {
@@ -48,6 +48,9 @@ export const ReplenishPage = Shade<
         <form
           onsubmit={async (ev) => {
             ev.preventDefault()
+            if (!confirm(`Dou you really want to replenish '${props.name}' with ${getState().amount}?`)) {
+              return
+            }
             try {
               const state = getState()
               const replenishment = await injector.getInstance(XpenseApiService).call({
@@ -68,12 +71,13 @@ export const ReplenishPage = Shade<
           }}>
           <Input
             labelTitle="Replenishment date"
-            value={getState().date}
+            defaultValue={getState().date}
             type="datetime-local"
             required={true}
             onTextChange={(date) => updateState({ date }, true)}
           />
           <Input
+            name="amount"
             labelTitle="Amount"
             type="number"
             value={getState().amount.toString()}
@@ -83,6 +87,7 @@ export const ReplenishPage = Shade<
             required
           />
           <Input
+            name="comment"
             type="text"
             labelTitle="Comment"
             value={getState().comment || ''}

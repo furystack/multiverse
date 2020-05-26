@@ -15,7 +15,7 @@ export const XpenseShoppingPage = Shade<
   getInitialState: () => ({
     shopName: '',
     entries: [],
-    date: new Date().toISOString().replace('Z', ''),
+    date: new Date().toISOString().split('.')[0],
   }),
   render: ({ props, getState, updateState, element, injector }) => {
     const { error, isSaveInProgress } = getState()
