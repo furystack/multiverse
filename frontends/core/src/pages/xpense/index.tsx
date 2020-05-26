@@ -10,14 +10,17 @@ export const XpensePage = Shade<
   { availableAccounts: AvailableAccount[]; isLoading: boolean }
 >({
   shadowDomName: 'xpense-index',
-  getInitialState: () => ({ availableAccounts: [], isLoading: true }),
+  getInitialState: ({ injector }) => ({
+    availableAccounts: injector.getInstance(AvailableAccountsContext).accounts.getValue(),
+    isLoading: injector.getInstance(AvailableAccountsContext).isLoading.getValue(),
+  }),
   constructed: ({ injector, updateState }) => {
     const accountsCtx = injector.getInstance(AvailableAccountsContext)
     const disposables = [
       accountsCtx.isLoading.subscribe((isLoading) => {
         updateState({ isLoading })
-      }, true),
-      accountsCtx.accounts.subscribe((availableAccounts) => updateState({ availableAccounts }), true),
+      }),
+      accountsCtx.accounts.subscribe((availableAccounts) => updateState({ availableAccounts })),
     ]
     return () => disposables.map((d) => d.dispose())
   },
