@@ -88,7 +88,7 @@ injector.setupRepository((repo) =>
         return {
           ...entity,
           createdBy: currentUser.username,
-          creationDate: new Date(),
+          creationDate: new Date().toISOString(),
         }
       },
       authorizeAdd: async ({ injector: i, entity }) => {
