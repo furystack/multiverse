@@ -13,7 +13,7 @@ export const EntryDetails = Shade<{ guid: string }, { entry?: LogEntry<any>; err
       const entry = await injector.getInstance(DiagApiService).call({
         method: 'GET',
         action: '/logEntry/:id',
-        url: { _id: props.guid },
+        url: { id: props.guid },
       })
       updateState({ entry })
     } catch (error) {
