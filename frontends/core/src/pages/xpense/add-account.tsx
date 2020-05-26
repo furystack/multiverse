@@ -10,21 +10,18 @@ export const AddXpenseAccountPage = Shade<{}, { name: string; description: strin
       <div style={{ ...styles.glassBox, padding: '1em' }}>
         <h3>Create new account</h3>
         <form
-          onsubmit={(ev) => {
+          onsubmit={async (ev) => {
             ev.preventDefault()
             const account = getState()
-            injector
-              .getInstance(XpenseApiService)
-              .call({
-                method: 'POST',
-                action: '/accounts',
-                body: account,
-              })
-              .then(() => {
-                injector.getInstance(AvailableAccountsContext).reload()
-                history.pushState({}, '', '/xpense')
-                injector.getInstance(LocationService).updateState()
-              })
+            const created = await injector.getInstance(XpenseApiService).call({
+              method: 'POST',
+              action: '/accounts',
+              body: account,
+            })
+            const accountsService = injector.getInstance(AvailableAccountsContext)
+            accountsService.accounts.setValue([...accountsService.accounts.getValue(), created])
+            history.pushState({}, '', '/xpense')
+            injector.getInstance(LocationService).updateState()
           }}>
           <Input
             name="icon"
