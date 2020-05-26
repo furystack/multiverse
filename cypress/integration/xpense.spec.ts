@@ -36,7 +36,7 @@ describe('Xpense', () => {
     login(cy, 'testuser@gmail.com', 'password')
     cy.get('shade-welcome-screen-widget').contains('Xpense').scrollIntoView().click()
     cy.get('shade-fab div[title="Create Account"]').click()
-    cy.get('input[name=icon]').type('🧪')
+    cy.get('input[name=icon]').clear().type('🧪')
     cy.get('input[name=name]').type(accountName)
     cy.get('div.account-description').type('Test Description')
     cy.get('Button').contains('Create Account').click()

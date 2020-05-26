@@ -146,9 +146,9 @@
     tslib "^2.0.0"
 
 "@furystack/repository@^3.0.0":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@furystack/repository/-/repository-3.0.1.tgz#6df971d84c9c461742896c352d5693cc3300a92e"
-  integrity sha512-1Uz0rGoyiCN0EW43TLoeR8cCD3ScG1PYXdxtAxs1/hD8Hhy6X1FsW3/ygtyvdCnsndUp6mdIy4hqtfqEcNd+LQ==
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@furystack/repository/-/repository-3.0.2.tgz#5f0c74df8bc9ad2b1058da1104f3532052c89241"
+  integrity sha512-auqVFree4sUglcKvv9raH9FFkMSF6NvCsLfALDVkGa3P7GfjGXc1QhSsiulyBmp74/UklRQ+bgThGRWCzH+3BA==
   dependencies:
     "@furystack/core" "^9.1.0"
     "@furystack/inject" "^4.0.29"

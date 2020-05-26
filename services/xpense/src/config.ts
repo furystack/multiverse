@@ -83,6 +83,33 @@ injector.setupRepository((repo) =>
           },
         } as typeof filter
       },
+      modifyOnAdd: async ({ injector: i, entity }) => {
+        const currentUser = await i.getCurrentUser()
+        return {
+          ...entity,
+          createdBy: currentUser.username,
+          creationDate: new Date(),
+        }
+      },
+      authorizeAdd: async ({ injector: i, entity }) => {
+        const currentUser = await i.getCurrentUser()
+        if (entity.ownerType === 'user' && entity.ownerName !== currentUser.username) {
+          return {
+            isAllowed: false,
+            message: 'You can create user account only for yourself',
+          }
+        } else {
+          const orgs = await getOrgsForCurrentUser(i, currentUser)
+          if (!orgs.some((org) => org.name === entity.ownerName || !org.adminNames.includes(currentUser.username))) {
+            return {
+              isAllowed: false,
+              message: 'You can create organization account only for your orgs or if you are admin',
+            }
+          }
+        }
+
+        return { isAllowed: true }
+      },
       authorizeGetEntity: async ({ entity, injector: i }) => {
         const currentUser = await i.getCurrentUser()
         const orgs = await getOrgsForCurrentUser(i, currentUser)
