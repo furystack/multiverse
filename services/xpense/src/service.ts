@@ -1,23 +1,13 @@
 import { sites } from '@common/config'
-import { apis, deserialize } from '@common/models'
-import { attachShutdownHandler } from '@common/service-utils'
-import { injector } from './config'
+import { apis, deserialize, xpense } from '@common/models'
 import {
-  GetItems,
-  GetShops,
-  GetAccount,
-  PostShop,
-  PostItem,
-  PostReplenishment,
-  PostShopping,
-  GetAvailableAccounts,
-  PostAccount,
-  GetReplenishment,
-  GetReplenishments,
-  GetShop,
-  GetShopping,
-  GetShoppings,
-} from './actions'
+  attachShutdownHandler,
+  createCollectionEndpoint,
+  createSingleEntityEndpoint,
+  createSinglePostEndpoint,
+} from '@common/service-utils'
+import { injector } from './config'
+import { PostReplenishment, PostShopping } from './actions'
 
 injector.useRestService<apis.XpenseApi>({
   port: parseInt(sites.services.xpense.internalPort as string, 10),
@@ -25,20 +15,21 @@ injector.useRestService<apis.XpenseApi>({
   root: '/api/xpense',
   api: {
     GET: {
-      '/shops': GetShops,
-      '/items': GetItems,
-      '/:type/:owner/:accountName': GetAccount,
-      '/:type/:owner/:accountName/replenishments': GetReplenishments,
-      '/:type/:owner/:accountName/shoppings': GetShoppings,
-      '/availableAccounts': GetAvailableAccounts,
-      '/replenishments/:replenishmentId': GetReplenishment,
-      '/shops/:shopId': GetShop,
-      '/shopping/:shoppingId': GetShopping,
+      '/shops': createCollectionEndpoint({ model: xpense.Shop }),
+      '/shops/:id': createSingleEntityEndpoint({ model: xpense.Shop }),
+      '/items': createCollectionEndpoint({ model: xpense.Item }),
+      '/items/:id': createSingleEntityEndpoint({ model: xpense.Item }),
+      '/accounts': createCollectionEndpoint({ model: xpense.Account }),
+      '/accounts/:id': createSingleEntityEndpoint({ model: xpense.Account }),
+      '/replenishments': createCollectionEndpoint({ model: xpense.Replenishment }),
+      '/replenishments/:id': createSingleEntityEndpoint({ model: xpense.Replenishment }),
+      '/shoppings': createCollectionEndpoint({ model: xpense.Shopping }),
+      '/shoppings/:id': createSingleEntityEndpoint({ model: xpense.Shopping }),
     },
     POST: {
-      '/items': PostItem,
-      '/shops': PostShop,
-      '/accounts': PostAccount,
+      '/items': createSinglePostEndpoint(xpense.Item),
+      '/shops': createSinglePostEndpoint(xpense.Shop),
+      '/accounts': createSinglePostEndpoint(xpense.Account),
       '/:type/:owner/:accountName/replenish': PostReplenishment,
       '/:type/:owner/:accountName/shop': PostShopping,
     },

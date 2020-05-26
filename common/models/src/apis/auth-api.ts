@@ -1,10 +1,11 @@
 import { RequestAction, RestApi } from '@furystack/rest'
-import { PartialResult, FindOptions } from '@furystack/core'
+import { PartialResult } from '@furystack/core'
 import { User } from '../user'
 import { Profile } from '../profile'
 import { Organization } from '../organization'
 import { GoogleAccount } from '../google-account'
 import { GithubAccount } from '../github-account'
+import { CollectionEndpoint, SinglePostEndpoint } from '../endpoints'
 
 export interface AuthApi extends RestApi {
   GET: {
@@ -15,14 +16,8 @@ export interface AuthApi extends RestApi {
     }>
     '/profiles/:username': RequestAction<{ result: PartialResult<Profile, any>; urlParams: { username: string } }>
     '/profiles/:username/avatar': RequestAction<{ result: any; urlParams: { username: string } }>
-    '/profiles': RequestAction<{
-      query: { search?: string; top?: number; skip?: number }
-      result: Array<PartialResult<Profile, any>>
-    }>
-    '/organizations': RequestAction<{
-      query: { filter: FindOptions<Organization, any> }
-      result: { entries: Array<PartialResult<Organization, any>>; count: number }
-    }>
+    '/profiles': CollectionEndpoint<Profile>
+    '/organizations': CollectionEndpoint<Organization>
     '/organization/:organizationName': RequestAction<{
       result: PartialResult<Organization, any>
       urlParams: { organizationName: string }
@@ -45,7 +40,7 @@ export interface AuthApi extends RestApi {
       result: { success: boolean }
     }>
 
-    '/organizations': RequestAction<{ body: Omit<Organization, '_id'>; result: Organization }>
+    '/organizations': SinglePostEndpoint<Organization>
   }
   PATCH: {
     '/organizations/:organizationName': RequestAction<{

@@ -15,7 +15,9 @@ export const AddOrganizationPage = Shade<{}, Omit<Organization, '_id'>>({
             const created = await injector.getInstance(AuthApiService).call({
               method: 'POST',
               action: '/organizations',
-              body: getState(),
+              body: {
+                ...getState(),
+              },
             })
             history.pushState({}, '', `/organization/${encodeURIComponent(created.name)}`)
           }}>

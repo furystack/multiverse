@@ -15,7 +15,7 @@ export const PostShopping: RequestAction<{
   const currentUser = await injector.getCurrentUser()
   const body = await getBody()
   const { accountName, owner, type } = getUrlParams()
-  const ds = injector.getDataSetFor<xpense.Account>('accounts')
+  const ds = injector.getDataSetFor(xpense.Account)
   const [account] = await ds.find(injector, {
     filter: { name: { $eq: accountName }, ownerType: { $eq: type }, ownerName: { $eq: owner } },
     top: 1,
@@ -24,7 +24,7 @@ export const PostShopping: RequestAction<{
     throw new RequestError('Account not found!', 404)
   }
 
-  const { created } = await injector.getDataSetFor<xpense.Shopping>('shoppings').add(injector, {
+  const { created } = await injector.getDataSetFor(xpense.Shopping).add(injector, {
     createdBy: currentUser.username,
     entries: body.entries,
     creationDate: new Date(body.creationDate).toISOString(),

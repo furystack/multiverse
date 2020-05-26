@@ -1,13 +1,14 @@
 import { Shade, createComponent, Router, LocationService } from '@furystack/shades'
 import { styles, Fab, colors } from '@common/components'
+import { xpense } from '@common/models'
 import { Widget } from '../welcome-page'
 import { Init } from '../init'
 import { AccountContext } from './account-context'
-import { AvailableAccountsContext, AvailableAccount } from './services/available-accounts-context'
+import { AvailableAccountsContext } from './services/available-accounts-context'
 
 export const XpensePage = Shade<
   { accountOwner?: string; accountType?: 'user' | 'organization'; accountName: string },
-  { availableAccounts: AvailableAccount[]; isLoading: boolean }
+  { availableAccounts: xpense.Account[]; isLoading: boolean }
 >({
   shadowDomName: 'xpense-index',
   getInitialState: ({ injector }) => ({

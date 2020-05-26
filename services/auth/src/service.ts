@@ -1,8 +1,8 @@
 import { GetCurrentUser, IsAuthenticated, LoginAction, LogoutAction, Authenticate } from '@furystack/rest-service'
 import { sites } from '@common/config'
-import { User, apis, deserialize } from '@common/models'
+import { User, apis, deserialize, Profile, Organization } from '@common/models'
 import { RequestAction } from '@furystack/rest'
-import { attachShutdownHandler } from '@common/service-utils'
+import { attachShutdownHandler, createCollectionEndpoint, createSinglePostEndpoint } from '@common/service-utils'
 import {
   AttachGithubAccount,
   AttachGoogleAccountAction,
@@ -15,12 +15,9 @@ import {
   RegisterAction,
   GoogleLoginAction,
   GetAvatar,
-  GetProfiles,
   GetProfile,
-  GetOrganizations,
   GetOrganization,
   PatchOrganization,
-  PostOrganization,
   GetLoginProviderDetails,
 } from './actions'
 import { injector } from './config'
@@ -33,10 +30,10 @@ injector.useRestService<apis.AuthApi>({
     GET: {
       '/currentUser': (GetCurrentUser as unknown) as RequestAction<{ result: User }>,
       '/isAuthenticated': IsAuthenticated,
-      '/profiles': GetProfiles,
+      '/profiles': createCollectionEndpoint({ model: Profile }),
       '/profiles/:username': GetProfile,
       '/profiles/:username/avatar': GetAvatar,
-      '/organizations': GetOrganizations,
+      '/organizations': createCollectionEndpoint({ model: Organization }),
       '/organization/:organizationName': GetOrganization,
       '/loginProviderDetails': Authenticate()(GetLoginProviderDetails),
     },
@@ -52,7 +49,7 @@ injector.useRestService<apis.AuthApi>({
       '/login': LoginAction as any,
       '/logout': LogoutAction,
       '/register': RegisterAction,
-      '/organizations': PostOrganization,
+      '/organizations': createSinglePostEndpoint(Organization),
       '/changePassword': Authenticate()(ChangePasswordAction),
     },
     PATCH: {

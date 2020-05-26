@@ -10,7 +10,7 @@ export const PostReplenishment: RequestAction<{
   const currentUser = await injector.getCurrentUser()
   const body = await getBody()
   const { accountName, owner, type } = getUrlParams()
-  const ds = injector.getDataSetFor<xpense.Account>('accounts')
+  const ds = injector.getDataSetFor(xpense.Account)
   const [account] = await ds.find(injector, {
     filter: { name: { $eq: accountName }, ownerType: { $eq: type }, ownerName: { $eq: owner } },
     top: 1,
@@ -19,7 +19,7 @@ export const PostReplenishment: RequestAction<{
     throw new RequestError('Account not found!', 404)
   }
 
-  const { created } = await injector.getDataSetFor<xpense.Replenishment>('replenishments').add(injector, {
+  const { created } = await injector.getDataSetFor(xpense.Replenishment).add(injector, {
     ...body,
     creationDate: new Date(body.creationDate).toISOString(),
     createdBy: currentUser.username,

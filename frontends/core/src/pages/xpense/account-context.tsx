@@ -24,10 +24,19 @@ const reloader = ({
   try {
     const loadedAccount = await injector.getInstance(XpenseApiService).call({
       method: 'GET',
-      action: '/:type/:owner/:accountName',
-      url: options,
+      action: '/accounts', //'/:type/:owner/:accountName',
+      query: {
+        findOptions: {
+          filter: {
+            ownerType: { $eq: options.type },
+            ownerName: { $eq: options.owner },
+            name: { $eq: options.accountName },
+          },
+          top: 1,
+        },
+      },
     })
-    updateState({ account: loadedAccount })
+    updateState({ account: loadedAccount.entries[0] })
   } catch (error) {
     updateState({ error })
   } finally {
@@ -79,15 +88,15 @@ export const AccountContext = Shade<
     ]
     injector
       .getInstance(XpenseApiService)
-      .call({ method: 'GET', action: '/items' })
+      .call({ method: 'GET', action: '/items', query: { findOptions: {} } })
       .then((items) => {
-        updateState({ items })
+        updateState({ items: items.entries })
       })
     injector
       .getInstance(XpenseApiService)
-      .call({ method: 'GET', action: '/shops' })
+      .call({ method: 'GET', action: '/shops', query: { findOptions: {} } })
       .then((shops) => {
-        updateState({ shops })
+        updateState({ shops: shops.entries })
       })
     return () => subscriptions.map((s) => s.dispose())
   },

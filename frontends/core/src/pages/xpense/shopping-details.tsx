@@ -12,7 +12,7 @@ export const ShoppingDetails = Shade<
     try {
       const shopping = await injector.getInstance(XpenseApiService).call({
         method: 'GET',
-        action: '/shopping/:shoppingId',
+        action: '/shoppings/:id',
         url: { shoppingId: props.shoppingId },
       })
       updateState({ shopping })

@@ -22,11 +22,11 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
   shadowDomName: 'system-logs-page',
   getInitialState: ({ injector }) => ({
     systemLogsService: new CollectionService<LogEntry<any>>(
-      (filter) =>
+      (findOptions) =>
         injector.getInstance(DiagApiService).call({
           method: 'GET',
           action: '/logEntries',
-          query: { filter },
+          query: { findOptions },
         }),
       { top: 20, order: { creationDate: 'DESC' } },
     ),

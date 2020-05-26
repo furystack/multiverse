@@ -15,7 +15,7 @@ export const ReplenishmentDetails = Shade<
     try {
       const replenishment = await injector.getInstance(XpenseApiService).call({
         method: 'GET',
-        action: '/replenishments/:replenishmentId',
+        action: '/replenishments/:id',
         url: { replenishmentId: props.replenishmentId },
       })
       updateState({ replenishment })

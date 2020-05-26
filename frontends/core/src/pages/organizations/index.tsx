@@ -7,11 +7,11 @@ export const OrganizationsPage = Shade<{}, { service: CollectionService<Organiza
   shadowDomName: 'shade-organizations-page',
   getInitialState: ({ injector }) => {
     const service = new CollectionService<Organization>(
-      (filter) =>
+      (findOptions) =>
         injector.getInstance(AuthApiService).call({
           method: 'GET',
           action: '/organizations',
-          query: { filter },
+          query: { findOptions },
         }),
       { top: 20, order: {} },
     )

@@ -132,9 +132,9 @@
     tslib "^2.0.0"
 
 "@furystack/mongodb-store@^3.0.0":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@furystack/mongodb-store/-/mongodb-store-3.1.2.tgz#f2baa39a5f45b6b84e93b2aed27b609411866dc2"
-  integrity sha512-7wu+3xwSM8Gxmn9nxWj2u1oE9tNsnPHZLhw9/v94cjW9RqsDPRhM/TzJr8ncyZkbbKGzJDh9hm5SY3F0xHQRwQ==
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@furystack/mongodb-store/-/mongodb-store-3.1.3.tgz#d642a9173ac609f71732a6a33e26a81803caaf9b"
+  integrity sha512-nfVI1Rbdl4Odl4n7qCf3Zj1lGKdGS64U/XV2LBLbA778ukvCuHQBgEm7XPc1l4KMTRoi7i1bJPD0yTCSwwGECg==
   dependencies:
     "@furystack/core" "^9.1.0"
     "@furystack/inject" "^4.0.29"
@@ -145,10 +145,10 @@
     semaphore-async-await "^1.5.1"
     tslib "^2.0.0"
 
-"@furystack/repository@^2.0.16", "@furystack/repository@^2.0.9":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@furystack/repository/-/repository-2.2.1.tgz#b9d1b0bf7cc480bff2a7453cac537305ba8df0d4"
-  integrity sha512-yUVz7zb69EPBUS/AQbLkPEWO7a/WMuNIceLrF9YA8zQ7i8CJnLHkEkA8TUB7X0XiP9F5YA4kG270cBA6PZSE0A==
+"@furystack/repository@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@furystack/repository/-/repository-3.0.0.tgz#1948dea4384a69006b3c07439cd9f68493b76bc6"
+  integrity sha512-QrufT27bxkhSzWy0WELsPK2TJdZ80wnsORwnQ2+t2qeAD+zbmbjXKry0LvWdgC1NusqNRrNu9ErKQ0s9ekVD7g==
   dependencies:
     "@furystack/core" "^9.1.0"
     "@furystack/inject" "^4.0.29"

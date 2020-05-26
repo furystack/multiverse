@@ -61,7 +61,6 @@ Injector.prototype.useDbLogger = function (settings) {
 
   this.setupRepository((repo) =>
     repo.createDataSet(LogEntry, {
-      name: 'logEntries',
       authorizeAdd: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
       authorizeRemove: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
       authorizeUpdate: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
