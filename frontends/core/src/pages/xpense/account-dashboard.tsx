@@ -7,7 +7,7 @@ import { SelectedAccountHeader } from './components/header'
 export const AccountDashboard = Shade<xpense.Account>({
   shadowDomName: 'xpense-account-dashboard',
   render: ({ props }) => {
-    const accountUriFragment = encodeURI(`${props.ownerType}/${props.ownerName}/${props.name}`)
+    const accountUriFragment = encodeURI(`${props._id}`)
     return (
       <div style={{ width: '100%', height: '100%', overflow: 'auto' }}>
         <div style={{ padding: '1em', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>

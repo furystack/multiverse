@@ -1,4 +1,4 @@
-import { Shade, createComponent, Router, LocationService } from '@furystack/shades'
+import { Shade, createComponent, Router, LocationService, LazyLoad } from '@furystack/shades'
 import { styles, Fab, colors } from '@furystack/shades-common-components'
 import { xpense } from '@common/models'
 import { Widget } from '../welcome-page'
@@ -50,7 +50,7 @@ export const XpensePage = Shade<
                     icon={account.icon || (account.ownerType === 'user' ? '🧑' : '🏢')}
                     name={account.name}
                     index={index}
-                    url={`/xpense/${account.ownerType}/${account.ownerName}/${account.name}`}
+                    url={`/xpense/${account._id}`}
                     description=""
                   />
                 ))}
@@ -69,14 +69,28 @@ export const XpensePage = Shade<
           routes={[
             {
               routingOptions: { end: false },
-              url: '/xpense/:type/:owner/:accountName',
-              component: ({ match }) => (
-                <AccountContext
-                  accountName={decodeURIComponent(match.params.accountName)}
-                  type={match.params.type === 'organization' ? 'organization' : 'user'}
-                  owner={decodeURIComponent(match.params.owner)}
-                />
-              ),
+              url: '/xpense/:accountId',
+              component: ({ match }) => {
+                const accountId = decodeURIComponent(match.params.accountId)
+                return (
+                  <LazyLoad
+                    loader={<Init message="Loading Account..." />}
+                    component={async () => {
+                      const account = getState().availableAccounts.find((acc) => acc._id === accountId)
+                      if (!account) {
+                        return <div />
+                      }
+                      // const account: xpense.Account = await injector.getInstance(XpenseApiService).call({
+                      //   method: 'GET',
+                      //   action: '/accounts/:id',
+                      //   query: {},
+                      //   url: { id: accountId },
+                      // })
+                      return <AccountContext account={account} />
+                    }}
+                  />
+                )
+              },
             },
           ]}
         />

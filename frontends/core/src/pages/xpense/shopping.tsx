@@ -1,5 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { styles, Autocomplete, Button, Input, colors } from '@furystack/shades-common-components'
+import { styles, Autocomplete, Button, Input } from '@furystack/shades-common-components'
 import { xpense } from '@common/models'
 import { XpenseApiService } from '@common/frontend-utils'
 import { Init } from '../init'
@@ -8,7 +8,7 @@ import { SelectedAccountHeader } from './components/header'
 import { ShoppingEntry, ShoppingEntryRow } from './components/shopping-entry'
 
 export const XpenseShoppingPage = Shade<
-  xpense.Account & { shops: xpense.Shop[]; items: xpense.Item[]; onShopped: (total: xpense.Shopping) => void },
+  { account: xpense.Account; shops: xpense.Shop[]; items: xpense.Item[]; onShopped?: (total: xpense.Shopping) => void },
   { entries: ShoppingEntry[]; shopName: string; error?: Error; isSaveInProgress?: boolean; date: string }
 >({
   shadowDomName: 'xpense-shopping-page',
@@ -18,7 +18,7 @@ export const XpenseShoppingPage = Shade<
     date: new Date().toISOString().split('.')[0],
   }),
   render: ({ props, getState, updateState, element, injector }) => {
-    const { error, isSaveInProgress } = getState()
+    const { isSaveInProgress } = getState()
 
     const updateTotal = () => {
       const { entries } = getState()
@@ -31,42 +31,14 @@ export const XpenseShoppingPage = Shade<
       return <Init message="Saving the shopping..." />
     }
 
-    if (error) {
-      return (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '0 100px',
-          }}>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              perspective: '400px',
-              animation: 'shake 150ms 2 linear',
-            }}>
-            <h1>WhoOoOops... 😱</h1>
-            <h3>Something really really bad happened... 😓</h3>
-            <p>Something went wrong during saving your shopping. '{props.name}'</p>
-            <pre style={{ color: colors.error.main }}>{JSON.stringify(error)}</pre>
-          </div>
-          <a href="/">Go to home...</a>
-        </div>
-      )
-    }
-
     return (
       <div style={{ ...styles.glassBox, padding: '1em', height: '100%', overflow: 'auto' }}>
         <div style={{ display: 'flex' }}>
-          <SelectedAccountHeader {...props} area="Shopping" account={props} />
+          <SelectedAccountHeader {...props} area="Shopping" account={props.account} />
           <div style={{ flex: '1' }} />
           <AccountSelector
             onSelectAccount={(acc) => history.pushState({}, '', `/xpense/${acc}/shopping`)}
-            currentAccount={props}
+            currentAccount={props.account}
           />
         </div>
         <form
@@ -76,8 +48,8 @@ export const XpenseShoppingPage = Shade<
             if (
               !confirm(
                 `Are you sure to save your shopping? \r\n The total amount is '${total}'. The account balance is ${
-                  props.current
-                }. The balance will be ${props.current - total} after submitting.`,
+                  props.account.current
+                }. The balance will be ${props.account.current - total} after submitting.`,
               )
             ) {
               return
@@ -88,7 +60,7 @@ export const XpenseShoppingPage = Shade<
               const shopping = await injector.getInstance(XpenseApiService).call({
                 method: 'POST',
                 action: '/:type/:owner/:accountName/shop',
-                url: { type: props.ownerType, owner: props.ownerName, accountName: props.name },
+                url: { type: props.account.ownerType, owner: props.account.ownerName, accountName: props.account.name },
                 body: {
                   creationDate: state.date,
                   shopName: state.shopName,
@@ -96,11 +68,11 @@ export const XpenseShoppingPage = Shade<
                     itemName: e.name,
                     amount: e.amount,
                     unitPrice: e.unitPrice,
-                  })), //  as Array<{ itemName: string; amount: number; unitPrice: number }>,
+                  })),
                 },
               })
-              props.onShopped(shopping)
-              history.pushState({}, '', `/xpense/${props.ownerType}/${props.ownerName}/${props.name}`)
+              props.onShopped && props.onShopped(shopping)
+              history.pushState({}, '', `/xpense/${props.account._id}`)
             } catch (e) {
               updateState({ error: e })
             } finally {

@@ -1,8 +1,6 @@
-import { Shade, createComponent, LocationService, Router } from '@furystack/shades'
-import { Injector } from '@furystack/inject'
+import { Shade, createComponent, Router, LazyLoad } from '@furystack/shades'
 import { xpense } from '@common/models'
 import { XpenseApiService } from '@common/frontend-utils'
-import { match } from 'path-to-regexp'
 import { Init } from '../init'
 import { AccountDashboard } from './account-dashboard'
 import { ReplenishPage } from './replenish'
@@ -12,181 +10,147 @@ import { ItemDetails } from './item-details'
 import { ShoppingDetails } from './shopping-details'
 import { ShopDetails } from './shop-details'
 import { ReplenishmentDetails } from './replenishment-details'
+import { AvailableAccountsContext } from './services/available-accounts-context'
 
-const reloader = ({
-  injector,
-  updateState,
-}: {
-  injector: Injector
-  updateState: (state: any) => void
-}) => async (options: { accountName: string; owner: string; type: 'user' | 'organization' }) => {
-  updateState({ isLoading: true })
-  try {
-    const loadedAccount = await injector.getInstance(XpenseApiService).call({
-      method: 'GET',
-      action: '/accounts', //'/:type/:owner/:accountName',
-      query: {
-        findOptions: {
-          filter: {
-            ownerType: { $eq: options.type },
-            ownerName: { $eq: options.owner },
-            name: { $eq: options.accountName },
-          },
-          top: 1,
-        },
-      },
-    })
-    updateState({ account: loadedAccount.entries[0] })
-  } catch (error) {
-    updateState({ error })
-  } finally {
-    updateState({ isLoading: false })
-  }
-}
-
-export const AccountContext = Shade<
-  { type: 'user' | 'organization'; accountName: string; owner: string },
-  {
-    account?: xpense.Account
-    items: xpense.Item[]
-    shops: xpense.Shop[]
-    isLoading: boolean
-    error?: Error
-  }
->({
+export const AccountContext = Shade<{ account: xpense.Account }>({
   shadowDomName: 'xpense-account-context',
-  getInitialState: () => ({
-    isLoading: true,
-    items: [],
-    shops: [],
-  }),
-  constructed: ({ injector, updateState, getState }) => {
-    const reloadAccount = reloader({ injector, updateState })
+  render: ({ props, injector }) => {
+    const api = injector.getInstance(XpenseApiService)
 
-    const subscriptions = [
-      injector.getInstance(LocationService).onLocationChanged.subscribe(async (l) => {
-        const matcher = match<{ type: 'user' | 'organization'; owner: string; accountName: string }>(
-          '/xpense/:type/:owner/:accountName',
-          {
-            end: false,
-            decode: decodeURIComponent,
-          },
-        )
-        const matched = matcher(l.pathname)
-        if (matched) {
-          const { account } = getState()
-          if (
-            !account ||
-            account.name !== matched.params.accountName ||
-            account.ownerName !== matched.params.owner ||
-            account.ownerType !== matched.params.type
-          ) {
-            reloadAccount(matched.params)
-          }
-        }
-      }, true),
-    ]
-    injector
-      .getInstance(XpenseApiService)
-      .call({ method: 'GET', action: '/items', query: { findOptions: {} } })
-      .then((items) => {
-        updateState({ items: items.entries })
-      })
-    injector
-      .getInstance(XpenseApiService)
-      .call({ method: 'GET', action: '/shops', query: { findOptions: {} } })
-      .then((shops) => {
-        updateState({ shops: shops.entries })
-      })
-    return () => subscriptions.map((s) => s.dispose())
-  },
-  render: ({ props, getState, updateState, injector }) => {
-    const { account, isLoading, error, shops, items } = getState()
-
-    if (isLoading) {
-      return <Init message="Loading account details..." />
-    }
-    const reloadAccount = reloader({ injector, updateState })
-
-    if (error || !account) {
-      return (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '0 100px',
-          }}>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              perspective: '400px',
-              animation: 'shake 150ms 2 linear',
-            }}>
-            <h1>WhoOoOops... 😱</h1>
-            <h3>Failed to load account '{props.accountName}' 😓</h3>
-            <p>There was a trouble loading the account.</p>
-          </div>
-          <a href="/">Reload page</a>
-        </div>
-      )
-    }
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <Router
           routes={[
             {
-              url: '/xpense/:type/:owner/:accountName/replenish',
+              url: '/xpense/:accountId/replenish',
               component: () => (
                 <ReplenishPage
-                  {...account}
-                  onReplenished={() =>
-                    reloadAccount({ type: account.ownerType, accountName: account.name, owner: account.ownerName })
-                  }
-                />
-              ),
-            },
-            {
-              url: '/xpense/:type/:owner/:accountName/shopping',
-              component: () => (
-                <XpenseShoppingPage
-                  {...account}
-                  shops={shops}
-                  items={items}
-                  onShopped={() => {
-                    reloadAccount({ type: account.ownerType, accountName: account.name, owner: account.ownerName })
+                  account={props.account}
+                  onReplenished={(r) => {
+                    const accountContext = injector.getInstance(AvailableAccountsContext)
+                    const updatedAccounts = accountContext.accounts.getValue().map((account) => {
+                      if (account._id === r.accountId) {
+                        return { ...account, current: account.current + r.amount }
+                      }
+                      return account
+                    })
+                    accountContext.accounts.setValue(updatedAccounts)
                   }}
                 />
               ),
             },
             {
-              url: '/xpense/:type/:owner/:accountName/history',
-              component: () => <AccountHistory account={account} />,
-            },
-            {
-              url: '/xpense/:type/:owner/:accountName/shopping/:shoppingId',
-              component: ({ match: m }) => (
-                <ShoppingDetails shoppingId={m.params.shoppingId} account={account} items={items} />
+              url: '/xpense/:accountId/shopping',
+              component: () => (
+                <LazyLoad
+                  loader={<Init message="Loading Shops and Items..." />}
+                  component={async () => {
+                    const itemsPromise = api.call({
+                      method: 'GET',
+                      action: '/items',
+                      query: { findOptions: {} },
+                    })
+                    const shopsPromise = api.call({
+                      method: 'GET',
+                      action: '/shops',
+                      query: { findOptions: {} },
+                    })
+                    const [items, shops] = await Promise.all([itemsPromise, shopsPromise])
+                    return (
+                      <XpenseShoppingPage
+                        account={props.account}
+                        shops={shops.entries as xpense.Shop[]}
+                        items={items.entries as xpense.Item[]}
+                        onShopped={(s) => {
+                          const accountContext = injector.getInstance(AvailableAccountsContext)
+                          const updatedAccounts = accountContext.accounts.getValue().map((account) => {
+                            if (account._id === s.accountId) {
+                              return { ...account, current: account.current - s.sumAmount }
+                            }
+                            return account
+                          })
+                          accountContext.accounts.setValue(updatedAccounts)
+                        }}
+                      />
+                    )
+                  }}
+                />
               ),
             },
             {
-              url: '/xpense/:type/:owner/:accountName/replenishment/:replenishmentId',
-              component: ({ match: m }) => <ReplenishmentDetails replenishmentId={m.params.replenishmentId} />,
+              url: '/xpense/:accountId/history',
+              component: () => <AccountHistory account={props.account} />,
             },
             {
-              url: '/xpense/:type/:owner/:accountName/shop/:shopId',
-              component: ({ match: m }) => <ShopDetails shopId={m.params.shopId} account={account} items={items} />,
-            },
-            {
-              url: '/xpense/:type/:owner/:accountName/item/:itemId',
+              url: '/xpense/:accountId/shopping/:shoppingId',
               component: ({ match: m }) => (
-                <ItemDetails account={account} item={items.find((i) => i._id === m.params.itemId) as xpense.Item} />
+                <LazyLoad
+                  loader={<Init message="Loading Shopping details..." />}
+                  component={async () => {
+                    const shopping: xpense.Shopping = await api.call({
+                      method: 'GET',
+                      action: '/shoppings/:id',
+                      query: { id: m.params.shoppingId },
+                    })
+                    return <ShoppingDetails shopping={shopping} />
+                  }}
+                />
               ),
             },
-            { url: '/', routingOptions: { end: false }, component: () => <AccountDashboard {...account} /> },
+            {
+              url: '/xpense/:accountId/replenishment/:replenishmentId',
+              component: ({ match: m }) => (
+                <LazyLoad
+                  loader={<Init message="Loading Shop..." />}
+                  component={async () => {
+                    const replenishment: xpense.Replenishment = await api.call({
+                      method: 'GET',
+                      action: '/shops/:id',
+                      query: { id: m.params.shoppingId },
+                    })
+
+                    return <ReplenishmentDetails replenishment={replenishment} />
+                  }}
+                />
+              ),
+            },
+            {
+              url: '/xpense/:accountId/shop/:shopId',
+              component: ({ match: m }) => (
+                <LazyLoad
+                  loader={<Init message="Loading Shop..." />}
+                  component={async () => {
+                    const shop: xpense.Shop = await api.call({
+                      method: 'GET',
+                      action: '/shops/:id',
+                      query: { id: m.params.shoppingId },
+                    })
+
+                    return <ShopDetails shop={shop} />
+                  }}
+                />
+              ),
+            },
+            {
+              url: '/xpense/:accountId/item/:itemId',
+              component: ({ match: m }) => (
+                <LazyLoad
+                  loader={<Init message="Loading item..." />}
+                  component={async () => {
+                    const item: xpense.Item = await api.call({
+                      method: 'GET',
+                      action: '/items/:id',
+                      query: { id: m.params.itemId },
+                    })
+                    return <ItemDetails account={props.account} item={item} />
+                  }}
+                />
+              ),
+            },
+            {
+              url: '/xpense/:accountId',
+              component: () => <AccountDashboard {...props.account} />,
+            },
           ]}
         />
       </div>
