@@ -9,6 +9,12 @@ export const AccountList = Shade<unknown, { availableAccounts: xpense.Account[] 
     availableAccounts: injector.getInstance(AvailableAccountsContext).accounts.getValue(),
   }),
   shadowDomName: 'xpense-account-list',
+  constructed: ({ injector, updateState }) => {
+    const subscription = injector
+      .getInstance(AvailableAccountsContext)
+      .accounts.subscribe((acc) => updateState({ availableAccounts: acc }))
+    return () => subscription.dispose()
+  },
   render: ({ getState, injector }) => {
     const state = getState()
     return (
