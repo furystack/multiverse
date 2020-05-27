@@ -12,11 +12,12 @@ import { ShopDetails } from './shop-details'
 import { ReplenishmentDetails } from './replenishment-details'
 import { AvailableAccountsContext } from './services/available-accounts-context'
 
-export const AccountContext = Shade<{ account: xpense.Account }>({
+export const AccountContext = Shade<{ account: xpense.Account }, { account: xpense.Account }>({
+  getInitialState: ({ props }) => ({ account: { ...props.account } }),
   shadowDomName: 'xpense-account-context',
-  render: ({ props, injector }) => {
+  render: ({ getState, injector, updateState }) => {
     const api = injector.getInstance(XpenseApiService)
-
+    const { account } = getState()
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <Router
@@ -25,14 +26,16 @@ export const AccountContext = Shade<{ account: xpense.Account }>({
               url: '/xpense/:accountId/replenish',
               component: () => (
                 <ReplenishPage
-                  account={props.account}
+                  account={account}
                   onReplenished={(r) => {
                     const accountContext = injector.getInstance(AvailableAccountsContext)
-                    const updatedAccounts = accountContext.accounts.getValue().map((account) => {
-                      if (account._id === r.accountId) {
-                        return { ...account, current: account.current + r.amount }
+                    const updatedAccounts = accountContext.accounts.getValue().map((acc) => {
+                      if (acc._id === r.accountId) {
+                        const updatedAccount = { ...acc, ...account, current: acc.current + r.amount }
+                        updateState({ account: updatedAccount })
+                        return updatedAccount
                       }
-                      return account
+                      return acc
                     })
                     accountContext.accounts.setValue(updatedAccounts)
                   }}
@@ -58,16 +61,18 @@ export const AccountContext = Shade<{ account: xpense.Account }>({
                     const [items, shops] = await Promise.all([itemsPromise, shopsPromise])
                     return (
                       <XpenseShoppingPage
-                        account={props.account}
+                        account={account}
                         shops={shops.entries as xpense.Shop[]}
                         items={items.entries as xpense.Item[]}
                         onShopped={(s) => {
                           const accountContext = injector.getInstance(AvailableAccountsContext)
-                          const updatedAccounts = accountContext.accounts.getValue().map((account) => {
-                            if (account._id === s.accountId) {
-                              return { ...account, current: account.current - s.sumAmount }
+                          const updatedAccounts = accountContext.accounts.getValue().map((acc) => {
+                            if (acc._id === s.accountId) {
+                              const updatedAccount = { ...acc, ...account, current: account.current - s.sumAmount }
+                              updateState({ account: updatedAccount })
+                              return updatedAccount
                             }
-                            return account
+                            return acc
                           })
                           accountContext.accounts.setValue(updatedAccounts)
                         }}
@@ -79,7 +84,7 @@ export const AccountContext = Shade<{ account: xpense.Account }>({
             },
             {
               url: '/xpense/:accountId/history',
-              component: () => <AccountHistory account={props.account} />,
+              component: () => <AccountHistory account={account} />,
             },
             {
               url: '/xpense/:accountId/shopping/:shoppingId',
@@ -142,14 +147,14 @@ export const AccountContext = Shade<{ account: xpense.Account }>({
                       action: '/items/:id',
                       query: { id: m.params.itemId },
                     })
-                    return <ItemDetails account={props.account} item={item} />
+                    return <ItemDetails account={account} item={item} />
                   }}
                 />
               ),
             },
             {
               url: '/xpense/:accountId',
-              component: () => <AccountDashboard {...props.account} />,
+              component: () => <AccountDashboard {...account} />,
             },
           ]}
         />

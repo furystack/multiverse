@@ -46,6 +46,7 @@ describe('Xpense', () => {
     cy.get('input[name=comment]').type(replenishmentComment)
     cy.on('window:confirm', () => true)
     cy.get('button').contains('Replenish').click()
-    cy.get('xpense-selected-account-header .balance').contains(balance).should('be.visible')
+    cy.get('xpense-selected-account-header .balance').should('be.visible')
+    cy.contains(balance.toString()).should('be.visible')
   })
 })
