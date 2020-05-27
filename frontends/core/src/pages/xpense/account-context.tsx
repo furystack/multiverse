@@ -84,7 +84,19 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
             },
             {
               url: '/xpense/:accountId/history',
-              component: () => <AccountHistory account={account} />,
+              component: ({ match: m }) => (
+                <LazyLoad
+                  loader={<Init message="Loading Account History..." />}
+                  component={async () => {
+                    const loadedAccount = await api.call({
+                      method: 'GET',
+                      action: '/accounts/:id',
+                      url: { id: m.params.accountId },
+                    })
+                    return <AccountHistory account={{ ...account, ...loadedAccount }} />
+                  }}
+                />
+              ),
             },
             {
               url: '/xpense/:accountId/shopping/:shoppingId',
