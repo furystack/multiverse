@@ -1,11 +1,11 @@
-import { Shade, createComponent } from '@furystack/shades'
+import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { Chart, ChartPoint } from 'chart.js'
 import { xpense } from '@common/models'
 import { colors, Button } from '@furystack/shades-common-components'
 
 export const AccountHistoryChart = Shade<{ accountId: 'string'; history: xpense.Account['history'] }>({
   shadowDomName: 'xpense-account-history-page',
-  onAttach: ({ element, props }) => {
+  onAttach: ({ element, props, injector }) => {
     setTimeout(() => {
       const canvas = element.querySelector('canvas') as HTMLCanvasElement
       new Chart(canvas, {
@@ -36,6 +36,7 @@ export const AccountHistoryChart = Shade<{ accountId: 'string'; history: xpense.
             } else if (relatedEntry.type === 'shopping') {
               history.pushState({}, '', `/xpense/${props.accountId}/shopping/${relatedEntry.shoppingId}`)
             }
+            injector.getInstance(LocationService).updateState()
           },
           elements: {
             rectangle: {},

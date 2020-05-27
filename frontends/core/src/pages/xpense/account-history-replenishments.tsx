@@ -1,4 +1,4 @@
-import { Shade, createComponent } from '@furystack/shades'
+import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { DataGrid, CollectionService } from '@furystack/shades-common-components'
 import { xpense } from '@common/models'
 import { XpenseApiService } from '@common/frontend-utils'
@@ -21,7 +21,7 @@ export const AccountHistoryReplenishments = Shade<
     ),
   }),
   shadowDomName: 'xpense-account-history-replenishment',
-  render: ({ getState }) => {
+  render: ({ getState, injector }) => {
     return (
       <DataGrid<xpense.Replenishment>
         columns={['comment', 'amount', 'creationDate', 'createdBy']}
@@ -29,6 +29,10 @@ export const AccountHistoryReplenishments = Shade<
         headerComponents={{}}
         rowComponents={{ amount: ({ amount }) => <span>{amount.toString()}</span> }}
         styles={{}}
+        onDoubleClick={(entry) => {
+          history.pushState({}, '', `/xpense/${entry.accountId}/replenishment/${entry._id}`)
+          injector.getInstance(LocationService).updateState()
+        }}
       />
     )
   },
