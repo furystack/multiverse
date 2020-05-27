@@ -31,8 +31,8 @@ injector.useRestService<apis.XpenseApi>({
       '/items': Authenticate()(createSinglePostEndpoint(xpense.Item)),
       '/shops': Authenticate()(createSinglePostEndpoint(xpense.Shop)),
       '/accounts': Authenticate()(createSinglePostEndpoint(xpense.Account)),
-      '/:type/:owner/:accountName/replenish': Authenticate()(PostReplenishment),
-      '/:type/:owner/:accountName/shop': Authenticate()(PostShopping),
+      '/accounts/:accountId/replenish': Authenticate()(PostReplenishment),
+      '/accounts/:accountId/shop': Authenticate()(PostShopping),
     },
   },
   cors: {

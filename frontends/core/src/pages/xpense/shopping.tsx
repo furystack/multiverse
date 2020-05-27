@@ -3,7 +3,6 @@ import { styles, Autocomplete, Button, Input } from '@furystack/shades-common-co
 import { xpense } from '@common/models'
 import { XpenseApiService } from '@common/frontend-utils'
 import { Init } from '../init'
-import { AccountSelector } from './components/account-selector'
 import { SelectedAccountHeader } from './components/header'
 import { ShoppingEntry, ShoppingEntryRow } from './components/shopping-entry'
 
@@ -36,10 +35,6 @@ export const XpenseShoppingPage = Shade<
         <div style={{ display: 'flex' }}>
           <SelectedAccountHeader {...props} area="Shopping" account={props.account} />
           <div style={{ flex: '1' }} />
-          <AccountSelector
-            onSelectAccount={(acc) => history.pushState({}, '', `/xpense/${acc}/shopping`)}
-            currentAccount={props.account}
-          />
         </div>
         <form
           onsubmit={async (ev) => {
@@ -59,8 +54,8 @@ export const XpenseShoppingPage = Shade<
               updateState({ isSaveInProgress: true })
               const shopping = await injector.getInstance(XpenseApiService).call({
                 method: 'POST',
-                action: '/:type/:owner/:accountName/shop',
-                url: { type: props.account.ownerType, owner: props.account.ownerName, accountName: props.account.name },
+                action: '/accounts/:accountId/shop',
+                url: { accountId: props.account._id },
                 body: {
                   creationDate: state.date,
                   shopName: state.shopName,

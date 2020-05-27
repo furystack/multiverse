@@ -39,7 +39,25 @@ export const XpensePage = Shade({
               routingOptions: {
                 end: false,
               },
-              component: () => <AccountList />,
+              component: () => (
+                <LazyLoad
+                  loader={<Init message="Loading Accounts..." />}
+                  component={async () => {
+                    const { entries } = await injector.getInstance(XpenseApiService).call({
+                      method: 'GET',
+                      action: '/accounts',
+                      query: {
+                        findOptions: {
+                          filter: {},
+                          select: ['_id', 'current', 'icon', 'name', 'ownerName', 'ownerType'],
+                          order: { name: 'ASC' },
+                        },
+                      },
+                    })
+                    return <AccountList accounts={entries as xpense.Account[]} />
+                  }}
+                />
+              ),
             },
           ]}
         />

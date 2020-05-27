@@ -132,9 +132,9 @@
     tslib "^2.0.0"
 
 "@furystack/mongodb-store@^3.0.0":
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/@furystack/mongodb-store/-/mongodb-store-3.1.3.tgz#d642a9173ac609f71732a6a33e26a81803caaf9b"
-  integrity sha512-nfVI1Rbdl4Odl4n7qCf3Zj1lGKdGS64U/XV2LBLbA778ukvCuHQBgEm7XPc1l4KMTRoi7i1bJPD0yTCSwwGECg==
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@furystack/mongodb-store/-/mongodb-store-3.1.4.tgz#858ceb994eca124f3a4222acfb5737c5031031e3"
+  integrity sha512-o63uJJrsj2HuwiGeXiM++FIE8QxA541WbzVmR29gRPeJ0o1cOOPD+0kMvz1sYUJVOjgcZnZNnvLCdq6LGJZ0+g==
   dependencies:
     "@furystack/core" "^9.1.0"
     "@furystack/inject" "^4.0.29"
@@ -146,9 +146,9 @@
     tslib "^2.0.0"
 
 "@furystack/repository@^3.0.0":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@furystack/repository/-/repository-3.0.2.tgz#5f0c74df8bc9ad2b1058da1104f3532052c89241"
-  integrity sha512-auqVFree4sUglcKvv9raH9FFkMSF6NvCsLfALDVkGa3P7GfjGXc1QhSsiulyBmp74/UklRQ+bgThGRWCzH+3BA==
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@furystack/repository/-/repository-3.0.3.tgz#ba341380044b42787cc647d24587e9781a5d660f"
+  integrity sha512-1TDuEoksNkEDYulkeOVdZd1Vwtk/d5HnmZHrfzmFY7bdlvLvvLVLcCMKmZIUMzYjq9y93cvIflOpPuwQnTYORA==
   dependencies:
     "@furystack/core" "^9.1.0"
     "@furystack/inject" "^4.0.29"
@@ -1301,9 +1301,9 @@ aws-sign2@~0.7.0:
   integrity sha1-tG6JCTSpWR8tL2+G1+ap8bP+dqg=
 
 aws4@^1.8.0:
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.9.1.tgz#7e33d8f7d449b3f673cd72deb9abdc552dbe528e"
-  integrity sha512-wMHVg2EOHaMRxbzgFJ9gtjOOCrI80OHLG14rxi28XwOW8ux6IiEbRCGGGqCtdAIg4FQCbW20k9RsT4y3gJlFug==
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.10.0.tgz#a17b3a8ea811060e74d47d306122400ad4497ae2"
+  integrity sha512-3YDiu347mtVtjpyV3u5kVqQLP242c06zwDOgpeRnybmXlYYsLbtTrUBUm8i8srONt+FWobl5aibnU1030PeeuA==
 
 backo2@1.0.2:
   version "1.0.2"
@@ -2385,9 +2385,9 @@ cypress-plugin-snapshots@^1.2.9:
     unidiff "1.0.2"
 
 cypress@^4.0.1:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-4.6.0.tgz#ac76786500580df1347a0a50be63e5c59ffbef59"
-  integrity sha512-vIPXAceRP+Nxvnm/O9ruY9EQaRGmVVybtk9F1sfC9mH3067YbitrdBTynaaLuHFj90p9e0U2ZCV7OkX4x4V/Wg==
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-4.7.0.tgz#3ea29bddaf9a1faeaa5b8d54b60a84ed1cafa83d"
+  integrity sha512-Vav6wUFhPRlImIND/2lOQlUnAWzgCC/iXyJlJjX9nJOJul5LC1vUpf/m8Oiae870PFPyT0ZLLwPHKTXZNdXmHw==
   dependencies:
     "@cypress/listr-verbose-renderer" "0.4.1"
     "@cypress/request" "2.88.5"
@@ -3625,9 +3625,9 @@ forever-agent@~0.6.1:
   integrity sha1-+8cfDEGt6zf5bFd60e1C2P2sypE=
 
 fork-ts-checker-webpack-plugin@^4.1.2:
-  version "4.1.5"
-  resolved "https://registry.yarnpkg.com/fork-ts-checker-webpack-plugin/-/fork-ts-checker-webpack-plugin-4.1.5.tgz#780d52c65183742d8c885fff42a9ec9ea7006672"
-  integrity sha512-nuD4IDqoOfkEIlS6shhjLGaLBDSNyVJulAlr5lFbPe0saGqlsTo+/HmhtIrs/cNLFtmaudL10byivhxr+Qhh4w==
+  version "4.1.6"
+  resolved "https://registry.yarnpkg.com/fork-ts-checker-webpack-plugin/-/fork-ts-checker-webpack-plugin-4.1.6.tgz#5055c703febcf37fa06405d400c122b905167fc5"
+  integrity sha512-DUxuQaKoqfNne8iikd14SAkh5uw4+8vNifp6gmA73yYNS6ywLIWSLD/n/mBzHQRpW3J7rbATEakmiA8JvkTyZw==
   dependencies:
     "@babel/code-frame" "^7.5.5"
     chalk "^2.4.1"

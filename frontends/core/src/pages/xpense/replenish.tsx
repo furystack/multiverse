@@ -58,8 +58,8 @@ export const ReplenishPage = Shade<
               const state = getState()
               const replenishment = await injector.getInstance(XpenseApiService).call({
                 method: 'POST',
-                action: '/:type/:owner/:accountName/replenish',
-                url: { type: props.account.ownerType, owner: props.account.ownerName, accountName: props.account.name },
+                action: '/accounts/:accountId/replenish',
+                url: { accountId: props.account._id },
                 body: {
                   creationDate: state.date,
                   amount: state.amount,

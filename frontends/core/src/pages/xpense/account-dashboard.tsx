@@ -1,7 +1,6 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { xpense } from '@common/models'
 import { Widget } from '../welcome-page'
-import { AccountSelector } from './components/account-selector'
 import { SelectedAccountHeader } from './components/header'
 
 export const AccountDashboard = Shade<xpense.Account>({
@@ -13,10 +12,6 @@ export const AccountDashboard = Shade<xpense.Account>({
         <div style={{ padding: '1em', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <SelectedAccountHeader area="Dashboard" account={props} />
           <div style={{ flex: '1' }} />
-          <AccountSelector
-            onSelectAccount={(account) => history.pushState({}, '', `/xpense/${account}`)}
-            currentAccount={props}
-          />
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: '2em', flexWrap: 'wrap' }}>
           <Widget
@@ -33,6 +28,8 @@ export const AccountDashboard = Shade<xpense.Account>({
             description={`Add to the balance of ${props.name}`}
             url={`/xpense/${accountUriFragment}/shopping`}
           />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: '2em', flexWrap: 'wrap' }}>
           <Widget
             icon="📉"
             name="History"

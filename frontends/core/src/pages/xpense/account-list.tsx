@@ -2,21 +2,11 @@ import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { xpense } from '@common/models'
 import { Fab, colors } from '@furystack/shades-common-components'
 import { Widget } from '../welcome-page'
-import { AvailableAccountsContext } from './services/available-accounts-context'
 
-export const AccountList = Shade<unknown, { availableAccounts: xpense.Account[] }>({
-  getInitialState: ({ injector }) => ({
-    availableAccounts: injector.getInstance(AvailableAccountsContext).accounts.getValue(),
-  }),
+export const AccountList = Shade<{ accounts: xpense.Account[] }>({
   shadowDomName: 'xpense-account-list',
-  constructed: ({ injector, updateState }) => {
-    const subscription = injector
-      .getInstance(AvailableAccountsContext)
-      .accounts.subscribe((acc) => updateState({ availableAccounts: acc }))
-    return () => subscription.dispose()
-  },
-  render: ({ getState, injector }) => {
-    const state = getState()
+
+  render: ({ props, injector }) => {
     return (
       <div style={{ overflow: 'auto', width: '100%', height: '100%' }}>
         <div
@@ -29,7 +19,7 @@ export const AccountList = Shade<unknown, { availableAccounts: xpense.Account[] 
             flexWrap: 'wrap',
             overflow: 'auto',
           }}>
-          {state.availableAccounts?.map((account, index) => (
+          {props.accounts.map((account, index) => (
             <Widget
               icon={account.icon || (account.ownerType === 'user' ? '🧑' : '🏢')}
               name={account.name}

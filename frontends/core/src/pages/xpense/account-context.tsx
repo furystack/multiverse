@@ -10,7 +10,6 @@ import { ItemDetails } from './item-details'
 import { ShoppingDetails } from './shopping-details'
 import { ShopDetails } from './shop-details'
 import { ReplenishmentDetails } from './replenishment-details'
-import { AvailableAccountsContext } from './services/available-accounts-context'
 
 export const AccountContext = Shade<{ account: xpense.Account }, { account: xpense.Account }>({
   getInitialState: ({ props }) => ({ account: { ...props.account } }),
@@ -28,16 +27,9 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
                 <ReplenishPage
                   account={account}
                   onReplenished={(r) => {
-                    const accountContext = injector.getInstance(AvailableAccountsContext)
-                    const updatedAccounts = accountContext.accounts.getValue().map((acc) => {
-                      if (acc._id === r.accountId) {
-                        const updatedAccount = { ...acc, ...account, current: acc.current + r.amount }
-                        updateState({ account: updatedAccount })
-                        return updatedAccount
-                      }
-                      return acc
-                    })
-                    accountContext.accounts.setValue(updatedAccounts)
+                    const acc = getState().account
+                    const updatedAccount = { ...acc, ...account, current: acc.current + r.amount }
+                    updateState({ account: updatedAccount })
                   }}
                 />
               ),
@@ -65,16 +57,9 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
                         shops={shops.entries as xpense.Shop[]}
                         items={items.entries as xpense.Item[]}
                         onShopped={(s) => {
-                          const accountContext = injector.getInstance(AvailableAccountsContext)
-                          const updatedAccounts = accountContext.accounts.getValue().map((acc) => {
-                            if (acc._id === s.accountId) {
-                              const updatedAccount = { ...acc, ...account, current: account.current - s.sumAmount }
-                              updateState({ account: updatedAccount })
-                              return updatedAccount
-                            }
-                            return acc
-                          })
-                          accountContext.accounts.setValue(updatedAccounts)
+                          const acc = getState().account
+                          const updatedAccount = { ...acc, ...account, current: account.current - s.sumAmount }
+                          updateState({ account: updatedAccount })
                         }}
                       />
                     )
@@ -84,19 +69,7 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
             },
             {
               url: '/xpense/:accountId/history',
-              component: ({ match: m }) => (
-                <LazyLoad
-                  loader={<Init message="Loading Account History..." />}
-                  component={async () => {
-                    const loadedAccount = await api.call({
-                      method: 'GET',
-                      action: '/accounts/:id',
-                      url: { id: m.params.accountId },
-                    })
-                    return <AccountHistory account={{ ...account, ...loadedAccount }} />
-                  }}
-                />
-              ),
+              component: () => <AccountHistory account={account} />,
             },
             {
               url: '/xpense/:accountId/shopping/:shoppingId',
@@ -107,7 +80,7 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
                     const shopping: xpense.Shopping = await api.call({
                       method: 'GET',
                       action: '/shoppings/:id',
-                      query: { id: m.params.shoppingId },
+                      url: { id: m.params.shoppingId },
                     })
                     return <ShoppingDetails shopping={shopping} />
                   }}
@@ -118,12 +91,12 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
               url: '/xpense/:accountId/replenishment/:replenishmentId',
               component: ({ match: m }) => (
                 <LazyLoad
-                  loader={<Init message="Loading Shop..." />}
+                  loader={<Init message="Loading Replenishment details..." />}
                   component={async () => {
                     const replenishment: xpense.Replenishment = await api.call({
                       method: 'GET',
-                      action: '/shops/:id',
-                      query: { id: m.params.shoppingId },
+                      action: '/replenishments/:id',
+                      url: { id: m.params.replenishmentId },
                     })
 
                     return <ReplenishmentDetails replenishment={replenishment} />
@@ -140,7 +113,7 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
                     const shop: xpense.Shop = await api.call({
                       method: 'GET',
                       action: '/shops/:id',
-                      query: { id: m.params.shoppingId },
+                      url: { id: m.params.shopId },
                     })
 
                     return <ShopDetails shop={shop} />

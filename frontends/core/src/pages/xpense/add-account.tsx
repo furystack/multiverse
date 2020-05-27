@@ -2,7 +2,6 @@ import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { Input, Button, styles } from '@furystack/shades-common-components'
 import { XpenseApiService, SessionService } from '@common/frontend-utils'
 import { xpense } from '@common/models'
-import { AvailableAccountsContext } from './services/available-accounts-context'
 
 export const AddXpenseAccountPage = Shade<{}, Partial<xpense.Account>>({
   getInitialState: ({ injector }) => ({
@@ -22,15 +21,13 @@ export const AddXpenseAccountPage = Shade<{}, Partial<xpense.Account>>({
           onsubmit={async (ev) => {
             ev.preventDefault()
             const account = getState()
-            const created = await injector.getInstance(XpenseApiService).call({
+            await injector.getInstance(XpenseApiService).call({
               method: 'POST',
               action: '/accounts',
               body: {
                 ...account,
               },
             })
-            const accountsService = injector.getInstance(AvailableAccountsContext)
-            accountsService.accounts.setValue([...accountsService.accounts.getValue(), created])
             history.pushState({}, '', '/xpense')
             injector.getInstance(LocationService).updateState()
           }}>

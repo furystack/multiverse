@@ -20,18 +20,18 @@ export interface XpenseApi extends RestApi {
     '/accounts': SinglePostEndpoint<Account>
     '/shops': SinglePostEndpoint<Shop>
     '/items': SinglePostEndpoint<Item>
-    '/:type/:owner/:accountName/replenish': RequestAction<{
+    '/accounts/:accountId/replenish': RequestAction<{
       body: { amount: number; comment?: string; creationDate: string }
-      urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
+      urlParams: { accountId: string }
       result: Replenishment
     }>
-    '/:type/:owner/:accountName/shop': RequestAction<{
+    '/accounts/:accountId/shop': RequestAction<{
       body: {
         shopName: string
         creationDate: string
         entries: Array<{ itemName: string; amount: number; unitPrice: number }>
       }
-      urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
+      urlParams: { accountId: string }
       result: Shopping
     }>
   }
