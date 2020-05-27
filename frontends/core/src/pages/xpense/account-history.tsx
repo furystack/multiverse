@@ -4,7 +4,8 @@ import { xpense } from '@common/models'
 import { XpenseApiService } from '@common/frontend-utils'
 import { Init } from '../init'
 import { AccountHistoryChart } from './account-history-chart'
-import { AccountHistoryShoppings } from './services/account-history-shoppings'
+import { AccountHistoryShoppings } from './account-history-shoppings'
+import { AccountHistoryReplenishments } from './account-history-replenishments'
 
 export const AccountHistory = Shade<{ account: xpense.Account }>({
   shadowDomName: 'xpense-account-history',
@@ -13,7 +14,7 @@ export const AccountHistory = Shade<{ account: xpense.Account }>({
       <Tabs
         tabs={[
           { header: <span>Shoppings</span>, component: <AccountHistoryShoppings account={props.account} /> },
-          { header: <span>Replenishments</span>, component: <div>Replenishments</div> },
+          { header: <span>Replenishments</span>, component: <AccountHistoryReplenishments account={props.account} /> },
           {
             header: <span>History</span>,
             component: (

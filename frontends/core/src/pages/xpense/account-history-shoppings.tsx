@@ -27,7 +27,7 @@ export const AccountHistoryShoppings = Shade<
         columns={['shopName', 'sumAmount', 'creationDate', 'createdBy']}
         service={getState().service}
         headerComponents={{}}
-        rowComponents={{}}
+        rowComponents={{ sumAmount: ({ sumAmount }) => <span>{sumAmount.toString()}</span> }}
         styles={{}}
       />
     )
