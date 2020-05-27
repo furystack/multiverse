@@ -1,11 +1,14 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { styles, Input, Button, colors } from '@common/components'
+import { styles, Input, Button, colors } from '@furystack/shades-common-components'
 import { XpenseApiService } from '@common/frontend-utils'
 import { xpense } from '@common/models'
 import { SelectedAccountHeader } from './components/header'
 
 export const ReplenishPage = Shade<
-  xpense.Account & { onReplenished: (replenishment: xpense.Replenishment) => void },
+  {
+    account: xpense.Account
+    onReplenished?: (replenishment: xpense.Replenishment) => void
+  },
   { amount: number; comment?: string; date: string; error?: Error }
 >({
   getInitialState: () => ({
@@ -35,7 +38,7 @@ export const ReplenishPage = Shade<
             }}>
             <h1>WhoOoOops... 😱</h1>
             <h3>Failed to add to the balance 😓</h3>
-            <p>Something went wrong during replenishing the balance for account '{props.name}'</p>
+            <p>Something went wrong during replenishing the balance for account '{props.account.name}'</p>
             <pre style={{ color: colors.error.main }}>{JSON.stringify(error)}</pre>
           </div>
           <a href="/">Go to home...</a>
@@ -44,26 +47,26 @@ export const ReplenishPage = Shade<
     }
     return (
       <div style={{ ...styles.glassBox, padding: '1em' }}>
-        <SelectedAccountHeader account={props} area="Replenish" />
+        <SelectedAccountHeader account={props.account} area="Replenish" />
         <form
           onsubmit={async (ev) => {
             ev.preventDefault()
-            if (!confirm(`Dou you really want to replenish '${props.name}' with ${getState().amount}?`)) {
+            if (!confirm(`Dou you really want to replenish '${props.account.name}' with ${getState().amount}?`)) {
               return
             }
             try {
               const state = getState()
               const replenishment = await injector.getInstance(XpenseApiService).call({
                 method: 'POST',
-                action: '/:type/:owner/:accountName/replenish',
-                url: { type: props.ownerType, owner: props.ownerName, accountName: props.name },
+                action: '/accounts/:accountId/replenish',
+                url: { accountId: props.account._id },
                 body: {
                   creationDate: state.date,
                   amount: state.amount,
                   comment: state.comment,
                 },
               })
-              props.onReplenished(replenishment)
+              props.onReplenished && props.onReplenished(replenishment)
               history.back()
             } catch (e) {
               updateState({ error: e })

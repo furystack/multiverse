@@ -1,4 +1,4 @@
-import { Button, Input, styles, colors } from '@common/components'
+import { Button, Input, styles, colors } from '@furystack/shades-common-components'
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { AuthApiService, SessionService, getErrorMessage } from '@common/frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'

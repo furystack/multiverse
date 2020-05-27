@@ -1,6 +1,6 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { LogEntry } from '@common/models'
-import { Button, Input, styles } from '@common/components'
+import { Button, Input, styles } from '@furystack/shades-common-components'
 import { DiagApiService } from '@common/frontend-utils'
 import { Init } from '../init'
 import { getLevelIcon } from './get-level-icon'
@@ -12,8 +12,8 @@ export const EntryDetails = Shade<{ guid: string }, { entry?: LogEntry<any>; err
     try {
       const entry = await injector.getInstance(DiagApiService).call({
         method: 'GET',
-        action: '/logEntry/:_id',
-        url: { _id: props.guid },
+        action: '/logEntry/:id',
+        url: { id: props.guid },
       })
       updateState({ entry })
     } catch (error) {

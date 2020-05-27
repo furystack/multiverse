@@ -65,7 +65,6 @@ injector.setupStores((sm) =>
 injector.setupRepository((repo) =>
   repo
     .createDataSet(xpense.Account, {
-      name: 'accounts',
       addFilter: async ({ injector: i, filter }) => {
         const currentUser = await i.getCurrentUser()
         const orgs = await getOrgsForCurrentUser(i, currentUser)
@@ -84,6 +83,35 @@ injector.setupRepository((repo) =>
           },
         } as typeof filter
       },
+      modifyOnAdd: async ({ injector: i, entity }) => {
+        const currentUser = await i.getCurrentUser()
+        return {
+          ...entity,
+          createdBy: currentUser.username,
+          creationDate: new Date().toISOString(),
+        }
+      },
+      authorizeAdd: async ({ injector: i, entity }) => {
+        const currentUser = await i.getCurrentUser()
+        if (entity.ownerType === 'user' && entity.ownerName === currentUser.username) {
+          return {
+            isAllowed: true,
+          }
+        }
+        if (entity.ownerType === 'organization') {
+          const orgs = await getOrgsForCurrentUser(i, currentUser)
+          if (orgs.some((org) => org.name === entity.ownerName || !org.adminNames.includes(currentUser.username))) {
+            return {
+              isAllowed: true,
+            }
+          }
+        }
+
+        return {
+          isAllowed: false,
+          message: 'You can add user accounts only for yourself and organization accounts only if you are an admin',
+        }
+      },
       authorizeGetEntity: async ({ entity, injector: i }) => {
         const currentUser = await i.getCurrentUser()
         const orgs = await getOrgsForCurrentUser(i, currentUser)
@@ -99,25 +127,19 @@ injector.setupRepository((repo) =>
         }
       },
     })
-    .createDataSet(xpense.Item, {
-      name: 'items',
-    })
+    .createDataSet(xpense.Item, {})
     .createDataSet(xpense.Replenishment, {
-      name: 'replenishments',
       authorizeGetEntity: async ({ entity, injector: i }) => {
-        await injector.getDataSetFor<Account>('accounts').get(i, entity.accountId)
+        await injector.getDataSetFor(xpense.Account).get(i, entity.accountId)
         return { isAllowed: true }
       },
       authorizeRemove: async () => ({ isAllowed: false, message: 'Replenishments are permanent.' }),
       authorizeUpdate: async () => ({ isAllowed: false, message: 'Replenishments are read-only.' }),
     })
-    .createDataSet(xpense.Shop, {
-      name: 'shops',
-    })
+    .createDataSet(xpense.Shop, {})
     .createDataSet(xpense.Shopping, {
-      name: 'shoppings',
       authorizeGetEntity: async ({ entity, injector: i }) => {
-        await injector.getDataSetFor<Account>('accounts').get(i, entity.accountId)
+        await injector.getDataSetFor(xpense.Account).get(i, entity.accountId)
         return { isAllowed: true }
       },
       authorizeRemove: async () => ({ isAllowed: false, message: 'Shoppings are permanent.' }),

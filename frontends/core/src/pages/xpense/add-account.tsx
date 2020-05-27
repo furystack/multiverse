@@ -1,10 +1,18 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { Input, Button, styles } from '@common/components'
-import { XpenseApiService } from '@common/frontend-utils'
-import { AvailableAccountsContext } from './services/available-accounts-context'
+import { Input, Button, styles } from '@furystack/shades-common-components'
+import { XpenseApiService, SessionService } from '@common/frontend-utils'
+import { xpense } from '@common/models'
 
-export const AddXpenseAccountPage = Shade<{}, { name: string; description: string; icon: string }>({
-  getInitialState: () => ({ name: '', description: '', icon: '💳' }),
+export const AddXpenseAccountPage = Shade<{}, Partial<xpense.Account>>({
+  getInitialState: ({ injector }) => ({
+    name: '',
+    description: '',
+    icon: '💳',
+    ownerType: 'user',
+    ownerName: injector.getInstance(SessionService).currentUser.getValue()?.username,
+    current: 0,
+    history: [],
+  }),
   render: ({ injector, getState, updateState }) => {
     return (
       <div style={{ ...styles.glassBox, padding: '1em' }}>
@@ -13,13 +21,13 @@ export const AddXpenseAccountPage = Shade<{}, { name: string; description: strin
           onsubmit={async (ev) => {
             ev.preventDefault()
             const account = getState()
-            const created = await injector.getInstance(XpenseApiService).call({
+            await injector.getInstance(XpenseApiService).call({
               method: 'POST',
               action: '/accounts',
-              body: account,
+              body: {
+                ...account,
+              },
             })
-            const accountsService = injector.getInstance(AvailableAccountsContext)
-            accountsService.accounts.setValue([...accountsService.accounts.getValue(), created])
             history.pushState({}, '', '/xpense')
             injector.getInstance(LocationService).updateState()
           }}>
@@ -28,6 +36,8 @@ export const AddXpenseAccountPage = Shade<{}, { name: string; description: strin
             required
             type="text"
             labelTitle="Icon"
+            defaultValue={getState().icon}
+            maxLength={1}
             onTextChange={(value) => updateState({ icon: value }, true)}
           />
           <Input

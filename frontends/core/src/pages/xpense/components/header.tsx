@@ -9,9 +9,7 @@ export const SelectedAccountHeader = Shade<{ area: string; account: xpense.Accou
         <h3 style={{ marginBottom: '0' }}>{props.area}</h3>
         <h5 style={{ marginTop: '6px' }}>
           {' '}
-          <RouteLink
-            title="Account name"
-            href={`/xpense/${props.account.ownerType}/${props.account.ownerName}/${props.account.name}`}>
+          <RouteLink title="Account name" href={`/xpense/${props.account._id}`}>
             💳 {props.account.name}
           </RouteLink>
           {props.account.ownerType === 'user' ? (

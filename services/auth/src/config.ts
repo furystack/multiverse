@@ -41,7 +41,6 @@ injector
   .useLogging(ConsoleLogger)
   .setupRepository((repo) =>
     repo.createDataSet(Profile, {
-      name: 'profiles',
       authorizeUpdateEntity: async ({ injector: i, entity: profile }) => {
         const currentUser = await i.getCurrentUser()
         if (profile.username === currentUser.username) {

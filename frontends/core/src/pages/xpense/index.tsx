@@ -1,79 +1,61 @@
-import { Shade, createComponent, Router, LocationService } from '@furystack/shades'
-import { styles, Fab, colors } from '@common/components'
-import { Widget } from '../welcome-page'
+import { Shade, createComponent, Router, LazyLoad } from '@furystack/shades'
+import { styles } from '@furystack/shades-common-components'
+import { xpense } from '@common/models'
+import { XpenseApiService } from '@common/frontend-utils'
 import { Init } from '../init'
 import { AccountContext } from './account-context'
-import { AvailableAccountsContext, AvailableAccount } from './services/available-accounts-context'
+import { AccountList } from './account-list'
 
-export const XpensePage = Shade<
-  { accountOwner?: string; accountType?: 'user' | 'organization'; accountName: string },
-  { availableAccounts: AvailableAccount[]; isLoading: boolean }
->({
+export const XpensePage = Shade({
   shadowDomName: 'xpense-index',
-  getInitialState: ({ injector }) => ({
-    availableAccounts: injector.getInstance(AvailableAccountsContext).accounts.getValue(),
-    isLoading: injector.getInstance(AvailableAccountsContext).isLoading.getValue(),
-  }),
-  constructed: ({ injector, updateState }) => {
-    const accountsCtx = injector.getInstance(AvailableAccountsContext)
-    const disposables = [
-      accountsCtx.isLoading.subscribe((isLoading) => {
-        updateState({ isLoading })
-      }),
-      accountsCtx.accounts.subscribe((availableAccounts) => updateState({ availableAccounts })),
-    ]
-    return () => disposables.map((d) => d.dispose())
-  },
-  render: ({ getState, injector }) => {
-    const state = getState()
-    if (state.isLoading) {
-      return <Init message="Loading Accounts..." />
-    }
+  render: ({ injector }) => {
     return (
       <div style={{ ...styles.glassBox, height: 'calc(100% - 2px)', width: 'calc(100% - 2px)' }}>
         <Router
-          notFound={() => (
-            <div style={{ overflow: 'auto', width: '100%', height: '100%' }}>
-              <div
-                style={{
-                  padding: '2em',
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexWrap: 'wrap',
-                  overflow: 'auto',
-                }}>
-                {state.availableAccounts?.map((account, index) => (
-                  <Widget
-                    icon={account.icon || (account.ownerType === 'user' ? '🧑' : '🏢')}
-                    name={account.name}
-                    index={index}
-                    url={`/xpense/${account.ownerType}/${account.ownerName}/${account.name}`}
-                    description=""
-                  />
-                ))}
-                <Fab
-                  style={{ backgroundColor: colors.primary.main }}
-                  title="Create Account"
-                  onclick={() => {
-                    history.pushState({}, '', '/xpense/add-account')
-                    injector.getInstance(LocationService).updateState()
-                  }}>
-                  ➕
-                </Fab>
-              </div>
-            </div>
-          )}
           routes={[
             {
               routingOptions: { end: false },
-              url: '/xpense/:type/:owner/:accountName',
-              component: ({ match }) => (
-                <AccountContext
-                  accountName={decodeURIComponent(match.params.accountName)}
-                  type={match.params.type === 'organization' ? 'organization' : 'user'}
-                  owner={decodeURIComponent(match.params.owner)}
+              url: '/xpense/:accountId',
+              component: ({ match }) => {
+                const accountId = decodeURIComponent(match.params.accountId)
+                return (
+                  <LazyLoad
+                    loader={<Init message="Loading Account..." />}
+                    component={async () => {
+                      const account: xpense.Account = await injector.getInstance(XpenseApiService).call({
+                        method: 'GET',
+                        action: '/accounts/:id',
+                        query: {},
+                        url: { id: accountId, anyád: 2 },
+                      })
+                      return <AccountContext account={account} />
+                    }}
+                  />
+                )
+              },
+            },
+            {
+              url: '/',
+              routingOptions: {
+                end: false,
+              },
+              component: () => (
+                <LazyLoad
+                  loader={<Init message="Loading Accounts..." />}
+                  component={async () => {
+                    const { entries } = await injector.getInstance(XpenseApiService).call({
+                      method: 'GET',
+                      action: '/accounts',
+                      query: {
+                        findOptions: {
+                          filter: {},
+                          select: ['_id', 'current', 'icon', 'name', 'ownerName', 'ownerType'],
+                          order: { name: 'ASC' },
+                        },
+                      },
+                    })
+                    return <AccountList accounts={entries as xpense.Account[]} />
+                  }}
                 />
               ),
             },

@@ -1,23 +1,14 @@
+import { Authenticate } from '@furystack/rest-service'
 import { sites } from '@common/config'
-import { apis, deserialize } from '@common/models'
-import { attachShutdownHandler } from '@common/service-utils'
-import { injector } from './config'
+import { apis, deserialize, xpense } from '@common/models'
 import {
-  GetItems,
-  GetShops,
-  GetAccount,
-  PostShop,
-  PostItem,
-  PostReplenishment,
-  PostShopping,
-  GetAvailableAccounts,
-  PostAccount,
-  GetReplenishment,
-  GetReplenishments,
-  GetShop,
-  GetShopping,
-  GetShoppings,
-} from './actions'
+  attachShutdownHandler,
+  createCollectionEndpoint,
+  createSingleEntityEndpoint,
+  createSinglePostEndpoint,
+} from '@common/service-utils'
+import { injector } from './config'
+import { PostReplenishment, PostShopping } from './actions'
 
 injector.useRestService<apis.XpenseApi>({
   port: parseInt(sites.services.xpense.internalPort as string, 10),
@@ -25,22 +16,23 @@ injector.useRestService<apis.XpenseApi>({
   root: '/api/xpense',
   api: {
     GET: {
-      '/shops': GetShops,
-      '/items': GetItems,
-      '/:type/:owner/:accountName': GetAccount,
-      '/:type/:owner/:accountName/replenishments': GetReplenishments,
-      '/:type/:owner/:accountName/shoppings': GetShoppings,
-      '/availableAccounts': GetAvailableAccounts,
-      '/replenishments/:replenishmentId': GetReplenishment,
-      '/shops/:shopId': GetShop,
-      '/shopping/:shoppingId': GetShopping,
+      '/shops': Authenticate()(createCollectionEndpoint({ model: xpense.Shop })),
+      '/shops/:id': Authenticate()(createSingleEntityEndpoint({ model: xpense.Shop })),
+      '/items': Authenticate()(createCollectionEndpoint({ model: xpense.Item })),
+      '/items/:id': Authenticate()(createSingleEntityEndpoint({ model: xpense.Item })),
+      '/accounts': Authenticate()(createCollectionEndpoint({ model: xpense.Account })),
+      '/accounts/:id': Authenticate()(createSingleEntityEndpoint({ model: xpense.Account })),
+      '/replenishments': Authenticate()(createCollectionEndpoint({ model: xpense.Replenishment })),
+      '/replenishments/:id': Authenticate()(createSingleEntityEndpoint({ model: xpense.Replenishment })),
+      '/shoppings': Authenticate()(createCollectionEndpoint({ model: xpense.Shopping })),
+      '/shoppings/:id': Authenticate()(createSingleEntityEndpoint({ model: xpense.Shopping })),
     },
     POST: {
-      '/items': PostItem,
-      '/shops': PostShop,
-      '/accounts': PostAccount,
-      '/:type/:owner/:accountName/replenish': PostReplenishment,
-      '/:type/:owner/:accountName/shop': PostShopping,
+      '/items': Authenticate()(createSinglePostEndpoint(xpense.Item)),
+      '/shops': Authenticate()(createSinglePostEndpoint(xpense.Shop)),
+      '/accounts': Authenticate()(createSinglePostEndpoint(xpense.Account)),
+      '/accounts/:accountId/replenish': Authenticate()(PostReplenishment),
+      '/accounts/:accountId/shop': Authenticate()(PostShopping),
     },
   },
   cors: {

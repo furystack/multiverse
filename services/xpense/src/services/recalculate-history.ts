@@ -2,24 +2,24 @@ import { Injector } from '@furystack/inject'
 import { xpense } from '@common/models'
 
 export const recalculateHistory = async ({
-  account,
+  accountId,
   injector,
 }: {
-  account: xpense.Account
+  accountId: string
   injector: Injector
 }): Promise<xpense.Account> => {
-  const currentAccount = await injector.getDataSetFor<xpense.Account>('accounts').get(injector, account._id)
+  const currentAccount = await injector.getDataSetFor(xpense.Account).get(injector, accountId)
 
   if (!currentAccount) {
     throw new Error('Account not found')
   }
 
   const replenishPromise = injector
-    .getDataSetFor<xpense.Replenishment>('replenishments')
-    .find(injector, { filter: { accountId: { $eq: account._id } }, select: ['_id', 'amount', 'creationDate'] })
+    .getDataSetFor(xpense.Replenishment)
+    .find(injector, { filter: { accountId: { $eq: accountId } }, select: ['_id', 'amount', 'creationDate'] })
   const shoppingPromise = injector
-    .getDataSetFor<xpense.Shopping>('shoppings')
-    .find(injector, { filter: { accountId: { $eq: account._id } }, select: ['_id', 'sumAmount', 'creationDate'] })
+    .getDataSetFor(xpense.Shopping)
+    .find(injector, { filter: { accountId: { $eq: accountId } }, select: ['_id', 'sumAmount', 'creationDate'] })
 
   const [replenishments, shoppings] = await Promise.all([replenishPromise, shoppingPromise])
 
@@ -51,13 +51,9 @@ export const recalculateHistory = async ({
       [],
     )
 
-  const updated: xpense.Account = {
-    ...currentAccount,
-    history,
-    current: history[history.length - 1].balance,
-  }
+  const current = history[history.length - 1].balance
 
-  await injector.getDataSetFor<xpense.Account>('accounts').update(injector, account._id, updated)
+  await injector.getDataSetFor(xpense.Account).update(injector, accountId, { history, current })
 
-  return updated
+  return { ...currentAccount, history, current }
 }

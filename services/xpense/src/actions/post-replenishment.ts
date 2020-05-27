@@ -4,29 +4,26 @@ import { recalculateHistory } from '../services/recalculate-history'
 
 export const PostReplenishment: RequestAction<{
   body: { amount: number; comment?: string; creationDate: string }
-  urlParams: { type: 'user' | 'organization'; owner: string; accountName: string }
+  urlParams: { accountId: string }
   result: xpense.Replenishment
 }> = async ({ injector, getBody, getUrlParams }) => {
   const currentUser = await injector.getCurrentUser()
   const body = await getBody()
-  const { accountName, owner, type } = getUrlParams()
-  const ds = injector.getDataSetFor<xpense.Account>('accounts')
-  const [account] = await ds.find(injector, {
-    filter: { name: { $eq: accountName }, ownerType: { $eq: type }, ownerName: { $eq: owner } },
-    top: 1,
-  })
+  const { accountId } = getUrlParams()
+  const ds = injector.getDataSetFor(xpense.Account)
+  const account = await ds.get(injector, accountId)
   if (!account) {
     throw new RequestError('Account not found!', 404)
   }
 
-  const { created } = await injector.getDataSetFor<xpense.Replenishment>('replenishments').add(injector, {
+  const { created } = await injector.getDataSetFor(xpense.Replenishment).add(injector, {
     ...body,
     creationDate: new Date(body.creationDate).toISOString(),
     createdBy: currentUser.username,
-    accountId: account._id,
+    accountId,
   })
 
-  await recalculateHistory({ injector, account })
+  await recalculateHistory({ injector, accountId })
 
   return JsonResult(created[0])
 }

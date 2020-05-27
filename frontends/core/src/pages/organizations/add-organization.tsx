@@ -1,5 +1,5 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { styles, Input, Button, colors } from '@common/components'
+import { styles, Input, Button, colors } from '@furystack/shades-common-components'
 import { Organization } from '@common/models'
 import { AuthApiService } from '@common/frontend-utils'
 
@@ -15,7 +15,9 @@ export const AddOrganizationPage = Shade<{}, Omit<Organization, '_id'>>({
             const created = await injector.getInstance(AuthApiService).call({
               method: 'POST',
               action: '/organizations',
-              body: getState(),
+              body: {
+                ...getState(),
+              },
             })
             history.pushState({}, '', `/organization/${encodeURIComponent(created.name)}`)
           }}>

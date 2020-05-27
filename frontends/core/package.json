@@ -38,6 +38,7 @@
     "@furystack/rest": "^1.1.1",
     "@furystack/rest-client-fetch": "^1.1.2",
     "@furystack/shades": "^3.0.0",
+    "@furystack/shades-common-components": "^1.0.3",
     "path-to-regexp": "^6.1.0"
   }
 }

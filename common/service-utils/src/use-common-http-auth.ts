@@ -50,7 +50,6 @@ Injector.prototype.useCommonHttpAuth = function () {
   this.setupRepository((repo) =>
     repo
       .createDataSet(Organization, {
-        name: 'organizations',
         authorizeUpdateEntity: async ({ injector: i, entity }) => {
           const currentUser = await i.getCurrentUser()
           if (entity.ownerName === currentUser.username || entity.adminNames.includes(currentUser.username)) {
@@ -68,7 +67,6 @@ Injector.prototype.useCommonHttpAuth = function () {
             message: success ? '' : "Role 'user-admin' required.",
           }
         },
-        name: 'users',
       }),
   )
 

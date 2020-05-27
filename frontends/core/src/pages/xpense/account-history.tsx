@@ -1,88 +1,38 @@
-import { Shade, createComponent } from '@furystack/shades'
-import { Chart, ChartPoint } from 'chart.js'
+import { Shade, createComponent, LazyLoad } from '@furystack/shades'
+import { Tabs } from '@furystack/shades-common-components'
 import { xpense } from '@common/models'
-import { colors, Button } from '@common/components'
+import { XpenseApiService } from '@common/frontend-utils'
+import { Init } from '../init'
+import { AccountHistoryChart } from './account-history-chart'
+import { AccountHistoryShoppings } from './services/account-history-shoppings'
 
 export const AccountHistory = Shade<{ account: xpense.Account }>({
-  shadowDomName: 'xpense-account-history-page',
-  onAttach: ({ element, props }) => {
-    setTimeout(() => {
-      const canvas = element.querySelector('canvas') as HTMLCanvasElement
-      new Chart(canvas, {
-        type: 'line',
-        data: {
-          labels: props.account.history.map((h) => h.date),
-          datasets: [
-            {
-              label: 'Balance',
-              data: props.account.history.map((h) => ({ y: h.balance, t: new Date(h.date) } as ChartPoint)),
-              borderColor: colors.primary.main,
-              backgroundColor: colors.primary.dark,
-            },
-          ],
-        },
-        options: {
-          legend: {
-            display: false,
-          },
-          onClick: (_ev, el) => {
-            if (!(el as any)[0]) {
-              return
-            }
-            const ev: xpense.Account['history'][number] = props.account.history[(el as any)[0]?._index as number]
-            const { relatedEntry } = ev
-            if (relatedEntry.type === 'replenishment') {
-              history.pushState(
-                {},
-                '',
-                `/xpense/${props.account.ownerType}/${props.account.ownerName}/${props.account.name}/replenishment/${relatedEntry.replenishmentId}`,
-              )
-            } else if (relatedEntry.type === 'shopping') {
-              history.pushState(
-                {},
-                '',
-                `/xpense/${props.account.ownerType}/${props.account.ownerName}/${props.account.name}/shopping/${relatedEntry.shoppingId}`,
-              )
-            }
-          },
-          elements: {
-            line: {
-              cubicInterpolationMode: 'monotone',
-            },
-            point: {
-              radius: 5,
-            },
-          },
-          scales: {
-            xAxes: [
-              {
-                type: 'time',
-                time: {
-                  minUnit: 'hour',
-                },
-              },
-            ],
-          },
-        },
-      })
-    }, 100)
-  },
-  render: () => {
+  shadowDomName: 'xpense-account-history',
+  render: ({ props, injector }) => {
     return (
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'column',
-        }}>
-        <div style={{ width: 'calc(100% - 4em)', height: 'calc(100% - 4em)' }}>
-          <canvas></canvas>
-        </div>
-        <Button onclick={() => history.back()}>Back</Button>
-      </div>
+      <Tabs
+        tabs={[
+          { header: <span>Shoppings</span>, component: <AccountHistoryShoppings account={props.account} /> },
+          { header: <span>Replenishments</span>, component: <div>Replenishments</div> },
+          {
+            header: <span>History</span>,
+            component: (
+              <LazyLoad
+                loader={<Init message="Loading Account History..." />}
+                component={async () => {
+                  const loadedAccount = await injector.getInstance(XpenseApiService).call({
+                    method: 'GET',
+                    action: '/accounts/:id',
+                    url: { id: props.account._id },
+                    query: {},
+                  })
+                  return <AccountHistoryChart history={loadedAccount.history} accountId={loadedAccount._id} />
+                }}
+              />
+            ),
+          },
+        ]}
+      />
     )
   },
 })

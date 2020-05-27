@@ -22,7 +22,7 @@
     "@furystack/inject": "^4.0.3",
     "@furystack/logging": "^2.0.8",
     "@furystack/mongodb-store": "^3.0.0",
-    "@furystack/repository": "^2.0.9",
+    "@furystack/repository": "^3.0.0",
     "@furystack/rest": "^1.1.1",
     "@furystack/rest-service": "^2.0.0",
     "tslib": "^2.0.0"
