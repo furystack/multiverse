@@ -12,6 +12,7 @@ export const AccountHistory = Shade<{ account: xpense.Account }>({
   render: ({ props, injector }) => {
     return (
       <Tabs
+        style={{ height: '100%' }}
         tabs={[
           { header: <span>Shoppings</span>, component: <AccountHistoryShoppings account={props.account} /> },
           { header: <span>Replenishments</span>, component: <AccountHistoryReplenishments account={props.account} /> },
