@@ -5,3 +5,5 @@ export * from './get-error-message'
 export * from './service-list'
 export * from './session'
 export * from './rest-params'
+
+import './injector-extensions'

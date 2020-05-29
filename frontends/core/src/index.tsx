@@ -2,6 +2,7 @@ import { createComponent, initializeShadeRoot } from '@furystack/shades'
 import { VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { sites, tokens } from '@common/config'
+import '@common/frontend-utils'
 import { Layout } from './components/layout'
 import './services/google-auth-provider'
 import '@furystack/rest'
@@ -26,6 +27,8 @@ shadeInjector.logger.withScope('Startup').verbose({
 shadeInjector.useGoogleAuth({
   clientId: tokens.googleClientId,
 })
+
+shadeInjector.useSessionService()
 
 const rootElement: HTMLDivElement = document.getElementById('root') as HTMLDivElement
 initializeShadeRoot({

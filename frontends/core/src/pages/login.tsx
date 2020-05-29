@@ -1,8 +1,7 @@
-import { colors, Button, Input, styles } from '@furystack/shades-common-components'
+import { colors, Button, Loader, Input, styles } from '@furystack/shades-common-components'
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { SessionService, getErrorMessage } from '@common/frontend-utils'
 import { tokens } from '@common/config'
-import { Loader } from '../components/loader'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 
 export const Login = Shade<

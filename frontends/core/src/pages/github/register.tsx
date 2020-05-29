@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { Shade, createComponent, RouteLink, LocationService } from '@furystack/shades'
 import { SessionService, getErrorMessage } from '@common/frontend-utils'
-import { Button } from '@furystack/shades-common-components'
-import { Loader } from '../../components/loader'
+import { Button, Loader } from '@furystack/shades-common-components'
 import { GithubAuthProvider } from '../../services/github-auth-provider'
 
 export const GithubRegister = Shade<{ code: string }, { loginError?: string }>({

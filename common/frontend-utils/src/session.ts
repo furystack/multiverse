@@ -1,5 +1,6 @@
 import { Injectable } from '@furystack/inject'
 import { ObservableValue, usingAsync } from '@furystack/utils'
+import { IdentityContext, User as FUser } from '@furystack/core'
 import { User } from '@common/models'
 import { AuthApiService } from './apis/auth-api'
 import { getErrorMessage } from './get-error-message'
@@ -7,7 +8,7 @@ import { getErrorMessage } from './get-error-message'
 export type sessionState = 'initializing' | 'offline' | 'unauthenticated' | 'authenticated'
 
 @Injectable({ lifetime: 'singleton' })
-export class SessionService {
+export class SessionService implements IdentityContext {
   private readonly operation = () => {
     this.isOperationInProgress.setValue(true)
     return { dispose: () => this.isOperationInProgress.setValue(false) }
@@ -57,5 +58,25 @@ export class SessionService {
 
   constructor(private api: AuthApiService) {
     this.init()
+  }
+
+  public async isAuthenticated(): Promise<boolean> {
+    return this.state.getValue() === 'authenticated'
+  }
+  public async isAuthorized(...roles: string[]): Promise<boolean> {
+    const currentUser = await this.getCurrentUser()
+    for (const role of roles) {
+      if (!currentUser || !currentUser.roles.some((c) => c === role)) {
+        return false
+      }
+    }
+    return true
+  }
+  public async getCurrentUser<TUser extends FUser>(): Promise<TUser> {
+    const currentUser = this.currentUser.getValue()
+    if (!currentUser) {
+      throw Error('No user available')
+    }
+    return (currentUser as unknown) as TUser
   }
 }

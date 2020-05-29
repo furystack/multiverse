@@ -1,7 +1,9 @@
 import { createComponent, Shade, Router, LazyLoad } from '@furystack/shades'
+import { CommandPalette } from '@furystack/shades-common-components'
 import { DocsPage } from '../pages/docs'
 import { ContactPage } from '../pages/contact'
 import { Init } from '../pages'
+import { getCommandProviders } from '../services/command-providers'
 import { Body } from './body'
 import { Header } from './header'
 import { CurrentUserMenu } from './current-user-menu'
@@ -28,12 +30,11 @@ export const Layout = Shade({
         }}
         className="eee">
         <Header>
-          <div style={{ flex: '1' }} />
+          <CommandPalette style={{ marginRight: '1em' }} commandProviders={getCommandProviders()} defaultPrefix={'>'} />{' '}
           <CurrentUserMenu />
           <div style={{ width: '1em' }} />
         </Header>
         <Router
-          // notFound={() => <Body />}
           routes={[
             /** If you needs routes with session dependency, use the <Body /> */
             {
