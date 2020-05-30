@@ -52,6 +52,11 @@ export const IconUrlWidget = Shade<Omit<IconUrlWidgetModel, 'type'> & { index: n
         }}
         href={props.url}>
         <div
+          style={{
+            width: '100%',
+            height: '100%',
+            overflow: 'hidden',
+          }}
           onclick={(ev) => {
             if (props.url.startsWith('http') && new URL(props.url).href !== window.location.href) {
               ev.preventDefault()
@@ -59,8 +64,10 @@ export const IconUrlWidget = Shade<Omit<IconUrlWidgetModel, 'type'> & { index: n
               window.location.replace(props.url)
             }
           }}>
-          <div style={{ fontSize: '128px' }}>{props.icon}</div>
-          <div>{props.name}</div>
+          <div style={{ fontSize: '128px', textAlign: 'center' }}>{props.icon}</div>
+          <div style={{ maxWidth: '100%', overflow: 'hidden', textAlign: 'center', textOverflow: 'ellipsis' }}>
+            {props.name}
+          </div>
         </div>
       </RouteLink>
     )

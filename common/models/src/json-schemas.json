@@ -12,7 +12,8 @@
             "Feature Switches",
             "Users",
             "Diagnostics",
-            "System Logs"
+            "System Logs",
+            "Movies"
           ],
           "type": "string"
         },
@@ -101,79 +102,6 @@
       ],
       "type": "object"
     },
-    "LoggerWidget": {
-      "additionalProperties": false,
-      "properties": {
-        "levels": {
-          "items": {
-            "additionalProperties": false,
-            "properties": {
-              "Debug": {
-                "enum": [
-                  1
-                ],
-                "type": "number"
-              },
-              "Error": {
-                "enum": [
-                  4
-                ],
-                "type": "number"
-              },
-              "Fatal": {
-                "enum": [
-                  5
-                ],
-                "type": "number"
-              },
-              "Information": {
-                "enum": [
-                  2
-                ],
-                "type": "number"
-              },
-              "Verbose": {
-                "enum": [
-                  0
-                ],
-                "type": "number"
-              },
-              "Warning": {
-                "enum": [
-                  3
-                ],
-                "type": "number"
-              }
-            },
-            "required": [
-              "Verbose",
-              "Debug",
-              "Information",
-              "Warning",
-              "Error",
-              "Fatal"
-            ],
-            "type": "object"
-          },
-          "type": "array"
-        },
-        "maxEntries": {
-          "type": "number"
-        },
-        "type": {
-          "enum": [
-            "logger"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "levels",
-        "maxEntries",
-        "type"
-      ],
-      "type": "object"
-    },
     "MarkdownWidget": {
       "additionalProperties": false,
       "properties": {
@@ -225,12 +153,6 @@
           "$ref": "#/definitions/IconUrlWidget"
         },
         {
-          "$ref": "#/definitions/LoggerWidget"
-        },
-        {
-          "$ref": "#/definitions/XpenseHistoryGraphWidget"
-        },
-        {
           "$ref": "#/definitions/MarkdownWidget"
         }
       ]
@@ -280,21 +202,6 @@
       ],
       "type": "object"
     },
-    "WidgetBase<\"logger\">": {
-      "additionalProperties": false,
-      "properties": {
-        "type": {
-          "enum": [
-            "logger"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
     "WidgetBase<\"markdown\">": {
       "additionalProperties": false,
       "properties": {
@@ -306,56 +213,6 @@
         }
       },
       "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "WidgetBase<\"xpense-history-graph\">": {
-      "additionalProperties": false,
-      "properties": {
-        "type": {
-          "enum": [
-            "xpense-history-graph"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "XpenseHistoryGraphWidget": {
-      "additionalProperties": false,
-      "properties": {
-        "accountName": {
-          "type": "string"
-        },
-        "accountOwner": {
-          "type": "string"
-        },
-        "accountType": {
-          "enum": [
-            "user",
-            "organization"
-          ],
-          "type": "string"
-        },
-        "days": {
-          "type": "number"
-        },
-        "type": {
-          "enum": [
-            "xpense-history-graph"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "accountName",
-        "accountOwner",
-        "accountType",
-        "days",
         "type"
       ],
       "type": "object"

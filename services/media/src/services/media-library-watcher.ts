@@ -40,6 +40,7 @@ export class MediaLibraryWatcher {
         })
         await dataSet.add(this.injector, {
           path: name,
+          libraryId: library._id,
         })
       }
     })

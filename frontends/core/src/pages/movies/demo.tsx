@@ -2,7 +2,7 @@ import { Shade, createComponent } from '@furystack/shades'
 import { sites } from '@common/config'
 
 export const MediaPage = Shade({
-  shadowDomName: 'multiverse-media-page',
+  shadowDomName: 'multiverse-media-demo',
   render: () => {
     return (
       <video id="videoPlayer" controls style={{ width: '100%', height: '100%' }} crossOrigin="use-credentials">

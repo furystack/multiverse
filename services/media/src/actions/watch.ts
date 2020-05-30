@@ -1,10 +1,20 @@
 import { promises, createReadStream } from 'fs'
-import { RequestAction, BypassResult } from '@furystack/rest'
+import { RequestAction, BypassResult, RequestError } from '@furystack/rest'
+import { media } from '@common/models'
 
-export const DemoAction: RequestAction<{}> = async ({ request, response }) => {
-  const path =
-    'e:\\Sorozatok\\The.Witcher.S01.2160p.HDR.NF.WEBRip.DDP5.1.Atmos.x265.HUN.ENG-PTHD\\The.Witcher.S01E01.2160p.HDR.NF.WEBRip.DDP5.1.Atmos.x265.HUN.ENG-PTHD.mkv'
-  const stat = await promises.stat(path)
+export const WatchAction: RequestAction<{ urlParams: { id: string } }> = async ({
+  request,
+  response,
+  getUrlParams,
+  injector,
+}) => {
+  const { id } = getUrlParams()
+  const movie = await injector.getDataSetFor(media.Movie).get(injector, id, ['path'])
+  if (!movie) {
+    throw new RequestError('not found', 404)
+  }
+
+  const stat = await promises.stat(movie.path)
   const fileSize = stat.size
   const { range } = request.headers
   if (range) {
@@ -12,7 +22,7 @@ export const DemoAction: RequestAction<{}> = async ({ request, response }) => {
     const start = parseInt(parts[0], 10)
     const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1
     const chunksize = end - start + 1
-    const file = createReadStream(path, { start, end })
+    const file = createReadStream(movie.path, { start, end })
     const head = {
       'Content-Range': `bytes ${start}-${end}/${fileSize}`,
       'Accept-Ranges': 'bytes',
@@ -28,7 +38,7 @@ export const DemoAction: RequestAction<{}> = async ({ request, response }) => {
       'Content-Type': 'video/mp4',
     }
     response.writeHead(200, head)
-    createReadStream(path).pipe(response)
+    createReadStream(movie.path).pipe(response)
   }
   return BypassResult()
 }

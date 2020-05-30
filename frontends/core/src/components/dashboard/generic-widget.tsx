@@ -19,7 +19,7 @@ export const GenericWidget = Shade<WidgetModel & { index: number }>({
       case 'markdown':
         return <MarkdownWidget {...props} />
       default:
-        return <BrokenWidget message={`There is no widget with type '${props.type}'`} widgetData={props} />
+        return <BrokenWidget message={`There is no widget with type '${(props as any).type}'`} widgetData={props} />
     }
   },
 })

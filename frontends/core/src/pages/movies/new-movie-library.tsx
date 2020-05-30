@@ -26,6 +26,18 @@ export const NewMovieLibrary = Shade<unknown, Partial<media.MovieLibrary>>({
             required
             onTextChange={(text) => updateState({ path: text })}
           />
+          <Input
+            value={getState().name}
+            labelTitle="Name"
+            required
+            onTextChange={(text) => updateState({ name: text })}
+          />
+          <Input
+            value={getState().icon}
+            labelTitle="Icon"
+            required
+            onTextChange={(text) => updateState({ icon: text })}
+          />
           <Button type="submit">Create Movie Library</Button>
         </form>
       </div>

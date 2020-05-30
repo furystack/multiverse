@@ -229,16 +229,16 @@ export const Body = Shade<
                           ]
                         : []),
                       {
-                        url: '/media',
+                        url: '/movies',
                         routingOptions: { end: false },
                         component: () => {
                           return (
                             <LazyLoad
                               component={async () => {
-                                const { MediaPage } = await import(/* webpackChunkName: "media" */ '../pages/media')
-                                return <MediaPage />
+                                const { MoviesPage } = await import(/* webpackChunkName: "movies" */ '../pages/movies')
+                                return <MoviesPage />
                               }}
-                              loader={<Init message="Loading feature switches..." />}
+                              loader={<Init message="Loading Movies..." />}
                             />
                           )
                         },
