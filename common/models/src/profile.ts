@@ -15,17 +15,9 @@ export const DefaultUserSettings: UserSettings = {
     description: 'The default User dashboard',
     widgets: [
       { type: 'app-shortcut', appName: 'Profile' },
+      { type: 'app-shortcut', appName: 'Movies' },
       { type: 'app-shortcut', appName: 'Xpense' },
       { type: 'app-shortcut', appName: 'System Logs' },
-      { type: 'icon-url-widget', name: 'GooGolE', icon: '💀', url: 'https://google.com', description: 'GoTo Google' },
-      {
-        type: 'html',
-        content: "<div style='color:red'>Anyádat</div>",
-      },
-      {
-        type: 'markdown',
-        content: '### Header \r\n [GitHubKA](http://github.com)',
-      },
     ],
   },
 }

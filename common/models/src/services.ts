@@ -16,6 +16,7 @@ export const serviceNames = [
   'Users',
   'Diagnostics',
   'System Logs',
+  'Movies',
 ] as const
 
 export const serviceList: Array<ServiceDescription<typeof serviceNames[number]>> = [
@@ -67,5 +68,12 @@ export const serviceList: Array<ServiceDescription<typeof serviceNames[number]>>
     description: 'View detailed logs about the system',
     url: '/sys-logs',
     requiredRoles: ['sys-logs'],
+  },
+  {
+    name: 'Movies',
+    icon: '🎬',
+    description: 'Watch the uploaded movies',
+    url: '/movies',
+    requiredRoles: ['terms-accepted'],
   },
 ]
