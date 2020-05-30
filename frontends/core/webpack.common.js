@@ -25,6 +25,8 @@ module.exports = {
       DIAG_SERVICE_EXTERNAL_URL: sites.services.diag.externalPath,
       XPENSE_SERVICE_INTERNAL_PORT: sites.services.xpense.internalPort,
       XPENSE_SERVICE_EXTERNAL_URL: sites.services.xpense.externalPath,
+      MEDIA_SERVICE_INTERNAL_PORT: sites.services.media.internalPort,
+      MEDIA_SERVICE_EXTERNAL_URL: sites.services.media.externalPath,
       GITHUB_CLIENT_ID: tokens.githubClientId,
       GITHUB_CLIENT_SECRET: tokens.githubClientSecret,
       GOOGLE_CLIENT_ID: tokens.googleClientId,
