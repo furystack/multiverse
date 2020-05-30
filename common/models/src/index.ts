@@ -10,3 +10,9 @@ export * from './session'
 export * from './user'
 export * as xpense from './xpense'
 export * from './endpoints'
+export * from './schemas'
+export * from './services'
+
+import * as generatedSchema from './json-schemas.json'
+
+export { generatedSchema }

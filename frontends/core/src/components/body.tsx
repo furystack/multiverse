@@ -1,6 +1,6 @@
 import { createComponent, Shade, Route, Router, LazyLoad } from '@furystack/shades'
-import { User } from '@common/models'
-import { SessionService, sessionState } from '@common/frontend-utils'
+import { User, Profile } from '@common/models'
+import { SessionService, sessionState, AuthApiService } from '@common/frontend-utils'
 import { promisifyAnimation, Loader } from '@furystack/shades-common-components'
 import { Init, WelcomePage, Offline, Login } from '../pages'
 import { Page404 } from '../pages/404'
@@ -33,7 +33,7 @@ export const Body = Shade<
     ]
     return () => observables.forEach((o) => o.dispose())
   },
-  render: ({ getState }) => {
+  render: ({ getState, injector }) => {
     // eslint-disable-next-line no-shadow
     const { currentUser, sessionState, isOperationInProgress } = getState()
 
@@ -63,13 +63,43 @@ export const Body = Shade<
                           <LazyLoad
                             component={async () => {
                               const { ProfilePage } = await import(/* webpackChunkName: "profile" */ '../pages/profile')
-                              return <ProfilePage />
+                              const profile = (await injector.getInstance(AuthApiService).call({
+                                method: 'GET',
+                                action: '/profiles/:username',
+                                url: { username: currentUser.username },
+                              })) as Profile
+                              const loginProviderDetails = await injector.getInstance(AuthApiService).call({
+                                method: 'GET',
+                                action: '/loginProviderDetails',
+                              })
+                              return (
+                                <ProfilePage
+                                  profile={profile}
+                                  loginProviderDetails={loginProviderDetails}
+                                  currentUser={currentUser}
+                                />
+                              )
                             }}
                             loader={<Init message="Loading your Profile..." />}
                           />
                         ),
                       },
-                      { url: '/', component: () => <WelcomePage /> },
+                      {
+                        url: '/',
+                        component: () => (
+                          <LazyLoad
+                            component={async () => {
+                              const profile = (await injector.getInstance(AuthApiService).call({
+                                method: 'GET',
+                                action: '/profiles/:username',
+                                url: { username: currentUser.username },
+                              })) as Profile
+                              return <WelcomePage profile={profile} currentUser={currentUser} />
+                            }}
+                            loader={<Init message="Loading your Profile..." />}
+                          />
+                        ),
+                      },
                       {
                         url: '/organizations',
                         component: () => (
@@ -127,7 +157,7 @@ export const Body = Shade<
                         ),
                       },
                       {
-                        url: '/xpense/:type?/:owner?/:accountName?',
+                        url: '/xpense',
                         routingOptions: {
                           end: false,
                         },

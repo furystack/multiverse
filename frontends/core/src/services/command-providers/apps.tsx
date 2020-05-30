@@ -1,7 +1,7 @@
 import { LocationService } from '@furystack/shades'
 import { Injector } from '@furystack/inject'
 import { CommandProvider } from '@furystack/shades-common-components'
-import { serviceList } from '@common/frontend-utils'
+import { serviceList } from '@common/models'
 import { createSuggestion, distinctByName } from './create-suggestion'
 
 export const createAppSuggestion = (s: {

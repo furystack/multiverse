@@ -6,6 +6,7 @@ import { Organization } from '../organization'
 import { GoogleAccount } from '../google-account'
 import { GithubAccount } from '../github-account'
 import { CollectionEndpoint, SinglePostEndpoint } from '../endpoints'
+import { UserSettings } from '../schemas'
 
 export interface AuthApi extends RestApi {
   GET: {
@@ -35,6 +36,7 @@ export interface AuthApi extends RestApi {
     '/attachGithubAccount': RequestAction<{ body: { code: string; clientId: string }; result: User }>
     '/detachGithubAccount': RequestAction<{ result: User }>
     '/logout': RequestAction<{}>
+    '/settings': RequestAction<{ body: UserSettings }>
     '/changePassword': RequestAction<{
       body: { currentPassword: string; newPassword: string }
       result: { success: boolean }

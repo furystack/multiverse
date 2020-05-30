@@ -21,6 +21,7 @@ import {
   GetLoginProviderDetails,
 } from './actions'
 import { injector } from './config'
+import { PostSettings } from './actions/post-settings'
 
 injector.useRestService<apis.AuthApi>({
   port: parseInt(sites.services.auth.internalPort as any, 10),
@@ -51,6 +52,7 @@ injector.useRestService<apis.AuthApi>({
       '/register': RegisterAction,
       '/organizations': createSinglePostEndpoint(Organization),
       '/changePassword': Authenticate()(ChangePasswordAction),
+      '/settings': Authenticate()(PostSettings),
     },
     PATCH: {
       '/organizations/:organizationName': PatchOrganization,

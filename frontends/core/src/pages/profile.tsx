@@ -1,54 +1,32 @@
 import { createComponent, Shade } from '@furystack/shades'
+import { deepMerge } from '@furystack/utils'
 import { Tabs, styles, Input, Button, colors } from '@furystack/shades-common-components'
-import { User, Profile, GithubAccount, GoogleAccount } from '@common/models'
-import { AuthApiService, SessionService } from '@common/frontend-utils'
+import { User, Profile, GithubAccount, GoogleAccount, DefaultUserSettings } from '@common/models'
+import { AuthApiService } from '@common/frontend-utils'
 import { tokens } from '@common/config'
 import { Avatar } from '@common/components'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 import { ChangePasswordForm } from '../components/change-password-form'
-import { Init } from './init'
+import { UserSettingsEditor } from '../components/editors/user-settings'
 
 export const ProfilePage = Shade<
-  {},
   {
-    currentUser?: User
-    profile?: Profile
-    loginProviderDetails?: { hasPassword: boolean; google?: GoogleAccount; github?: GithubAccount }
+    profile: Profile
+    loginProviderDetails: { hasPassword: boolean; google?: GoogleAccount; github?: GithubAccount }
+    currentUser: User
+  },
+  {
+    profile: Profile
+    loginProviderDetails: { hasPassword: boolean; google?: GoogleAccount; github?: GithubAccount }
+    currentUser: User
   }
 >({
-  getInitialState: () => ({}),
-  constructed: async ({ injector, updateState }) => {
-    const currentUser = injector.getInstance(SessionService).currentUser.getValue() as User
-    const api = injector.getInstance(AuthApiService)
-    const profile = (await api.call({
-      method: 'GET',
-      action: '/profiles/:username',
-      url: { username: currentUser.username },
-    })) as Profile
-    const loginProviderDetails = await api.call({
-      method: 'GET',
-      action: '/loginProviderDetails',
-    })
-    updateState({
-      currentUser,
-      profile,
-      loginProviderDetails,
-    })
-  },
-  render: ({ getState, injector, updateState }) => {
+  getInitialState: ({ props }) => ({ ...props }),
+  render: ({ injector, getState }) => {
     const { currentUser, profile, loginProviderDetails } = getState()
-    if (!currentUser || !profile || !loginProviderDetails) {
-      return <Init message="Loading profile..." />
-    }
 
     const reloadProviderDetails = async () => {
-      const providerDetails = await injector.getInstance(AuthApiService).call({
-        method: 'GET',
-        action: '/loginProviderDetails',
-      })
-      updateState({
-        loginProviderDetails: providerDetails,
-      })
+      /** */
     }
 
     return (
@@ -170,7 +148,7 @@ export const ProfilePage = Shade<
                             await injector
                               .getInstance(AuthApiService)
                               .call({ method: 'POST', action: '/detachGithubAccount' })
-                            await reloadProviderDetails()
+                            // await reloadProviderDetails()
                             /** */
                           }
                         }}>
@@ -205,6 +183,18 @@ export const ProfilePage = Shade<
                   onUpdated={() => reloadProviderDetails()}
                 />
               </div>
+            ),
+          },
+          {
+            header: <div>⚙ Personal settings</div>,
+            component: (
+              <UserSettingsEditor
+                value={JSON.stringify({ ...deepMerge(DefaultUserSettings, profile.userSettings) }, undefined, 2)}
+                options={{
+                  theme: 'vs-dark',
+                  automaticLayout: true,
+                }}
+              />
             ),
           },
         ]}

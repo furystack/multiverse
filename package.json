@@ -38,7 +38,8 @@
   "devDependencies": {
     "nodemon": "^2.0.2",
     "rimraf": "^3.0.1",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "ts-json-schema-generator": "^0.68.1"
   },
   "husky": {
     "hooks": {
@@ -70,6 +71,7 @@
     "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache",
     "seed": "yarn workspace @service/auth seed",
+    "recreate-schemas": "yarn workspace @common/models ts-json-schema-generator -p src/schemas/**/*.ts -e all -o src/json-schemas.json",
     "docker:base": "docker build . --file ./base.Dockerfile --tag furystack/multiverse-base:latest",
     "docker:auth": "docker build . --file ./auth.Dockerfile --tag furystack/multiverse-auth:latest",
     "docker:diag": "docker build . --file ./diag.Dockerfile --tag furystack/multiverse-diag:latest",

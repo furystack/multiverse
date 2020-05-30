@@ -4,6 +4,7 @@ const webpack = require('webpack')
 const { sites, tokens } = require('@common/config')
 
 const { RelativeCiAgentWebpackPlugin } = require('@relative-ci/agent')
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 
 module.exports = {
   entry: './src/index.tsx',
@@ -31,6 +32,7 @@ module.exports = {
       ...sites.services,
     }),
     new RelativeCiAgentWebpackPlugin(),
+    new MonacoWebpackPlugin(),
   ],
   module: {
     rules: [
@@ -45,18 +47,6 @@ module.exports = {
           },
         ],
         exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/,
-        use: [
-          require.resolve('style-loader'),
-          {
-            loader: require.resolve('css-loader'),
-            options: {
-              importLoaders: 1,
-            },
-          },
-        ],
       },
       {
         test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.PNG$/, /\.svg$/, /\.eot$/, /\.woff$/, /\.woff2$/, /\.ttf$/],

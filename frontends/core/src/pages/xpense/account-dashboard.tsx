@@ -1,6 +1,6 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { xpense } from '@common/models'
-import { Widget } from '../welcome-page'
+import { IconUrlWidget } from '../../components/dashboard/icon-url-widget'
 import { SelectedAccountHeader } from './components/header'
 
 export const AccountDashboard = Shade<xpense.Account>({
@@ -14,14 +14,14 @@ export const AccountDashboard = Shade<xpense.Account>({
           <div style={{ flex: '1' }} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: '2em', flexWrap: 'wrap' }}>
-          <Widget
+          <IconUrlWidget
             icon="💸"
             name="Replenish"
             index={0}
             description={`Add to the balance of ${props.name}`}
             url={`/xpense/${accountUriFragment}/replenish`}
           />
-          <Widget
+          <IconUrlWidget
             icon="🛒"
             name="Shopping"
             index={1}
@@ -30,7 +30,7 @@ export const AccountDashboard = Shade<xpense.Account>({
           />
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: '2em', flexWrap: 'wrap' }}>
-          <Widget
+          <IconUrlWidget
             icon="📉"
             name="History"
             index={1}

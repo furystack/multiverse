@@ -1,7 +1,7 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { xpense } from '@common/models'
 import { Fab, colors } from '@furystack/shades-common-components'
-import { Widget } from '../welcome-page'
+import { IconUrlWidget } from '../../components/dashboard/icon-url-widget'
 
 export const AccountList = Shade<{ accounts: xpense.Account[] }>({
   shadowDomName: 'xpense-account-list',
@@ -20,7 +20,7 @@ export const AccountList = Shade<{ accounts: xpense.Account[] }>({
             overflow: 'auto',
           }}>
           {props.accounts.map((account, index) => (
-            <Widget
+            <IconUrlWidget
               icon={account.icon || (account.ownerType === 'user' ? '🧑' : '🏢')}
               name={account.name}
               index={index}

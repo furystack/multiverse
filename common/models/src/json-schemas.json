@@ -1,0 +1,364 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "AppShortcutWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "appName": {
+          "enum": [
+            "Profile",
+            "Xpense",
+            "Organizations",
+            "Feature Switches",
+            "Users",
+            "Diagnostics",
+            "System Logs"
+          ],
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "app-shortcut"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "appName",
+        "type"
+      ],
+      "type": "object"
+    },
+    "Dashboard": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "widgets": {
+          "items": {
+            "$ref": "#/definitions/Widget"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "widgets"
+      ],
+      "type": "object"
+    },
+    "HtmlWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "html"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "content",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IconUrlWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "icon-url-widget"
+          ],
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "icon",
+        "name",
+        "type",
+        "url"
+      ],
+      "type": "object"
+    },
+    "LoggerWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "levels": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "Debug": {
+                "enum": [
+                  1
+                ],
+                "type": "number"
+              },
+              "Error": {
+                "enum": [
+                  4
+                ],
+                "type": "number"
+              },
+              "Fatal": {
+                "enum": [
+                  5
+                ],
+                "type": "number"
+              },
+              "Information": {
+                "enum": [
+                  2
+                ],
+                "type": "number"
+              },
+              "Verbose": {
+                "enum": [
+                  0
+                ],
+                "type": "number"
+              },
+              "Warning": {
+                "enum": [
+                  3
+                ],
+                "type": "number"
+              }
+            },
+            "required": [
+              "Verbose",
+              "Debug",
+              "Information",
+              "Warning",
+              "Error",
+              "Fatal"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "maxEntries": {
+          "type": "number"
+        },
+        "type": {
+          "enum": [
+            "logger"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "levels",
+        "maxEntries",
+        "type"
+      ],
+      "type": "object"
+    },
+    "MarkdownWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "markdown"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "content",
+        "type"
+      ],
+      "type": "object"
+    },
+    "UserSettings": {
+      "additionalProperties": false,
+      "properties": {
+        "dashboard": {
+          "$ref": "#/definitions/Dashboard"
+        },
+        "theme": {
+          "enum": [
+            "light",
+            "dark"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "theme",
+        "dashboard"
+      ],
+      "type": "object"
+    },
+    "Widget": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/AppShortcutWidget"
+        },
+        {
+          "$ref": "#/definitions/HtmlWidget"
+        },
+        {
+          "$ref": "#/definitions/IconUrlWidget"
+        },
+        {
+          "$ref": "#/definitions/LoggerWidget"
+        },
+        {
+          "$ref": "#/definitions/XpenseHistoryGraphWidget"
+        },
+        {
+          "$ref": "#/definitions/MarkdownWidget"
+        }
+      ]
+    },
+    "WidgetBase<\"app-shortcut\">": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "app-shortcut"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "WidgetBase<\"html\">": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "html"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "WidgetBase<\"icon-url-widget\">": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "icon-url-widget"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "WidgetBase<\"logger\">": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "logger"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "WidgetBase<\"markdown\">": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "markdown"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "WidgetBase<\"xpense-history-graph\">": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "xpense-history-graph"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "XpenseHistoryGraphWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "accountName": {
+          "type": "string"
+        },
+        "accountOwner": {
+          "type": "string"
+        },
+        "accountType": {
+          "enum": [
+            "user",
+            "organization"
+          ],
+          "type": "string"
+        },
+        "days": {
+          "type": "number"
+        },
+        "type": {
+          "enum": [
+            "xpense-history-graph"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "accountName",
+        "accountOwner",
+        "accountType",
+        "days",
+        "type"
+      ],
+      "type": "object"
+    }
+  }
+}

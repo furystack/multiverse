@@ -1,7 +1,7 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { User } from '@common/models'
+import { User, serviceList } from '@common/models'
 import { Avatar } from '@common/components'
-import { SessionService, serviceList } from '@common/frontend-utils'
+import { SessionService } from '@common/frontend-utils'
 import { styles } from '@furystack/shades-common-components'
 
 const CurrentUserMenuItem = Shade<{ title: string; icon: string; onclick: () => void }>({
@@ -74,7 +74,7 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean
             }}>
             {serviceList
               .filter((service) =>
-                service.requiredRoles.every((requiredRole) => currentUser.roles.includes(requiredRole)),
+                service.requiredRoles.every((requiredRole) => currentUser.roles.includes(requiredRole as any)),
               )
               .map((service) => (
                 <CurrentUserMenuItem
