@@ -4,7 +4,7 @@ import { login, openUserMenu } from '../support/commands'
 describe('Xpense', () => {
   it('Should be available from the Dashboard', () => {
     login(cy, 'testuser@gmail.com', 'password')
-    cy.get('shade-welcome-screen-widget').contains('Xpense').scrollIntoView().click()
+    cy.get('welcome-page').contains('Xpense').scrollIntoView().click()
     cy.get('xpense-index')
   })
 
@@ -18,7 +18,7 @@ describe('Xpense', () => {
   it('Should create and select Account', () => {
     const accountName = `test-${v4()}`
     login(cy, 'testuser@gmail.com', 'password')
-    cy.get('shade-welcome-screen-widget').contains('Xpense').scrollIntoView().click()
+    cy.get('welcome-page').contains('Xpense').scrollIntoView().click()
     cy.get('shade-fab div[title="Create Account"]').should('be.visible')
     cy.get('shade-fab div[title="Create Account"]').click()
     cy.get('input[name=icon]').type('🧪')
@@ -34,7 +34,7 @@ describe('Xpense', () => {
     const replenishmentComment = `test-replenishment-${v4()}`
     const balance = Math.round(Math.random() * 10000)
     login(cy, 'testuser@gmail.com', 'password')
-    cy.get('shade-welcome-screen-widget').contains('Xpense').scrollIntoView().click()
+    cy.get('welcome-page').contains('Xpense').scrollIntoView().click()
     cy.get('shade-fab div[title="Create Account"]').click()
     cy.get('input[name=icon]').clear().type('🧪')
     cy.get('input[name=name]').type(accountName)

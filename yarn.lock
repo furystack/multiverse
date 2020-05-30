@@ -200,17 +200,17 @@
     tslib "^2.0.0"
 
 "@furystack/shades-common-components@^1.0.3":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@furystack/shades-common-components/-/shades-common-components-1.1.1.tgz#61c92c354fbe689c400eb45b195129843f22375a"
-  integrity sha512-54FCbkxew2/EAGM/JvCnGHeo/seuDxx9jBC0hyeGUjhZUa+PR/WoR1k6qXAvL+m/8iJ59tlCy7GUyp4PWBuhYw==
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@furystack/shades-common-components/-/shades-common-components-1.1.2.tgz#9ea6d8b737a3d47db88736bad3ddd502a86a60e2"
+  integrity sha512-YYfdudp8ROIeRxFzpMP2AALk+/xJjI7AHvUo9JOTmA61PyxXghe+f2JyRCKdPpEbC9GLZyrKI7PbpgQQ2U2gEw==
   dependencies:
-    "@furystack/shades" "^3.2.13"
+    "@furystack/shades" "^3.2.14"
     uuid "^8.1.0"
 
-"@furystack/shades@^3.0.0", "@furystack/shades@^3.2.13":
-  version "3.2.13"
-  resolved "https://registry.yarnpkg.com/@furystack/shades/-/shades-3.2.13.tgz#b9f28e95d2691138120ff33d053552886c4723a9"
-  integrity sha512-pcSt2pDPr9VElb1Npk48kb8WgntYTZM8otmCCAh8zdCrVLJp4z1CC1QtEoxJpBbFOqH4WljhdNlmcUB9L2Eb+w==
+"@furystack/shades@^3.0.0", "@furystack/shades@^3.2.14":
+  version "3.2.14"
+  resolved "https://registry.yarnpkg.com/@furystack/shades/-/shades-3.2.14.tgz#6da71581d749ca9deec42fe27ee5f02878c1bf36"
+  integrity sha512-nv8zkOzvCPR1l86bDAA4Ps9YldujbZth0+VwbJ2s99kvRgrJafGriS6+AvjA3IPASvqSSCPqF8w0yqZmXs7b5Q==
   dependencies:
     "@furystack/core" "^9.0.1"
     "@furystack/inject" "^4.0.29"
@@ -1844,7 +1844,7 @@ chokidar@^2.1.8:
   optionalDependencies:
     fsevents "^1.2.7"
 
-chokidar@^3.2.2:
+chokidar@^3.2.2, chokidar@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.4.0.tgz#b30611423ce376357c765b9b8f904b9fba3c0be8"
   integrity sha512-aXAaho2VJtisB/1fg1+3nlLJqGOuewTzQpd/Tz0yTg2R0e4IGtshYvtjowyEumcBv2z+y4+kc75Mz7j5xJskcQ==

@@ -3,5 +3,5 @@
     "composite": true
   },
   "include": [],
-  "references": [{ "path": "auth" }, { "path": "diag" }, { "path": "xpense" }]
+  "references": [{ "path": "auth" }, { "path": "diag" }, { "path": "xpense" }, { "path": "media" }]
 }

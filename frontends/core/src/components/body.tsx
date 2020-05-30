@@ -228,6 +228,21 @@ export const Body = Shade<
                             },
                           ]
                         : []),
+                      {
+                        url: '/movies',
+                        routingOptions: { end: false },
+                        component: () => {
+                          return (
+                            <LazyLoad
+                              component={async () => {
+                                const { MoviesPage } = await import(/* webpackChunkName: "movies" */ '../pages/movies')
+                                return <MoviesPage />
+                              }}
+                              loader={<Init message="Loading Movies..." />}
+                            />
+                          )
+                        },
+                      },
                     ] as Array<Route<any>>
                   }></Router>
               ) : (

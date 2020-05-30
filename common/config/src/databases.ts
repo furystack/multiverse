@@ -19,6 +19,12 @@ export const databases = {
     shops: 'shops',
     shoppings: 'private-xpenses',
   },
+  media: {
+    mongoUrl: process.env.MONGO_MULTIVERSE_URL || process.env.MONGO_URL || 'mongodb://localhost:27017',
+    dbName: 'multiverse-media',
+    movieLibraries: 'movie-librariess',
+    movies: 'movies',
+  },
   standardOptions: {
     useUnifiedTopology: true,
   },
