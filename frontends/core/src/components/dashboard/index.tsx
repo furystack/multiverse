@@ -16,6 +16,7 @@ export const Dashboard = Shade<DashboardModel>({
           alignContent: 'center',
           justifyContent: 'center',
           flexWrap: 'wrap',
+          overflow: 'auto',
         }}>
         {props.widgets.map((w, i) => (
           <GenericWidget {...w} index={i} />

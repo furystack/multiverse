@@ -12,6 +12,8 @@ export const Header = Shade({
             color: '#aaa',
             textDecoration: 'none',
             fontFamily: '"Lucida Console", Monaco, monospace',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
           }}>
           <RouteLink title="🌀 Multiverse" href="/" style={{ marginRight: '1em', cursor: 'pointer' }}>
             🌀 Multiverse

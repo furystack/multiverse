@@ -12,13 +12,14 @@ export const NewMovieLibrary = Shade<unknown, Partial<media.MovieLibrary>>({
     return (
       <div>
         <form
-          onsubmit={(ev) => {
+          onsubmit={async (ev) => {
             ev.preventDefault()
-            injector.getInstance(MediaApiService).call({
+            await injector.getInstance(MediaApiService).call({
               method: 'POST',
               action: '/movie-libraries',
               body: getState(),
             })
+            window.history.pushState('', '', '/movies?refresh=1')
           }}>
           <Input
             value={getState().path}
