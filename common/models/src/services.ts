@@ -1,4 +1,4 @@
-import { roles } from './user'
+import { roles } from './auth/roles'
 
 export type ServiceDescription<T> = {
   name: T

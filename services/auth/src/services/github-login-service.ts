@@ -4,7 +4,7 @@ import { Injectable, Injector } from '@furystack/inject'
 import got from 'got'
 import { ScopedLogger } from '@furystack/logging'
 import { tokens } from '@common/config'
-import { GithubApiPayload } from '@common/models'
+import { auth } from '@common/models'
 
 @Injectable()
 export class GithubAuthService {
@@ -16,7 +16,7 @@ export class GithubAuthService {
    * Returns the extracted Github Authentication data from the token.
    * @param token
    */
-  public async getGithubUserData(options: { code: string; clientId: string }): Promise<GithubApiPayload> {
+  public async getGithubUserData(options: { code: string; clientId: string }): Promise<auth.GithubApiPayload> {
     const clientSecret = tokens.githubClientSecret
     if (!clientSecret) {
       this.logger.error({
@@ -44,7 +44,7 @@ export class GithubAuthService {
         Authorization: `token ${accessToken}`,
       },
     })
-    return JSON.parse(currentUserResponse.body) as GithubApiPayload
+    return JSON.parse(currentUserResponse.body) as auth.GithubApiPayload
   }
 
   /**

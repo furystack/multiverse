@@ -1,9 +1,9 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { styles, Input, Button, colors } from '@furystack/shades-common-components'
-import { Organization } from '@common/models'
+import { auth } from '@common/models'
 import { AuthApiService } from '@common/frontend-utils'
 
-export const AddOrganizationPage = Shade<{}, Omit<Organization, '_id'>>({
+export const AddOrganizationPage = Shade<{}, Omit<auth.Organization, '_id'>>({
   getInitialState: () => ({ adminNames: [], memberNames: [], description: '', name: '', ownerName: '', icon: '💳' }),
   shadowDomName: 'shade-add-organization-page',
   render: ({ getState, injector, updateState }) => {

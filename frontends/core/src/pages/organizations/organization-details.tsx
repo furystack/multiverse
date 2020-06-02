@@ -1,9 +1,9 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { Tabs, styles, Input } from '@furystack/shades-common-components'
-import { Organization } from '@common/models'
+import { auth } from '@common/models'
 import { AuthApiService, SessionService } from '@common/frontend-utils'
 
-export const OrganizationDetailsPage = Shade<{ organizationId: string }, { loadedOrganization?: Organization }>({
+export const OrganizationDetailsPage = Shade<{ organizationId: string }, { loadedOrganization?: auth.Organization }>({
   getInitialState: () => ({}),
   shadowDomName: 'shade-organization-details-page',
   constructed: async ({ injector, props, updateState }) => {

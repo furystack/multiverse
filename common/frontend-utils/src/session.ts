@@ -1,7 +1,7 @@
 import { Injectable } from '@furystack/inject'
 import { ObservableValue, usingAsync } from '@furystack/utils'
 import { IdentityContext, User as FUser } from '@furystack/core'
-import { User } from '@common/models'
+import { auth } from '@common/models'
 import { AuthApiService } from './apis/auth-api'
 import { getErrorMessage } from './get-error-message'
 
@@ -15,7 +15,7 @@ export class SessionService implements IdentityContext {
   }
 
   public state = new ObservableValue<sessionState>('initializing')
-  public currentUser = new ObservableValue<User | null>(null)
+  public currentUser = new ObservableValue<auth.User | null>(null)
 
   public isOperationInProgress = new ObservableValue(true)
 

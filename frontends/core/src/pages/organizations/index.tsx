@@ -1,12 +1,12 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { AuthApiService } from '@common/frontend-utils'
-import { Organization } from '@common/models'
+import { auth } from '@common/models'
 import { DataGrid, styles, Fab, colors, CollectionService } from '@furystack/shades-common-components'
 
-export const OrganizationsPage = Shade<{}, { service: CollectionService<Organization> }>({
+export const OrganizationsPage = Shade<{}, { service: CollectionService<auth.Organization> }>({
   shadowDomName: 'shade-organizations-page',
   getInitialState: ({ injector }) => {
-    const service = new CollectionService<Organization>(
+    const service = new CollectionService<auth.Organization>(
       (findOptions) =>
         injector.getInstance(AuthApiService).call({
           method: 'GET',
@@ -20,7 +20,7 @@ export const OrganizationsPage = Shade<{}, { service: CollectionService<Organiza
   render: ({ getState, injector }) => {
     return (
       <div style={{ ...styles.glassBox, width: '100%', height: '100%' }}>
-        <DataGrid<Organization>
+        <DataGrid<auth.Organization>
           columns={['name', 'description']}
           service={getState().service}
           headerComponents={{}}

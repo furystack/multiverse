@@ -1,11 +1,4 @@
-export const roles = [
-  'terms-accepted',
-  'sys-logs',
-  'sys-diags',
-  'feature-switch-admin',
-  'user-admin',
-  'movie-admin',
-] as const
+import { roles } from './roles'
 
 export class User {
   public _id!: string

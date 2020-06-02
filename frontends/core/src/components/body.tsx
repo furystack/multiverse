@@ -1,5 +1,5 @@
 import { createComponent, Shade, Route, Router, LazyLoad } from '@furystack/shades'
-import { User, Profile } from '@common/models'
+import { auth } from '@common/models'
 import { SessionService, sessionState, AuthApiService } from '@common/frontend-utils'
 import { promisifyAnimation, Loader } from '@furystack/shades-common-components'
 import { Init, WelcomePage, Offline, Login } from '../pages'
@@ -7,7 +7,7 @@ import { Page404 } from '../pages/404'
 
 export const Body = Shade<
   unknown,
-  { sessionState: sessionState; currentUser: User | null; isOperationInProgress: boolean }
+  { sessionState: sessionState; currentUser: auth.User | null; isOperationInProgress: boolean }
 >({
   shadowDomName: 'shade-app-body',
   getInitialState: ({ injector }) => {
@@ -67,7 +67,7 @@ export const Body = Shade<
                                 method: 'GET',
                                 action: '/profiles/:username',
                                 url: { username: currentUser.username },
-                              })) as Profile
+                              })) as auth.Profile
                               const loginProviderDetails = await injector.getInstance(AuthApiService).call({
                                 method: 'GET',
                                 action: '/loginProviderDetails',
@@ -93,7 +93,7 @@ export const Body = Shade<
                                 method: 'GET',
                                 action: '/profiles/:username',
                                 url: { username: currentUser.username },
-                              })) as Profile
+                              })) as auth.Profile
                               return <WelcomePage profile={profile} currentUser={currentUser} />
                             }}
                             loader={<Init message="Loading your Profile..." />}

@@ -1,18 +1,18 @@
 import { RequestAction, JsonResult } from '@furystack/rest'
 import { StoreManager } from '@furystack/core'
-import { GithubAccount, User } from '@common/models'
+import { auth } from '@common/models'
 import { GithubAuthService } from '../services/github-login-service'
 
-export const AttachGithubAccount: RequestAction<{ body: { code: string; clientId: string }; result: User }> = async ({
-  injector,
-  getBody,
-}) => {
+export const AttachGithubAccount: RequestAction<{
+  body: { code: string; clientId: string }
+  result: auth.User
+}> = async ({ injector, getBody }) => {
   const logger = injector.logger.withScope('AttachGithubAccountAction')
 
-  const currentUser = (await injector.getCurrentUser()) as User
+  const currentUser = (await injector.getCurrentUser()) as auth.User
   const { code, clientId } = await getBody()
   const githubApiPayload = await injector.getInstance(GithubAuthService).getGithubUserData({ code, clientId })
-  const ghAccountStore = injector.getInstance(StoreManager).getStoreFor(GithubAccount)
+  const ghAccountStore = injector.getInstance(StoreManager).getStoreFor(auth.GithubAccount)
   const registrationDate = new Date().toISOString()
 
   const { created } = await ghAccountStore.add({

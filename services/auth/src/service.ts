@@ -1,6 +1,6 @@
 import { GetCurrentUser, IsAuthenticated, LoginAction, LogoutAction, Authenticate } from '@furystack/rest-service'
 import { sites } from '@common/config'
-import { User, apis, deserialize, Profile, Organization } from '@common/models'
+import { auth, apis, deserialize } from '@common/models'
 import { RequestAction } from '@furystack/rest'
 import { attachShutdownHandler, createCollectionEndpoint, createSinglePostEndpoint } from '@common/service-utils'
 import {
@@ -29,12 +29,12 @@ injector.useRestService<apis.AuthApi>({
   deserializeQueryParams: deserialize,
   api: {
     GET: {
-      '/currentUser': (GetCurrentUser as unknown) as RequestAction<{ result: User }>,
+      '/currentUser': (GetCurrentUser as unknown) as RequestAction<{ result: auth.User }>,
       '/isAuthenticated': IsAuthenticated,
-      '/profiles': createCollectionEndpoint({ model: Profile }),
+      '/profiles': createCollectionEndpoint({ model: auth.Profile }),
       '/profiles/:username': GetProfile,
       '/profiles/:username/avatar': GetAvatar,
-      '/organizations': createCollectionEndpoint({ model: Organization }),
+      '/organizations': createCollectionEndpoint({ model: auth.Organization }),
       '/organization/:organizationName': GetOrganization,
       '/loginProviderDetails': Authenticate()(GetLoginProviderDetails),
     },
@@ -50,7 +50,7 @@ injector.useRestService<apis.AuthApi>({
       '/login': LoginAction as any,
       '/logout': LogoutAction,
       '/register': RegisterAction,
-      '/organizations': createSinglePostEndpoint(Organization),
+      '/organizations': createSinglePostEndpoint(auth.Organization),
       '/changePassword': Authenticate()(ChangePasswordAction),
       '/settings': Authenticate()(PostSettings),
     },

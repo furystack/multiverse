@@ -5,7 +5,7 @@ import { Injectable } from '@furystack/inject'
 import { Disposable } from '@furystack/utils'
 import { databases } from '@common/config'
 import { MongodbStore } from '@furystack/mongodb-store'
-import { LogEntry } from '@common/models'
+import { diag } from '@common/models'
 import '@furystack/repository'
 
 @Injectable({ lifetime: 'singleton' })
@@ -25,7 +25,7 @@ export class DbLogger extends AbstractLogger implements Disposable {
     this.injector.getInstance(LoggerCollection).detach(this)
     this.addEntry = () => Promise.resolve()
   }
-  public readonly store: MongodbStore<LogEntry<any>>
+  public readonly store: MongodbStore<diag.LogEntry<any>>
   public async addEntry<T>(entry: import('@furystack/logging').LeveledLogEntry<T>): Promise<void> {
     !this.isDisposing &&
       (await this.store.add({
@@ -37,7 +37,7 @@ export class DbLogger extends AbstractLogger implements Disposable {
 
   constructor(private injector: Injector, private readonly settings: DbLoggerSettings) {
     super()
-    this.store = injector.getInstance(StoreManager).getStoreFor(LogEntry)
+    this.store = injector.getInstance(StoreManager).getStoreFor(diag.LogEntry)
   }
 }
 
@@ -51,7 +51,7 @@ Injector.prototype.useDbLogger = function (settings) {
   this.setupStores((sm) =>
     sm.useMongoDb({
       primaryKey: '_id',
-      model: LogEntry,
+      model: diag.LogEntry,
       collection: databases.logging.logCollection,
       url: databases.logging.mongoUrl,
       db: databases.logging.dbName,
@@ -60,7 +60,7 @@ Injector.prototype.useDbLogger = function (settings) {
   )
 
   this.setupRepository((repo) =>
-    repo.createDataSet(LogEntry, {
+    repo.createDataSet(diag.LogEntry, {
       authorizeAdd: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
       authorizeRemove: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
       authorizeUpdate: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),

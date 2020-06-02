@@ -1,8 +1,8 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { User, Profile, DefaultUserSettings } from '@common/models'
+import { auth } from '@common/models'
 import { Dashboard } from '../components/dashboard'
 
-export const WelcomePage = Shade<{ profile: Profile; currentUser: User }>({
+export const WelcomePage = Shade<{ profile: auth.Profile; currentUser: auth.User }>({
   shadowDomName: 'welcome-page',
   constructed: async ({ element }) => {
     setTimeout(() => {
@@ -13,7 +13,7 @@ export const WelcomePage = Shade<{ profile: Profile; currentUser: User }>({
     }, 200)
   },
   render: ({ props }) => {
-    const dashboard = props.profile.userSettings?.dashboard || DefaultUserSettings.dashboard
+    const dashboard = props.profile.userSettings?.dashboard || auth.DefaultUserSettings.dashboard
     return <Dashboard {...dashboard} />
   },
 })

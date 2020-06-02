@@ -3,7 +3,7 @@ import { verifyAndCreateIndexes } from '@common/service-utils'
 import '@furystack/repository/dist/injector-extension'
 import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
-import { GoogleAccount, GithubAccount, Organization, Profile } from '@common/models'
+import { auth } from '@common/models'
 import { databases } from '@common/config'
 
 export const injector = new Injector()
@@ -15,7 +15,7 @@ injector
     sm
       .useMongoDb({
         primaryKey: '_id',
-        model: GoogleAccount,
+        model: auth.GoogleAccount,
         url: databases['common-auth'].mongoUrl,
         db: databases['common-auth'].dbName,
         collection: 'google-accounts',
@@ -23,7 +23,7 @@ injector
       })
       .useMongoDb({
         primaryKey: '_id',
-        model: GithubAccount,
+        model: auth.GithubAccount,
         url: databases['common-auth'].mongoUrl,
         db: databases['common-auth'].dbName,
         collection: 'github-accounts',
@@ -31,7 +31,7 @@ injector
       })
       .useMongoDb({
         primaryKey: '_id',
-        model: Profile,
+        model: auth.Profile,
         url: databases['common-auth'].mongoUrl,
         db: databases['common-auth'].dbName,
         collection: 'profiles',
@@ -40,7 +40,7 @@ injector
   )
   .useLogging(ConsoleLogger)
   .setupRepository((repo) =>
-    repo.createDataSet(Profile, {
+    repo.createDataSet(auth.Profile, {
       authorizeUpdateEntity: async ({ injector: i, entity: profile }) => {
         const currentUser = await i.getCurrentUser()
         if (profile.username === currentUser.username) {
@@ -53,14 +53,14 @@ injector
 
 verifyAndCreateIndexes({
   injector,
-  model: GoogleAccount,
+  model: auth.GoogleAccount,
   indexName: 'googleId',
   indexSpecification: { googleId: 1 },
   indexOptions: { unique: true },
 })
 verifyAndCreateIndexes({
   injector,
-  model: GithubAccount,
+  model: auth.GithubAccount,
   indexName: 'githubId',
   indexSpecification: { githubId: 1 },
   indexOptions: { unique: true },
@@ -68,7 +68,7 @@ verifyAndCreateIndexes({
 
 verifyAndCreateIndexes({
   injector,
-  model: Profile,
+  model: auth.Profile,
   indexName: 'profileUserName',
   indexSpecification: { username: 1 },
   indexOptions: { unique: true },
@@ -76,7 +76,7 @@ verifyAndCreateIndexes({
 
 verifyAndCreateIndexes({
   injector,
-  model: Organization,
+  model: auth.Organization,
   indexName: 'orgName',
   indexSpecification: { name: 1 },
   indexOptions: { unique: true },

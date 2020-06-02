@@ -1,7 +1,7 @@
 import { createComponent, Shade } from '@furystack/shades'
 import { deepMerge } from '@furystack/utils'
 import { Tabs, styles, Input, Button, colors } from '@furystack/shades-common-components'
-import { User, Profile, GithubAccount, GoogleAccount, DefaultUserSettings } from '@common/models'
+import { auth } from '@common/models'
 import { AuthApiService } from '@common/frontend-utils'
 import { tokens } from '@common/config'
 import { Avatar } from '@common/components'
@@ -11,14 +11,14 @@ import { UserSettingsEditor } from '../components/editors/user-settings'
 
 export const ProfilePage = Shade<
   {
-    profile: Profile
-    loginProviderDetails: { hasPassword: boolean; google?: GoogleAccount; github?: GithubAccount }
-    currentUser: User
+    profile: auth.Profile
+    loginProviderDetails: { hasPassword: boolean; google?: auth.GoogleAccount; github?: auth.GithubAccount }
+    currentUser: auth.User
   },
   {
-    profile: Profile
-    loginProviderDetails: { hasPassword: boolean; google?: GoogleAccount; github?: GithubAccount }
-    currentUser: User
+    profile: auth.Profile
+    loginProviderDetails: { hasPassword: boolean; google?: auth.GoogleAccount; github?: auth.GithubAccount }
+    currentUser: auth.User
   }
 >({
   getInitialState: ({ props }) => ({ ...props }),
@@ -189,7 +189,7 @@ export const ProfilePage = Shade<
             header: <div>⚙ Personal settings</div>,
             component: (
               <UserSettingsEditor
-                value={JSON.stringify({ ...deepMerge(DefaultUserSettings, profile.userSettings) }, undefined, 2)}
+                value={JSON.stringify({ ...deepMerge(auth.DefaultUserSettings, profile.userSettings) }, undefined, 2)}
                 options={{
                   theme: 'vs-dark',
                   automaticLayout: true,

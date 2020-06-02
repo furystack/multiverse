@@ -1,26 +1,25 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { HttpUserContext } from '@furystack/rest-service'
 import { StoreManager } from '@furystack/core'
-import { GithubAccount, User } from '@common/models'
+import { auth } from '@common/models'
 import { GithubAuthService } from '../services/github-login-service'
 
-export const GithubLoginAction: RequestAction<{ body: { code: string; clientId: string }; result: User }> = async ({
-  injector,
-  getBody,
-  response,
-}) => {
+export const GithubLoginAction: RequestAction<{
+  body: { code: string; clientId: string }
+  result: auth.User
+}> = async ({ injector, getBody, response }) => {
   const { code, clientId } = await getBody()
   const githubApiPayload = await injector.getInstance(GithubAuthService).getGithubUserData({ code, clientId })
   const existingGhUsers = await injector
     .getInstance(StoreManager)
-    .getStoreFor(GithubAccount)
+    .getStoreFor(auth.GithubAccount)
     .find({ filter: { githubId: { $eq: githubApiPayload.id } }, top: 2 })
   if (existingGhUsers.length === 0) {
     throw new RequestError(`Github user not registered`, 500)
   }
   const users = await injector
     .getInstance(StoreManager)
-    .getStoreFor(User)
+    .getStoreFor(auth.User)
     .find({ filter: { username: { $eq: existingGhUsers[0].username } }, top: 2 })
   if (users.length !== 1) {
     throw new RequestError(`Found '${users.length}' associated user(s)`, 500)

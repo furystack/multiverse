@@ -1,7 +1,7 @@
 import { PhysicalStore, StoreManager, FindOptions } from '@furystack/core'
 import { HttpAuthenticationSettings } from '@furystack/rest-service'
 import { Injector } from '@furystack/inject'
-import { GoogleAccount, GithubAccount, User, Profile } from '@common/models'
+import { auth } from '@common/models'
 import { injector } from './config'
 
 /**
@@ -41,11 +41,11 @@ export const seed = async (i: Injector) => {
   const logger = i.logger.withScope('seeder')
   logger.verbose({ message: 'Seeding data...' })
   const sm = i.getInstance(StoreManager)
-  const userStore = sm.getStoreFor(User)
-  const ghAccountStore = sm.getStoreFor(GithubAccount)
-  const googleAccountStore = sm.getStoreFor(GoogleAccount)
+  const userStore = sm.getStoreFor(auth.User)
+  const ghAccountStore = sm.getStoreFor(auth.GithubAccount)
+  const googleAccountStore = sm.getStoreFor(auth.GoogleAccount)
 
-  const profileStore = sm.getStoreFor(Profile)
+  const profileStore = sm.getStoreFor(auth.Profile)
 
   const testUser = await getOrCreate(
     { filter: { username: { $eq: 'testuser@gmail.com' } } },

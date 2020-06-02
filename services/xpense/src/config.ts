@@ -3,7 +3,7 @@ import { verifyAndCreateIndexes, getOrgsForCurrentUser } from '@common/service-u
 import '@furystack/repository/dist/injector-extension'
 import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
-import { xpense, Organization } from '@common/models'
+import { xpense, auth } from '@common/models'
 import { databases } from '@common/config'
 
 export const injector = new Injector()
@@ -54,7 +54,7 @@ injector.setupStores((sm) =>
     })
     .useMongoDb({
       primaryKey: '_id',
-      model: Organization,
+      model: auth.Organization,
       url: databases['common-auth'].mongoUrl,
       db: databases['common-auth'].dbName,
       collection: 'organizations',

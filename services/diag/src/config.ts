@@ -3,7 +3,7 @@ import { verifyAndCreateIndexes } from '@common/service-utils'
 import '@furystack/repository/dist/injector-extension'
 import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
-import { LogEntry } from '@common/models'
+import { diag } from '@common/models'
 
 export const injector = new Injector()
 
@@ -11,14 +11,14 @@ injector.useDbLogger({ appName: 'diag' }).useCommonHttpAuth().useLogging(Console
 
 verifyAndCreateIndexes({
   injector,
-  model: LogEntry,
+  model: diag.LogEntry,
   indexName: 'scope',
   indexSpecification: { scope: 1 },
   indexOptions: { unique: false },
 })
 verifyAndCreateIndexes({
   injector,
-  model: LogEntry,
+  model: diag.LogEntry,
   indexName: 'level',
   indexSpecification: { level: 1 },
   indexOptions: { unique: false },
@@ -26,7 +26,7 @@ verifyAndCreateIndexes({
 
 verifyAndCreateIndexes({
   injector,
-  model: LogEntry,
+  model: diag.LogEntry,
   indexName: 'creationDate',
   indexSpecification: { creationDate: 1 },
   indexOptions: { unique: false },

@@ -1,12 +1,12 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
-import { Organization } from '@common/models'
+import { auth } from '@common/models'
 import { PartialResult } from '@furystack/core'
 
 export const GetOrganization: RequestAction<{
-  result: PartialResult<Organization, any>
+  result: PartialResult<auth.Organization, any>
   urlParams: { organizationName: string }
 }> = async ({ injector, getUrlParams }) => {
-  const profileStore = injector.getDataSetFor(Organization)
+  const profileStore = injector.getDataSetFor(auth.Organization)
   const { organizationName } = getUrlParams()
   const result = await profileStore.find(injector, {
     filter: {

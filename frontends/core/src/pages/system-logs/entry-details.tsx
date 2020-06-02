@@ -1,11 +1,11 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { LogEntry } from '@common/models'
+import { diag } from '@common/models'
 import { Button, Input, styles } from '@furystack/shades-common-components'
 import { DiagApiService } from '@common/frontend-utils'
 import { Init } from '../init'
 import { getLevelIcon } from './get-level-icon'
 
-export const EntryDetails = Shade<{ guid: string }, { entry?: LogEntry<any>; error?: Error }>({
+export const EntryDetails = Shade<{ guid: string }, { entry?: diag.LogEntry<any>; error?: Error }>({
   shadowDomName: 'shade-system-log-entry-details',
   getInitialState: () => ({}),
   constructed: async ({ props, injector, updateState }) => {

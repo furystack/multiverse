@@ -2,7 +2,7 @@ import { DefaultSession } from '@furystack/rest-service'
 import '@furystack/mongodb-store'
 import { Injector } from '@furystack/inject/dist/injector'
 import { databases } from '@common/config'
-import { Session, User, Organization } from '@common/models'
+import { auth } from '@common/models'
 import { verifyAndCreateIndexes } from './create-indexes'
 import { authorizedDataSet } from './authorized-data-set'
 
@@ -16,7 +16,7 @@ Injector.prototype.useCommonHttpAuth = function () {
   this.setupStores((sm) =>
     sm
       .useMongoDb({
-        model: User,
+        model: auth.User,
         primaryKey: '_id',
         url: databases['common-auth'].mongoUrl,
         db: databases['common-auth'].dbName,
@@ -25,7 +25,7 @@ Injector.prototype.useCommonHttpAuth = function () {
       })
       .useMongoDb({
         primaryKey: '_id',
-        model: Organization,
+        model: auth.Organization,
         url: databases['common-auth'].mongoUrl,
         db: databases['common-auth'].dbName,
         collection: 'organizations',
@@ -33,7 +33,7 @@ Injector.prototype.useCommonHttpAuth = function () {
       })
       .useMongoDb({
         primaryKey: '_id',
-        model: Session,
+        model: auth.Session,
         url: databases['common-auth'].sessionStoreUrl,
         db: databases['common-auth'].dbName,
         collection: 'sessions',
@@ -42,14 +42,14 @@ Injector.prototype.useCommonHttpAuth = function () {
   ).useHttpAuthentication({
     enableBasicAuth: true,
     cookieName: 'fsmvsc',
-    model: User,
-    getUserStore: (sm) => sm.getStoreFor(User),
-    getSessionStore: (sm) => sm.getStoreFor<DefaultSession>(Session),
+    model: auth.User,
+    getUserStore: (sm) => sm.getStoreFor(auth.User),
+    getSessionStore: (sm) => sm.getStoreFor<DefaultSession>(auth.Session),
   })
 
   this.setupRepository((repo) =>
     repo
-      .createDataSet(Organization, {
+      .createDataSet(auth.Organization, {
         authorizeUpdateEntity: async ({ injector: i, entity }) => {
           const currentUser = await i.getCurrentUser()
           if (entity.ownerName === currentUser.username || entity.adminNames.includes(currentUser.username)) {
@@ -58,7 +58,7 @@ Injector.prototype.useCommonHttpAuth = function () {
           return { isAllowed: false, message: 'Only the owner or admins can modify an organization' }
         },
       })
-      .createDataSet(User, {
+      .createDataSet(auth.User, {
         ...authorizedDataSet,
         authorizeAdd: async (authorize) => {
           const success = await authorize.injector.isAuthorized('user-admin')
@@ -72,7 +72,7 @@ Injector.prototype.useCommonHttpAuth = function () {
 
   verifyAndCreateIndexes({
     injector: this,
-    model: User,
+    model: auth.User,
     indexSpecification: { username: 1 },
     indexName: 'username',
     indexOptions: { unique: true },
@@ -80,7 +80,7 @@ Injector.prototype.useCommonHttpAuth = function () {
 
   verifyAndCreateIndexes({
     injector: this,
-    model: Session,
+    model: auth.Session,
     indexSpecification: { sessionId: 1 },
     indexName: 'sessionId',
     indexOptions: { unique: true },

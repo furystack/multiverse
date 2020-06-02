@@ -1,12 +1,12 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
-import { Organization } from '@common/models'
+import { auth } from '@common/models'
 
 export const PatchOrganization: RequestAction<{
-  body: Partial<Organization>
-  result: Organization
+  body: Partial<auth.Organization>
+  result: auth.Organization
   urlParams: { organizationName: string }
 }> = async ({ injector, getBody, getUrlParams }) => {
-  const dataSet = injector.getDataSetFor(Organization)
+  const dataSet = injector.getDataSetFor(auth.Organization)
   const { organizationName } = getUrlParams()
   const patchData = await getBody()
   const [existing] = await dataSet.find(injector, { top: 1, filter: { name: { $eq: organizationName } } })

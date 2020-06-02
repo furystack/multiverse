@@ -1,6 +1,6 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { GoogleLoginService } from '@furystack/auth-google'
-import { User, GoogleAccount } from '@common/models'
+import { auth } from '@common/models'
 import { StoreManager } from '@furystack/core'
 import { HttpUserContext } from '@furystack/rest-service'
 
@@ -8,15 +8,15 @@ import { HttpUserContext } from '@furystack/rest-service'
  * HTTP Request action for Google Logins
  */
 
-export const GoogleLoginAction: RequestAction<{ body: { token: string }; result: User }> = async ({
+export const GoogleLoginAction: RequestAction<{ body: { token: string }; result: auth.User }> = async ({
   injector,
   getBody,
   response,
 }) => {
   const loginData = await getBody()
 
-  const googleAccountStore = await injector.getInstance(StoreManager).getStoreFor(GoogleAccount)
-  const userStore = await injector.getInstance(StoreManager).getStoreFor(User)
+  const googleAccountStore = await injector.getInstance(StoreManager).getStoreFor(auth.GoogleAccount)
+  const userStore = await injector.getInstance(StoreManager).getStoreFor(auth.User)
   const googleUserData = await injector.getInstance(GoogleLoginService).getGoogleUserData(loginData.token)
   if (!googleUserData.email_verified) {
     throw new RequestError('Email address for account not verified', 401)

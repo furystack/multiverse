@@ -1,10 +1,10 @@
 import { Injector } from '@furystack/inject'
 import { MongodbStore } from '@furystack/mongodb-store'
-import { Organization } from '@common/models'
+import { auth } from '@common/models'
 import { StoreManager, User } from '@furystack/core'
 
 export const getOrgsForCurrentUser = async (injector: Injector, user: User) => {
-  const store: MongodbStore<Organization> = injector.getInstance(StoreManager).getStoreFor(Organization)
+  const store: MongodbStore<auth.Organization> = injector.getInstance(StoreManager).getStoreFor(auth.Organization)
   const collection = await store.getCollection()
 
   return await collection

@@ -1,14 +1,14 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { GoogleLoginService } from '@furystack/auth-google'
 import { StoreManager } from '@furystack/core'
-import { User, GoogleAccount, Profile } from '@common/models'
+import { auth } from '@common/models'
 import { HttpUserContext } from '@furystack/rest-service'
 
 /**
  * HTTP Request action for Google Logins
  */
 
-export const GoogleRegisterAction: RequestAction<{ body: { token: string }; result: User }> = async ({
+export const GoogleRegisterAction: RequestAction<{ body: { token: string }; result: auth.User }> = async ({
   injector,
   getBody,
   response,
@@ -16,8 +16,8 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string }; resu
   const logger = injector.logger.withScope('GoogleRegisterAction')
   const storeManager = injector.getInstance(StoreManager)
   const userContext = injector.getInstance(HttpUserContext)
-  const googleAcccounts = storeManager.getStoreFor(GoogleAccount)
-  const users = storeManager.getStoreFor(User)
+  const googleAcccounts = storeManager.getStoreFor(auth.GoogleAccount)
+  const users = storeManager.getStoreFor(auth.User)
   const { token } = await getBody()
   const registrationDate = new Date().toISOString()
 
@@ -58,7 +58,7 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string }; resu
     accountLinkDate: registrationDate,
   })
 
-  await storeManager.getStoreFor(Profile).add({
+  await storeManager.getStoreFor(auth.Profile).add({
     username: userToAdd.username,
     displayName: googleUserData.name,
     avatarUrl: googleUserData.picture,
@@ -70,5 +70,5 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string }; resu
   })
 
   const user = await userContext.cookieLogin(userToAdd, response)
-  return JsonResult(user as User)
+  return JsonResult(user as auth.User)
 }

@@ -1,4 +1,4 @@
-import { UserSettings } from './schemas'
+import { UserSettings } from '../schemas/user-settings'
 
 export class Profile {
   public _id!: string

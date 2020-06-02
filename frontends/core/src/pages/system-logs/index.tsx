@@ -1,14 +1,14 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { LogLevel } from '@furystack/logging'
-import { LogEntry } from '@common/models'
+import { diag } from '@common/models'
 import { DataGrid, styles, CollectionService } from '@furystack/shades-common-components'
 import { DiagApiService } from '@common/frontend-utils'
 import { getLevelIcon } from './get-level-icon'
 
 export interface SystemLogsState {
   error?: Error
-  selectedEntry?: LogEntry<any>
-  systemLogsService: CollectionService<LogEntry<any>>
+  selectedEntry?: diag.LogEntry<any>
+  systemLogsService: CollectionService<diag.LogEntry<any>>
 }
 
 export const LogLevelCell = Shade<{ level: LogLevel }>({
@@ -21,7 +21,7 @@ export const LogLevelCell = Shade<{ level: LogLevel }>({
 export const SystemLogs = Shade<unknown, SystemLogsState>({
   shadowDomName: 'system-logs-page',
   getInitialState: ({ injector }) => ({
-    systemLogsService: new CollectionService<LogEntry<any>>(
+    systemLogsService: new CollectionService<diag.LogEntry<any>>(
       (findOptions) =>
         injector.getInstance(DiagApiService).call({
           method: 'GET',
@@ -34,7 +34,7 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
   render: ({ getState, injector }) => {
     return (
       <div style={{ width: '100%', height: '100%' }}>
-        <DataGrid<LogEntry<any>>
+        <DataGrid<diag.LogEntry<any>>
           columns={['level', 'appName', 'scope', 'message', 'creationDate']}
           service={getState().systemLogsService}
           styles={{

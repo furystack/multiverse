@@ -1,12 +1,12 @@
 import { RequestAction, RequestError, BypassResult } from '@furystack/rest'
-import { Profile } from '@common/models'
+import { auth } from '@common/models'
 import got from 'got'
 
 export const GetAvatar: RequestAction<{
   result: string
   urlParams: { username: string }
 }> = async ({ injector, getUrlParams, response }) => {
-  const profileStore = injector.getDataSetFor(Profile)
+  const profileStore = injector.getDataSetFor(auth.Profile)
   const { username } = getUrlParams()
   const result = await profileStore.find(injector, {
     filter: {

@@ -1,5 +1,5 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { User, serviceList } from '@common/models'
+import { auth, serviceList } from '@common/models'
 import { Avatar } from '@common/components'
 import { SessionService } from '@common/frontend-utils'
 import { styles } from '@furystack/shades-common-components'
@@ -15,7 +15,7 @@ const CurrentUserMenuItem = Shade<{ title: string; icon: string; onclick: () => 
   },
 })
 
-export const CurrentUserMenu = Shade<{}, { currentUser?: User; isOpened: boolean }>({
+export const CurrentUserMenu = Shade<{}, { currentUser?: auth.User; isOpened: boolean }>({
   shadowDomName: 'shade-current-user-menu',
   getInitialState: () => ({ currentUser: undefined, isOpened: false }),
   constructed: ({ injector, updateState }) => {
