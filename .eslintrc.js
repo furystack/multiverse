@@ -30,6 +30,8 @@ module.exports = {
     'arrow-parens': ['error', 'always'],
     'no-unused-vars': 'off',
     'no-console': 'off',
+    '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-unused-vars': 'off', // Use Typescript own check for this
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-member-accessibility': [

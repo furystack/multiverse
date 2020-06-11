@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { Button, Loader } from '@furystack/shades-common-components'
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { getErrorMessage, SessionService } from '@common/frontend-utils'

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { get } from 'https'
 import { Injectable, Injector } from '@furystack/inject'
 import got from 'got'

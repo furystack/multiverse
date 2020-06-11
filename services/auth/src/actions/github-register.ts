@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
