@@ -1,7 +1,8 @@
-import { Button, Loader } from '@furystack/shades-common-components'
-import { Shade, createComponent, RouteLink } from '@furystack/shades'
+import { Loader } from '@furystack/shades-common-components'
+import { Shade, createComponent } from '@furystack/shades'
 import { getErrorMessage } from '@common/frontend-utils'
 import { GithubAuthProvider } from '../../services/github-auth-provider'
+import { GenericErrorPage } from '../generic-error'
 
 export const GithubAttach = Shade<{ code: string }, { loginError?: string }>({
   shadowDomName: 'shade-github-attach',
@@ -44,19 +45,7 @@ export const GithubAttach = Shade<{ code: string }, { loginError?: string }>({
             Attaching Github Account
           </div>
         ) : (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'column',
-              animation: 'shake 150ms 2 linear',
-            }}>
-            <p> 😱 There was an error during Github account attach: {loginError}</p>
-            <RouteLink href="/">
-              <Button style={{}}>Return Home</Button>{' '}
-            </RouteLink>
-          </div>
+          <GenericErrorPage subtitle="😱 There was an error during Github account attach" error={loginError} />
         )}
       </div>
     )

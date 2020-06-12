@@ -3,6 +3,7 @@ import { styles, Input, Button, colors } from '@furystack/shades-common-componen
 import { XpenseApiService } from '@common/frontend-utils'
 import { xpense } from '@common/models'
 import { SelectedAccountHeader } from './components/header'
+import { GenericErrorPage } from '../generic-error'
 
 export const ReplenishPage = Shade<
   {
@@ -19,31 +20,7 @@ export const ReplenishPage = Shade<
   render: ({ props, getState, updateState, injector }) => {
     const { error } = getState()
     if (error) {
-      return (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '0 100px',
-          }}>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              perspective: '400px',
-              animation: 'shake 150ms 2 linear',
-            }}>
-            <h1>WhoOoOops... 😱</h1>
-            <h3>Failed to add to the balance 😓</h3>
-            <p>Something went wrong during replenishing the balance for account '{props.account.name}'</p>
-            <pre style={{ color: colors.error.main }}>{JSON.stringify(error)}</pre>
-          </div>
-          <a href="/">Go to home...</a>
-        </div>
-      )
+      return <GenericErrorPage error={error} subtitle="Failed to add to the balance 😓" />
     }
     return (
       <div style={{ ...styles.glassBox, padding: '1em' }}>

@@ -1,12 +1,14 @@
-import { Button, Input, styles, colors } from '@furystack/shades-common-components'
+import { Button, Input, styles } from '@furystack/shades-common-components'
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { AuthApiService, SessionService, getErrorMessage } from '@common/frontend-utils'
+import { AuthApiService, SessionService } from '@common/frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
+import { GenericErrorPage } from './generic-error'
 
 export const RegisterPage = Shade({
   shadowDomName: 'register-page',
   getInitialState: () => ({ error: '', email: '', password: '', confirmPassword: '', isOperationInProgress: false }),
   render: ({ injector, getState, updateState }) => {
+    const { error } = getState()
     return (
       <div
         style={{
@@ -17,24 +19,12 @@ export const RegisterPage = Shade({
           justifyContent: 'center',
           flexDirection: 'column',
         }}>
-        {getState().error ? (
-          <div
-            style={{
-              ...styles.glassBox,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'column',
-              animation: 'shake 150ms 2 linear',
-              padding: '2em',
-            }}>
-            <h2>Failed to sign up :(</h2>
-            <p style={{ color: colors.error.main }}>Something went wrong during registration: {getState().error}</p>
-            <div>
-              <Button onclick={() => updateState({ error: '' })}>Try again</Button> or&nbsp;
-              <Button onclick={() => window.history.pushState('/', '', '/')}>Back to Home</Button>
-            </div>
-          </div>
+        {error ? (
+          <GenericErrorPage
+            mainTitle="Failed to sign up 😒"
+            subtitle="Something went wrong during registration"
+            error={error}
+          />
         ) : (
           <div
             style={{
@@ -71,9 +61,8 @@ export const RegisterPage = Shade({
                     sessionService.currentUser.setValue(user)
                     sessionService.state.setValue('authenticated')
                   }
-                } catch (error) {
-                  const errorMessage = (await getErrorMessage(error)) || 'Failed to register.'
-                  updateState({ error: errorMessage })
+                } catch (e) {
+                  updateState({ error: e })
                 }
                 updateState({ isOperationInProgress: false })
               }}>
@@ -118,9 +107,8 @@ export const RegisterPage = Shade({
                 onclick={async () => {
                   try {
                     await injector.getInstance(GoogleOauthProvider).signup()
-                  } catch (error) {
-                    const errorMessage = await getErrorMessage(error)
-                    updateState({ error: errorMessage })
+                  } catch (e) {
+                    updateState({ error: e })
                   }
                 }}>
                 Google

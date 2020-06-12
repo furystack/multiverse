@@ -8,6 +8,7 @@ export const Watch = Shade<{ movie: media.Movie }>({
     return (
       <video
         id={`video-${props.movie._id}`}
+        autoplay
         controls
         style={{ width: '100%', height: '100%' }}
         onerror={console.error}

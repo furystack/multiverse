@@ -1,7 +1,8 @@
-import { Shade, createComponent, RouteLink, LocationService } from '@furystack/shades'
+import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { SessionService, getErrorMessage } from '@common/frontend-utils'
-import { Button, Loader } from '@furystack/shades-common-components'
+import { Loader } from '@furystack/shades-common-components'
 import { GithubAuthProvider } from '../../services/github-auth-provider'
+import { GenericErrorPage } from '../generic-error'
 
 export const GithubRegister = Shade<{ code: string }, { loginError?: string }>({
   shadowDomName: 'shade-github-register',
@@ -45,19 +46,7 @@ export const GithubRegister = Shade<{ code: string }, { loginError?: string }>({
             Registering account with GitHub
           </div>
         ) : (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'column',
-              animation: 'shake 150ms 2 linear',
-            }}>
-            <p> 😱 There was an error during Github registration: {loginError}</p>
-            <RouteLink href="/">
-              <Button style={{}}>Return Home</Button>{' '}
-            </RouteLink>
-          </div>
+          <GenericErrorPage subtitle="😱 There was an error during Github registration" error={loginError} />
         )}
       </div>
     )

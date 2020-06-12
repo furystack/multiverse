@@ -4,6 +4,7 @@ import { SessionService, sessionState, AuthApiService } from '@common/frontend-u
 import { promisifyAnimation, Loader } from '@furystack/shades-common-components'
 import { Init, WelcomePage, Offline, Login } from '../pages'
 import { Page404 } from '../pages/404'
+import { GenericErrorPage } from '../pages/generic-error'
 
 export const Body = Shade<
   unknown,
@@ -61,6 +62,12 @@ export const Body = Shade<
                         url: '/profile',
                         component: () => (
                           <LazyLoad
+                            error={(error) => (
+                              <GenericErrorPage
+                                subtitle="Something bad happened during loading your profile"
+                                error={error}
+                              />
+                            )}
                             component={async () => {
                               const { ProfilePage } = await import(/* webpackChunkName: "profile" */ '../pages/profile')
                               const profile = (await injector.getInstance(AuthApiService).call({

@@ -32,7 +32,7 @@ Injector.prototype.useCommonHttpAuth = function () {
         options: databases.standardOptions,
       })
       .useMongoDb({
-        primaryKey: '_id',
+        primaryKey: 'sessionId',
         model: auth.Session,
         url: databases['common-auth'].sessionStoreUrl,
         db: databases['common-auth'].dbName,
@@ -75,14 +75,6 @@ Injector.prototype.useCommonHttpAuth = function () {
     model: auth.User,
     indexSpecification: { username: 1 },
     indexName: 'username',
-    indexOptions: { unique: true },
-  })
-
-  verifyAndCreateIndexes({
-    injector: this,
-    model: auth.Session,
-    indexSpecification: { sessionId: 1 },
-    indexName: 'sessionId',
     indexOptions: { unique: true },
   })
 

@@ -200,17 +200,17 @@
     tslib "^2.0.0"
 
 "@furystack/shades-common-components@^1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@furystack/shades-common-components/-/shades-common-components-1.1.3.tgz#f06bddb2dcda4d2184f326e35069abbaaecfd500"
-  integrity sha512-KYUy1bQBFPnbr9dYzGX4GhGx7UMC/ldU7RmeYky9zFamTTq6zbsQvM9o4wApxVKbP25SlYd2bBEwDVBimeGm7w==
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@furystack/shades-common-components/-/shades-common-components-1.1.4.tgz#fa298325dab3daaebba6b6f3684c2a866a484e04"
+  integrity sha512-S4kz+xgQqg8VNgMkkP4rOiQ1yNRU+3Imtv2sggLIDfoKQeQx5ho+O3pxwl88hxPEpKTPZSqHv1ohhtBn0es2mA==
   dependencies:
-    "@furystack/shades" "^3.2.15"
+    "@furystack/shades" "^3.2.16"
     uuid "^8.1.0"
 
-"@furystack/shades@^3.2.15":
-  version "3.2.15"
-  resolved "https://registry.yarnpkg.com/@furystack/shades/-/shades-3.2.15.tgz#d4c34ad11f2ae11a074ab95c11b667065eb69294"
-  integrity sha512-olv1w4za+y5IfB+JeblQ+zpde+bRDUEufa86HispcTFdIJBCpHLUHn8oQaAP063e3hUh1v9QpnENXlN95SQWUg==
+"@furystack/shades@^3.2.15", "@furystack/shades@^3.2.16":
+  version "3.2.16"
+  resolved "https://registry.yarnpkg.com/@furystack/shades/-/shades-3.2.16.tgz#02156c83d207a74e3784b079bcf6363bfa0586d9"
+  integrity sha512-820ndyEAlvuGEltdvrK0CMx0LwevJ9glJQe9g7aLKwTzhqCl0DKZPpO7vtLcyO39POw0LvdnldBiEdiq+qzVmQ==
   dependencies:
     "@furystack/core" "^9.1.3"
     "@furystack/inject" "^4.0.32"
@@ -1821,9 +1821,9 @@ chalk@^3.0.0:
     supports-color "^7.1.0"
 
 chalk@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.0.0.tgz#6e98081ed2d17faab615eb52ac66ec1fe6209e72"
-  integrity sha512-N9oWFcegS0sFr9oh1oz2d7Npos6vNoWW9HvtCg5N1KRFpUhaAhvTv5Y58g880fZaEYSNm3qDz8SU1UrGvp+n7A==
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.0.tgz#4e14870a618d9e2edd97dd8345fd9d9dc315646a"
+  integrity sha512-qwx12AxXe2Q5xQ43Ac//I6v5aXTipYrSESdOgzrN+9XjgEpyjpKuvSGaN4qE93f7TQTlerQQ8S+EQ0EyDoVL1A==
   dependencies:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
@@ -5040,9 +5040,9 @@ lines-and-columns@^1.1.6:
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
 lint-staged@^10.2.9:
-  version "10.2.9"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-10.2.9.tgz#6013ecfa80829cd422446b545fd30a96bca3098c"
-  integrity sha512-ziRAuXEqvJLSXg43ezBpHxRW8FOJCXISaXU//BWrxRrp5cBdRkIx7g5IsB3OI45xYGE0S6cOacfekSjDyDKF2g==
+  version "10.2.10"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-10.2.10.tgz#f0f78bf8786bbe90e1775a0dc540f7f12b6a79b2"
+  integrity sha512-dgelFaNH6puUGAcU+OVMgbfpKSerNYsPSn6+nlbRDjovL0KigpsVpCu0PFZG6BJxX8gnHJqaZlR9krZamQsb0w==
   dependencies:
     chalk "^4.0.0"
     cli-truncate "2.1.0"
@@ -5752,7 +5752,20 @@ monaco-editor@^0.20.0:
   resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.20.0.tgz#5d5009343a550124426cb4d965a4d27a348b4dea"
   integrity sha512-hkvf4EtPJRMQlPC3UbMoRs0vTAFAYdzFQ+gpMb8A+9znae1c43q8Mab9iVsgTcg/4PNiLGGn3SlDIa8uvK1FIQ==
 
-mongodb@^3.5.2, mongodb@^3.5.6:
+mongodb@^3.5.2:
+  version "3.5.9"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.5.9.tgz#799b72be8110b7e71a882bb7ce0d84d05429f772"
+  integrity sha512-vXHBY1CsGYcEPoVWhwgxIBeWqP3dSu9RuRDsoLRPTITrcrgm1f0Ubu1xqF9ozMwv53agmEiZm0YGo+7WL3Nbug==
+  dependencies:
+    bl "^2.2.0"
+    bson "^1.1.4"
+    denque "^1.4.1"
+    require_optional "^1.0.1"
+    safe-buffer "^5.1.2"
+  optionalDependencies:
+    saslprep "^1.0.0"
+
+mongodb@^3.5.6:
   version "3.5.8"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.5.8.tgz#34550856449b745d145873734bf922c12d6b9caa"
   integrity sha512-jz7mR58z66JKL8Px4ZY+FXbgB7d0a0hEGCT7kw8iye46/gsqPrOEpZOswwJ2BQlfzsrCLKdsF9UcaUfGVN2HrQ==
