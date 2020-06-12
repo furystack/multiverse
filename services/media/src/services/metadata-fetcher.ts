@@ -20,7 +20,7 @@ export class MetadataFetcher {
     }
   }
 
-  public async tryGetMetadataForMovie(movie: media.Movie): Promise<media.OmdbMetadata> {
+  public async tryGetMetadataForMovie(movie: media.Movie) {
     try {
       await this.tryGetFfprobeData(movie)
       const segments = movie.path.split(/\/|\\/g)
@@ -44,7 +44,6 @@ export class MetadataFetcher {
         data: { movie, error },
       })
     }
-    return {}
   }
 
   constructor(private readonly injector: Injector) {
