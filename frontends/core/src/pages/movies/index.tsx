@@ -2,6 +2,7 @@ import { Shade, createComponent, Router, LazyLoad } from '@furystack/shades'
 import { media } from '@common/models'
 import { MediaApiService } from '@common/frontend-utils'
 import { Init } from '../init'
+import { GenericErrorPage } from '../generic-error'
 import { LibraryList } from './library-list'
 import { NewMovieLibrary } from './new-movie-library'
 import { MovieList } from './movie-list'
@@ -22,6 +23,9 @@ export const MoviesPage = Shade({
             },
             component: () => (
               <LazyLoad
+                error={(error) => (
+                  <GenericErrorPage subtitle="Something bad happened during loading the libraries" error={error} />
+                )}
                 loader={<Init message="Loading Libraries..." />}
                 component={async () => {
                   const libs = await injector.getInstance(MediaApiService).call({
@@ -42,6 +46,9 @@ export const MoviesPage = Shade({
             component: ({ match }) => {
               return (
                 <LazyLoad
+                  error={(error) => (
+                    <GenericErrorPage subtitle="Something bad happened during loading the movie list" error={error} />
+                  )}
                   loader={<Init message="Loading movies..." />}
                   component={async () => {
                     const movies = await injector.getInstance(MediaApiService).call({
@@ -59,7 +66,10 @@ export const MoviesPage = Shade({
             url: '/movies/watch/:movieId',
             component: ({ match }) => (
               <LazyLoad
-                loader={<Init message="Loading movies..." />}
+                error={(error) => (
+                  <GenericErrorPage subtitle="Something bad happened during loading the movie metadata" error={error} />
+                )}
+                loader={<Init message="Loading movie..." />}
                 component={async () => {
                   const movie = await injector.getInstance(MediaApiService).call({
                     method: 'GET',

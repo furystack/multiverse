@@ -3,6 +3,7 @@ import { styles } from '@furystack/shades-common-components'
 import { xpense } from '@common/models'
 import { XpenseApiService } from '@common/frontend-utils'
 import { Init } from '../init'
+import { GenericErrorPage } from '../generic-error'
 import { AccountContext } from './account-context'
 import { AccountList } from './account-list'
 
@@ -20,6 +21,9 @@ export const XpensePage = Shade({
                 const accountId = decodeURIComponent(match.params.accountId)
                 return (
                   <LazyLoad
+                    error={(error) => (
+                      <GenericErrorPage subtitle="Something bad happened during loading the account" error={error} />
+                    )}
                     loader={<Init message="Loading Account..." />}
                     component={async () => {
                       const account: xpense.Account = await injector.getInstance(XpenseApiService).call({
@@ -41,6 +45,9 @@ export const XpensePage = Shade({
               },
               component: () => (
                 <LazyLoad
+                  error={(error) => (
+                    <GenericErrorPage subtitle="Something bad happened during loading the account list" error={error} />
+                  )}
                   loader={<Init message="Loading Accounts..." />}
                   component={async () => {
                     const { entries } = await injector.getInstance(XpenseApiService).call({

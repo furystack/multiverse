@@ -1,9 +1,9 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { styles, Input, Button, colors } from '@furystack/shades-common-components'
+import { styles, Input, Button } from '@furystack/shades-common-components'
 import { XpenseApiService } from '@common/frontend-utils'
 import { xpense } from '@common/models'
-import { SelectedAccountHeader } from './components/header'
 import { GenericErrorPage } from '../generic-error'
+import { SelectedAccountHeader } from './components/header'
 
 export const ReplenishPage = Shade<
   {

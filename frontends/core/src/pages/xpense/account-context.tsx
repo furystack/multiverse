@@ -2,6 +2,7 @@ import { Shade, createComponent, Router, LazyLoad } from '@furystack/shades'
 import { xpense } from '@common/models'
 import { XpenseApiService } from '@common/frontend-utils'
 import { Init } from '../init'
+import { GenericErrorPage } from '../generic-error'
 import { AccountDashboard } from './account-dashboard'
 import { ReplenishPage } from './replenish'
 import { XpenseShoppingPage } from './shopping'
@@ -38,6 +39,12 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
               url: '/xpense/:accountId/shopping',
               component: () => (
                 <LazyLoad
+                  error={(error) => (
+                    <GenericErrorPage
+                      subtitle="Something bad happened during loading the shops or items"
+                      error={error}
+                    />
+                  )}
                   loader={<Init message="Loading Shops and Items..." />}
                   component={async () => {
                     const itemsPromise = api.call({
@@ -75,6 +82,9 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
               url: '/xpense/:accountId/shopping/:shoppingId',
               component: ({ match: m }) => (
                 <LazyLoad
+                  error={(error) => (
+                    <GenericErrorPage subtitle="Something bad happened during loading shopping details" error={error} />
+                  )}
                   loader={<Init message="Loading Shopping details..." />}
                   component={async () => {
                     const shopping: xpense.Shopping = await api.call({
@@ -91,6 +101,12 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
               url: '/xpense/:accountId/replenishment/:replenishmentId',
               component: ({ match: m }) => (
                 <LazyLoad
+                  error={(error) => (
+                    <GenericErrorPage
+                      subtitle="Something bad happened during loading the replenishment details"
+                      error={error}
+                    />
+                  )}
                   loader={<Init message="Loading Replenishment details..." />}
                   component={async () => {
                     const replenishment: xpense.Replenishment = await api.call({
@@ -108,6 +124,9 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
               url: '/xpense/:accountId/shop/:shopId',
               component: ({ match: m }) => (
                 <LazyLoad
+                  error={(error) => (
+                    <GenericErrorPage subtitle="Something bad happened during loading the shop details" error={error} />
+                  )}
                   loader={<Init message="Loading Shop..." />}
                   component={async () => {
                     const shop: xpense.Shop = await api.call({
@@ -125,6 +144,9 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
               url: '/xpense/:accountId/item/:itemId',
               component: ({ match: m }) => (
                 <LazyLoad
+                  error={(error) => (
+                    <GenericErrorPage subtitle="Something bad happened during loading the item" error={error} />
+                  )}
                   loader={<Init message="Loading item..." />}
                   component={async () => {
                     const item: xpense.Item = await api.call({

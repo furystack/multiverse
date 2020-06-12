@@ -95,6 +95,12 @@ export const Body = Shade<
                         url: '/',
                         component: () => (
                           <LazyLoad
+                            error={(error) => (
+                              <GenericErrorPage
+                                subtitle="Something bad happened during loading your profile"
+                                error={error}
+                              />
+                            )}
                             component={async () => {
                               const profile = (await injector.getInstance(AuthApiService).call({
                                 method: 'GET',
@@ -111,6 +117,12 @@ export const Body = Shade<
                         url: '/organizations',
                         component: () => (
                           <LazyLoad
+                            error={(error) => (
+                              <GenericErrorPage
+                                subtitle="Something bad happened during loading the Organizations"
+                                error={error}
+                              />
+                            )}
                             component={async () => {
                               const { OrganizationsPage } = await import(
                                 /* webpackChunkName: "organizations" */ '../pages/organizations'
@@ -125,6 +137,12 @@ export const Body = Shade<
                         url: '/add-organization',
                         component: () => (
                           <LazyLoad
+                            error={(error) => (
+                              <GenericErrorPage
+                                subtitle="Something bad happened during loading the Add Organization page"
+                                error={error}
+                              />
+                            )}
                             component={async () => {
                               const { AddOrganizationPage } = await import(
                                 /* webpackChunkName: "add-organization" */ '../pages/organizations/add-organization'
@@ -139,6 +157,12 @@ export const Body = Shade<
                         url: '/organization/:organizationName',
                         component: ({ match }) => (
                           <LazyLoad
+                            error={(error) => (
+                              <GenericErrorPage
+                                subtitle="Something bad happened during loading the Organization Details page"
+                                error={error}
+                              />
+                            )}
                             component={async () => {
                               const { OrganizationDetailsPage } = await import(
                                 /* webpackChunkName: "edit-organization" */ '../pages/organizations/organization-details'
@@ -153,6 +177,12 @@ export const Body = Shade<
                         url: '/xpense/add-account',
                         component: () => (
                           <LazyLoad
+                            error={(error) => (
+                              <GenericErrorPage
+                                subtitle="Something bad happened during loading the Add Account page"
+                                error={error}
+                              />
+                            )}
                             component={async () => {
                               const { AddXpenseAccountPage } = await import(
                                 /* webpackChunkName: "xpense-add-account" */ '../pages/xpense/add-account'
@@ -170,6 +200,9 @@ export const Body = Shade<
                         },
                         component: ({ match }) => (
                           <LazyLoad
+                            error={(error) => (
+                              <GenericErrorPage subtitle="Something bad happened during loading Xpense" error={error} />
+                            )}
                             component={async () => {
                               const { XpensePage } = await import(/* webpackChunkName: "xpense" */ '../pages/xpense')
                               return (
@@ -190,6 +223,12 @@ export const Body = Shade<
                               url: '/sys-logs',
                               component: () => (
                                 <LazyLoad
+                                  error={(error) => (
+                                    <GenericErrorPage
+                                      subtitle="Something bad happened during loading the system logs"
+                                      error={error}
+                                    />
+                                  )}
                                   component={async () => {
                                     const { SystemLogs } = await import(
                                       /* webpackChunkName: "system-logs" */ '../pages/system-logs'
@@ -204,6 +243,12 @@ export const Body = Shade<
                               url: '/sys-logs/:logGuid',
                               component: ({ match }) => (
                                 <LazyLoad
+                                  error={(error) => (
+                                    <GenericErrorPage
+                                      subtitle="Something bad happened during loading the log entry details"
+                                      error={error}
+                                    />
+                                  )}
                                   component={async () => {
                                     const guid = match.params.logGuid
                                     const { EntryDetails } = await import(
@@ -223,6 +268,12 @@ export const Body = Shade<
                               url: '/feature-switches',
                               component: () => (
                                 <LazyLoad
+                                  error={(error) => (
+                                    <GenericErrorPage
+                                      subtitle="Something bad happened during loading the feature switches"
+                                      error={error}
+                                    />
+                                  )}
                                   component={async () => {
                                     const { FeatureSwitchesPage } = await import(
                                       /* webpackChunkName: "feature-switches" */ '../pages/feature-switches'
@@ -241,6 +292,12 @@ export const Body = Shade<
                         component: () => {
                           return (
                             <LazyLoad
+                              error={(error) => (
+                                <GenericErrorPage
+                                  subtitle="Something bad happened during loading the Movies page"
+                                  error={error}
+                                />
+                              )}
                               component={async () => {
                                 const { MoviesPage } = await import(/* webpackChunkName: "movies" */ '../pages/movies')
                                 return <MoviesPage />
@@ -304,6 +361,12 @@ export const Body = Shade<
                       },
                       component: () => (
                         <LazyLoad
+                          error={(error) => (
+                            <GenericErrorPage
+                              subtitle="Something bad happened during loading the Register page"
+                              error={error}
+                            />
+                          )}
                           component={async () => {
                             const { RegisterPage } = await import(
                               /* webpackChunkName: "register" */ '../pages/register'
@@ -318,6 +381,12 @@ export const Body = Shade<
                       url: '/reset-password',
                       component: () => (
                         <LazyLoad
+                          error={(error) => (
+                            <GenericErrorPage
+                              subtitle="Something bad happened during loading the Reset Password page"
+                              error={error}
+                            />
+                          )}
                           component={async () => {
                             const { ResetPasswordPage } = await import(
                               /* webpackChunkName: "reset-password" */ '../pages/reset-password'

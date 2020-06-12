@@ -4,6 +4,7 @@ import { DocsPage } from '../pages/docs'
 import { ContactPage } from '../pages/contact'
 import { Init } from '../pages'
 import { getCommandProviders } from '../services/command-providers'
+import { GenericErrorPage } from '../pages/generic-error'
 import { Body } from './body'
 import { Header } from './header'
 import { CurrentUserMenu } from './current-user-menu'
@@ -41,6 +42,12 @@ export const Layout = Shade({
               url: '/github-login',
               component: ({ currentUrl }) => (
                 <LazyLoad
+                  error={(error) => (
+                    <GenericErrorPage
+                      subtitle="Something bad happened during loading the Github Login page"
+                      error={error}
+                    />
+                  )}
                   component={async () => {
                     const { GithubLogin } = await import(/* webpackChunkName: "github-login" */ '../pages/github/login')
                     return <GithubLogin code={currentUrl.search.replace('?', '').split('=')[1]} />
@@ -53,6 +60,12 @@ export const Layout = Shade({
               url: '/github-register',
               component: ({ currentUrl }) => (
                 <LazyLoad
+                  error={(error) => (
+                    <GenericErrorPage
+                      subtitle="Something bad happened during loading the Github Registration page"
+                      error={error}
+                    />
+                  )}
                   component={async () => {
                     const { GithubRegister } = await import(
                       /* webpackChunkName: "github-register" */ '../pages/github/register'
@@ -67,6 +80,12 @@ export const Layout = Shade({
               url: '/github-attach',
               component: ({ currentUrl }) => (
                 <LazyLoad
+                  error={(error) => (
+                    <GenericErrorPage
+                      subtitle="Something bad happened during loading the Github Attach page"
+                      error={error}
+                    />
+                  )}
                   component={async () => {
                     const { GithubAttach } = await import(
                       /* webpackChunkName: "github-register" */ '../pages/github/attach'
