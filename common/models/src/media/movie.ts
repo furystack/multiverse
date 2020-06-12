@@ -1,8 +1,11 @@
-import { MovieMetadata } from './movie-metadata'
+import { OmdbMetadata } from './omdb-metadata'
+import { FfprobeMetadata } from './ffprobe-metadata'
 
 export class Movie {
   _id!: string
   path!: string
+  websafePath?: string
   libraryId!: string
-  metadata?: MovieMetadata
+  omdbMeta?: OmdbMetadata
+  ffprobe?: FfprobeMetadata
 }

@@ -4,6 +4,7 @@ import { ScopedLogger } from '@furystack/logging'
 import { media } from '@common/models'
 import { isMovieFile } from '../utils/is-movie-file'
 import { isSampleFile } from '../utils/is-sample-file'
+import { MetadataFetcher } from './metadata-fetcher'
 
 @Injectable()
 export class MediaLibraryWatcher {
@@ -22,7 +23,6 @@ export class MediaLibraryWatcher {
       ignoreInitial: false,
     })
     libWatcher.on('add', async (name, stats) => {
-      /** ToDo: Pre-Filter by extension, samples, etc... */
       if (!isMovieFile(name)) {
         return
       }
@@ -38,12 +38,14 @@ export class MediaLibraryWatcher {
           message: `New Movie found, adding to Library...`,
           data: { moviePath: name, library, stats },
         })
-        await dataSet.add(this.injector, {
+        const movie = await await dataSet.add(this.injector, {
           path: name,
           libraryId: library._id,
         })
+        await this.fetcher.tryGetMetadataForMovie(movie.created[0])
       }
     })
+
     this.watchers.set(library._id, libWatcher)
   }
 
@@ -68,7 +70,7 @@ export class MediaLibraryWatcher {
     movieLibraries.map((lib) => this.initWatcherForLibrary(lib))
   }
 
-  constructor(private readonly injector: Injector) {
+  constructor(private readonly injector: Injector, private readonly fetcher: MetadataFetcher) {
     this.logger = injector.logger.withScope('MediaLibraryWatcher')
     this.init()
   }

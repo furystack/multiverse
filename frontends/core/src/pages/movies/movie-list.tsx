@@ -1,6 +1,6 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { media } from '@common/models'
-import { IconUrlWidget } from '../../components/dashboard/icon-url-widget'
+import { MovieWidget } from '../../components/dashboard/movie-widget'
 
 export const MovieList = Shade<{ movies: media.Movie[] }>({
   shadowDomName: 'multiverse-movie-list',
@@ -16,9 +16,9 @@ export const MovieList = Shade<{ movies: media.Movie[] }>({
           width: '100%',
           height: '100%',
         }}>
-        {props.movies.map((m, index) => {
-          return <IconUrlWidget index={index} icon="🍿" name={m.path} url={`/movies/watch/${m._id}`} />
-        })}
+        {props.movies.map((m, index) => (
+          <MovieWidget movie={m} index={index} />
+        ))}
       </div>
     )
   },

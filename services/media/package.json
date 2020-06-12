@@ -25,6 +25,7 @@
     "@furystack/rest": "^1.1.16",
     "@furystack/rest-service": "^2.1.8",
     "chokidar": "^3.4.0",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "got": "^11.3.0"
   }
 }
