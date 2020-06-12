@@ -1,5 +1,5 @@
-import { Button, Loader } from '@furystack/shades-common-components'
-import { Shade, createComponent, RouteLink } from '@furystack/shades'
+import { Loader } from '@furystack/shades-common-components'
+import { Shade, createComponent } from '@furystack/shades'
 import { getErrorMessage, SessionService } from '@common/frontend-utils'
 import { GithubAuthProvider } from '../../services/github-auth-provider'
 import { GenericErrorPage } from '../generic-error'
