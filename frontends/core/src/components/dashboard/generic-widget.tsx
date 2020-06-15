@@ -13,7 +13,7 @@ export const GenericWidget = Shade<WidgetModel & { index: number }>({
   render: ({ props, element }) => {
     Object.assign(element.style, {
       minWidth: props.minWidth,
-      maxWidth: props.maxWidth,
+      maxWidth: props.maxWidth || '100%',
       width: props.width,
       flexGrow: '1',
     })
