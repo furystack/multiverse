@@ -18,7 +18,7 @@
     "@types/chart.js": "^2.9.18",
     "@types/marked": "^0.7.4",
     "clean-webpack-plugin": "^3.0.0",
-    "css-loader": "^3.2.0",
+    "css-loader": "^3.6.0",
     "file-loader": "^6.0.0",
     "fork-ts-checker-webpack-plugin": "^4.1.2",
     "html-webpack-plugin": "^4.0.1",
