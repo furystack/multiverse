@@ -39,10 +39,11 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
               url: '/xpense/:accountId/shopping',
               component: () => (
                 <LazyLoad
-                  error={(error) => (
+                  error={(error, retry) => (
                     <GenericErrorPage
                       subtitle="Something bad happened during loading the shops or items"
                       error={error}
+                      retry={retry}
                     />
                   )}
                   loader={<Init message="Loading Shops and Items..." />}
@@ -82,8 +83,12 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
               url: '/xpense/:accountId/shopping/:shoppingId',
               component: ({ match: m }) => (
                 <LazyLoad
-                  error={(error) => (
-                    <GenericErrorPage subtitle="Something bad happened during loading shopping details" error={error} />
+                  error={(error, retry) => (
+                    <GenericErrorPage
+                      subtitle="Something bad happened during loading shopping details"
+                      error={error}
+                      retry={retry}
+                    />
                   )}
                   loader={<Init message="Loading Shopping details..." />}
                   component={async () => {
@@ -101,10 +106,11 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
               url: '/xpense/:accountId/replenishment/:replenishmentId',
               component: ({ match: m }) => (
                 <LazyLoad
-                  error={(error) => (
+                  error={(error, retry) => (
                     <GenericErrorPage
                       subtitle="Something bad happened during loading the replenishment details"
                       error={error}
+                      retry={retry}
                     />
                   )}
                   loader={<Init message="Loading Replenishment details..." />}
@@ -124,8 +130,12 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
               url: '/xpense/:accountId/shop/:shopId',
               component: ({ match: m }) => (
                 <LazyLoad
-                  error={(error) => (
-                    <GenericErrorPage subtitle="Something bad happened during loading the shop details" error={error} />
+                  error={(error, retry) => (
+                    <GenericErrorPage
+                      subtitle="Something bad happened during loading the shop details"
+                      error={error}
+                      retry={retry}
+                    />
                   )}
                   loader={<Init message="Loading Shop..." />}
                   component={async () => {
@@ -144,8 +154,12 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
               url: '/xpense/:accountId/item/:itemId',
               component: ({ match: m }) => (
                 <LazyLoad
-                  error={(error) => (
-                    <GenericErrorPage subtitle="Something bad happened during loading the item" error={error} />
+                  error={(error, retry) => (
+                    <GenericErrorPage
+                      subtitle="Something bad happened during loading the item"
+                      error={error}
+                      retry={retry}
+                    />
                   )}
                   loader={<Init message="Loading item..." />}
                   component={async () => {

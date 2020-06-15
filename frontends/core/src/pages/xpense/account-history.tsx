@@ -21,10 +21,11 @@ export const AccountHistory = Shade<{ account: xpense.Account }>({
             header: <span>History</span>,
             component: (
               <LazyLoad
-                error={(error) => (
+                error={(error, retry) => (
                   <GenericErrorPage
                     subtitle="Something bad happened during loading the account history"
                     error={error}
+                    retry={retry}
                   />
                 )}
                 loader={<Init message="Loading Account History..." />}

@@ -14,10 +14,25 @@ export const DefaultUserSettings: UserSettings = {
     name: 'Default User Dashboard',
     description: 'The default User dashboard',
     widgets: [
-      { type: 'app-shortcut', appName: 'Profile' },
-      { type: 'app-shortcut', appName: 'Movies' },
-      { type: 'app-shortcut', appName: 'Xpense' },
-      { type: 'app-shortcut', appName: 'System Logs' },
+      {
+        type: 'continue-movies',
+        count: 10,
+        minWidth: '100%',
+      },
+      {
+        type: 'app-list',
+        title: 'My Favourite Apps',
+        minWidth: '256px',
+        width: '50%',
+        apps: ['Xpense', 'Movies', 'Profile'],
+      },
+      {
+        type: 'app-list',
+        title: 'System Apps',
+        minWidth: '256px',
+        width: '50%',
+        apps: ['System Logs', 'Users', 'Diagnostics', 'Organizations', 'Feature Switches'],
+      },
     ],
   },
 }

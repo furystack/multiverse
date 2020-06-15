@@ -62,10 +62,11 @@ export const Body = Shade<
                         url: '/profile',
                         component: () => (
                           <LazyLoad
-                            error={(error) => (
+                            error={(error, retry) => (
                               <GenericErrorPage
                                 subtitle="Something bad happened during loading your profile"
                                 error={error}
+                                retry={retry}
                               />
                             )}
                             component={async () => {
@@ -95,8 +96,9 @@ export const Body = Shade<
                         url: '/',
                         component: () => (
                           <LazyLoad
-                            error={(error) => (
+                            error={(error, retry) => (
                               <GenericErrorPage
+                                retry={retry}
                                 subtitle="Something bad happened during loading your profile"
                                 error={error}
                               />
@@ -117,10 +119,11 @@ export const Body = Shade<
                         url: '/organizations',
                         component: () => (
                           <LazyLoad
-                            error={(error) => (
+                            error={(error, retry) => (
                               <GenericErrorPage
                                 subtitle="Something bad happened during loading the Organizations"
                                 error={error}
+                                retry={retry}
                               />
                             )}
                             component={async () => {
@@ -137,10 +140,11 @@ export const Body = Shade<
                         url: '/add-organization',
                         component: () => (
                           <LazyLoad
-                            error={(error) => (
+                            error={(error, retry) => (
                               <GenericErrorPage
                                 subtitle="Something bad happened during loading the Add Organization page"
                                 error={error}
+                                retry={retry}
                               />
                             )}
                             component={async () => {
@@ -157,10 +161,11 @@ export const Body = Shade<
                         url: '/organization/:organizationName',
                         component: ({ match }) => (
                           <LazyLoad
-                            error={(error) => (
+                            error={(error, retry) => (
                               <GenericErrorPage
                                 subtitle="Something bad happened during loading the Organization Details page"
                                 error={error}
+                                retry={retry}
                               />
                             )}
                             component={async () => {
@@ -177,10 +182,11 @@ export const Body = Shade<
                         url: '/xpense/add-account',
                         component: () => (
                           <LazyLoad
-                            error={(error) => (
+                            error={(error, retry) => (
                               <GenericErrorPage
                                 subtitle="Something bad happened during loading the Add Account page"
                                 error={error}
+                                retry={retry}
                               />
                             )}
                             component={async () => {
@@ -200,8 +206,12 @@ export const Body = Shade<
                         },
                         component: ({ match }) => (
                           <LazyLoad
-                            error={(error) => (
-                              <GenericErrorPage subtitle="Something bad happened during loading Xpense" error={error} />
+                            error={(error, retry) => (
+                              <GenericErrorPage
+                                subtitle="Something bad happened during loading Xpense"
+                                error={error}
+                                retry={retry}
+                              />
                             )}
                             component={async () => {
                               const { XpensePage } = await import(/* webpackChunkName: "xpense" */ '../pages/xpense')
@@ -223,10 +233,11 @@ export const Body = Shade<
                               url: '/sys-logs',
                               component: () => (
                                 <LazyLoad
-                                  error={(error) => (
+                                  error={(error, retry) => (
                                     <GenericErrorPage
                                       subtitle="Something bad happened during loading the system logs"
                                       error={error}
+                                      retry={retry}
                                     />
                                   )}
                                   component={async () => {
@@ -243,10 +254,11 @@ export const Body = Shade<
                               url: '/sys-logs/:logGuid',
                               component: ({ match }) => (
                                 <LazyLoad
-                                  error={(error) => (
+                                  error={(error, retry) => (
                                     <GenericErrorPage
                                       subtitle="Something bad happened during loading the log entry details"
                                       error={error}
+                                      retry={retry}
                                     />
                                   )}
                                   component={async () => {
@@ -268,10 +280,11 @@ export const Body = Shade<
                               url: '/feature-switches',
                               component: () => (
                                 <LazyLoad
-                                  error={(error) => (
+                                  error={(error, retry) => (
                                     <GenericErrorPage
                                       subtitle="Something bad happened during loading the feature switches"
                                       error={error}
+                                      retry={retry}
                                     />
                                   )}
                                   component={async () => {
@@ -292,10 +305,11 @@ export const Body = Shade<
                         component: () => {
                           return (
                             <LazyLoad
-                              error={(error) => (
+                              error={(error, retry) => (
                                 <GenericErrorPage
                                   subtitle="Something bad happened during loading the Movies page"
                                   error={error}
+                                  retry={retry}
                                 />
                               )}
                               component={async () => {
@@ -361,10 +375,11 @@ export const Body = Shade<
                       },
                       component: () => (
                         <LazyLoad
-                          error={(error) => (
+                          error={(error, retry) => (
                             <GenericErrorPage
                               subtitle="Something bad happened during loading the Register page"
                               error={error}
+                              retry={retry}
                             />
                           )}
                           component={async () => {
@@ -381,10 +396,11 @@ export const Body = Shade<
                       url: '/reset-password',
                       component: () => (
                         <LazyLoad
-                          error={(error) => (
+                          error={(error, retry) => (
                             <GenericErrorPage
                               subtitle="Something bad happened during loading the Reset Password page"
                               error={error}
+                              retry={retry}
                             />
                           )}
                           component={async () => {

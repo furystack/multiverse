@@ -7,6 +7,7 @@ export interface GenericErrorProps {
   subtitle?: string
   description?: JSX.Element
   error?: any
+  retry?: () => void
 }
 
 export const GenericErrorPage = Shade<GenericErrorProps>({
@@ -39,6 +40,7 @@ export const GenericErrorPage = Shade<GenericErrorProps>({
           <a href="/">
             <Button>Go Home</Button>
           </a>
+          {props.retry ? <Button onclick={() => props.retry?.()}>Retry</Button> : null}
           {props.error ? (
             <Button onclick={() => alert('Sorry, this feature is not implemented yet 😅')}>Report error</Button>
           ) : null}

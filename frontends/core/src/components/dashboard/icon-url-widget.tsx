@@ -2,13 +2,29 @@ import { Shade, RouteLink, createComponent } from '@furystack/shades'
 import { promisifyAnimation } from '@furystack/shades-common-components'
 import { IconUrlWidget as IconUrlWidgetModel } from '@common/models'
 
+const focus = (el: HTMLElement) => {
+  promisifyAnimation(el, [{ filter: 'saturate(0.3)brightness(0.6)' }, { filter: 'saturate(1)brightness(1)' }], {
+    duration: 500,
+    fill: 'forwards',
+    easing: 'cubic-bezier(0.230, 1.000, 0.320, 1.000)',
+  })
+}
+
+const blur = (el: HTMLElement) => {
+  promisifyAnimation(el, [{ filter: 'saturate(1)brightness(1)' }, { filter: 'saturate(0.3)brightness(0.6)' }], {
+    duration: 500,
+    fill: 'forwards',
+    easing: 'cubic-bezier(0.230, 1.000, 0.320, 1.000)',
+  })
+}
+
 export const IconUrlWidget = Shade<Omit<IconUrlWidgetModel, 'type'> & { index: number }>({
   shadowDomName: 'icon-url-widget',
   render: ({ props, element }) => {
     setTimeout(() => {
       promisifyAnimation(element.querySelector('a'), [{ transform: 'scale(0)' }, { transform: 'scale(1)' }], {
         fill: 'forwards',
-        delay: 500 + (props.index || Math.random() * 10) * 100,
+        delay: 500 + (props.index === undefined ? Math.random() * 10 : props.index) * 100,
         duration: 200,
       })
     })
@@ -16,28 +32,10 @@ export const IconUrlWidget = Shade<Omit<IconUrlWidgetModel, 'type'> & { index: n
     return (
       <RouteLink
         title={props.description}
-        onmouseenter={(ev) =>
-          promisifyAnimation(
-            ev.target as any,
-            [{ filter: 'saturate(0.3)brightness(0.6)' }, { filter: 'saturate(1)brightness(1)' }],
-            {
-              duration: 500,
-              fill: 'forwards',
-              easing: 'cubic-bezier(0.230, 1.000, 0.320, 1.000)',
-            },
-          )
-        }
-        onmouseleave={(ev) =>
-          promisifyAnimation(
-            ev.target as any,
-            [{ filter: 'saturate(1)brightness(1)' }, { filter: 'saturate(0.3)brightness(0.6)' }],
-            {
-              duration: 500,
-              fill: 'forwards',
-              easing: 'cubic-bezier(0.230, 1.000, 0.320, 1.000)',
-            },
-          )
-        }
+        onmouseenter={(ev) => focus(ev.target as HTMLElement)}
+        onfocus={(ev) => focus(ev.target as HTMLElement)}
+        onmouseleave={(ev) => blur(ev.target as HTMLElement)}
+        onblur={(ev) => blur(ev.target as HTMLElement)}
         style={{
           display: 'flex',
           justifyContent: 'center',

@@ -23,6 +23,7 @@ export const databases = {
     mongoUrl: process.env.MONGO_MULTIVERSE_URL || process.env.MONGO_URL || 'mongodb://localhost:27017',
     dbName: 'multiverse-media',
     movieLibraries: 'movie-librariess',
+    movieWatchEntries: 'movie-watch-entries',
     movies: 'movies',
   },
   standardOptions: {

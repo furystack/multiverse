@@ -1,1 +1,1 @@
-export type WidgetBase<T> = { type: T }
+export type WidgetBase<T extends string> = { type: T; minWidth?: string; width?: string; maxWidth?: string }

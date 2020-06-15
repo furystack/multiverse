@@ -21,8 +21,12 @@ export const XpensePage = Shade({
                 const accountId = decodeURIComponent(match.params.accountId)
                 return (
                   <LazyLoad
-                    error={(error) => (
-                      <GenericErrorPage subtitle="Something bad happened during loading the account" error={error} />
+                    error={(error, retry) => (
+                      <GenericErrorPage
+                        subtitle="Something bad happened during loading the account"
+                        error={error}
+                        retry={retry}
+                      />
                     )}
                     loader={<Init message="Loading Account..." />}
                     component={async () => {
@@ -45,8 +49,12 @@ export const XpensePage = Shade({
               },
               component: () => (
                 <LazyLoad
-                  error={(error) => (
-                    <GenericErrorPage subtitle="Something bad happened during loading the account list" error={error} />
+                  error={(error, retry) => (
+                    <GenericErrorPage
+                      subtitle="Something bad happened during loading the account list"
+                      error={error}
+                      retry={retry}
+                    />
                   )}
                   loader={<Init message="Loading Accounts..." />}
                   component={async () => {

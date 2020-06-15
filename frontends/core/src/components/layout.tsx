@@ -42,10 +42,11 @@ export const Layout = Shade({
               url: '/github-login',
               component: ({ currentUrl }) => (
                 <LazyLoad
-                  error={(error) => (
+                  error={(error, retry) => (
                     <GenericErrorPage
                       subtitle="Something bad happened during loading the Github Login page"
                       error={error}
+                      retry={retry}
                     />
                   )}
                   component={async () => {
@@ -60,10 +61,11 @@ export const Layout = Shade({
               url: '/github-register',
               component: ({ currentUrl }) => (
                 <LazyLoad
-                  error={(error) => (
+                  error={(error, retry) => (
                     <GenericErrorPage
                       subtitle="Something bad happened during loading the Github Registration page"
                       error={error}
+                      retry={retry}
                     />
                   )}
                   component={async () => {
@@ -80,10 +82,11 @@ export const Layout = Shade({
               url: '/github-attach',
               component: ({ currentUrl }) => (
                 <LazyLoad
-                  error={(error) => (
+                  error={(error, retry) => (
                     <GenericErrorPage
                       subtitle="Something bad happened during loading the Github Attach page"
                       error={error}
+                      retry={retry}
                     />
                   )}
                   component={async () => {

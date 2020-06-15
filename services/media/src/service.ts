@@ -9,6 +9,7 @@ import {
 import { Authenticate } from '@furystack/rest-service'
 import { injector } from './config'
 import { WatchAction } from './actions/watch'
+import { SaveWatchProgress } from './actions/save-watch-progress'
 
 injector.useRestService<apis.MediaApi>({
   port: parseInt(sites.services.media.internalPort as string, 10),
@@ -21,9 +22,11 @@ injector.useRestService<apis.MediaApi>({
       '/movies': createCollectionEndpoint({ model: media.Movie }),
       '/movies/:id': createSingleEntityEndpoint({ model: media.Movie }),
       '/watch/:id': Authenticate()(WatchAction),
+      '/my-watch-progress': createCollectionEndpoint({ model: media.MovieWatchHistoryEntry }),
     },
     POST: {
       '/movie-libraries': createSinglePostEndpoint(media.MovieLibrary),
+      '/save-watch-progress': SaveWatchProgress,
     },
   },
   cors: {

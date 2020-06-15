@@ -17,7 +17,7 @@ export const MovieList = Shade<{ movies: media.Movie[] }>({
           height: '100%',
         }}>
         {props.movies.map((m, index) => (
-          <MovieWidget movie={m} index={index} />
+          <MovieWidget size={348} movie={m} index={index} />
         ))}
       </div>
     )

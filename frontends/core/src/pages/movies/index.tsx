@@ -23,8 +23,12 @@ export const MoviesPage = Shade({
             },
             component: () => (
               <LazyLoad
-                error={(error) => (
-                  <GenericErrorPage subtitle="Something bad happened during loading the libraries" error={error} />
+                error={(error, retry) => (
+                  <GenericErrorPage
+                    subtitle="Something bad happened during loading the libraries"
+                    error={error}
+                    retry={retry}
+                  />
                 )}
                 loader={<Init message="Loading Libraries..." />}
                 component={async () => {
@@ -46,8 +50,12 @@ export const MoviesPage = Shade({
             component: ({ match }) => {
               return (
                 <LazyLoad
-                  error={(error) => (
-                    <GenericErrorPage subtitle="Something bad happened during loading the movie list" error={error} />
+                  error={(error, retry) => (
+                    <GenericErrorPage
+                      subtitle="Something bad happened during loading the movie list"
+                      error={error}
+                      retry={retry}
+                    />
                   )}
                   loader={<Init message="Loading movies..." />}
                   component={async () => {
@@ -66,8 +74,12 @@ export const MoviesPage = Shade({
             url: '/movies/watch/:movieId',
             component: ({ match }) => (
               <LazyLoad
-                error={(error) => (
-                  <GenericErrorPage subtitle="Something bad happened during loading the movie metadata" error={error} />
+                error={(error, retry) => (
+                  <GenericErrorPage
+                    subtitle="Something bad happened during loading the movie metadata"
+                    error={error}
+                    retry={retry}
+                  />
                 )}
                 loader={<Init message="Loading movie..." />}
                 component={async () => {
@@ -76,7 +88,23 @@ export const MoviesPage = Shade({
                     action: '/movies/:id',
                     url: { id: match.params.movieId },
                   })
-                  return <Watch movie={movie as media.Movie} />
+                  const movieProgress = await injector.getInstance(MediaApiService).call({
+                    method: 'GET',
+                    action: '/my-watch-progress',
+                    query: {
+                      findOptions: {
+                        filter: { movieId: { $eq: match.params.movieId }, completed: { $eq: false } },
+                        order: { lastWatchDate: 'DESC' },
+                      },
+                    },
+                  })
+
+                  return (
+                    <Watch
+                      watchedSeconds={movieProgress.entries[0] ? movieProgress.entries[0].watchedSeconds : 0}
+                      movie={movie as media.Movie}
+                    />
+                  )
                 }}
               />
             ),

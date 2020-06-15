@@ -1,6 +1,51 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
+    "AppListWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "apps": {
+          "items": {
+            "enum": [
+              "Profile",
+              "Xpense",
+              "Organizations",
+              "Feature Switches",
+              "Users",
+              "Diagnostics",
+              "System Logs",
+              "Movies"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "app-list"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "apps",
+        "title",
+        "type"
+      ],
+      "type": "object"
+    },
     "AppShortcutWidget": {
       "additionalProperties": false,
       "properties": {
@@ -17,15 +62,52 @@
           ],
           "type": "string"
         },
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
         "type": {
           "enum": [
             "app-shortcut"
           ],
           "type": "string"
+        },
+        "width": {
+          "type": "string"
         }
       },
       "required": [
         "appName",
+        "type"
+      ],
+      "type": "object"
+    },
+    "ContinueMoviesWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "type": "number"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "continue-movies"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "count",
         "type"
       ],
       "type": "object"
@@ -59,10 +141,19 @@
         "content": {
           "type": "string"
         },
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
         "type": {
           "enum": [
             "html"
           ],
+          "type": "string"
+        },
+        "width": {
           "type": "string"
         }
       },
@@ -81,6 +172,12 @@
         "icon": {
           "type": "string"
         },
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
         "name": {
           "type": "string"
         },
@@ -91,6 +188,9 @@
           "type": "string"
         },
         "url": {
+          "type": "string"
+        },
+        "width": {
           "type": "string"
         }
       },
@@ -108,10 +208,19 @@
         "content": {
           "type": "string"
         },
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
         "type": {
           "enum": [
             "markdown"
           ],
+          "type": "string"
+        },
+        "width": {
           "type": "string"
         }
       },
@@ -154,16 +263,79 @@
         },
         {
           "$ref": "#/definitions/MarkdownWidget"
+        },
+        {
+          "$ref": "#/definitions/ContinueMoviesWidget"
+        },
+        {
+          "$ref": "#/definitions/AppListWidget"
         }
       ]
+    },
+    "WidgetBase<\"app-list\">": {
+      "additionalProperties": false,
+      "properties": {
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "app-list"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
     },
     "WidgetBase<\"app-shortcut\">": {
       "additionalProperties": false,
       "properties": {
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
         "type": {
           "enum": [
             "app-shortcut"
           ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "WidgetBase<\"continue-movies\">": {
+      "additionalProperties": false,
+      "properties": {
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "continue-movies"
+          ],
+          "type": "string"
+        },
+        "width": {
           "type": "string"
         }
       },
@@ -175,10 +347,19 @@
     "WidgetBase<\"html\">": {
       "additionalProperties": false,
       "properties": {
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
         "type": {
           "enum": [
             "html"
           ],
+          "type": "string"
+        },
+        "width": {
           "type": "string"
         }
       },
@@ -190,10 +371,19 @@
     "WidgetBase<\"icon-url-widget\">": {
       "additionalProperties": false,
       "properties": {
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
         "type": {
           "enum": [
             "icon-url-widget"
           ],
+          "type": "string"
+        },
+        "width": {
           "type": "string"
         }
       },
@@ -205,10 +395,19 @@
     "WidgetBase<\"markdown\">": {
       "additionalProperties": false,
       "properties": {
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
         "type": {
           "enum": [
             "markdown"
           ],
+          "type": "string"
+        },
+        "width": {
           "type": "string"
         }
       },
