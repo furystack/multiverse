@@ -34,7 +34,9 @@ module.exports = {
       ...sites.services,
     }),
     new RelativeCiAgentWebpackPlugin(),
-    new MonacoWebpackPlugin(),
+    new MonacoWebpackPlugin({
+      languages: ['json'],
+    }),
   ],
   module: {
     rules: [

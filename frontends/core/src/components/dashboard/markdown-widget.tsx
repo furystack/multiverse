@@ -1,6 +1,6 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { MarkdownWidget as MarkdownWidgetModel } from '@common/models'
-import marked from 'marked'
+import * as marked from 'marked'
 
 export const MarkdownWidget = Shade<MarkdownWidgetModel>({
   shadowDomName: 'markdown-widget',

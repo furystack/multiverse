@@ -73,8 +73,11 @@ export const MovieWidget = Shade<{ movie: media.Movie; index: number }, { hasMet
                 window.location.replace(url)
               }
             }}>
+            <div style={{ position: 'absolute', top: '0', right: '0' }}>
+              <span title="Edit movie details">🖊</span>
+              <span title="Delete movie">❌</span>
+            </div>
             <img src={meta.Poster} alt={meta.Title} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
-            {/* </div> */}
             <div
               style={{
                 width: 'calc(100% - 2em)',
