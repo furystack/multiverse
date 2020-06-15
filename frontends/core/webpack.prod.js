@@ -33,8 +33,8 @@ module.exports = merge(common, {
     new CleanWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin({
       async: false,
-      useTypescriptIncrementalApi: true,
-      silent: process.argv.includes('--json'),
+      // useTypescriptIncrementalApi: true,
+      // silent: process.argv.includes('--json'),
     }),
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
