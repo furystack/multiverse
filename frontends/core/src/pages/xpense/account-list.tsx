@@ -21,7 +21,7 @@ export const AccountList = Shade<{ accounts: xpense.Account[] }>({
           }}>
           {props.accounts.map((account, index) => (
             <IconUrlWidget
-              icon={account.icon || (account.ownerType === 'user' ? '🧑' : '🏢')}
+              icon={account.icon || (account.owner.type === 'user' ? '🧑' : '🏢')}
               name={account.name}
               index={index}
               url={`/xpense/${account._id}`}

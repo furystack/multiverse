@@ -75,8 +75,8 @@ injector.setupRepository((repo) =>
               filter.filter,
               {
                 $or: [
-                  { ownerType: 'user', ownerName: currentUser.username },
-                  ...orgs.map((org) => ({ ownerType: 'organization', ownerName: org.name })),
+                  { 'owner.type': 'user', 'owner.username': currentUser.username },
+                  ...orgs.map((org) => ({ 'owner.type': 'organization', 'owner.organizationName': org.name })),
                 ],
               },
             ],
@@ -93,14 +93,20 @@ injector.setupRepository((repo) =>
       },
       authorizeAdd: async ({ injector: i, entity }) => {
         const currentUser = await i.getCurrentUser()
-        if (entity.ownerType === 'user' && entity.ownerName === currentUser.username) {
+        if (entity.owner?.type === 'user' && entity.owner?.username === currentUser.username) {
           return {
             isAllowed: true,
           }
         }
-        if (entity.ownerType === 'organization') {
+        if (entity.owner?.type === 'organization') {
           const orgs = await getOrgsForCurrentUser(i, currentUser)
-          if (orgs.some((org) => org.name === entity.ownerName || !org.adminNames.includes(currentUser.username))) {
+          if (
+            orgs.some(
+              (org) =>
+                (entity.owner?.type === 'organization' && org.name === entity.owner?.organizationName) ||
+                !org.adminNames.includes(currentUser.username),
+            )
+          ) {
             return {
               isAllowed: true,
             }
@@ -115,10 +121,13 @@ injector.setupRepository((repo) =>
       authorizeGetEntity: async ({ entity, injector: i }) => {
         const currentUser = await i.getCurrentUser()
         const orgs = await getOrgsForCurrentUser(i, currentUser)
-        if (entity.ownerType === 'user' && entity.ownerName === currentUser.username) {
+        if (entity.owner.type === 'user' && entity.owner.username === currentUser.username) {
           return { isAllowed: true }
         }
-        if (entity.ownerType === 'organization' && orgs.map((org) => org.name).includes(entity.ownerName)) {
+        if (
+          entity.owner.type === 'organization' &&
+          orgs.map((org) => org.name).includes(entity.owner.organizationName)
+        ) {
           return { isAllowed: true }
         }
         return {
@@ -166,6 +175,6 @@ verifyAndCreateIndexes({
   injector,
   model: xpense.Account,
   indexName: 'balanceOwner',
-  indexSpecification: { ownerName: 1, ownerType: 1, name: 1 },
+  indexSpecification: { owner: 1, name: 1 },
   indexOptions: { unique: true },
 })

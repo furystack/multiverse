@@ -8,8 +8,10 @@ export const AddXpenseAccountPage = Shade<{}, Partial<xpense.Account>>({
     name: '',
     description: '',
     icon: '💳',
-    ownerType: 'user',
-    ownerName: injector.getInstance(SessionService).currentUser.getValue()?.username,
+    owner: {
+      type: 'user',
+      username: injector.getInstance(SessionService).currentUser.getValue()?.username || '',
+    },
     current: 0,
     history: [],
   }),

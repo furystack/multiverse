@@ -64,7 +64,7 @@ export const XpensePage = Shade({
                       query: {
                         findOptions: {
                           filter: {},
-                          select: ['_id', 'current', 'icon', 'name', 'ownerName', 'ownerType'],
+                          select: ['_id', 'current', 'icon', 'name', 'owner'],
                           order: { name: 'ASC' },
                         },
                       },

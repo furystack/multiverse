@@ -1,3 +1,5 @@
+import { Owner } from '../owner'
+
 export interface AccountHistoryEntry {
   balance: number
   date: string
@@ -7,8 +9,7 @@ export interface AccountHistoryEntry {
 
 export class Account {
   _id!: string
-  ownerType!: 'user' | 'organization'
-  ownerName!: string
+  owner!: Owner
   name!: string
   description!: string
   icon!: string
