@@ -1,5 +1,6 @@
 import { OmdbMetadata } from './omdb-metadata'
 import { FfprobeMetadata } from './ffprobe-metadata'
+import { MovieUniversalMetadata } from './movie-universal-metadata'
 
 export class Movie {
   _id!: string
@@ -8,4 +9,5 @@ export class Movie {
   libraryId!: string
   omdbMeta?: OmdbMetadata
   ffprobe?: FfprobeMetadata
+  metadata!: MovieUniversalMetadata
 }

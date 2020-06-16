@@ -4,6 +4,7 @@ import { ScopedLogger } from '@furystack/logging'
 import { media } from '@common/models'
 import { isMovieFile } from '../utils/is-movie-file'
 import { isSampleFile } from '../utils/is-sample-file'
+import { getFallbackMetadataForMovie } from '../utils/get-fallback-metadata-for-movie'
 import { MetadataFetcher } from './metadata-fetcher'
 
 @Injectable()
@@ -41,6 +42,7 @@ export class MediaLibraryWatcher {
         const movie = await await dataSet.add(this.injector, {
           path: name,
           libraryId: library._id,
+          metadata: getFallbackMetadataForMovie(name),
         })
         await this.fetcher.tryGetMetadataForMovie(movie.created[0])
       }
