@@ -193,9 +193,9 @@
     tslib "^2.0.0"
 
 "@furystack/shades-common-components@^1.1.5":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@furystack/shades-common-components/-/shades-common-components-1.1.5.tgz#e0fa49cee6a3df59b6a997b98f3785718876b337"
-  integrity sha512-JkSHWSD7d1JM2djBmQeTyKqtXP+jFTJXDXNrlrDfOJZ7WkFe6lVQ/aVUMudq0wjxK9Vqv+JGKs8HpjiQ99W70g==
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@furystack/shades-common-components/-/shades-common-components-1.1.6.tgz#eb3f095b63c9edddb7e551ee7992ed847a6ccb3b"
+  integrity sha512-YOSWFwVYRnkIFDPFrr8BRcb90jic1c7cWSrAkgfkc5GduXiZm3aQY81pW/J9Yx+Gm1SLtwS97cWUSJBnR/6thQ==
   dependencies:
     "@furystack/shades" "^3.2.17"
     uuid "^8.1.0"

@@ -7,10 +7,6 @@ export type AvatarPropsUrl = { avatarUrl: string } & PartialElement<HTMLDivEleme
 
 export type AvatarProps = AvatarPropsUsername | AvatarPropsUrl
 
-export const p: AvatarProps = {
-  userName: 'anyád',
-}
-
 export const isUsernameProps = (obj: AvatarProps): obj is AvatarPropsUsername => {
   return (obj as any).userName ? true : false
 }

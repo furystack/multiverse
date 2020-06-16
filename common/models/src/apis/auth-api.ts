@@ -43,6 +43,26 @@ export interface AuthApi extends RestApi {
     }>
 
     '/organizations': SinglePostEndpoint<Organization>
+    '/organization/:organizationName/addMember': RequestAction<{
+      result: PartialResult<Organization, any>
+      body: { username: string }
+      urlParams: { organizationName: string }
+    }>
+    '/organization/:organizationName/removeMember': RequestAction<{
+      result: PartialResult<Organization, any>
+      body: { username: string }
+      urlParams: { organizationName: string }
+    }>
+    '/organization/:organizationName/addAdmin': RequestAction<{
+      result: PartialResult<Organization, any>
+      body: { username: string }
+      urlParams: { organizationName: string }
+    }>
+    '/organization/:organizationName/removeAdmin': RequestAction<{
+      result: PartialResult<Organization, any>
+      body: { username: string }
+      urlParams: { organizationName: string }
+    }>
   }
   PATCH: {
     '/organizations/:organizationName': RequestAction<{

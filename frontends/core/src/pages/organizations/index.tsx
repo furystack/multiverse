@@ -13,7 +13,7 @@ export const OrganizationsPage = Shade<{}, { service: CollectionService<auth.Org
           action: '/organizations',
           query: { findOptions },
         }),
-      { top: 20, order: {} },
+      { top: 20, order: { name: 'ASC' } },
     )
     return { service }
   },

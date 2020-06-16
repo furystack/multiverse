@@ -172,7 +172,12 @@ export const Body = Shade<
                               const { OrganizationDetailsPage } = await import(
                                 /* webpackChunkName: "edit-organization" */ '../pages/organizations/organization-details'
                               )
-                              return <OrganizationDetailsPage organizationId={match.params.organizationName} />
+                              const org = await injector.getInstance(AuthApiService).call({
+                                method: 'GET',
+                                action: '/organization/:organizationName',
+                                url: { organizationName: match.params.organizationName },
+                              })
+                              return <OrganizationDetailsPage organization={org as auth.Organization} />
                             }}
                             loader={<Init message="Loading your Profile..." />}
                           />

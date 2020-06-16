@@ -19,6 +19,10 @@ import {
   GetOrganization,
   PatchOrganization,
   GetLoginProviderDetails,
+  OrganizationAddAdmin,
+  OrganizationAddMember,
+  OrganizationRemoveAdmin,
+  OrganizationRemoveMember,
 } from './actions'
 import { injector } from './config'
 import { PostSettings } from './actions/post-settings'
@@ -53,6 +57,10 @@ injector.useRestService<apis.AuthApi>({
       '/organizations': createSinglePostEndpoint(auth.Organization),
       '/changePassword': Authenticate()(ChangePasswordAction),
       '/settings': Authenticate()(PostSettings),
+      '/organization/:organizationName/addAdmin': OrganizationAddAdmin,
+      '/organization/:organizationName/addMember': OrganizationAddMember,
+      '/organization/:organizationName/removeAdmin': OrganizationRemoveAdmin,
+      '/organization/:organizationName/removeMember': OrganizationRemoveMember,
     },
     PATCH: {
       '/organizations/:organizationName': PatchOrganization,
