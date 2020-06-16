@@ -1,38 +1,8 @@
 import { auth } from '@common/models'
 import { AuthApiService } from '@common/frontend-utils'
 import { Shade, createComponent } from '@furystack/shades'
-import { CommandPalette, CommandProvider } from '@furystack/shades-common-components'
+import { Suggest } from '@furystack/shades-common-components'
 import { Avatar } from './avatar'
-
-const createMemberListCommandProvider: (
-  members: auth.Profile[],
-  onSelect: (user: auth.Profile) => void,
-) => CommandProvider = (currentMembers, onSelect) => async ({ term, injector }) => {
-  const users = await injector.getInstance(AuthApiService).call({
-    method: 'GET',
-    action: '/profiles',
-    query: {
-      findOptions: { top: 10, filter: { $or: [{ username: { $regex: term } }, { displayName: { $regex: term } }] } },
-    },
-  })
-  return users.entries
-    .filter((user) => currentMembers.every((current) => current.username !== user.username))
-    .map((u) => ({
-      onSelected: () => {
-        onSelect(u as auth.Profile)
-      },
-      score: 1,
-      element: (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar avatarUrl={u.avatarUrl} userName={u.av} style={{ width: '48px', height: '48px' }} />
-          <div style={{ marginLeft: '2em' }}>
-            <strong>{u.displayName}</strong> <br />
-            {u.username}
-          </div>
-        </div>
-      ),
-    }))
-}
 
 export type MemberListProps = { users: auth.Profile[]; addLabel: string } & (
   | {
@@ -54,7 +24,7 @@ export const MemberList = Shade<MemberListProps, MemberListState>({
   getInitialState: ({ props }) => ({
     users: props.users,
   }),
-  render: ({ props, getState, updateState }) => {
+  render: ({ props, getState, updateState, injector }) => {
     return (
       <div>
         <div style={{}}>
@@ -81,14 +51,39 @@ export const MemberList = Shade<MemberListProps, MemberListState>({
           ))}
         </div>
         {props.canEdit ? (
-          <CommandPalette
+          <Suggest<auth.Profile>
             defaultPrefix="+"
-            commandProviders={[
-              createMemberListCommandProvider(getState().users, (user) => {
-                updateState({ users: [...getState().users, user] })
-                props.onAddMember(user)
-              }),
-            ]}
+            onSelectSuggestion={(user) => {
+              updateState({ users: [...getState().users, user] })
+              props.onAddMember(user)
+            }}
+            getEntries={async (term) => {
+              const users = await injector.getInstance(AuthApiService).call({
+                method: 'GET',
+                action: '/profiles',
+                query: {
+                  findOptions: {
+                    top: 10,
+                    filter: { $or: [{ username: { $regex: term } }, { displayName: { $regex: term } }] },
+                  },
+                },
+              })
+              return users.entries.filter((user) =>
+                getState().users.every((current) => current.username !== user.username),
+              ) as auth.Profile[]
+            }}
+            getSuggestionEntry={(u) => ({
+              score: 1,
+              element: (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Avatar avatarUrl={u.avatarUrl} userName={u.avatarUrl} style={{ width: '48px', height: '48px' }} />
+                  <div style={{ marginLeft: '2em' }}>
+                    <strong>{u.displayName}</strong> <br />
+                    {u.username}
+                  </div>
+                </div>
+              ),
+            })}
           />
         ) : null}
       </div>

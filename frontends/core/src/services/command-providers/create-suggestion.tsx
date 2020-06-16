@@ -1,6 +1,6 @@
 import { createComponent } from '@furystack/shades'
 import { Injector } from '@furystack/inject'
-import { SuggestionResult } from '@furystack/shades-common-components'
+import { CommandPaletteSuggestionResult } from '@furystack/shades-common-components'
 
 export interface SuggestionOptions {
   name: string
@@ -25,7 +25,9 @@ export const createSuggestion = (options: SuggestionOptions) => ({
   onSelected: options.onSelected,
 })
 
-export const distinctByName = (...entries: Array<ReturnType<typeof createSuggestion>>): SuggestionResult[] =>
+export const distinctByName = (
+  ...entries: Array<ReturnType<typeof createSuggestion>>
+): CommandPaletteSuggestionResult[] =>
   entries.reduce<any[]>((prev, current) => {
     if (!prev.some((i) => i.name === current.name)) {
       return [...prev, current]

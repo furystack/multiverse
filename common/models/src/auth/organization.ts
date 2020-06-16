@@ -1,3 +1,5 @@
+import { Owner } from '../owner'
+
 export class Organization {
   _id!: string
   name!: string
@@ -6,7 +8,7 @@ export class Organization {
   /**
    * The owner user name
    */
-  ownerName!: string
+  owner!: Owner
 
   /**
    * Unique user names of the organization members

@@ -52,7 +52,10 @@ Injector.prototype.useCommonHttpAuth = function () {
       .createDataSet(auth.Organization, {
         authorizeUpdateEntity: async ({ injector: i, entity }) => {
           const currentUser = await i.getCurrentUser()
-          if (entity.ownerName === currentUser.username || entity.adminNames.includes(currentUser.username)) {
+          if (
+            (entity.owner.type === 'user' && entity.owner.username === currentUser.username) ||
+            entity.adminNames.includes(currentUser.username)
+          ) {
             return { isAllowed: true }
           }
           return { isAllowed: false, message: 'Only the owner or admins can modify an organization' }

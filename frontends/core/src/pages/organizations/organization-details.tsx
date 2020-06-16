@@ -14,7 +14,8 @@ export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }
     const canEdit =
       organization &&
       currentUser &&
-      (organization.ownerName === currentUser.username || organization.adminNames.includes(currentUser.username))
+      ((organization.owner.type === 'user' && organization.owner.username === currentUser.username) ||
+        organization.adminNames.includes(currentUser.username))
         ? true
         : false
     return (
@@ -111,6 +112,10 @@ export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }
                 )}
               />
             ),
+          },
+          {
+            header: <div>Transfer Ownership</div>,
+            component: <div></div>,
           },
         ]}
       />
