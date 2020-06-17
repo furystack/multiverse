@@ -1,10 +1,11 @@
 import { createComponent, Shade } from '@furystack/shades'
-import { deepMerge } from '@furystack/utils'
+import { deepMerge, PathHelper } from '@furystack/utils'
 import { Tabs, styles, Input, Button, colors } from '@furystack/shades-common-components'
 import { auth } from '@common/models'
 import { AuthApiService } from '@common/frontend-utils'
-import { tokens } from '@common/config'
+import { tokens, sites } from '@common/config'
 import { Avatar } from '@common/components'
+import { v4 } from 'uuid'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 import { ChangePasswordForm } from '../components/change-password-form'
 import { UserSettingsEditor } from '../components/editors/user-settings'
@@ -25,6 +26,8 @@ export const ProfilePage = Shade<
   render: ({ injector, getState }) => {
     const { currentUser, profile, loginProviderDetails } = getState()
 
+    const uploadId = v4()
+
     const reloadProviderDetails = async () => {
       /** */
     }
@@ -38,10 +41,37 @@ export const ProfilePage = Shade<
             component: (
               <div>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <Avatar
-                    userName={currentUser.username}
-                    style={{ display: 'inline-block', width: '3em', height: '3em', cursor: 'pointer' }}
-                  />
+                  <div>
+                    <form
+                      onchange={async (ev) => {
+                        const form = (ev.target as any).form as HTMLFormElement
+                        if (form.checkValidity()) {
+                          const file: File = (form.elements[0] as any).files[0]
+                          const formData = new FormData()
+                          formData.append('avatar', file)
+                          await fetch(PathHelper.joinPaths(sites.services.auth.externalPath, 'auth', 'avatar'), {
+                            method: 'POST',
+                            body: formData as any,
+                            credentials: 'include',
+                          })
+                        }
+                      }}>
+                      <label htmlFor={uploadId} style={{ cursor: 'pointer' }}>
+                        <Avatar
+                          userName={currentUser.username}
+                          style={{ display: 'inline-block', width: '3em', height: '3em', cursor: 'pointer' }}
+                        />
+                      </label>
+                      <input
+                        required
+                        name="avatar"
+                        id={uploadId}
+                        type="file"
+                        style={{ opacity: '0', position: 'absolute', zIndex: '-1' }}
+                      />
+                    </form>
+                  </div>
+
                   <h3 style={{ marginLeft: '2em' }}>General Info</h3>
                 </div>
                 <Input type="text" labelTitle="Login name" value={currentUser.username} disabled />
@@ -72,10 +102,11 @@ export const ProfilePage = Shade<
                   <h4>Google</h4>
                   {loginProviderDetails.google ? (
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <Avatar
+                      {/* <Avatar
                         style={{ width: '48px', height: '48px' }}
-                        avatarUrl={loginProviderDetails.google.googleApiPayload.picture}
-                      />
+                        // avatarUrl={loginProviderDetails.google.googleApiPayload.picture}
+                        userName={}
+                      /> */}
                       <div style={{ margin: '0 2em' }}>
                         Connected with <strong>{loginProviderDetails.google.googleApiPayload.email}</strong>
                       </div>
@@ -121,10 +152,10 @@ export const ProfilePage = Shade<
                   <h4>GitHub</h4>
                   {loginProviderDetails.github ? (
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <Avatar
+                      {/* <Avatar
                         style={{ width: '48px', height: '48px' }}
                         avatarUrl={loginProviderDetails.github.githubApiPayload.avatar_url}
-                      />
+                      /> */}
                       <div style={{ margin: '0 2em' }}>
                         Connected with account &nbsp;
                         <strong>

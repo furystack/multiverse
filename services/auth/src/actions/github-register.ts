@@ -43,7 +43,6 @@ export const GithubRegisterAction: RequestAction<{
   await storeManager.getStoreFor(auth.Profile).add({
     username: newUser.username,
     displayName: newUser.username,
-    avatarUrl: githubApiPayload.avatar_url,
   })
 
   await injector.getInstance(HttpUserContext).cookieLogin(newUser, response)

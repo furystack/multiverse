@@ -61,7 +61,6 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string }; resu
   await storeManager.getStoreFor(auth.Profile).add({
     username: userToAdd.username,
     displayName: googleUserData.name,
-    avatarUrl: googleUserData.picture,
   })
 
   logger.information({

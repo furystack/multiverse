@@ -1,8 +1,9 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
+import { ObservableValue } from '@furystack/utils'
 import { auth, serviceList } from '@common/models'
 import { Avatar } from '@common/components'
 import { SessionService } from '@common/frontend-utils'
-import { styles } from '@furystack/shades-common-components'
+import { styles, promisifyAnimation } from '@furystack/shades-common-components'
 
 const CurrentUserMenuItem = Shade<{ title: string; icon: string; onclick: () => void }>({
   shadowDomName: 'current-user-menu-item',
@@ -15,26 +16,22 @@ const CurrentUserMenuItem = Shade<{ title: string; icon: string; onclick: () => 
   },
 })
 
-export const CurrentUserMenu = Shade<{}, { currentUser?: auth.User; isOpened: boolean }>({
+export const CurrentUserMenu = Shade<{}, { currentUser?: auth.User; isOpened: ObservableValue<boolean> }>({
   shadowDomName: 'shade-current-user-menu',
-  getInitialState: () => ({ currentUser: undefined, isOpened: false }),
-  constructed: ({ injector, updateState }) => {
-    const observer = injector.getInstance(SessionService).currentUser.subscribe((usr) => {
-      updateState({ currentUser: usr || undefined })
-    }, true)
-    return () => observer.dispose()
-  },
-
-  render: ({ getState, updateState, injector, element }) => {
-    const { currentUser, isOpened } = getState()
-    return currentUser ? (
-      <div
-        style={{ width: '48px', height: '48px' }}
-        onclick={(ev) => {
-          ev.preventDefault()
-          updateState({ isOpened: !isOpened })
-          // eslint-disable-next-line no-unused-expressions
-          element?.querySelector('.current-user-menu')?.animate(
+  getInitialState: () => ({ currentUser: undefined, isOpened: new ObservableValue<boolean>(false) }),
+  constructed: ({ injector, updateState, getState, element }) => {
+    const observers = [
+      injector.getInstance(SessionService).currentUser.subscribe((usr) => {
+        updateState({ currentUser: usr || undefined })
+      }, true),
+      getState().isOpened.subscribe(async (isOpened) => {
+        const menu = element.querySelector('.current-user-menu') as HTMLElement
+        const backdrop = element.querySelector('.user-menu-backdrop') as HTMLElement
+        const container = element.querySelector('.menu-container') as HTMLElement
+        if (isOpened) {
+          container.style.display = 'block'
+          container.style.opacity = '1'
+          menu.animate(
             [
               { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
               { transform: 'scale(1) translateY(0)', opacity: 1 },
@@ -42,20 +39,56 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: auth.User; isOpened: bo
             {
               duration: 300,
               easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
+              fill: 'forwards',
             },
           )
-
-          // eslint-disable-next-line no-unused-expressions
-          element?.querySelector('.user-menu-backdrop')?.animate([{ opacity: 0 }, { opacity: 1 }], {
+          backdrop.animate([{ opacity: 0 }, { opacity: 1 }], {
             duration: 300,
             easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
+            fill: 'forwards',
           })
+        } else {
+          const menuPromise = promisifyAnimation(
+            menu,
+            [
+              { transform: 'scale(1) translateY(0)', opacity: 1 },
+              { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
+            ],
+            {
+              duration: 300,
+              easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
+              fill: 'forwards',
+            },
+          )
+          const backdropPromise = promisifyAnimation(backdrop, [{ opacity: 1 }, { opacity: 0 }], {
+            duration: 300,
+            easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
+            fill: 'forwards',
+          })
+          await Promise.all([menuPromise, backdropPromise])
+          container.style.opacity = '0'
+          container.style.display = 'none'
+        }
+      }),
+    ]
+    return () => observers.map((o) => o.dispose())
+  },
+
+  render: ({ getState, injector }) => {
+    const { currentUser, isOpened } = getState()
+    return currentUser ? (
+      <div
+        style={{ width: '48px', height: '48px' }}
+        onclick={(ev) => {
+          ev.preventDefault()
+          isOpened.setValue(!isOpened.getValue())
         }}>
         <Avatar userName={currentUser.username} />
         <div
+          className="menu-container"
           style={{
-            display: isOpened ? 'block' : 'none',
-            opacity: isOpened ? '1' : '0',
+            display: isOpened.getValue() ? 'block' : 'none',
+            opacity: isOpened.getValue() ? '1' : '0',
             position: 'absolute',
           }}>
           <div
@@ -107,36 +140,10 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: auth.User; isOpened: bo
               height: '100%',
               zIndex: '1',
               backgroundColor: 'rgba(0,0,0,0.3)',
-              // backdropFilter: 'blur(10000px)',
             }}
             onclick={async (ev) => {
               ev.stopPropagation()
-              const hideMenu = new Promise((resolve) => {
-                const animation = element?.querySelector('.current-user-menu')?.animate(
-                  [
-                    { transform: 'scale(1) translateY(0)', opacity: 1 },
-                    { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
-                  ],
-                  {
-                    duration: 300,
-                    easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
-                  },
-                )
-                animation && (animation.onfinish = () => resolve())
-              })
-
-              const hideBackdrop = new Promise((resolve) => {
-                const animation = element
-                  ?.querySelector('.user-menu-backdrop')
-                  ?.animate([{ opacity: 1 }, { opacity: 0 }], {
-                    duration: 300,
-                    easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
-                  })
-                animation && (animation.onfinish = () => resolve())
-              })
-
-              await Promise.all([hideMenu, hideBackdrop])
-              updateState({ isOpened: false })
+              isOpened.setValue(false)
             }}></div>
         </div>
       </div>

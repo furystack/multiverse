@@ -30,11 +30,7 @@ export const MemberList = Shade<MemberListProps, MemberListState>({
         <div style={{}}>
           {getState().users.map((u) => (
             <div style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
-              <Avatar
-                avatarUrl={u.avatarUrl}
-                userName={u.username}
-                style={{ width: '32px', height: '32px', marginRight: '2em' }}
-              />
+              <Avatar userName={u.username} style={{ width: '32px', height: '32px', marginRight: '2em' }} />
               {u.displayName}
               {props.canEdit ? (
                 <span
@@ -76,7 +72,7 @@ export const MemberList = Shade<MemberListProps, MemberListState>({
               score: 1,
               element: (
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <Avatar avatarUrl={u.avatarUrl} userName={u.avatarUrl} style={{ width: '48px', height: '48px' }} />
+                  <Avatar userName={u.username} style={{ width: '48px', height: '48px' }} />
                   <div style={{ marginLeft: '2em' }}>
                     <strong>{u.displayName}</strong> <br />
                     {u.username}

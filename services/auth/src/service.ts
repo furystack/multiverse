@@ -26,6 +26,7 @@ import {
 } from './actions'
 import { injector } from './config'
 import { PostSettings } from './actions/post-settings'
+import { UploadAvatar } from './actions/upload-avatar'
 
 injector.useRestService<apis.AuthApi>({
   port: parseInt(sites.services.auth.internalPort as any, 10),
@@ -43,6 +44,7 @@ injector.useRestService<apis.AuthApi>({
       '/loginProviderDetails': Authenticate()(GetLoginProviderDetails),
     },
     POST: {
+      '/avatar': UploadAvatar,
       '/githubLogin': GithubLoginAction,
       '/githubRegister': GithubRegisterAction,
       '/attachGithubAccount': Authenticate()(AttachGithubAccount),
