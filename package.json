@@ -12,7 +12,8 @@
       "frontends/*",
       "services/*",
       "common/*",
-      "lib/*"
+      "lib/*",
+      "workers/*"
     ]
   },
   "dependencies": {
@@ -59,17 +60,13 @@
   },
   "scripts": {
     "build:services": "tsc -b services",
+    "build:workers": "tsc -b workers",
     "build:common": "tsc -b common",
     "build:frontends": "yarn workspace @frontend/core build",
-    "build": "yarn build:common && yarn build:services && yarn build:frontends",
-    "start:watch": "yarn build:common && yarn build:services && concurrently --kill-others \"tsc -b --watch\" \"yarn workspace @service/auth start:watch\" \"yarn workspace @service/diag start:watch\" \"yarn workspace @service/media start:watch\"  \"yarn workspace xpense-service start:watch\" \"yarn startFrontend\"",
+    "build": "yarn build:common && yarn build:workers && yarn build:services && yarn build:frontends",
+    "start:watch": "yarn build:common && yarn build:workers && yarn build:services && concurrently --kill-others \"tsc -b --watch\" \"yarn workspace @worker/media-encoder start:watch\" \"yarn workspace @service/auth start:watch\" \"yarn workspace @service/diag start:watch\" \"yarn workspace @service/media start:watch\"  \"yarn workspace xpense-service start:watch\" \"yarn workspace @frontend/core start\"",
     "test:cypress": "yarn workspace @service/auth seed && concurrently --kill-others \"yarn start\" \"yarn cypress run\" --success first ",
-    "start": "concurrently --kill-others \"yarn startAuth\" \"yarn startDiag\" \"yarn startXpense\" \"yarn startFrontend\" \"yarn startMedia\"",
-    "startAuth": "yarn workspace @service/auth start",
-    "startDiag": "yarn workspace @service/diag start",
-    "startMedia": "yarn workspace @service/media start",
-    "startXpense": "yarn workspace xpense-service start",
-    "startFrontend": "yarn workspace @frontend/core start",
+    "start": "yarn start",
     "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache",
     "seed": "yarn workspace @service/auth seed",
