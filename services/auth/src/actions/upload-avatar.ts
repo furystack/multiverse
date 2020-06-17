@@ -1,5 +1,5 @@
 import { join, extname } from 'path'
-import { promises } from 'fs'
+import { promises, existsSync } from 'fs'
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { IncomingForm, Fields, Files } from 'formidable'
 import { FileStores } from '@common/config'
@@ -26,8 +26,18 @@ export const UploadAvatar: RequestAction<{}> = async ({ injector, request }) => 
   const extension = extname(file.name).toLowerCase()
   const fileName = `${user.username}${extension}`
   const fullPath = join(FileStores.avatars, fileName)
+
+  if (user.avatarFile) {
+    const oldAvatarPath = join(FileStores.avatars, user.avatarFile)
+    if (existsSync(oldAvatarPath)) {
+      await promises.unlink(oldAvatarPath)
+    }
+  }
+
   await promises.copyFile(file.path, fullPath)
-  await promises.unlink(file.path)
+
+  // Remove from temp
+  promises.unlink(file.path)
   injector.getDataSetFor(auth.User).update(injector, user._id, { avatarFile: fileName })
 
   return JsonResult({ success: true })
