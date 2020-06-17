@@ -20,10 +20,16 @@ export const ProfilePage = Shade<
     profile: auth.Profile
     loginProviderDetails: { hasPassword: boolean; google?: auth.GoogleAccount; github?: auth.GithubAccount }
     currentUser: auth.User
+    displayName: string
+    description: string
   }
 >({
-  getInitialState: ({ props }) => ({ ...props }),
-  render: ({ injector, getState }) => {
+  getInitialState: ({ props }) => ({
+    ...props,
+    displayName: props.profile.displayName,
+    description: props.profile.description,
+  }),
+  render: ({ injector, getState, updateState }) => {
     const { currentUser, profile, loginProviderDetails } = getState()
 
     const uploadId = v4()
@@ -63,10 +69,42 @@ export const ProfilePage = Shade<
                     </form>
                   </div>
 
-                  <h3 style={{ marginLeft: '2em' }}>General Info</h3>
+                  <h3 style={{ marginLeft: '2em' }}>{currentUser.username}</h3>
                 </div>
-                <Input type="text" labelTitle="Login name" value={currentUser.username} disabled />
-                <Input type="text" labelTitle="Display name" value={profile.displayName} disabled />
+                <form
+                  onsubmit={(ev) => {
+                    ev.preventDefault()
+                    const state = getState()
+                    if (
+                      state.description !== state.profile.description ||
+                      state.displayName !== state.profile.displayName
+                    ) {
+                      injector.getInstance(AuthApiService).call({
+                        method: 'PATCH',
+                        action: '/profile/:id',
+                        url: { id: state.profile._id },
+                        body: { displayName: state.displayName, description: state.description },
+                      })
+                    }
+                  }}>
+                  <Input
+                    onTextChange={(displayName) => {
+                      updateState({ displayName }, true)
+                    }}
+                    type="text"
+                    labelTitle="Display name"
+                    value={profile.displayName}
+                  />
+                  <Input
+                    type="text"
+                    labelTitle="Short introduction"
+                    value={profile.description}
+                    onTextChange={(description) => {
+                      updateState({ description }, true)
+                    }}
+                  />
+                  <Button type="submit">Save Changes</Button>
+                </form>
                 <Input type="text" labelTitle="Registration date" value={currentUser.registrationDate} disabled />
                 <Input type="text" labelTitle="Roles" value={currentUser.roles.join(', ')} disabled />
               </div>

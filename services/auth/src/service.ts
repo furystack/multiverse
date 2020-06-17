@@ -2,7 +2,12 @@ import { GetCurrentUser, IsAuthenticated, LoginAction, LogoutAction, Authenticat
 import { sites } from '@common/config'
 import { auth, apis, deserialize } from '@common/models'
 import { RequestAction } from '@furystack/rest'
-import { attachShutdownHandler, createCollectionEndpoint, createSinglePostEndpoint } from '@common/service-utils'
+import {
+  attachShutdownHandler,
+  createCollectionEndpoint,
+  createSinglePostEndpoint,
+  createSinglePatchEndpoint,
+} from '@common/service-utils'
 import {
   AttachGithubAccount,
   AttachGoogleAccountAction,
@@ -66,11 +71,13 @@ injector.useRestService<apis.AuthApi>({
     },
     PATCH: {
       '/organizations/:organizationName': PatchOrganization,
+      '/profile/:id': createSinglePatchEndpoint(auth.Profile),
     },
   },
   cors: {
     credentials: true,
     origins: Object.values(sites.frontends),
+    methods: ['GET', 'POST', 'DELETE', 'PATCH'],
   },
 })
 
