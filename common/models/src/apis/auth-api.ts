@@ -7,6 +7,7 @@ import { GoogleAccount } from '../auth/google-account'
 import { GithubAccount } from '../auth/github-account'
 import { CollectionEndpoint, SinglePostEndpoint } from '../endpoints'
 import { UserSettings } from '../schemas'
+import { SinglePatchEndpoint } from '../endpoints/single-patch-endpoint'
 
 export interface AuthApi extends RestApi {
   GET: {
@@ -37,6 +38,7 @@ export interface AuthApi extends RestApi {
     '/detachGithubAccount': RequestAction<{ result: User }>
     '/logout': RequestAction<{}>
     '/settings': RequestAction<{ body: UserSettings }>
+    '/avatar': RequestAction<{}>
     '/changePassword': RequestAction<{
       body: { currentPassword: string; newPassword: string }
       result: { success: boolean }
@@ -70,5 +72,6 @@ export interface AuthApi extends RestApi {
       result: Organization
       urlParams: { organizationName: string }
     }>
+    '/profile/:id': SinglePatchEndpoint<Profile>
   }
 }

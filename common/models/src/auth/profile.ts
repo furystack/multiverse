@@ -4,7 +4,7 @@ export class Profile {
   public _id!: string
   public username!: string
   public displayName!: string
-  public avatarUrl!: string
+  public description!: string
   public userSettings!: UserSettings
 }
 

@@ -91,15 +91,15 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
-"@furystack/auth-google@^4.0.38":
-  version "4.0.38"
-  resolved "https://registry.yarnpkg.com/@furystack/auth-google/-/auth-google-4.0.38.tgz#24bf6cadfb4d00a931494d0f8e14f5c16856100a"
-  integrity sha512-ovewmjT/8pvUekoBkGxvbg9t9qD42vsEa7e5Cbb6yXMQZpwX7IcstAr4pMSFKQJi4Hi9nDaRcHcjMQVHnb0YIQ==
+"@furystack/auth-google@^4.0.39":
+  version "4.0.39"
+  resolved "https://registry.yarnpkg.com/@furystack/auth-google/-/auth-google-4.0.39.tgz#a9c714be1ea83fefb34f03162bd6135f86434ba4"
+  integrity sha512-NgbjuXUqVh0X77GU2ZCbhsFyc5V8OltmsArMrJ03jbm7v8EkcctHBjPMVweAijEDOoIj5uH4yu8zMS1AzOyrBQ==
   dependencies:
     "@furystack/core" "^9.1.3"
     "@furystack/inject" "^4.0.32"
     "@furystack/rest" "^1.1.16"
-    "@furystack/rest-service" "^2.1.8"
+    "@furystack/rest-service" "^2.1.9"
     "@furystack/utils" "^1.2.2"
     tslib "^2.0.0"
 
@@ -168,10 +168,10 @@
     path-to-regexp "^6.1.0"
     tslib "^2.0.0"
 
-"@furystack/rest-service@^2.1.8":
-  version "2.1.8"
-  resolved "https://registry.yarnpkg.com/@furystack/rest-service/-/rest-service-2.1.8.tgz#fc2c2338157bb05e6243db61fd60160dcaecd6f1"
-  integrity sha512-Cst5cZYTF2T7ED7dGv/AotHwjakvJJnwDSYmBw7C6WOJc+4HqWif28Rt/QDq3V9ORXTGZypOda3BQMTb+GBGzw==
+"@furystack/rest-service@^2.1.9":
+  version "2.1.9"
+  resolved "https://registry.yarnpkg.com/@furystack/rest-service/-/rest-service-2.1.9.tgz#039b69786f8a32f92858adeae8d5cc4095619de2"
+  integrity sha512-6SSNmM4hh0guRSuIbVfpQxx5sXARHZY4zJ/cpLknik2RgInQ6kd+KTbmga3jPRzBXa9O4G1a8hKav8l8kGJRkQ==
   dependencies:
     "@furystack/core" "^9.1.3"
     "@furystack/inject" "^4.0.32"
@@ -623,10 +623,10 @@
     "@types/node" "*"
     "@types/responselike" "*"
 
-"@types/chart.js@^2.9.18":
-  version "2.9.21"
-  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.9.21.tgz#ecb85f1aac2d7b28310df8cc9c88b6b5db1b91bd"
-  integrity sha512-bjwdC+SvE/c3rHYYcX8UbRmTvjEUP9Dhuk/iWXygH6EFDYf4OcofnwxBpJx+A4qU3YBr54a7wtPdswfg9Yt3rg==
+"@types/chart.js@^2.9.22":
+  version "2.9.22"
+  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.9.22.tgz#e52fd922aced217867445c2913b68ce98b1c2b5f"
+  integrity sha512-CneMxwh2T5fyMpXE5fuprTTmFtlLyZUFq1A3laUrCgOblDzupgiohrFg3jjsTIrqRI5K4qLZdrLN4zT9/MY5Dw==
   dependencies:
     moment "^2.10.2"
 
@@ -644,6 +644,14 @@
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
   integrity sha512-EaObqwIvayI5a8dCzhFrjKzVwKLxjoG9T6Ppd5CEo07LRKfQ8Yokw54r5+Wq7FaBQ+yXRvQAYPrHwya1/UFt9g==
+
+"@types/formidable@^1.0.31":
+  version "1.0.31"
+  resolved "https://registry.yarnpkg.com/@types/formidable/-/formidable-1.0.31.tgz#274f9dc2d0a1a9ce1feef48c24ca0859e7ec947b"
+  integrity sha512-dIhM5t8lRP0oWe2HF8MuPvdd1TpPTjhDMAqemcq6oIZQCBQTovhBAdTQ5L5veJB4pdQChadmHuxtB0YzqvfU3Q==
+  dependencies:
+    "@types/events" "*"
+    "@types/node" "*"
 
 "@types/glob@^7.1.1":
   version "7.1.1"
@@ -3103,6 +3111,19 @@ eslint-plugin-jsdoc@^27.0.7:
     semver "^6.3.0"
     spdx-expression-parse "^3.0.1"
 
+eslint-plugin-jsdoc@^27.1.1:
+  version "27.1.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-27.1.1.tgz#fe9786aaf6a2657648287ae74aaa67cda27a961b"
+  integrity sha512-4fBsb0mNlHg9AOTNsaJ6uCcQdQ/rHfvTFBf9f38TIM0Wtbg0eVE1C9grsdKbeCWc7IkY+QdrIq3d/Ad2QAlJ6Q==
+  dependencies:
+    comment-parser "^0.7.5"
+    debug "^4.1.1"
+    jsdoctypeparser "^6.1.0"
+    lodash "^4.17.15"
+    regextras "^0.7.1"
+    semver "^6.3.0"
+    spdx-expression-parse "^3.0.1"
+
 eslint-plugin-prettier@^3.1.4:
   version "3.1.4"
   resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-3.1.4.tgz#168ab43154e2ea57db992a2cd097c828171f75c2"
@@ -3685,6 +3706,11 @@ form-data@~2.3.2:
     asynckit "^0.4.0"
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
+
+formidable@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/formidable/-/formidable-1.2.2.tgz#bf69aea2972982675f00865342b982986f6b8dd9"
+  integrity sha512-V8gLm+41I/8kguQ4/o1D3RIHRmhYFG4pnNyonvua+40rqcEmT4+V71yaZ3B457xbbgCsCfjSPi65u/W6vK1U5Q==
 
 forwarded@~0.1.2:
   version "0.1.2"

@@ -1,25 +1,25 @@
+import { join } from 'path'
+import { createReadStream, existsSync } from 'fs'
 import { RequestAction, RequestError, BypassResult } from '@furystack/rest'
 import { auth } from '@common/models'
-import got from 'got'
+import { FileStores } from '@common/config'
+import { StoreManager } from '@furystack/core'
 
 export const GetAvatar: RequestAction<{
   result: string
   urlParams: { username: string }
 }> = async ({ injector, getUrlParams, response }) => {
-  const profileStore = injector.getDataSetFor(auth.Profile)
+  const userStore = injector.getInstance(StoreManager).getStoreFor(auth.User)
   const { username } = getUrlParams()
-  const result = await profileStore.find(injector, {
-    filter: {
-      username: { $eq: username },
-    },
-    top: 1,
-  })
-  const profile = result[0]
-  if (!profile) {
-    throw new RequestError(`The profile for user '${username}' does not exists`, 404)
+
+  const [user] = await userStore.find({ filter: { username: { $eq: username } }, top: 1 })
+  if (user) {
+    const profileImage = join(FileStores.avatars, `${user.avatarFile}`)
+    if (existsSync(profileImage)) {
+      createReadStream(profileImage).pipe(response)
+      return BypassResult()
+    }
   }
-  const imgResult = got(profile.avatarUrl)
-  const buffer = await imgResult.buffer()
-  response.end(buffer, 'binary')
-  return BypassResult()
+
+  throw new RequestError(`The profile for user '${username}' does not exists`, 404)
 }

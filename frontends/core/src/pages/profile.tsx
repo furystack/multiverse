@@ -2,9 +2,10 @@ import { createComponent, Shade } from '@furystack/shades'
 import { deepMerge } from '@furystack/utils'
 import { Tabs, styles, Input, Button, colors } from '@furystack/shades-common-components'
 import { auth } from '@common/models'
-import { AuthApiService } from '@common/frontend-utils'
+import { AuthApiService, MyAvatarService } from '@common/frontend-utils'
 import { tokens } from '@common/config'
-import { Avatar } from '@common/components'
+import { MyAvatar } from '@common/components'
+import { v4 } from 'uuid'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 import { ChangePasswordForm } from '../components/change-password-form'
 import { UserSettingsEditor } from '../components/editors/user-settings'
@@ -19,11 +20,19 @@ export const ProfilePage = Shade<
     profile: auth.Profile
     loginProviderDetails: { hasPassword: boolean; google?: auth.GoogleAccount; github?: auth.GithubAccount }
     currentUser: auth.User
+    displayName: string
+    description: string
   }
 >({
-  getInitialState: ({ props }) => ({ ...props }),
-  render: ({ injector, getState }) => {
+  getInitialState: ({ props }) => ({
+    ...props,
+    displayName: props.profile.displayName,
+    description: props.profile.description,
+  }),
+  render: ({ injector, getState, updateState }) => {
     const { currentUser, profile, loginProviderDetails } = getState()
+
+    const uploadId = v4()
 
     const reloadProviderDetails = async () => {
       /** */
@@ -38,14 +47,64 @@ export const ProfilePage = Shade<
             component: (
               <div>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <Avatar
-                    userName={currentUser.username}
-                    style={{ display: 'inline-block', width: '3em', height: '3em', cursor: 'pointer' }}
-                  />
-                  <h3 style={{ marginLeft: '2em' }}>General Info</h3>
+                  <div>
+                    <form
+                      onchange={async (ev) => {
+                        const form = (ev.target as any).form as HTMLFormElement
+                        if (form.checkValidity()) {
+                          const file: File = (form.elements[0] as any).files[0]
+                          injector.getInstance(MyAvatarService).uploadAvatar(file)
+                        }
+                      }}>
+                      <label htmlFor={uploadId} style={{ cursor: 'pointer' }}>
+                        <MyAvatar style={{ display: 'inline-block', width: '3em', height: '3em', cursor: 'pointer' }} />
+                      </label>
+                      <input
+                        required
+                        name="avatar"
+                        id={uploadId}
+                        type="file"
+                        style={{ opacity: '0', position: 'absolute', zIndex: '-1' }}
+                      />
+                    </form>
+                  </div>
+
+                  <h3 style={{ marginLeft: '2em' }}>{currentUser.username}</h3>
                 </div>
-                <Input type="text" labelTitle="Login name" value={currentUser.username} disabled />
-                <Input type="text" labelTitle="Display name" value={profile.displayName} disabled />
+                <form
+                  onsubmit={(ev) => {
+                    ev.preventDefault()
+                    const state = getState()
+                    if (
+                      state.description !== state.profile.description ||
+                      state.displayName !== state.profile.displayName
+                    ) {
+                      injector.getInstance(AuthApiService).call({
+                        method: 'PATCH',
+                        action: '/profile/:id',
+                        url: { id: state.profile._id },
+                        body: { displayName: state.displayName, description: state.description },
+                      })
+                    }
+                  }}>
+                  <Input
+                    onTextChange={(displayName) => {
+                      updateState({ displayName }, true)
+                    }}
+                    type="text"
+                    labelTitle="Display name"
+                    value={profile.displayName}
+                  />
+                  <Input
+                    type="text"
+                    labelTitle="Short introduction"
+                    value={profile.description}
+                    onTextChange={(description) => {
+                      updateState({ description }, true)
+                    }}
+                  />
+                  <Button type="submit">Save Changes</Button>
+                </form>
                 <Input type="text" labelTitle="Registration date" value={currentUser.registrationDate} disabled />
                 <Input type="text" labelTitle="Roles" value={currentUser.roles.join(', ')} disabled />
               </div>
@@ -72,10 +131,11 @@ export const ProfilePage = Shade<
                   <h4>Google</h4>
                   {loginProviderDetails.google ? (
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <Avatar
+                      {/* <Avatar
                         style={{ width: '48px', height: '48px' }}
-                        avatarUrl={loginProviderDetails.google.googleApiPayload.picture}
-                      />
+                        // avatarUrl={loginProviderDetails.google.googleApiPayload.picture}
+                        userName={}
+                      /> */}
                       <div style={{ margin: '0 2em' }}>
                         Connected with <strong>{loginProviderDetails.google.googleApiPayload.email}</strong>
                       </div>
@@ -121,10 +181,10 @@ export const ProfilePage = Shade<
                   <h4>GitHub</h4>
                   {loginProviderDetails.github ? (
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <Avatar
+                      {/* <Avatar
                         style={{ width: '48px', height: '48px' }}
                         avatarUrl={loginProviderDetails.github.githubApiPayload.avatar_url}
-                      />
+                      /> */}
                       <div style={{ margin: '0 2em' }}>
                         Connected with account &nbsp;
                         <strong>

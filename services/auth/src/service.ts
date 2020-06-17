@@ -2,7 +2,12 @@ import { GetCurrentUser, IsAuthenticated, LoginAction, LogoutAction, Authenticat
 import { sites } from '@common/config'
 import { auth, apis, deserialize } from '@common/models'
 import { RequestAction } from '@furystack/rest'
-import { attachShutdownHandler, createCollectionEndpoint, createSinglePostEndpoint } from '@common/service-utils'
+import {
+  attachShutdownHandler,
+  createCollectionEndpoint,
+  createSinglePostEndpoint,
+  createSinglePatchEndpoint,
+} from '@common/service-utils'
 import {
   AttachGithubAccount,
   AttachGoogleAccountAction,
@@ -26,6 +31,7 @@ import {
 } from './actions'
 import { injector } from './config'
 import { PostSettings } from './actions/post-settings'
+import { UploadAvatar } from './actions/upload-avatar'
 
 injector.useRestService<apis.AuthApi>({
   port: parseInt(sites.services.auth.internalPort as any, 10),
@@ -43,6 +49,7 @@ injector.useRestService<apis.AuthApi>({
       '/loginProviderDetails': Authenticate()(GetLoginProviderDetails),
     },
     POST: {
+      '/avatar': UploadAvatar,
       '/githubLogin': GithubLoginAction,
       '/githubRegister': GithubRegisterAction,
       '/attachGithubAccount': Authenticate()(AttachGithubAccount),
@@ -64,11 +71,13 @@ injector.useRestService<apis.AuthApi>({
     },
     PATCH: {
       '/organizations/:organizationName': PatchOrganization,
+      '/profile/:id': createSinglePatchEndpoint(auth.Profile),
     },
   },
   cors: {
     credentials: true,
     origins: Object.values(sites.frontends),
+    methods: ['GET', 'POST', 'DELETE', 'PATCH'],
   },
 })
 
