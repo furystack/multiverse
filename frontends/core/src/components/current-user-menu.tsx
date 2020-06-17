@@ -1,7 +1,7 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { ObservableValue } from '@furystack/utils'
 import { auth, serviceList } from '@common/models'
-import { Avatar } from '@common/components'
+import { MyAvatar } from '@common/components'
 import { SessionService } from '@common/frontend-utils'
 import { styles, promisifyAnimation } from '@furystack/shades-common-components'
 
@@ -83,7 +83,7 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: auth.User; isOpened: Ob
           ev.preventDefault()
           isOpened.setValue(!isOpened.getValue())
         }}>
-        <Avatar userName={currentUser.username} />
+        <MyAvatar />
         <div
           className="menu-container"
           style={{

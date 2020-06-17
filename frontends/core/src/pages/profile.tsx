@@ -1,10 +1,10 @@
 import { createComponent, Shade } from '@furystack/shades'
-import { deepMerge, PathHelper } from '@furystack/utils'
+import { deepMerge } from '@furystack/utils'
 import { Tabs, styles, Input, Button, colors } from '@furystack/shades-common-components'
 import { auth } from '@common/models'
-import { AuthApiService } from '@common/frontend-utils'
-import { tokens, sites } from '@common/config'
-import { Avatar } from '@common/components'
+import { AuthApiService, MyAvatarService } from '@common/frontend-utils'
+import { tokens } from '@common/config'
+import { MyAvatar } from '@common/components'
 import { v4 } from 'uuid'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 import { ChangePasswordForm } from '../components/change-password-form'
@@ -47,20 +47,11 @@ export const ProfilePage = Shade<
                         const form = (ev.target as any).form as HTMLFormElement
                         if (form.checkValidity()) {
                           const file: File = (form.elements[0] as any).files[0]
-                          const formData = new FormData()
-                          formData.append('avatar', file)
-                          await fetch(PathHelper.joinPaths(sites.services.auth.externalPath, 'auth', 'avatar'), {
-                            method: 'POST',
-                            body: formData as any,
-                            credentials: 'include',
-                          })
+                          injector.getInstance(MyAvatarService).uploadAvatar(file)
                         }
                       }}>
                       <label htmlFor={uploadId} style={{ cursor: 'pointer' }}>
-                        <Avatar
-                          userName={currentUser.username}
-                          style={{ display: 'inline-block', width: '3em', height: '3em', cursor: 'pointer' }}
-                        />
+                        <MyAvatar style={{ display: 'inline-block', width: '3em', height: '3em', cursor: 'pointer' }} />
                       </label>
                       <input
                         required
