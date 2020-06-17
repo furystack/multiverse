@@ -6,8 +6,10 @@ import { isMovieFile } from '../utils/is-movie-file'
 import { isSampleFile } from '../utils/is-sample-file'
 import { getFallbackMetadataForMovie } from '../utils/get-fallback-metadata-for-movie'
 import { MetadataFetcher } from './metadata-fetcher'
+import { StoreManager } from '@furystack/core'
+import { MediaMessaging } from './media-messaging'
 
-@Injectable()
+@Injectable({ lifetime: 'singleton' })
 export class MediaLibraryWatcher {
   private readonly logger: ScopedLogger
 
@@ -44,6 +46,7 @@ export class MediaLibraryWatcher {
           libraryId: library._id,
           metadata: getFallbackMetadataForMovie(name),
         })
+        await this.messaging.onMovieAdded(movie.created[0])
         await this.fetcher.tryGetMetadataForMovie(movie.created[0])
       }
     })
@@ -64,7 +67,7 @@ export class MediaLibraryWatcher {
   }
 
   private async init() {
-    const movieLibraries = await this.injector.getDataSetFor(media.MovieLibrary).find(this.injector, {})
+    const movieLibraries = await this.injector.getInstance(StoreManager).getStoreFor(media.MovieLibrary).find({})
     this.logger.verbose({
       message: 'Initializing library watchers...',
       data: { paths: movieLibraries.map((m) => m.path) },
@@ -72,7 +75,11 @@ export class MediaLibraryWatcher {
     movieLibraries.map((lib) => this.initWatcherForLibrary(lib))
   }
 
-  constructor(private readonly injector: Injector, private readonly fetcher: MetadataFetcher) {
+  constructor(
+    private readonly injector: Injector,
+    private readonly fetcher: MetadataFetcher,
+    private readonly messaging: MediaMessaging,
+  ) {
     this.logger = injector.logger.withScope('MediaLibraryWatcher')
     this.init()
   }
