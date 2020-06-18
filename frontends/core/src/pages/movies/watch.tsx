@@ -1,8 +1,20 @@
-import { Shade, createComponent } from '@furystack/shades'
+import { Shade, createComponent, PartialElement } from '@furystack/shades'
 import { ObservableValue } from '@furystack/utils'
 import { media } from '@common/models'
 import { sites } from '@common/config'
 import { MediaApiService } from '@common/frontend-utils'
+import 'videojs-contrib-dash'
+import videojs from 'video.js'
+import 'video.js/dist/video-js.css'
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  export namespace JSX {
+    interface IntrinsicElements {
+      'video-js': PartialElement<HTMLVideoElement>
+    }
+  }
+}
 
 export const Watch = Shade<{ movie: media.Movie; watchedSeconds: number }, { watchedSeconds: ObservableValue<number> }>(
   {
@@ -11,6 +23,27 @@ export const Watch = Shade<{ movie: media.Movie; watchedSeconds: number }, { wat
     }),
     shadowDomName: 'multiverse-movie-watch',
     constructed: ({ props, injector, getState, element }) => {
+      const player = videojs(element.querySelector('video-js'), {
+        poster: props.movie.metadata.thumbnailImageUrl,
+        html5: {
+          nativeCaptions: false,
+        },
+        controls: true,
+        autoplay: true,
+      })
+      player.ready(() => {
+        player.src({
+          src: `${sites.services.media.externalPath}/media/watch-dash/${props.movie._id}/dash.mpd`,
+          type: 'application/dash+xml',
+        })
+
+        player.play()
+      })
+
+      player.on('loadedmetadata', () => {
+        player.currentTime(props.watchedSeconds)
+      })
+
       const subscription = getState().watchedSeconds.subscribe((watchedSeconds) => {
         injector.getInstance(MediaApiService).call({
           method: 'POST',
@@ -20,8 +53,7 @@ export const Watch = Shade<{ movie: media.Movie; watchedSeconds: number }, { wat
       })
 
       const interval = setInterval(() => {
-        const video = element.querySelector('video') as HTMLVideoElement
-        getState().watchedSeconds.setValue(video.currentTime)
+        getState().watchedSeconds.setValue(player.currentTime())
       }, 1000 * 60)
 
       return () => {
@@ -29,20 +61,12 @@ export const Watch = Shade<{ movie: media.Movie; watchedSeconds: number }, { wat
         clearInterval(interval)
       }
     },
-    render: ({ props }) => {
+    render: () => {
       return (
-        <video
-          id={`video-${props.movie._id}`}
-          autoplay
-          controls
+        <video-js
+          className="video-js video-js-default-skin"
           style={{ width: '100%', height: '100%' }}
-          onerror={console.error}
-          crossOrigin="use-credentials"
-          onloadedmetadata={(ev) => {
-            ;(ev.target as HTMLVideoElement).currentTime = props.watchedSeconds
-          }}>
-          <source src={`${sites.services.media.externalPath}/media/watch/${props.movie._id}`} type="video/mp4" />
-        </video>
+          crossOrigin="use-credentials"></video-js>
       )
     },
   },

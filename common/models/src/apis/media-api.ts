@@ -9,6 +9,7 @@ export interface MediaApi extends RestApi {
     '/movie-libraries': CollectionEndpoint<MovieLibrary>
     '/movie-libraries/:id': SingleEntityEndpoint<MovieLibrary>
     '/watch/:id': RequestAction<{ urlParams: { id: string } }>
+    '/watch-dash/:id/:chunk?': RequestAction<{ urlParams: { id: string; chunk?: string } }>
     '/my-watch-progress': CollectionEndpoint<MovieWatchHistoryEntry>
   }
   POST: {

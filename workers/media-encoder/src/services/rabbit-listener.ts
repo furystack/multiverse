@@ -39,6 +39,8 @@ export class RabbitListener {
       const movie: media.Movie = JSON.parse(msg.content.toString())
       this.logger.verbose({ message: `Encoding task received for movie ${movie.metadata.title}`, data: { movie } })
       await sleepAsync(15000)
+      // ToDo: Auth
+      // ffmpeg -i http://localhost:9093/api/media/watch/5eea7c187c1c612b18cc0ebf -c:v libvpx-vp9 -crf 30 -b:v 2000k output.webm
       this.logger.verbose({ message: `Finished encoding movie ${movie.metadata.title}`, data: { movie } })
       this.getChannel().ack(msg)
     }
