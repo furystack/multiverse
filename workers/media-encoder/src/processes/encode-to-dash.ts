@@ -1,7 +1,9 @@
 import { media } from '@common/models'
 import { Injector } from '@furystack/inject'
-import { usingAsync } from '@furystack/utils'
+import { ObservableValue, usingAsync } from '@furystack/utils'
 import ffmpeg from 'fluent-ffmpeg'
+import FormData from 'form-data'
+import got from 'got'
 import { ChunkUploader } from '../services/chunk-uploader'
 import { injector } from '../worker'
 
@@ -10,19 +12,24 @@ export interface EncodeToDashOptions {
   source: string
   cwd: string
   task: media.EncodingTask
+  uploadPath: string
 }
 
 export const encodeToDash = async (options: EncodeToDashOptions) => {
   const logger = injector.logger.withScope('encodeToDash')
 
   const encodingSettings = options.task.mediaInfo.library.encoding || media.defaultEncoding
+  const progress = new ObservableValue(0)
 
   await usingAsync(
-    new ChunkUploader(options.injector, {
+    new ChunkUploader({
+      injector: options.injector,
       directory: options.cwd,
       isFileAllowed: (fileName) => fileName.endsWith('mpd') || fileName.endsWith('m4s') || fileName.endsWith('webm'),
       parallel: 2,
       task: options.task,
+      progress,
+      uploadPath: options.uploadPath,
     }),
     async () => {
       logger.verbose({ message: 'Initializing Dash encode...' })
@@ -61,12 +68,21 @@ export const encodeToDash = async (options: EncodeToDashOptions) => {
         proc
           .on('progress', (info) => {
             logger.information({ message: `ffmpeg progress: ${info.percent}%`, data: { info } })
+            progress.setValue(info.percent)
           })
           .on('end', () => {
             logger.information({ message: `ffmpeg completed` })
             resolve()
           })
-          .on('error', (err) => {
+          .on('error', async (err) => {
+            const form = new FormData({ encoding: 'utf-8' })
+            form.append('error', JSON.stringify(err))
+            await got(options.uploadPath, {
+              method: 'POST',
+              body: form as any,
+              encoding: 'utf-8',
+              retry: { limit: 10, statusCodes: [500] },
+            })
             logger.warning({ message: 'ffmpeg errored', data: err })
             reject(err)
           })

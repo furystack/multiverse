@@ -36,17 +36,30 @@ export const UploadEncoded: RequestAction<{ urlParams: { movieId: string; access
   )
 
   const file = parseResult.files.chunk
-  if (!file) {
-    throw new RequestError('No chunk file', 400)
-  }
-  const targetPath = join(FileStores.encodedMedia, movie._id)
-  if (!existsSync(targetPath)) {
-    await promises.mkdir(targetPath, { recursive: true })
+  if (file) {
+    const targetPath = join(FileStores.encodedMedia, movie._id)
+    if (!existsSync(targetPath)) {
+      await promises.mkdir(targetPath, { recursive: true })
+    }
+
+    await promises.copyFile(file.path, join(targetPath, file.name))
+    // Remove from temp
+    promises.unlink(file.path)
   }
 
-  await promises.copyFile(file.path, join(targetPath, file.name))
-  // Remove from temp
-  promises.unlink(file.path)
+  const { percent, error } = parseResult.fields
+
+  if (percent) {
+    const percentNo = parseInt(percent as string, 10)
+    await await injector.getDataSetFor(media.EncodingTask).update(injector, job._id, {
+      percent: percentNo,
+      error,
+      status: error ? 'failed' : percentNo === 100 ? 'finished' : 'inProgress',
+      workerInfo: {
+        ip: request.connection.remoteAddress || 'unknown',
+      },
+    })
+  }
 
   return JsonResult({ success: true })
 }

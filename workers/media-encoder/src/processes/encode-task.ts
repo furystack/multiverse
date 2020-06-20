@@ -9,6 +9,13 @@ import { encodeToDash } from './encode-to-dash'
 
 export const encodeTask = async (options: { task: media.EncodingTask; injector: Injector }) => {
   const logger = options.injector.logger.withScope('dashEncoder')
+  const uploadPath = PathHelper.joinPaths(
+    sites.services.media.externalPath,
+    'media',
+    'upload-encoded',
+    options.task.mediaInfo.movie._id,
+    options.task.authToken,
+  )
 
   logger.information({
     message: `Started to work on task ${options.task._id} - Encoding ${options.task.mediaInfo.movie.metadata.title}`,
@@ -41,6 +48,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
       cwd: encodingTempDir,
       source,
       task: options.task,
+      uploadPath,
     })
   } else {
     logger.warning({ message: `Encoding type '${encodingSettings.mode}' is not supported. Skipping encoding` })

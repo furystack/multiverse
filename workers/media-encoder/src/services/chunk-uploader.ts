@@ -2,9 +2,8 @@ import { Stats, createReadStream } from 'fs'
 import { watch, FSWatcher } from 'chokidar'
 import { Injector } from '@furystack/inject'
 import { ScopedLogger } from '@furystack/logging'
-import { Retrier, PathHelper } from '@furystack/utils'
+import { ObservableValue, Retrier } from '@furystack/utils'
 import Semaphore from 'semaphore-async-await'
-import { sites } from '@common/config'
 import got from 'got'
 import { media } from '@common/models'
 import FormData from 'form-data'
@@ -14,6 +13,9 @@ export interface ChunkWatcherOptions {
   parallel: number
   isFileAllowed: (filename: string) => boolean
   task: media.EncodingTask
+  injector: Injector
+  progress: ObservableValue<number>
+  uploadPath: string
 }
 
 export class ChunkUploader {
@@ -44,17 +46,11 @@ export class ChunkUploader {
       try {
         await this.lock.acquire()
         this.logger.verbose({ message: `Starting Chunk upload: '${fileName}'` })
-        // await sleepAsync(1000)
-        const uploadPath = PathHelper.joinPaths(
-          sites.services.media.externalPath,
-          'media',
-          'upload-encoded',
-          this.options.task.mediaInfo.movie._id,
-          this.options.task.authToken,
-        )
+
         const form = new FormData({ encoding: 'utf-8' })
         form.append('chunk', createReadStream(path) as any)
-        await got(uploadPath, {
+        form.append('percent', parseInt(this.options.progress.getValue().toString(), 10))
+        await got(this.options.uploadPath, {
           method: 'POST',
           body: form as any,
           encoding: 'utf-8',
@@ -73,7 +69,7 @@ export class ChunkUploader {
 
   private readonly logger: ScopedLogger
 
-  constructor(injector: Injector, private readonly options: ChunkWatcherOptions) {
-    this.logger = injector.logger.withScope('ChunkUploader')
+  constructor(private readonly options: ChunkWatcherOptions) {
+    this.logger = options.injector.logger.withScope('ChunkUploader')
   }
 }

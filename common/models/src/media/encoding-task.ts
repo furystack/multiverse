@@ -9,12 +9,12 @@ export class EncodingTask {
   }
   status!: 'pending' | 'inProgress' | 'finished' | 'failed'
   workerInfo?: {
-    name: string
     ip: string
   }
   percent!: number
   creationDate!: Date
   modificationDate!: Date
+  error?: any
   startDate?: Date
   finishDate?: Date
   log?: string
