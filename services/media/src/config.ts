@@ -3,12 +3,13 @@ import '@furystack/repository/dist/injector-extension'
 import { existsSync } from 'fs'
 import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
-
 import { databases } from '@common/config'
 import { media, auth } from '@common/models'
 import { verifyAndCreateIndexes } from '@common/service-utils'
-import { FindOptions } from '@furystack/core'
+import { FindOptions, StoreManager } from '@furystack/core'
+import { v4 } from 'uuid'
 import { MediaLibraryWatcher } from './services/media-library-watcher'
+import { MediaMessaging } from './services/media-messaging'
 
 export const injector = new Injector()
 
@@ -36,6 +37,13 @@ injector.setupStores((sm) =>
       url: databases.media.mongoUrl,
       db: databases.media.dbName,
       collection: databases.media.movieWatchEntries,
+    })
+    .useMongoDb({
+      model: media.EncodingTask,
+      primaryKey: '_id',
+      url: databases.media.mongoUrl,
+      db: databases.media.dbName,
+      collection: databases.media.encodingTasks,
     }),
 )
 
@@ -55,6 +63,7 @@ injector.setupRepository((repo) =>
         const currentUser = await i.getCurrentUser()
         return {
           ...entity,
+          encoding: media.defaultEncoding,
           ownerName: currentUser.username,
         }
       },
@@ -86,9 +95,45 @@ injector.setupRepository((repo) =>
         }
         return { isAllowed: false, message: 'That entity belongs to another user' }
       },
+    })
+    .createDataSet(media.EncodingTask, {
+      modifyOnAdd: async ({ entity }) => ({ ...entity, creationDate: new Date() }),
+      modifyOnUpdate: async ({ entity }) => ({ ...entity, modificationDate: new Date() }),
+      onEntityAdded: async ({ entity, injector: i }) => {
+        await i.getInstance(MediaMessaging).onEncodeJobAdded(entity)
+      },
     }),
 )
-injector.setupRepository((repo) => repo.createDataSet(media.Movie, {}))
+
+// ToDo: Check owner / orgs for movie access
+injector.setupRepository((repo) =>
+  repo.createDataSet(media.Movie, {
+    onEntityAdded: async ({ entity, injector: i }) => {
+      const logger = i.logger.withScope('createEncodingTaskForMovie')
+      const library: media.MovieLibrary | undefined = await i
+        .getInstance(StoreManager)
+        .getStoreFor(media.MovieLibrary)
+        .get(entity.libraryId)
+      if (!library) {
+        logger.warning({ message: 'No Library for movie found, encoding task cannot be created' })
+        return
+      }
+      if (!library.encoding === false) {
+        logger.verbose({ message: 'Encoding has been disabled for the Movie Library, skipping...' })
+        return
+      }
+      await i.getDataSetFor(media.EncodingTask).add(i, {
+        authToken: v4(),
+        percent: 0,
+        status: 'pending',
+        mediaInfo: {
+          movie: entity,
+          library: { ...library, encoding: library.encoding || media.defaultEncoding },
+        },
+      })
+    },
+  }),
+)
 
 injector.getInstance(MediaLibraryWatcher)
 

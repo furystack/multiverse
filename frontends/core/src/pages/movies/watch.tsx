@@ -37,11 +37,8 @@ export const Watch = Shade<{ movie: media.Movie; watchedSeconds: number }, { wat
           type: 'application/dash+xml',
         })
 
+        // player.currentTime(props.watchedSeconds)
         player.play()
-      })
-
-      player.on('loadedmetadata', () => {
-        player.currentTime(props.watchedSeconds)
       })
 
       const subscription = getState().watchedSeconds.subscribe((watchedSeconds) => {
@@ -57,6 +54,7 @@ export const Watch = Shade<{ movie: media.Movie; watchedSeconds: number }, { wat
       }, 1000 * 60)
 
       return () => {
+        player.dispose()
         subscription.dispose()
         clearInterval(interval)
       }

@@ -5,7 +5,7 @@ import { DbLogger } from './use-db-logger'
 export const attachShutdownHandler = (i: Injector) => {
   const logger = i.logger.withScope('shutdown-handler')
 
-  const onExit = async ({ code, reason }: { code: number; reason: string; error?: any }) => {
+  const onExit = async ({ code, reason, error }: { code: number; reason: string; error?: any }) => {
     try {
       if (code) {
         await logger.warning({
@@ -13,16 +13,21 @@ export const attachShutdownHandler = (i: Injector) => {
           data: {
             code,
             reason,
+            error,
           },
         })
       } else {
         await logger.warning({ message: `Shutting down gracefully due '${reason}'` })
       }
-      await i.getInstance(ServerManager).dispose()
-      await i.getInstance(DbLogger).dispose()
+      if (i.cachedSingletons.get(ServerManager)) {
+        await i.getInstance(ServerManager).dispose()
+      }
+      if (i.cachedSingletons.get(DbLogger)) {
+        await i.getInstance(DbLogger).dispose()
+      }
       await i.dispose()
-    } catch (error) {
-      console.error('Error during shutdown', error)
+    } catch (e) {
+      console.error('Error during shutdown', e)
       process.exit(1)
     }
     process.exit(code)

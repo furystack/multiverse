@@ -2,12 +2,13 @@ import { watch, FSWatcher } from 'chokidar'
 import { Injectable, Injector } from '@furystack/inject'
 import { ScopedLogger } from '@furystack/logging'
 import { media } from '@common/models'
+import { StoreManager } from '@furystack/core'
 import { isMovieFile } from '../utils/is-movie-file'
 import { isSampleFile } from '../utils/is-sample-file'
-import { getFallbackMetadataForMovie } from '../utils/get-fallback-metadata-for-movie'
-import { MetadataFetcher } from './metadata-fetcher'
-import { StoreManager } from '@furystack/core'
-import { MediaMessaging } from './media-messaging'
+import { getFfprobeData } from '../utils/get-ffprobe-data'
+import { getUniversalMetadataFromOmdb } from '../utils/get-universal-metadata-from-omdb'
+import { getFallbackMetadata } from '../utils/get-fallback-metadata'
+import { getMovieMetadata } from '../utils/get-movie-metadata'
 
 @Injectable({ lifetime: 'singleton' })
 export class MediaLibraryWatcher {
@@ -41,13 +42,20 @@ export class MediaLibraryWatcher {
           message: `New Movie found, adding to Library...`,
           data: { moviePath: name, library, stats },
         })
-        const movie = await await dataSet.add(this.injector, {
+
+        const ffprobe = await getFfprobeData(name)
+        const omdbMeta = await getMovieMetadata(name)
+        const metadata = media.isValidOmdbMetadata(omdbMeta)
+          ? getUniversalMetadataFromOmdb(omdbMeta)
+          : getFallbackMetadata(name)
+
+        await dataSet.add(this.injector, {
           path: name,
           libraryId: library._id,
-          metadata: getFallbackMetadataForMovie(name),
+          metadata,
+          omdbMeta,
+          ffprobe,
         })
-        await this.messaging.onMovieAdded(movie.created[0])
-        await this.fetcher.tryGetMetadataForMovie(movie.created[0])
       }
     })
 
@@ -75,11 +83,7 @@ export class MediaLibraryWatcher {
     movieLibraries.map((lib) => this.initWatcherForLibrary(lib))
   }
 
-  constructor(
-    private readonly injector: Injector,
-    private readonly fetcher: MetadataFetcher,
-    private readonly messaging: MediaMessaging,
-  ) {
+  constructor(private readonly injector: Injector) {
     this.logger = injector.logger.withScope('MediaLibraryWatcher')
     this.init()
   }

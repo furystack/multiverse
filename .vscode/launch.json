@@ -7,12 +7,22 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Attach to Service",
+      "name": "Debug Service",
       "program": "${workspaceFolder}/services/${input:service}/src/service.ts",
       "outFiles": ["${workspaceFolder}/services/${input:service}/dist/service.js"],
       "cwd": "${workspaceFolder}/services/${input:service}",
       "skipFiles": ["<node_internals>/**"],
-      "console": "integratedTerminal"
+      "preLaunchTask": "npm: build:workers"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Worker",
+      "program": "${workspaceFolder}/workers/${input:worker}/src/worker.ts",
+      "outFiles": ["${workspaceFolder}/workers/${input:worker}/dist/worker.js"],
+      "cwd": "${workspaceFolder}/workers/${input:worker}",
+      "skipFiles": ["<node_internals>/**"],
+      "preLaunchTask": "npm: build:workers"
     }
   ],
   "inputs": [
@@ -21,6 +31,12 @@
       "type": "pickString",
       "description": "Select one service from above",
       "options": ["auth", "diag", "media", "xpense"]
+    },
+    {
+      "id": "worker",
+      "type": "pickString",
+      "description": "Select one worker from above",
+      "options": ["media-encoder"]
     }
   ]
 }

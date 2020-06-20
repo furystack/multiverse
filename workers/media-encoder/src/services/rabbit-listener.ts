@@ -1,9 +1,9 @@
 import { Injectable, Injector } from '@furystack/inject'
-import { sleepAsync } from '@furystack/utils'
 import { messaging } from '@common/config'
 import { connect, Connection, Channel, ConsumeMessage } from 'amqplib'
 import { media } from '@common/models'
 import { ScopedLogger } from '@furystack/logging'
+import { encodeTask } from '../processes/encode-task'
 
 @Injectable({ lifetime: 'singleton' })
 export class RabbitListener {
@@ -26,7 +26,7 @@ export class RabbitListener {
     await this.channel.bindQueue(
       messaging.media.queues.encodeVideo,
       messaging.media.fanoutExchange,
-      messaging.media.routingKeys.movieAdded,
+      messaging.media.routingKeys.encodingJobAdded,
     )
     await this.channel.consume(messaging.media.queues.encodeVideo, (msg) => this.onEncodeVideo(msg), {
       noAck: false,
@@ -36,19 +36,20 @@ export class RabbitListener {
 
   private async onEncodeVideo(msg: ConsumeMessage | null) {
     if (msg) {
-      const movie: media.Movie = JSON.parse(msg.content.toString())
-      this.logger.verbose({ message: `Encoding task received for movie ${movie.metadata.title}`, data: { movie } })
-      await sleepAsync(15000)
-      // ToDo: Auth
-      // ffmpeg -i http://localhost:9093/api/media/watch/5eea7c187c1c612b18cc0ebf -c:v libvpx-vp9 -crf 30 -b:v 2000k output.webm
-      this.logger.verbose({ message: `Finished encoding movie ${movie.metadata.title}`, data: { movie } })
+      const task: media.EncodingTask = JSON.parse(msg.content.toString())
+      this.logger.verbose({
+        message: `Encoding task received for movie ${task.mediaInfo.movie.metadata.title}`,
+        data: { task },
+      })
+      await encodeTask({ task, injector: this.injector })
+      this.logger.verbose({ message: `Finished encoding movie ${task.mediaInfo.movie.metadata.title}`, data: { task } })
       this.getChannel().ack(msg)
     }
   }
 
   private readonly logger: ScopedLogger
 
-  constructor(injector: Injector) {
+  constructor(private readonly injector: Injector) {
     this.logger = injector.logger.withScope('rabbit-listener')
     this.init()
   }

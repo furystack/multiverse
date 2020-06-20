@@ -7,5 +7,9 @@
     "composite": true
   },
   "include": ["src"],
-  "references": [{ "path": "../../common/models" }, { "path": "../../common/config" }]
+  "references": [
+    { "path": "../../common/models" },
+    { "path": "../../common/config" },
+    { "path": "../../common/service-utils" }
+  ]
 }

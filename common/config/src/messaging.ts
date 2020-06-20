@@ -6,7 +6,7 @@ export const messaging = {
       encodeVideo: 'encode-video',
     },
     routingKeys: {
-      movieAdded: 'movie-added',
+      encodingJobAdded: 'encoding-job-added',
     },
   },
 }

@@ -8,12 +8,13 @@ export interface MediaApi extends RestApi {
     '/movies/:id': SingleEntityEndpoint<Movie>
     '/movie-libraries': CollectionEndpoint<MovieLibrary>
     '/movie-libraries/:id': SingleEntityEndpoint<MovieLibrary>
-    '/watch/:id': RequestAction<{ urlParams: { id: string } }>
+    '/stream-original/:movieId/:accessToken': RequestAction<{ urlParams: { movieId: string; accessToken: string } }>
     '/watch-dash/:id/:chunk?': RequestAction<{ urlParams: { id: string; chunk?: string } }>
     '/my-watch-progress': CollectionEndpoint<MovieWatchHistoryEntry>
   }
   POST: {
     '/movie-libraries': SinglePostEndpoint<MovieLibrary>
     '/save-watch-progress': RequestAction<{ body: { movieId: string; watchedSeconds: number } }>
+    '/upload-encoded/:movieId/:accessToken': RequestAction<{ urlParams: { movieId: string; accessToken: string } }>
   }
 }

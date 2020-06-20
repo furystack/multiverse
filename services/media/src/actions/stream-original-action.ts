@@ -2,16 +2,24 @@ import { promises, createReadStream } from 'fs'
 import { RequestAction, BypassResult, RequestError } from '@furystack/rest'
 import { media } from '@common/models'
 
-export const WatchAction: RequestAction<{ urlParams: { id: string } }> = async ({
+export const StreamOriginalAction: RequestAction<{ urlParams: { movieId: string; accessToken: string } }> = async ({
   request,
   response,
   getUrlParams,
   injector,
 }) => {
-  const { id } = getUrlParams()
-  const movie = await injector.getDataSetFor(media.Movie).get(injector, id, ['path'])
+  const { movieId, accessToken } = getUrlParams()
+
+  const [job] = await injector
+    .getDataSetFor(media.EncodingTask)
+    .find(injector, { filter: { authToken: { $eq: accessToken } }, top: 1 })
+  if (!job) {
+    throw new RequestError('Unauthorized', 401)
+  }
+
+  const movie = await injector.getDataSetFor(media.Movie).get(injector, movieId, ['path'])
   if (!movie) {
-    throw new RequestError('not found', 404)
+    throw new RequestError('Movie not found', 404)
   }
 
   const stat = await promises.stat(movie.path)

@@ -24,6 +24,7 @@ export const databases = {
     dbName: 'multiverse-media',
     movieLibraries: 'movie-librariess',
     movieWatchEntries: 'movie-watch-entries',
+    encodingTasks: 'encoding-tasks',
     movies: 'movies',
   },
   standardOptions: {
