@@ -35,7 +35,7 @@ jobs:
         env:
           RELATIVE_CI_SLUG: furystack/multiverse
       - task: DockerCompose@0
-        displayName: Start the Dev Proxy Image
+        displayName: Start docker services
         inputs:
           action: Run services
           dockerComposeFile: '$(System.DefaultWorkingDirectory)/docker-compose.yml'
@@ -106,9 +106,9 @@ jobs:
   #               Dockerfile: diag.Dockerfile
   #               repository: furystack/multiverse-xpense
   #               tags: latest
-  
+
   - deployment: deploy
-    displayName: "Deploy to multiverse.my.to"
+    displayName: 'Deploy to multiverse.my.to'
     dependsOn: buildAndTest
     timeoutInMinutes: 10
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -120,58 +120,65 @@ jobs:
       runOnce:
         deploy:
           steps:
-          - checkout: self
-          - script: echo $GITHUB_CLIENT_ID
-          - task: NodeTool@0
-            inputs:
-              versionSpec: '12.x'
-            displayName: 'Install Node.js'
-          - script: yarn install --ignore-optional
-            displayName: 'Yarn install'
-          - script: yarn build
-            displayName: Yarn Build
-            env:
-              GITHUB_CLIENT_ID: $(GITHUB_CLIENT_ID)
-              GITHUB_CLIENT_SECRET: $(GITHUB_CLIENT_SECRET)
-              GOOGLE_CLIENT_ID: $(GOOGLE_CLIENT_ID)
+            - checkout: self
+            - script: echo $GITHUB_CLIENT_ID
+            - task: NodeTool@0
+              inputs:
+                versionSpec: '12.x'
+              displayName: 'Install Node.js'
+            - script: yarn install --ignore-optional
+              displayName: 'Yarn install'
+            - script: yarn build
+              displayName: Yarn Build
+              env:
+                GITHUB_CLIENT_ID: $(GITHUB_CLIENT_ID)
+                GITHUB_CLIENT_SECRET: $(GITHUB_CLIENT_SECRET)
+                GOOGLE_CLIENT_ID: $(GOOGLE_CLIENT_ID)
 
-          - script: yarn install --production=true --ignore-optional
-            displayName: Slim install
-          - task: ArchiveFiles@1
-            displayName: Create package archive
-            inputs:
-              archiveFile: package
-              archiveType: 7z
-              includeRootFolder: false
-              rootFolder: $(System.DefaultWorkingDirectory)
-          - task: PublishBuildArtifacts@1
-            displayName: Publish package artifact
-            inputs:
-              ArtifactName: BuildArtifacts
-              PathtoPublish: $(System.DefaultWorkingDirectory)/package.7z
+            - script: yarn install --production=true --ignore-optional
+              displayName: Slim install
+            - task: ArchiveFiles@1
+              displayName: Create package archive
+              inputs:
+                archiveFile: package
+                archiveType: 7z
+                includeRootFolder: false
+                rootFolder: $(System.DefaultWorkingDirectory)
+            - task: PublishBuildArtifacts@1
+              displayName: Publish package artifact
+              inputs:
+                ArtifactName: BuildArtifacts
+                PathtoPublish: $(System.DefaultWorkingDirectory)/package.7z
 
-          - task: CopyFilesOverSSH@0
-            displayName: Copy package to target
-            inputs:
-              sshEndpoint: "multiverse.my.to"
-              overwrite: true
-              contents: package.7z
-              targetFolder: ~/apps/multiverse
-        
-          - task: SSH@0
-            displayName: Decompress package
-            inputs:
-              sshEndpoint: "multiverse.my.to"
-              commands: "cd ~/apps/multiverse && 7z x package.7z -y" 
+            - task: CopyFilesOverSSH@0
+              displayName: Copy package to target
+              inputs:
+                sshEndpoint: 'multiverse.my.to'
+                overwrite: true
+                contents: package.7z
+                targetFolder: ~/apps/multiverse
 
-          - task: SSH@0
-            displayName: Update Nginx config
-            inputs:
-              sshEndpoint: "multiverse.my.to"
-              commands: "cd ~/apps/multiverse && sudo cp nginx.conf /etc/nginx/ " 
+            - task: SSH@0
+              displayName: Stop services
+              inputs:
+                sshEndpoint: 'multiverse.my.to'
+                commands: 'sudo systemctl stop multiverse-auth && sudo systemctl stop multiverse-diag && sudo systemctl stop multiverse-xpense && sudo systemctl stop multiverse-media'
 
-          - task: SSH@0
-            displayName: Restart services
-            inputs:
-              sshEndpoint: "multiverse.my.to"
-              commands: "sudo systemctl restart multiverse-auth && sudo systemctl restart multiverse-diag && sudo systemctl restart multiverse-xpense && sudo systemctl restart nginx"
+            - task: SSH@0
+              displayName: Decompress package
+              timeoutInMinutes: 10
+              inputs:
+                sshEndpoint: 'multiverse.my.to'
+                commands: 'cd ~/apps/multiverse && 7z x package.7z -y -bb'
+
+            - task: SSH@0
+              displayName: Update Nginx config
+              inputs:
+                sshEndpoint: 'multiverse.my.to'
+                commands: 'cd ~/apps/multiverse && sudo cp nginx.conf /etc/nginx/ '
+
+            - task: SSH@0
+              displayName: Restart services
+              inputs:
+                sshEndpoint: 'multiverse.my.to'
+                commands: 'sudo systemctl start multiverse-auth && sudo systemctl start multiverse-diag && sudo systemctl start multiverse-xpense && sudo systemctl start multiverse-media && sudo systemctl start nginx'
