@@ -12,4 +12,4 @@ services:
   rabbitmq:
     image: rabbitmq
     ports:
-      - 55672:55672
+      - 5672:5672
