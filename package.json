@@ -66,7 +66,7 @@
     "build": "yarn build:common && yarn build:workers && yarn build:services && yarn build:frontends",
     "start:watch": "yarn build:common && yarn build:workers && yarn build:services && concurrently --kill-others \"tsc -b --watch\" \"yarn workspace @worker/media-encoder start:watch\" \"yarn workspace @service/auth start:watch\" \"yarn workspace @service/diag start:watch\" \"yarn workspace @service/media start:watch\"  \"yarn workspace xpense-service start:watch\" \"yarn workspace @frontend/core start\"",
     "test:cypress": "yarn workspace @service/auth seed && concurrently --kill-others \"yarn start\" \"yarn cypress run\" --success first ",
-    "start": "yarn start",
+    "start": "yarn start:watch",
     "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache",
     "seed": "yarn workspace @service/auth seed",
