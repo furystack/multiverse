@@ -37,7 +37,7 @@ export const Watch = Shade<{ movie: media.Movie; watchedSeconds: number }, { wat
           type: 'application/dash+xml',
         })
 
-        // player.currentTime(props.watchedSeconds)
+        player.currentTime(props.watchedSeconds)
         player.play()
       })
 
