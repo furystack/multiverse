@@ -40,10 +40,13 @@
     "@furystack/rest-client-fetch": "^1.2.7",
     "@furystack/shades": "^3.2.17",
     "@furystack/shades-common-components": "^1.1.5",
+    "@types/video.js": "^7.3.9",
     "marked": "^1.1.0",
     "monaco-editor": "^0.20.0",
     "monaco-editor-webpack-plugin": "^1.9.0",
     "path-to-regexp": "^6.1.0",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "video.js": "^7.8.2",
+    "videojs-contrib-dash": "^2.11.0"
   }
 }

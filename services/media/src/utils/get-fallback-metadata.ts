@@ -1,6 +1,6 @@
 import { MovieUniversalMetadata } from '@common/models/dist/media/movie-universal-metadata'
 
-export const getFallbackMetadataForMovie = (path: string): MovieUniversalMetadata => {
+export const getFallbackMetadata = (path: string): MovieUniversalMetadata => {
   const segments = path.split(/\/|\\/g)
   const fileName = segments[segments.length - 1]
 
