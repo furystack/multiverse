@@ -58,7 +58,7 @@ export class ChunkUploader {
           method: 'POST',
           body: form as any,
           encoding: 'utf-8',
-          retry: { limit: 10, statusCodes: [500] },
+          retry: { limit: 30, calculateDelay: ({ attemptCount }) => attemptCount * 1000 * 60 },
         })
         this.logger.verbose({ message: `Finished Chunk upload: '${fileName}'` })
       } catch (error) {
