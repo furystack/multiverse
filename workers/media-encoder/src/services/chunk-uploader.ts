@@ -49,14 +49,17 @@ export class ChunkUploader {
 
         const form = new FormData({ encoding: 'utf-8' })
         form.append('chunk', createReadStream(path) as any)
-        form.append('percent', parseInt(this.options.progress.getValue().toString(), 10))
+        try {
+          form.append('percent', parseInt(this.options.progress.getValue().toString(), 10))
+        } catch (error) {
+          // No chunk info from fluent-ffmpeg :(
+        }
         await got(this.options.uploadPath, {
           method: 'POST',
           body: form as any,
           encoding: 'utf-8',
           retry: { limit: 10, statusCodes: [500] },
         })
-
         this.logger.verbose({ message: `Finished Chunk upload: '${fileName}'` })
       } catch (error) {
         this.logger.warning({ message: 'Error uploading chunk', data: { error, fileName } })
