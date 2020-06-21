@@ -55,6 +55,7 @@ export const UploadEncoded: RequestAction<{ urlParams: { movieId: string; access
       percent: percentNo,
       error,
       status: error ? 'failed' : percentNo === 100 ? 'finished' : 'inProgress',
+      finishDate: percentNo === 100 ? new Date() : undefined,
       workerInfo: {
         ip: request.connection.remoteAddress || 'unknown',
       },

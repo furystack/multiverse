@@ -34,8 +34,6 @@ export const encodeToDash = async (options: EncodeToDashOptions) => {
     async () => {
       logger.verbose({ message: 'Initializing Dash encode...' })
 
-      const originalFfprobeData = options.task.mediaInfo.movie.ffprobe?.streams.find((s) => s.height)
-
       const proc = ffmpeg({
         source: options.source,
         cwd: options.cwd,
@@ -43,22 +41,24 @@ export const encodeToDash = async (options: EncodeToDashOptions) => {
         .output('dash.mpd')
         .format('dash')
         .audioCodec('aac')
+        .audioChannels(2)
+        .audioBitrate(128)
         .videoCodec('libvpx-vp9')
-        .outputOptions(['-use_template 1', '-use_timeline 1', '-map 0:a', '-b:a 128k', '-quality good'])
+        .outputOptions(['-use_template 1', '-use_timeline 1', '-map 0:a', '-quality good'])
 
       encodingSettings.formats.map((format, index) => {
         proc.outputOptions([
-          `-map 0:v`,
+          `-filter_complex [0]format=pix_fmts=yuv420p10le[temp${index}];[temp${index}]scale=-2:${format.downScale}[A${index}]`,
+          `-map [A${index}]:v`,
           `-b:v:${index} ${format.bitrate?.target || 0}k`,
+          '-pix_fmt yuv420p10le',
+          '-color_primaries 9',
+          '-colorspace 9',
+          '-color_range 1',
           ...(format.quality ? [`-crf ${format.quality}`] : []),
           ...(format.bitrate?.min ? [`-minrate ${format.bitrate.min}k`] : []),
           ...(format.bitrate?.max ? [`-maxrate ${format.bitrate.max}k`] : []),
         ])
-        if (format.downScale && format.downScale < (originalFfprobeData?.height || 0)) {
-          proc.setSize(`?x${format.downScale}`)
-        } else {
-          logger.verbose({ message: `No downscale needed` })
-        }
       })
 
       proc.on('start', (commandLine) => {
