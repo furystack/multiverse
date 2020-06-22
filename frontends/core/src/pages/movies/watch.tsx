@@ -32,13 +32,24 @@ export const Watch = Shade<{ movie: media.Movie; watchedSeconds: number }, { wat
         autoplay: true,
       })
       player.ready(() => {
-        player.src({
-          src: `${sites.services.media.externalPath}/media/watch-dash/${props.movie._id}/dash.mpd`,
-          type: 'application/dash+xml',
-        })
+        player.src([
+          {
+            src: `${sites.services.media.externalPath}/media/watch-dash/${props.movie._id}/dash.mpd`,
+            type: 'application/dash+xml',
+          },
+        ])
 
         player.currentTime(props.watchedSeconds)
         player.play()
+        player.on('error', (_ev) => {
+          if (confirm('There was an error during encoded video playback. Try the original content?'))
+            player.src({
+              src: `${sites.services.media.externalPath}/media/stream-original/${props.movie._id}`,
+              type: 'video/mp4',
+            })
+          player.currentTime(props.watchedSeconds)
+          player.play()
+        })
       })
 
       const subscription = getState().watchedSeconds.subscribe((watchedSeconds) => {
@@ -53,7 +64,8 @@ export const Watch = Shade<{ movie: media.Movie; watchedSeconds: number }, { wat
         getState().watchedSeconds.setValue(player.currentTime())
       }, 1000 * 60)
 
-      return () => {
+      return async () => {
+        getState().watchedSeconds.setValue(player.currentTime())
         player.dispose()
         subscription.dispose()
         clearInterval(interval)

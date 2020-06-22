@@ -1,23 +1,31 @@
 import { promises, createReadStream } from 'fs'
 import { RequestAction, BypassResult, RequestError } from '@furystack/rest'
 import { media } from '@common/models'
+import { StoreManager, PartialResult } from '@furystack/core'
 
-export const StreamOriginalAction: RequestAction<{ urlParams: { movieId: string; accessToken: string } }> = async ({
+export const StreamOriginalAction: RequestAction<{ urlParams: { movieId: string; accessToken?: string } }> = async ({
   request,
   response,
   getUrlParams,
   injector,
 }) => {
   const { movieId, accessToken } = getUrlParams()
+  let movie: PartialResult<media.Movie, 'path'> | undefined
 
-  const [job] = await injector
-    .getDataSetFor(media.EncodingTask)
-    .find(injector, { filter: { authToken: { $eq: accessToken } }, top: 1 })
-  if (!job) {
-    throw new RequestError('Unauthorized', 401)
+  if (accessToken) {
+    const [job] = await injector
+      .getDataSetFor(media.EncodingTask)
+      .find(injector, { filter: { authToken: { $eq: accessToken } }, top: 1 })
+    if (!job) {
+      throw new RequestError('Unauthorized', 401)
+    }
+    // elevated load with token
+    movie = await injector.getInstance(StoreManager).getStoreFor(media.Movie).get(movieId)
+  } else {
+    // normal load with user ctx
+    movie = await injector.getDataSetFor(media.Movie).get(injector, movieId)
   }
 
-  const movie = await injector.getDataSetFor(media.Movie).get(injector, movieId, ['path'])
   if (!movie) {
     throw new RequestError('Movie not found', 404)
   }

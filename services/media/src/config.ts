@@ -5,7 +5,7 @@ import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { databases } from '@common/config'
 import { media, auth } from '@common/models'
-import { verifyAndCreateIndexes } from '@common/service-utils'
+import { verifyAndCreateIndexes, AuthorizeOwnership, getOrgsForCurrentUser } from '@common/service-utils'
 import { FindOptions, StoreManager } from '@furystack/core'
 import { v4 } from 'uuid'
 import { MediaLibraryWatcher } from './services/media-library-watcher'
@@ -50,6 +50,25 @@ injector.setupStores((sm) =>
 injector.setupRepository((repo) =>
   repo
     .createDataSet(media.MovieLibrary, {
+      addFilter: async ({ injector: i, filter }) => {
+        const currentUser = await i.getCurrentUser()
+        const orgs = await getOrgsForCurrentUser(i, currentUser)
+        return {
+          ...filter,
+          filter: {
+            $and: [
+              ...(filter.filter ? [filter.filter] : []),
+              {
+                $or: [
+                  { 'owner.type': 'user', 'owner.username': currentUser.username },
+                  ...orgs.map((org) => ({ 'owner.type': 'organization', 'owner.organizationName': org.name })),
+                ],
+              },
+            ],
+          },
+        } as typeof filter
+      },
+      authorizeGetEntity: AuthorizeOwnership({ level: ['owner', 'admin', 'member', 'organizationOwner'] }),
       authorizeAdd: async ({ injector: i, entity }) => {
         if (!i.isAuthorized('movie-adimn')) {
           return { isAllowed: false, message: `Role 'movie-admin' needed` }
@@ -108,6 +127,10 @@ injector.setupRepository((repo) =>
 // ToDo: Check owner / orgs for movie access
 injector.setupRepository((repo) =>
   repo.createDataSet(media.Movie, {
+    authorizeGetEntity: async ({ injector: i, entity }) => {
+      await i.getDataSetFor(media.MovieLibrary).get(i, entity.libraryId)
+      return { isAllowed: true }
+    },
     onEntityAdded: async ({ entity, injector: i }) => {
       const logger = i.logger.withScope('createEncodingTaskForMovie')
       const library: media.MovieLibrary | undefined = await i

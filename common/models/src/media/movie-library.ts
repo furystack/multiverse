@@ -1,3 +1,5 @@
+import { Owner } from '../owner'
+
 export type EncodingType = {
   mode: 'dash'
   codec: 'libvpx-vp9'
@@ -18,6 +20,7 @@ export class MovieLibrary {
   icon!: string
   name!: string
   path!: string
+  owner!: Owner
   ownerName!: string
   encoding!: EncodingType | false
 }

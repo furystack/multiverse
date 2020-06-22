@@ -12,7 +12,7 @@
       "outFiles": ["${workspaceFolder}/services/${input:service}/dist/service.js"],
       "cwd": "${workspaceFolder}/services/${input:service}",
       "skipFiles": ["<node_internals>/**"],
-      "preLaunchTask": "npm: build:workers"
+      "preLaunchTask": "npm: build:services"
     },
     {
       "type": "node",

@@ -22,7 +22,7 @@ injector.useRestService<apis.MediaApi>({
       '/movie-libraries/:id': createSingleEntityEndpoint({ model: media.MovieLibrary }),
       '/movies': createCollectionEndpoint({ model: media.Movie }),
       '/movies/:id': createSingleEntityEndpoint({ model: media.Movie }),
-      '/stream-original/:movieId/:accessToken': StreamOriginalAction,
+      '/stream-original/:movieId/:accessToken?': StreamOriginalAction,
       '/watch-dash/:id/:chunk?': WatchDash,
       '/my-watch-progress': createCollectionEndpoint({ model: media.MovieWatchHistoryEntry }),
     },
