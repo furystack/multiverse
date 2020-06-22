@@ -12,8 +12,8 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/node": "^14.0.13",
-    "@types/formidable": "^1.0.31"
+    "@types/formidable": "^1.0.31",
+    "@types/node": "^14.0.13"
   },
   "dependencies": {
     "@common/config": "1.0.0",
@@ -26,8 +26,8 @@
     "@furystack/repository": "^3.0.6",
     "@furystack/rest": "^1.1.16",
     "@furystack/rest-service": "^2.1.9",
-    "tslib": "^2.0.0",
-    "formidable": "^1.2.2"
+    "formidable": "^1.2.2",
+    "tslib": "^2.0.0"
   },
   "optionalDependencies": {
     "eslint-plugin-jsdoc": "^27.1.1"
