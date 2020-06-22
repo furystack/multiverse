@@ -15,7 +15,7 @@ export const StreamOriginalAction: RequestAction<{ urlParams: { movieId: string;
   if (accessToken) {
     const [job] = await injector
       .getDataSetFor(media.EncodingTask)
-      .find(injector, { filter: { authToken: { $eq: accessToken } }, top: 1 })
+      .find(injector, { filter: { authToken: { $eq: accessToken }, status: { $eq: 'pending' } }, top: 1 })
     if (!job) {
       throw new RequestError('Unauthorized', 401)
     }
