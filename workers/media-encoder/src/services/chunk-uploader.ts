@@ -16,6 +16,8 @@ export interface ChunkWatcherOptions {
   injector: Injector
   progress: ObservableValue<number>
   uploadPath: string
+  codec: media.EncodingType['codec']
+  mode: media.EncodingType['mode']
 }
 
 export class ChunkUploader {
@@ -48,6 +50,8 @@ export class ChunkUploader {
         this.logger.verbose({ message: `Starting Chunk upload: '${fileName}'` })
 
         const form = new FormData({ encoding: 'utf-8' })
+        form.append('codec', this.options.codec)
+        form.append('mode', this.options.mode)
         form.append('chunk', createReadStream(path) as any)
         try {
           form.append('percent', parseInt(this.options.progress.getValue().toString(), 10))

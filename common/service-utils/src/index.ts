@@ -1,6 +1,7 @@
 import './use-common-http-auth'
 import './use-db-logger'
 export * from './authorized-data-set'
+export * from './authorize-ownership'
 export * from './create-indexes'
 export * from './shutdown'
 export * from './exec-async'

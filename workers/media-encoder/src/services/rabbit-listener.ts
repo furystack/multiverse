@@ -41,9 +41,9 @@ export class RabbitListener {
         message: `Encoding task received for movie ${task.mediaInfo.movie.metadata.title}`,
         data: { task },
       })
-      await encodeTask({ task, injector: this.injector })
+      const success = await encodeTask({ task, injector: this.injector })
       this.logger.verbose({ message: `Finished encoding movie ${task.mediaInfo.movie.metadata.title}`, data: { task } })
-      this.getChannel().ack(msg)
+      success ? this.getChannel().ack(msg) : this.getChannel().nack(msg, true)
     }
   }
 

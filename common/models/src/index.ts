@@ -7,6 +7,7 @@ export * as media from './media'
 export * from './endpoints'
 export * from './schemas'
 export * from './services'
+export * from './owner'
 
 import * as generatedSchema from './json-schemas.json'
 

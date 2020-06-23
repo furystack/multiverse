@@ -1,7 +1,7 @@
 {
-  "name": "xpense-service",
+  "name": "@service/xpense",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "main": "dist/service.js",
   "license": "GPL-2.0-only",
   "private": true,
   "scripts": {

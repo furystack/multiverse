@@ -153,6 +153,7 @@ jobs:
             - task: CopyFilesOverSSH@0
               displayName: Copy package to target
               inputs:
+                cleanTargetFolder: true
                 sshEndpoint: 'multiverse.my.to'
                 overwrite: true
                 contents: package.7z

@@ -12,7 +12,7 @@
       "outFiles": ["${workspaceFolder}/services/${input:service}/dist/service.js"],
       "cwd": "${workspaceFolder}/services/${input:service}",
       "skipFiles": ["<node_internals>/**"],
-      "preLaunchTask": "npm: build:workers"
+      "preLaunchTask": "npm: build:services"
     },
     {
       "type": "node",
@@ -22,7 +22,10 @@
       "outFiles": ["${workspaceFolder}/workers/${input:worker}/dist/worker.js"],
       "cwd": "${workspaceFolder}/workers/${input:worker}",
       "skipFiles": ["<node_internals>/**"],
-      "preLaunchTask": "npm: build:workers"
+      "preLaunchTask": "npm: build:workers",
+      "env": {
+        "ENABLE_NVENC": "true"
+      }
     }
   ],
   "inputs": [

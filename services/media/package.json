@@ -1,7 +1,7 @@
 {
   "name": "@service/media",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "main": "dist/service.js",
   "license": "GPL-2.0-only",
   "private": true,
   "scripts": {
@@ -13,7 +13,8 @@
   },
   "devDependencies": {
     "@types/amqplib": "^0.5.13",
-    "@types/node": "^14.0.13"
+    "@types/node": "^14.0.13",
+    "@types/ws": "^7.2.5"
   },
   "dependencies": {
     "@common/service-utils": "1.0.0",
@@ -25,9 +26,11 @@
     "@furystack/repository": "^3.0.6",
     "@furystack/rest": "^1.1.16",
     "@furystack/rest-service": "^2.1.9",
+    "@furystack/websocket-api": "^7.0.0",
     "amqplib": "^0.5.6",
     "chokidar": "^3.4.0",
     "got": "^11.3.0",
+    "uuid": "^8.1.0",
     "tslib": "^2.0.0"
   }
 }

@@ -30,7 +30,7 @@
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-cypress": "^2.7.0",
     "eslint-plugin-import": "^2.21.2",
-    "eslint-plugin-jsdoc": "^27.0.7",
+    "eslint-plugin-jsdoc": "^28.0.0",
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.0.6",
     "lint-staged": "^10.2.9",
@@ -40,7 +40,9 @@
     "nodemon": "^2.0.2",
     "rimraf": "^3.0.1",
     "ts-json-schema-generator": "^0.70.1",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.5",
+    "pm2": "^4.4.0",
+    "glob": "^7.1.6"
   },
   "husky": {
     "hooks": {
@@ -64,9 +66,10 @@
     "build:common": "tsc -b common",
     "build:frontends": "yarn workspace @frontend/core build",
     "build": "yarn build:common && yarn build:workers && yarn build:services && yarn build:frontends",
-    "start:watch": "yarn build:common && yarn build:workers && yarn build:services && concurrently --kill-others \"tsc -b --watch\" \"yarn workspace @worker/media-encoder start:watch\" \"yarn workspace @service/auth start:watch\" \"yarn workspace @service/diag start:watch\" \"yarn workspace @service/media start:watch\"  \"yarn workspace xpense-service start:watch\" \"yarn workspace @frontend/core start\"",
+    "start:pm2": "yarn build:common && yarn build:workers && yarn build:services && yarn pm2 start ecosystem.config.js",
+    "start:watch": "yarn start:pm2 && yarn workspace @frontend/core start",
     "test:cypress": "yarn workspace @service/auth seed && concurrently --kill-others \"yarn start\" \"yarn cypress run\" --success first ",
-    "start": "yarn build:common && yarn build:workers && yarn build:services && concurrently --kill-others \"yarn workspace @worker/media-encoder start\" \"yarn workspace @service/auth start\" \"yarn workspace @service/diag start\" \"yarn workspace @service/media start\"  \"yarn workspace xpense-service start\" \"yarn workspace @frontend/core start\"",
+    "start": "yarn build:common && yarn build:workers && yarn build:services && concurrently --kill-others \"yarn workspace @worker/media-encoder start\" \"yarn workspace @service/auth start\" \"yarn workspace @service/diag start\" \"yarn workspace @service/media start\"  \"yarn workspace @service/xpense start\" \"yarn workspace @frontend/core start\"",
     "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache",
     "seed": "yarn workspace @service/auth seed",

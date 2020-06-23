@@ -4,19 +4,17 @@ import { RequestAction, RequestError, BypassResult } from '@furystack/rest'
 import { media } from '@common/models'
 import { FileStores } from '@common/config'
 
-export const WatchDash: RequestAction<{ urlParams: { id: string; chunk?: string } }> = async ({
-  getUrlParams,
-  injector,
-  response,
-}) => {
+export const WatchStream: RequestAction<{
+  urlParams: { id: string; codec: media.EncodingType['codec']; mode: media.EncodingType['mode']; chunk?: string }
+}> = async ({ getUrlParams, injector, response }) => {
   const params = getUrlParams()
   const chunk = params.chunk || 'dash.mpd'
-  const movie = await injector.getDataSetFor(media.Movie).get(injector, params.id, ['path'])
+  const movie = await injector.getDataSetFor(media.Movie).get(injector, params.id)
   if (!movie) {
     throw new RequestError('not found', 404)
   }
 
-  const filePath = join(FileStores.encodedMedia, movie._id, chunk)
+  const filePath = join(FileStores.encodedMedia, params.codec, params.mode, movie._id, chunk)
   if (!existsSync(filePath)) {
     throw new RequestError('Media not found', 404)
   }

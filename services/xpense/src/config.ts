@@ -1,5 +1,5 @@
 import '@furystack/auth-google'
-import { verifyAndCreateIndexes, getOrgsForCurrentUser } from '@common/service-utils'
+import { verifyAndCreateIndexes, getOrgsForCurrentUser, AuthorizeOwnership } from '@common/service-utils'
 import '@furystack/repository/dist/injector-extension'
 import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
@@ -118,23 +118,7 @@ injector.setupRepository((repo) =>
           message: 'You can add user accounts only for yourself and organization accounts only if you are an admin',
         }
       },
-      authorizeGetEntity: async ({ entity, injector: i }) => {
-        const currentUser = await i.getCurrentUser()
-        const orgs = await getOrgsForCurrentUser(i, currentUser)
-        if (entity.owner.type === 'user' && entity.owner.username === currentUser.username) {
-          return { isAllowed: true }
-        }
-        if (
-          entity.owner.type === 'organization' &&
-          orgs.map((org) => org.name).includes(entity.owner.organizationName)
-        ) {
-          return { isAllowed: true }
-        }
-        return {
-          isAllowed: false,
-          message: 'To view this account, you or one of your organizations have to own it.',
-        }
-      },
+      authorizeGetEntity: AuthorizeOwnership({ level: ['admin', 'member', 'owner', 'organizationOwner'] }),
     })
     .createDataSet(xpense.Item, {})
     .createDataSet(xpense.Replenishment, {

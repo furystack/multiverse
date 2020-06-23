@@ -7,7 +7,7 @@ export class EncodingTask {
     movie: media.Movie
     library: media.MovieLibrary
   }
-  status!: 'pending' | 'inProgress' | 'finished' | 'failed'
+  status!: 'pending' | 'inProgress' | 'finished' | 'failed' | 'cancelled'
   workerInfo?: {
     ip: string
   }

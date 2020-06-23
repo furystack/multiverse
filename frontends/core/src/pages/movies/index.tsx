@@ -35,7 +35,7 @@ export const MoviesPage = Shade({
                   const libs = await injector.getInstance(MediaApiService).call({
                     method: 'GET',
                     action: '/movie-libraries',
-                    query: { findOptions: {} },
+                    query: { findOptions: { order: { name: 'ASC' } } },
                   })
                   return <LibraryList libraries={libs.entries as media.MovieLibrary[]} />
                 }}

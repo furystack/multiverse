@@ -1,7 +1,22 @@
-export type EncodingType = {
+import { Owner } from '../owner'
+
+export type Vp9EncodingType = {
   mode: 'dash'
   codec: 'libvpx-vp9'
   formats: Vp9EncodingFormat[]
+}
+
+export type X264EncodingType = {
+  mode: 'dash'
+  codec: 'x264'
+  formats: X264EncodingFormat[]
+}
+
+export type EncodingType = Vp9EncodingType | X264EncodingType
+
+export type X264EncodingFormat = {
+  downScale?: number
+  bitRate?: number
 }
 
 export type Vp9EncodingFormat = { downScale?: number } & {
@@ -18,11 +33,18 @@ export class MovieLibrary {
   icon!: string
   name!: string
   path!: string
+  owner!: Owner
   ownerName!: string
   encoding!: EncodingType | false
 }
 
-export const defaultEncoding: EncodingType = {
+export const defaultX264Encoding: EncodingType = {
+  mode: 'dash',
+  codec: 'x264',
+  formats: [{ downScale: 1080, bitRate: 20000 }],
+}
+
+export const defaultVp9Encoding: EncodingType = {
   mode: 'dash',
   codec: 'libvpx-vp9',
   formats: [
@@ -64,3 +86,5 @@ export const defaultEncoding: EncodingType = {
     },
   ],
 }
+
+export const defaultEncoding: EncodingType = defaultX264Encoding
