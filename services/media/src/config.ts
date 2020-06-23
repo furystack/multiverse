@@ -121,21 +121,21 @@ injector.setupRepository((repo) =>
       modifyOnUpdate: async ({ entity }) => ({ ...entity, modificationDate: new Date() }),
       onEntityAdded: async ({ entity, injector: i }) => {
         await i.getInstance(MediaMessaging).onEncodeJobAdded(entity)
-        i.getInstance(WebSocketApi).broadcast(async ({ injector: socketInjector, ws }) => {
+        injector.getInstance(WebSocketApi).broadcast(async ({ injector: socketInjector, ws }) => {
           if (await socketInjector.isAuthorized('movie-admin')) {
             ws.send(JSON.stringify({ event: 'encoding-task-added', task: entity }))
           }
         })
       },
-      onEntityUpdated: async ({ id, change, injector: i }) => {
-        i.getInstance(WebSocketApi).broadcast(async ({ injector: socketInjector, ws }) => {
+      onEntityUpdated: async ({ id, change }) => {
+        injector.getInstance(WebSocketApi).broadcast(async ({ injector: socketInjector, ws }) => {
           if (await socketInjector.isAuthorized('movie-admin')) {
             ws.send(JSON.stringify({ event: 'encoding-task-updated', id, change }))
           }
         })
       },
-      onEntityRemoved: async ({ entity, injector: i }) => {
-        i.getInstance(WebSocketApi).broadcast(async ({ injector: socketInjector, ws }) => {
+      onEntityRemoved: async ({ entity }) => {
+        injector.getInstance(WebSocketApi).broadcast(async ({ injector: socketInjector, ws }) => {
           if (await socketInjector.isAuthorized('movie-admin')) {
             ws.send(JSON.stringify({ event: 'encoding-task-updated', task: entity }))
           }
