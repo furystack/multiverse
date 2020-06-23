@@ -16,7 +16,7 @@ export const Header = Shade({
             textOverflow: 'ellipsis',
           }}>
           <RouteLink title="🌀 Multiverse" href="/" style={{ marginRight: '1em', cursor: 'pointer' }}>
-            🌀 Multiverse Alma
+            🌀 Multiverse
           </RouteLink>
           <Router
             notFound={() => <div />}
