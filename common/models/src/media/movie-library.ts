@@ -41,7 +41,7 @@ export class MovieLibrary {
 export const defaultX264Encoding: EncodingType = {
   mode: 'dash',
   codec: 'x264',
-  formats: [{ downScale: 1080, bitRate: 20000 }],
+  formats: [{ downScale: 1080, bitRate: 12000 }],
 }
 
 export const defaultVp9Encoding: EncodingType = {
