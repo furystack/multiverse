@@ -43,7 +43,7 @@ export const encodeToDash = async (options: EncodeToDashOptions) => {
         .audioCodec('aac')
         .audioChannels(2)
         .audioBitrate(128)
-        .videoCodec('libvpx-vp9')
+        .videoCodec('libvpx-vp9') // ToDo: FFVP9?
         .outputOptions(['-use_template 1', '-use_timeline 1', '-map 0:a', '-quality good'])
 
       encodingSettings.formats.map((format, index) => {

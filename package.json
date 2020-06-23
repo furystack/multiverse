@@ -30,7 +30,7 @@
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-cypress": "^2.7.0",
     "eslint-plugin-import": "^2.21.2",
-    "eslint-plugin-jsdoc": "^27.0.7",
+    "eslint-plugin-jsdoc": "^28.0.0",
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.0.6",
     "lint-staged": "^10.2.9",

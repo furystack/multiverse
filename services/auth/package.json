@@ -28,8 +28,5 @@
     "@furystack/rest-service": "^2.1.9",
     "formidable": "^1.2.2",
     "tslib": "^2.0.0"
-  },
-  "optionalDependencies": {
-    "eslint-plugin-jsdoc": "^27.1.1"
   }
 }
