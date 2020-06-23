@@ -27,17 +27,29 @@ export const Watch = Shade<{ movie: media.Movie; watchedSeconds: number }, { wat
         poster: props.movie.metadata.thumbnailImageUrl,
         html5: {
           nativeCaptions: false,
+          dash: {
+            setXHRWithCredentialsForType: [undefined, true],
+          },
         },
         controls: true,
         autoplay: true,
       })
       player.ready(() => {
-        player.src([
-          {
-            src: `${sites.services.media.externalPath}/media/watch-dash/${props.movie._id}/dash.mpd`,
-            type: 'application/dash+xml',
-          },
-        ])
+        const formats = props.movie.availableFormats
+        if (formats && formats.length === 1) {
+          player.src(
+            formats.map((f) => ({
+              src: `${sites.services.media.externalPath}/media/watch-stream/${props.movie._id}/${f.codec}/${f.mode}/dash.mpd`,
+              type: f.mode === 'dash' ? 'application/dash+xml' : 'unknown',
+              withCredentials: true,
+            }))[0],
+          )
+        } else {
+          player.src({
+            src: `${sites.services.media.externalPath}/media/stream-original/${props.movie._id}`,
+            type: 'video/mp4',
+          })
+        }
 
         player.currentTime(props.watchedSeconds)
         player.play()

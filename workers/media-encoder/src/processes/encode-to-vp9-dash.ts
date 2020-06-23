@@ -7,18 +7,18 @@ import got from 'got'
 import { ChunkUploader } from '../services/chunk-uploader'
 import { injector } from '../worker'
 
-export interface EncodeToDashOptions {
+export interface EncodeToVp9DashOptions {
   injector: Injector
   source: string
   cwd: string
   task: media.EncodingTask
   uploadPath: string
+  encodingSettings: media.Vp9EncodingType
 }
 
-export const encodeToDash = async (options: EncodeToDashOptions) => {
+export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
   const logger = injector.logger.withScope('encodeToDash')
 
-  const encodingSettings = options.task.mediaInfo.library.encoding || media.defaultEncoding
   const progress = new ObservableValue(0)
 
   await usingAsync(
@@ -30,6 +30,8 @@ export const encodeToDash = async (options: EncodeToDashOptions) => {
       task: options.task,
       progress,
       uploadPath: options.uploadPath,
+      codec: 'libvpx-vp9',
+      mode: 'dash',
     }),
     async () => {
       logger.verbose({ message: 'Initializing Dash encode...' })
@@ -46,7 +48,7 @@ export const encodeToDash = async (options: EncodeToDashOptions) => {
         .videoCodec('libvpx-vp9') // ToDo: FFVP9?
         .outputOptions(['-use_template 1', '-use_timeline 1', '-map 0:a', '-quality good'])
 
-      encodingSettings.formats.map((format, index) => {
+      options.encodingSettings.formats.map((format, index) => {
         proc.outputOptions([
           `-filter_complex [0]format=pix_fmts=yuv420p10le[temp${index}];[temp${index}]scale=-2:${format.downScale}[A${index}]`,
           `-map [A${index}]:v`,
@@ -70,7 +72,17 @@ export const encodeToDash = async (options: EncodeToDashOptions) => {
             logger.information({ message: `ffmpeg progress: ${info.percent}%`, data: { info } })
             progress.setValue(info.percent)
           })
-          .on('end', () => {
+          .on('end', async () => {
+            const form = new FormData({ encoding: 'utf-8' })
+            form.append('percent', 100)
+            form.append('codec', options.encodingSettings.codec)
+            form.append('mode', options.encodingSettings.mode)
+            await got(options.uploadPath, {
+              method: 'POST',
+              body: form as any,
+              encoding: 'utf-8',
+              retry: { limit: 10, statusCodes: [500] },
+            })
             logger.information({ message: `ffmpeg completed` })
             resolve()
           })

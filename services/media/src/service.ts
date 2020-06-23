@@ -10,7 +10,7 @@ import { Authorize, Authenticate } from '@furystack/rest-service'
 import { injector } from './config'
 import { StreamOriginalAction } from './actions/stream-original-action'
 import { SaveWatchProgress } from './actions/save-watch-progress'
-import { WatchDash } from './actions/watch-dash'
+import { WatchStream } from './actions/watch-stream'
 import { UploadEncoded } from './actions/upload-encoded'
 import { ReEncodeAction } from './actions/re-encode-action'
 import '@furystack/websocket-api'
@@ -26,7 +26,7 @@ injector.useRestService<apis.MediaApi>({
       '/movies': createCollectionEndpoint({ model: media.Movie }),
       '/movies/:id': createSingleEntityEndpoint({ model: media.Movie }),
       '/stream-original/:movieId/:accessToken?': StreamOriginalAction,
-      '/watch-dash/:id/:chunk?': Authenticate()(WatchDash),
+      '/watch-stream/:id/:codec/:mode/:chunk?': Authenticate()(WatchStream),
       '/my-watch-progress': Authenticate()(createCollectionEndpoint({ model: media.MovieWatchHistoryEntry })),
       '/encode/tasks': Authorize('movie-admin')(createCollectionEndpoint({ model: media.EncodingTask })),
       '/encode/reencode/:movieId': Authorize('movie-admin')(ReEncodeAction),

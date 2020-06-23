@@ -1,6 +1,6 @@
 import { RestApi, RequestAction } from '@furystack/rest'
 import { CollectionEndpoint, SingleEntityEndpoint, SinglePostEndpoint } from '../endpoints'
-import { Movie, MovieLibrary, MovieWatchHistoryEntry, EncodingTask } from '../media'
+import { Movie, MovieLibrary, MovieWatchHistoryEntry, EncodingTask, EncodingType } from '../media'
 
 export interface MediaApi extends RestApi {
   GET: {
@@ -9,7 +9,9 @@ export interface MediaApi extends RestApi {
     '/movie-libraries': CollectionEndpoint<MovieLibrary>
     '/movie-libraries/:id': SingleEntityEndpoint<MovieLibrary>
     '/stream-original/:movieId/:accessToken?': RequestAction<{ urlParams: { movieId: string; accessToken?: string } }>
-    '/watch-dash/:id/:chunk?': RequestAction<{ urlParams: { id: string; chunk?: string } }>
+    '/watch-stream/:id/:codec/:mode/:chunk?': RequestAction<{
+      urlParams: { id: string; codec: EncodingType['codec']; mode: EncodingType['mode']; chunk?: string }
+    }>
     '/my-watch-progress': CollectionEndpoint<MovieWatchHistoryEntry>
     '/encode/tasks': CollectionEndpoint<EncodingTask>
     '/encode/reencode/:movieId': RequestAction<{ urlParams: { movieId: string } }>
