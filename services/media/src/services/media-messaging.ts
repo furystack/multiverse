@@ -38,7 +38,7 @@ export class MediaMessaging {
       try {
         await this.initLock.acquire()
         if (!this.isInitialized) {
-          this.connection = await connect(messaging.host)
+          this.connection = await connect(messaging.host, {})
           this.channel = await this.connection.createChannel()
           await this.channel.assertExchange(messaging.media.fanoutExchange, 'fanout')
           await this.channel.assertQueue(messaging.media.queues.encodeVideo, { durable: true })
