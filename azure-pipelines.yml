@@ -149,20 +149,20 @@ jobs:
                 ArtifactName: BuildArtifacts
                 PathtoPublish: $(System.DefaultWorkingDirectory)/package.7z
 
-            - task: CopyFilesOverSSH@0
-              displayName: Copy package to target
-              inputs:
-                cleanTargetFolder: true
-                sshEndpoint: 'multiverse.my.to'
-                overwrite: true
-                contents: package.7z
-                targetFolder: ~/apps/multiverse
-
             - task: SSH@0
               displayName: Stop services
               inputs:
                 sshEndpoint: 'multiverse.my.to'
                 commands: 'sudo systemctl stop multiverse-auth && sudo systemctl stop multiverse-diag && sudo systemctl stop multiverse-xpense && sudo systemctl stop multiverse-media'
+  
+
+            - task: CopyFilesOverSSH@0
+              displayName: Copy package to target
+              inputs:
+                sshEndpoint: 'multiverse.my.to'
+                overwrite: true
+                contents: package.7z
+                targetFolder: ~/apps/multiverse
 
             - task: SSH@0
               displayName: Decompress package
