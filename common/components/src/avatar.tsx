@@ -28,7 +28,7 @@ export const Avatar = Shade<AvatarProps>({
           ...(props.style || {}),
         }}>
         <img
-          style={{ width: '100%', height: '100%' }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           alt={props.userName}
           src={avatarPath}
           onerror={() => {
