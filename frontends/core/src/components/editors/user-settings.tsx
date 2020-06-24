@@ -49,8 +49,6 @@ export const UserSettingsEditor = Shade<
               lastValue = JSON.stringify(settings)
             }
           }
-        } catch (error) {
-          injector.logger.withScope('User Settings').warning({ message: 'Failed to save settings' })
         } finally {
           lock.release()
         }

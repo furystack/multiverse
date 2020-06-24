@@ -12,6 +12,9 @@ const run = async () => {
 
   console.log("Removing './common/frontend-utils'")
   await new Promise((resolve, reject) => rimraf('./common/frontend-utils', (err) => (err ? reject(err) : resolve())))
+
+  console.log("Removing './frontends/*/node_modules'")
+  await new Promise((resolve, reject) => rimraf('./frontends/*/node_modules', (err) => (err ? reject(err) : resolve())))
 }
 
 run()
