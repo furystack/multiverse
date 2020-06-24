@@ -138,13 +138,14 @@ jobs:
               displayName: 'Copy Files to: $(System.DefaultWorkingDirectory)/archive'
               inputs:
                 Contents: |
-                  common/config
-                  common/models
-                  common/service-utils
-                  frontends/core/bundle
+                  common/config/**
+                  common/models/**
+                  common/service-utils/**
+                  frontends/core/bundle/**
                   services/**
                   workers/**
                   package.json
+                  nginx.conf
                 TargetFolder: '$(System.DefaultWorkingDirectory)/archive'
             - task: ArchiveFiles@1
               displayName: Create package archive
@@ -170,7 +171,7 @@ jobs:
               inputs:
                 sshEndpoint: 'multiverse.my.to'
                 overwrite: true
-                contents: $(System.DefaultWorkingDirectory)/package.7z
+                contents: package.7z
                 targetFolder: ~/apps/multiverse
 
             - task: SSH@0
