@@ -134,15 +134,25 @@ jobs:
                 GITHUB_CLIENT_ID: $(GITHUB_CLIENT_ID)
                 GITHUB_CLIENT_SECRET: $(GITHUB_CLIENT_SECRET)
                 GOOGLE_CLIENT_ID: $(GOOGLE_CLIENT_ID)
-            - script: node ./remove-frontend-workspaces.js
-              displayName: Removing already bundled stuff...
+            - task: CopyFiles@2
+              displayName: 'Copy Files to: $(System.DefaultWorkingDirectory)/archive'
+              inputs:
+                Contents: |
+                  common/config
+                  common/models
+                  common/service-utils
+                  frontends/core/bundle
+                  services/**
+                  workers/**
+                  package.json
+                TargetFolder: '$(System.DefaultWorkingDirectory)/archive'
             - task: ArchiveFiles@1
               displayName: Create package archive
               inputs:
                 archiveFile: package
                 archiveType: 7z
                 includeRootFolder: false
-                rootFolder: $(System.DefaultWorkingDirectory)
+                rootFolder: $(System.DefaultWorkingDirectory)/archive
             - task: PublishBuildArtifacts@1
               displayName: Publish package artifact
               inputs:
