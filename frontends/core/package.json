@@ -36,8 +36,8 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "@furystack/rest": "^1.1.16",
-    "@furystack/rest-client-fetch": "^1.2.7",
+    "@furystack/rest": "^1.1.17",
+    "@furystack/rest-client-fetch": "^1.2.8",
     "@furystack/shades": "^3.2.17",
     "@furystack/shades-common-components": "^1.1.5",
     "@types/video.js": "^7.3.9",
