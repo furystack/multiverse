@@ -62,7 +62,7 @@ export const seed = async (i: Injector) => {
     {
       filter: { username: { $eq: testUser.username } },
     },
-    { githubId: 666, username: testUser.username },
+    { githubId: 666, username: testUser.username, githubApiPayload: {} as any },
     ghAccountStore,
     i,
   )
