@@ -117,17 +117,6 @@
     "@furystack/utils" "^1.2.3"
     tslib "^2.0.0"
 
-"@furystack/core@^9.1.3":
-  version "9.1.3"
-  resolved "https://registry.yarnpkg.com/@furystack/core/-/core-9.1.3.tgz#d8d628f5e7a12cecc5ec207af45ce9fa506d9540"
-  integrity sha512-hxCmXhWHEhm335PSJ/ReVS7pFAqhEX8rVeInHtnJ70BMJcy9daZuShvU/Xb5q+7+wATtkr2EQgUha+KFq2gAWQ==
-  dependencies:
-    "@furystack/inject" "^4.0.32"
-    "@furystack/logging" "^2.0.39"
-    "@furystack/utils" "^1.2.2"
-    semaphore-async-await "^1.5.1"
-    tslib "^2.0.0"
-
 "@furystack/core@^9.1.4":
   version "9.1.4"
   resolved "https://registry.yarnpkg.com/@furystack/core/-/core-9.1.4.tgz#fdf319d3f539506e0c6230e615cbb8e6fe752c0a"
@@ -139,29 +128,12 @@
     semaphore-async-await "^1.5.1"
     tslib "^2.0.0"
 
-"@furystack/inject@^4.0.32":
-  version "4.0.32"
-  resolved "https://registry.yarnpkg.com/@furystack/inject/-/inject-4.0.32.tgz#80cd8273fe82d10f91c4408297fff6f3158ed75d"
-  integrity sha512-A5YRViuSdl66HKY8IUwyMNdFohyad5fZAZALO8mTiV1acpVZZNpnrbQeQ+QJ3TLwSEUgOKI7JiAKRehJdOTdOA==
-  dependencies:
-    "@furystack/utils" "^1.2.2"
-    tslib "^2.0.0"
-
 "@furystack/inject@^4.0.33":
   version "4.0.33"
   resolved "https://registry.yarnpkg.com/@furystack/inject/-/inject-4.0.33.tgz#4f712bfceb2e567c7feca8c5209a8e40ec2cb4ee"
   integrity sha512-+1MltLqkPWWh8BS6hbbYTlQNQb8kUvNdf4yby8zwj2uGubyfYDdF1FyHrxThDZbaCwBVxllQ+ejhblUZ2UeWsA==
   dependencies:
     "@furystack/utils" "^1.2.3"
-    tslib "^2.0.0"
-
-"@furystack/logging@^2.0.39":
-  version "2.0.39"
-  resolved "https://registry.yarnpkg.com/@furystack/logging/-/logging-2.0.39.tgz#e269f0150212df7848d71ad41b95078c5ebfe679"
-  integrity sha512-1qKkQyrDpuKaBo8s1WgyWj8ILQXxsfbBAqZNq1QiroZaCu6ZDpXq2rp7jfNcgDbPs9szSp5fXpI/ugpQWPCmKA==
-  dependencies:
-    "@furystack/inject" "^4.0.32"
-    "@furystack/utils" "^1.2.2"
     tslib "^2.0.0"
 
 "@furystack/logging@^2.0.40":
@@ -235,32 +207,25 @@
     tslib "^2.0.0"
 
 "@furystack/shades-common-components@^1.1.5":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@furystack/shades-common-components/-/shades-common-components-1.2.0.tgz#57ea5f56e9dcdcb00b485e5591bff15f5855e8b6"
-  integrity sha512-w3g7RClsrJevM693wuT7meV1ICLrTXyFxgGZGTz9KnFswLtbuiO14OWl4tm1s/am6QbaIXvyIh+cca+7Oeq5Rw==
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@furystack/shades-common-components/-/shades-common-components-1.2.1.tgz#1c7ecabe9fecc68e1ec88b0c74e69858539198de"
+  integrity sha512-PE23V1IIc/np4GRY5EXbnXS8OgdeF4cERVK/QzATtG8hy9ppoUjxvJdtOqhnuwEGeXcglhRqGauCrZryZrQhww==
   dependencies:
-    "@furystack/shades" "^3.2.17"
-    uuid "^8.1.0"
+    "@furystack/shades" "^3.2.18"
+    uuid "^8.2.0"
 
-"@furystack/shades@^3.2.17":
-  version "3.2.17"
-  resolved "https://registry.yarnpkg.com/@furystack/shades/-/shades-3.2.17.tgz#4a9899a71614d741de952f78c22801fa6178bfc1"
-  integrity sha512-Iz2ukqMVYrF0JS/is2hPpN4bOL8qQhWlggSotCbLgxDDDIgIhQvPNoVYLBt6AkIQjP1wWULk0JKVvzNDCrjiVQ==
+"@furystack/shades@^3.2.17", "@furystack/shades@^3.2.18":
+  version "3.2.18"
+  resolved "https://registry.yarnpkg.com/@furystack/shades/-/shades-3.2.18.tgz#4224c969a99e26cea6295cd7ec79803eb0706964"
+  integrity sha512-BrNScD4y+FL8QAcR10LaB8cu/ppetI9EItK1AN8Nj6oLRRNPXAiwtEIWaAfHAErbe0pVDdDEU8ZNTz4Zxgx47g==
   dependencies:
-    "@furystack/core" "^9.1.3"
-    "@furystack/inject" "^4.0.32"
-    "@furystack/logging" "^2.0.39"
-    "@furystack/utils" "^1.2.2"
+    "@furystack/core" "^9.1.4"
+    "@furystack/inject" "^4.0.33"
+    "@furystack/logging" "^2.0.40"
+    "@furystack/utils" "^1.2.3"
     path-to-regexp "^6.1.0"
     tslib "^2.0.0"
-    uuid "^8.0.0"
-
-"@furystack/utils@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@furystack/utils/-/utils-1.2.2.tgz#9b134bbb90cd32a8327f2944b276aa03df2f5710"
-  integrity sha512-qArwFn1zBD/Xp9JhB1U/pK3OdbpBlAJgl5hw040yKSxFhiE4I5bZ16wbts0XSjksN2Xlfi5aE4y2LXrTK4OqyQ==
-  dependencies:
-    tslib "^2.0.0"
+    uuid "^8.2.0"
 
 "@furystack/utils@^1.2.3":
   version "1.2.3"
@@ -9329,11 +9294,6 @@ uuid@^3.2.1, uuid@^3.3.2, uuid@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
-
-uuid@^8.0.0, uuid@^8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.1.0.tgz#6f1536eb43249f473abc6bd58ff983da1ca30d8d"
-  integrity sha512-CI18flHDznR0lq54xBycOVmphdCYnQLKn8abKn7PXUiKUGdEd+/l9LWNJmugXel4hXq7S+RMNl34ecyC9TntWg==
 
 uuid@^8.2.0:
   version "8.2.0"
