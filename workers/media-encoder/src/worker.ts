@@ -8,6 +8,6 @@ import { RabbitListener } from './services/rabbit-listener'
 
 export const injector = new Injector()
 injector.useLogging(VerboseConsoleLogger)
-injector.logger.withScope('INIT').information({ message: 'Initializing...' })
+injector.logger.withScope('INIT').information({ message: 'Initializing media-encoder...' })
 injector.getInstance(RabbitListener)
 attachShutdownHandler(injector)

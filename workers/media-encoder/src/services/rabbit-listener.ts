@@ -20,7 +20,6 @@ export class RabbitListener {
   private async init() {
     this.connection = await connect(messaging.host)
     this.channel = await this.connection.createChannel()
-    ;(this.channel as any).qos(1, false)
     await this.channel.assertExchange(messaging.media.fanoutExchange, 'fanout')
     await this.channel.assertQueue(messaging.media.queues.encodeVideo, { durable: true })
     await this.channel.bindQueue(
@@ -31,6 +30,7 @@ export class RabbitListener {
     await this.channel.consume(messaging.media.queues.encodeVideo, (msg) => this.onEncodeVideo(msg), {
       noAck: false,
     })
+    ;(this.channel as any).qos(1, false)
     this.logger.verbose({ message: 'Started listening' })
   }
 
