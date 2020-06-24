@@ -2,7 +2,7 @@ import { Shade, createComponent, PartialElement } from '@furystack/shades'
 import { PathHelper } from '@furystack/utils'
 import { sites } from '@common/config'
 
-export type AvatarProps = { userName: string } & PartialElement<HTMLDivElement>
+export type AvatarProps = { userName: string; query?: string } & PartialElement<HTMLDivElement>
 
 export const Avatar = Shade<AvatarProps>({
   shadowDomName: 'multiverse-avatar',
@@ -30,7 +30,7 @@ export const Avatar = Shade<AvatarProps>({
         <img
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           alt={props.userName}
-          src={avatarPath}
+          src={`${avatarPath}?${props.query}`}
           onerror={() => {
             // ;((ev as Event).target as HTMLImageElement).replaceWith(
             //   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>

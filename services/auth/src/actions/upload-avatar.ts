@@ -6,6 +6,7 @@ import { FileStores } from '@common/config'
 import { auth } from '@common/models'
 
 export const UploadAvatar: RequestAction<{}> = async ({ injector, request }) => {
+  const logger = injector.logger.withScope('UploadAvatar')
   const user = await injector.getCurrentUser<auth.User>()
   const form = new IncomingForm()
 
@@ -27,6 +28,13 @@ export const UploadAvatar: RequestAction<{}> = async ({ injector, request }) => 
   const fileName = `${user.username}${extension}`
   const fullPath = join(FileStores.avatars, fileName)
 
+  if (!existsSync(FileStores.avatars)) {
+    logger.information({
+      message: 'Avatar Store path does not exists, trying to create it...',
+      data: { path: FileStores.avatars },
+    })
+    await promises.mkdir(FileStores.avatars, { recursive: true })
+  }
   if (user.avatarFile) {
     const oldAvatarPath = join(FileStores.avatars, user.avatarFile)
     if (existsSync(oldAvatarPath)) {

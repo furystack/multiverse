@@ -11,10 +11,10 @@ export const MyAvatar = Shade<PartialElement<HTMLDivElement>, { lastUpdateDate: 
       .lastUpdate.subscribe((lastUpdateDate) => updateState({ lastUpdateDate }))
     return () => observable.dispose()
   },
-  render: ({ injector, props }) => {
+  render: ({ injector, props, getState }) => {
     const username = injector.getInstance(SessionService).currentUser.getValue()?.username
     if (username) {
-      return <Avatar userName={username} {...props} />
+      return <Avatar userName={username} query={`updated=${getState().lastUpdateDate.toISOString()}`} {...props} />
     }
     return <div />
   },
