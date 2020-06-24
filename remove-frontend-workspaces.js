@@ -15,6 +15,15 @@ const run = async () => {
 
   console.log("Removing './frontends/*/node_modules'")
   await new Promise((resolve, reject) => rimraf('./frontends/*/node_modules', (err) => (err ? reject(err) : resolve())))
+
+  console.log("Removing './services/*/node_modules'")
+  await new Promise((resolve, reject) => rimraf('./services/*/node_modules', (err) => (err ? reject(err) : resolve())))
+
+  console.log("Removing './workers/*/node_modules'")
+  await new Promise((resolve, reject) => rimraf('./workers/*/node_modules', (err) => (err ? reject(err) : resolve())))
+
+  console.log("Removing './node_modules'")
+  await new Promise((resolve, reject) => rimraf('./node_modules', (err) => (err ? reject(err) : resolve())))
 }
 
 run()

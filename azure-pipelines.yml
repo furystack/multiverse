@@ -136,8 +136,6 @@ jobs:
                 GOOGLE_CLIENT_ID: $(GOOGLE_CLIENT_ID)
             - script: node ./remove-frontend-workspaces.js
               displayName: Removing already bundled stuff...
-            - script: yarn install --production=true --ignore-optional
-              displayName: Slim install
             - task: ArchiveFiles@1
               displayName: Create package archive
               inputs:
@@ -179,6 +177,12 @@ jobs:
                 sshEndpoint: 'multiverse.my.to'
                 commands: 'cd ~/apps/multiverse && sudo cp nginx.conf /etc/nginx/ '
 
+            - task: SSH@0
+              displayName: Slim Install on server
+              inputs:
+                sshEndpoint: 'multiverse.my.to'
+                commands: 'cd ~/apps/multiverse && yarn install --production=true --ignore-optional '
+                
             - task: SSH@0
               displayName: Restart services
               inputs:
