@@ -1,14 +1,17 @@
 import { Injectable, Injector } from '@furystack/inject'
+import { sleepAsync } from '@furystack/utils'
 import { messaging } from '@common/config'
 import { connect, Connection, Channel, ConsumeMessage } from 'amqplib'
 import { media } from '@common/models'
 import { ScopedLogger } from '@furystack/logging'
+import Semaphore from 'semaphore-async-await'
 import { encodeTask } from '../processes/encode-task'
 
 @Injectable({ lifetime: 'singleton' })
 export class RabbitListener {
   private connection?: Connection
   private channel?: Channel
+  private initLock = new Semaphore(1)
 
   public getChannel() {
     if (!this.channel) {
@@ -18,19 +21,31 @@ export class RabbitListener {
   }
 
   private async init() {
-    this.connection = await connect(messaging.host)
-    this.channel = await this.connection.createChannel()
-    await this.channel.assertExchange(messaging.media.fanoutExchange, 'fanout')
-    await this.channel.assertQueue(messaging.media.queues.encodeVideo, { durable: true })
-    await this.channel.bindQueue(
-      messaging.media.queues.encodeVideo,
-      messaging.media.fanoutExchange,
-      messaging.media.routingKeys.encodingJobAdded,
-    )
-    await this.channel.consume(messaging.media.queues.encodeVideo, (msg) => this.onEncodeVideo(msg), {
-      noAck: false,
-    })
-    ;(this.channel as any).qos(1, false)
+    try {
+      await this.initLock.acquire()
+      this.connection = await connect(messaging.host)
+      this.channel = await this.connection.createChannel()
+      await this.channel.assertExchange(messaging.media.fanoutExchange, 'fanout')
+      await this.channel.assertQueue(messaging.media.queues.encodeVideo, { durable: true })
+      await this.channel.bindQueue(
+        messaging.media.queues.encodeVideo,
+        messaging.media.fanoutExchange,
+        messaging.media.routingKeys.encodingJobAdded,
+      )
+      await this.channel.consume(messaging.media.queues.encodeVideo, (msg) => this.onEncodeVideo(msg), {
+        noAck: false,
+      })
+      ;(this.channel as any).qos(1, false)
+      this.initLock.release()
+    } catch (error) {
+      this.logger.warning({
+        message: 'There was an error during RabbitMQ connection. Will retry in 30s',
+        data: { error: { message: error.message, stack: error.stack } },
+      })
+      await sleepAsync(1000 * 30)
+      this.initLock.release()
+      this.init()
+    }
     this.logger.verbose({ message: 'Started listening' })
   }
 
