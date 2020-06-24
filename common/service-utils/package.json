@@ -26,6 +26,7 @@
     "@furystack/rest-service": "^2.1.9",
     "got": "^11.3.0",
     "mongodb": "^3.5.2",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "uuid": "^8.2.0"
   }
 }
