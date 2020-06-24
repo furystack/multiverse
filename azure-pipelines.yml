@@ -134,7 +134,8 @@ jobs:
                 GITHUB_CLIENT_ID: $(GITHUB_CLIENT_ID)
                 GITHUB_CLIENT_SECRET: $(GITHUB_CLIENT_SECRET)
                 GOOGLE_CLIENT_ID: $(GOOGLE_CLIENT_ID)
-
+            - script: node ./remove-frontend-workspaces.js
+              displayName: Removing already bundled stuff...
             - script: yarn install --production=true --ignore-optional
               displayName: Slim install
             - task: ArchiveFiles@1

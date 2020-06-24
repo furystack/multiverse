@@ -4,11 +4,6 @@ services:
     image: 'mongo'
     ports:
       - '27017:27017'
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - 8081:8081
   rabbitmq:
     image: rabbitmq:3-management
     ports:
