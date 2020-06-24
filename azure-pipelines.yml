@@ -154,14 +154,13 @@ jobs:
               inputs:
                 sshEndpoint: 'multiverse.my.to'
                 commands: 'sudo systemctl stop multiverse-auth && sudo systemctl stop multiverse-diag && sudo systemctl stop multiverse-xpense && sudo systemctl stop multiverse-media'
-  
 
             - task: CopyFilesOverSSH@0
               displayName: Copy package to target
               inputs:
                 sshEndpoint: 'multiverse.my.to'
                 overwrite: true
-                contents: package.7z
+                contents: $(System.DefaultWorkingDirectory)/package.7z
                 targetFolder: ~/apps/multiverse
 
             - task: SSH@0
@@ -183,7 +182,7 @@ jobs:
                 sshEndpoint: 'multiverse.my.to'
 
                 commands: 'cd ~/apps/multiverse && yarn install --production=true --ignore-optional 2> >(grep -v warning 1>&2) '
-                
+
             - task: SSH@0
               displayName: Restart services
               inputs:
