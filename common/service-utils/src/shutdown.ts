@@ -14,6 +14,8 @@ export const attachShutdownHandler = (i: Injector) => {
             code,
             reason,
             error,
+            errorMessage: error?.message,
+            errorStack: error?.stack,
           },
         })
       } else {
