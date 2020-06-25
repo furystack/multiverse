@@ -99,7 +99,7 @@ jobs:
               inputs:
                 sshEndpoint: 'multiverse.my.to'
                 overwrite: true
-                contents: package.7z \n $(System.DefaultWorkingDirectory)/package.7z \n **/package.7z
+                contents: $(Pipeline.Workspace)/{artifact}/package.7z
                 targetFolder: ~/apps/multiverse
 
             - task: SSH@0
