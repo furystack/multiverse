@@ -56,11 +56,8 @@ jobs:
           archiveType: 7z
           includeRootFolder: false
           rootFolder: $(System.DefaultWorkingDirectory)/archive
-      - task: PublishPipelineArtifact@1
-        displayName: Publish package artifact
-        inputs:
-          ArtifactName: DeployPackage
-          targetPath: $(System.DefaultWorkingDirectory)/package.7z
+      - publish: $(System.DefaultWorkingDirectory)/package.7z
+        artifact: DeployPackage
       - task: DockerCompose@0
         displayName: Start docker services
         inputs:
@@ -97,17 +94,12 @@ jobs:
       runOnce:
         deploy:
           steps:
-            - task: DownloadPipelineArtifact@2
-              inputs:
-                artifact: 'DeployPackage'
-                path: $(System.DefaultWorkingDirectory)
-
             - task: CopyFilesOverSSH@0
               displayName: Copy package to target
               inputs:
                 sshEndpoint: 'multiverse.my.to'
                 overwrite: true
-                contents: $(System.DefaultWorkingDirectory)/package.7z
+                contents: package.7z \n $(System.DefaultWorkingDirectory)/package.7z \n **/package.7z
                 targetFolder: ~/apps/multiverse
 
             - task: SSH@0
