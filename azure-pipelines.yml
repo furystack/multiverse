@@ -62,6 +62,8 @@ jobs:
         displayName: Rebuild Frontend
         env:
           EXTERNAL_SERVICE_URL: https://multiverse.my.to/api
+          GITHUB_CLIENT_ID: $(GITHUB_CLIENT_ID)
+          GOOGLE_CLIENT_ID: $(GOOGLE_CLIENT_ID)
           
       - task: CopyFiles@2
         displayName: 'Create Archive directory'
