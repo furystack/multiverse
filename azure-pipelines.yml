@@ -34,9 +34,8 @@ jobs:
         displayName: 'Yarn build'
         env:
           RELATIVE_CI_SLUG: furystack/multiverse
-          env:
-            GITHUB_CLIENT_ID: $(GITHUB_CLIENT_ID)
-            GOOGLE_CLIENT_ID: $(GOOGLE_CLIENT_ID)
+          GITHUB_CLIENT_ID: $(GITHUB_CLIENT_ID)
+          GOOGLE_CLIENT_ID: $(GOOGLE_CLIENT_ID)
       - task: CopyFiles@2
         displayName: 'Create Archive directory'
         inputs:
