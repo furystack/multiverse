@@ -105,7 +105,7 @@ jobs:
               inputs:
                 sshEndpoint: 'multiverse.my.to'
                 overwrite: true
-                contents: BuildArtifacts/package.7z
+                contents: $(Pipeline.Workspace)/BuildArtifacts/package.7z
                 targetFolder: ~/apps/multiverse
 
             - task: SSH@0
