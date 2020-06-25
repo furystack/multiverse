@@ -21,6 +21,9 @@ jobs:
   - job: installAndBuild
     timeoutInMinutes: 15
     displayName: Install, build, test
+    variables:
+      - group: multiverse
+
     steps:
       - task: NodeTool@0
         inputs:
@@ -92,11 +95,10 @@ jobs:
     displayName: 'Deploy to multiverse.my.to'
     dependsOn: installAndBuild
     timeoutInMinutes: 15
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    variables:
-      - group: multiverse
     environment:
       name: multiverse
+
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     strategy:
       runOnce:
         deploy:
