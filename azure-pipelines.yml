@@ -20,7 +20,7 @@ pool:
 jobs:
   - job: installAndBuild
     timeoutInMinutes: 10
-    displayName: Build and test
+    displayName: Install, build, test
     steps:
       - task: NodeTool@0
         inputs:
@@ -36,11 +36,6 @@ jobs:
           RELATIVE_CI_SLUG: furystack/multiverse
           GITHUB_CLIENT_ID: $(GITHUB_CLIENT_ID)
           GOOGLE_CLIENT_ID: $(GOOGLE_CLIENT_ID)
-      - task: PublishBuildArtifacts@1
-        displayName: Publish full build artifacts
-        inputs:
-          ArtifactName: FullBuildArtifacts
-          PathtoPublish: $(System.DefaultWorkingDirectory)
       - task: CopyFiles@2
         displayName: 'Create Archive directory'
         inputs:
@@ -66,17 +61,6 @@ jobs:
         inputs:
           ArtifactName: BuildArtifacts
           PathtoPublish: $(System.DefaultWorkingDirectory)/package.7z
-  - job: E2ETests
-    dependsOn: installAndBuild
-    timeoutInMinutes: 10
-    displayName: Build and test
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '14.x'
-        displayName: 'Install Node.js'
-      - download: current
-        artifact: FullBuildArtifacts
       - task: DockerCompose@0
         displayName: Start docker services
         inputs:
@@ -102,7 +86,7 @@ jobs:
 
   - deployment: deploy
     displayName: 'Deploy to multiverse.my.to'
-    dependsOn: E2ETests
+    dependsOn: E2ETests,UnitTests
     timeoutInMinutes: 10
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables:
