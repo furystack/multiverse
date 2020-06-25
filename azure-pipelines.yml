@@ -19,7 +19,7 @@ pool:
 
 jobs:
   - job: installAndBuild
-    timeoutInMinutes: 10
+    timeoutInMinutes: 15
     displayName: Install, build, test
     steps:
       - task: NodeTool@0
@@ -86,8 +86,8 @@ jobs:
 
   - deployment: deploy
     displayName: 'Deploy to multiverse.my.to'
-    dependsOn: E2ETests,UnitTests
-    timeoutInMinutes: 10
+    dependsOn: installAndBuild
+    timeoutInMinutes: 15
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables:
       - group: multiverse
