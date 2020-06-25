@@ -97,15 +97,17 @@ jobs:
       runOnce:
         deploy:
           steps:
-            - download: current
-              artifact: BuildArtifacts
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                artifact: 'BuildArtifacts'
+                path: $(System.DefaultWorkingDirectory)
 
             - task: CopyFilesOverSSH@0
               displayName: Copy package to target
               inputs:
                 sshEndpoint: 'multiverse.my.to'
                 overwrite: true
-                contents: $(Pipeline.Workspace)/BuildArtifacts/package.7z
+                contents: $(System.DefaultWorkingDirectory)/package.7z
                 targetFolder: ~/apps/multiverse
 
             - task: SSH@0
