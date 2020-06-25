@@ -4,7 +4,7 @@ import { Tabs, styles, Input, Button, colors } from '@furystack/shades-common-co
 import { auth } from '@common/models'
 import { AuthApiService, MyAvatarService } from '@common/frontend-utils'
 import { tokens } from '@common/config'
-import { MyAvatar } from '@common/components'
+import { MyAvatar, ImageAvatar } from '@common/components'
 import { v4 } from 'uuid'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 import { ChangePasswordForm } from '../components/change-password-form'
@@ -131,11 +131,10 @@ export const ProfilePage = Shade<
                   <h4>Google</h4>
                   {loginProviderDetails.google ? (
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                      {/* <Avatar
+                      <ImageAvatar
                         style={{ width: '48px', height: '48px' }}
-                        // avatarUrl={loginProviderDetails.google.googleApiPayload.picture}
-                        userName={}
-                      /> */}
+                        imageUrl={loginProviderDetails.google.googleApiPayload.picture}
+                      />
                       <div style={{ margin: '0 2em' }}>
                         Connected with <strong>{loginProviderDetails.google.googleApiPayload.email}</strong>
                       </div>
@@ -181,10 +180,10 @@ export const ProfilePage = Shade<
                   <h4>GitHub</h4>
                   {loginProviderDetails.github ? (
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                      {/* <Avatar
+                      <ImageAvatar
                         style={{ width: '48px', height: '48px' }}
-                        avatarUrl={loginProviderDetails.github.githubApiPayload.avatar_url}
-                      /> */}
+                        imageUrl={loginProviderDetails.github.githubApiPayload.avatar_url}
+                      />
                       <div style={{ margin: '0 2em' }}>
                         Connected with account &nbsp;
                         <strong>

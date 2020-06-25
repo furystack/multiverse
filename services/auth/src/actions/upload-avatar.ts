@@ -1,12 +1,9 @@
-import { join, extname } from 'path'
-import { promises, existsSync } from 'fs'
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { IncomingForm, Fields, Files } from 'formidable'
-import { FileStores } from '@common/config'
 import { auth } from '@common/models'
+import { saveAvatar } from '@common/service-utils'
 
 export const UploadAvatar: RequestAction<{}> = async ({ injector, request }) => {
-  const logger = injector.logger.withScope('UploadAvatar')
   const user = await injector.getCurrentUser<auth.User>()
   const form = new IncomingForm()
 
@@ -24,29 +21,7 @@ export const UploadAvatar: RequestAction<{}> = async ({ injector, request }) => 
     throw new RequestError('No avatar file', 400)
   }
 
-  const extension = extname(file.name).toLowerCase()
-  const fileName = `${user.username}${extension}`
-  const fullPath = join(FileStores.avatars, fileName)
-
-  if (!existsSync(FileStores.avatars)) {
-    logger.information({
-      message: 'Avatar Store path does not exists, trying to create it...',
-      data: { path: FileStores.avatars },
-    })
-    await promises.mkdir(FileStores.avatars, { recursive: true })
-  }
-  if (user.avatarFile) {
-    const oldAvatarPath = join(FileStores.avatars, user.avatarFile)
-    if (existsSync(oldAvatarPath)) {
-      await promises.unlink(oldAvatarPath)
-    }
-  }
-
-  await promises.copyFile(file.path, fullPath)
-
-  // Remove from temp
-  promises.unlink(file.path)
-  injector.getDataSetFor(auth.User).update(injector, user._id, { avatarFile: fileName })
+  await saveAvatar({ injector, user, tempFilePath: file.path })
 
   return JsonResult({ success: true })
 }

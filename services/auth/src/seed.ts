@@ -62,14 +62,27 @@ export const seed = async (i: Injector) => {
     {
       filter: { username: { $eq: testUser.username } },
     },
-    { githubId: 666, username: testUser.username, githubApiPayload: {} as any },
+    {
+      githubId: 666,
+      username: testUser.username,
+      githubApiPayload: {
+        avatar_url: 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png',
+      } as any,
+    },
     ghAccountStore,
     i,
   )
 
   await getOrCreate(
     { filter: { username: { $eq: testUser.username } } },
-    { googleId: 666, username: testUser.username, googleApiPayload: { email: testUser.username } } as any,
+    {
+      googleId: 666,
+      username: testUser.username,
+      googleApiPayload: {
+        email: testUser.username,
+        picture: 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png',
+      },
+    } as any,
     googleAccountStore,
     i,
   )

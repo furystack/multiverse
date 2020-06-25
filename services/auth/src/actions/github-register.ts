@@ -2,6 +2,7 @@ import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
 import { HttpUserContext } from '@furystack/rest-service'
+import { downloadAsTempFile, saveAvatar } from '@common/service-utils'
 import { GithubAuthService } from '../services/github-login-service'
 
 export const GithubRegisterAction: RequestAction<{
@@ -32,6 +33,14 @@ export const GithubRegisterAction: RequestAction<{
   })
 
   const newUser = created[0]
+
+  try {
+    const tempFilePath =
+      githubApiPayload && githubApiPayload.avatar_url && (await downloadAsTempFile(githubApiPayload.avatar_url))
+    tempFilePath && (await saveAvatar({ injector, user: newUser, tempFilePath }))
+  } catch (error) {
+    logger.warning({ message: 'Failed to get Avatar', data: { message: error.message, stack: error.stack } })
+  }
 
   await storeManager.getStoreFor(auth.GithubAccount).add({
     accountLinkDate: registrationDate,

@@ -3,6 +3,7 @@ import { GoogleLoginService } from '@furystack/auth-google'
 import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
 import { HttpUserContext } from '@furystack/rest-service'
+import { downloadAsTempFile, saveAvatar } from '@common/service-utils'
 
 /**
  * HTTP Request action for Google Logins
@@ -48,6 +49,13 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string }; resu
   })
 
   const userToAdd = created[0]
+
+  try {
+    const tempFilePath = googleUserData && googleUserData.picture && (await downloadAsTempFile(googleUserData.picture))
+    tempFilePath && (await saveAvatar({ injector, user: userToAdd, tempFilePath }))
+  } catch (error) {
+    logger.warning({ message: 'Failed to get Avatar', data: { message: error.message, stack: error.stack } })
+  }
 
   delete userToAdd.password
 

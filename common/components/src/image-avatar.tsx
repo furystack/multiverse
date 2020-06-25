@@ -1,20 +1,11 @@
 import { Shade, createComponent, PartialElement } from '@furystack/shades'
-import { PathHelper } from '@furystack/utils'
-import { sites } from '@common/config'
 
-export type AvatarProps = { userName: string; query?: string } & PartialElement<HTMLDivElement>
+export type ImageAvatarProps = { imageUrl: string } & PartialElement<HTMLDivElement>
 
-export const Avatar = Shade<AvatarProps>({
-  shadowDomName: 'multiverse-avatar',
+export const ImageAvatar = Shade<ImageAvatarProps>({
+  shadowDomName: 'multiverse-image-avatar',
   render: ({ props }) => {
-    const { ...divProps } = props
-    const avatarPath = PathHelper.joinPaths(
-      sites.services.auth.externalPath,
-      'auth',
-      'profiles',
-      props.userName,
-      'avatar',
-    )
+    const { imageUrl, ...divProps } = props
     return (
       <div
         {...divProps}
@@ -29,8 +20,8 @@ export const Avatar = Shade<AvatarProps>({
         }}>
         <img
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          alt={props.userName}
-          src={`${avatarPath}?${props.query}`}
+          alt={'avatar'}
+          src={`${imageUrl}`}
           onerror={(ev) => {
             ;((ev as Event).target as HTMLImageElement).replaceWith(
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
@@ -42,7 +33,7 @@ export const Avatar = Shade<AvatarProps>({
                     cursor: 'default',
                     userSelect: 'none',
                   }}>
-                  {props.userName[0]}
+                  ?
                 </div>
               </div>,
             )
