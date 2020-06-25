@@ -13,7 +13,7 @@ export const createEncodingTaskForMovie = async ({ movie, injector }: { movie: m
     logger.warning({ message: 'No Library for movie found, encoding task cannot be created' })
     return
   }
-  if (!library.encoding === false) {
+  if (library.encoding === false) {
     logger.verbose({ message: 'Encoding has been disabled for the Movie Library, skipping...' })
     return
   }
