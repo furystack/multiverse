@@ -56,11 +56,11 @@ jobs:
           archiveType: 7z
           includeRootFolder: false
           rootFolder: $(System.DefaultWorkingDirectory)/archive
-      - task: PublishBuildArtifacts@1
+      - task: PublishPipelineArtifact@1
         displayName: Publish package artifact
         inputs:
-          ArtifactName: BuildArtifacts
-          PathtoPublish: $(System.DefaultWorkingDirectory)/package.7z
+          ArtifactName: DeployPackage
+          targetPath: $(System.DefaultWorkingDirectory)/package.7z
       - task: DockerCompose@0
         displayName: Start docker services
         inputs:
@@ -99,7 +99,7 @@ jobs:
           steps:
             - task: DownloadPipelineArtifact@2
               inputs:
-                artifact: 'BuildArtifacts'
+                artifact: 'DeployPackage'
                 path: $(System.DefaultWorkingDirectory)
 
             - task: CopyFilesOverSSH@0
