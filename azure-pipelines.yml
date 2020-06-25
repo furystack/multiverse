@@ -24,7 +24,7 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '12.x'
+          versionSpec: '14.x'
         displayName: 'Install Node.js'
       - script: yarn install
         displayName: 'Yarn install'
@@ -34,6 +34,34 @@ jobs:
         displayName: 'Yarn build'
         env:
           RELATIVE_CI_SLUG: furystack/multiverse
+          env:
+            GITHUB_CLIENT_ID: $(GITHUB_CLIENT_ID)
+            GOOGLE_CLIENT_ID: $(GOOGLE_CLIENT_ID)
+      - task: CopyFiles@2
+        displayName: 'Create Archive directory'
+        inputs:
+          Contents: |
+            common/config/**
+            common/models/**
+            common/service-utils/**
+            frontends/core/bundle/**
+            services/**
+            workers/**
+            package.json
+            nginx.conf
+          TargetFolder: '$(System.DefaultWorkingDirectory)/archive'
+      - task: ArchiveFiles@1
+        displayName: Create archive package
+        inputs:
+          archiveFile: package
+          archiveType: 7z
+          includeRootFolder: false
+          rootFolder: $(System.DefaultWorkingDirectory)/archive
+      - task: PublishBuildArtifacts@1
+        displayName: Publish package artifact
+        inputs:
+          ArtifactName: BuildArtifacts
+          PathtoPublish: $(System.DefaultWorkingDirectory)/package.7z
       - task: DockerCompose@0
         displayName: Start docker services
         inputs:
@@ -111,7 +139,7 @@ jobs:
     displayName: 'Deploy to multiverse.my.to'
     dependsOn: buildAndTest
     timeoutInMinutes: 10
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables:
       - group: multiverse
     environment:
@@ -120,51 +148,8 @@ jobs:
       runOnce:
         deploy:
           steps:
-            - checkout: self
-            - script: echo $GITHUB_CLIENT_ID
-            - task: NodeTool@0
-              inputs:
-                versionSpec: '12.x'
-              displayName: 'Install Node.js'
-            - script: yarn install --ignore-optional
-              displayName: 'Yarn install'
-            - script: yarn build
-              displayName: Yarn Build
-              env:
-                GITHUB_CLIENT_ID: $(GITHUB_CLIENT_ID)
-                GITHUB_CLIENT_SECRET: $(GITHUB_CLIENT_SECRET)
-                GOOGLE_CLIENT_ID: $(GOOGLE_CLIENT_ID)
-            - task: CopyFiles@2
-              displayName: 'Copy Files to: $(System.DefaultWorkingDirectory)/archive'
-              inputs:
-                Contents: |
-                  common/config/**
-                  common/models/**
-                  common/service-utils/**
-                  frontends/core/bundle/**
-                  services/**
-                  workers/**
-                  package.json
-                  nginx.conf
-                TargetFolder: '$(System.DefaultWorkingDirectory)/archive'
-            - task: ArchiveFiles@1
-              displayName: Create package archive
-              inputs:
-                archiveFile: package
-                archiveType: 7z
-                includeRootFolder: false
-                rootFolder: $(System.DefaultWorkingDirectory)/archive
-            - task: PublishBuildArtifacts@1
-              displayName: Publish package artifact
-              inputs:
-                ArtifactName: BuildArtifacts
-                PathtoPublish: $(System.DefaultWorkingDirectory)/package.7z
-
-            - task: SSH@0
-              displayName: Stop services
-              inputs:
-                sshEndpoint: 'multiverse.my.to'
-                commands: 'sudo systemctl stop multiverse-auth && sudo systemctl stop multiverse-diag && sudo systemctl stop multiverse-xpense && sudo systemctl stop multiverse-media'
+            - download: current
+              artifact: BuildArtifacts
 
             - task: CopyFilesOverSSH@0
               displayName: Copy package to target
@@ -191,7 +176,6 @@ jobs:
               displayName: Slim Install on server
               inputs:
                 sshEndpoint: 'multiverse.my.to'
-
                 commands: 'cd ~/apps/multiverse && yarn install --production=true --ignore-optional 2> >(grep -v warning 1>&2) '
 
             - task: SSH@0

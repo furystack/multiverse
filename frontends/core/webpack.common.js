@@ -28,7 +28,6 @@ module.exports = {
       MEDIA_SERVICE_INTERNAL_PORT: sites.services.media.internalPort,
       MEDIA_SERVICE_EXTERNAL_URL: sites.services.media.externalPath,
       GITHUB_CLIENT_ID: tokens.githubClientId,
-      GITHUB_CLIENT_SECRET: tokens.githubClientSecret,
       GOOGLE_CLIENT_ID: tokens.googleClientId,
       ...sites.frontends,
       ...sites.services,
