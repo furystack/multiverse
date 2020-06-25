@@ -10,15 +10,15 @@ variables:
 trigger:
   - master
   - develop
+  - feat/*
   - feature/*
   - release/*
-  - greenkeeper/*
 
 pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
-  - job: buildAndTest
+  - job: installAndBuild
     timeoutInMinutes: 10
     displayName: Build and test
     steps:
@@ -36,6 +36,11 @@ jobs:
           RELATIVE_CI_SLUG: furystack/multiverse
           GITHUB_CLIENT_ID: $(GITHUB_CLIENT_ID)
           GOOGLE_CLIENT_ID: $(GOOGLE_CLIENT_ID)
+      - task: PublishBuildArtifacts@1
+        displayName: Publish full build artifacts
+        inputs:
+          ArtifactName: FullBuildArtifacts
+          PathtoPublish: $(System.DefaultWorkingDirectory)
       - task: CopyFiles@2
         displayName: 'Create Archive directory'
         inputs:
@@ -61,6 +66,17 @@ jobs:
         inputs:
           ArtifactName: BuildArtifacts
           PathtoPublish: $(System.DefaultWorkingDirectory)/package.7z
+  - job: E2ETests
+    dependsOn: installAndBuild
+    timeoutInMinutes: 10
+    displayName: Build and test
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '14.x'
+        displayName: 'Install Node.js'
+      - download: current
+        artifact: FullBuildArtifacts
       - task: DockerCompose@0
         displayName: Start docker services
         inputs:
@@ -84,61 +100,11 @@ jobs:
           pathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/videos'
           artifactName: cypress_videos
 
-  # ToDO: Revisit this after multi platform Docker build
-  # - deployment: deploy
-  #   displayName: Deploy images to Docker HUB
-  #   dependsOn: buildAndTest
-  #   timeoutInMinutes: 10
-  #   environment:
-  #     name: DockerHub
-  #   strategy:
-  #     runOnce:
-  #       deploy:
-  #         steps:
-  #           - checkout: self
-  #           - task: Docker@2
-  #             displayName: Login to Docker
-  #             inputs:
-  #               command: login
-  #               containerRegistry: dockerHubServiceConnection
-  #           - task: Docker@2
-  #             displayName: Build base docker image
-  #             inputs:
-  #               command: buildAndPush
-  #               containerRegistry: dockerHubServiceConnection
-  #               Dockerfile: base.Dockerfile
-  #               repository: furystack/multiverse-base
-  #               tags: latest
-  #           - task: Docker@2
-  #             displayName: Build Auth docker image
-  #             inputs:
-  #               command: buildAndPush
-  #               containerRegistry: dockerHubServiceConnection
-  #               Dockerfile: auth.Dockerfile
-  #               repository: furystack/multiverse-wrap-r
-  #               tags: latest
-  #           - task: Docker@2
-  #             displayName: Build Diag docker image
-  #             inputs:
-  #               command: buildAndPush
-  #               containerRegistry: dockerHubServiceConnection
-  #               Dockerfile: diag.Dockerfile
-  #               repository: furystack/multiverse-diag
-  #               tags: latest
-  #           - task: Docker@2
-  #             displayName: Build Xpense docker image
-  #             inputs:
-  #               command: buildAndPush
-  #               containerRegistry: dockerHubServiceConnection
-  #               Dockerfile: diag.Dockerfile
-  #               repository: furystack/multiverse-xpense
-  #               tags: latest
-
   - deployment: deploy
     displayName: 'Deploy to multiverse.my.to'
-    dependsOn: buildAndTest
+    dependsOn: E2ETests
     timeoutInMinutes: 10
-    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables:
       - group: multiverse
     environment:
