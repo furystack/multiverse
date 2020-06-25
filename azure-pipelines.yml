@@ -59,6 +59,7 @@ jobs:
           pathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/videos'
           artifactName: cypress_videos
       - script: yarn workspace @frontend/core build
+        displayName: Rebuild Frontend
         env:
           EXTERNAL_SERVICE_URL: https://multiverse.my.to/api
           
@@ -112,7 +113,7 @@ jobs:
               timeoutInMinutes: 10
               inputs:
                 sshEndpoint: 'multiverse.my.to'
-                commands: 'cd ~/apps/multiverse/DeployPackage && 7z x DeployPackage/package.7z -y -bb'
+                commands: 'cd ~/apps/multiverse && 7z x DeployPackage/package.7z -y -bb'
 
             - task: SSH@0
               displayName: Update Nginx config
