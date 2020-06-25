@@ -28,8 +28,7 @@ export class GithubAuthService {
       client_id: options.clientId,
       client_secret: clientSecret,
     })
-    const response = await got.post({
-      href: 'https://github.com/login/oauth/access_token',
+    const response = await got.post('https://github.com/login/oauth/access_token', {
       body,
       headers: {
         'Content-type': 'application/json',
