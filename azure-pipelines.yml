@@ -34,30 +34,6 @@ jobs:
         displayName: 'Yarn build'
         env:
           RELATIVE_CI_SLUG: furystack/multiverse
-          GITHUB_CLIENT_ID: $(GITHUB_CLIENT_ID)
-          GOOGLE_CLIENT_ID: $(GOOGLE_CLIENT_ID)
-      - task: CopyFiles@2
-        displayName: 'Create Archive directory'
-        inputs:
-          Contents: |
-            common/config/**
-            common/models/**
-            common/service-utils/**
-            frontends/core/bundle/**
-            services/**
-            workers/**
-            package.json
-            nginx.conf
-          TargetFolder: '$(System.DefaultWorkingDirectory)/archive'
-      - task: ArchiveFiles@1
-        displayName: Create archive package
-        inputs:
-          archiveFile: package
-          archiveType: 7z
-          includeRootFolder: false
-          rootFolder: $(System.DefaultWorkingDirectory)/archive
-      - publish: $(System.DefaultWorkingDirectory)/package.7z
-        artifact: DeployPackage
       - task: DockerCompose@0
         displayName: Start docker services
         inputs:
@@ -80,6 +56,34 @@ jobs:
         inputs:
           pathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/videos'
           artifactName: cypress_videos
+      - script: yarn workspace @frontend/core build
+        env: 
+          variables:
+          - group: multiverse
+          environment:
+            name: multiverse
+      - task: CopyFiles@2
+        displayName: 'Create Archive directory'
+        inputs:
+          Contents: |
+            common/config/**
+            common/models/**
+            common/service-utils/**
+            frontends/core/bundle/**
+            services/**
+            workers/**
+            package.json
+            nginx.conf
+          TargetFolder: '$(System.DefaultWorkingDirectory)/archive'
+      - task: ArchiveFiles@1
+        displayName: Create archive package
+        inputs:
+          archiveFile: package
+          archiveType: 7z
+          includeRootFolder: false
+          rootFolder: $(System.DefaultWorkingDirectory)/archive
+      - publish: $(System.DefaultWorkingDirectory)/package.7z
+        artifact: DeployPackage
 
   - deployment: deploy
     displayName: 'Deploy to multiverse.my.to'
@@ -108,7 +112,7 @@ jobs:
               timeoutInMinutes: 10
               inputs:
                 sshEndpoint: 'multiverse.my.to'
-                commands: 'cd ~/apps/multiverse && 7z x package.7z -y -bb'
+                commands: 'cd ~/apps/multiverse/DeployPackage && 7z x DeployPackage/package.7z -y -bb'
 
             - task: SSH@0
               displayName: Update Nginx config
