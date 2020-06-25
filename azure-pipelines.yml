@@ -23,11 +23,6 @@ jobs:
     displayName: Install, build, test
     variables:
       - group: multiverse
-      - name: GITHUB_CLIENT_ID
-        value: $(GITHUB_CLIENT_ID)
-      - name: GOOGLE_CLIENT_ID
-        value: $(GOOGLE_CLIENT_ID)
-
     steps:
       - task: NodeTool@0
         inputs:
