@@ -9,7 +9,12 @@ export const GithubLoginAction: RequestAction<{
   result: auth.User
 }> = async ({ injector, getBody, response }) => {
   const { code, clientId } = await getBody()
-  const githubApiPayload = await injector.getInstance(GithubAuthService).getGithubUserData({ code, clientId })
+  let githubApiPayload!: auth.GithubApiPayload
+  try {
+    githubApiPayload = await injector.getInstance(GithubAuthService).getGithubUserData({ code, clientId })
+  } catch (error) {
+    throw new RequestError('Cannot get payload from Github', 500)
+  }
   const existingGhUsers = await injector
     .getInstance(StoreManager)
     .getStoreFor(auth.GithubAccount)
