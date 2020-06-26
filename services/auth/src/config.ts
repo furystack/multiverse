@@ -1,6 +1,6 @@
 import '@furystack/auth-google'
 import '@furystack/repository/dist/injector-extension'
-import { ConsoleLogger } from '@furystack/logging'
+import { VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { auth } from '@common/models'
 import { databases } from '@common/config'
@@ -37,7 +37,7 @@ injector
         options: databases.standardOptions,
       }),
   )
-  .useLogging(ConsoleLogger)
+  .useLogging(VerboseConsoleLogger)
   .setupRepository((repo) =>
     repo.createDataSet(auth.Profile, {
       authorizeUpdateEntity: async ({ injector: i, entity: profile }) => {

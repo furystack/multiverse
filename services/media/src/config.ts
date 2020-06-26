@@ -1,7 +1,7 @@
 import '@furystack/auth-google'
 import '@furystack/repository/dist/injector-extension'
 import { existsSync } from 'fs'
-import { ConsoleLogger } from '@furystack/logging'
+import { VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { databases } from '@common/config'
 import { media, auth } from '@common/models'
@@ -14,7 +14,7 @@ import { createEncodingTaskForMovie } from './utils/create-encoding-task-for-mov
 
 export const injector = new Injector()
 
-injector.useDbLogger({ appName: 'media' }).useCommonHttpAuth().useLogging(ConsoleLogger)
+injector.useDbLogger({ appName: 'media' }).useCommonHttpAuth().useLogging(VerboseConsoleLogger)
 
 injector.setupStores((sm) =>
   sm

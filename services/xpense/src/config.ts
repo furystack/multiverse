@@ -1,14 +1,14 @@
 import '@furystack/auth-google'
 import { getOrgsForCurrentUser, AuthorizeOwnership } from '@common/service-utils'
 import '@furystack/repository/dist/injector-extension'
-import { ConsoleLogger } from '@furystack/logging'
+import { VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { xpense, auth } from '@common/models'
 import { databases } from '@common/config'
 
 export const injector = new Injector()
 
-injector.useDbLogger({ appName: 'xpense' }).useLogging(ConsoleLogger)
+injector.useDbLogger({ appName: 'xpense' }).useLogging(VerboseConsoleLogger)
 injector.useCommonHttpAuth()
 injector.setupStores((sm) =>
   sm
