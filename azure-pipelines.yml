@@ -194,12 +194,6 @@ jobs:
                 commands: 'cd ~/apps/multiverse && yarn install --production=true --ignore-optional 2> >(grep -v warning 1>&2) '
 
             - task: SSH@0
-              displayName: Execute DB patches on server
-              inputs:
-                sshEndpoint: 'multiverse.my.to'
-                commands: 'cd ~/apps/multiverse && yarn patch'
-
-            - task: SSH@0
               displayName: Restart services
               inputs:
                 sshEndpoint: 'multiverse.my.to'
