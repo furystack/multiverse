@@ -64,9 +64,12 @@ export const UploadEncoded: RequestAction<{ urlParams: { movieId: string; access
         ip: (request.headers['x-forwarded-for'] as string) || request.connection.remoteAddress || 'unknown',
       },
     })
-    if (percentNo === 100) {
+    if (percentNo === 100 && !file) {
       await storeManager.getStoreFor(media.Movie).update(movieId, {
-        availableFormats: [...(movie.availableFormats || []), { codec: codec as any, mode: mode as any }],
+        availableFormats: [
+          ...(movie.availableFormats || []).filter((f) => !(f.codec === codec && f.mode === mode)),
+          { codec: codec as any, mode: mode as any },
+        ],
       })
     }
   }
