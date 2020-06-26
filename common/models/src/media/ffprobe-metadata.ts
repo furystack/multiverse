@@ -70,7 +70,7 @@ export interface FfprobeFormat {
   size: string
   bit_rate: string
   probe_score: number
-  tags: Record<string, string>
+  tags: { [K: string]: string }
 }
 
 export interface FfprobeMetadata {

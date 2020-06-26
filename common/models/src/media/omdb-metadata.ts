@@ -1,6 +1,6 @@
 export type FailedOmdbMetadata = {
   Response: 'False'
-  Error: string
+  Error: any
 }
 
 export type FetchedOmdbMetadata = {

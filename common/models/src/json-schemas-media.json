@@ -98,7 +98,6 @@
       "additionalProperties": false,
       "properties": {
         "Error": {
-          "type": "string"
         },
         "Response": {
           "enum": [
@@ -190,6 +189,10 @@
           "type": "string"
         },
         "Type": {
+          "enum": [
+            "movie",
+            "series"
+          ],
           "type": "string"
         },
         "Website": {
@@ -274,7 +277,10 @@
           "type": "string"
         },
         "tags": {
-          "$ref": "#/definitions/Record%3Cstring%2Cstring%3E"
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
         }
       },
       "required": [
@@ -598,9 +604,6 @@
         },
         "path": {
           "type": "string"
-        },
-        "websafePath": {
-          "type": "string"
         }
       },
       "required": [
@@ -659,6 +662,9 @@
         "duration": {
           "type": "number"
         },
+        "episode": {
+          "type": "number"
+        },
         "genre": {
           "items": {
             "type": "string"
@@ -668,10 +674,20 @@
         "plot": {
           "type": "string"
         },
+        "season": {
+          "type": "number"
+        },
         "thumbnailImageUrl": {
           "type": "string"
         },
         "title": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "movie",
+            "series"
+          ],
           "type": "string"
         },
         "year": {
@@ -684,7 +700,8 @@
         "duration",
         "genre",
         "thumbnailImageUrl",
-        "plot"
+        "plot",
+        "type"
       ],
       "type": "object"
     },
@@ -775,12 +792,6 @@
           "type": "object"
         }
       ]
-    },
-    "Record<string,string>": {
-      "additionalProperties": {
-        "type": "string"
-      },
-      "type": "object"
     },
     "Vp9EncodingFormat": {
       "additionalProperties": false,

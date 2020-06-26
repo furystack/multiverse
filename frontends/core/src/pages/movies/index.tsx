@@ -7,15 +7,40 @@ import { LibraryList } from './library-list'
 import { NewMovieLibrary } from './new-movie-library'
 import { MovieList } from './movie-list'
 import { Watch } from './watch'
+import { EditMovie } from './edit-movie'
 
 export const MoviesPage = Shade({
   shadowDomName: 'multiverse-movies-page',
   render: ({ injector }) => {
     return (
       <Router
+        notFound={() => <GenericErrorPage />}
         routes={[
+          {
+            url: '/movies/:libraryId/edit/:movieId',
+            component: ({ match }) => (
+              <LazyLoad
+                error={(error, retry) => (
+                  <GenericErrorPage
+                    mainTitle="Cannot load movie for editing..."
+                    subtitle="Something bad happened. Are you sure you have the right permission?"
+                    error={error}
+                    retry={retry}
+                  />
+                )}
+                loader={<Init message="Loading Movie..." />}
+                component={async () => {
+                  const movie: media.Movie = await injector.getInstance(MediaApiService).call({
+                    method: 'GET',
+                    action: '/movies/:id',
+                    url: { id: match.params.movieId },
+                  })
+                  return <EditMovie movie={movie} />
+                }}
+              />
+            ),
+          },
           { url: '/movies/add-new-movie-library', component: () => <NewMovieLibrary /> },
-
           {
             url: '/movies',
             routingOptions: {

@@ -1,24 +1,10 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { deepMerge, debounce } from '@furystack/utils'
-import * as monaco from 'monaco-editor'
-import { authSchema, auth } from '@common/models'
+import { auth } from '@common/models'
 import { AuthApiService } from '@common/frontend-utils'
 import Semaphore from 'semaphore-async-await'
 import { MonacoEditorProps, MonacoEditor } from '../monaco-editor'
-
-const modelUri = monaco.Uri.parse('furystack://shades/monaco-editor-settings.json') // a made up unique URI for our model
-const model = monaco.editor.createModel('', 'json', modelUri)
-
-monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-  validate: true,
-  schemas: [
-    {
-      uri: 'http://multiverse.my.to/schemas/monaco-editor/schema.json',
-      fileMatch: [modelUri.toString()],
-      schema: { ...authSchema, $ref: '#/definitions/UserSettings' },
-    },
-  ],
-})
+import { MonacoModelProvider } from '../../services/monaco-model-provider'
 
 export const UserSettingsEditor = Shade<
   MonacoEditorProps & { value: string },
@@ -64,7 +50,7 @@ export const UserSettingsEditor = Shade<
       })
     }
   },
-  render: ({ props, getState, updateState }) => {
+  render: ({ props, getState, updateState, injector }) => {
     const saver = debounce(
       async () =>
         getState().save({
@@ -78,7 +64,9 @@ export const UserSettingsEditor = Shade<
       { ...props },
       {
         options: {
-          model,
+          model: injector
+            .getInstance(MonacoModelProvider)
+            .getModelForEntityType({ schema: 'authSchema', entity: 'UserSettings' }),
           language: 'json',
         },
       },
