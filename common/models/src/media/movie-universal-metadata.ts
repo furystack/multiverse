@@ -5,4 +5,7 @@ export class MovieUniversalMetadata {
   genre!: string[]
   thumbnailImageUrl!: string
   plot!: string
+  type!: 'movie' | 'series'
+  season?: number
+  episode?: number
 }

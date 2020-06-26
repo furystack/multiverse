@@ -6,7 +6,7 @@ import { Injector } from '@furystack/inject'
 import { databases } from '@common/config'
 import { media, auth } from '@common/models'
 import { AuthorizeOwnership, getOrgsForCurrentUser } from '@common/service-utils'
-import { FindOptions } from '@furystack/core'
+import { FindOptions, IdentityContext } from '@furystack/core'
 import { WebSocketApi } from '@furystack/websocket-api'
 import { MediaLibraryWatcher } from './services/media-library-watcher'
 import { MediaMessaging } from './services/media-messaging'
@@ -147,11 +147,31 @@ injector.setupRepository((repo) =>
     }),
 )
 
-// ToDo: Check owner / orgs for movie access
 injector.setupRepository((repo) =>
   repo.createDataSet(media.Movie, {
+    addFilter: async ({ injector: i, filter }) => {
+      const identityContext = i.getInstance(IdentityContext)
+      if (identityContext.constructor === IdentityContext) {
+        return filter
+      }
+
+      const movieLibs = await i.getDataSetFor(media.MovieLibrary).find(i, { select: ['_id'] })
+      const movieLibIds = movieLibs.map((lib) => lib._id)
+
+      return {
+        ...filter,
+        filter: {
+          $and: [{ libraryId: { $in: movieLibIds } }, filter.filter],
+        },
+      } as FindOptions<media.Movie, any>
+    },
     authorizeGetEntity: async ({ injector: i, entity }) => {
-      await i.getDataSetFor(media.MovieLibrary).get(i, entity.libraryId)
+      try {
+        await i.getDataSetFor(media.MovieLibrary).get(i, entity.libraryId)
+      } catch (error) {
+        return { isAllowed: false, message: 'In order to view this movie, you need permisson to its library' }
+      }
+
       return { isAllowed: true }
     },
     onEntityAdded: async ({ entity, injector: i }) => createEncodingTaskForMovie({ movie: entity, injector: i }),

@@ -6,7 +6,6 @@ import { EncodingType } from './movie-library'
 export class Movie {
   _id!: string
   path!: string
-  websafePath?: string
   libraryId!: string
   omdbMeta?: OmdbMetadata
   ffprobe?: FfprobeMetadata

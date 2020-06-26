@@ -13,5 +13,24 @@ export const getFallbackMetadata = (path: string): MovieUniversalMetadata => {
     .split(year.toString())[0]
     .split(/['.'|' ']/g)
     .join(' ')
-  return { title, year, genre: [], duration: 0, thumbnailImageUrl: '', plot: '' }
+
+  const { season, episode } = new RegExp(/.S(?<season>\d+)E(?<episode>\d+)./gm).exec(fileName)?.groups || {}
+
+  return {
+    title,
+    year,
+    genre: [],
+    duration: 0,
+    thumbnailImageUrl: '',
+    plot: '',
+    ...(season && episode
+      ? {
+          type: 'series',
+          season: parseInt(season, 10),
+          episode: parseInt(episode, 10),
+        }
+      : {
+          type: 'movie',
+        }),
+  }
 }
