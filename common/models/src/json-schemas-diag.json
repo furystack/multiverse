@@ -1,0 +1,62 @@
+{
+  "$ref": "#/definitions/LogEntry",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Date": {
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "LogEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "appName": {
+          "type": "string"
+        },
+        "creationDate": {
+          "$ref": "#/definitions/Date"
+        },
+        "data": {
+          "description": "Additional entry data",
+          "not": {
+          }
+        },
+        "level": {
+          "$ref": "#/definitions/LogLevel",
+          "description": "The verbosity level of the log entry"
+        },
+        "message": {
+          "description": "The message string",
+          "type": "string"
+        },
+        "scope": {
+          "description": "A well-defined scope for grouping entries, e.g. a component or service name.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "appName",
+        "creationDate",
+        "level",
+        "message",
+        "scope"
+      ],
+      "type": "object"
+    },
+    "LogLevel": {
+      "description": "The verbosity level of a log entry",
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "type": "number"
+    }
+  }
+}

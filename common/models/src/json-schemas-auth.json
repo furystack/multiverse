@@ -1,0 +1,826 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "AppListWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "apps": {
+          "items": {
+            "enum": [
+              "Profile",
+              "Xpense",
+              "Organizations",
+              "Feature Switches",
+              "Users",
+              "Diagnostics",
+              "System Logs",
+              "Movies"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "app-list"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "apps",
+        "title",
+        "type"
+      ],
+      "type": "object"
+    },
+    "AppShortcutWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "appName": {
+          "enum": [
+            "Profile",
+            "Xpense",
+            "Organizations",
+            "Feature Switches",
+            "Users",
+            "Diagnostics",
+            "System Logs",
+            "Movies"
+          ],
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "app-shortcut"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "appName",
+        "type"
+      ],
+      "type": "object"
+    },
+    "ContinueMoviesWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "type": "number"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "continue-movies"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "count",
+        "type"
+      ],
+      "type": "object"
+    },
+    "Dashboard": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "widgets": {
+          "items": {
+            "$ref": "#/definitions/Widget"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "widgets"
+      ],
+      "type": "object"
+    },
+    "GithubAccount": {
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "accountLinkDate": {
+          "type": "string"
+        },
+        "githubApiPayload": {
+          "$ref": "#/definitions/GithubApiPayload"
+        },
+        "githubId": {
+          "type": "number"
+        },
+        "username": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "githubId",
+        "githubApiPayload",
+        "username",
+        "accountLinkDate"
+      ],
+      "type": "object"
+    },
+    "GithubApiPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "avatar_url": {
+          "type": "string"
+        },
+        "bio": {
+          "type": "string"
+        },
+        "blog": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "events_url": {
+          "type": "string"
+        },
+        "followers": {
+          "type": "number"
+        },
+        "followers_url": {
+          "type": "string"
+        },
+        "following": {
+          "type": "number"
+        },
+        "following_url": {
+          "type": "string"
+        },
+        "gists_url": {
+          "type": "string"
+        },
+        "gravatar_id": {
+          "type": "string"
+        },
+        "hireable": {
+          "type": "boolean"
+        },
+        "html_url": {
+          "type": "string"
+        },
+        "id": {
+          "type": "number"
+        },
+        "location": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "node_id": {
+          "type": "string"
+        },
+        "organizations_url": {
+          "type": "string"
+        },
+        "public_gists": {
+          "type": "number"
+        },
+        "public_repos": {
+          "type": "number"
+        },
+        "received_events_url": {
+          "type": "string"
+        },
+        "repos_url": {
+          "type": "string"
+        },
+        "site_admin": {
+          "type": "boolean"
+        },
+        "starred_url": {
+          "type": "string"
+        },
+        "subscriptions_url": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "login",
+        "id",
+        "node_id",
+        "avatar_url",
+        "gravatar_id",
+        "url",
+        "html_url",
+        "followers_url",
+        "following_url",
+        "gists_url",
+        "starred_url",
+        "subscriptions_url",
+        "organizations_url",
+        "repos_url",
+        "events_url",
+        "received_events_url",
+        "type",
+        "site_admin",
+        "name",
+        "company",
+        "blog",
+        "location",
+        "email",
+        "hireable",
+        "bio",
+        "public_repos",
+        "public_gists",
+        "followers",
+        "following",
+        "created_at",
+        "updated_at"
+      ],
+      "type": "object"
+    },
+    "GoogleAccount": {
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "accountLinkDate": {
+          "type": "string"
+        },
+        "googleApiPayload": {
+          "$ref": "#/definitions/GoogleApiPayload"
+        },
+        "googleId": {
+          "type": "number"
+        },
+        "username": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "googleId",
+        "googleApiPayload",
+        "username",
+        "accountLinkDate"
+      ],
+      "type": "object"
+    },
+    "GoogleApiPayload": {
+      "additionalProperties": false,
+      "description": "Payload model from Google",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "email_verified": {
+          "type": "boolean"
+        },
+        "family_name": {
+          "type": "string"
+        },
+        "given_name": {
+          "type": "string"
+        },
+        "iss": {
+          "type": "string"
+        },
+        "locale": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "picture": {
+          "type": "string"
+        },
+        "sub": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "iss",
+        "sub",
+        "email",
+        "email_verified",
+        "name",
+        "picture",
+        "given_name",
+        "family_name",
+        "locale"
+      ],
+      "type": "object"
+    },
+    "HtmlWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "html"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "content",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IconUrlWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "icon-url-widget"
+          ],
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "icon",
+        "name",
+        "type",
+        "url"
+      ],
+      "type": "object"
+    },
+    "MarkdownWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "markdown"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "content",
+        "type"
+      ],
+      "type": "object"
+    },
+    "Organization": {
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "adminNames": {
+          "description": "Unique user names of the admins",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "description": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "memberNames": {
+          "description": "Unique user names of the organization members",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "name": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner",
+          "description": "The owner user name"
+        }
+      },
+      "required": [
+        "_id",
+        "name",
+        "icon",
+        "description",
+        "owner",
+        "memberNames",
+        "adminNames"
+      ],
+      "type": "object"
+    },
+    "Owner": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "enum": [
+                "user"
+              ],
+              "type": "string"
+            },
+            "username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "username"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "organizationName": {
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "organization"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "organizationName"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "Profile": {
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "userSettings": {
+          "$ref": "#/definitions/UserSettings"
+        },
+        "username": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "username",
+        "displayName",
+        "description",
+        "userSettings"
+      ],
+      "type": "object"
+    },
+    "Session": {
+      "additionalProperties": false,
+      "properties": {
+        "sessionId": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "sessionId",
+        "username"
+      ],
+      "type": "object"
+    },
+    "User": {
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "avatarFile": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "registrationDate": {
+          "type": "string"
+        },
+        "roles": {
+          "items": {
+            "enum": [
+              "terms-accepted",
+              "sys-logs",
+              "sys-diags",
+              "feature-switch-admin",
+              "user-admin",
+              "movie-admin"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "username": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "username",
+        "password",
+        "registrationDate",
+        "roles"
+      ],
+      "type": "object"
+    },
+    "UserSettings": {
+      "additionalProperties": false,
+      "properties": {
+        "dashboard": {
+          "$ref": "#/definitions/Dashboard"
+        },
+        "theme": {
+          "enum": [
+            "light",
+            "dark"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "theme",
+        "dashboard"
+      ],
+      "type": "object"
+    },
+    "Widget": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/AppShortcutWidget"
+        },
+        {
+          "$ref": "#/definitions/HtmlWidget"
+        },
+        {
+          "$ref": "#/definitions/IconUrlWidget"
+        },
+        {
+          "$ref": "#/definitions/MarkdownWidget"
+        },
+        {
+          "$ref": "#/definitions/ContinueMoviesWidget"
+        },
+        {
+          "$ref": "#/definitions/AppListWidget"
+        }
+      ]
+    },
+    "WidgetBase<\"app-list\">": {
+      "additionalProperties": false,
+      "properties": {
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "app-list"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "WidgetBase<\"app-shortcut\">": {
+      "additionalProperties": false,
+      "properties": {
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "app-shortcut"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "WidgetBase<\"continue-movies\">": {
+      "additionalProperties": false,
+      "properties": {
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "continue-movies"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "WidgetBase<\"html\">": {
+      "additionalProperties": false,
+      "properties": {
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "html"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "WidgetBase<\"icon-url-widget\">": {
+      "additionalProperties": false,
+      "properties": {
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "icon-url-widget"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "WidgetBase<\"markdown\">": {
+      "additionalProperties": false,
+      "properties": {
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "markdown"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    }
+  }
+}

@@ -34,7 +34,6 @@ export class MovieLibrary {
   name!: string
   path!: string
   owner!: Owner
-  ownerName!: string
   encoding!: EncodingType | false
 }
 

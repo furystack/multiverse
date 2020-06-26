@@ -1,8 +1,8 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { AppListWidget as AppListWidgetModel } from '@common/models'
+import { dashboard } from '@common/models'
 import { AppShortcutWidget } from './app-shortcut-widget'
 
-export const AppListWidget = Shade<AppListWidgetModel>({
+export const AppListWidget = Shade<dashboard.AppListWidget>({
   shadowDomName: 'multiverse-app-list-widget',
   render: ({ props }) => {
     return (

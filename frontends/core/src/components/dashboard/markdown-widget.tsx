@@ -1,8 +1,8 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { MarkdownWidget as MarkdownWidgetModel } from '@common/models'
+import { dashboard } from '@common/models'
 import * as marked from 'marked'
 
-export const MarkdownWidget = Shade<MarkdownWidgetModel>({
+export const MarkdownWidget = Shade<dashboard.MarkdownWidget>({
   shadowDomName: 'markdown-widget',
   render: ({ props, element }) => {
     setTimeout(() => {

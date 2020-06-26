@@ -1,5 +1,5 @@
 import '@furystack/auth-google'
-import { verifyAndCreateIndexes, getOrgsForCurrentUser, AuthorizeOwnership } from '@common/service-utils'
+import { getOrgsForCurrentUser, AuthorizeOwnership } from '@common/service-utils'
 import '@furystack/repository/dist/injector-extension'
 import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
@@ -139,26 +139,3 @@ injector.setupRepository((repo) =>
       authorizeUpdate: async () => ({ isAllowed: false, message: 'Shoppings are read-only.' }),
     }),
 )
-
-verifyAndCreateIndexes({
-  injector,
-  model: xpense.Item,
-  indexName: 'itemName',
-  indexSpecification: { name: 1 },
-  indexOptions: { unique: true },
-})
-verifyAndCreateIndexes({
-  injector,
-  model: xpense.Shop,
-  indexName: 'shopName',
-  indexSpecification: { name: 1 },
-  indexOptions: { unique: true },
-})
-
-verifyAndCreateIndexes({
-  injector,
-  model: xpense.Account,
-  indexName: 'balanceOwner',
-  indexSpecification: { owner: 1, name: 1 },
-  indexOptions: { unique: true },
-})

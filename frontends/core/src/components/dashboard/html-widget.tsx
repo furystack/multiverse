@@ -1,7 +1,7 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { HtmlWidget as HtmlWidgetModel } from '@common/models'
+import { dashboard } from '@common/models'
 
-export const HtmlWidget = Shade<HtmlWidgetModel>({
+export const HtmlWidget = Shade<dashboard.HtmlWidget>({
   shadowDomName: 'html-widget',
   render: ({ props, element }) => {
     setTimeout(() => {

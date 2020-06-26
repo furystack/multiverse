@@ -5,7 +5,7 @@ import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { databases } from '@common/config'
 import { media, auth } from '@common/models'
-import { verifyAndCreateIndexes, AuthorizeOwnership, getOrgsForCurrentUser } from '@common/service-utils'
+import { AuthorizeOwnership, getOrgsForCurrentUser } from '@common/service-utils'
 import { FindOptions } from '@furystack/core'
 import { WebSocketApi } from '@furystack/websocket-api'
 import { MediaLibraryWatcher } from './services/media-library-watcher'
@@ -84,7 +84,10 @@ injector.setupRepository((repo) =>
         return {
           ...entity,
           encoding: media.defaultEncoding,
-          ownerName: currentUser.username,
+          owner: {
+            type: 'user' as const,
+            username: currentUser.username,
+          },
         }
       },
       onEntityAdded: ({ injector: i, entity }) => {
@@ -156,19 +159,3 @@ injector.setupRepository((repo) =>
 )
 
 injector.getInstance(MediaLibraryWatcher)
-
-verifyAndCreateIndexes({
-  injector,
-  model: media.Movie,
-  indexName: 'moviePath',
-  indexSpecification: { path: 1 },
-  indexOptions: { unique: true },
-})
-
-verifyAndCreateIndexes({
-  injector,
-  model: media.MovieWatchHistoryEntry,
-  indexName: 'movieWatchEntryUser',
-  indexSpecification: { userId: 1 },
-  indexOptions: {},
-})

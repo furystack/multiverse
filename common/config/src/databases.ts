@@ -5,10 +5,11 @@ export const databases = {
     usersCollection: 'users',
     sessionStoreUrl: process.env.SESSION_STORE_URL || process.env.MONGO_URL || 'mongodb://localhost:27017',
   },
-  logging: {
+  diag: {
     mongoUrl: process.env.MONGO_LOGGING_URL || process.env.MONGO_URL || 'mongodb://localhost:27017',
     dbName: 'multiverse-logs',
     logCollection: 'entries',
+    patches: 'patches',
   },
   xpense: {
     mongoUrl: process.env.MONGO_XPENSE_URL || process.env.MONGO_URL || 'mongodb://localhost:27017',

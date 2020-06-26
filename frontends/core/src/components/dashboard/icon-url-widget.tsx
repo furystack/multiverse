@@ -1,6 +1,6 @@
 import { Shade, RouteLink, createComponent } from '@furystack/shades'
 import { promisifyAnimation } from '@furystack/shades-common-components'
-import { IconUrlWidget as IconUrlWidgetModel } from '@common/models'
+import { dashboard } from '@common/models'
 
 const focus = (el: HTMLElement) => {
   promisifyAnimation(el, [{ filter: 'saturate(0.3)brightness(0.6)' }, { filter: 'saturate(1)brightness(1)' }], {
@@ -18,7 +18,7 @@ const blur = (el: HTMLElement) => {
   })
 }
 
-export const IconUrlWidget = Shade<Omit<IconUrlWidgetModel, 'type'> & { index: number }>({
+export const IconUrlWidget = Shade<Omit<dashboard.IconUrlWidget, 'type'> & { index: number }>({
   shadowDomName: 'icon-url-widget',
   render: ({ props, element }) => {
     setTimeout(() => {

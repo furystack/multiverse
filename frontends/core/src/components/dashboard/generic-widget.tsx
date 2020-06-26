@@ -1,4 +1,4 @@
-import { Widget as WidgetModel } from '@common/models'
+import { dashboard } from '@common/models'
 import { Shade, createComponent } from '@furystack/shades'
 import { AppShortcutWidget } from './app-shortcut-widget'
 import { ContinueMoviesWidget } from './continue-movies'
@@ -8,7 +8,7 @@ import { HtmlWidget } from './html-widget'
 import { MarkdownWidget } from './markdown-widget'
 import { AppListWidget } from './app-list-widget'
 
-export const GenericWidget = Shade<WidgetModel & { index: number }>({
+export const GenericWidget = Shade<dashboard.Widget & { index: number }>({
   shadowDomName: 'generic-widget',
   render: ({ props, element }) => {
     Object.assign(element.style, {

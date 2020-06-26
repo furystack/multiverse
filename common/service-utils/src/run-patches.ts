@@ -1,0 +1,71 @@
+import { diag } from '@common/models'
+import { Injector } from '@furystack/inject'
+import { databases } from '@common/config'
+import { StoreManager } from '@furystack/core'
+
+export interface PatchEntry {
+  patchName: string
+  mode: 'once' | 'always'
+  exec: (injector: Injector) => Promise<Pick<diag.Patch, 'errors' | 'warns' | 'updates'>>
+}
+
+export const runPatches = async (options: { appName: string; injector: Injector; patches: PatchEntry[] }) => {
+  const logger = options.injector.logger.withScope('runPatches')
+  await logger.information({ message: `Running patches for app '${options.appName}'...` })
+  options.injector.setupStores((sm) =>
+    sm.useMongoDb({
+      model: diag.Patch,
+      primaryKey: '_id',
+      url: databases.diag.mongoUrl,
+      db: databases.diag.dbName,
+      collection: databases.diag.patches,
+    }),
+  )
+  const patchStore = options.injector.getInstance(StoreManager).getStoreFor(diag.Patch)
+  for (const patch of options.patches) {
+    if (patch.mode === 'once') {
+      const existing = await patchStore.find({
+        filter: { name: { $eq: patch.patchName }, appName: { $eq: options.appName }, status: { $eq: 'completed' } },
+      })
+      if (existing.length > 0) {
+        logger.verbose({
+          message: `Patch '${patch.patchName}' has already been executed, skipping...`,
+          data: { existing },
+        })
+        return
+      }
+    }
+    const startDate = new Date()
+    try {
+      await logger.information({ message: `Starting Patch '${patch.patchName}'` })
+      const result = await patch.exec(options.injector)
+      const finishDate = new Date()
+      await patchStore.add({
+        ...result,
+        appName: options.appName,
+        name: patch.patchName,
+        startDate,
+        finishDate,
+        status: 'completed',
+      })
+      await logger.information({ message: `Patch '${patch.patchName}' has been executed succesfully`, data: result })
+    } catch (error) {
+      await logger.fatal({
+        message: `Patch '${patch.patchName}' has been failed. Stopping execution...`,
+        data: { error: { message: error.message, stack: error.stack } },
+      })
+      const finishDate = new Date()
+      await patchStore.add({
+        name: patch.patchName,
+        appName: options.appName,
+        startDate,
+        finishDate,
+        error: {
+          message: error.message,
+          stack: error.stack,
+        },
+        status: 'failed',
+      })
+    }
+  }
+}

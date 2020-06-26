@@ -6,7 +6,7 @@ import { Organization } from '../auth/organization'
 import { GoogleAccount } from '../auth/google-account'
 import { GithubAccount } from '../auth/github-account'
 import { CollectionEndpoint, SinglePostEndpoint } from '../endpoints'
-import { UserSettings } from '../schemas'
+import { UserSettings } from '../auth'
 import { SinglePatchEndpoint } from '../endpoints/single-patch-endpoint'
 
 export interface AuthApi extends RestApi {

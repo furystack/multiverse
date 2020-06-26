@@ -1,0 +1,298 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Account": {
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "creationDate": {
+          "type": "string"
+        },
+        "current": {
+          "type": "number"
+        },
+        "description": {
+          "type": "string"
+        },
+        "history": {
+          "items": {
+            "$ref": "#/definitions/AccountHistoryEntry"
+          },
+          "type": "array"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner"
+        }
+      },
+      "required": [
+        "_id",
+        "owner",
+        "name",
+        "description",
+        "icon",
+        "history",
+        "current",
+        "createdBy",
+        "creationDate"
+      ],
+      "type": "object"
+    },
+    "AccountHistoryEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "balance": {
+          "type": "number"
+        },
+        "change": {
+          "type": "number"
+        },
+        "date": {
+          "type": "string"
+        },
+        "relatedEntry": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "replenishmentId": {
+                  "type": "string"
+                },
+                "type": {
+                  "enum": [
+                    "replenishment"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "replenishmentId"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "shoppingId": {
+                  "type": "string"
+                },
+                "type": {
+                  "enum": [
+                    "shopping"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "shoppingId"
+              ],
+              "type": "object"
+            }
+          ]
+        }
+      },
+      "required": [
+        "balance",
+        "date",
+        "change",
+        "relatedEntry"
+      ],
+      "type": "object"
+    },
+    "Item": {
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "creationDate": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "name",
+        "creationDate",
+        "createdBy"
+      ],
+      "type": "object"
+    },
+    "Owner": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "enum": [
+                "user"
+              ],
+              "type": "string"
+            },
+            "username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "username"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "organizationName": {
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "organization"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "organizationName"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "Replenishment": {
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "accountId": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "creationDate": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "createdBy",
+        "creationDate",
+        "accountId",
+        "amount"
+      ],
+      "type": "object"
+    },
+    "Shop": {
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "creationDate": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "name",
+        "creationDate",
+        "createdBy"
+      ],
+      "type": "object"
+    },
+    "Shopping": {
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "accountId": {
+          "type": "string"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "creationDate": {
+          "type": "string"
+        },
+        "entries": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "amount": {
+                "type": "number"
+              },
+              "itemName": {
+                "type": "string"
+              },
+              "unitPrice": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "itemName",
+              "amount",
+              "unitPrice"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "shopName": {
+          "type": "string"
+        },
+        "sumAmount": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "_id",
+        "accountId",
+        "creationDate",
+        "entries",
+        "sumAmount",
+        "shopName",
+        "createdBy"
+      ],
+      "type": "object"
+    }
+  }
+}

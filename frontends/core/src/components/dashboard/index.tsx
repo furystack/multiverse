@@ -1,9 +1,9 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { Dashboard as DashboardModel } from '@common/models'
+import { dashboard } from '@common/models'
 import { styles } from '@furystack/shades-common-components'
 import { GenericWidget } from './generic-widget'
 
-export const Dashboard = Shade<DashboardModel>({
+export const Dashboard = Shade<dashboard.Dashboard>({
   shadowDomName: 'multiverse-dashboard',
   render: ({ props }) => {
     return (

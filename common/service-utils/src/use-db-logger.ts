@@ -52,9 +52,9 @@ Injector.prototype.useDbLogger = function (settings) {
     sm.useMongoDb({
       primaryKey: '_id',
       model: diag.LogEntry,
-      collection: databases.logging.logCollection,
-      url: databases.logging.mongoUrl,
-      db: databases.logging.dbName,
+      collection: databases.diag.logCollection,
+      url: databases.diag.mongoUrl,
+      db: databases.diag.dbName,
       options: databases.standardOptions,
     }),
   )

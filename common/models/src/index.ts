@@ -5,10 +5,13 @@ export * as diag from './diag'
 export * as xpense from './xpense'
 export * as media from './media'
 export * from './endpoints'
-export * from './schemas'
+export * as dashboard from './dashboard'
 export * from './services'
 export * from './owner'
 
-import * as generatedSchema from './json-schemas.json'
-
-export { generatedSchema }
+import * as authSchema from './json-schemas-auth.json'
+import * as dashboardSchema from './json-schemas-dashboard.json'
+import * as diagSchema from './json-schemas-diag.json'
+import * as mediaSchema from './json-schemas-media.json'
+import * as xpenseSchema from './json-schemas-xpense.json'
+export { authSchema, dashboardSchema, diagSchema, mediaSchema, xpenseSchema }

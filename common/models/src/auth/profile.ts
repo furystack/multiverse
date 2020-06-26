@@ -1,4 +1,5 @@
-import { UserSettings } from '../schemas/user-settings'
+import { defaultDashboard } from '../dashboard'
+import { UserSettings } from './user-settings'
 
 export class Profile {
   public _id!: string
@@ -10,29 +11,5 @@ export class Profile {
 
 export const DefaultUserSettings: UserSettings = {
   theme: 'dark',
-  dashboard: {
-    name: 'Default User Dashboard',
-    description: 'The default User dashboard',
-    widgets: [
-      {
-        type: 'continue-movies',
-        count: 10,
-        minWidth: '100%',
-      },
-      {
-        type: 'app-list',
-        title: 'My Favourite Apps',
-        minWidth: '256px',
-        width: '50%',
-        apps: ['Xpense', 'Movies', 'Profile'],
-      },
-      {
-        type: 'app-list',
-        title: 'System Apps',
-        minWidth: '256px',
-        width: '50%',
-        apps: ['System Logs', 'Users', 'Diagnostics', 'Organizations', 'Feature Switches'],
-      },
-    ],
-  },
+  dashboard: defaultDashboard,
 }

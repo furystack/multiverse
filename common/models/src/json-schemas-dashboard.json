@@ -230,26 +230,6 @@
       ],
       "type": "object"
     },
-    "UserSettings": {
-      "additionalProperties": false,
-      "properties": {
-        "dashboard": {
-          "$ref": "#/definitions/Dashboard"
-        },
-        "theme": {
-          "enum": [
-            "light",
-            "dark"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "theme",
-        "dashboard"
-      ],
-      "type": "object"
-    },
     "Widget": {
       "anyOf": [
         {

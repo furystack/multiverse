@@ -1,5 +1,4 @@
 import '@furystack/auth-google'
-import { verifyAndCreateIndexes } from '@common/service-utils'
 import '@furystack/repository/dist/injector-extension'
 import { ConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
@@ -50,34 +49,3 @@ injector
       },
     }),
   )
-
-verifyAndCreateIndexes({
-  injector,
-  model: auth.GoogleAccount,
-  indexName: 'googleId',
-  indexSpecification: { googleId: 1 },
-  indexOptions: { unique: true },
-})
-verifyAndCreateIndexes({
-  injector,
-  model: auth.GithubAccount,
-  indexName: 'githubId',
-  indexSpecification: { githubId: 1 },
-  indexOptions: { unique: true },
-})
-
-verifyAndCreateIndexes({
-  injector,
-  model: auth.Profile,
-  indexName: 'profileUserName',
-  indexSpecification: { username: 1 },
-  indexOptions: { unique: true },
-})
-
-verifyAndCreateIndexes({
-  injector,
-  model: auth.Organization,
-  indexName: 'orgName',
-  indexSpecification: { name: 1 },
-  indexOptions: { unique: true },
-})

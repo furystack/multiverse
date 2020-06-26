@@ -9,7 +9,8 @@
     "start:watch": "nodemon --delay 2500ms --watch dist --watch ../../common dist/service.js",
     "seed": "node ./dist/seed.js",
     "clean": "rimraf dist && rimraf tsconfig.tsbuildinfo",
-    "build": "tsc -b"
+    "build": "tsc -b",
+    "patch": "node ./dist/patch.js"
   },
   "devDependencies": {
     "@types/amqplib": "^0.5.13",

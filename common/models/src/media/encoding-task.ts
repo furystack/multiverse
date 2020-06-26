@@ -1,11 +1,12 @@
-import { media } from '..'
+import { Movie } from './movie'
+import { MovieLibrary } from './movie-library'
 
 export class EncodingTask {
   _id!: string
   authToken!: string
   mediaInfo!: {
-    movie: media.Movie
-    library: media.MovieLibrary
+    movie: Movie
+    library: MovieLibrary
   }
   status!: 'pending' | 'inProgress' | 'finished' | 'failed' | 'cancelled'
   workerInfo?: {

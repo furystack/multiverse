@@ -1,7 +1,7 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { deepMerge, debounce } from '@furystack/utils'
 import * as monaco from 'monaco-editor'
-import { generatedSchema, UserSettings } from '@common/models'
+import { authSchema, auth } from '@common/models'
 import { AuthApiService } from '@common/frontend-utils'
 import Semaphore from 'semaphore-async-await'
 import { MonacoEditorProps, MonacoEditor } from '../monaco-editor'
@@ -15,7 +15,7 @@ monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
     {
       uri: 'http://multiverse.my.to/schemas/monaco-editor/schema.json',
       fileMatch: [modelUri.toString()],
-      schema: { ...generatedSchema, $ref: '#/definitions/UserSettings' },
+      schema: { ...authSchema, $ref: '#/definitions/UserSettings' },
     },
   ],
 })
@@ -39,7 +39,7 @@ export const UserSettingsEditor = Shade<
         await lock.acquire()
         try {
           if (value) {
-            const settings: UserSettings = JSON.parse(value)
+            const settings: auth.UserSettings = JSON.parse(value)
             if (lastValue !== JSON.stringify(settings)) {
               await injector.getInstance(AuthApiService).call({
                 method: 'POST',
