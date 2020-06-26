@@ -1,6 +1,7 @@
 import { Shade, RouteLink, createComponent, LocationService } from '@furystack/shades'
-import { media } from '@common/models'
+import { media, auth } from '@common/models'
 import { promisifyAnimation } from '@furystack/shades-common-components'
+import { SessionService } from '@common/frontend-utils'
 
 const focus = (el: HTMLElement) => {
   promisifyAnimation(el, [{ filter: 'saturate(0.3)brightness(0.6)' }, { filter: 'saturate(1)brightness(1)' }], {
@@ -31,13 +32,17 @@ const blur = (el: HTMLElement) => {
   )
 }
 
-export const MovieWidget = Shade<{
-  size: number
-  movie: media.Movie
-  index: number
-  watchHistory?: media.MovieWatchHistoryEntry
-}>({
+export const MovieWidget = Shade<
+  {
+    size: number
+    movie: media.Movie
+    index: number
+    watchHistory?: media.MovieWatchHistoryEntry
+  },
+  { currentUser: auth.User | null }
+>({
   shadowDomName: 'multiverse-movie-widget',
+  getInitialState: ({ injector }) => ({ currentUser: injector.getInstance(SessionService).currentUser.getValue() }),
   constructed: ({ props, element }) => {
     setTimeout(() => {
       promisifyAnimation(element.querySelector('a'), [{ transform: 'scale(0)' }, { transform: 'scale(1)' }], {
@@ -47,7 +52,7 @@ export const MovieWidget = Shade<{
       })
     })
   },
-  render: ({ props, injector }) => {
+  render: ({ props, injector, getState }) => {
     const { movie } = props
     const meta = movie.metadata
     const url = `/movies/watch/${movie._id}`
@@ -98,16 +103,18 @@ export const MovieWidget = Shade<{
               filter: 'drop-shadow(black 0px 0px 5px) drop-shadow(black 0px 0px 8px) drop-shadow(black 0px 0px 10px)',
             }}>
             <span title="Play movie">▶</span>
-            <span
-              onclick={(ev) => {
-                ev.preventDefault()
-                ev.stopImmediatePropagation()
-                history.pushState('', '', `/movies/${movie.libraryId}/edit/${movie._id}`)
-                injector.getInstance(LocationService).updateState()
-              }}
-              title="Edit movie details">
-              🖊
-            </span>
+            {getState().currentUser?.roles.includes('movie-admin') ? (
+              <span
+                onclick={(ev) => {
+                  ev.preventDefault()
+                  ev.stopImmediatePropagation()
+                  history.pushState('', '', `/movies/${movie.libraryId}/edit/${movie._id}`)
+                  injector.getInstance(LocationService).updateState()
+                }}
+                title="Edit movie details">
+                🖊
+              </span>
+            ) : null}
           </div>
           <img
             src={meta.thumbnailImageUrl}

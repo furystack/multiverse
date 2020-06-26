@@ -7,4 +7,5 @@ export const getUniversalMetadataFromOmdb = (omdbMeta: media.FetchedOmdbMetadata
   duration: parseInt(omdbMeta.Runtime, 10),
   genre: omdbMeta.Genre.split(',').map((g) => g.trim()),
   thumbnailImageUrl: omdbMeta.Poster,
+  type: omdbMeta.Type,
 })
