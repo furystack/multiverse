@@ -50,7 +50,7 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
 
       options.encodingSettings.formats.map((format, index) => {
         proc.outputOptions([
-          `-filter_complex [0]format=pix_fmts=yuv444p[temp${index}];[temp${index}]scale=-2:${format.downScale}[A${index}]`,
+          `-filter_complex "[0]format=pix_fmts=yuv444p[temp${index}];[temp${index}]scale=-2:${format.downScale}[A${index}]"`,
           `-map [A${index}]:v`,
           `-b:v:${index} ${format.bitRate || 0}k`,
         ])

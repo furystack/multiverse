@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { Shade, createComponent, ChildrenList } from '@furystack/shades'
 import { deepMerge } from '@furystack/utils'
+import { Injector } from '@furystack/inject'
 import { Button } from '@furystack/shades-common-components'
 import { MonacoEditor, MonacoEditorProps } from '../monaco-editor'
 import { SchemaNames, EntityNames, MonacoModelProvider } from '../../services/monaco-model-provider'
@@ -11,6 +12,7 @@ export interface GenericMonacoEditorProps<T, TSchema extends SchemaNames, TEntit
   entity: TEntity
   monacoProps?: MonacoEditorProps
   title: string
+  additionalActions?: Array<{ name: string; action: (options: { entity: T; injector: Injector }) => Promise<void> }>
   onSave: (data: T) => Promise<void>
 }
 
@@ -65,6 +67,15 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
         <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h2>{props.title}</h2>
           <div>
+            {props.additionalActions &&
+              props.additionalActions.map((action) => (
+                <Button
+                  onclick={() => {
+                    action.action({ injector, entity: JSON.parse(getState().currentData) })
+                  }}>
+                  {action.name}
+                </Button>
+              ))}
             <Button onclick={() => window.history.back()} title="Go Back">
               ↩
             </Button>

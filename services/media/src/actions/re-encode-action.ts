@@ -9,9 +9,14 @@ export const ReEncodeAction: RequestAction<{ body: { movieId: string } }> = asyn
   if (!movie) {
     throw new RequestError('Movie not found', 404)
   }
-  const oldTasks = await injector
-    .getDataSetFor(media.EncodingTask)
-    .find(injector, { filter: { ['mediaInfo.movie._id']: { $eq: movieId }, status: { $eq: 'inProgress' } } } as any)
+  const oldTasks = await injector.getDataSetFor(media.EncodingTask).find(injector, {
+    filter: {
+      $and: [
+        { ['mediaInfo.movie._id']: { $eq: movieId } } as any,
+        { $or: [{ status: { $eq: 'inProgress' } }, { status: { $eq: 'pending' } }] },
+      ],
+    },
+  })
   await Promise.all(
     oldTasks.map(async (task) => {
       await injector.getDataSetFor(media.EncodingTask).update(injector, task._id, { status: 'cancelled' })

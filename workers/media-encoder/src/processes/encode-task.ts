@@ -42,29 +42,43 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
     `/media/stream-original/${options.task.mediaInfo.movie._id}/${options.task.authToken}`,
   )
 
-  if (encodingSettings.codec === 'libvpx-vp9' && encodingSettings.mode === 'dash') {
-    await encodeToVp9Dash({
-      injector: options.injector,
-      cwd: encodingTempDir,
-      source,
-      task: options.task,
-      uploadPath,
-      encodingSettings,
-    })
-    return true
-  } else if (encodingSettings.codec === 'x264' && encodingSettings.mode === 'dash') {
-    await encodeToX264Dash({
-      injector: options.injector,
-      cwd: encodingTempDir,
-      source,
-      task: options.task,
-      uploadPath,
-      encodingSettings,
-    })
-    return true
-  } else {
+  try {
+    if (encodingSettings.codec === 'libvpx-vp9' && encodingSettings.mode === 'dash') {
+      await encodeToVp9Dash({
+        injector: options.injector,
+        cwd: encodingTempDir,
+        source,
+        task: options.task,
+        uploadPath,
+        encodingSettings,
+      })
+      return true
+    } else if (encodingSettings.codec === 'x264' && encodingSettings.mode === 'dash') {
+      await encodeToX264Dash({
+        injector: options.injector,
+        cwd: encodingTempDir,
+        source,
+        task: options.task,
+        uploadPath,
+        encodingSettings,
+      })
+      return true
+    } else {
+      logger.warning({
+        message: `Encoding with codec '${encodingSettings.codec}' and type '${encodingSettings.mode}' is not supported. Skipping encoding`,
+      })
+      return false
+    }
+  } catch (error) {
     logger.warning({
-      message: `Encoding with codec '${encodingSettings.codec}' and type '${encodingSettings.mode}' is not supported. Skipping encoding`,
+      message: `Task encoding failed`,
+      data: {
+        task: options.task,
+        error: {
+          message: error.message,
+          stack: error.stack,
+        },
+      },
     })
     return false
   }

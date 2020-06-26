@@ -12,6 +12,20 @@ export const EditMovie = Shade<{ movie: media.Movie }>({
         schema="mediaSchema"
         entity={'Movie'}
         data={props.movie}
+        additionalActions={[
+          {
+            name: 'Re-Encode',
+            action: async ({ entity, injector: i }) => {
+              if (confirm('Re-encoding takes a lot of time. Are you sure?')) {
+                await i.getInstance(MediaApiService).call({
+                  method: 'POST',
+                  action: '/encode/reencode',
+                  body: { movieId: entity._id },
+                })
+              }
+            },
+          },
+        ]}
         onSave={async (movie: media.Movie) => {
           const { _id, ...body } = movie
           await injector.getInstance(MediaApiService).call({
