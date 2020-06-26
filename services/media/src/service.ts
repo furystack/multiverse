@@ -5,6 +5,7 @@ import {
   createCollectionEndpoint,
   createSingleEntityEndpoint,
   createSinglePostEndpoint,
+  createSinglePatchEndpoint,
 } from '@common/service-utils'
 import { Authorize, Authenticate } from '@furystack/rest-service'
 import { injector } from './config'
@@ -29,17 +30,21 @@ injector.useRestService<apis.MediaApi>({
       '/watch-stream/:id/:codec/:mode/:chunk?': Authenticate()(WatchStream),
       '/my-watch-progress': Authenticate()(createCollectionEndpoint({ model: media.MovieWatchHistoryEntry })),
       '/encode/tasks': Authorize('movie-admin')(createCollectionEndpoint({ model: media.EncodingTask })),
-      '/encode/reencode/:movieId': Authorize('movie-admin')(ReEncodeAction),
     },
     POST: {
       '/movie-libraries': createSinglePostEndpoint(media.MovieLibrary),
       '/save-watch-progress': SaveWatchProgress,
       '/upload-encoded/:movieId/:accessToken': UploadEncoded,
+      '/encode/reencode': Authorize('movie-admin')(ReEncodeAction),
+    },
+    PATCH: {
+      '/movies/:id': Authorize('movie-admin')(createSinglePatchEndpoint(media.Movie)),
     },
   },
   cors: {
     credentials: true,
     origins: Object.values(sites.frontends),
+    methods: ['GET', 'POST', 'PATCH'],
   },
 })
 

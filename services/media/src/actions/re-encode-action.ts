@@ -2,8 +2,8 @@ import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { media } from '@common/models'
 import { createEncodingTaskForMovie } from '../utils/create-encoding-task-for-movie'
 
-export const ReEncodeAction: RequestAction<{ urlParams: { movieId: string } }> = async ({ getUrlParams, injector }) => {
-  const { movieId } = getUrlParams()
+export const ReEncodeAction: RequestAction<{ body: { movieId: string } }> = async ({ getBody, injector }) => {
+  const { movieId } = await getBody()
   const dataSet = injector.getDataSetFor(media.Movie)
   const movie = await dataSet.get(injector, movieId)
   if (!movie) {
