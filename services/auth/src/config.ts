@@ -1,5 +1,6 @@
 import '@furystack/auth-google'
 import '@furystack/repository/dist/injector-extension'
+import '@common/service-utils'
 import { VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { auth } from '@common/models'
