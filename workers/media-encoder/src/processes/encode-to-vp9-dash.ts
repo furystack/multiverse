@@ -73,17 +73,7 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
             progress.setValue(info.percent)
           })
           .on('end', async () => {
-            const form = new FormData({ encoding: 'utf-8' })
-            form.append('percent', 100)
-            form.append('codec', options.encodingSettings.codec)
-            form.append('mode', options.encodingSettings.mode)
-            await got(options.uploadPath, {
-              method: 'POST',
-              body: form as any,
-              encoding: 'utf-8',
-              retry: { limit: 10, statusCodes: [500] },
-            })
-            logger.information({ message: `ffmpeg completed` })
+            logger.information({ message: `ffmpeg vp9 encoding completed` })
             resolve()
           })
           .on('error', async (err) => {

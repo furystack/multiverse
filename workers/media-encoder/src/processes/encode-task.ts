@@ -4,12 +4,13 @@ import { media } from '@common/models'
 import { sites, FileStores } from '@common/config'
 import { PathHelper } from '@furystack/utils'
 import { Injector } from '@furystack/inject'
+import got from 'got'
 import rimraf from 'rimraf'
 import { encodeToVp9Dash } from './encode-to-vp9-dash'
 import { encodeToX264Dash } from './encode-to-264-dash'
 
 export const encodeTask = async (options: { task: media.EncodingTask; injector: Injector }): Promise<boolean> => {
-  const logger = options.injector.logger.withScope('dashEncoder')
+  const logger = options.injector.logger.withScope('encodeTask')
   const uploadPath = PathHelper.joinPaths(
     sites.services.media.externalPath,
     'media',
@@ -62,6 +63,16 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
         uploadPath,
         encodingSettings,
       })
+      await got(PathHelper.joinPaths(sites.services.media.externalPath, 'media'), {
+        method: 'POST',
+        body: JSON.stringify({
+          accessToken: options.task.authToken,
+          codec: encodingSettings.codec,
+          mode: encodingSettings.mode,
+        }),
+        encoding: 'utf-8',
+        retry: { limit: 10, statusCodes: [500] },
+      })
       return true
     } else {
       logger.warning({
@@ -79,6 +90,19 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
           stack: error.stack,
         },
       },
+    })
+    await got(PathHelper.joinPaths(sites.services.media.externalPath, 'media', 'save-encoding-failure'), {
+      method: 'POST',
+      body: JSON.stringify({
+        accessToken: options.task.authToken,
+        error: {
+          message: error.message,
+          stack: error.stack,
+          originalError: error,
+        },
+      }),
+      encoding: 'utf-8',
+      retry: { limit: 10, statusCodes: [500] },
     })
     return false
   }

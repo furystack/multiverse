@@ -54,24 +54,16 @@ export const UploadEncoded: RequestAction<{ urlParams: { movieId: string; access
   const { percent, error } = parseResult.fields
 
   if (percent) {
-    const percentNo = parseInt(percent as string, 10)
+    const percentNo = parseFloat(percent as string)
     await await injector.getDataSetFor(media.EncodingTask).update(injector, job._id, {
       percent: percentNo,
       error,
-      status: error ? 'failed' : percentNo === 100 ? 'finished' : 'inProgress',
+      status: error ? 'failed' : 'inProgress',
       finishDate: percentNo === 100 ? new Date() : undefined,
       workerInfo: {
         ip: (request.headers['x-forwarded-for'] as string) || request.connection.remoteAddress || 'unknown',
       },
     })
-    if (percentNo === 100 && !file) {
-      await storeManager.getStoreFor(media.Movie).update(movieId, {
-        availableFormats: [
-          ...(movie.availableFormats || []).filter((f) => !(f.codec === codec && f.mode === mode)),
-          { codec: codec as any, mode: mode as any },
-        ],
-      })
-    }
   }
 
   return JsonResult({ success: true })

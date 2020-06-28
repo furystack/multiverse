@@ -19,6 +19,12 @@ export interface MediaApi extends RestApi {
     '/movie-libraries': SinglePostEndpoint<MovieLibrary>
     '/save-watch-progress': RequestAction<{ body: { movieId: string; watchedSeconds: number } }>
     '/upload-encoded/:movieId/:accessToken': RequestAction<{ urlParams: { movieId: string; accessToken: string } }>
+    '/finialize-encoding': RequestAction<{
+      body: { accessToken: string; codec: EncodingType['codec']; mode: EncodingType['mode'] }
+    }>
+    '/save-encoding-failure': RequestAction<{
+      body: { accessToken: string; error: any }
+    }>
     '/encode/reencode': RequestAction<{ body: { movieId: string } }>
   }
   PATCH: {

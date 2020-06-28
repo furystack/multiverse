@@ -15,6 +15,8 @@ import { WatchStream } from './actions/watch-stream'
 import { UploadEncoded } from './actions/upload-encoded'
 import { ReEncodeAction } from './actions/re-encode-action'
 import '@furystack/websocket-api'
+import { FinializeEncodingAction } from './actions/finialize-encoding'
+import { SaveEncodingFailureAction } from './actions/save-encoding-failure'
 
 injector.useRestService<apis.MediaApi>({
   port: parseInt(sites.services.media.internalPort as string, 10),
@@ -36,6 +38,8 @@ injector.useRestService<apis.MediaApi>({
       '/save-watch-progress': SaveWatchProgress,
       '/upload-encoded/:movieId/:accessToken': UploadEncoded,
       '/encode/reencode': Authorize('movie-admin')(ReEncodeAction),
+      '/finialize-encoding': FinializeEncodingAction,
+      '/save-encoding-failure': SaveEncodingFailureAction,
     },
     PATCH: {
       '/movies/:id': Authorize('movie-admin')(createSinglePatchEndpoint(media.Movie)),

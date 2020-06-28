@@ -66,17 +66,7 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
             progress.setValue(info.percent)
           })
           .on('end', async () => {
-            const form = new FormData({ encoding: 'utf-8' })
-            form.append('percent', 100)
-            form.append('codec', options.encodingSettings.codec)
-            form.append('mode', options.encodingSettings.mode)
-            await got(options.uploadPath, {
-              method: 'POST',
-              body: form as any,
-              encoding: 'utf-8',
-              retry: { limit: 10, statusCodes: [500] },
-            })
-            logger.information({ message: `ffmpeg completed` })
+            logger.information({ message: `x264 encoding completed` })
             resolve()
           })
           .on('error', async (err) => {
