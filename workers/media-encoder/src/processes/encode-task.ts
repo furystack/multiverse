@@ -63,7 +63,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
         uploadPath,
         encodingSettings,
       })
-      await got(PathHelper.joinPaths(sites.services.media.externalPath, 'media'), {
+      await got(PathHelper.joinPaths(sites.services.media.externalPath, 'media', 'finialize-encoding'), {
         method: 'POST',
         body: JSON.stringify({
           accessToken: options.task.authToken,
