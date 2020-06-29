@@ -46,7 +46,14 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
         .audioChannels(2)
         .audioBitrate(128)
         .videoCodec(process.env.ENABLE_NVENC ? 'h264_nvenc' : 'libx264')
-        .outputOptions(['-profile:v high444p', '-use_template 1', '-use_timeline 1', '-map 0:a', '-quality good'])
+        .outputOptions([
+          '-profile:v high444p',
+          '-use_template 1',
+          '-use_timeline 1',
+          '-map 0:a',
+          '-map 0:s',
+          '-quality good',
+        ])
 
       options.encodingSettings.formats.map((format, index) => {
         proc.outputOptions([
