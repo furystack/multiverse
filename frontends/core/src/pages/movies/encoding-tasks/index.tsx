@@ -1,6 +1,6 @@
-import { Shade, createComponent } from '@furystack/shades'
+import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { media } from '@common/models'
-import { CollectionService, DataGrid, styles, Button } from '@furystack/shades-common-components'
+import { CollectionService, DataGrid, styles } from '@furystack/shades-common-components'
 import { MediaApiService } from '@common/frontend-utils'
 import { EncodingTaskProgressUpdater } from '../../../services/encoding-task-progress-updater'
 
@@ -41,32 +41,100 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
               textAlign: 'center',
               textOverflow: 'ellipsis',
               overflow: 'hidden',
+              position: 'relative',
             },
             wrapper: styles.glassBox,
           }}
-          headerComponents={{
-            mediaInfo: () => <span>Movie title</span>,
-            percent: () => <span>Progress</span>,
-          }}
+          headerComponents={{}}
           rowComponents={{
             mediaInfo: (entry) => (
-              <div>
-                {entry.mediaInfo.movie.metadata.title}{' '}
-                <Button
-                  onclick={() => {
-                    if (confirm('Re-encoding takes a lot of time. Are you sure?')) {
-                      injector.getInstance(MediaApiService).call({
-                        method: 'POST',
-                        action: '/encode/reencode',
-                        body: { movieId: entry.mediaInfo.movie._id },
-                      })
-                    }
-                  }}>
-                  Re-encode
-                </Button>{' '}
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img
+                  alt={entry.mediaInfo.movie.metadata.title}
+                  src={entry.mediaInfo.movie.metadata.thumbnailImageUrl}
+                  style={{ width: '50px', marginRight: '0.5em' }}
+                />
+                <div>
+                  <h1 style={{ fontSize: '18px', margin: '0' }}>{entry.mediaInfo.movie.metadata.title} </h1>
+                  <div style={{ textAlign: 'left' }}>
+                    <span
+                      style={{ cursor: 'pointer' }}
+                      onclick={(ev) => {
+                        ev.preventDefault()
+                        ev.stopImmediatePropagation()
+                        if (confirm('Re-encoding takes a lot of time. Are you sure?')) {
+                          injector.getInstance(MediaApiService).call({
+                            method: 'POST',
+                            action: '/encode/reencode',
+                            body: { movieId: entry.mediaInfo.movie._id },
+                          })
+                        }
+                      }}
+                      title="Re-encode">
+                      Re-encode
+                    </span>{' '}
+                    |{' '}
+                    <RouteLink href={`/movies/${entry.mediaInfo.library._id}/edit/${entry.mediaInfo.movie._id}`}>
+                      Edit
+                    </RouteLink>
+                  </div>
+                </div>
               </div>
             ),
-            percent: (entry) => <span>{entry.percent.toString()}%</span>,
+            status: (entry) => {
+              return (
+                <div
+                  style={{
+                    display: 'flex',
+                    position: 'absolute',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '2em',
+                    width: '100%',
+                    height: '100%',
+                    top: '0',
+                    left: '0',
+                  }}>
+                  {entry.status === 'pending' ? (
+                    <span title="pending">⏳</span>
+                  ) : entry.status === 'inProgress' ? (
+                    <span title="In Progress">📽</span>
+                  ) : entry.status === 'cancelled' ? (
+                    <span title="Cancelled">🤚</span>
+                  ) : entry.status === 'failed' ? (
+                    <span title="Failed">🛑</span>
+                  ) : entry.status === 'finished' ? (
+                    <span title="Finished">✔</span>
+                  ) : null}
+                </div>
+              )
+            },
+            percent: (entry) => (
+              <div
+                style={{
+                  display: 'flex',
+                  position: 'absolute',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '2em',
+                  width: '100%',
+                  height: '100%',
+                  top: '0',
+                  left: '0',
+                }}>
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '0',
+                    left: '0',
+                    height: '100%',
+                    width: `${entry.percent.toString()}%`,
+                    background: 'rgba(128,128,222,0.15)',
+                  }}
+                />
+                {entry.percent.toString()}%
+              </div>
+            ),
           }}
         />
       </div>

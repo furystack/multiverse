@@ -17,6 +17,7 @@ import { ReEncodeAction } from './actions/re-encode-action'
 import '@furystack/websocket-api'
 import { FinializeEncodingAction } from './actions/finialize-encoding'
 import { SaveEncodingFailureAction } from './actions/save-encoding-failure'
+import { ReFetchMetadataAction } from './actions/re-fetch-metadata'
 
 injector.useRestService<apis.MediaApi>({
   port: parseInt(sites.services.media.internalPort as string, 10),
@@ -40,6 +41,7 @@ injector.useRestService<apis.MediaApi>({
       '/encode/reencode': Authorize('movie-admin')(ReEncodeAction),
       '/finialize-encoding': FinializeEncodingAction,
       '/save-encoding-failure': SaveEncodingFailureAction,
+      '/movies/:movieId/re-fetch-metadata': Authorize('movie-admin')(ReFetchMetadataAction),
     },
     PATCH: {
       '/movies/:id': Authorize('movie-admin')(createSinglePatchEndpoint(media.Movie)),

@@ -11,7 +11,7 @@ export const getMovieMetadata = async (moviePath: string): Promise<media.OmdbMet
       return omdbMeta
     }
     // another try from the File Name
-    const fileName = segments[segments.length - 2]
+    const fileName = segments[segments.length - 1]
     const omdbFileMeta = await fetchOmdbMetadata(fileName)
     return omdbFileMeta
   } catch (error) {

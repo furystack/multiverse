@@ -44,7 +44,8 @@
       "skipFiles": ["<node_internals>/**"],
       "preLaunchTask": "npm: build:workers",
       "env": {
-        "ENABLE_NVENC": "true"
+        "ENABLE_NVENC": "true",
+        "MEDIA_ENCODER_WORKER_TEMP": "d:\\temp\\ffmpeg-mock\\MULTIVERSE_ENCODING_TEMP"
       }
     }
   ],

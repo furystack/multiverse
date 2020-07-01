@@ -122,6 +122,7 @@ injector.setupRepository((repo) =>
     .createDataSet(media.EncodingTask, {
       modifyOnAdd: async ({ entity }) => ({ ...entity, creationDate: new Date() }),
       modifyOnUpdate: async ({ entity }) => ({ ...entity, modificationDate: new Date() }),
+      // ToDo: Authorize update with movie admin role
       onEntityAdded: async ({ entity, injector: i }) => {
         await i.getInstance(MediaMessaging).onEncodeJobAdded(entity)
         injector.getInstance(WebSocketApi).broadcast(async ({ injector: socketInjector, ws }) => {
@@ -149,9 +150,15 @@ injector.setupRepository((repo) =>
 
 injector.setupRepository((repo) =>
   repo.createDataSet(media.Movie, {
+    // ToDo: authorize update with Movie Admin role
     addFilter: async ({ injector: i, filter }) => {
       const identityContext = i.getInstance(IdentityContext)
       if (identityContext.constructor === IdentityContext) {
+        return filter
+      }
+
+      const isMovieAdmin = await i.isAuthorized('movie-admin')
+      if (isMovieAdmin) {
         return filter
       }
 
@@ -167,7 +174,8 @@ injector.setupRepository((repo) =>
     },
     authorizeGetEntity: async ({ injector: i, entity }) => {
       try {
-        await i.getDataSetFor(media.MovieLibrary).get(i, entity.libraryId)
+        const isMovieAdmin = await i.isAuthorized('movie-admin')
+        isMovieAdmin || (await i.getDataSetFor(media.MovieLibrary).get(i, entity.libraryId))
       } catch (error) {
         return { isAllowed: false, message: 'In order to view this movie, you need permisson to its library' }
       }

@@ -14,6 +14,18 @@ export const EditMovie = Shade<{ movie: media.Movie }>({
         data={props.movie}
         additionalActions={[
           {
+            name: 'Re-fetch metadata',
+            action: async ({ entity, injector: i }) => {
+              if (confirm('Are you sure you want to re-fetch the movie metadata?')) {
+                await i.getInstance(MediaApiService).call({
+                  method: 'POST',
+                  action: '/movies/:movieId/re-fetch-metadata',
+                  url: { movieId: entity._id },
+                })
+              }
+            },
+          },
+          {
             name: 'Re-Encode',
             action: async ({ entity, injector: i }) => {
               if (confirm('Re-encoding takes a lot of time. Are you sure?')) {

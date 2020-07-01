@@ -17,16 +17,16 @@ export const FinializeEncodingAction: RequestAction<{
 
   const { movie } = job.mediaInfo
 
-  await storeManager.getStoreFor(media.Movie).update(movie._id, {
+  await injector.getDataSetFor(media.Movie).update(injector, movie._id, {
     availableFormats: [
       ...(movie.availableFormats || []).filter((f) => !(f.codec === codec && f.mode === mode)),
       { codec, mode },
     ],
   })
 
-  await storeManager
-    .getStoreFor(media.EncodingTask)
-    .update(job._id, { status: 'finished', finishDate: new Date(), percent: 100 })
+  await injector
+    .getDataSetFor(media.EncodingTask)
+    .update(injector, job._id, { status: 'finished', finishDate: new Date(), percent: 100 })
 
   return JsonResult({ success: true })
 }
