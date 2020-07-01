@@ -13,10 +13,7 @@ import { createEncodingTaskForMovie } from './utils/create-encoding-task-for-mov
 
 export const injector = new Injector()
 
-injector
-  .useDbLogger({ appName: 'media' })
-  .useCommonHttpAuth()
-  .useLogging(VerboseConsoleLogger)
+injector.useDbLogger({ appName: 'media' }).useCommonHttpAuth().useLogging(VerboseConsoleLogger)
 
 injector.setupStores((sm) =>
   sm
