@@ -58,10 +58,10 @@ export const UploadEncoded: RequestAction<{ urlParams: { movieId: string; access
   if (percent) {
     const percentNo = parseFloat(percent as string)
     await await injector.getDataSetFor(media.EncodingTask).update(injector, job._id, {
+      ...(!job.startDate ? { startDate: new Date() } : {}),
       percent: percentNo,
       error,
       status: error ? 'failed' : 'inProgress',
-      finishDate: percentNo === 100 ? new Date() : undefined,
       workerInfo: {
         ip: (request.headers['x-forwarded-for'] as string) || request.connection.remoteAddress || 'unknown',
       },

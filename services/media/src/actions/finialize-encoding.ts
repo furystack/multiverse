@@ -24,7 +24,9 @@ export const FinializeEncodingAction: RequestAction<{
     ],
   })
 
-  await storeManager.getStoreFor(media.EncodingTask).update(job._id, { status: 'finished', finishDate: new Date() })
+  await storeManager
+    .getStoreFor(media.EncodingTask)
+    .update(job._id, { status: 'finished', finishDate: new Date(), percent: 100 })
 
   return JsonResult({ success: true })
 }

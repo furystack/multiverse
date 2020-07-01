@@ -3,7 +3,7 @@ import { media } from '@common/models'
 import { Fab } from '@furystack/shades-common-components'
 import { IconUrlWidget } from '../../components/dashboard/icon-url-widget'
 
-export const LibraryList = Shade<{ libraries: media.MovieLibrary[] }>({
+export const LibraryList = Shade<{ libraries: media.MovieLibrary[]; isMovieAdmin: boolean }>({
   shadowDomName: 'multiverse-library-list',
   render: ({ props }) => {
     return (
@@ -17,12 +17,27 @@ export const LibraryList = Shade<{ libraries: media.MovieLibrary[] }>({
             index={index}
           />
         ))}
-        <Fab
-          onclick={() => {
-            window.history.pushState('', '', '/movies/add-new-movie-library')
-          }}>
-          ➕
-        </Fab>
+        {props.isMovieAdmin ? (
+          <div>
+            <Fab
+              title="Watch encoding jobs"
+              style={{ marginBottom: '5em', transform: 'scale(0.75)' }}
+              onclick={() => {
+                window.history.pushState('', '', '/movies/encoding-tasks')
+              }}>
+              {' '}
+              🔎
+            </Fab>
+
+            <Fab
+              title="Create new movie library"
+              onclick={() => {
+                window.history.pushState('', '', '/movies/add-new-movie-library')
+              }}>
+              ➕
+            </Fab>
+          </div>
+        ) : null}
       </div>
     )
   },

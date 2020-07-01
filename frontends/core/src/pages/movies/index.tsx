@@ -8,6 +8,7 @@ import { NewMovieLibrary } from './new-movie-library'
 import { MovieList } from './movie-list'
 import { Watch } from './watch'
 import { EditMovie } from './edit-movie'
+import { EncodingTasks } from './encoding-tasks'
 
 export const MoviesPage = Shade({
   shadowDomName: 'multiverse-movies-page',
@@ -42,6 +43,26 @@ export const MoviesPage = Shade({
           },
           { url: '/movies/add-new-movie-library', component: () => <NewMovieLibrary /> },
           {
+            url: '/movies/encoding-tasks',
+            component: () => (
+              <LazyLoad
+                loader={<Init message="Getting encoding tasks..." />}
+                error={(error, retry) => <GenericErrorPage error={error} retry={retry} />}
+                component={async () => {
+                  if (await injector.isAuthorized('movie-admin')) {
+                    return <EncodingTasks />
+                  }
+                  return (
+                    <GenericErrorPage
+                      mainTitle="You cannot pass"
+                      subtitle="The role 'movie-admin' is needed to enter this realm"
+                    />
+                  )
+                }}
+              />
+            ),
+          },
+          {
             url: '/movies',
             routingOptions: {
               end: true,
@@ -62,7 +83,8 @@ export const MoviesPage = Shade({
                     action: '/movie-libraries',
                     query: { findOptions: { order: { name: 'ASC' } } },
                   })
-                  return <LibraryList libraries={libs.entries as media.MovieLibrary[]} />
+                  const isMovieAdmin = await injector.isAuthorized('movie-admin')
+                  return <LibraryList libraries={libs.entries as media.MovieLibrary[]} isMovieAdmin={isMovieAdmin} />
                 }}
               />
             ),
