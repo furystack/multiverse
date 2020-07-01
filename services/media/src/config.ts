@@ -1,11 +1,10 @@
 import '@furystack/auth-google'
 import '@furystack/repository/dist/injector-extension'
-import { existsSync } from 'fs'
 import { VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { databases } from '@common/config'
 import { media, auth } from '@common/models'
-import { AuthorizeOwnership, getOrgsForCurrentUser } from '@common/service-utils'
+import { AuthorizeOwnership, getOrgsForCurrentUser, existsAsync } from '@common/service-utils'
 import { FindOptions, IdentityContext } from '@furystack/core'
 import { WebSocketApi } from '@furystack/websocket-api'
 import { MediaLibraryWatcher } from './services/media-library-watcher'
@@ -14,7 +13,10 @@ import { createEncodingTaskForMovie } from './utils/create-encoding-task-for-mov
 
 export const injector = new Injector()
 
-injector.useDbLogger({ appName: 'media' }).useCommonHttpAuth().useLogging(VerboseConsoleLogger)
+injector
+  .useDbLogger({ appName: 'media' })
+  .useCommonHttpAuth()
+  .useLogging(VerboseConsoleLogger)
 
 injector.setupStores((sm) =>
   sm
@@ -74,7 +76,8 @@ injector.setupRepository((repo) =>
         if (!i.isAuthorized('movie-adimn')) {
           return { isAllowed: false, message: `Role 'movie-admin' needed` }
         }
-        if (!existsSync(entity.path as string)) {
+        const pathExists = await existsAsync(entity.path as string)
+        if (!pathExists) {
           return { isAllowed: false, message: 'Path does not exists or not accessible' }
         }
         return { isAllowed: true }

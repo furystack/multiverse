@@ -1,8 +1,9 @@
-import { existsSync, createReadStream } from 'fs'
+import { createReadStream } from 'fs'
 import { join } from 'path'
 import { RequestAction, RequestError, BypassResult } from '@furystack/rest'
 import { media } from '@common/models'
 import { FileStores } from '@common/config'
+import { existsAsync } from '@common/service-utils'
 
 export const WatchStream: RequestAction<{
   urlParams: { id: string; codec: media.EncodingType['codec']; mode: media.EncodingType['mode']; chunk?: string }
@@ -15,7 +16,8 @@ export const WatchStream: RequestAction<{
   }
 
   const filePath = join(FileStores.encodedMedia, params.codec, params.mode, movie._id, chunk)
-  if (!existsSync(filePath)) {
+  const fileExists = await existsAsync(filePath)
+  if (!fileExists) {
     throw new RequestError('Media not found', 404)
   }
   const head = {}

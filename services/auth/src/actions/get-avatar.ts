@@ -1,9 +1,10 @@
 import { join } from 'path'
-import { createReadStream, existsSync } from 'fs'
+import { createReadStream } from 'fs'
 import { RequestAction, RequestError, BypassResult } from '@furystack/rest'
 import { auth } from '@common/models'
 import { FileStores } from '@common/config'
 import { StoreManager } from '@furystack/core'
+import { existsAsync } from '@common/service-utils'
 
 export const GetAvatar: RequestAction<{
   result: string
@@ -15,11 +16,12 @@ export const GetAvatar: RequestAction<{
   const [user] = await userStore.find({ filter: { username: { $eq: username } }, top: 1 })
   if (user) {
     const profileImage = join(FileStores.avatars, `${user.avatarFile}`)
-    if (existsSync(profileImage)) {
+    const hasProfileImage = await existsAsync(profileImage)
+    if (hasProfileImage) {
       createReadStream(profileImage).pipe(response)
       return BypassResult()
     }
   }
 
-  throw new RequestError(`The profile for user '${username}' does not exists`, 404)
+  throw new RequestError(`The avatar for user '${username}' does not exists`, 404)
 }

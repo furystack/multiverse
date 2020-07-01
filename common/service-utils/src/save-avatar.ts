@@ -1,8 +1,9 @@
 import { extname, join } from 'path'
-import { existsSync, promises } from 'fs'
+import { promises } from 'fs'
 import { auth } from '@common/models'
 import { FileStores } from '@common/config'
 import { Injector } from '@furystack/inject'
+import { existsAsync } from './exists-async'
 
 export const saveAvatar = async ({
   tempFilePath,
@@ -19,7 +20,8 @@ export const saveAvatar = async ({
   const fileName = `${user.username}${extension}`
   const fullPath = join(FileStores.avatars, fileName)
 
-  if (!existsSync(FileStores.avatars)) {
+  const avatarDirExists = await existsAsync(FileStores.avatars)
+  if (!avatarDirExists) {
     logger.information({
       message: 'Avatar Store path does not exists, trying to create it...',
       data: { path: FileStores.avatars },
@@ -28,7 +30,8 @@ export const saveAvatar = async ({
   }
   if (user.avatarFile) {
     const oldAvatarPath = join(FileStores.avatars, user.avatarFile)
-    if (existsSync(oldAvatarPath)) {
+    const oldAvatarExists = await existsAsync(oldAvatarPath)
+    if (oldAvatarExists) {
       await promises.unlink(oldAvatarPath)
     }
   }

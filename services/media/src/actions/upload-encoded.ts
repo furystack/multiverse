@@ -1,10 +1,11 @@
 import { join } from 'path'
-import { promises, existsSync } from 'fs'
+import { promises } from 'fs'
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { IncomingForm, Fields, Files } from 'formidable'
 import { FileStores } from '@common/config'
 import { media } from '@common/models'
 import { StoreManager } from '@furystack/core'
+import { existsAsync } from '@common/service-utils'
 
 export const UploadEncoded: RequestAction<{ urlParams: { movieId: string; accessToken: string } }> = async ({
   injector,
@@ -42,7 +43,8 @@ export const UploadEncoded: RequestAction<{ urlParams: { movieId: string; access
   const file = parseResult.files.chunk
   if (file) {
     const targetPath = join(FileStores.encodedMedia, codec as string, mode as string, movie._id)
-    if (!existsSync(targetPath)) {
+    const targetPathExists = await existsAsync(targetPath)
+    if (!targetPathExists) {
       await promises.mkdir(targetPath, { recursive: true })
     }
 

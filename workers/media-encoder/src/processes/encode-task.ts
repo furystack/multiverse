@@ -1,11 +1,12 @@
 import { join } from 'path'
-import { existsSync, promises } from 'fs'
+import { promises } from 'fs'
 import { media } from '@common/models'
 import { sites, FileStores } from '@common/config'
 import { PathHelper } from '@furystack/utils'
 import { Injector } from '@furystack/inject'
 import got from 'got'
 import rimraf from 'rimraf'
+import { existsAsync } from '@common/service-utils'
 import { encodeToVp9Dash } from './encode-to-vp9-dash'
 import { encodeToX264Dash } from './encode-to-264-dash'
 
@@ -23,7 +24,8 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
     message: `Started to work on task ${options.task._id} - Encoding ${options.task.mediaInfo.movie.metadata.title}`,
   })
   const encodingSettings = options.task.mediaInfo.library.encoding || media.defaultEncoding
-  if (!existsSync(FileStores.mediaEncoderWorkerTemp)) {
+  const tempDirExists = await existsAsync(FileStores.mediaEncoderWorkerTemp)
+  if (!tempDirExists) {
     logger.error({
       message: 'Media Worker temp dir does not exists or not accessible. Task skipped!',
       data: { dir: FileStores.mediaEncoderWorkerTemp },
@@ -32,7 +34,9 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
   }
   const encodingTempDir = join(FileStores.mediaEncoderWorkerTemp, 'MULTIVERSE_ENCODING_TEMP', options.task._id)
 
-  if (existsSync(encodingTempDir)) {
+  const encodingTempDirExists = await existsAsync(encodingTempDir)
+
+  if (encodingTempDirExists) {
     logger.information({ message: 'The Temp dir already exists. Cleaning up...' })
     await new Promise((resolve, reject) => rimraf(encodingTempDir, (err) => (err ? reject(err) : resolve())))
   }
