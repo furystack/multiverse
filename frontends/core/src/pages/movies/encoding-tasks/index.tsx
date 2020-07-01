@@ -129,7 +129,12 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
                     left: '0',
                     height: '100%',
                     width: `${entry.percent.toString()}%`,
-                    background: 'rgba(128,128,222,0.15)',
+                    background:
+                      entry.status === 'inProgress'
+                        ? 'rgba(128,128,222,0.15)'
+                        : entry.status === 'failed'
+                        ? 'rgba(222,128,128,0.10)'
+                        : 'rgba(255,255,255,0.05)',
                   }}
                 />
                 {entry.percent.toString()}%
