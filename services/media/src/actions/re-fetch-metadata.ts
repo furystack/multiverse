@@ -17,7 +17,7 @@ export const ReFetchMetadataAction: RequestAction<{ urlParams: { movieId: string
     throw new RequestError('Movie not found with id', 404)
   }
 
-  const omdbMeta = await getMovieMetadata(movie.path)
+  const omdbMeta = await getMovieMetadata(movie.metadata.title)
   const metadata = media.isValidOmdbMetadata(omdbMeta)
     ? getUniversalMetadataFromOmdb(omdbMeta)
     : getFallbackMetadata(movie.path)
