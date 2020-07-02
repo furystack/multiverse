@@ -24,6 +24,13 @@ export interface ChunkWatcherOptions {
 export class ChunkUploader {
   public async dispose() {
     await this.watcher.close()
+    for (let index = 0; index < this.options.parallel; index++) {
+      await this.lock.acquire()
+      if (index <= this.options.parallel) {
+        this.logger.verbose({ message: `${index}/${this.options.parallel} upload locks acquired.` })
+      }
+    }
+    this.logger.information({ message: 'All uploads finished' })
   }
 
   private readonly lock = new Semaphore(this.options.parallel)
