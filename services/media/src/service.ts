@@ -6,6 +6,7 @@ import {
   createSingleEntityEndpoint,
   createSinglePostEndpoint,
   createSinglePatchEndpoint,
+  runPatches,
 } from '@common/service-utils'
 import { Authorize, Authenticate } from '@furystack/rest-service'
 import { injector } from './config'
@@ -19,6 +20,7 @@ import { FinializeEncodingAction } from './actions/finialize-encoding'
 import { SaveEncodingFailureAction } from './actions/save-encoding-failure'
 import { ReFetchMetadataAction } from './actions/re-fetch-metadata'
 import { GetWorkerTask } from './actions/get-worker-task'
+import { createInitialIndexes } from './patches'
 
 injector.useRestService<apis.MediaApi>({
   port: parseInt(sites.services.media.internalPort as string, 10),
@@ -64,3 +66,5 @@ injector.useWebsockets({
 })
 
 attachShutdownHandler(injector)
+
+runPatches({ injector, appName: 'media', patches: [createInitialIndexes] })

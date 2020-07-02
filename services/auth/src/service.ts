@@ -7,6 +7,7 @@ import {
   createCollectionEndpoint,
   createSinglePostEndpoint,
   createSinglePatchEndpoint,
+  runPatches,
 } from '@common/service-utils'
 import {
   AttachGithubAccount,
@@ -32,6 +33,7 @@ import {
 import { injector } from './config'
 import { PostSettings } from './actions/post-settings'
 import { UploadAvatar } from './actions/upload-avatar'
+import { createInitialIndexes } from './patches'
 
 injector.useRestService<apis.AuthApi>({
   port: parseInt(sites.services.auth.internalPort as any, 10),
@@ -82,3 +84,5 @@ injector.useRestService<apis.AuthApi>({
 })
 
 attachShutdownHandler(injector)
+
+runPatches({ injector, appName: 'auth', patches: [createInitialIndexes] })

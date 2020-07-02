@@ -9,8 +9,7 @@
     "start:watch": "nodemon --delay 2500ms --watch dist --watch ../../common dist/service.js",
     "seed": "node ./dist/seed.js",
     "clean": "rimraf dist && rimraf tsconfig.tsbuildinfo",
-    "build": "tsc -b",
-    "patch": "node ./dist/patch.js"
+    "build": "tsc -b"
   },
   "devDependencies": {
     "@types/formidable": "^1.0.31",

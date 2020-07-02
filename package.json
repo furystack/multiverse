@@ -74,7 +74,6 @@
     "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache",
     "seed": "yarn workspace @service/auth seed",
-    "patch": "yarn workspace @service/auth patch && yarn workspace @service/diag patch && yarn workspace @service/media patch && yarn workspace @service/xpense patch",
     "recreate-schemas:auth": "yarn workspace @common/models ts-json-schema-generator -p src/auth/*.ts -e all -o src/json-schemas-auth.json",
     "recreate-schemas:dashboard": "yarn workspace @common/models ts-json-schema-generator -p src/dashboard/*.ts -e all -o src/json-schemas-dashboard.json",
     "recreate-schemas:diag": "yarn workspace @common/models ts-json-schema-generator -p src/diag/*.ts -e all -o src/json-schemas-diag.json",

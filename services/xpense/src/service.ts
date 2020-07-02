@@ -6,9 +6,11 @@ import {
   createCollectionEndpoint,
   createSingleEntityEndpoint,
   createSinglePostEndpoint,
+  runPatches,
 } from '@common/service-utils'
 import { injector } from './config'
 import { PostReplenishment, PostShopping } from './actions'
+import { createInitialIndexes } from './patches'
 
 injector.useRestService<apis.XpenseApi>({
   port: parseInt(sites.services.xpense.internalPort as string, 10),
@@ -42,3 +44,5 @@ injector.useRestService<apis.XpenseApi>({
 })
 
 attachShutdownHandler(injector)
+
+runPatches({ injector, appName: 'xpense', patches: [createInitialIndexes] })
