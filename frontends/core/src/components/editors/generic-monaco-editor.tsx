@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { Shade, createComponent, ChildrenList } from '@furystack/shades'
-import { deepMerge } from '@furystack/utils'
 import { Injector } from '@furystack/inject'
 import { Button } from '@furystack/shades-common-components'
 import { MonacoEditor, MonacoEditorProps } from '../monaco-editor'
@@ -13,7 +12,8 @@ export interface GenericMonacoEditorProps<T, TSchema extends SchemaNames, TEntit
   monacoProps?: MonacoEditorProps
   title: string
   additionalActions?: Array<{ name: string; action: (options: { entity: T; injector: Injector }) => Promise<void> }>
-  onSave: (data: T) => Promise<void>
+  readOnly?: boolean
+  onSave?: (data: T) => Promise<void>
 }
 
 export interface GenericMonacoEditorState {
@@ -34,10 +34,11 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
       lastSavedData: data,
     }
   },
-  constructed: ({ getState }) => {
+  constructed: ({ props, getState }) => {
     const oldOnBeforeUnload = window.onbeforeunload
     window.onbeforeunload = () => {
-      if (getState().currentData !== getState().lastSavedData) {
+      const state = getState()
+      if (props.readOnly !== true && state.currentData !== state.lastSavedData) {
         return 'Are you sure you want to leave?'
       }
       return undefined
@@ -48,20 +49,20 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
     }
   },
   render: ({ props, injector, updateState, getState }) => {
-    const monacoProps = deepMerge(
-      { options: {} },
-      { ...props.monacoProps },
-      {
-        options: {
-          theme: 'vs-dark',
-          automaticLayout: true,
-          model: injector
-            .getInstance(MonacoModelProvider)
-            .getModelForEntityType({ schema: props.schema, entity: props.entity }),
-          language: 'json',
-        },
+    const monacoProps = {
+      ...props.monacoProps,
+      options: {
+        readOnly: props.readOnly,
+        ...props.monacoProps?.options,
+        theme: 'vs-dark',
+        automaticLayout: true,
+        model: injector
+          .getInstance(MonacoModelProvider)
+          .getModelForEntityType({ schema: props.schema, entity: props.entity }),
+        language: 'json',
       },
-    )
+    }
+
     return (
       <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
         <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -79,7 +80,11 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
             <Button onclick={() => window.history.back()} title="Go Back">
               ↩
             </Button>
-            <Button onclick={() => props.onSave(JSON.parse(getState().currentData))}>Save</Button>
+            <Button
+              disabled={props.readOnly}
+              onclick={() => props.onSave && props.onSave(JSON.parse(getState().currentData))}>
+              Save
+            </Button>
           </div>
         </div>
         <div style={{ flexGrow: '1' }}>

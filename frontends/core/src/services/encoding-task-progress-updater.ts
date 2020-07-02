@@ -14,6 +14,7 @@ export class EncodingTaskProgressUpdater {
     this.socket = new WebSocket(
       PathHelper.joinPaths(
         sites.services.media.externalPath.replace('https://', 'wss://').replace('http://', 'ws://'),
+        'media',
         'encoder-updates',
       ),
     )

@@ -14,7 +14,8 @@
               "Users",
               "Diagnostics",
               "System Logs",
-              "Movies"
+              "Movies",
+              "Encoding Tasks"
             ],
             "type": "string"
           },
@@ -58,7 +59,8 @@
             "Users",
             "Diagnostics",
             "System Logs",
-            "Movies"
+            "Movies",
+            "Encoding Tasks"
           ],
           "type": "string"
         },

@@ -1,9 +1,32 @@
 {
-  "$ref": "#/definitions/LogEntry",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
     "Date": {
       "additionalProperties": false,
+      "type": "object"
+    },
+    "LeveledLogEntry<>": {
+      "additionalProperties": false,
+      "description": "Interface that represents a log entry with a specific level",
+      "properties": {
+        "level": {
+          "$ref": "#/definitions/LogLevel",
+          "description": "The verbosity level of the log entry"
+        },
+        "message": {
+          "description": "The message string",
+          "type": "string"
+        },
+        "scope": {
+          "description": "A well-defined scope for grouping entries, e.g. a component or service name.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "level",
+        "message",
+        "scope"
+      ],
       "type": "object"
     },
     "LogEntry": {
@@ -46,6 +69,25 @@
       ],
       "type": "object"
     },
+    "LogEntry<>": {
+      "additionalProperties": false,
+      "description": "A log entry representation",
+      "properties": {
+        "message": {
+          "description": "The message string",
+          "type": "string"
+        },
+        "scope": {
+          "description": "A well-defined scope for grouping entries, e.g. a component or service name.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope",
+        "message"
+      ],
+      "type": "object"
+    },
     "LogLevel": {
       "description": "The verbosity level of a log entry",
       "enum": [
@@ -57,6 +99,75 @@
         5
       ],
       "type": "number"
+    },
+    "Patch": {
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "appName": {
+          "type": "string"
+        },
+        "error": {
+        },
+        "errors": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "stack": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "message",
+              "stack"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "finishDate": {
+          "$ref": "#/definitions/Date"
+        },
+        "name": {
+          "type": "string"
+        },
+        "startDate": {
+          "$ref": "#/definitions/Date"
+        },
+        "status": {
+          "enum": [
+            "completed",
+            "failed"
+          ],
+          "type": "string"
+        },
+        "updates": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "warns": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "_id",
+        "appName",
+        "name",
+        "status",
+        "startDate",
+        "finishDate"
+      ],
+      "type": "object"
     }
   }
 }

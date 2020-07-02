@@ -32,6 +32,7 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
       uploadPath: options.uploadPath,
       codec: 'libvpx-vp9',
       mode: 'dash',
+      retries: 5,
     }),
     async () => {
       logger.verbose({ message: 'Initializing Dash encode...' })

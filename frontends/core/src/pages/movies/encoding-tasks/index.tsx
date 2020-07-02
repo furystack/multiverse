@@ -34,7 +34,7 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <DataGrid<media.EncodingTask>
-          columns={['mediaInfo', 'status', 'percent', 'startDate', 'finishDate']}
+          columns={['mediaInfo', 'status', 'percent', 'creationDate']}
           service={getState().service}
           styles={{
             cell: {
@@ -54,9 +54,11 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
                   src={entry.mediaInfo.movie.metadata.thumbnailImageUrl}
                   style={{ width: '50px', marginRight: '0.5em' }}
                 />
-                <div>
-                  <h1 style={{ fontSize: '18px', margin: '0' }}>{entry.mediaInfo.movie.metadata.title} </h1>
-                  <div style={{ textAlign: 'left' }}>
+                <div style={{ textAlign: 'left' }}>
+                  <RouteLink href={`/`}>
+                    <h1 style={{ fontSize: '18px', margin: '0' }}>{entry.mediaInfo.movie.metadata.title}</h1>
+                  </RouteLink>
+                  <div style={{ fontSize: '14px', whiteSpace: 'nowrap' }}>
                     <span
                       style={{ cursor: 'pointer' }}
                       onclick={(ev) => {
@@ -73,9 +75,9 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
                       title="Re-encode">
                       Re-encode
                     </span>{' '}
-                    |{' '}
+                    | <RouteLink href={`/movies/encoding-tasks/${entry._id}`}>Task details</RouteLink> |{' '}
                     <RouteLink href={`/movies/${entry.mediaInfo.library._id}/edit/${entry.mediaInfo.movie._id}`}>
-                      Edit
+                      Edit movie
                     </RouteLink>
                   </div>
                 </div>
@@ -121,14 +123,15 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
                   height: '100%',
                   top: '0',
                   left: '0',
+                  boxShadow: '0 0 0px 1px inset rgba(128,128,128,0.5)',
                 }}>
                 <div
                   style={{
                     position: 'absolute',
-                    top: '0',
-                    left: '0',
-                    height: '100%',
-                    width: `${entry.percent.toString()}%`,
+                    top: '5px',
+                    left: '5px',
+                    height: 'calc(100% - 10px)',
+                    width: `calc(${entry.percent.toString()}% - 10px)`,
                     background:
                       entry.status === 'inProgress'
                         ? 'rgba(128,128,222,0.15)'
@@ -140,6 +143,32 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
                 {entry.percent.toString()}%
               </div>
             ),
+            creationDate: (entry) => {
+              return (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '0',
+                    left: '0',
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    fontSize: '14px',
+                  }}>
+                  <div>
+                    Created at <strong>{entry.creationDate}</strong>
+                  </div>
+                  {entry.startDate ? (
+                    <div>
+                      Task duration: {entry.startDate} - {entry.finishDate || '?'}
+                    </div>
+                  ) : null}
+                </div>
+              )
+            },
           }}
         />
       </div>

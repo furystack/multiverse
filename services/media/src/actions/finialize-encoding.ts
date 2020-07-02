@@ -1,16 +1,14 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
-import { StoreManager } from '@furystack/core'
 import { media } from '@common/models'
 
 export const FinializeEncodingAction: RequestAction<{
   body: { accessToken: string; codec: media.EncodingType['codec']; mode: media.EncodingType['mode'] }
 }> = async ({ injector, getBody }) => {
   const { accessToken, codec, mode } = await getBody()
-  const storeManager = injector.getInstance(StoreManager)
 
-  const [job] = await storeManager
-    .getStoreFor(media.EncodingTask)
-    .find({ filter: { authToken: { $eq: accessToken } }, top: 1 })
+  const tasks = injector.getDataSetFor(media.EncodingTask)
+
+  const [job] = await tasks.find(injector, { filter: { authToken: { $eq: accessToken } }, top: 1 })
   if (!job) {
     throw new RequestError('Unauthorized', 401)
   }
@@ -26,7 +24,7 @@ export const FinializeEncodingAction: RequestAction<{
 
   await injector
     .getDataSetFor(media.EncodingTask)
-    .update(injector, job._id, { status: 'finished', finishDate: new Date(), percent: 100 })
+    .update(injector, job._id, { status: 'finished', finishDate: new Date(), percent: 100, authToken: '' })
 
   return JsonResult({ success: true })
 }

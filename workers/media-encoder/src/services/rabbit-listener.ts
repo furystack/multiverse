@@ -2,10 +2,10 @@ import { Injectable, Injector } from '@furystack/inject'
 import { sleepAsync } from '@furystack/utils'
 import { messaging } from '@common/config'
 import { connect, Connection, Channel, ConsumeMessage } from 'amqplib'
-import { media } from '@common/models'
 import { ScopedLogger } from '@furystack/logging'
 import Semaphore from 'semaphore-async-await'
 import { encodeTask } from '../processes/encode-task'
+import { loadTaskDetails } from '../processes/load-task-details'
 
 @Injectable({ lifetime: 'singleton' })
 export class RabbitListener {
@@ -51,14 +51,42 @@ export class RabbitListener {
 
   private async onEncodeVideo(msg: ConsumeMessage | null) {
     if (msg) {
-      const task: media.EncodingTask = JSON.parse(msg.content.toString())
       this.logger.verbose({
-        message: `Encoding task received for movie ${task.mediaInfo.movie.metadata.title}`,
-        data: { task },
+        message: `Task message received, loading task details...`,
       })
-      const success = await encodeTask({ task, injector: this.injector })
-      this.logger.verbose({ message: `Finished encoding movie ${task.mediaInfo.movie.metadata.title}`, data: { task } })
-      success ? this.getChannel().ack(msg) : this.getChannel().nack(msg, undefined, false)
+      const { taskId, token } = JSON.parse(msg.content.toString())
+
+      loadTaskDetails({ taskId, token })
+        .then(async (task) => {
+          this.logger.verbose({
+            message: `Encoding task loaded for movie ${task.mediaInfo.movie.metadata.title}`,
+            data: { task },
+          })
+          const success = await encodeTask({ task, injector: this.injector })
+          this.logger.verbose({
+            message: `Finished encoding movie ${task.mediaInfo.movie.metadata.title}`,
+            data: { task },
+          })
+          success ? this.getChannel().ack(msg) : this.getChannel().nack(msg, undefined, false)
+        })
+        .catch(async (reason) => {
+          if (reason.code === 'ECONNREFUSED') {
+            this.logger.warning({
+              message: 'The Service seems to be offline. The task will be re-queued in a minute.',
+              data: { reason },
+            })
+            await sleepAsync(60 * 1000)
+            this.getChannel().nack(msg, undefined, true)
+          } else if (reason.name === 'HTTPError' && reason.message === 'Response code 401 (Unauthorized)') {
+            this.logger.warning({
+              message: 'The token is invalid. The message will not be re-queued',
+              data: { reason },
+            })
+            this.getChannel().nack(msg, undefined, false)
+          } else {
+            this.logger.warning({ message: `Failed to retrieve task details, reason:${reason.code}`, data: { reason } })
+          }
+        })
     }
   }
 

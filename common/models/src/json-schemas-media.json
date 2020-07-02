@@ -15,24 +15,25 @@
           "type": "string"
         },
         "creationDate": {
-          "$ref": "#/definitions/Date"
+          "$ref": "#/definitions/Date",
+          "description": "The task creation date"
         },
         "error": {
         },
         "finishDate": {
           "$ref": "#/definitions/Date"
         },
-        "log": {
-          "type": "string"
-        },
         "mediaInfo": {
           "additionalProperties": false,
+          "description": "Generic info about the media to encode",
           "properties": {
             "library": {
-              "$ref": "#/definitions/MovieLibrary"
+              "$ref": "#/definitions/MovieLibrary",
+              "description": "The related movie library"
             },
             "movie": {
-              "$ref": "#/definitions/Movie"
+              "$ref": "#/definitions/Movie",
+              "description": "The Movie entity"
             }
           },
           "required": [
@@ -45,12 +46,14 @@
           "$ref": "#/definitions/Date"
         },
         "percent": {
+          "description": "Shows how the progress of the encoding goes, reported by the worker agent",
           "type": "number"
         },
         "startDate": {
           "$ref": "#/definitions/Date"
         },
         "status": {
+          "description": "The current status of the task",
           "enum": [
             "pending",
             "inProgress",
@@ -62,8 +65,10 @@
         },
         "workerInfo": {
           "additionalProperties": false,
+          "description": "Generic info about the worker who works on the task",
           "properties": {
             "ip": {
+              "description": "The IP address",
               "type": "string"
             }
           },
@@ -571,7 +576,8 @@
             "properties": {
               "codec": {
                 "enum": [
-                  "libvpx-vp9"
+                  "libvpx-vp9",
+                  "x264"
                 ],
                 "type": "string"
               },

@@ -9,6 +9,7 @@ import { MovieList } from './movie-list'
 import { Watch } from './watch'
 import { EditMovie } from './edit-movie'
 import { EncodingTasks } from './encoding-tasks'
+import { EncodingTaskDetails } from './encoding-tasks/encoding-task-details'
 
 export const MoviesPage = Shade({
   shadowDomName: 'multiverse-movies-page',
@@ -58,6 +59,23 @@ export const MoviesPage = Shade({
                       subtitle="The role 'movie-admin' is needed to enter this realm"
                     />
                   )
+                }}
+              />
+            ),
+          },
+          {
+            url: '/movies/encoding-tasks/:encodingTaskId',
+            component: ({ match }) => (
+              <LazyLoad
+                loader={<Init message="Loading Task..." />}
+                error={(error, retry) => <GenericErrorPage error={error} retry={retry} />}
+                component={async () => {
+                  const task: media.EncodingTask = await injector.getInstance(MediaApiService).call({
+                    method: 'GET',
+                    action: '/encode/tasks/:id',
+                    url: { id: match.params.encodingTaskId },
+                  })
+                  return <EncodingTaskDetails encodingTask={task} />
                 }}
               />
             ),

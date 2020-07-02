@@ -32,6 +32,7 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
       uploadPath: options.uploadPath,
       codec: 'x264',
       mode: 'dash',
+      retries: 5,
     }),
     async () => {
       logger.verbose({ message: 'Initializing Dash encode...' })

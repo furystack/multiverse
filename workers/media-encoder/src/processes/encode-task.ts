@@ -95,7 +95,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
         },
       },
     })
-    await got(PathHelper.joinPaths(sites.services.media.externalPath, 'media', 'save-encoding-failure'), {
+    got(PathHelper.joinPaths(sites.services.media.externalPath, 'media', 'save-encoding-failure'), {
       method: 'POST',
       body: JSON.stringify({
         accessToken: options.task.authToken,
@@ -108,6 +108,14 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
       encoding: 'utf-8',
       retry: { limit: 10, statusCodes: [500] },
     })
+      .then(() => logger.information({ message: 'The Error details has been sent to the service' }))
+      .catch((e) =>
+        logger.error({
+          message:
+            'There was an error during sending the error details to the service - probably the task will remain in progress',
+          data: { e },
+        }),
+      )
     return false
   }
 }

@@ -18,6 +18,7 @@ import '@furystack/websocket-api'
 import { FinializeEncodingAction } from './actions/finialize-encoding'
 import { SaveEncodingFailureAction } from './actions/save-encoding-failure'
 import { ReFetchMetadataAction } from './actions/re-fetch-metadata'
+import { GetWorkerTask } from './actions/get-worker-task'
 
 injector.useRestService<apis.MediaApi>({
   port: parseInt(sites.services.media.internalPort as string, 10),
@@ -33,6 +34,8 @@ injector.useRestService<apis.MediaApi>({
       '/watch-stream/:id/:codec/:mode/:chunk?': Authenticate()(WatchStream),
       '/my-watch-progress': Authenticate()(createCollectionEndpoint({ model: media.MovieWatchHistoryEntry })),
       '/encode/tasks': Authorize('movie-admin')(createCollectionEndpoint({ model: media.EncodingTask })),
+      '/encode/tasks/:id': Authorize('movie-admin')(createSingleEntityEndpoint({ model: media.EncodingTask })),
+      '/encode/get-worker-task/:taskId': GetWorkerTask,
     },
     POST: {
       '/movie-libraries': createSinglePostEndpoint(media.MovieLibrary),
@@ -57,7 +60,7 @@ injector.useRestService<apis.MediaApi>({
 injector.useWebsockets({
   actions: [],
   port: parseInt(sites.services.media.internalPort as string, 10),
-  path: '/api/encoder-updates',
+  path: '/api/media/encoder-updates',
 })
 
 attachShutdownHandler(injector)

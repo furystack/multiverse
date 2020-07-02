@@ -16,6 +16,7 @@ export const SaveEncodingFailureAction: RequestAction<{
   await store.update(job._id, {
     status: 'failed',
     finishDate: new Date(),
+    authToken: '',
     error,
   })
 

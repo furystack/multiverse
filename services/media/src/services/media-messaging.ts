@@ -28,7 +28,12 @@ export class MediaMessaging {
     await this.getChannel().publish(
       messaging.media.fanoutExchange,
       messaging.media.routingKeys.encodingJobAdded,
-      Buffer.from(JSON.stringify(task)),
+      Buffer.from(
+        JSON.stringify({
+          taskId: task._id,
+          token: task.authToken,
+        }),
+      ),
       { persistent: true },
     )
   }

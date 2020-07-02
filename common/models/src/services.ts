@@ -17,6 +17,7 @@ export const serviceNames = [
   'Diagnostics',
   'System Logs',
   'Movies',
+  'Encoding Tasks',
 ] as const
 
 export const serviceList: Array<ServiceDescription<typeof serviceNames[number]>> = [
@@ -75,5 +76,12 @@ export const serviceList: Array<ServiceDescription<typeof serviceNames[number]>>
     description: 'Watch the uploaded movies',
     url: '/movies',
     requiredRoles: ['terms-accepted'],
+  },
+  {
+    name: 'Encoding Tasks',
+    icon: '🧮',
+    description: 'Keep an eye on how the encoding tasks goes',
+    url: '/movies/encoding-tasks',
+    requiredRoles: ['movie-admin'],
   },
 ]

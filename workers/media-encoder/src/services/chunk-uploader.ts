@@ -2,7 +2,7 @@ import { Stats, createReadStream } from 'fs'
 import { watch, FSWatcher } from 'chokidar'
 import { Injector } from '@furystack/inject'
 import { ScopedLogger } from '@furystack/logging'
-import { ObservableValue, Retrier } from '@furystack/utils'
+import { ObservableValue } from '@furystack/utils'
 import Semaphore from 'semaphore-async-await'
 import got from 'got'
 import { media } from '@common/models'
@@ -12,6 +12,7 @@ export interface ChunkWatcherOptions {
   directory: string
   parallel: number
   isFileAllowed: (filename: string) => boolean
+  retries: number
   task: media.EncodingTask
   injector: Injector
   progress: ObservableValue<number>
@@ -23,17 +24,6 @@ export interface ChunkWatcherOptions {
 export class ChunkUploader {
   public async dispose() {
     await this.watcher.close()
-    await Retrier.create(async () => {
-      const permits = await this.lock.getPermits()
-      return permits === this.options.parallel
-    })
-      .setup({
-        timeoutMs: 60 * 1000,
-        onSuccess: () => this.logger.information({ message: 'All upload finished, disposing ChunkUploader' }),
-        onFail: () =>
-          this.logger.warning({ message: 'Could not finish all uploads in time during ChunkUploader dispose' }),
-      })
-      .run()
   }
 
   private readonly lock = new Semaphore(this.options.parallel)
@@ -53,16 +43,31 @@ export class ChunkUploader {
         form.append('codec', this.options.codec)
         form.append('mode', this.options.mode)
         form.append('chunk', createReadStream(path) as any)
-        try {
-          form.append('percent', parseInt(this.options.progress.getValue().toString(), 10))
-        } catch (error) {
-          // No chunk info from fluent-ffmpeg :(
-        }
+        form.append('percent', parseInt(this.options.progress.getValue().toString(), 10))
         await got(this.options.uploadPath, {
           method: 'POST',
           body: form as any,
           encoding: 'utf-8',
-          retry: { limit: 30, calculateDelay: ({ attemptCount }) => attemptCount * 1000 * 60 },
+          retry: { limit: this.options.retries, calculateDelay: ({ attemptCount }) => attemptCount },
+          hooks: {
+            beforeRetry: [
+              async () => {
+                this.logger.information({
+                  message: 'Chunk upload has been failed, will retry...',
+                  data: { codec: this.options.codec, mode: this.options.mode, fileName },
+                })
+              },
+            ],
+            beforeError: [
+              async (e) => {
+                this.logger.information({
+                  message: 'Chunk upload has been failed, giving up...',
+                  data: { codec: this.options.codec, mode: this.options.mode, fileName, e },
+                })
+                return e
+              },
+            ],
+          },
         })
         this.logger.verbose({ message: `Finished Chunk upload: '${fileName}'` })
       } catch (error) {
