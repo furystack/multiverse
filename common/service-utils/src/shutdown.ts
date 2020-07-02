@@ -6,6 +6,7 @@ export const attachShutdownHandler = (i: Injector) => {
   const logger = i.logger.withScope('shutdown-handler')
 
   const onExit = async ({ code, reason, error }: { code: number; reason: string; error?: any }) => {
+    process.removeAllListeners('exit')
     try {
       if (code) {
         await logger.warning({
