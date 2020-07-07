@@ -27,6 +27,9 @@ module.exports = {
       XPENSE_SERVICE_EXTERNAL_URL: sites.services.xpense.externalPath,
       MEDIA_SERVICE_INTERNAL_PORT: sites.services.media.internalPort,
       MEDIA_SERVICE_EXTERNAL_URL: sites.services.media.externalPath,
+      DASHBOARD_SERVICE_INTERNAL_PORT: sites.services.dashboard.internalPort,
+      DASHBOARD_SERVICE_EXTERNAL_URL: sites.services.dashboard.externalPath,
+
       GITHUB_CLIENT_ID: tokens.githubClientId,
       GOOGLE_CLIENT_ID: tokens.googleClientId,
       ...sites.frontends,
