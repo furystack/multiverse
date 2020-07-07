@@ -1,4 +1,5 @@
 export * from './apis/auth-api'
+export * from './apis/dashboard-api'
 export * from './apis/diag-api'
 export * from './apis/xpense-api'
 export * from './apis/media-api'

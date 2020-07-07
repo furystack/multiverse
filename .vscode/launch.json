@@ -44,7 +44,7 @@
       "id": "service",
       "type": "pickString",
       "description": "Select one service from above",
-      "options": ["auth", "diag", "media", "xpense"]
+      "options": ["auth", "dashboard", "diag", "media", "xpense"]
     },
     {
       "id": "worker",

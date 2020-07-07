@@ -7,3 +7,6 @@ export type Owner =
       type: 'organization'
       organizationName: string
     }
+  | {
+      type: 'system'
+    }

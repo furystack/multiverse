@@ -17,12 +17,12 @@ export const SelectedAccountHeader = Shade<{ area: string; account: xpense.Accou
               {' '}
               🙅‍♂️ {props.account.owner.username}{' '}
             </RouteLink>
-          ) : (
+          ) : props.account.owner.type === 'organization' ? (
             <RouteLink href={`/organization/${props.account.owner.organizationName}`} title="The owner organization">
               {' '}
               🏢 {props.account.owner.organizationName}{' '}
             </RouteLink>
-          )}
+          ) : null}
           &nbsp; <span className="balance">💲{props.account.current.toString()}</span>
         </h5>
       </div>

@@ -16,7 +16,8 @@
               "System Logs",
               "Patches",
               "Movies",
-              "Encoding Tasks"
+              "Encoding Tasks",
+              "Dashboards"
             ],
             "type": "string"
           },
@@ -62,7 +63,8 @@
             "System Logs",
             "Patches",
             "Movies",
-            "Encoding Tasks"
+            "Encoding Tasks",
+            "Dashboards"
           ],
           "type": "string"
         },
@@ -119,11 +121,23 @@
     "Dashboard": {
       "additionalProperties": false,
       "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "creationDate": {
+          "$ref": "#/definitions/Date"
+        },
         "description": {
           "type": "string"
         },
+        "modificationDate": {
+          "$ref": "#/definitions/Date"
+        },
         "name": {
           "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner"
         },
         "widgets": {
           "items": {
@@ -133,9 +147,60 @@
         }
       },
       "required": [
+        "_id",
         "name",
         "description",
+        "owner",
+        "creationDate",
+        "modificationDate",
         "widgets"
+      ],
+      "type": "object"
+    },
+    "Date": {
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "EntityShortcutWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "entityType": {
+          "enum": [
+            "movie",
+            "dashboard",
+            "xpense-account"
+          ],
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "entity-shortcut"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "entityType",
+        "id",
+        "type"
       ],
       "type": "object"
     },
@@ -234,6 +299,63 @@
       ],
       "type": "object"
     },
+    "Owner": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "enum": [
+                "user"
+              ],
+              "type": "string"
+            },
+            "username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "username"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "organizationName": {
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "organization"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "organizationName"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "enum": [
+                "system"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        }
+      ]
+    },
     "Widget": {
       "anyOf": [
         {
@@ -253,6 +375,9 @@
         },
         {
           "$ref": "#/definitions/AppListWidget"
+        },
+        {
+          "$ref": "#/definitions/EntityShortcutWidget"
         }
       ]
     },
@@ -316,6 +441,30 @@
         "type": {
           "enum": [
             "continue-movies"
+          ],
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "WidgetBase<\"entity-shortcut\">": {
+      "additionalProperties": false,
+      "properties": {
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "entity-shortcut"
           ],
           "type": "string"
         },

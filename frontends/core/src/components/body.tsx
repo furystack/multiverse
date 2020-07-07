@@ -232,6 +232,30 @@ export const Body = Shade<
                           />
                         ),
                       },
+                      {
+                        url: '/dashboard',
+                        routingOptions: {
+                          end: false,
+                        },
+                        component: () => (
+                          <LazyLoad
+                            error={(error, retry) => (
+                              <GenericErrorPage
+                                subtitle="Something bad happened during loading the system diagnostics"
+                                error={error}
+                                retry={retry}
+                              />
+                            )}
+                            component={async () => {
+                              const { DashboardsPage } = await import(
+                                /* webpackChunkName: "dashboards" */ '../pages/dashboard'
+                              )
+                              return <DashboardsPage />
+                            }}
+                            loader={<Init message="Loading Dashboards page..." />}
+                          />
+                        ),
+                      },
                       ...(currentUser.roles.includes('sys-diags')
                         ? [
                             {

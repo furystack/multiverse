@@ -19,6 +19,7 @@ export const serviceNames = [
   'Patches',
   'Movies',
   'Encoding Tasks',
+  'Dashboards',
 ] as const
 
 export const serviceList: Array<ServiceDescription<typeof serviceNames[number]>> = [
@@ -92,5 +93,12 @@ export const serviceList: Array<ServiceDescription<typeof serviceNames[number]>>
     description: 'Keep an eye on how the encoding tasks goes',
     url: '/movies/encoding-tasks',
     requiredRoles: ['movie-admin'],
+  },
+  {
+    name: 'Dashboards',
+    icon: '📋',
+    description: 'List of the available dashboards',
+    url: '/dashboard/list',
+    requiredRoles: [],
   },
 ]

@@ -11,6 +11,11 @@ export const databases = {
     logCollection: 'entries',
     patches: 'patches',
   },
+  dashboard: {
+    mongoUrl: process.env.MONGO_DASHBOARD_URL || process.env.MONGO_URL || 'mongodb://localhost:27017',
+    dbName: 'multiverse-dashboard',
+    dashboards: 'dashboards',
+  },
   xpense: {
     mongoUrl: process.env.MONGO_XPENSE_URL || process.env.MONGO_URL || 'mongodb://localhost:27017',
     dbName: 'multiverse-xpense',

@@ -1,5 +1,4 @@
 import { createComponent, Shade } from '@furystack/shades'
-import { deepMerge } from '@furystack/utils'
 import { Tabs, styles, Input, Button, colors } from '@furystack/shades-common-components'
 import { auth } from '@common/models'
 import { AuthApiService, MyAvatarService } from '@common/frontend-utils'
@@ -246,15 +245,7 @@ export const ProfilePage = Shade<
           },
           {
             header: <div>⚙ Personal settings</div>,
-            component: (
-              <UserSettingsEditor
-                value={JSON.stringify({ ...deepMerge(auth.DefaultUserSettings, profile.userSettings) }, undefined, 2)}
-                options={{
-                  theme: 'vs-dark',
-                  automaticLayout: true,
-                }}
-              />
-            ),
+            component: <UserSettingsEditor profileId={profile._id} settings={profile.userSettings} />,
           },
         ]}
       />

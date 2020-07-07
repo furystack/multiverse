@@ -20,6 +20,11 @@ export const sites = {
       externalPath:
         process.env.MEDIA_SERVICE_EXTERNAL_URL || process.env.EXTERNAL_SERVICE_URL || 'http://localhost:9093/api',
     },
+    dashboard: {
+      internalPort: process.env.DASHBOARD_SERVICE_INTERNAL_PORT || 9094,
+      externalPath:
+        process.env.DASHBOARD_SERVICE_EXTERNAL_URL || process.env.EXTERNAL_SERVICE_URL || 'http://localhost:9094/api',
+    },
   },
   frontends: {
     core: process.env.CORE_FRONTEND_URL || 'http://localhost:8080',
