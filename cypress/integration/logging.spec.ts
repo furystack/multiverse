@@ -18,7 +18,7 @@ describe('Logging', () => {
     login(cy, 'testuser@gmail.com', 'password')
     cy.get('welcome-page').contains('System Logs').scrollIntoView().click()
     cy.get('log-level-cell').last().scrollIntoView().dblclick()
-    cy.contains('Event Details').should('be.visible')
+    cy.contains('Event details').should('be.visible')
     cy.get('button[title="Go Back"]').click()
     cy.get('log-level-cell').last().scrollIntoView().should('be.visible')
   })
