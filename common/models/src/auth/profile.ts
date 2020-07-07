@@ -1,4 +1,3 @@
-import { defaultDashboard } from '../dashboard'
 import { UserSettings } from './user-settings'
 
 export class Profile {
@@ -11,5 +10,4 @@ export class Profile {
 
 export const DefaultUserSettings: UserSettings = {
   theme: 'dark',
-  dashboard: defaultDashboard,
 }

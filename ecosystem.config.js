@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const { dirname, join } = require('path')
-const { existsSync } = require('fs')
 const glob = require('glob')
 
 const getWorkerServiceEntries = () => {

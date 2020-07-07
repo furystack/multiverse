@@ -1,144 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "AppListWidget": {
-      "additionalProperties": false,
-      "properties": {
-        "apps": {
-          "items": {
-            "enum": [
-              "Profile",
-              "Xpense",
-              "Organizations",
-              "Feature Switches",
-              "Users",
-              "Diagnostics",
-              "System Logs",
-              "Patches",
-              "Movies",
-              "Encoding Tasks"
-            ],
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        },
-        "type": {
-          "enum": [
-            "app-list"
-          ],
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "apps",
-        "title",
-        "type"
-      ],
-      "type": "object"
-    },
-    "AppShortcutWidget": {
-      "additionalProperties": false,
-      "properties": {
-        "appName": {
-          "enum": [
-            "Profile",
-            "Xpense",
-            "Organizations",
-            "Feature Switches",
-            "Users",
-            "Diagnostics",
-            "System Logs",
-            "Patches",
-            "Movies",
-            "Encoding Tasks"
-          ],
-          "type": "string"
-        },
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "enum": [
-            "app-shortcut"
-          ],
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "appName",
-        "type"
-      ],
-      "type": "object"
-    },
-    "ContinueMoviesWidget": {
-      "additionalProperties": false,
-      "properties": {
-        "count": {
-          "type": "number"
-        },
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "enum": [
-            "continue-movies"
-          ],
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "count",
-        "type"
-      ],
-      "type": "object"
-    },
-    "Dashboard": {
-      "additionalProperties": false,
-      "properties": {
-        "description": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "widgets": {
-          "items": {
-            "$ref": "#/definitions/Widget"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "name",
-        "description",
-        "widgets"
-      ],
-      "type": "object"
-    },
     "GithubAccount": {
       "additionalProperties": false,
       "properties": {
@@ -372,101 +234,6 @@
       ],
       "type": "object"
     },
-    "HtmlWidget": {
-      "additionalProperties": false,
-      "properties": {
-        "content": {
-          "type": "string"
-        },
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "enum": [
-            "html"
-          ],
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "content",
-        "type"
-      ],
-      "type": "object"
-    },
-    "IconUrlWidget": {
-      "additionalProperties": false,
-      "properties": {
-        "description": {
-          "type": "string"
-        },
-        "icon": {
-          "type": "string"
-        },
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "type": {
-          "enum": [
-            "icon-url-widget"
-          ],
-          "type": "string"
-        },
-        "url": {
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "icon",
-        "name",
-        "type",
-        "url"
-      ],
-      "type": "object"
-    },
-    "MarkdownWidget": {
-      "additionalProperties": false,
-      "properties": {
-        "content": {
-          "type": "string"
-        },
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "enum": [
-            "markdown"
-          ],
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "content",
-        "type"
-      ],
-      "type": "object"
-    },
     "Organization": {
       "additionalProperties": false,
       "properties": {
@@ -549,6 +316,21 @@
           "required": [
             "type",
             "organizationName"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "enum": [
+                "system"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
           ],
           "type": "object"
         }
@@ -642,8 +424,8 @@
     "UserSettings": {
       "additionalProperties": false,
       "properties": {
-        "dashboard": {
-          "$ref": "#/definitions/Dashboard"
+        "dashboardId": {
+          "type": "string"
         },
         "theme": {
           "enum": [
@@ -654,174 +436,7 @@
         }
       },
       "required": [
-        "theme",
-        "dashboard"
-      ],
-      "type": "object"
-    },
-    "Widget": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/AppShortcutWidget"
-        },
-        {
-          "$ref": "#/definitions/HtmlWidget"
-        },
-        {
-          "$ref": "#/definitions/IconUrlWidget"
-        },
-        {
-          "$ref": "#/definitions/MarkdownWidget"
-        },
-        {
-          "$ref": "#/definitions/ContinueMoviesWidget"
-        },
-        {
-          "$ref": "#/definitions/AppListWidget"
-        }
-      ]
-    },
-    "WidgetBase<\"app-list\">": {
-      "additionalProperties": false,
-      "properties": {
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "enum": [
-            "app-list"
-          ],
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "WidgetBase<\"app-shortcut\">": {
-      "additionalProperties": false,
-      "properties": {
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "enum": [
-            "app-shortcut"
-          ],
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "WidgetBase<\"continue-movies\">": {
-      "additionalProperties": false,
-      "properties": {
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "enum": [
-            "continue-movies"
-          ],
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "WidgetBase<\"html\">": {
-      "additionalProperties": false,
-      "properties": {
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "enum": [
-            "html"
-          ],
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "WidgetBase<\"icon-url-widget\">": {
-      "additionalProperties": false,
-      "properties": {
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "enum": [
-            "icon-url-widget"
-          ],
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "WidgetBase<\"markdown\">": {
-      "additionalProperties": false,
-      "properties": {
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "enum": [
-            "markdown"
-          ],
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
+        "theme"
       ],
       "type": "object"
     }

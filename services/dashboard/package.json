@@ -1,0 +1,29 @@
+{
+  "name": "@service/dashboard",
+  "version": "1.0.0",
+  "main": "dist/service.js",
+  "license": "GPL-2.0-only",
+  "private": true,
+  "scripts": {
+    "start": "node ./dist/service.js",
+    "start:watch": "nodemon --delay 2500ms --watch dist --watch ../../common dist/service.js",
+    "seed": "node ./dist/seed.js",
+    "clean": "rimraf dist && rimraf tsconfig.tsbuildinfo",
+    "build": "tsc -b"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.18"
+  },
+  "dependencies": {
+    "@common/service-utils": "1.0.0",
+    "@furystack/auth-google": "^4.0.40",
+    "@furystack/core": "^9.1.4",
+    "@furystack/inject": "^4.0.33",
+    "@furystack/logging": "^2.0.40",
+    "@furystack/mongodb-store": "^3.1.8",
+    "@furystack/repository": "^3.0.7",
+    "@furystack/rest": "^1.1.17",
+    "@furystack/rest-service": "^2.1.10",
+    "tslib": "^2.0.0"
+  }
+}

@@ -1,4 +1,4 @@
-import { AbstractLogger, LoggerCollection } from '@furystack/logging'
+import { AbstractLogger, LoggerCollection, LogLevel } from '@furystack/logging'
 import { Injector } from '@furystack/inject/dist/injector'
 import { StoreManager } from '@furystack/core'
 import { Injectable } from '@furystack/inject'
@@ -11,6 +11,7 @@ import '@furystack/repository'
 @Injectable({ lifetime: 'singleton' })
 export class DbLoggerSettings {
   public appName!: string
+  public minLevel?: LogLevel
 }
 
 @Injectable({ lifetime: 'singleton' })
@@ -27,12 +28,15 @@ export class DbLogger extends AbstractLogger implements Disposable {
   }
   public readonly store: MongodbStore<diag.LogEntry<any>>
   public async addEntry<T>(entry: import('@furystack/logging').LeveledLogEntry<T>): Promise<void> {
-    !this.isDisposing &&
-      (await this.store.add({
-        ...entry,
-        creationDate: new Date(),
-        appName: this.settings.appName,
-      }))
+    if (!this.isDisposing) {
+      if (entry.level >= (this.settings.minLevel || LogLevel.Information)) {
+        await this.store.add({
+          ...entry,
+          creationDate: new Date(),
+          appName: this.settings.appName,
+        })
+      }
+    }
   }
 
   constructor(private injector: Injector, private readonly settings: DbLoggerSettings) {
