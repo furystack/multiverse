@@ -26,7 +26,7 @@ export const WelcomePage = Shade<{ profile: auth.Profile; currentUser: auth.User
           />
         )}
         component={async () => {
-          const { dashboardId } = props.profile.userSettings
+          const dashboardId = props.profile?.userSettings?.dashboardId
           if (dashboardId) {
             const entry: dashboard.Dashboard = await injector.getInstance(DashboardApiService).call({
               method: 'GET',

@@ -22,23 +22,19 @@ export const defaultDashboard: Dashboard = {
   },
   widgets: [
     {
-      type: 'continue-movies',
-      count: 10,
-      minWidth: '100%',
-    },
-    {
       type: 'app-list',
-      title: 'My Favourite Apps',
-      minWidth: '256px',
-      width: '50%',
+      title: 'Content',
       apps: ['Xpense', 'Movies', 'Profile'],
     },
     {
       type: 'app-list',
-      title: 'System Apps',
-      minWidth: '256px',
-      width: '50%',
-      apps: ['System Logs', 'Users', 'Diagnostics', 'Organizations', 'Feature Switches'],
+      title: 'Administration',
+      apps: ['Users', 'Organizations', 'Feature Switches'],
+    },
+    {
+      type: 'app-list',
+      title: 'Diagnostics',
+      apps: ['System Logs', 'Patches', 'Encoding Tasks'],
     },
   ],
 }
