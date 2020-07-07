@@ -3,6 +3,8 @@ import { media } from '@common/models'
 
 export const createInitialIndexes: PatchEntry = {
   patchName: '00-create-initial-indexes',
+  patchDescription:
+    'Creates the following indexes: Movie/moviePath(unique), MovieLibrary/path (unique), MovieWatchHistoryEntry/userId',
   mode: 'once',
   exec: async (injector) => {
     const errors: Array<{ message: string; stack: string }> = []

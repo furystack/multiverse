@@ -65,10 +65,10 @@ Injector.prototype.useDbLogger = function (settings) {
       authorizeRemove: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
       authorizeUpdate: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
       authorizeGet: async (options) => {
-        const result = await options.injector.isAuthorized('sys-logs')
+        const result = await options.injector.isAuthorized('sys-diags')
         return {
           isAllowed: result,
-          message: result ? '' : "Role 'sys-logs' required",
+          message: result ? '' : "Role 'sys-diags' required",
         }
       },
     }),

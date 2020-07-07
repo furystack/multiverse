@@ -52,7 +52,7 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
             creationDate: (entry) => <span>{entry.creationDate.toString().replace(/([T|Z])/g, ' ')}</span>,
           }}
           onDoubleClick={(entry) => {
-            window.history.pushState('', '', `/sys-logs/${entry._id}`)
+            window.history.pushState('', '', `/diags/logs/${entry._id}`)
             injector.getInstance(LocationService).updateState()
           }}
         />

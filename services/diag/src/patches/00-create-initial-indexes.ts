@@ -3,6 +3,7 @@ import { diag } from '@common/models'
 
 export const createInitialIndexes: PatchEntry = {
   patchName: '00-create-initial-indexes',
+  patchDescription: 'Creates the following indexes: LogEntry/Scope, LogEntry/level, LogEntry/creationDate',
   mode: 'once',
   exec: async (injector) => {
     const errors: Array<{ message: string; stack: string }> = []

@@ -232,51 +232,30 @@ export const Body = Shade<
                           />
                         ),
                       },
-                      ...(currentUser.roles.includes('sys-logs')
+                      ...(currentUser.roles.includes('sys-diags')
                         ? [
                             {
-                              url: '/sys-logs',
+                              url: '/diags',
+                              routingOptions: {
+                                end: false,
+                              },
                               component: () => (
                                 <LazyLoad
                                   error={(error, retry) => (
                                     <GenericErrorPage
-                                      subtitle="Something bad happened during loading the system logs"
+                                      subtitle="Something bad happened during loading the system diagnostics"
                                       error={error}
                                       retry={retry}
                                     />
                                   )}
                                   component={async () => {
-                                    const { SystemLogs } = await import(
-                                      /* webpackChunkName: "system-logs" */ '../pages/system-logs'
-                                    )
-                                    return <SystemLogs />
+                                    const { DiagsPage } = await import(/* webpackChunkName: "diags" */ '../pages/diags')
+                                    return <DiagsPage />
                                   }}
                                   loader={<Init message="Loading Logs page..." />}
                                 />
                               ),
                             },
-                            {
-                              url: '/sys-logs/:logGuid',
-                              component: ({ match }) => (
-                                <LazyLoad
-                                  error={(error, retry) => (
-                                    <GenericErrorPage
-                                      subtitle="Something bad happened during loading the log entry details"
-                                      error={error}
-                                      retry={retry}
-                                    />
-                                  )}
-                                  component={async () => {
-                                    const guid = match.params.logGuid
-                                    const { EntryDetails } = await import(
-                                      /* webpackChunkName: "system-logs" */ '../pages/system-logs/entry-details'
-                                    )
-                                    return <EntryDetails guid={guid} />
-                                  }}
-                                  loader={<Init message="Loading Logs Details page..." />}
-                                />
-                              ),
-                            } as Route<{ logGuid: string }>,
                           ]
                         : []),
                       ...(currentUser.roles.includes('feature-switch-admin')

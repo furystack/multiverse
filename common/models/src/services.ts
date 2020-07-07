@@ -16,6 +16,7 @@ export const serviceNames = [
   'Users',
   'Diagnostics',
   'System Logs',
+  'Patches',
   'Movies',
   'Encoding Tasks',
 ] as const
@@ -60,16 +61,24 @@ export const serviceList: Array<ServiceDescription<typeof serviceNames[number]>>
     name: 'Diagnostics',
     icon: '🩺',
     description: 'Check the system health',
-    url: '/sys-diags',
+    url: '/diags',
     requiredRoles: ['sys-diags'],
   },
   {
     name: 'System Logs',
     icon: '📚',
     description: 'View detailed logs about the system',
-    url: '/sys-logs',
-    requiredRoles: ['sys-logs'],
+    url: '/diags/logs',
+    requiredRoles: ['sys-diags'],
   },
+  {
+    name: 'Patches',
+    icon: '🩹',
+    description: 'Log about patch executions',
+    url: '/diags/patches',
+    requiredRoles: ['sys-diags'],
+  },
+
   {
     name: 'Movies',
     icon: '🎬',

@@ -17,8 +17,10 @@ injector.useRestService<apis.DiagApi>({
   root: '/api/diag',
   api: {
     GET: {
-      '/logEntries': Authorize('sys-logs')(createCollectionEndpoint({ model: diag.LogEntry })),
-      '/logEntry/:id': Authorize('sys-logs')(createSingleEntityEndpoint({ model: diag.LogEntry })),
+      '/logEntries': Authorize('sys-diags')(createCollectionEndpoint({ model: diag.LogEntry })),
+      '/logEntries/:id': Authorize('sys-diags')(createSingleEntityEndpoint({ model: diag.LogEntry })),
+      '/patches': Authorize('sys-diags')(createCollectionEndpoint({ model: diag.Patch })),
+      '/patches/:id': Authorize('sys-diags')(createSingleEntityEndpoint({ model: diag.Patch })),
     },
   },
   cors: {
@@ -29,4 +31,6 @@ injector.useRestService<apis.DiagApi>({
 
 attachShutdownHandler(injector)
 
-runPatches({ injector, appName: 'diag', patches: [createInitialIndexes] })
+runPatches({ injector, appName: 'diag', patches: [createInitialIndexes] }).then(() => {
+  injector.setupRepository((repo) => repo.createDataSet(diag.Patch, {}))
+})

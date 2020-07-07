@@ -3,6 +3,8 @@ import { auth } from '@common/models'
 
 export const createInitialIndexes: PatchEntry = {
   patchName: '00-create-initial-indexes',
+  patchDescription:
+    'Creates the following indexes: GoogleAccount/googleId(unique), GithubAccount/githubId(unique), Profile/profileUserName(unique), Organization/orgName(unique)',
   mode: 'once',
   exec: async (injector) => {
     const errors: Array<{ message: string; stack: string }> = []

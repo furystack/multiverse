@@ -109,6 +109,9 @@
         "appName": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
         "error": {
         },
         "errors": {
@@ -163,6 +166,7 @@
         "_id",
         "appName",
         "name",
+        "description",
         "status",
         "startDate",
         "finishDate"

@@ -14,6 +14,7 @@
               "Users",
               "Diagnostics",
               "System Logs",
+              "Patches",
               "Movies",
               "Encoding Tasks"
             ],
@@ -59,6 +60,7 @@
             "Users",
             "Diagnostics",
             "System Logs",
+            "Patches",
             "Movies",
             "Encoding Tasks"
           ],

@@ -52,7 +52,7 @@ export const seed = async (i: Injector) => {
     {
       username: 'testuser@gmail.com',
       password: i.getInstance(HttpAuthenticationSettings).hashMethod('password'),
-      roles: ['sys-logs', 'terms-accepted'],
+      roles: ['sys-diags', 'terms-accepted'],
     },
     userStore,
     i,

@@ -5,6 +5,7 @@ import { StoreManager } from '@furystack/core'
 
 export interface PatchEntry {
   patchName: string
+  patchDescription: string
   mode: 'once' | 'always'
   exec: (injector: Injector) => Promise<Pick<diag.Patch, 'errors' | 'warns' | 'updates'>>
 }

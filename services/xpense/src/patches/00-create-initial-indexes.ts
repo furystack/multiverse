@@ -3,6 +3,7 @@ import { xpense } from '@common/models'
 
 export const createInitialIndexes: PatchEntry = {
   patchName: '00-create-initial-indexes',
+  patchDescription: 'Creates the following indexes: Item/itemName (unique), Shop/shopName(unique), Account/owner,name',
   mode: 'once',
   exec: async (injector) => {
     const errors: Array<{ message: string; stack: string }> = []
