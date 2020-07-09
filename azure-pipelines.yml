@@ -164,7 +164,7 @@ jobs:
               displayName: Stop services
               inputs:
                 sshEndpoint: 'multiverse.my.to'
-                commands: 'sudo systemctl stop multiverse-auth && sudo systemctl stop multiverse-diag && sudo systemctl stop multiverse-xpense && sudo systemctl stop multiverse-media'
+                commands: 'sudo systemctl stop multiverse-auth && sudo systemctl stop multiverse-diag && sudo systemctl stop multiverse-xpense && sudo systemctl stop multiverse-media sudo systemctl stop multiverse-dashboard'
 
             - task: CopyFilesOverSSH@0
               displayName: Copy package to target
@@ -197,4 +197,10 @@ jobs:
               displayName: Restart services
               inputs:
                 sshEndpoint: 'multiverse.my.to'
-                commands: 'sudo systemctl start multiverse-auth && sudo systemctl start multiverse-diag && sudo systemctl start multiverse-xpense && sudo systemctl start multiverse-media && sudo systemctl start nginx'
+                commands: 'sudo systemctl start multiverse-auth && sudo systemctl start multiverse-diag && sudo systemctl start multiverse-xpense && sudo systemctl start multiverse-media && sudo systemctl start multiverse-dashboard && sudo systemctl start nginx'
+
+            - task: SSH@0
+              displayName: Reload nginx config
+              inputs:
+                sshEndpoint: 'multiverse.my.to'
+                commands: 'sudo service nginx reload'
