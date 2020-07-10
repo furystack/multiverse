@@ -37,7 +37,7 @@ export const CreateDashboard = Shade<{}, Partial<dashboard.Dashboard>>({
             required
             onTextChange={(text) => updateState({ description: text }, true)}
           />
-          <Button type="submit">Create Movie Library</Button>
+          <Button type="submit">Create Dashboard</Button>
         </form>
       </div>
     )

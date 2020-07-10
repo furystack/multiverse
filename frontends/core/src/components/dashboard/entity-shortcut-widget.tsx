@@ -38,6 +38,21 @@ export const EntityShortcutWidget = Shade<dashboard.EntityShortcutWidget & { ind
             })
             return <MovieWidget index={props.index} movie={movie} size={256} />
           }
+          if (props.entityType === 'movie-library') {
+            const movieLib: media.MovieLibrary = await injector.getInstance(MediaApiService).call({
+              method: 'GET',
+              action: '/movie-libraries/:id',
+              url: { id: props.id },
+            })
+            return (
+              <IconUrlWidget
+                index={props.index}
+                icon={props.icon || movieLib.icon || '📋'}
+                name={props.name || movieLib.name}
+                url={`/movies/${props.id}`}
+              />
+            )
+          }
 
           if (props.entityType === 'xpense-account') {
             const account: xpense.Account = await injector.getInstance(XpenseApiService).call({

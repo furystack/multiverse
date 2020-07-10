@@ -92,7 +92,11 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
             {...monacoProps}
             value={JSON.stringify(props.data, undefined, 2)}
             onchange={(v) => {
-              updateState({ currentData: JSON.stringify(JSON.parse(v)) }, true)
+              try {
+                updateState({ currentData: JSON.stringify(JSON.parse(v)) }, true)
+              } catch (error) {
+                // serialization error, ignore
+              }
             }}
           />
         </div>
