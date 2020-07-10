@@ -164,7 +164,7 @@ jobs:
               displayName: Stop services
               inputs:
                 sshEndpoint: 'multiverse.my.to'
-                commands: 'sudo systemctl stop multiverse-auth && sudo systemctl stop multiverse-diag && sudo systemctl stop multiverse-xpense && sudo systemctl stop multiverse-media sudo systemctl stop multiverse-dashboard'
+                commands: 'sudo systemctl stop multiverse-auth && sudo systemctl stop multiverse-diag && sudo systemctl stop multiverse-xpense && sudo systemctl stop multiverse-media && sudo systemctl stop multiverse-dashboard'
 
             - task: CopyFilesOverSSH@0
               displayName: Copy package to target
