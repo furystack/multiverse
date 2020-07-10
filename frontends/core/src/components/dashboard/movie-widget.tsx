@@ -1,7 +1,7 @@
-import { Shade, RouteLink, createComponent, LocationService } from '@furystack/shades'
+import { Shade, RouteLink, createComponent, LocationService, LazyLoad } from '@furystack/shades'
 import { media, auth } from '@common/models'
 import { promisifyAnimation } from '@furystack/shades-common-components'
-import { SessionService } from '@common/frontend-utils'
+import { SessionService, MediaApiService } from '@common/frontend-utils'
 
 const focus = (el: HTMLElement) => {
   promisifyAnimation(el, [{ filter: 'saturate(0.3)brightness(0.6)' }, { filter: 'saturate(1)brightness(1)' }], {
@@ -141,6 +141,43 @@ export const MovieWidget = Shade<
               background: 'rgba(0,0,0,0.7)',
             }}>
             {meta.title}
+            <LazyLoad
+              loader={<div />}
+              component={async () => {
+                const watchProgress =
+                  movie.metadata.duration &&
+                  (
+                    await injector.getInstance(MediaApiService).call({
+                      method: 'GET',
+                      action: '/my-watch-progress',
+                      query: {
+                        findOptions: {
+                          filter: {
+                            movieId: { $eq: movie._id },
+                          },
+                          select: ['watchedSeconds'],
+                        },
+                      },
+                    })
+                  ).entries[0]
+
+                const percent =
+                  watchProgress && Math.round(100 * (watchProgress.watchedSeconds / movie.metadata.duration))
+
+                return (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: '0',
+                      left: '0',
+                      height: '2px',
+                      width: `${percent}%`,
+                      background: 'rgba(96,96,255,0.5)',
+                    }}
+                  />
+                )
+              }}
+            />
           </div>
         </div>
       </RouteLink>
