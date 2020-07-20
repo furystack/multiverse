@@ -1,4 +1,5 @@
 import { Injectable } from '@furystack/inject'
+import { PathHelper } from '@furystack/utils'
 import { apis, serialize } from '@common/models'
 import { createClient } from '@furystack/rest-client-fetch'
 import { sites } from '@common/config'
@@ -6,7 +7,7 @@ import { sites } from '@common/config'
 @Injectable({ lifetime: 'singleton' })
 export class DashboardApiService {
   public call = createClient<apis.DashboardApi>({
-    endpointUrl: sites.services.dashboard.apiPath,
+    endpointUrl: PathHelper.joinPaths(window.location.origin, sites.services.dashboard.apiPath),
     serializeQueryParams: serialize,
     requestInit: {
       credentials: 'include',
