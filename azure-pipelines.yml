@@ -75,10 +75,9 @@ jobs:
                 containerRegistry: dockerHubServiceConnection
             - script: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes \n
                       docker buildx rm builder \n
-                      docker buildx create --name builder --driver docker-container --use \n
-                      docker buildx inspect --bootstrap
+                      docker buildx create --name builder --driver docker-container --node build --driver-opt network=host --use \n
+                      docker buildx inspect --bootstrap \n
               displayName: Prepare Docker BuildX
-            # - script: docker buildx create --use
             - script: docker buildx build --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --file ./base.Dockerfile --tag furystack/multiverse-base:latest . --push 
               displayName: Build Base image
             - script: docker buildx build --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --file ./auth.Dockerfile --tag furystack/multiverse-auth:latest . --push 
