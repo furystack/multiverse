@@ -60,7 +60,7 @@ jobs:
   - deployment: deploy
     displayName: Deploy images to Docker HUB
     dependsOn: buildAndTest
-    timeoutInMinutes: 10
+    timeoutInMinutes: 45
     environment:
       name: DockerHub
     strategy:
@@ -77,19 +77,18 @@ jobs:
               displayName: Pull docker quemi image for buildx
             - script: docker buildx create --name builder --driver docker-container --node build --driver-opt network=host --use
               displayName: Create new buildx builder
-            - script: docker buildx inspect --bootstrap 
+            - script: docker buildx inspect --bootstrap
               displayName: Bootstrap BuildX builder
-            - script: docker buildx build --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --file ./base.Dockerfile --tag furystack/multiverse-base:latest . --push 
+            - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./base.Dockerfile --tag furystack/multiverse-base:latest . --push
               displayName: Build Base image
-            - script: docker buildx build --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --file ./auth.Dockerfile --tag furystack/multiverse-auth:latest . --push 
+            - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./auth.Dockerfile --tag furystack/multiverse-auth:latest . --push
               displayName: Build Auth image
-            - script: docker buildx build --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --file ./dashboard.Dockerfile --tag furystack/multiverse-dashboard:latest . --push 
+            - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./dashboard.Dockerfile --tag furystack/multiverse-dashboard:latest . --push
               displayName: Build Dashboard image
-            - script: docker buildx build --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --file ./diag.Dockerfile --tag furystack/multiverse-diag:latest . --push 
+            - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./diag.Dockerfile --tag furystack/multiverse-diag:latest . --push
               displayName: Build Diag image
-            - script: docker buildx build --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --file ./media.Dockerfile --tag furystack/multiverse-media:latest . --push 
+            - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./media.Dockerfile --tag furystack/multiverse-media:latest . --push
               displayName: Build Media image
-
             # - task: Docker@2
             #   displayName: Build base docker image
             #   inputs:
