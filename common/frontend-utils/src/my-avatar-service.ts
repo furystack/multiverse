@@ -8,7 +8,7 @@ export class MyAvatarService {
   public async uploadAvatar(file: File) {
     const formData = new FormData()
     formData.append('avatar', file)
-    await fetch(PathHelper.joinPaths(sites.services.auth.externalPath, 'auth', 'avatar'), {
+    await fetch(PathHelper.joinPaths(sites.services.auth.apiPath, 'avatar'), {
       method: 'POST',
       body: formData as any,
       credentials: 'include',

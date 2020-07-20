@@ -1,7 +1,7 @@
 import { join } from 'path'
 import { promises } from 'fs'
 import { media } from '@common/models'
-import { sites, FileStores } from '@common/config'
+import { FileStores } from '@common/config'
 import { PathHelper } from '@furystack/utils'
 import { Injector } from '@furystack/inject'
 import got from 'got'
@@ -10,11 +10,12 @@ import { existsAsync } from '@common/service-utils'
 import { encodeToVp9Dash } from './encode-to-vp9-dash'
 import { encodeToX264Dash } from './encode-to-264-dash'
 
+export const mediaApiPath = process.env.MEDIA_API_PATH || 'http://localhost:9093/api/media'
+
 export const encodeTask = async (options: { task: media.EncodingTask; injector: Injector }): Promise<boolean> => {
   const logger = options.injector.logger.withScope('encodeTask')
   const uploadPath = PathHelper.joinPaths(
-    sites.services.media.externalPath,
-    'media',
+    mediaApiPath,
     'upload-encoded',
     options.task.mediaInfo.movie._id,
     options.task.authToken,
@@ -43,8 +44,8 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
   await promises.mkdir(encodingTempDir, { recursive: true })
 
   const source = PathHelper.joinPaths(
-    sites.services.media.externalPath,
-    `/media/stream-original/${options.task.mediaInfo.movie._id}/${options.task.authToken}`,
+    mediaApiPath,
+    `/stream-original/${options.task.mediaInfo.movie._id}/${options.task.authToken}`,
   )
 
   try {
@@ -67,7 +68,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
         uploadPath,
         encodingSettings,
       })
-      await got(PathHelper.joinPaths(sites.services.media.externalPath, 'media', 'finialize-encoding'), {
+      await got(PathHelper.joinPaths(mediaApiPath, 'media', 'finialize-encoding'), {
         method: 'POST',
         body: JSON.stringify({
           accessToken: options.task.authToken,
@@ -96,7 +97,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
         },
       },
     })
-    got(PathHelper.joinPaths(sites.services.media.externalPath, 'media', 'save-encoding-failure'), {
+    got(PathHelper.joinPaths(mediaApiPath, 'media', 'save-encoding-failure'), {
       method: 'POST',
       body: JSON.stringify({
         accessToken: options.task.authToken,

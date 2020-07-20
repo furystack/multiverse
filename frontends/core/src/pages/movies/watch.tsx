@@ -39,14 +39,14 @@ export const Watch = Shade<{ movie: media.Movie; watchedSeconds: number }, { wat
         if (formats && formats.length === 1) {
           player.src(
             formats.map((f) => ({
-              src: `${sites.services.media.externalPath}/media/watch-stream/${props.movie._id}/${f.codec}/${f.mode}/dash.mpd`,
+              src: `${sites.services.media.apiPath}/watch-stream/${props.movie._id}/${f.codec}/${f.mode}/dash.mpd`,
               type: f.mode === 'dash' ? 'application/dash+xml' : 'unknown',
               withCredentials: true,
             }))[0],
           )
         } else {
           player.src({
-            src: `${sites.services.media.externalPath}/media/stream-original/${props.movie._id}`,
+            src: `${sites.services.media.apiPath}/stream-original/${props.movie._id}`,
             type: 'video/mp4',
           })
         }
@@ -56,7 +56,7 @@ export const Watch = Shade<{ movie: media.Movie; watchedSeconds: number }, { wat
         player.on('error', (_ev) => {
           if (confirm('There was an error during encoded video playback. Try the original content?'))
             player.src({
-              src: `${sites.services.media.externalPath}/media/stream-original/${props.movie._id}`,
+              src: `${sites.services.media.apiPath}/stream-original/${props.movie._id}`,
               type: 'video/mp4',
             })
           player.currentTime(props.watchedSeconds)

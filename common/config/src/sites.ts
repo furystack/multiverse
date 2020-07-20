@@ -2,28 +2,23 @@ export const sites = {
   services: {
     auth: {
       internalPort: process.env.AUTH_SERVICE_INTERNAL_PORT || 9090,
-      externalPath:
-        process.env.AUTH_SERVICE_EXTERNAL_URL || process.env.EXTERNAL_SERVICE_URL || 'http://localhost:9090/api',
+      apiPath: '/api/auth',
     },
     diag: {
       internalPort: process.env.DIAG_SERVICE_INTERNAL_PORT || 9091,
-      externalPath:
-        process.env.DIAG_SERVICE_EXTERNAL_URL || process.env.EXTERNAL_SERVICE_URL || 'http://localhost:9091/api',
+      apiPath: '/api/diag',
     },
     xpense: {
       internalPort: process.env.XPENSE_SERVICE_INTERNAL_PORT || 9092,
-      externalPath:
-        process.env.XPENSE_SERVICE_EXTERNAL_URL || process.env.EXTERNAL_SERVICE_URL || 'http://localhost:9092/api',
+      apiPath: '/api/xpense',
     },
     media: {
       internalPort: process.env.MEDIA_SERVICE_INTERNAL_PORT || 9093,
-      externalPath:
-        process.env.MEDIA_SERVICE_EXTERNAL_URL || process.env.EXTERNAL_SERVICE_URL || 'http://localhost:9093/api',
+      apiPath: '/api/media',
     },
     dashboard: {
       internalPort: process.env.DASHBOARD_SERVICE_INTERNAL_PORT || 9094,
-      externalPath:
-        process.env.DASHBOARD_SERVICE_EXTERNAL_URL || process.env.EXTERNAL_SERVICE_URL || 'http://localhost:9094/api',
+      apiPath: '/api/dashboard',
     },
   },
   frontends: {

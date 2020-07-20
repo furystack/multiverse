@@ -13,8 +13,7 @@ export class EncodingTaskProgressUpdater {
   constructor(private readonly service: CollectionService<media.EncodingTask>) {
     this.socket = new WebSocket(
       PathHelper.joinPaths(
-        sites.services.media.externalPath.replace('https://', 'wss://').replace('http://', 'ws://'),
-        'media',
+        sites.services.media.apiPath.replace('https://', 'wss://').replace('http://', 'ws://'),
         'encoder-updates',
       ),
     )

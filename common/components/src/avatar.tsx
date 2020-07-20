@@ -8,13 +8,7 @@ export const Avatar = Shade<AvatarProps>({
   shadowDomName: 'multiverse-avatar',
   render: ({ props }) => {
     const { ...divProps } = props
-    const avatarPath = PathHelper.joinPaths(
-      sites.services.auth.externalPath,
-      'auth',
-      'profiles',
-      props.userName,
-      'avatar',
-    )
+    const avatarPath = PathHelper.joinPaths(sites.services.auth.apiPath, 'profiles', props.userName, 'avatar')
     return (
       <div
         {...divProps}
