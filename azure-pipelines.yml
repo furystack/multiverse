@@ -74,10 +74,13 @@ jobs:
                 command: login
                 containerRegistry: dockerHubServiceConnection
             - script: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+              displayName: Pull docker quemi image for buildx
             - script: docker buildx rm builder
+              displayName: Remove old buildx builder
             - script: docker buildx create --name builder --driver docker-container --node build --driver-opt network=host --use
+              displayName: Create new buildx builder
             - script: docker buildx inspect --bootstrap 
-              displayName: Prepare Docker BuildX
+              displayName: Bootstrap BuildX builder
             - script: docker buildx build --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --file ./base.Dockerfile --tag furystack/multiverse-base:latest . --push 
               displayName: Build Base image
             - script: docker buildx build --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --file ./auth.Dockerfile --tag furystack/multiverse-auth:latest . --push 
