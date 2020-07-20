@@ -94,38 +94,9 @@ jobs:
             - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./media.Dockerfile --tag furystack/multiverse-media:latest . --push
               displayName: Build Media image
               timeoutInMinutes: 15
-            # - task: Docker@2
-            #   displayName: Build base docker image
-            #   inputs:
-            #     command: buildAndPush
-            #     containerRegistry: dockerHubServiceConnection
-            #     Dockerfile: base.Dockerfile
-            #     repository: furystack/multiverse-base
-            #     tags: latest
-            # - task: Docker@2
-            #   displayName: Build Auth docker image
-            #   inputs:
-            #     command: buildAndPush
-            #     containerRegistry: dockerHubServiceConnection
-            #     Dockerfile: auth.Dockerfile
-            #     repository: furystack/multiverse-wrap-r
-            #     tags: latest
-            # - task: Docker@2
-            #   displayName: Build Diag docker image
-            #   inputs:
-            #     command: buildAndPush
-            #     containerRegistry: dockerHubServiceConnection
-            #     Dockerfile: diag.Dockerfile
-            #     repository: furystack/multiverse-diag
-            #     tags: latest
-            # - task: Docker@2
-            #   displayName: Build Xpense docker image
-            #   inputs:
-            #     command: buildAndPush
-            #     containerRegistry: dockerHubServiceConnection
-            #     Dockerfile: diag.Dockerfile
-            #     repository: furystack/multiverse-xpense
-            #     tags: latest
+            - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./xpense.Dockerfile --tag furystack/multiverse-xpense:latest . --push
+              displayName: Build Xpense image
+              timeoutInMinutes: 15
   # - deployment: deploy
   #   displayName: 'Deploy to multiverse.my.to'
   #   dependsOn: buildAndTest
