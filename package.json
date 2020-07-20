@@ -82,7 +82,9 @@
     "recreate-schemas": "yarn recreate-schemas:auth && yarn recreate-schemas:dashboard && yarn recreate-schemas:diag && yarn recreate-schemas:media && yarn recreate-schemas:xpense",
     "docker:base": "docker build . --file ./base.Dockerfile --tag furystack/multiverse-base:latest",
     "docker:auth": "docker build . --file ./auth.Dockerfile --tag furystack/multiverse-auth:latest",
+    "docker:dashboard": "docker build . --file ./dashboard.Dockerfile --tag furystack/multiverse-dashboard:latest",
     "docker:diag": "docker build . --file ./diag.Dockerfile --tag furystack/multiverse-diag:latest",
-    "dockerize": "yarn docker:base && yarn docker:auth && yarn docker:diag"
+    "docker:media": "docker build . --file ./media.Dockerfile --tag furystack/multiverse-media:latest",
+    "dockerize": "yarn docker:base && yarn docker:auth && yarn docker:diag && yarn docker:dashboard && yarn docker:media"
   }
 }

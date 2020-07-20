@@ -2,4 +2,4 @@ FROM furystack/multiverse-base:latest
 
 EXPOSE 9091
 
-CMD ["yarn", "startDiag"]
+CMD ["yarn", "workspace @service/diag start"]
