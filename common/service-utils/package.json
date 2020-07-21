@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@types/mongodb": "^3.5.25",
-    "@types/node": "^14.0.21"
+    "@types/node": "^14.0.24"
   },
   "dependencies": {
     "@common/config": "1.0.0",
@@ -24,7 +24,7 @@
     "@furystack/repository": "^3.0.8",
     "@furystack/rest": "^1.1.18",
     "@furystack/rest-service": "^2.1.12",
-    "got": "^11.5.0",
+    "got": "^11.5.1",
     "mongodb": "^3.5.2",
     "tslib": "^2.0.0",
     "uuid": "^8.2.0"
