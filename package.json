@@ -80,6 +80,7 @@
     "recreate-schemas:media": "yarn workspace @common/models ts-json-schema-generator -p src/media/*.ts -e all -o src/json-schemas-media.json",
     "recreate-schemas:xpense": "yarn workspace @common/models ts-json-schema-generator -p src/xpense/*.ts -e all -o src/json-schemas-xpense.json",
     "recreate-schemas": "yarn recreate-schemas:auth && yarn recreate-schemas:dashboard && yarn recreate-schemas:diag && yarn recreate-schemas:media && yarn recreate-schemas:xpense",
+    "docker:frontend-core": "docker build . --file ./frontend-core.Dockerfile --tag furystack/multiverse-frontend-core:latest",
     "docker:base": "docker build . --file ./base.Dockerfile --tag furystack/multiverse-base:latest",
     "docker:auth": "docker build . --file ./auth.Dockerfile --tag furystack/multiverse-auth:latest",
     "docker:dashboard": "docker build . --file ./dashboard.Dockerfile --tag furystack/multiverse-dashboard:latest",

@@ -15,7 +15,7 @@ trigger:
   - greenkeeper/*
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: "ubuntu-latest"
 
 jobs:
   - job: buildAndTest
@@ -24,37 +24,37 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '12.x'
-        displayName: 'Install Node.js'
+          versionSpec: "12.x"
+        displayName: "Install Node.js"
       - script: yarn install
-        displayName: 'Yarn install'
+        displayName: "Yarn install"
       - script: yarn lint
-        displayName: 'Yarn Lint'
+        displayName: "Yarn Lint"
       - script: yarn build
-        displayName: 'Yarn build'
+        displayName: "Yarn build"
         env:
           RELATIVE_CI_SLUG: furystack/multiverse
       - task: DockerCompose@0
         displayName: Start docker services
         inputs:
           action: Run services
-          dockerComposeFile: '$(System.DefaultWorkingDirectory)/docker-compose.yml'
+          dockerComposeFile: "$(System.DefaultWorkingDirectory)/docker-compose.yml"
           projectName: $(Build.Repository.Name)
           detached: true
           buildImages: true
       - script: yarn test:cypress
-        displayName: 'Cypress tests'
+        displayName: "Cypress tests"
       - task: PublishTestResults@2
         displayName: Publish test results
         condition: always()
         inputs:
           testRunner: JUnit
-          testResultsFiles: '$(System.DefaultWorkingDirectory)/testresults/output.xml'
+          testResultsFiles: "$(System.DefaultWorkingDirectory)/testresults/output.xml"
       - task: PublishBuildArtifacts@1
         displayName: Publish Cypress test artifacts
         condition: failed()
         inputs:
-          pathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/videos'
+          pathtoPublish: "$(System.DefaultWorkingDirectory)/cypress/videos"
           artifactName: cypress_videos
   # ToDO: Revisit this after multi platform Docker build
   - deployment: deploy
@@ -79,6 +79,9 @@ jobs:
               displayName: Create new buildx builder
             - script: docker buildx inspect --bootstrap
               displayName: Bootstrap BuildX builder
+            - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./frontend-core.Dockerfile --tag furystack/frontend-core:latest . --push
+              displayName: Build Frontend-Core image
+              timeoutInMinutes: 15
             - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./base.Dockerfile --tag furystack/multiverse-base:latest . --push
               displayName: Build Base image
               timeoutInMinutes: 30
