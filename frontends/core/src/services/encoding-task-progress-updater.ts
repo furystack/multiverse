@@ -12,10 +12,9 @@ export class EncodingTaskProgressUpdater {
 
   constructor(private readonly service: CollectionService<media.EncodingTask>) {
     this.socket = new WebSocket(
-      PathHelper.joinPaths(
-        sites.services.media.apiPath.replace('https://', 'wss://').replace('http://', 'ws://'),
-        'encoder-updates',
-      ),
+      PathHelper.joinPaths(location.origin, sites.services.media.apiPath, 'encoder-updates')
+        .replace('https://', 'wss://')
+        .replace('http://', 'ws://'),
     )
     this.socket.onopen = () => console.log('WS opened')
     this.socket.onclose = () => console.log('WS closed')
