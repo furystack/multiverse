@@ -1,5 +1,4 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { environmentOptions } from '..'
 import { GenericErrorPage } from './generic-error'
 
 export const Offline = Shade({
@@ -11,11 +10,8 @@ export const Offline = Shade({
         description={
           <div>
             <p>
-              There was a trouble connecting to the backend service at{' '}
-              <a href={environmentOptions.serviceUrl.apiPath} target="_blank">
-                {environmentOptions.serviceUrl.apiPath}
-              </a>
-              . It seems to be the service is unaccessible at the moment. You can check the following things:
+              There was a trouble connecting to the backend service. It seems to be the service is unaccessible at the
+              moment. You can check the following things:
             </p>
             <ul>
               <li>
