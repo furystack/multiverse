@@ -212,12 +212,13 @@ declare module '@furystack/inject/dist/injector' {
   }
 }
 
-Injector.prototype.useGoogleAuth = function(options: GoogleAuthenticationOptions) {
+Injector.prototype.useGoogleAuth = function(options?: GoogleAuthenticationOptions) {
   const newOptions = new GoogleAuthenticationOptions()
+  Object.assign(newOptions, options)
 
-  if (!options.redirectUri) {
-    options.redirectUri = `${window.location.origin}/`
+  if (!newOptions.redirectUri) {
+    newOptions.redirectUri = `${window.location.origin}/`
   }
-  this.setExplicitInstance(Object.assign(newOptions, options), GoogleAuthenticationOptions)
+  this.setExplicitInstance(newOptions, GoogleAuthenticationOptions)
   return this
 }
