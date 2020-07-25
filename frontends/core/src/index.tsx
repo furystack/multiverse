@@ -16,7 +16,6 @@ export const environmentOptions = {
   debug: Boolean(process.env.DEBUG),
   appVersion: process.env.APP_VERSION as string,
   buildDate: new Date(process.env.BUILD_DATE as string),
-  serviceUrl: sites.services.auth,
 }
 
 shadeInjector.useLogging(VerboseConsoleLogger)
@@ -26,9 +25,7 @@ shadeInjector.logger.withScope('Startup').verbose({
   data: { environmentOptions },
 })
 
-shadeInjector.useGoogleAuth({
-  clientId: tokens.googleClientId,
-})
+shadeInjector.useGoogleAuth()
 
 shadeInjector.useSessionService()
 

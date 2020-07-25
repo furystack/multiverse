@@ -24,6 +24,12 @@ export interface AuthApi extends RestApi {
       result: PartialResult<Organization, any>
       urlParams: { organizationName: string }
     }>
+    '/oauth-data': RequestAction<{
+      result: {
+        googleClientId: string
+        githubClientId: string
+      }
+    }>
   }
   POST: {
     '/login': RequestAction<{ body: { username: string; password: string }; result: User }>

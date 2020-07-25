@@ -17,37 +17,8 @@ export class GoogleAuthenticationOptions {
    * https://developers.google.com/identity/protocols/googlescopes
    */
   public scope: string[] = ['email', 'profile']
-  /**
-   * Your application's ClientId, provided by Google
-   */
-  public clientId!: string
   public windowInstance = window
 }
-
-/**
- * Basic Google OAuth Provider implementation
- * Usage example:
- *
- * ```
- * import { AddGoogleAuth } from 'sn-client-auth-google';
- *
- * AddGoogleAuth(myRepository, {
- *      ClientId: myGoogleClientId
- * });
- *
- * // ...
- * // an example login method:
- * async Login(){
- *  try {
- *      await myRepository.Authentication.GetOauthProvider(GoogleOauthProvider).Login();
- *      console.log('Logged in');
- *  } catch (error) {
- *     console.warn('Error during login', error);
- *  }
- * }
- * ```
- *
- */
 @Injectable()
 export class GoogleOauthProvider {
   /**
@@ -181,7 +152,11 @@ export class GoogleOauthProvider {
    * @returns {Promise<string>} A promise that will be resolved with an id_token, or will be rejected in case of errors or if the dialog closes
    */
   public async getToken(): Promise<string> {
-    const loginReqUrl = this.getGoogleLoginUrl()
+    const oauthData = await this.api.call({
+      method: 'GET',
+      action: '/oauth-data',
+    })
+    const loginReqUrl = this.getGoogleLoginUrl(oauthData.googleClientId)
     try {
       return await this.getTokenSilent(loginReqUrl)
     } catch (error) {
@@ -194,13 +169,13 @@ export class GoogleOauthProvider {
    * Gets a Google OAuth2 Login window URL based on the provider options
    * @returns {string} the generated Url
    */
-  public getGoogleLoginUrl(): string {
+  public getGoogleLoginUrl(clientId: string): string {
     return (
       `https://accounts.google.com/o/oauth2/v2/auth` +
       `?response_type=id_token` +
       `&redirect_uri=${encodeURIComponent(this.options.redirectUri)}` +
       `&scope=${encodeURIComponent(this.options.scope.join(' '))}` +
-      `&client_id=${encodeURIComponent(this.options.clientId)}` +
+      `&client_id=${encodeURIComponent(clientId)}` +
       `&nonce=${Math.random().toString()}`
     )
   }
@@ -233,11 +208,11 @@ export class GoogleOauthProvider {
 
 declare module '@furystack/inject/dist/injector' {
   interface Injector {
-    useGoogleAuth(options: Partial<GoogleAuthenticationOptions> & { clientId: string }): Injector
+    useGoogleAuth(options?: Partial<GoogleAuthenticationOptions>): Injector
   }
 }
 
-Injector.prototype.useGoogleAuth = function (options: GoogleAuthenticationOptions) {
+Injector.prototype.useGoogleAuth = function(options: GoogleAuthenticationOptions) {
   const newOptions = new GoogleAuthenticationOptions()
 
   if (!options.redirectUri) {

@@ -29,6 +29,7 @@ import {
   OrganizationAddMember,
   OrganizationRemoveAdmin,
   OrganizationRemoveMember,
+  getOauthData,
 } from './actions'
 import { injector } from './config'
 import { PostSettings } from './actions/post-settings'
@@ -49,6 +50,7 @@ injector.useRestService<apis.AuthApi>({
       '/organizations': createCollectionEndpoint({ model: auth.Organization }),
       '/organization/:organizationName': GetOrganization,
       '/loginProviderDetails': Authenticate()(GetLoginProviderDetails),
+      '/oauth-data': getOauthData,
     },
     POST: {
       '/avatar': UploadAvatar,
