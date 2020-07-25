@@ -87,7 +87,7 @@ jobs:
               displayName: Create new buildx builder
             - script: docker buildx inspect --bootstrap
               displayName: Bootstrap BuildX builder
-            - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./frontend-core.Dockerfile --tag furystack/frontend-core:latest . --push
+            - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./frontend-core.Dockerfile --tag furystack/multiverse-frontend-core:latest . --push
               displayName: Build Frontend-Core image
               timeoutInMinutes: 15
             - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./base.Dockerfile --tag furystack/multiverse-base:latest . --push
