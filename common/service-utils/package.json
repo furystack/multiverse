@@ -12,21 +12,21 @@
   },
   "devDependencies": {
     "@types/mongodb": "^3.5.25",
-    "@types/node": "^14.0.24"
+    "@types/node": "^14.0.27"
   },
   "dependencies": {
     "@common/config": "1.0.0",
     "@common/models": "1.0.0",
-    "@furystack/core": "^9.1.5",
-    "@furystack/inject": "^4.0.34",
-    "@furystack/logging": "^2.0.41",
-    "@furystack/mongodb-store": "^3.1.10",
-    "@furystack/repository": "^3.0.8",
-    "@furystack/rest": "^1.1.18",
-    "@furystack/rest-service": "^2.1.12",
+    "@furystack/core": "^9.1.6",
+    "@furystack/inject": "^4.0.35",
+    "@furystack/logging": "^2.0.42",
+    "@furystack/mongodb-store": "^3.1.11",
+    "@furystack/repository": "^3.0.9",
+    "@furystack/rest": "^1.1.19",
+    "@furystack/rest-service": "^2.1.13",
     "got": "^11.5.1",
     "mongodb": "^3.5.2",
     "tslib": "^2.0.0",
-    "uuid": "^8.2.0"
+    "uuid": "^8.3.0"
   }
 }

@@ -34,6 +34,8 @@
       "skipFiles": ["<node_internals>/**"],
       "preLaunchTask": "npm: build:workers",
       "env": {
+        "RABBITMQ_HOST": "amqp://owgkzyil:vxFnE2QNQEyUcnaWtm_BfwWBOdJTguDb@roedeer.rmq.cloudamqp.com/owgkzyil",
+        "MEDIA_API_PATH": "http://multiverse.my.to/api/media",
         "ENABLE_NVENC": "true",
         "MEDIA_ENCODER_WORKER_TEMP": "d:\\temp\\ffmpeg-mock\\MULTIVERSE_ENCODING_TEMP"
       }

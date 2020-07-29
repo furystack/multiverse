@@ -13,19 +13,19 @@
   },
   "devDependencies": {
     "@types/formidable": "^1.0.31",
-    "@types/node": "^14.0.24"
+    "@types/node": "^14.0.27"
   },
   "dependencies": {
     "@common/config": "1.0.0",
     "@common/service-utils": "1.0.0",
-    "@furystack/auth-google": "^4.0.42",
-    "@furystack/core": "^9.1.5",
-    "@furystack/inject": "^4.0.34",
-    "@furystack/logging": "^2.0.41",
-    "@furystack/mongodb-store": "^3.1.10",
-    "@furystack/repository": "^3.0.8",
-    "@furystack/rest": "^1.1.18",
-    "@furystack/rest-service": "^2.1.12",
+    "@furystack/auth-google": "^4.0.43",
+    "@furystack/core": "^9.1.6",
+    "@furystack/inject": "^4.0.35",
+    "@furystack/logging": "^2.0.42",
+    "@furystack/mongodb-store": "^3.1.11",
+    "@furystack/repository": "^3.0.9",
+    "@furystack/rest": "^1.1.19",
+    "@furystack/rest-service": "^2.1.13",
     "formidable": "^1.2.2",
     "tslib": "^2.0.0"
   }
