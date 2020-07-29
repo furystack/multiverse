@@ -212,7 +212,7 @@ declare module '@furystack/inject/dist/injector' {
   }
 }
 
-Injector.prototype.useGoogleAuth = function(options?: GoogleAuthenticationOptions) {
+Injector.prototype.useGoogleAuth = function (options?: GoogleAuthenticationOptions) {
   const newOptions = new GoogleAuthenticationOptions()
   Object.assign(newOptions, options)
 
