@@ -19,12 +19,12 @@ export class DbLogger extends AbstractLogger implements Disposable {
   private isDisposing = false
 
   public async dispose() {
-    await this.injector.logger
-      .withScope(this.constructor.name)
-      .information({ message: 'Disposing, no logs will be saved to the DB...' })
     this.isDisposing = true
     this.injector.getInstance(LoggerCollection).detach(this)
     this.addEntry = () => Promise.resolve()
+    await this.injector.logger
+      .withScope(this.constructor.name)
+      .information({ message: 'Disposing, no logs will be saved to the DB...' })
   }
   public readonly store: MongodbStore<diag.LogEntry<any>>
   public async addEntry<T>(entry: import('@furystack/logging').LeveledLogEntry<T>): Promise<void> {
@@ -59,7 +59,7 @@ Injector.prototype.useDbLogger = function (settings) {
       collection: databases.diag.logCollection,
       url: databases.diag.mongoUrl,
       db: databases.diag.dbName,
-      options: databases.standardOptions,
+      options: { ...databases.standardOptions, maxPoolSize: 1, minPoolSize: 1 },
     }),
   )
 

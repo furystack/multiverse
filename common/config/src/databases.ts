@@ -35,5 +35,6 @@ export const databases = {
   },
   standardOptions: {
     useUnifiedTopology: true,
-  },
+    useNewUrlParser: true,
+  } as import('mongodb').MongoClientOptions,
 }

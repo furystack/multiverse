@@ -35,7 +35,7 @@
       "preLaunchTask": "npm: build:workers",
       "env": {
         "ENABLE_NVENC": "true",
-        "MEDIA_ENCODER_WORKER_TEMP": "d:\\temp\\ffmpeg-mock\\MULTIVERSE_ENCODING_TEMP"
+        "MEDIA_ENCODER_WORKER_TEMP": "d:\\temp"
       }
     }
   ],
