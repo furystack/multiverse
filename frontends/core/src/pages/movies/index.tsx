@@ -1,8 +1,10 @@
 import { Shade, createComponent, Router, LazyLoad } from '@furystack/shades'
 import { media } from '@common/models'
 import { MediaApiService } from '@common/frontend-utils'
+import { Fab } from '@furystack/shades-common-components'
 import { Init } from '../init'
 import { GenericErrorPage } from '../generic-error'
+import { GenericMonacoEditor } from '../../components/editors/generic-monaco-editor'
 import { LibraryList } from './library-list'
 import { NewMovieLibrary } from './new-movie-library'
 import { MovieList } from './movie-list'
@@ -124,12 +126,66 @@ export const MoviesPage = Shade({
                   )}
                   loader={<Init message="Loading movies..." />}
                   component={async () => {
+                    const libraryId = match.params.libraryId as string
                     const movies = await injector.getInstance(MediaApiService).call({
                       method: 'GET',
                       action: '/movies',
-                      query: { findOptions: { filter: { libraryId: { $eq: match.params.libraryId } } } },
+                      query: { findOptions: { filter: { libraryId: { $eq: libraryId } } } },
                     })
-                    return <MovieList movies={movies.entries as media.Movie[]} />
+                    return (
+                      <div>
+                        <MovieList movies={movies.entries as media.Movie[]} />
+                        <Fab
+                          title="Watch encoding jobs"
+                          style={{ marginBottom: '5em', transform: 'scale(0.75)' }}
+                          onclick={() => {
+                            window.history.pushState('', '', `/movies/edit-library/${libraryId}`)
+                          }}>
+                          ✏
+                        </Fab>
+                      </div>
+                    )
+                  }}
+                />
+              )
+            },
+          },
+          {
+            url: '/movies/edit-library/:libraryId',
+            component: ({ match }) => {
+              const libraryId = match.params.libraryId as string
+              return (
+                <LazyLoad
+                  loader={<Init message="Loading Library..." />}
+                  error={(error, retry) => (
+                    <GenericErrorPage
+                      subtitle="Something bad happened during loading the movie list"
+                      error={error}
+                      retry={retry}
+                    />
+                  )}
+                  component={async () => {
+                    const lib: media.MovieLibrary = await injector.getInstance(MediaApiService).call({
+                      method: 'GET',
+                      action: '/movie-libraries/:id',
+                      url: { id: libraryId },
+                    })
+                    return (
+                      <GenericMonacoEditor<media.MovieLibrary, 'mediaSchema', 'MovieLibrary'>
+                        schema="mediaSchema"
+                        entity="MovieLibrary"
+                        data={lib as media.MovieLibrary}
+                        title={`Edit movie library '${lib.name}'`}
+                        onSave={async ({ _id, ...entity }) => {
+                          await injector.getInstance(MediaApiService).call({
+                            method: 'PATCH',
+                            action: '/movie-libraries/:id',
+                            url: { id: libraryId },
+                            body: entity,
+                          })
+                        }}
+                      />
+                    )
                   }}
                 />
               )

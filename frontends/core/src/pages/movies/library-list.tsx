@@ -25,7 +25,6 @@ export const LibraryList = Shade<{ libraries: media.MovieLibrary[]; isMovieAdmin
               onclick={() => {
                 window.history.pushState('', '', '/movies/encoding-tasks')
               }}>
-              {' '}
               🔎
             </Fab>
 
