@@ -34,10 +34,13 @@
     "eslint-plugin-jsdoc": "^30.1.0",
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.0.6",
+    "jest": "^26.2.2",
+    "jest-junit": "^11.1.0",
     "lint-staged": "^10.2.9",
     "prettier": "^2.0.1"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.8",
     "glob": "^7.1.6",
     "nodemon": "^2.0.2",
     "pm2": "^4.4.0",
@@ -69,6 +72,7 @@
     "build": "yarn build:common && yarn build:workers && yarn build:services && yarn build:frontends",
     "start:pm2": "yarn build:common && yarn build:workers && yarn build:services && yarn pm2 start ecosystem.config.js",
     "start:watch": "yarn start:pm2 && yarn workspace @frontend/core start",
+    "test:unit": "jest --verbose",
     "test:cypress": "yarn workspace @service/auth seed && yarn start:pm2 && concurrently --kill-others \"yarn workspace @frontend/core start\" \"yarn cypress run\" --success first ",
     "start": "yarn build:common && yarn build:workers && yarn build:services && concurrently --kill-others \"yarn workspace @worker/media-encoder start\" \"yarn workspace @service/auth start\" \"yarn workspace @service/diag start\" \"yarn workspace @service/media start\"  \"yarn workspace @service/xpense start\" \"npx serve -n -p 8080 -s ./frontends/core/bundle/\"",
     "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
@@ -89,5 +93,9 @@
     "docker:media-encoder": "docker build . --file ./media-encoder.Dockerfile --tag furystack/multiverse-media-encoder:latest",
     "docker:xpense": "docker build . --file ./xpense.Dockerfile --tag furystack/multiverse-xpense:latest",
     "dockerize": "yarn docker:base && yarn docker:auth && yarn docker:diag && yarn docker:dashboard && yarn docker:media && yarn docker_xpense"
+  },
+  "jest-junit": {
+    "suiteName": "FuryStack Multiverse Jest tests",
+    "outputDirectory": "./coverage"
   }
 }

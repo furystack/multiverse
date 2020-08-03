@@ -9,12 +9,15 @@ export const getFallbackMetadata = (path: string): MovieUniversalMetadata => {
       '0',
     10,
   )
+
+  const resolution = new RegExp(/\.(?<resolution>(\d+p))\./gm).exec(fileName)?.groups?.resolution
   const title = fileName
-    .split(year.toString())[0]
+    .split(new RegExp(`(${year}|${resolution}|(.S[0-9]+E[0-9]+.))`))[0]
     .split(/['.'|' ']/g)
     .join(' ')
+    .trim()
 
-  const { season, episode } = new RegExp(/.S(?<season>\d+)E(?<episode>\d+)./gm).exec(fileName)?.groups || {}
+  const { season, episode } = new RegExp(/\.S(?<season>\d+)E(?<episode>\d+)\./gm).exec(fileName)?.groups || {}
 
   return {
     title,

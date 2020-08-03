@@ -37,6 +37,38 @@
         "ENABLE_NVENC": "true",
         "MEDIA_ENCODER_WORKER_TEMP": "d:\\temp"
       }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug All Jest tests",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": [
+        "node",
+        "--inspect-brk",
+        "${workspaceRoot}/node_modules/jest/bin/jest.js",
+        "--runInBand",
+        "--testTimeout=99999999"
+      ],
+      "port": 9229,
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Current Jest tests",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": [
+        "node",
+        "--inspect-brk",
+        "${workspaceRoot}/node_modules/jest/bin/jest.js",
+
+        "${fileBasenameNoExtension}",
+        "--runInBand",
+        "--testTimeout=99999999"
+      ],
+      "port": 9229,
+      "skipFiles": ["<node_internals>/**"]
     }
   ],
   "inputs": [
