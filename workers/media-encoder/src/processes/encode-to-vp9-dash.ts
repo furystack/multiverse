@@ -70,7 +70,7 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
       return await new Promise((resolve, reject) => {
         proc
           .on('progress', (info) => {
-            logger.information({ message: `ffmpeg progress: ${info.percent}%`, data: { info } })
+            // logger.information({ message: `ffmpeg progress: ${info.percent}%`, data: { info } })
             progress.setValue(info.percent)
           })
           .on('end', async () => {
