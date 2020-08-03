@@ -50,6 +50,7 @@ injector.useRestService<apis.MediaApi>({
     },
     PATCH: {
       '/movies/:id': Authorize('movie-admin')(createSinglePatchEndpoint(media.Movie)),
+      '/movie-libraries/:id': Authorize('movie-admin')(createSinglePatchEndpoint(media.MovieLibrary)),
     },
   },
   cors: {

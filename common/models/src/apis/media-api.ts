@@ -33,5 +33,6 @@ export interface MediaApi extends RestApi {
   }
   PATCH: {
     '/movies/:id': SinglePatchEndpoint<Movie>
+    '/movie-libraries/:id': SinglePatchEndpoint<MovieLibrary>
   }
 }

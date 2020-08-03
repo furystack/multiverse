@@ -41,9 +41,9 @@ export const defaultX264Encoding: EncodingType = {
   mode: 'dash',
   codec: 'x264',
   formats: [
+    { downScale: 480, bitRate: 2500 },
+    { downScale: 720, bitRate: 6000 },
     { downScale: 1080, bitRate: 12000 },
-    { downScale: 720, bitRate: 8000 },
-    { downScale: 720, bitRate: 5000 },
   ],
 }
 
