@@ -8,7 +8,7 @@ import { isSampleFile } from '../utils/is-sample-file'
 import { getFfprobeData } from '../utils/get-ffprobe-data'
 import { getUniversalMetadataFromOmdb } from '../utils/get-universal-metadata-from-omdb'
 import { getFallbackMetadata } from '../utils/get-fallback-metadata'
-import { getMovieMetadata } from '../utils/get-movie-metadata'
+import { fetchOmdbMetadata } from '../utils/fetch-omdb-metadata'
 
 @Injectable({ lifetime: 'singleton' })
 export class MediaLibraryWatcher {
@@ -46,11 +46,11 @@ export class MediaLibraryWatcher {
           data: { moviePath: name, library, stats },
         })
 
+        const fallbackMeta = getFallbackMetadata(name)
+
         const ffprobe = await getFfprobeData(name)
-        const omdbMeta = await getMovieMetadata(name)
-        const metadata = media.isValidOmdbMetadata(omdbMeta)
-          ? getUniversalMetadataFromOmdb(omdbMeta)
-          : getFallbackMetadata(name)
+        const omdbMeta = await fetchOmdbMetadata(fallbackMeta.title)
+        const metadata = media.isValidOmdbMetadata(omdbMeta) ? getUniversalMetadataFromOmdb(omdbMeta) : fallbackMeta
 
         await dataSet.add(this.injector, {
           path: name,
