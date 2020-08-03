@@ -86,6 +86,7 @@
     "docker:dashboard": "docker build . --file ./dashboard.Dockerfile --tag furystack/multiverse-dashboard:latest",
     "docker:diag": "docker build . --file ./diag.Dockerfile --tag furystack/multiverse-diag:latest",
     "docker:media": "docker build . --file ./media.Dockerfile --tag furystack/multiverse-media:latest",
+    "docker:media-encoder": "docker build . --file ./media-encoder.Dockerfile --tag furystack/multiverse-media-encoder:latest",
     "docker:xpense": "docker build . --file ./xpense.Dockerfile --tag furystack/multiverse-xpense:latest",
     "dockerize": "yarn docker:base && yarn docker:auth && yarn docker:diag && yarn docker:dashboard && yarn docker:media && yarn docker_xpense"
   }
