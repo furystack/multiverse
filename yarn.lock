@@ -106,120 +106,120 @@
     lodash.once "^4.1.1"
 
 "@furystack/auth-google@^4.0.43":
-  version "4.0.43"
-  resolved "https://registry.yarnpkg.com/@furystack/auth-google/-/auth-google-4.0.43.tgz#c08ed8d922b318f786430b23a38c0f3f3a96e7f3"
-  integrity sha512-qc+pr39sM8WSgXR57dFbiK/eE0OW0vqlekW937krSHxYrThOEnVijHvtsUny59615PHC/JDyb3FysBs6HZzUMg==
+  version "4.0.44"
+  resolved "https://registry.yarnpkg.com/@furystack/auth-google/-/auth-google-4.0.44.tgz#755f9f222e3435b8dc9d97f6a5c04093bf9ba489"
+  integrity sha512-mUNHX0dEff3F+r244aNm7sydKPIDX0dwsxnoNASmEo6PqGjZlpzya/x5aMPACJx0Ma7+xFk0RG9X34SK897x1A==
   dependencies:
-    "@furystack/core" "^9.1.6"
-    "@furystack/inject" "^4.0.35"
-    "@furystack/rest" "^1.1.19"
-    "@furystack/rest-service" "^2.1.13"
-    "@furystack/utils" "^1.2.5"
+    "@furystack/core" "^9.1.7"
+    "@furystack/inject" "^4.0.36"
+    "@furystack/rest" "^1.1.20"
+    "@furystack/rest-service" "^2.1.14"
+    "@furystack/utils" "^1.2.6"
     tslib "^2.0.0"
 
-"@furystack/core@^9.1.6":
-  version "9.1.6"
-  resolved "https://registry.yarnpkg.com/@furystack/core/-/core-9.1.6.tgz#ddd24a3d0f23b7c21319bd5a69def2cb1f1bfdc8"
-  integrity sha512-F78eLKCTUdPOepdd2d3AOGVZ+nfp1Jk9N4R4RAcCkcBCFzSl4peLkWxVutu3lClNWIPDVxbSkMTRCmWGtJjy4Q==
+"@furystack/core@^9.1.6", "@furystack/core@^9.1.7":
+  version "9.1.7"
+  resolved "https://registry.yarnpkg.com/@furystack/core/-/core-9.1.7.tgz#b0a8b97d944889b23b3e22302bee8d8ec8540bb6"
+  integrity sha512-FfJ4J9BHKYlE55MBjMq3PrcwyEoNW3F0G6zqRHO8KPAKxQc9+XAgNiUqUF74+JWRU9vnp91IgJKqStbeTr/iNQ==
   dependencies:
-    "@furystack/inject" "^4.0.35"
-    "@furystack/logging" "^2.0.42"
-    "@furystack/utils" "^1.2.5"
+    "@furystack/inject" "^4.0.36"
+    "@furystack/logging" "^2.0.43"
+    "@furystack/utils" "^1.2.6"
     semaphore-async-await "^1.5.1"
     tslib "^2.0.0"
 
-"@furystack/inject@^4.0.35":
-  version "4.0.35"
-  resolved "https://registry.yarnpkg.com/@furystack/inject/-/inject-4.0.35.tgz#318451b2d41d4dd24d26a520284597a96585d1ee"
-  integrity sha512-8clCZvcCm/Gqu572PgQRHZnxtLfWvatlrmOTybP8cMUaZN1qg8+4dWefAHm6O1S3X3eWzwN5ElWyAWeB2Y/3sg==
+"@furystack/inject@^4.0.35", "@furystack/inject@^4.0.36":
+  version "4.0.36"
+  resolved "https://registry.yarnpkg.com/@furystack/inject/-/inject-4.0.36.tgz#17498adc3da3e3725389dec485443aed6266452b"
+  integrity sha512-hIJwJRsiE4uNT4avxQs1AWKh1GDXzz6jmcdCo40mPInPqFOWsd0TpcrQBPw3GUpycxX8DJIKccMcNwLzViu+rA==
   dependencies:
-    "@furystack/utils" "^1.2.5"
+    "@furystack/utils" "^1.2.6"
     tslib "^2.0.0"
 
-"@furystack/logging@^2.0.42":
-  version "2.0.42"
-  resolved "https://registry.yarnpkg.com/@furystack/logging/-/logging-2.0.42.tgz#0457b22b1dece9a857447cea9213bd3d5a132fcf"
-  integrity sha512-qB0od58WuZ3Hgy7JvvVX+pXPGz9fZv55BvN40EBgAKWtpu7fCjdZt6Qv2MJoNa/Vj6Fc4pHQK5A/G8ypdsIAeA==
+"@furystack/logging@^2.0.42", "@furystack/logging@^2.0.43":
+  version "2.0.43"
+  resolved "https://registry.yarnpkg.com/@furystack/logging/-/logging-2.0.43.tgz#45b6c5d13c0ed26655fa6ab9c552904a3ed2e590"
+  integrity sha512-JHU2DPZFRJr9+mGOeVWZrknzAqic43oGLxTBNtS4+6MV+VHXxQMBD7gGDOWEhjGyHjjJy2H0Jh3jtsNqLeeWPg==
   dependencies:
-    "@furystack/inject" "^4.0.35"
-    "@furystack/utils" "^1.2.5"
+    "@furystack/inject" "^4.0.36"
+    "@furystack/utils" "^1.2.6"
     tslib "^2.0.0"
 
 "@furystack/mongodb-store@^3.1.11":
-  version "3.1.11"
-  resolved "https://registry.yarnpkg.com/@furystack/mongodb-store/-/mongodb-store-3.1.11.tgz#0bfdc1ab0a52073f7e1e434cbc205a93f720e54f"
-  integrity sha512-5MO0lwpbf5Tz6BM7kBssRPwjBzfqLmeh6evghkHukxW/RS74UZtUaU53Bsgb+hWSJ5WxwdFwEqLQlBWgWoohbg==
+  version "3.1.12"
+  resolved "https://registry.yarnpkg.com/@furystack/mongodb-store/-/mongodb-store-3.1.12.tgz#5e66c5cf122a774944fb6ae0cb58880456dfa766"
+  integrity sha512-VCBf1XYC/raK2zdj+6+1d7cPjHlHCYoaDrtHRCeciApGSvBc2GCtCyaWoHIFjLQ2tsu2EXTKDKTWAeWB2MI1/A==
   dependencies:
-    "@furystack/core" "^9.1.6"
-    "@furystack/inject" "^4.0.35"
-    "@furystack/logging" "^2.0.42"
-    "@furystack/utils" "^1.2.5"
+    "@furystack/core" "^9.1.7"
+    "@furystack/inject" "^4.0.36"
+    "@furystack/logging" "^2.0.43"
+    "@furystack/utils" "^1.2.6"
     "@types/mongodb" "^3.5.25"
-    mongodb "^3.5.6"
+    mongodb "^3.6.0"
     semaphore-async-await "^1.5.1"
     tslib "^2.0.0"
 
 "@furystack/repository@^3.0.9":
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/@furystack/repository/-/repository-3.0.9.tgz#5211c5939c3f77750af40cfa3337d83393cdc573"
-  integrity sha512-aIv6/xS/l9+Thn1DLoKKQuHGKghmU64ZEfo5gSMZt4bPjgf0iKe11UwzrMFPNLY7mpwoORHTG+f0WZMfNDXHNA==
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/@furystack/repository/-/repository-3.0.10.tgz#4629333eacc93cbcf27b59adb17f2d41e3e5507c"
+  integrity sha512-/AIHN637yr/ySxPpC5c8Cvstl2QqZ0rQx2QxPTNeLmJxUinAFuff64wt2wO6Yz37811kJolIen83BttzY1cCAA==
   dependencies:
-    "@furystack/core" "^9.1.6"
-    "@furystack/inject" "^4.0.35"
-    "@furystack/logging" "^2.0.42"
-    "@furystack/utils" "^1.2.5"
+    "@furystack/core" "^9.1.7"
+    "@furystack/inject" "^4.0.36"
+    "@furystack/logging" "^2.0.43"
+    "@furystack/utils" "^1.2.6"
     tslib "^2.0.0"
 
 "@furystack/rest-client-fetch@^1.2.10":
-  version "1.2.10"
-  resolved "https://registry.yarnpkg.com/@furystack/rest-client-fetch/-/rest-client-fetch-1.2.10.tgz#ac64e8cc854b326079a9422581e1f36831cf5bbb"
-  integrity sha512-Ww6AsK9+wKk3AeD6E+LFKlNwWgidwvYePzYmDjMFbV2dCGjbJUO6p/jVZzxmJMuhu6QfxnJSSgu+1zLc9qqX2g==
+  version "1.2.11"
+  resolved "https://registry.yarnpkg.com/@furystack/rest-client-fetch/-/rest-client-fetch-1.2.11.tgz#59596e32502c59aba2a420ed8f6706844cb1d970"
+  integrity sha512-y68RAKsVfdZGhpEKMtybs7OQyC73n2BbYxWhKuz2Az71H542Sm+WxOrGLaNcD5a2S11Zq6NjnK//V4eTDxmH8w==
   dependencies:
-    "@furystack/inject" "^4.0.35"
-    "@furystack/logging" "^2.0.42"
-    "@furystack/rest" "^1.1.19"
-    "@furystack/utils" "^1.2.5"
+    "@furystack/inject" "^4.0.36"
+    "@furystack/logging" "^2.0.43"
+    "@furystack/rest" "^1.1.20"
+    "@furystack/utils" "^1.2.6"
     path-to-regexp "^6.1.0"
     tslib "^2.0.0"
 
-"@furystack/rest-service@^2.1.13":
-  version "2.1.13"
-  resolved "https://registry.yarnpkg.com/@furystack/rest-service/-/rest-service-2.1.13.tgz#31c90fa2f3fdb6805a9b15005e7714708c232f31"
-  integrity sha512-iLj72+X0gM2CBrpLn1NxkhrOKIaKQ3vtzKrQx7xbm3mvygrIBteKI3HCLLSOo48v8I5eTN85vPWrEGJnmnhs0w==
+"@furystack/rest-service@^2.1.13", "@furystack/rest-service@^2.1.14":
+  version "2.1.14"
+  resolved "https://registry.yarnpkg.com/@furystack/rest-service/-/rest-service-2.1.14.tgz#b41f9628a0b5da0a53dfa501d28b8bafa1071420"
+  integrity sha512-Cjw6+LvExgoUuMTm5zvblSvawb9VOR+IRgy46wLL6PXoZjvSAh1eI3RHp5dW8SYsLAris0t48vAliXgsVnAXkA==
   dependencies:
-    "@furystack/core" "^9.1.6"
-    "@furystack/inject" "^4.0.35"
-    "@furystack/logging" "^2.0.42"
-    "@furystack/rest" "^1.1.19"
-    "@furystack/utils" "^1.2.5"
+    "@furystack/core" "^9.1.7"
+    "@furystack/inject" "^4.0.36"
+    "@furystack/logging" "^2.0.43"
+    "@furystack/rest" "^1.1.20"
+    "@furystack/utils" "^1.2.6"
     hash.js "^1.1.7"
     path-to-regexp "^6.1.0"
     semaphore-async-await "^1.5.1"
     tslib "^2.0.0"
     uuid "^8.3.0"
 
-"@furystack/rest@^1.1.19":
-  version "1.1.19"
-  resolved "https://registry.yarnpkg.com/@furystack/rest/-/rest-1.1.19.tgz#ae0adfc7c0d7883e4da84c3bf5edd017f16e28ba"
-  integrity sha512-M5qVN9tiljH7KY2L44s2Pggek12AYr8JAGYi7lVDhTiHRGLrEUlFbjFvEppCmdJpHHtphsC8VMsz4mv+JReYXQ==
+"@furystack/rest@^1.1.19", "@furystack/rest@^1.1.20":
+  version "1.1.20"
+  resolved "https://registry.yarnpkg.com/@furystack/rest/-/rest-1.1.20.tgz#28b384e6b62a3825101a0c4c5bbad5b608c07d96"
+  integrity sha512-bJyMN6qMsUNUdkIOlo8uE9CB2+b99rhE3So5f1F78wWpGDzrWX46psmxuQJykiqxQ59/GbdilP8fDbkOq99JVg==
   dependencies:
-    "@furystack/inject" "^4.0.35"
+    "@furystack/inject" "^4.0.36"
     tslib "^2.0.0"
 
 "@furystack/shades-common-components@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@furystack/shades-common-components/-/shades-common-components-1.2.3.tgz#639f2b3167b9b86768b130eea07d842716843bbb"
-  integrity sha512-D9L/7zm22b3EDTXycoxgfsBoeCwGGuRFopOciJxamha4ECnfFCbZGAVZ4yuk2MPdcK4v1Du35SEALy685DGqag==
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@furystack/shades-common-components/-/shades-common-components-1.2.4.tgz#fa7ed796176094d2ae9cdedcf4fdfdef3e317f07"
+  integrity sha512-qq2bsRYA3ADZBnsmyyINHscfyWs7aoCrVZt7nwHliZfMlanhCyQZ98UkxWT3YL518T0Iuf6/W0I5Oh+ktcq7Iw==
   dependencies:
-    "@furystack/shades" "^3.2.20"
+    "@furystack/shades" "^3.2.21"
     uuid "^8.3.0"
 
-"@furystack/shades@^3.2.20":
-  version "3.2.20"
-  resolved "https://registry.yarnpkg.com/@furystack/shades/-/shades-3.2.20.tgz#8753e9201853260248403bd971deb9ac1d4af8ee"
-  integrity sha512-VnG68CuycEqvTRHRAqgJeG68f2/xe6NY58ylY+plDd0fHjUXEFYF/05aj4cu0u988tu3VrJubvCVmjTBjiz8GA==
+"@furystack/shades@^3.2.20", "@furystack/shades@^3.2.21":
+  version "3.2.21"
+  resolved "https://registry.yarnpkg.com/@furystack/shades/-/shades-3.2.21.tgz#4479d536ad4d2ca609f9879725c59fccee06fe16"
+  integrity sha512-1fVfhc9x0clmQtgDxV6fbKVkfv4Dr42ITYEkwDaC9QuRHU+eU37gTc7B+aBPQyKI/HPzwCSoCNx6Z62vWNcLfA==
   dependencies:
-    "@furystack/core" "^9.1.6"
+    "@furystack/core" "^9.1.7"
     "@furystack/inject" "^4.0.35"
     "@furystack/logging" "^2.0.42"
     "@furystack/utils" "^1.2.5"
@@ -227,23 +227,23 @@
     tslib "^2.0.0"
     uuid "^8.3.0"
 
-"@furystack/utils@^1.2.5":
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/@furystack/utils/-/utils-1.2.5.tgz#229d9809cf7c83044f4e46e18edbddf56bcc5648"
-  integrity sha512-T+9CZ7owzIaGlIYVIGevFpXaS//lcKkzXCUtbG+cLIVZwZcbkHFzM8y7QAnJfALlr5k8u55wLHh0Sa5Pqg87dQ==
+"@furystack/utils@^1.2.5", "@furystack/utils@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@furystack/utils/-/utils-1.2.6.tgz#9f0484b882ea60b20de95404e1684cacabe07104"
+  integrity sha512-3A1Z5bQ3xAxS7qWCS+ECQ52DRxA9itHQoVPfMVnx2gC9CbKKzj3JnAW2A3so5pWtppNkHkkGycXRR16ls+Y6uQ==
   dependencies:
     tslib "^2.0.0"
 
 "@furystack/websocket-api@^7.0.4":
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/@furystack/websocket-api/-/websocket-api-7.0.4.tgz#0e91a86555d665de1a27a3b96a9f504d3ce7c9dc"
-  integrity sha512-mjUPsMJ6VeRJUb70j4nCliXPyv8QvuXEomYmdBnN6hFtpn97ySOykQYq7GM09uSsm2gxhQZw+KnjZqo+jQ2t7g==
+  version "7.0.5"
+  resolved "https://registry.yarnpkg.com/@furystack/websocket-api/-/websocket-api-7.0.5.tgz#f4e41f0a224029ac6d8492cf38a5819cd3b53b6d"
+  integrity sha512-GGQZ/u9qv1vTn3ruIZZ5UQXpgPJDQOF8KmWoPKXyPK93ML/ITvf6/F3vcmd4F3P7n/9Nb4H9gke5Il7G/Mv55g==
   dependencies:
-    "@furystack/core" "^9.1.6"
-    "@furystack/inject" "^4.0.35"
-    "@furystack/logging" "^2.0.42"
-    "@furystack/rest-service" "^2.1.13"
-    "@furystack/utils" "^1.2.5"
+    "@furystack/core" "^9.1.7"
+    "@furystack/inject" "^4.0.36"
+    "@furystack/logging" "^2.0.43"
+    "@furystack/rest-service" "^2.1.14"
+    "@furystack/utils" "^1.2.6"
     tslib "^2.0.0"
     ws "^7.2.3"
 
@@ -855,12 +855,7 @@
     "@types/bson" "*"
     "@types/node" "*"
 
-"@types/node@*":
-  version "14.0.14"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.14.tgz#24a0b5959f16ac141aeb0c5b3cd7a15b7c64cbce"
-  integrity sha512-syUgf67ZQpaJj01/tRTknkMNoBBLWJOBODF0Zm4NrXmiSuxjymFrxnTu1QVYRubhVkRcZLYZG8STTwJRdVm/WQ==
-
-"@types/node@^14.0.27":
+"@types/node@*", "@types/node@^14.0.27":
   version "14.0.27"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.27.tgz#a151873af5a5e851b51b3b065c9e63390a9e0eb1"
   integrity sha512-kVrqXhbclHNHGu9ztnAwSncIgJv/FaxmzXJvGXNdcCpV1b8u1/Mi6z6m0vwy0LzKeXFTPLH0NzwmoJ3fNCIq0g==
@@ -6256,19 +6251,6 @@ monaco-editor@^0.20.0:
   resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.20.0.tgz#5d5009343a550124426cb4d965a4d27a348b4dea"
   integrity sha512-hkvf4EtPJRMQlPC3UbMoRs0vTAFAYdzFQ+gpMb8A+9znae1c43q8Mab9iVsgTcg/4PNiLGGn3SlDIa8uvK1FIQ==
 
-mongodb@^3.5.6:
-  version "3.5.9"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.5.9.tgz#799b72be8110b7e71a882bb7ce0d84d05429f772"
-  integrity sha512-vXHBY1CsGYcEPoVWhwgxIBeWqP3dSu9RuRDsoLRPTITrcrgm1f0Ubu1xqF9ozMwv53agmEiZm0YGo+7WL3Nbug==
-  dependencies:
-    bl "^2.2.0"
-    bson "^1.1.4"
-    denque "^1.4.1"
-    require_optional "^1.0.1"
-    safe-buffer "^5.1.2"
-  optionalDependencies:
-    saslprep "^1.0.0"
-
 mongodb@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.6.0.tgz#babd7172ec717e2ed3f85e079b3f1aa29dce4724"
@@ -9561,9 +9543,9 @@ webpack-log@^2.0.0:
     uuid "^3.3.2"
 
 webpack-merge@^5.0.9:
-  version "5.0.9"
-  resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-5.0.9.tgz#d5e0e0ae564ae704836d747893bdd2741544bf31"
-  integrity sha512-P4teh6O26xIDPugOGX61wPxaeP918QOMjmzhu54zTVcLtOS28ffPWtnv+ilt3wscwBUCL2WNMnh97XkrKqt9Fw==
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-5.1.0.tgz#5a24b2d5fa0431db96862116a7b7f18c4cd7bbd4"
+  integrity sha512-NNEXYSV/ixLwICcAhlVQ8c8E8dHmOcVnubfhoFdL6Tpbq6N9ZUvotQBYPwTsyXepXmCm34KjXgdC4PCQwJBp/w==
   dependencies:
     clone-deep "^4.0.1"
     wildcard "^2.0.0"
@@ -9734,10 +9716,15 @@ ws@^6.0.0, ws@^6.2.1:
   dependencies:
     async-limiter "~1.0.0"
 
-ws@^7.0.0, ws@^7.1.2, ws@^7.2.3:
+ws@^7.0.0, ws@^7.1.2:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.3.0.tgz#4b2f7f219b3d3737bc1a2fbf145d825b94d38ffd"
   integrity sha512-iFtXzngZVXPGgpTlP1rBqsUK82p9tKqsWRPg5L56egiljujJT3vGAYnHANvFxBieXrTFavhzhxW52jnaWV+w2w==
+
+ws@^7.2.3:
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.3.1.tgz#d0547bf67f7ce4f12a72dfe31262c68d7dc551c8"
+  integrity sha512-D3RuNkynyHmEJIpD2qrgVkc9DQ23OrN/moAwZX4L8DfvszsJxpjQuUq3LMx6HoYji9fbIOBY18XWBsAux1ZZUA==
 
 ws@~6.1.0:
   version "6.1.4"
