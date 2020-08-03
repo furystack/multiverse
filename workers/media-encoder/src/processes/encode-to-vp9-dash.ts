@@ -26,13 +26,13 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
       injector: options.injector,
       directory: options.cwd,
       isFileAllowed: (fileName) => fileName.endsWith('mpd') || fileName.endsWith('m4s') || fileName.endsWith('webm'),
-      parallel: 2,
+      parallel: 1,
       task: options.task,
       progress,
       uploadPath: options.uploadPath,
       codec: 'libvpx-vp9',
       mode: 'dash',
-      retries: 5,
+      retries: 15,
     }),
     async () => {
       logger.verbose({ message: 'Initializing Dash encode...' })

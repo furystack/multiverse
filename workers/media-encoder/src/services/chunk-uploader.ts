@@ -44,8 +44,6 @@ export class ChunkUploader {
     if ((!stats || !stats.isDirectory()) && this.options.isFileAllowed(fileName)) {
       try {
         await this.lock.acquire()
-        this.logger.verbose({ message: `Starting Chunk upload: '${fileName}'` })
-
         const form = new FormData({ encoding: 'utf-8' })
         form.append('codec', this.options.codec)
         form.append('mode', this.options.mode)
@@ -55,13 +53,13 @@ export class ChunkUploader {
           method: 'POST',
           body: form as any,
           encoding: 'utf-8',
-          retry: { limit: this.options.retries, calculateDelay: ({ attemptCount }) => attemptCount },
+          retry: { limit: this.options.retries },
           hooks: {
             beforeRetry: [
-              async () => {
+              async (_options, error, retrycount) => {
                 this.logger.information({
-                  message: 'Chunk upload has been failed, will retry...',
-                  data: { codec: this.options.codec, mode: this.options.mode, fileName },
+                  message: `Chunk upload has been failed, will retry (${retrycount}/${this.options.retries})...`,
+                  data: { codec: this.options.codec, mode: this.options.mode, fileName, error, retrycount },
                 })
               },
             ],
@@ -76,13 +74,12 @@ export class ChunkUploader {
             ],
           },
         })
-        this.logger.verbose({ message: `Finished Chunk upload: '${fileName}'` })
+        this.logger.verbose({ message: `Chunk '${fileName}' uploaded.` })
       } catch (error) {
         this.logger.warning({ message: 'Error uploading chunk', data: { error, fileName } })
       } finally {
         this.lock.release()
       }
-      this.logger.information({ message: `Starting to upload chunk from '${fileName}'` })
     }
   }
 

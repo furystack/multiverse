@@ -26,13 +26,13 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
       injector: options.injector,
       directory: options.cwd,
       isFileAllowed: (fileName) => fileName.endsWith('mpd') || fileName.endsWith('m4s') || fileName.endsWith('webm'),
-      parallel: 2,
+      parallel: 1,
       task: options.task,
       progress,
       uploadPath: options.uploadPath,
       codec: 'x264',
       mode: 'dash',
-      retries: 5,
+      retries: 15,
     }),
     async () => {
       logger.verbose({ message: 'Initializing Dash encode...' })
