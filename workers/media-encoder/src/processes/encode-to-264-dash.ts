@@ -45,13 +45,13 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
         .format('dash')
         .audioCodec('aac')
         .audioChannels(2)
-        .audioBitrate(128)
         .videoCodec(process.env.ENABLE_NVENC ? 'h264_nvenc' : 'libx264')
         .outputOptions([
           '-profile:v high444p',
           '-use_template 1',
           '-use_timeline 1',
           '-map 0:a',
+          '-b:a 96k',
           '-quality good',
           '-reconnect_streamed 1',
           '-reconnect_delay_max 120',
