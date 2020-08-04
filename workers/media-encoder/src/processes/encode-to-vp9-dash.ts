@@ -84,7 +84,7 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
               method: 'POST',
               body: form as any,
               encoding: 'utf-8',
-              retry: { limit: 10, statusCodes: [500] },
+              retry: 10,
             })
             logger.warning({ message: 'ffmpeg errored', data: err })
             reject(err)

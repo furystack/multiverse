@@ -9,6 +9,7 @@ export const loadTaskDetails = async ({ taskId, token }: { taskId: string; token
     headers: {
       'task-token': token,
     },
+    retry: 15,
   })
   const task: media.EncodingTask = JSON.parse(body)
   return task

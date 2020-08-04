@@ -71,24 +71,26 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
       return await new Promise((resolve, reject) => {
         proc
           .on('progress', (info) => {
-            // logger.information({ message: `ffmpeg progress: ${info.percent}%`, data: { info } })
             progress.setValue(info.percent)
           })
           .on('end', async () => {
             logger.information({ message: `x264 encoding completed` })
             resolve()
           })
-          .on('error', async (err) => {
+          .on('error', async (error, stdout, stderr) => {
             const form = new FormData({ encoding: 'utf-8' })
-            form.append('error', JSON.stringify(err))
+
+            const errorData = { error, stdout, stderr }
+
+            form.append('error', JSON.stringify(errorData))
             await got(options.uploadPath, {
               method: 'POST',
               body: form as any,
               encoding: 'utf-8',
-              retry: { limit: 10, statusCodes: [500] },
+              retry: 10,
             })
-            logger.warning({ message: 'ffmpeg errored', data: err })
-            reject(err)
+            logger.warning({ message: 'ffmpeg errored', data: errorData })
+            reject(error)
           })
         proc.run()
       })

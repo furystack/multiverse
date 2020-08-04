@@ -76,7 +76,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
           mode: encodingSettings.mode,
         }),
         encoding: 'utf-8',
-        retry: { limit: 10, statusCodes: [500] },
+        retry: 10,
       })
       logger.information({ message: 'Task finished, finialize request has been sent.' })
       return true
@@ -108,7 +108,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
         },
       }),
       encoding: 'utf-8',
-      retry: { limit: 10, statusCodes: [500] },
+      retry: 10,
     })
       .then(() => logger.information({ message: 'The Error details has been sent to the service' }))
       .catch((e) =>
