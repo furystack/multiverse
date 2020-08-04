@@ -7,6 +7,8 @@ export interface MediaApi extends RestApi {
   GET: {
     '/movies': CollectionEndpoint<Movie>
     '/movies/:id': SingleEntityEndpoint<Movie>
+    '/movies/:movieId/subtitles': RequestAction<{ urlParams: { movieId: string }; result: string[] }>
+    '/movies/:movieId/subtitles/:subtitleName': RequestAction<{ urlParams: { movieId: string; subtitleName: string } }>
     '/movie-libraries': CollectionEndpoint<MovieLibrary>
     '/movie-libraries/:id': SingleEntityEndpoint<MovieLibrary>
     '/stream-original/:movieId/:accessToken?': RequestAction<{ urlParams: { movieId: string; accessToken?: string } }>
@@ -22,6 +24,7 @@ export interface MediaApi extends RestApi {
     '/movie-libraries': SinglePostEndpoint<MovieLibrary>
     '/save-watch-progress': RequestAction<{ body: { movieId: string; watchedSeconds: number } }>
     '/upload-encoded/:movieId/:accessToken': RequestAction<{ urlParams: { movieId: string; accessToken: string } }>
+    '/upload-subtitles/:movieId/:accessToken': RequestAction<{ urlParams: { movieId: string; accessToken: string } }>
     '/finialize-encoding': RequestAction<{
       body: { accessToken: string; codec: EncodingType['codec']; mode: EncodingType['mode'] }
     }>

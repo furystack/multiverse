@@ -21,6 +21,9 @@ import { SaveEncodingFailureAction } from './actions/save-encoding-failure'
 import { ReFetchMetadataAction } from './actions/re-fetch-metadata'
 import { GetWorkerTask } from './actions/get-worker-task'
 import { createInitialIndexes } from './patches'
+import { UploadSubtitles } from './actions/upload-subtitles'
+import { GetAvailableSubtitles } from './actions/get-available-subtitles'
+import { GetSubtitle } from './actions/get-subtitle'
 
 injector.useRestService<apis.MediaApi>({
   port: parseInt(sites.services.media.internalPort as string, 10),
@@ -32,6 +35,8 @@ injector.useRestService<apis.MediaApi>({
       '/movie-libraries/:id': createSingleEntityEndpoint({ model: media.MovieLibrary }),
       '/movies': createCollectionEndpoint({ model: media.Movie }),
       '/movies/:id': createSingleEntityEndpoint({ model: media.Movie }),
+      '/movies/:movieId/subtitles': GetAvailableSubtitles,
+      '/movies/:movieId/subtitles/:subtitleName': GetSubtitle,
       '/stream-original/:movieId/:accessToken?': StreamOriginalAction,
       '/watch-stream/:id/:codec/:mode/:chunk?': Authenticate()(WatchStream),
       '/my-watch-progress': Authenticate()(createCollectionEndpoint({ model: media.MovieWatchHistoryEntry })),
@@ -43,6 +48,7 @@ injector.useRestService<apis.MediaApi>({
       '/movie-libraries': createSinglePostEndpoint(media.MovieLibrary),
       '/save-watch-progress': SaveWatchProgress,
       '/upload-encoded/:movieId/:accessToken': UploadEncoded,
+      '/upload-subtitles/:movieId/:accessToken': UploadSubtitles,
       '/encode/reencode': Authorize('movie-admin')(ReEncodeAction),
       '/finialize-encoding': FinializeEncodingAction,
       '/save-encoding-failure': SaveEncodingFailureAction,

@@ -220,10 +220,17 @@ export const MoviesPage = Shade({
                     },
                   })
 
+                  const subtitles = await injector.getInstance(MediaApiService).call({
+                    method: 'GET',
+                    action: '/movies/:movieId/subtitles',
+                    url: { movieId: match.params.movieId },
+                  })
+
                   return (
                     <Watch
                       watchedSeconds={movieProgress.entries[0] ? movieProgress.entries[0].watchedSeconds : 0}
                       movie={movie as media.Movie}
+                      availableSubtitles={subtitles}
                     />
                   )
                 }}
