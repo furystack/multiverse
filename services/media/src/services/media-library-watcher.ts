@@ -48,7 +48,12 @@ export class MediaLibraryWatcher {
 
         const fallbackMeta = getFallbackMetadata(name)
         const ffprobe = await getFfprobeData(name)
-        const omdbMeta = await fetchOmdbMetadata(fallbackMeta.title)
+        const omdbMeta = await fetchOmdbMetadata({
+          title: fallbackMeta.title,
+          year: fallbackMeta.year,
+          episode: fallbackMeta.episode,
+          season: fallbackMeta.episode,
+        })
         const metadata = media.isValidOmdbMetadata(omdbMeta) ? getUniversalMetadataFromOmdb(omdbMeta) : fallbackMeta
 
         await dataSet.add(this.injector, {
