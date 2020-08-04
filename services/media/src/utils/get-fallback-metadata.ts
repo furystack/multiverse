@@ -11,6 +11,19 @@ const getYear = (segment: string) => {
 const getResolution = (segment: string) => new RegExp(/\.(?<resolution>(\d+p))\./gm).exec(segment)?.groups?.resolution
 
 export const getFallbackMetaWithScore = (segment: string): { meta: MovieUniversalMetadata; score: number } => {
+  if (!segment) {
+    return {
+      score: -1,
+      meta: {
+        title: '',
+        genre: [],
+        thumbnailImageUrl: '',
+        plot: '',
+        type: 'movie',
+      },
+    }
+  }
+
   const year = getYear(segment)
   const resolution = getResolution(segment)
   const title = segment

@@ -34,7 +34,7 @@ describe('Get Fallback Metadata', () => {
 
     it('should be series, if SXXEYY segment has been found', () => {
       const { type } = getFallbackMetadata('supernatural.S01E12.2018.720p.uhd-aaa.mkv')
-      expect(type).toBe('series')
+      expect(type).toBe('episode')
     })
   })
 
@@ -45,7 +45,7 @@ describe('Get Fallback Metadata', () => {
     })
 
     it('should return data from the file name, if it has more score points', () => {
-      const { title } = getFallbackMetadata(`folderke${sep}faavengers.infinity.war.1080p.uhd-aaa.mkv`)
+      const { title } = getFallbackMetadata(`folderke${sep}avengers.infinity.war.1080p.uhd-aaa.mkv`)
       expect(title).toBe('avengers infinity war')
     })
   })
