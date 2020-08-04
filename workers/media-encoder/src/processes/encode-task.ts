@@ -104,6 +104,8 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
         error: {
           message: error.message,
           stack: error.stack,
+          stdout: error.stdout,
+          stderr: error.stderr,
           originalError: error,
         },
       }),
