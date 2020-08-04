@@ -1,8 +1,8 @@
-import { Stats, createReadStream, promises } from 'fs'
+import { Stats, createReadStream } from 'fs'
 import { watch, FSWatcher } from 'chokidar'
 import { Injector } from '@furystack/inject'
 import { ScopedLogger } from '@furystack/logging'
-import { ObservableValue } from '@furystack/utils'
+import { ObservableValue, sleepAsync } from '@furystack/utils'
 import Semaphore from 'semaphore-async-await'
 import got from 'got'
 import { media } from '@common/models'
@@ -23,11 +23,12 @@ export interface ChunkWatcherOptions {
 
 export class ChunkUploader {
   public async dispose() {
+    await sleepAsync(2000)
     await this.watcher.close()
     for (let index = 0; index < this.options.parallel; index++) {
       await this.lock.acquire()
       if (index <= this.options.parallel) {
-        this.logger.verbose({ message: `${index}/${this.options.parallel} upload locks acquired.` })
+        this.logger.verbose({ message: `${index + 1}/${this.options.parallel} upload locks acquired.` })
       }
     }
     this.logger.information({ message: 'All uploads finished' })
@@ -36,29 +37,24 @@ export class ChunkUploader {
   private readonly lock = new Semaphore(this.options.parallel)
 
   private readonly watcher: FSWatcher = watch(this.options.directory, {
-    awaitWriteFinish: true,
+    awaitWriteFinish: {
+      stabilityThreshold: 1000,
+      pollInterval: 100,
+    },
   })
-    .on('add', (path, stats) => this.upload(path, stats))
-    .on('change', (path, stats) => this.upload(path, stats))
+    .on('add', (path, stats) => this.upload(path, parseInt(this.options.progress.getValue().toString(), 10), stats))
+    .on('change', (path, stats) => this.upload(path, parseInt(this.options.progress.getValue().toString(), 10), stats))
 
-  private readonly uploadDates = new Map<string, Date>()
-
-  private async upload(path: string, stats?: Stats) {
+  private async upload(path: string, percent: number, stats?: Stats) {
     const fileName = path.replace(this.options.directory, '')
     if ((!stats || !stats.isDirectory()) && this.options.isFileAllowed(fileName)) {
       try {
         await this.lock.acquire()
-        const fileModified = (await promises.stat(path)).mtime
-
-        if (this.uploadDates.has(path) && (this.uploadDates.get(path) as Date) >= fileModified) {
-          return
-        }
-
         const form = new FormData({ encoding: 'utf-8' })
         form.append('codec', this.options.codec)
         form.append('mode', this.options.mode)
         form.append('chunk', createReadStream(path) as any)
-        form.append('percent', parseInt(this.options.progress.getValue().toString(), 10))
+        form.append('percent', percent)
         await got(this.options.uploadPath, {
           method: 'POST',
           body: form as any,
@@ -84,8 +80,7 @@ export class ChunkUploader {
             ],
           },
         })
-        this.logger.verbose({ message: `Chunk '${fileName}' uploaded.` })
-        this.uploadDates.set(path, fileModified)
+        this.logger.verbose({ message: `Chunk '${fileName}' uploaded - ${Math.floor(percent)}% done.` })
       } catch (error) {
         this.logger.warning({ message: 'Error uploading chunk', data: { error, fileName } })
       } finally {
