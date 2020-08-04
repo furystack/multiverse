@@ -47,7 +47,6 @@ export class MediaLibraryWatcher {
         })
 
         const fallbackMeta = getFallbackMetadata(name)
-
         const ffprobe = await getFfprobeData(name)
         const omdbMeta = await fetchOmdbMetadata(fallbackMeta.title)
         const metadata = media.isValidOmdbMetadata(omdbMeta) ? getUniversalMetadataFromOmdb(omdbMeta) : fallbackMeta
