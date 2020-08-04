@@ -162,7 +162,8 @@ export const MovieWidget = Shade<
                   ).entries[0]
 
                 const percent =
-                  watchProgress && Math.round(100 * (watchProgress.watchedSeconds / movie.metadata.duration))
+                  watchProgress &&
+                  Math.round(100 * (watchProgress.watchedSeconds / (movie.metadata.duration || Infinity)))
 
                 return (
                   <div
