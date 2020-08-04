@@ -80,16 +80,17 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
           .on('error', async (error, stdout, stderr) => {
             const form = new FormData({ encoding: 'utf-8' })
 
-            const errorData = { error, stdout, stderr }
+            error.stdout = stdout
+            error.stderr = stderr
 
-            form.append('error', JSON.stringify(errorData))
+            form.append('error', JSON.stringify(error))
             await got(options.uploadPath, {
               method: 'POST',
               body: form as any,
               encoding: 'utf-8',
               retry: 10,
             })
-            logger.warning({ message: 'ffmpeg errored', data: errorData })
+            logger.warning({ message: 'ffmpeg errored', data: { error } })
             reject(error)
           })
         proc.run()
