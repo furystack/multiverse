@@ -1,11 +1,11 @@
 export class MovieUniversalMetadata {
   title!: string
-  year!: number
-  duration!: number
+  year?: number
+  duration?: number
   genre!: string[]
   thumbnailImageUrl!: string
   plot!: string
-  type!: 'movie' | 'series'
+  type!: 'movie' | 'episode'
   season?: number
   episode?: number
 }

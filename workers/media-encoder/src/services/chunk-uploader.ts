@@ -1,4 +1,4 @@
-import { Stats, createReadStream } from 'fs'
+import { Stats, createReadStream, promises } from 'fs'
 import { watch, FSWatcher } from 'chokidar'
 import { Injector } from '@furystack/inject'
 import { ScopedLogger } from '@furystack/logging'
@@ -35,15 +35,25 @@ export class ChunkUploader {
 
   private readonly lock = new Semaphore(this.options.parallel)
 
-  private readonly watcher: FSWatcher = watch(this.options.directory)
+  private readonly watcher: FSWatcher = watch(this.options.directory, {
+    awaitWriteFinish: true,
+  })
     .on('add', (path, stats) => this.upload(path, stats))
     .on('change', (path, stats) => this.upload(path, stats))
+
+  private readonly uploadDates = new Map<string, Date>()
 
   private async upload(path: string, stats?: Stats) {
     const fileName = path.replace(this.options.directory, '')
     if ((!stats || !stats.isDirectory()) && this.options.isFileAllowed(fileName)) {
       try {
         await this.lock.acquire()
+        const fileModified = (await promises.stat(path)).mtime
+
+        if (this.uploadDates.has(path) && (this.uploadDates.get(path) as Date) >= fileModified) {
+          return
+        }
+
         const form = new FormData({ encoding: 'utf-8' })
         form.append('codec', this.options.codec)
         form.append('mode', this.options.mode)
@@ -75,6 +85,7 @@ export class ChunkUploader {
           },
         })
         this.logger.verbose({ message: `Chunk '${fileName}' uploaded.` })
+        this.uploadDates.set(path, fileModified)
       } catch (error) {
         this.logger.warning({ message: 'Error uploading chunk', data: { error, fileName } })
       } finally {

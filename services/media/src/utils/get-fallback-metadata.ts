@@ -1,39 +1,59 @@
 import { MovieUniversalMetadata } from '@common/models/dist/media/movie-universal-metadata'
 
-export const getFallbackMetadata = (path: string): MovieUniversalMetadata => {
-  const segments = path.split(/\/|\\/g)
-  const fileName = segments[segments.length - 1]
+const getYear = (segment: string) => {
+  const yearStr = segment.split(/['.'|' ']/).find((v) => {
+    const no = parseInt(v, 10)
+    return (no > 1900 && no < new Date().getFullYear()) || false
+  })
+  return (yearStr && parseInt(yearStr, 10)) || undefined
+}
 
-  const year = parseInt(
-    fileName.split(/['.'|' ']/).find((v) => parseInt(v, 10) > 1900 && parseInt(v, 10) < new Date().getFullYear()) ||
-      '0',
-    10,
-  )
+const getResolution = (segment: string) => new RegExp(/\.(?<resolution>(\d+p))\./gm).exec(segment)?.groups?.resolution
 
-  const resolution = new RegExp(/\.(?<resolution>(\d+p))\./gm).exec(fileName)?.groups?.resolution
-  const title = fileName
+export const getFallbackMetaWithScore = (segment: string): { meta: MovieUniversalMetadata; score: number } => {
+  const year = getYear(segment)
+  const resolution = getResolution(segment)
+  const title = segment
     .split(new RegExp(`(${year}|${resolution}|(.S[0-9]+E[0-9]+.))`))[0]
     .split(/['.'|' ']/g)
     .join(' ')
     .trim()
 
-  const { season, episode } = new RegExp(/\.S(?<season>\d+)E(?<episode>\d+)\./gm).exec(fileName)?.groups || {}
+  const { season, episode } =
+    new RegExp(/\.S(?<season>\d+)E(?<episode>\d+)\./gm).exec(segment)?.groups ||
+    ({} as { [K: string]: string | undefined })
+
+  const score = [year, resolution, season, episode].filter((a) => a).length
 
   return {
-    title,
-    year,
-    genre: [],
-    duration: 0,
-    thumbnailImageUrl: '',
-    plot: '',
-    ...(season && episode
-      ? {
-          type: 'series',
-          season: parseInt(season, 10),
-          episode: parseInt(episode, 10),
-        }
-      : {
-          type: 'movie',
-        }),
+    score,
+    meta: {
+      title,
+      year,
+      genre: [],
+      duration: 0,
+      thumbnailImageUrl: '',
+      plot: '',
+      ...(season && episode
+        ? {
+            type: 'episode',
+            season: parseInt(season, 10),
+            episode: parseInt(episode, 10),
+          }
+        : {
+            type: 'movie',
+          }),
+    },
   }
+}
+
+export const getFallbackMetadata = (path: string): MovieUniversalMetadata => {
+  const segments = path.split(/\/|\\/g)
+  const fileName = segments[segments.length - 1]
+  const folderName = segments[segments.length - 2]
+
+  const fileNameWithScore = getFallbackMetaWithScore(fileName)
+  const folderNameWithScore = getFallbackMetaWithScore(folderName)
+
+  return fileNameWithScore.score > folderNameWithScore.score ? fileNameWithScore.meta : folderNameWithScore.meta
 }
