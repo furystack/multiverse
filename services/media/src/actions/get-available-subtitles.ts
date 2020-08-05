@@ -1,4 +1,4 @@
-import { join } from 'path'
+import { join, extname } from 'path'
 import { promises } from 'fs'
 import { RequestAction, RequestError, JsonResult } from '@furystack/rest'
 import { media } from '@common/models'
@@ -10,7 +10,6 @@ export const GetAvailableSubtitles: RequestAction<{ urlParams: { movieId: string
   getUrlParams,
 }) => {
   const params = getUrlParams()
-
   const movie = await injector.getDataSetFor(media.Movie).get(injector, params.movieId)
   if (!movie) {
     throw new RequestError('not found', 404)
@@ -21,9 +20,6 @@ export const GetAvailableSubtitles: RequestAction<{ urlParams: { movieId: string
   if (!folderExistsAsync) {
     return JsonResult([subtitlesFolder])
   }
-
   const files = await promises.readdir(subtitlesFolder)
-
-  // ToDo: check me
-  return JsonResult(files)
+  return JsonResult(files.filter((f) => extname(f) === 'vtt'))
 }

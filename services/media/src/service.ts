@@ -24,6 +24,7 @@ import { createInitialIndexes } from './patches'
 import { UploadSubtitles } from './actions/upload-subtitles'
 import { GetAvailableSubtitles } from './actions/get-available-subtitles'
 import { GetSubtitle } from './actions/get-subtitle'
+import { ReExtractSubtitles } from './actions/re-extract-subtitles'
 
 injector.useRestService<apis.MediaApi>({
   port: parseInt(sites.services.media.internalPort as string, 10),
@@ -53,6 +54,7 @@ injector.useRestService<apis.MediaApi>({
       '/finialize-encoding': FinializeEncodingAction,
       '/save-encoding-failure': SaveEncodingFailureAction,
       '/movies/:movieId/re-fetch-metadata': Authorize('movie-admin')(ReFetchMetadataAction),
+      '/movies/:movieId/re-extract-subtitles': ReExtractSubtitles,
     },
     PATCH: {
       '/movies/:id': Authorize('movie-admin')(createSinglePatchEndpoint(media.Movie)),

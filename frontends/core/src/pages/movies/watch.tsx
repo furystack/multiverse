@@ -40,8 +40,6 @@ export const Watch = Shade<
       autoplay: true,
     })
 
-    player.currentTime(props.watchedSeconds)
-
     const formats = props.movie.availableFormats
     if (formats && formats.length === 1) {
       player.src([
@@ -51,21 +49,39 @@ export const Watch = Shade<
           withCredentials: true,
         })),
       ])
-      props.availableSubtitles.map((subtitle) =>
-        player.addRemoteTextTrack(
-          {
-            label: 'English',
-            src: `${sites.services.media.apiPath}/movies/${props.movie._id}/subtitles/${subtitle}`,
-          },
-          false,
-        ),
-      )
     } else {
       player.src({
         src: `${sites.services.media.apiPath}/stream-original/${props.movie._id}`,
         type: 'video/mp4',
       })
     }
+
+    player.currentTime(props.watchedSeconds)
+
+    props.movie.ffprobe.streams
+      .filter((s) => s.codec_type === 'subtitle')
+      .map((s) =>
+        player.addRemoteTextTrack(
+          {
+            language: s.tags.language,
+            label: s.tags.title || s.tags.language,
+            src: `${sites.services.media.apiPath}/movies/${props.movie._id}/subtitles/${encodeURIComponent(
+              `extracted/stream${s.index}.vtt`,
+            )}`,
+          },
+          false,
+        ),
+      )
+
+    props.availableSubtitles.map((subtitle) =>
+      player.addRemoteTextTrack(
+        {
+          label: 'English',
+          src: `${sites.services.media.apiPath}/movies/${props.movie._id}/subtitles/${subtitle}`,
+        },
+        false,
+      ),
+    )
 
     player.on('error', (_ev) => {
       if (confirm('There was an error during encoded video playback. Try the original content?'))

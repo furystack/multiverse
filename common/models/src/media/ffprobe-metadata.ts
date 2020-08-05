@@ -42,6 +42,7 @@ export interface FfprobeStream {
   }
   tags: {
     language: string
+    title?: string
     BPS: string
     'BPS-eng': string
     DURATION: string

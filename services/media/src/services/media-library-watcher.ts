@@ -9,6 +9,7 @@ import { getFfprobeData } from '../utils/get-ffprobe-data'
 import { getUniversalMetadataFromOmdb } from '../utils/get-universal-metadata-from-omdb'
 import { getFallbackMetadata } from '../utils/get-fallback-metadata'
 import { fetchOmdbMetadata } from '../utils/fetch-omdb-metadata'
+import { extractSubtitles } from '../utils/extract-subtitles'
 
 @Injectable({ lifetime: 'singleton' })
 export class MediaLibraryWatcher {
@@ -56,13 +57,14 @@ export class MediaLibraryWatcher {
         })
         const metadata = media.isValidOmdbMetadata(omdbMeta) ? getUniversalMetadataFromOmdb(omdbMeta) : fallbackMeta
 
-        await dataSet.add(this.injector, {
+        const createResult = await dataSet.add(this.injector, {
           path: name,
           libraryId: library._id,
           metadata,
           omdbMeta,
           ffprobe,
         })
+        await extractSubtitles({ injector: this.injector, movie: createResult.created[0] })
       }
     })
 

@@ -8,7 +8,7 @@ export class Movie {
   path!: string
   libraryId!: string
   omdbMeta?: OmdbMetadata
-  ffprobe?: FfprobeMetadata
+  ffprobe!: FfprobeMetadata
   metadata!: MovieUniversalMetadata
   availableFormats?: Array<{ codec: EncodingType['codec']; mode: EncodingType['mode'] }>
 }

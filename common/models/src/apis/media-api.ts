@@ -33,6 +33,7 @@ export interface MediaApi extends RestApi {
     }>
     '/encode/reencode': RequestAction<{ body: { movieId: string } }>
     '/movies/:movieId/re-fetch-metadata': RequestAction<{ urlParams: { movieId: string } }>
+    '/movies/:movieId/re-extract-subtitles': RequestAction<{ urlParams: { movieId: string } }>
   }
   PATCH: {
     '/movies/:id': SinglePatchEndpoint<Movie>

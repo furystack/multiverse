@@ -14,6 +14,18 @@ export const EditMovie = Shade<{ movie: media.Movie }>({
         data={props.movie}
         additionalActions={[
           {
+            name: 'Re-extract subtitles',
+            action: async ({ entity, injector: i }) => {
+              if (confirm('Are you sure you want to re-extract the subtitles from the stream?')) {
+                await i.getInstance(MediaApiService).call({
+                  method: 'POST',
+                  action: '/movies/:movieId/re-extract-subtitles',
+                  url: { movieId: entity._id },
+                })
+              }
+            },
+          },
+          {
             name: 'Re-fetch metadata',
             action: async ({ entity, injector: i }) => {
               if (confirm('Are you sure you want to re-fetch the movie metadata?')) {
