@@ -29,6 +29,7 @@ export const UploadEncoded: RequestAction<{ urlParams: { movieId: string; access
   }
 
   const form = new IncomingForm()
+  form.uploadDir = FileStores.tempdir
 
   const parseResult = await new Promise<{ fields: Fields; files: Files }>((resolve, reject) =>
     form.parse(request, (err, fields, files) => {

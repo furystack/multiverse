@@ -29,6 +29,7 @@ export const UploadSubtitles: RequestAction<{ urlParams: { movieId: string; acce
   }
 
   const form = new IncomingForm()
+  form.uploadDir = FileStores.tempdir
 
   const parseResult = await new Promise<{ fields: Fields; files: Files }>((resolve, reject) =>
     form.parse(request, (err, fields, files) => {
