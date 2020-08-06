@@ -3,7 +3,6 @@ import { ObservableValue } from '@furystack/utils'
 import { media } from '@common/models'
 import { sites } from '@common/config'
 import { MediaApiService } from '@common/frontend-utils'
-import 'videojs-contrib-dash'
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 
@@ -25,11 +24,24 @@ export const Watch = Shade<
   }),
   shadowDomName: 'multiverse-movie-watch',
   constructed: ({ props, injector, getState, element }) => {
+    const formats = props.movie.availableFormats || []
+    const sources = [
+      ...formats.sortBy('codec', 'desc').map((f) => ({
+        src: `${sites.services.media.apiPath}/watch-stream/${props.movie._id}/${f.codec}/${f.mode}/dash.mpd`,
+        type: f.mode === 'dash' ? 'application/dash+xml' : 'unknown',
+        withCredentials: true,
+      })),
+      {
+        src: `${sites.services.media.apiPath}/stream-original/${props.movie._id}`,
+        type: 'video/mp4',
+      },
+    ]
+
     const player = videojs(element.querySelector('video-js'), {
       poster: props.movie.metadata.thumbnailImageUrl,
       html5: {
         nativeCaptions: false,
-        nativeAudioTracks: false,
+        nativeAudioTracks: formats && formats.length ? false : undefined,
         dash: {
           setLimitBitrateByPortal: true,
           setMaxAllowedBitrateFor: ['video', 200],
@@ -38,40 +50,20 @@ export const Watch = Shade<
       },
       controls: true,
       autoplay: true,
+      sources,
+      tracks: props.movie.ffprobe.streams
+        .filter((s) => s.codec_type === 'subtitle')
+        .map((s) => ({
+          language: s.tags.language,
+          label: s.tags.title || s.tags.language,
+          kind: 'subtitles',
+          src: `${sites.services.media.apiPath}/movies/${props.movie._id}/subtitles/${encodeURIComponent(
+            `extracted/stream${s.index}.vtt`,
+          )}`,
+        })),
     })
 
-    const formats = props.movie.availableFormats
-    if (formats && formats.length === 1) {
-      player.src([
-        ...formats.map((f) => ({
-          src: `${sites.services.media.apiPath}/watch-stream/${props.movie._id}/${f.codec}/${f.mode}/dash.mpd`,
-          type: f.mode === 'dash' ? 'application/dash+xml' : 'unknown',
-          withCredentials: true,
-        })),
-      ])
-    } else {
-      player.src({
-        src: `${sites.services.media.apiPath}/stream-original/${props.movie._id}`,
-        type: 'video/mp4',
-      })
-    }
-
     player.currentTime(props.watchedSeconds)
-
-    props.movie.ffprobe.streams
-      .filter((s) => s.codec_type === 'subtitle')
-      .map((s) =>
-        player.addRemoteTextTrack(
-          {
-            language: s.tags.language,
-            label: s.tags.title || s.tags.language,
-            src: `${sites.services.media.apiPath}/movies/${props.movie._id}/subtitles/${encodeURIComponent(
-              `extracted/stream${s.index}.vtt`,
-            )}`,
-          },
-          false,
-        ),
-      )
 
     props.availableSubtitles.map((subtitle) =>
       player.addRemoteTextTrack(
@@ -93,8 +85,8 @@ export const Watch = Shade<
       player.play()
     })
 
-    player.ready(() => {
-      //
+    player.on('pause', () => {
+      getState().watchedSeconds.setValue(player.currentTime())
     })
 
     const subscription = getState().watchedSeconds.subscribe((watchedSeconds) => {

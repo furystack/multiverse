@@ -133,7 +133,7 @@ export const MoviesPage = Shade({
                       query: { findOptions: { filter: { libraryId: { $eq: libraryId } } } },
                     })
                     return (
-                      <div>
+                      <div style={{ width: '100%', height: '100%' }}>
                         <MovieList movies={movies.entries as media.Movie[]} />
                         <Fab
                           title="Watch encoding jobs"

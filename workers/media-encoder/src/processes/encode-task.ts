@@ -68,24 +68,24 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
         uploadPath,
         encodingSettings,
       })
-      await got(PathHelper.joinPaths(mediaApiPath, 'finialize-encoding'), {
-        method: 'POST',
-        body: JSON.stringify({
-          accessToken: options.task.authToken,
-          codec: encodingSettings.codec,
-          mode: encodingSettings.mode,
-        }),
-        encoding: 'utf-8',
-        retry: 10,
-      })
-      logger.information({ message: 'Task finished, finialize request has been sent.' })
-      return true
     } else {
       logger.warning({
         message: `Encoding with codec '${encodingSettings.codec}' and type '${encodingSettings.mode}' is not supported. Skipping encoding`,
       })
       return false
     }
+    await got(PathHelper.joinPaths(mediaApiPath, 'finialize-encoding'), {
+      method: 'POST',
+      body: JSON.stringify({
+        accessToken: options.task.authToken,
+        codec: encodingSettings.codec,
+        mode: encodingSettings.mode,
+      }),
+      encoding: 'utf-8',
+      retry: 10,
+    })
+    logger.information({ message: 'Task finished, finialize request has been sent.' })
+    return true
   } catch (error) {
     logger.warning({
       message: `Task encoding failed`,

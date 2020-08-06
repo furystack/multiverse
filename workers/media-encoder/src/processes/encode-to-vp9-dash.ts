@@ -43,11 +43,18 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
       } as any)
         .output('dash.mpd')
         .format('dash')
-        .audioCodec('aac')
+        .audioCodec('libopus')
         .audioChannels(2)
         .audioBitrate(128)
-        .videoCodec('libvpx-vp9') // ToDo: FFVP9?
-        .outputOptions(['-use_template 1', '-use_timeline 1', '-map 0:a', '-quality good'])
+        .videoCodec('libvpx-vp9')
+        .outputOptions([
+          '-use_template 1',
+          '-use_timeline 1',
+          '-map 0:a',
+          '-speed 4',
+          '-reconnect_streamed 1',
+          '-reconnect_delay_max 120',
+        ])
 
       options.encodingSettings.formats.map((format, index) => {
         proc.outputOptions([
@@ -77,17 +84,21 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
             logger.information({ message: `ffmpeg vp9 encoding completed` })
             resolve()
           })
-          .on('error', async (err) => {
+          .on('error', async (error, stdout, stderr) => {
             const form = new FormData({ encoding: 'utf-8' })
-            form.append('error', JSON.stringify(err))
+
+            error.stdout = stdout
+            error.stderr = stderr
+
+            form.append('error', JSON.stringify(error))
             await got(options.uploadPath, {
               method: 'POST',
               body: form as any,
               encoding: 'utf-8',
               retry: 10,
             })
-            logger.warning({ message: 'ffmpeg errored', data: err })
-            reject(err)
+            logger.warning({ message: 'ffmpeg vp9 encoding failed', data: { error } })
+            reject(error)
           })
         proc.run()
       })
