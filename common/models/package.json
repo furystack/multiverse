@@ -12,6 +12,6 @@
   "devDependencies": {},
   "dependencies": {
     "@furystack/rest": "^1.1.19",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.1"
   }
 }

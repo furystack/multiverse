@@ -23,6 +23,6 @@
     "@furystack/repository": "^3.0.9",
     "@furystack/rest": "^1.1.19",
     "@furystack/rest-service": "^2.1.13",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.1"
   }
 }
