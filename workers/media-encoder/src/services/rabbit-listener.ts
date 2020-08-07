@@ -32,10 +32,10 @@ export class RabbitListener {
         messaging.media.fanoutExchange,
         messaging.media.routingKeys.encodingJobAdded,
       )
+      this.channel.prefetch(1, false)
       await this.channel.consume(messaging.media.queues.encodeVideo, (msg) => this.onEncodeVideo(msg), {
         noAck: false,
       })
-      this.channel.prefetch(1, true)
       this.initLock.release()
     } catch (error) {
       this.logger.warning({
