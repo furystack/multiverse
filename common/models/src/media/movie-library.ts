@@ -15,8 +15,8 @@ export type X264EncodingType = {
 export type EncodingType = Vp9EncodingType | X264EncodingType
 
 export type X264EncodingFormat = {
-  downScale?: number
-  bitRate?: number
+  downScale: number
+  bitRate: number
 }
 
 export type Vp9EncodingFormat = { downScale?: number } & {
