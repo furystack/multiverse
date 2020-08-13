@@ -27,12 +27,14 @@ export const Watch = Shade<
   shadowDomName: 'multiverse-movie-watch',
   constructed: ({ props, injector, getState, element }) => {
     const formats = props.movie.availableFormats || []
+    const subtitleStreams = props.movie.ffprobe.streams.filter((s) => s.codec_type === 'subtitle')
     const sources = [
       ...formats.sortBy('codec', 'desc').map((f) => ({
         src: `${sites.services.media.apiPath}/watch-stream/${props.movie._id}/${f.codec}/${f.mode}/dash.mpd`,
         type: f.mode === 'dash' ? 'application/dash+xml' : 'unknown',
         withCredentials: true,
       })),
+
       {
         src: `${sites.services.media.apiPath}/stream-original/${props.movie._id}`,
         type: 'video/mp4',
@@ -45,8 +47,6 @@ export const Watch = Shade<
         nativeCaptions: false,
         nativeAudioTracks: formats && formats.length ? false : undefined,
         dash: {
-          setLimitBitrateByPortal: true,
-          setMaxAllowedBitrateFor: ['video', 200],
           setXHRWithCredentialsForType: [undefined, true],
         },
       },
@@ -58,16 +58,14 @@ export const Watch = Shade<
       controls: true,
       autoplay: true,
       sources,
-      tracks: props.movie.ffprobe.streams
-        .filter((s) => s.codec_type === 'subtitle')
-        .map((s) => ({
-          language: s.tags.language,
-          label: s.tags.title || s.tags.language,
-          kind: 'subtitles',
-          src: `${sites.services.media.apiPath}/movies/${props.movie._id}/subtitles/${encodeURIComponent(
-            `extracted/stream${s.index}.vtt`,
-          )}`,
-        })),
+      tracks: subtitleStreams.map((s) => ({
+        language: s.tags.language,
+        label: s.tags.title || s.tags.language,
+        kind: 'subtitles',
+        src: `${sites.services.media.apiPath}/movies/${props.movie._id}/subtitles/${encodeURIComponent(
+          `extracted/stream${s.index}.vtt`,
+        )}`,
+      })),
     })
 
     player.currentTime(props.watchedSeconds)
