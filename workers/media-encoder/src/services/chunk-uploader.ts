@@ -1,7 +1,7 @@
 import { Stats, createReadStream } from 'fs'
 import { watch, FSWatcher } from 'chokidar'
 import { Injector } from '@furystack/inject'
-import { ScopedLogger, LeveledLogEntry } from '@furystack/logging'
+import { ScopedLogger } from '@furystack/logging'
 import { ObservableValue, sleepAsync } from '@furystack/utils'
 import Semaphore from 'semaphore-async-await'
 import got from 'got'
