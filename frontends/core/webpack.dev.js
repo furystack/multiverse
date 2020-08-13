@@ -9,6 +9,7 @@ module.exports = merge(common, {
   devtool: 'cheap-module-eval-source-map',
   devServer: {
     historyApiFallback: true,
+    host: '0.0.0.0',
   },
   output: {
     filename: 'static/js/bundle.js',
