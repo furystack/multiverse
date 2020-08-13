@@ -59,6 +59,8 @@ export class ChunkUploader {
           method: 'POST',
           body: form as any,
           encoding: 'utf-8',
+          cache: false,
+          agent: false,
           retry: { limit: this.options.retries },
           hooks: {
             beforeRetry: [

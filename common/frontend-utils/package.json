@@ -9,7 +9,7 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/uuid": "^8.0.1"
+    "@types/uuid": "^8.3.0"
   },
   "dependencies": {
     "@common/models": "1.0.0",
