@@ -1,7 +1,7 @@
 import { Stats, createReadStream } from 'fs'
 import { watch, FSWatcher } from 'chokidar'
 import { Injector } from '@furystack/inject'
-import { ScopedLogger } from '@furystack/logging'
+import { ScopedLogger, LeveledLogEntry } from '@furystack/logging'
 import { ObservableValue, sleepAsync } from '@furystack/utils'
 import Semaphore from 'semaphore-async-await'
 import got from 'got'
@@ -22,6 +22,8 @@ export interface ChunkWatcherOptions {
 }
 
 export class ChunkUploader {
+  private warns: Array<{ chunkName: string; error: any }> = []
+
   public async dispose() {
     await sleepAsync(2000)
     await this.watcher.close()
@@ -31,7 +33,11 @@ export class ChunkUploader {
         this.logger.verbose({ message: `${index + 1}/${this.options.parallel} upload locks acquired.` })
       }
     }
-    this.logger.information({ message: 'All uploads finished' })
+    if (this.warns) {
+      this.logger.warning({ message: 'Encoding finished but some chunk uploads has been failed', data: this.warns })
+    } else {
+      this.logger.information({ message: 'All uploads finished' })
+    }
   }
 
   private readonly lock = new Semaphore(this.options.parallel)
@@ -84,7 +90,11 @@ export class ChunkUploader {
         })
         this.logger.verbose({ message: `Chunk '${fileName}' uploaded - ${Math.floor(percent)}% done.` })
       } catch (error) {
-        this.logger.warning({ message: 'Error uploading chunk', data: { error, fileName } })
+        this.logger.warning({
+          message: 'Error uploading chunk',
+          data: { error, fileName },
+        })
+        this.warns.push({ chunkName: fileName, error })
       } finally {
         this.lock.release()
       }
