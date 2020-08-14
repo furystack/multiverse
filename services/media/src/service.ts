@@ -1,14 +1,14 @@
 import { sites } from '@common/config'
 import { apis, deserialize, media } from '@common/models'
+import { attachShutdownHandler, runPatches } from '@common/service-utils'
 import {
-  attachShutdownHandler,
-  createCollectionEndpoint,
-  createSingleEntityEndpoint,
-  createSinglePostEndpoint,
-  createSinglePatchEndpoint,
-  runPatches,
-} from '@common/service-utils'
-import { Authorize, Authenticate } from '@furystack/rest-service'
+  Authorize,
+  Authenticate,
+  createGetCollectionEndpoint,
+  createGetEntityEndpoint,
+  createPostEndpoint,
+  createPatchEndpoint,
+} from '@furystack/rest-service'
 import { injector } from './config'
 import { StreamOriginalAction } from './actions/stream-original-action'
 import { SaveWatchProgress } from './actions/save-watch-progress'
@@ -32,21 +32,21 @@ injector.useRestService<apis.MediaApi>({
   root: '/api/media',
   api: {
     GET: {
-      '/movie-libraries': createCollectionEndpoint({ model: media.MovieLibrary }),
-      '/movie-libraries/:id': createSingleEntityEndpoint({ model: media.MovieLibrary }),
-      '/movies': createCollectionEndpoint({ model: media.Movie }),
-      '/movies/:id': createSingleEntityEndpoint({ model: media.Movie }),
+      '/movie-libraries': createGetCollectionEndpoint({ model: media.MovieLibrary }),
+      '/movie-libraries/:id': createGetEntityEndpoint({ model: media.MovieLibrary }),
+      '/movies': createGetCollectionEndpoint({ model: media.Movie }),
+      '/movies/:id': createGetEntityEndpoint({ model: media.Movie }),
       '/movies/:movieId/subtitles': GetAvailableSubtitles,
       '/movies/:movieId/subtitles/:subtitleName': GetSubtitle,
       '/stream-original/:movieId/:accessToken?': StreamOriginalAction,
       '/watch-stream/:id/:codec/:mode/:chunk?': Authenticate()(WatchStream),
-      '/my-watch-progress': Authenticate()(createCollectionEndpoint({ model: media.MovieWatchHistoryEntry })),
-      '/encode/tasks': Authorize('movie-admin')(createCollectionEndpoint({ model: media.EncodingTask })),
-      '/encode/tasks/:id': Authorize('movie-admin')(createSingleEntityEndpoint({ model: media.EncodingTask })),
+      '/my-watch-progress': Authenticate()(createGetCollectionEndpoint({ model: media.MovieWatchHistoryEntry })),
+      '/encode/tasks': Authorize('movie-admin')(createGetCollectionEndpoint({ model: media.EncodingTask })),
+      '/encode/tasks/:id': Authorize('movie-admin')(createGetEntityEndpoint({ model: media.EncodingTask })),
       '/encode/get-worker-task/:taskId': GetWorkerTask,
     },
     POST: {
-      '/movie-libraries': createSinglePostEndpoint(media.MovieLibrary),
+      '/movie-libraries': createPostEndpoint({ model: media.MovieLibrary }),
       '/save-watch-progress': SaveWatchProgress,
       '/upload-encoded/:movieId/:accessToken': UploadEncoded,
       '/upload-subtitles/:movieId/:accessToken': UploadSubtitles,
@@ -57,8 +57,8 @@ injector.useRestService<apis.MediaApi>({
       '/movies/:movieId/re-extract-subtitles': ReExtractSubtitles,
     },
     PATCH: {
-      '/movies/:id': Authorize('movie-admin')(createSinglePatchEndpoint(media.Movie)),
-      '/movie-libraries/:id': Authorize('movie-admin')(createSinglePatchEndpoint(media.MovieLibrary)),
+      '/movies/:id': Authorize('movie-admin')(createPatchEndpoint({ model: media.Movie })),
+      '/movie-libraries/:id': Authorize('movie-admin')(createPatchEndpoint({ model: media.MovieLibrary })),
     },
   },
   cors: {

@@ -5,7 +5,7 @@ import { Dashboard } from '../components/dashboard'
 import { GenericErrorPage } from './generic-error'
 import { Init } from '.'
 
-export const WelcomePage = Shade<{ profile: auth.Profile; currentUser: auth.User }>({
+export const WelcomePage = Shade<{ profile: auth.Profile }>({
   shadowDomName: 'welcome-page',
   constructed: async ({ element }) => {
     setTimeout(() => {

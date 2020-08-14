@@ -1,16 +1,15 @@
-import { RestApi } from '@furystack/rest'
-import { CollectionEndpoint, SingleEntityEndpoint, SinglePostEndpoint, SinglePatchEndpoint } from '../endpoints'
+import { RestApi, GetCollectionEndpoint, GetEntityEndpoint, PostEndpoint, PatchEndpoint } from '@furystack/rest'
 import { Dashboard } from '../dashboard'
 
 export interface DashboardApi extends RestApi {
   GET: {
-    '/boards': CollectionEndpoint<Dashboard>
-    '/boards/:id': SingleEntityEndpoint<Dashboard>
+    '/boards': GetCollectionEndpoint<Dashboard>
+    '/boards/:id': GetEntityEndpoint<Dashboard>
   }
   POST: {
-    '/boards': SinglePostEndpoint<Dashboard>
+    '/boards': PostEndpoint<Dashboard>
   }
   PATCH: {
-    '/boards/:id': SinglePatchEndpoint<Dashboard>
+    '/boards/:id': PatchEndpoint<Dashboard>
   }
 }

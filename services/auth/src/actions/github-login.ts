@@ -6,7 +6,7 @@ import { GithubAuthService } from '../services/github-login-service'
 
 export const GithubLoginAction: RequestAction<{
   body: { code: string; clientId: string }
-  result: auth.User
+  result: Omit<auth.User, 'password'>
 }> = async ({ injector, getBody, response }) => {
   const { code, clientId } = await getBody()
   let githubApiPayload!: auth.GithubApiPayload
@@ -30,6 +30,6 @@ export const GithubLoginAction: RequestAction<{
     throw new RequestError(`Found '${users.length}' associated user(s)`, 500)
   }
   await injector.getInstance(HttpUserContext).cookieLogin(users[0], response)
-  delete users[0].password
-  return JsonResult({ ...users[0] })
+  const { password, ...user } = users[0]
+  return JsonResult({ ...user })
 }

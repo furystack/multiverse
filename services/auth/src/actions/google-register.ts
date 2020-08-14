@@ -9,11 +9,10 @@ import { downloadAsTempFile, saveAvatar } from '@common/service-utils'
  * HTTP Request action for Google Logins
  */
 
-export const GoogleRegisterAction: RequestAction<{ body: { token: string }; result: auth.User }> = async ({
-  injector,
-  getBody,
-  response,
-}) => {
+export const GoogleRegisterAction: RequestAction<{
+  body: { token: string }
+  result: Omit<auth.User, 'password'>
+}> = async ({ injector, getBody, response }) => {
   const logger = injector.logger.withScope('GoogleRegisterAction')
   const storeManager = injector.getInstance(StoreManager)
   const userContext = injector.getInstance(HttpUserContext)
@@ -57,7 +56,7 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string }; resu
     logger.warning({ message: 'Failed to get Avatar', data: { message: error.message, stack: error.stack } })
   }
 
-  delete userToAdd.password
+  const { password, ...userToAddWithoutPw } = userToAdd
 
   await googleAcccounts.add({
     googleId: googleUserData.sub,
@@ -73,9 +72,9 @@ export const GoogleRegisterAction: RequestAction<{ body: { token: string }; resu
 
   logger.information({
     message: `User ${userToAdd.username} has been registered with Google Auth.`,
-    data: userToAdd,
+    data: userToAddWithoutPw,
   })
 
-  const user = await userContext.cookieLogin(userToAdd, response)
-  return JsonResult(user as auth.User)
+  const { password: pw, ...user } = (await userContext.cookieLogin(userToAddWithoutPw, response)) as auth.User
+  return JsonResult(user)
 }

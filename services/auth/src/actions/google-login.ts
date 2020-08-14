@@ -8,11 +8,10 @@ import { HttpUserContext } from '@furystack/rest-service'
  * HTTP Request action for Google Logins
  */
 
-export const GoogleLoginAction: RequestAction<{ body: { token: string }; result: auth.User }> = async ({
-  injector,
-  getBody,
-  response,
-}) => {
+export const GoogleLoginAction: RequestAction<{
+  body: { token: string }
+  result: Omit<auth.User, 'password'>
+}> = async ({ injector, getBody, response }) => {
   const loginData = await getBody()
 
   const googleAccountStore = await injector.getInstance(StoreManager).getStoreFor(auth.GoogleAccount)
@@ -28,8 +27,9 @@ export const GoogleLoginAction: RequestAction<{ body: { token: string }; result:
       throw new RequestError(`Found ${googleUser.length} user(s) with the username '${googleAccount[0].username}'`, 500)
     }
     await injector.getInstance(HttpUserContext).cookieLogin(googleUser[0], response)
-    delete googleUser[0].password
-    return JsonResult({ ...googleUser[0] })
+    const { password, ...user } = googleUser[0]
+
+    return JsonResult({ ...user })
   } else {
     throw new RequestError('No user registered with this Google account.', 400)
   }

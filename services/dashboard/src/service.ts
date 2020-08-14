@@ -1,13 +1,12 @@
 import { sites } from '@common/config'
 import { apis, deserialize, diag, dashboard } from '@common/models'
+import { attachShutdownHandler, runPatches } from '@common/service-utils'
 import {
-  attachShutdownHandler,
-  createCollectionEndpoint,
-  runPatches,
-  createSingleEntityEndpoint,
-  createSinglePostEndpoint,
-  createSinglePatchEndpoint,
-} from '@common/service-utils'
+  createGetCollectionEndpoint,
+  createGetEntityEndpoint,
+  createPostEndpoint,
+  createPatchEndpoint,
+} from '@furystack/rest-service'
 import { injector } from './config'
 import { createInitialIndexes } from './patches'
 
@@ -18,14 +17,14 @@ injector.useRestService<apis.DashboardApi>({
   root: '/api/dashboard',
   api: {
     GET: {
-      '/boards': createCollectionEndpoint({ model: dashboard.Dashboard }),
-      '/boards/:id': createSingleEntityEndpoint({ model: dashboard.Dashboard }),
+      '/boards': createGetCollectionEndpoint({ model: dashboard.Dashboard }),
+      '/boards/:id': createGetEntityEndpoint({ model: dashboard.Dashboard }),
     },
     POST: {
-      '/boards': createSinglePostEndpoint(dashboard.Dashboard),
+      '/boards': createPostEndpoint({ model: dashboard.Dashboard }),
     },
     PATCH: {
-      '/boards/:id': createSinglePatchEndpoint(dashboard.Dashboard),
+      '/boards/:id': createPatchEndpoint({ model: dashboard.Dashboard }),
     },
   },
   cors: {

@@ -1,14 +1,17 @@
-import { GetCurrentUser, IsAuthenticated, LoginAction, LogoutAction, Authenticate } from '@furystack/rest-service'
+import {
+  GetCurrentUser,
+  IsAuthenticated,
+  LoginAction,
+  LogoutAction,
+  Authenticate,
+  createGetCollectionEndpoint,
+  createPostEndpoint,
+  createPatchEndpoint,
+} from '@furystack/rest-service'
 import { sites } from '@common/config'
 import { auth, apis, deserialize } from '@common/models'
 import { RequestAction } from '@furystack/rest'
-import {
-  attachShutdownHandler,
-  createCollectionEndpoint,
-  createSinglePostEndpoint,
-  createSinglePatchEndpoint,
-  runPatches,
-} from '@common/service-utils'
+import { attachShutdownHandler, runPatches } from '@common/service-utils'
 import {
   AttachGithubAccount,
   AttachGoogleAccountAction,
@@ -44,10 +47,10 @@ injector.useRestService<apis.AuthApi>({
     GET: {
       '/currentUser': (GetCurrentUser as unknown) as RequestAction<{ result: auth.User }>,
       '/isAuthenticated': IsAuthenticated,
-      '/profiles': createCollectionEndpoint({ model: auth.Profile }),
+      '/profiles': createGetCollectionEndpoint({ model: auth.Profile }),
       '/profiles/:username': GetProfile,
       '/profiles/:username/avatar': GetAvatar,
-      '/organizations': createCollectionEndpoint({ model: auth.Organization }),
+      '/organizations': createGetCollectionEndpoint({ model: auth.Organization }),
       '/organization/:organizationName': GetOrganization,
       '/loginProviderDetails': Authenticate()(GetLoginProviderDetails),
       '/oauth-data': getOauthData,
@@ -65,7 +68,7 @@ injector.useRestService<apis.AuthApi>({
       '/login': LoginAction as any,
       '/logout': LogoutAction,
       '/register': RegisterAction,
-      '/organizations': createSinglePostEndpoint(auth.Organization),
+      '/organizations': createPostEndpoint({ model: auth.Organization }),
       '/changePassword': Authenticate()(ChangePasswordAction),
       '/settings': Authenticate()(PostSettings),
       '/organization/:organizationName/addAdmin': OrganizationAddAdmin,
@@ -75,7 +78,7 @@ injector.useRestService<apis.AuthApi>({
     },
     PATCH: {
       '/organizations/:organizationName': PatchOrganization,
-      '/profile/:id': createSinglePatchEndpoint(auth.Profile),
+      '/profile/:id': createPatchEndpoint({ model: auth.Profile }),
     },
   },
   cors: {

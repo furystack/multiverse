@@ -7,13 +7,13 @@ import { auth } from '@common/models'
  * HTTP Request action for Google Logins
  */
 
-export const AttachGoogleAccountAction: RequestAction<{ body: { token: string }; result: auth.User }> = async ({
-  injector,
-  getBody,
-}) => {
+export const AttachGoogleAccountAction: RequestAction<{
+  body: { token: string }
+  result: Omit<auth.User, 'password'>
+}> = async ({ injector, getBody }) => {
   const logger = injector.logger.withScope('AttachGoogleAccountAction')
 
-  const currentUser = await injector.getCurrentUser()
+  const { password, ...currentUser } = (await injector.getCurrentUser()) as auth.User
   const googleAcccounts = injector.getInstance(StoreManager).getStoreFor(auth.GoogleAccount)
   const { token } = await getBody()
   const registrationDate = new Date().toISOString()

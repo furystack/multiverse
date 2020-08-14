@@ -1,13 +1,11 @@
-import { RequestAction, RestApi } from '@furystack/rest'
+import { RequestAction, RestApi, GetCollectionEndpoint, PostEndpoint, PatchEndpoint } from '@furystack/rest'
 import { PartialResult } from '@furystack/core'
 import { User } from '../auth/user'
 import { Profile } from '../auth/profile'
 import { Organization } from '../auth/organization'
 import { GoogleAccount } from '../auth/google-account'
 import { GithubAccount } from '../auth/github-account'
-import { CollectionEndpoint, SinglePostEndpoint } from '../endpoints'
 import { UserSettings } from '../auth'
-import { SinglePatchEndpoint } from '../endpoints/single-patch-endpoint'
 
 export interface AuthApi extends RestApi {
   GET: {
@@ -18,8 +16,8 @@ export interface AuthApi extends RestApi {
     }>
     '/profiles/:username': RequestAction<{ result: PartialResult<Profile, any>; urlParams: { username: string } }>
     '/profiles/:username/avatar': RequestAction<{ result: any; urlParams: { username: string } }>
-    '/profiles': CollectionEndpoint<Profile>
-    '/organizations': CollectionEndpoint<Organization>
+    '/profiles': GetCollectionEndpoint<Profile>
+    '/organizations': GetCollectionEndpoint<Organization>
     '/organization/:organizationName': RequestAction<{
       result: PartialResult<Organization, any>
       urlParams: { organizationName: string }
@@ -32,16 +30,16 @@ export interface AuthApi extends RestApi {
     }>
   }
   POST: {
-    '/login': RequestAction<{ body: { username: string; password: string }; result: User }>
-    '/register': RequestAction<{ body: { email: string; password: string }; result: User }>
-    '/googleLogin': RequestAction<{ body: { token: string }; result: User }>
-    '/googleRegister': RequestAction<{ body: { token: string }; result: User }>
-    '/attachGoogleAccount': RequestAction<{ body: { token: string }; result: User }>
-    '/detachGoogleAccount': RequestAction<{ result: User }>
-    '/githubLogin': RequestAction<{ body: { code: string; clientId: string }; result: User }>
-    '/githubRegister': RequestAction<{ body: { code: string; clientId: string }; result: User }>
-    '/attachGithubAccount': RequestAction<{ body: { code: string; clientId: string }; result: User }>
-    '/detachGithubAccount': RequestAction<{ result: User }>
+    '/login': RequestAction<{ body: { username: string; password: string }; result: Omit<User, 'password'> }>
+    '/register': RequestAction<{ body: { email: string; password: string }; result: Omit<User, 'password'> }>
+    '/googleLogin': RequestAction<{ body: { token: string }; result: Omit<User, 'password'> }>
+    '/googleRegister': RequestAction<{ body: { token: string }; result: Omit<User, 'password'> }>
+    '/attachGoogleAccount': RequestAction<{ body: { token: string }; result: Omit<User, 'password'> }>
+    '/detachGoogleAccount': RequestAction<{ result: Omit<User, 'password'> }>
+    '/githubLogin': RequestAction<{ body: { code: string; clientId: string }; result: Omit<User, 'password'> }>
+    '/githubRegister': RequestAction<{ body: { code: string; clientId: string }; result: Omit<User, 'password'> }>
+    '/attachGithubAccount': RequestAction<{ body: { code: string; clientId: string }; result: Omit<User, 'password'> }>
+    '/detachGithubAccount': RequestAction<{ result: Omit<User, 'password'> }>
     '/logout': RequestAction<{}>
     '/settings': RequestAction<{ body: UserSettings }>
     '/avatar': RequestAction<{}>
@@ -50,7 +48,7 @@ export interface AuthApi extends RestApi {
       result: { success: boolean }
     }>
 
-    '/organizations': SinglePostEndpoint<Organization>
+    '/organizations': PostEndpoint<Organization>
     '/organization/:organizationName/addMember': RequestAction<{
       result: PartialResult<Organization, any>
       body: { username: string }
@@ -78,6 +76,6 @@ export interface AuthApi extends RestApi {
       result: Organization
       urlParams: { organizationName: string }
     }>
-    '/profile/:id': SinglePatchEndpoint<Profile>
+    '/profile/:id': PatchEndpoint<Profile>
   }
 }

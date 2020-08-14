@@ -39,7 +39,7 @@ export const MovieWidget = Shade<
     index: number
     watchHistory?: media.MovieWatchHistoryEntry
   },
-  { currentUser: auth.User | null }
+  { currentUser: Omit<auth.User, 'password'> | null }
 >({
   shadowDomName: 'multiverse-movie-widget',
   getInitialState: ({ injector }) => ({ currentUser: injector.getInstance(SessionService).currentUser.getValue() }),

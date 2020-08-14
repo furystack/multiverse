@@ -1,25 +1,22 @@
-import { RestApi, RequestAction } from '@furystack/rest'
+import { RestApi, RequestAction, GetCollectionEndpoint, GetEntityEndpoint, PostEndpoint } from '@furystack/rest'
 import { Account, Shop, Item, Replenishment, Shopping } from '../xpense'
-import { CollectionEndpoint } from '../endpoints/collection-endpoint'
-import { SingleEntityEndpoint, SinglePostEndpoint } from '../endpoints'
-
 export interface XpenseApi extends RestApi {
   GET: {
-    '/shops': CollectionEndpoint<Shop>
-    '/shops/:id': SingleEntityEndpoint<Shop>
-    '/items': CollectionEndpoint<Item>
-    '/items/:id': SingleEntityEndpoint<Item>
-    '/accounts': CollectionEndpoint<Account>
-    '/accounts/:id': SingleEntityEndpoint<Account>
-    '/shoppings': CollectionEndpoint<Shopping>
-    '/shoppings/:id': SingleEntityEndpoint<Shopping>
-    '/replenishments': CollectionEndpoint<Replenishment>
-    '/replenishments/:id': SingleEntityEndpoint<Replenishment>
+    '/shops': GetCollectionEndpoint<Shop>
+    '/shops/:id': GetEntityEndpoint<Shop>
+    '/items': GetCollectionEndpoint<Item>
+    '/items/:id': GetEntityEndpoint<Item>
+    '/accounts': GetCollectionEndpoint<Account>
+    '/accounts/:id': GetEntityEndpoint<Account>
+    '/shoppings': GetCollectionEndpoint<Shopping>
+    '/shoppings/:id': GetEntityEndpoint<Shopping>
+    '/replenishments': GetCollectionEndpoint<Replenishment>
+    '/replenishments/:id': GetEntityEndpoint<Replenishment>
   }
   POST: {
-    '/accounts': SinglePostEndpoint<Account>
-    '/shops': SinglePostEndpoint<Shop>
-    '/items': SinglePostEndpoint<Item>
+    '/accounts': PostEndpoint<Account>
+    '/shops': PostEndpoint<Shop>
+    '/items': PostEndpoint<Item>
     '/accounts/:accountId/replenish': RequestAction<{
       body: { amount: number; comment?: string; creationDate: string }
       urlParams: { accountId: string }

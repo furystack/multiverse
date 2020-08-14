@@ -8,7 +8,7 @@ import { GenericErrorPage } from '../pages/generic-error'
 
 export const Body = Shade<
   unknown,
-  { sessionState: sessionState; currentUser: auth.User | null; isOperationInProgress: boolean }
+  { sessionState: sessionState; currentUser: Omit<auth.User, 'password'> | null; isOperationInProgress: boolean }
 >({
   shadowDomName: 'shade-app-body',
   getInitialState: ({ injector }) => {
@@ -109,7 +109,7 @@ export const Body = Shade<
                                 action: '/profiles/:username',
                                 url: { username: currentUser.username },
                               })) as auth.Profile
-                              return <WelcomePage profile={profile} currentUser={currentUser} />
+                              return <WelcomePage profile={profile} />
                             }}
                             loader={<Init message="Loading your Profile..." />}
                           />

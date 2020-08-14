@@ -15,7 +15,7 @@ export class SessionService implements IdentityContext {
   }
 
   public state = new ObservableValue<sessionState>('initializing')
-  public currentUser = new ObservableValue<auth.User | null>(null)
+  public currentUser = new ObservableValue<Omit<auth.User, 'password'> | null>(null)
 
   public isOperationInProgress = new ObservableValue(true)
 

@@ -20,7 +20,7 @@
     "@furystack/core": "^9.1.6",
     "@furystack/inject": "^4.0.35",
     "@furystack/logging": "^2.0.42",
-    "@furystack/rest": "^1.1.19",
+    "@furystack/rest": "^1.2.0",
     "@types/fluent-ffmpeg": "^2.1.14",
     "amqplib": "^0.6.0",
     "chokidar": "^3.4.2",

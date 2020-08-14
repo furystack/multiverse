@@ -3,11 +3,10 @@ import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
 import { HttpUserContext } from '@furystack/rest-service'
 
-export const RegisterAction: RequestAction<{ body: { email: string; password: string }; result: auth.User }> = async ({
-  injector,
-  getBody,
-  response,
-}) => {
+export const RegisterAction: RequestAction<{
+  body: { email: string; password: string }
+  result: Omit<auth.User, 'password'>
+}> = async ({ injector, getBody, response }) => {
   const logger = injector.logger.withScope('RegisterAction')
   const storeManager = injector.getInstance(StoreManager)
   const { email, password } = await getBody()
@@ -28,7 +27,8 @@ export const RegisterAction: RequestAction<{ body: { email: string; password: st
   await storeManager.getStoreFor(auth.Profile).add({ username: newUser.username, displayName: newUser.username })
   await userCtx.cookieLogin(newUser, response)
 
-  delete newUser.password
-  logger.information({ message: 'A New user has been registered', data: { ...newUser } })
-  return JsonResult(newUser, 200)
+  const { password: pw, ...user } = newUser
+
+  logger.information({ message: 'A New user has been registered', data: { ...user } })
+  return JsonResult(user, 200)
 }

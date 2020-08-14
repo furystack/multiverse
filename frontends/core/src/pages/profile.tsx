@@ -13,12 +13,12 @@ export const ProfilePage = Shade<
   {
     profile: auth.Profile
     loginProviderDetails: { hasPassword: boolean; google?: auth.GoogleAccount; github?: auth.GithubAccount }
-    currentUser: auth.User
+    currentUser: Omit<auth.User, 'password'>
   },
   {
     profile: auth.Profile
     loginProviderDetails: { hasPassword: boolean; google?: auth.GoogleAccount; github?: auth.GithubAccount }
-    currentUser: auth.User
+    currentUser: Omit<auth.User, 'password'>
     displayName: string
     description: string
   }

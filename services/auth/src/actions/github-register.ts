@@ -7,7 +7,7 @@ import { GithubAuthService } from '../services/github-login-service'
 
 export const GithubRegisterAction: RequestAction<{
   body: { code: string; clientId: string }
-  result: auth.User
+  result: Omit<auth.User, 'password'>
 }> = async ({ injector, getBody, response }) => {
   const { code, clientId } = await getBody()
 
@@ -55,10 +55,10 @@ export const GithubRegisterAction: RequestAction<{
   })
 
   await injector.getInstance(HttpUserContext).cookieLogin(newUser, response)
-  delete newUser.password
+  const { password, ...user } = newUser
   logger.information({
     message: `User ${newUser.username} has been registered with Github Auth.`,
     data: newUser,
   })
-  return JsonResult({ ...newUser })
+  return JsonResult({ ...user })
 }
