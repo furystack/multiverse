@@ -2,7 +2,7 @@ import { PhysicalStore, StoreManager, FindOptions } from '@furystack/core'
 import { HttpAuthenticationSettings } from '@furystack/rest-service'
 import { Injector } from '@furystack/inject'
 import { auth } from '@common/models'
-import { injector } from './config'
+import { setupStores } from './setup-stores'
 
 /**
  * gets an existing instance if exists or create and return if not. Throws error on multiple result
@@ -98,6 +98,9 @@ export const seed = async (i: Injector) => {
 
   logger.verbose({ message: 'Seeding data completed.' })
 }
+
+const injector = new Injector().useCommonHttpAuth()
+setupStores(injector)
 
 seed(injector).then(async () => {
   injector.dispose()

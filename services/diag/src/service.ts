@@ -1,31 +1,20 @@
-import { sites } from '@common/config'
-import { apis, deserialize, diag } from '@common/models'
-import { Authorize, createGetCollectionEndpoint, createGetEntityEndpoint } from '@furystack/rest-service'
+import { diag } from '@common/models'
 import { attachShutdownHandler, runPatches } from '@common/service-utils'
-import { injector } from './config'
+import { LogLevel, VerboseConsoleLogger } from '@furystack/logging'
+import { Injector } from '@furystack/inject'
 import { createInitialIndexes } from './patches'
+import { setupRestApi } from './setup-rest-api'
 
-injector.useRestService<apis.DiagApi>({
-  port: parseInt(sites.services.diag.internalPort as string, 10),
-  deserializeQueryParams: deserialize,
+const injector = new Injector()
 
-  root: '/api/diag',
-  api: {
-    GET: {
-      '/logEntries': Authorize('sys-diags')(createGetCollectionEndpoint({ model: diag.LogEntry })),
-      '/logEntries/:id': Authorize('sys-diags')(createGetEntityEndpoint({ model: diag.LogEntry })),
-      '/patches': Authorize('sys-diags')(createGetCollectionEndpoint({ model: diag.Patch })),
-      '/patches/:id': Authorize('sys-diags')(createGetEntityEndpoint({ model: diag.Patch })),
-    },
-  },
-  cors: {
-    credentials: true,
-    origins: Object.values(sites.frontends),
-  },
-})
+injector
+  .setupApplicationContext({ name: 'diag' })
+  .useDbLogger({ minLevel: LogLevel.Information })
+  .useLogging(VerboseConsoleLogger)
+setupRestApi(injector)
 
 attachShutdownHandler(injector)
 
-runPatches({ injector, appName: 'diag', patches: [createInitialIndexes] }).then(() => {
+runPatches({ injector, patches: [createInitialIndexes] }).then(() => {
   injector.setupRepository((repo) => repo.createDataSet(diag.Patch, {}))
 })

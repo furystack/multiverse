@@ -10,9 +10,10 @@ export interface PatchEntry {
   exec: (injector: Injector) => Promise<Pick<diag.Patch, 'errors' | 'warns' | 'updates'>>
 }
 
-export const runPatches = async (options: { appName: string; injector: Injector; patches: PatchEntry[] }) => {
+export const runPatches = async (options: { injector: Injector; patches: PatchEntry[] }) => {
+  const { name: appName } = options.injector.getApplicationContext()
   const logger = options.injector.logger.withScope('runPatches')
-  await logger.information({ message: `Running patches for app '${options.appName}'...` })
+  await logger.information({ message: `Running patches for app '${appName}'...` })
   options.injector.setupStores((sm) =>
     sm.useMongoDb({
       model: diag.Patch,
@@ -26,7 +27,7 @@ export const runPatches = async (options: { appName: string; injector: Injector;
   for (const patch of options.patches) {
     if (patch.mode === 'once') {
       const existing = await patchStore.find({
-        filter: { name: { $eq: patch.patchName }, appName: { $eq: options.appName }, status: { $eq: 'completed' } },
+        filter: { name: { $eq: patch.patchName }, appName: { $eq: appName }, status: { $eq: 'completed' } },
       })
       if (existing.length > 0) {
         logger.verbose({
@@ -43,7 +44,7 @@ export const runPatches = async (options: { appName: string; injector: Injector;
       const finishDate = new Date()
       await patchStore.add({
         ...result,
-        appName: options.appName,
+        appName,
         name: patch.patchName,
         startDate,
         finishDate,
@@ -58,7 +59,7 @@ export const runPatches = async (options: { appName: string; injector: Injector;
       const finishDate = new Date()
       await patchStore.add({
         name: patch.patchName,
-        appName: options.appName,
+        appName,
         startDate,
         finishDate,
         error: {
