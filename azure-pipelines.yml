@@ -15,7 +15,7 @@ trigger:
   - greenkeeper/*
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: "ubuntu-latest"
 
 jobs:
   - job: buildAndTest
@@ -24,57 +24,57 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '14.x'
-        displayName: 'Install Node.js'
+          versionSpec: "14.x"
+        displayName: "Install Node.js"
       - script: yarn install
-        displayName: 'Yarn install'
+        displayName: "Yarn install"
       - script: yarn lint
-        displayName: 'Yarn Lint'
+        displayName: "Yarn Lint"
       - script: yarn build
-        displayName: 'Yarn build'
+        displayName: "Yarn build"
         env:
           RELATIVE_CI_SLUG: furystack/multiverse
       - task: DockerCompose@0
         displayName: Start docker services
         inputs:
           action: Run services
-          dockerComposeFile: '$(System.DefaultWorkingDirectory)/docker-compose.yml'
+          dockerComposeFile: "$(System.DefaultWorkingDirectory)/docker-compose.yml"
           projectName: $(Build.Repository.Name)
           detached: true
           buildImages: true
       - script: yarn test:unit
-        displayName: 'Jest tests'
+        displayName: "Jest tests"
       - task: PublishCodeCoverageResults@1
-        displayName: 'Publish test coverage results'
+        displayName: "Publish test coverage results"
         inputs:
           codeCoverageTool: Cobertura
-          summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/*coverage.xml'
-          reportDirectory: '$(System.DefaultWorkingDirectory)/coverage'
+          summaryFileLocation: "$(System.DefaultWorkingDirectory)/coverage/*coverage.xml"
+          reportDirectory: "$(System.DefaultWorkingDirectory)/coverage"
       - task: PublishTestResults@2
         displayName: Publish test results
         condition: succeededOrFailed()
         inputs:
           testRunner: JUnit
-          testResultsFiles: '$(System.DefaultWorkingDirectory)/coverage/junit.xml'
+          testResultsFiles: "$(System.DefaultWorkingDirectory)/coverage/junit.xml"
 
       - script: yarn test:cypress
-        displayName: 'Cypress tests'
+        displayName: "Cypress tests"
       - task: PublishTestResults@2
         displayName: Publish test results
         condition: always()
         inputs:
           testRunner: JUnit
-          testResultsFiles: '$(System.DefaultWorkingDirectory)/testresults/output.xml'
+          testResultsFiles: "$(System.DefaultWorkingDirectory)/testresults/output.xml"
       - task: PublishBuildArtifacts@1
         displayName: Publish Cypress test artifacts
         condition: failed()
         inputs:
-          pathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/videos'
+          pathtoPublish: "$(System.DefaultWorkingDirectory)/cypress/videos"
           artifactName: cypress_videos
-  # ToDO: Revisit this after multi platform Docker build
   - deployment: deploy
     displayName: Deploy images to Docker HUB
     dependsOn: buildAndTest
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     timeoutInMinutes: 60
     environment:
       name: DockerHub
@@ -85,12 +85,12 @@ jobs:
             - checkout: self
             - task: NodeTool@0
               inputs:
-                versionSpec: '14.x'
-              displayName: 'Install Node.js'
+                versionSpec: "14.x"
+              displayName: "Install Node.js"
             - script: yarn install
-              displayName: 'Yarn install'
+              displayName: "Yarn install"
             - script: yarn build
-              displayName: 'Yarn build'
+              displayName: "Yarn build"
             - task: Docker@2
               displayName: Login to Docker
               inputs:
@@ -118,93 +118,3 @@ jobs:
               displayName: Build Media Encoder worker image
             - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./xpense.Dockerfile --tag furystack/multiverse-xpense:latest . --push
               displayName: Build Xpense image
-  # - deployment: deploy
-  #   displayName: 'Deploy to multiverse.my.to'
-  #   dependsOn: buildAndTest
-  #   timeoutInMinutes: 10
-  #   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  #   variables:
-  #     - group: multiverse
-  #   environment:
-  #     name: multiverse
-  #   strategy:
-  #     runOnce:
-  #       deploy:
-  #         steps:
-  #           - checkout: self
-  #           - script: echo $GITHUB_CLIENT_ID
-  #           - task: NodeTool@0
-  #             inputs:
-  #               versionSpec: '12.x'
-  #             displayName: 'Install Node.js'
-  #           - script: yarn install --ignore-optional
-  #             displayName: 'Yarn install'
-  #           - script: yarn build
-  #             displayName: Yarn Build
-  #             env:
-  #               GITHUB_CLIENT_ID: $(GITHUB_CLIENT_ID)
-  #               GITHUB_CLIENT_SECRET: $(GITHUB_CLIENT_SECRET)
-  #               GOOGLE_CLIENT_ID: $(GOOGLE_CLIENT_ID)
-  #           - task: CopyFiles@2
-  #             displayName: 'Copy Files to: $(System.DefaultWorkingDirectory)/archive'
-  #             inputs:
-  #               Contents: |
-  #                 common/config/**
-  #                 common/models/**
-  #                 common/service-utils/**
-  #                 frontends/core/bundle/**
-  #                 services/**
-  #                 workers/**
-  #                 package.json
-  #                 nginx.conf
-  #               TargetFolder: '$(System.DefaultWorkingDirectory)/archive'
-  #           - task: ArchiveFiles@1
-  #             displayName: Create package archive
-  #             inputs:
-  #               archiveFile: package
-  #               archiveType: 7z
-  #               includeRootFolder: false
-  #               rootFolder: $(System.DefaultWorkingDirectory)/archive
-  #           - task: PublishBuildArtifacts@1
-  #             displayName: Publish package artifact
-  #             inputs:
-  #               ArtifactName: BuildArtifacts
-  #               PathtoPublish: $(System.DefaultWorkingDirectory)/package.7z
-  #           - task: SSH@0
-  #             displayName: Stop services
-  #             inputs:
-  #               sshEndpoint: 'multiverse.my.to'
-  #               commands: 'sudo systemctl stop multiverse-auth && sudo systemctl stop multiverse-diag && sudo systemctl stop multiverse-xpense && sudo systemctl stop multiverse-media && sudo systemctl stop multiverse-dashboard'
-  #           - task: CopyFilesOverSSH@0
-  #             displayName: Copy package to target
-  #             inputs:
-  #               sshEndpoint: 'multiverse.my.to'
-  #               overwrite: true
-  #               contents: package.7z
-  #               targetFolder: ~/apps/multiverse
-  #           - task: SSH@0
-  #             displayName: Decompress package
-  #             timeoutInMinutes: 10
-  #             inputs:
-  #               sshEndpoint: 'multiverse.my.to'
-  #               commands: 'cd ~/apps/multiverse && 7z x package.7z -y -bb'
-  #           - task: SSH@0
-  #             displayName: Update Nginx config
-  #             inputs:
-  #               sshEndpoint: 'multiverse.my.to'
-  #               commands: 'cd ~/apps/multiverse && sudo cp nginx.conf /etc/nginx/ '
-  #           - task: SSH@0
-  #             displayName: Slim Install on server
-  #             inputs:
-  #               sshEndpoint: 'multiverse.my.to'
-  #               commands: 'cd ~/apps/multiverse && yarn install --production=true --ignore-optional 2> >(grep -v warning 1>&2) '
-  #           - task: SSH@0
-  #             displayName: Restart services
-  #             inputs:
-  #               sshEndpoint: 'multiverse.my.to'
-  #               commands: 'sudo systemctl start multiverse-auth && sudo systemctl start multiverse-diag && sudo systemctl start multiverse-xpense && sudo systemctl start multiverse-media && sudo systemctl start multiverse-dashboard && sudo systemctl start nginx'
-  #           - task: SSH@0
-  #             displayName: Reload nginx config
-  #             inputs:
-  #               sshEndpoint: 'multiverse.my.to'
-  #               commands: 'sudo service nginx reload'
