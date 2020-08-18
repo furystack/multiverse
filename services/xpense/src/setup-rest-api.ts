@@ -10,7 +10,7 @@ import {
 import { PostReplenishment, PostShopping } from './actions'
 
 export const setupRestApi = (injector: Injector) => {
-  injector.useRestService<apis.XpenseApi>({
+  injector.useCommonHttpAuth().useRestService<apis.XpenseApi>({
     port: parseInt(sites.services.xpense.internalPort as string, 10),
     deserializeQueryParams: deserialize,
     root: '/api/xpense',
