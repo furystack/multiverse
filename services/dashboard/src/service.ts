@@ -1,41 +1,20 @@
-import { sites } from '@common/config'
-import { apis, deserialize, diag, dashboard } from '@common/models'
+import { diag } from '@common/models'
 import { attachShutdownHandler, runPatches } from '@common/service-utils'
-import {
-  createGetCollectionEndpoint,
-  createGetEntityEndpoint,
-  createPostEndpoint,
-  createPatchEndpoint,
-} from '@furystack/rest-service'
-import { injector } from './config'
+import { Injector } from '@furystack/inject'
+import { LogLevel, VerboseConsoleLogger } from '@furystack/logging'
 import { createInitialIndexes } from './patches'
+import { setupStores } from './setup-stores'
+import { setupRestApi } from './setup-rest-api'
+import { setupRepository } from './setup-repository'
+;(async () => {
+  const injector = new Injector().setupApplicationContext({ name: 'dashboard' })
+  attachShutdownHandler(injector)
+  setupStores(injector)
+  setupRepository(injector)
+  setupRestApi(injector)
+  injector.useDbLogger({ minLevel: LogLevel.Information }).useLogging(VerboseConsoleLogger)
 
-injector.useRestService<apis.DashboardApi>({
-  port: parseInt(sites.services.dashboard.internalPort as string, 10),
-  deserializeQueryParams: deserialize,
-
-  root: '/api/dashboard',
-  api: {
-    GET: {
-      '/boards': createGetCollectionEndpoint({ model: dashboard.Dashboard }),
-      '/boards/:id': createGetEntityEndpoint({ model: dashboard.Dashboard }),
-    },
-    POST: {
-      '/boards': createPostEndpoint({ model: dashboard.Dashboard }),
-    },
-    PATCH: {
-      '/boards/:id': createPatchEndpoint({ model: dashboard.Dashboard }),
-    },
-  },
-  cors: {
-    credentials: true,
-    origins: Object.values(sites.frontends),
-    methods: ['GET', 'POST', 'PATCH'],
-  },
-})
-
-attachShutdownHandler(injector)
-
-runPatches({ injector, appName: 'diag', patches: [createInitialIndexes] }).then(() => {
-  injector.setupRepository((repo) => repo.createDataSet(diag.Patch, {}))
-})
+  runPatches({ injector, patches: [createInitialIndexes] }).then(() => {
+    injector.setupRepository((repo) => repo.createDataSet(diag.Patch, {}))
+  })
+})()

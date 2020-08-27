@@ -8,8 +8,9 @@
       "type": "node",
       "request": "launch",
       "name": "Service",
-      "program": "${workspaceFolder}/services/${input:service}/src/service.ts",
-      "outFiles": ["${workspaceFolder}/services/${input:service}/dist/service.js"],
+      // "program": "${workspaceFolder}/services/${input:service}/src/service.ts",
+      // "outFiles": ["${workspaceFolder}/services/${input:service}/dist/service.js"],
+      "program": "${workspaceFolder}/services/${input:service}/dist/service.js",
       "cwd": "${workspaceFolder}/services/${input:service}",
       // "skipFiles": ["<node_internals>/**"],
       "preLaunchTask": "npm: build:services"
@@ -18,8 +19,8 @@
       "type": "node",
       "request": "launch",
       "name": "Seed",
-      "program": "${workspaceFolder}/services/${input:service}/src/seed.ts",
-      "outFiles": ["${workspaceFolder}/services/${input:service}/dist/seed.js"],
+      "program": "${workspaceFolder}/services/${input:service}/dist/seed.js",
+      // "outFiles": ["${workspaceFolder}/services/${input:service}/dist/seed.js"],
       "cwd": "${workspaceFolder}/services/${input:service}",
       "skipFiles": ["<node_internals>/**"],
       "preLaunchTask": "npm: build:services"

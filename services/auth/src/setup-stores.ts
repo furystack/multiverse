@@ -1,17 +1,11 @@
-import '@furystack/auth-google'
-import '@furystack/repository/dist/injector-extension'
-import '@common/service-utils'
-import { VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { auth } from '@common/models'
 import { databases } from '@common/config'
+import '@furystack/mongodb-store'
+import '@common/service-utils'
 
-export const injector = new Injector()
-
-injector
-  .useDbLogger({ appName: 'auth' })
-  .useCommonHttpAuth()
-  .setupStores((sm) =>
+export const setupStores = (injector: Injector) => {
+  injector.setupStores((sm) =>
     sm
       .useMongoDb({
         primaryKey: '_id',
@@ -38,15 +32,4 @@ injector
         options: databases.standardOptions,
       }),
   )
-  .useLogging(VerboseConsoleLogger)
-  .setupRepository((repo) =>
-    repo.createDataSet(auth.Profile, {
-      authorizeUpdateEntity: async ({ injector: i, entity: profile }) => {
-        const currentUser = await i.getCurrentUser()
-        if (profile.username === currentUser.username) {
-          return { isAllowed: true }
-        }
-        return { isAllowed: false, message: 'Only the owner can modify its profile' }
-      },
-    }),
-  )
+}

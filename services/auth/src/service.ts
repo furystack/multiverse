@@ -1,93 +1,19 @@
-import {
-  GetCurrentUser,
-  IsAuthenticated,
-  LoginAction,
-  LogoutAction,
-  Authenticate,
-  createGetCollectionEndpoint,
-  createPostEndpoint,
-  createPatchEndpoint,
-} from '@furystack/rest-service'
-import { sites } from '@common/config'
-import { auth, apis, deserialize } from '@common/models'
-import { RequestAction } from '@furystack/rest'
 import { attachShutdownHandler, runPatches } from '@common/service-utils'
-import {
-  AttachGithubAccount,
-  AttachGoogleAccountAction,
-  DetachGithubAccount,
-  DetachGoogleAccount,
-  ChangePasswordAction,
-  GithubLoginAction,
-  GithubRegisterAction,
-  GoogleRegisterAction,
-  RegisterAction,
-  GoogleLoginAction,
-  GetAvatar,
-  GetProfile,
-  GetOrganization,
-  PatchOrganization,
-  GetLoginProviderDetails,
-  OrganizationAddAdmin,
-  OrganizationAddMember,
-  OrganizationRemoveAdmin,
-  OrganizationRemoveMember,
-  getOauthData,
-} from './actions'
-import { injector } from './config'
-import { PostSettings } from './actions/post-settings'
-import { UploadAvatar } from './actions/upload-avatar'
+import { Injector } from '@furystack/inject'
+import { LogLevel, VerboseConsoleLogger } from '@furystack/logging'
 import { createInitialIndexes } from './patches'
+import { setupRestApi } from './setup-rest-api'
+import { setupStores } from './setup-stores'
+import { setupRepository } from './setup-repository'
 
-injector.useRestService<apis.AuthApi>({
-  port: parseInt(sites.services.auth.internalPort as any, 10),
-  root: '/api/auth',
-  deserializeQueryParams: deserialize,
-  api: {
-    GET: {
-      '/currentUser': (GetCurrentUser as unknown) as RequestAction<{ result: auth.User }>,
-      '/isAuthenticated': IsAuthenticated,
-      '/profiles': createGetCollectionEndpoint({ model: auth.Profile }),
-      '/profiles/:username': GetProfile,
-      '/profiles/:username/avatar': GetAvatar,
-      '/organizations': createGetCollectionEndpoint({ model: auth.Organization }),
-      '/organization/:organizationName': GetOrganization,
-      '/loginProviderDetails': Authenticate()(GetLoginProviderDetails),
-      '/oauth-data': getOauthData,
-    },
-    POST: {
-      '/avatar': UploadAvatar,
-      '/githubLogin': GithubLoginAction,
-      '/githubRegister': GithubRegisterAction,
-      '/attachGithubAccount': Authenticate()(AttachGithubAccount),
-      '/detachGithubAccount': Authenticate()(DetachGithubAccount),
-      '/googleLogin': GoogleLoginAction,
-      '/googleRegister': GoogleRegisterAction,
-      '/attachGoogleAccount': Authenticate()(AttachGoogleAccountAction),
-      '/detachGoogleAccount': Authenticate()(DetachGoogleAccount),
-      '/login': LoginAction as any,
-      '/logout': LogoutAction,
-      '/register': RegisterAction,
-      '/organizations': createPostEndpoint({ model: auth.Organization }),
-      '/changePassword': Authenticate()(ChangePasswordAction),
-      '/settings': Authenticate()(PostSettings),
-      '/organization/:organizationName/addAdmin': OrganizationAddAdmin,
-      '/organization/:organizationName/addMember': OrganizationAddMember,
-      '/organization/:organizationName/removeAdmin': OrganizationRemoveAdmin,
-      '/organization/:organizationName/removeMember': OrganizationRemoveMember,
-    },
-    PATCH: {
-      '/organizations/:organizationName': PatchOrganization,
-      '/profile/:id': createPatchEndpoint({ model: auth.Profile }),
-    },
-  },
-  cors: {
-    credentials: true,
-    origins: Object.values(sites.frontends),
-    methods: ['GET', 'POST', 'DELETE', 'PATCH'],
-  },
-})
-
-attachShutdownHandler(injector)
-
-runPatches({ injector, appName: 'auth', patches: [createInitialIndexes] })
+/** */
+;(async () => {
+  const injector = new Injector()
+  injector.setupApplicationContext({ name: 'auth' })
+  setupStores(injector)
+  setupRepository(injector)
+  injector.useDbLogger({ minLevel: LogLevel.Information }).useLogging(VerboseConsoleLogger)
+  await setupRestApi(injector)
+  attachShutdownHandler(injector)
+  runPatches({ injector, patches: [createInitialIndexes] })
+})()
