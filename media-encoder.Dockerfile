@@ -4,4 +4,4 @@ RUN apk add ffmpeg
 
 EXPOSE 9093
 
-CMD ["yarn", "workspace", "@workers/media-encoder", "start"]
+CMD ["yarn", "workspace", "@worker/media-encoder", "start"]

@@ -8,6 +8,7 @@ COPY --chown=node:node / ./
 RUN yarn install --ignore-optional
 RUN yarn recreate-schemas
 RUN yarn build:services
+RUN yarn build:workers
 
 RUN yarn install --production=true --ignore-optional
 
