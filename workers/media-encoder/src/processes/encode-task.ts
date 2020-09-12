@@ -87,6 +87,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
       encoding: 'utf-8',
       retry: 10,
     })
+    await new Promise((resolve, reject) => rimraf(encodingTempDir, (err) => (err ? reject(err) : resolve())))
     logger.information({ message: 'Task finished, the task has been finialized.' })
     taskLogger.flush()
     return true
