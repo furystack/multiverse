@@ -7,6 +7,7 @@ import { Injector } from '@furystack/inject'
 import got from 'got'
 import rimraf from 'rimraf'
 import { existsAsync } from '@common/service-utils'
+import { TaskLogger } from '../services/task-logger'
 import { encodeToVp9Dash } from './encode-to-vp9-dash'
 import { encodeToX264Dash } from './encode-to-264-dash'
 
@@ -34,6 +35,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
     return true
   }
   const encodingTempDir = join(FileStores.mediaEncoderWorkerTemp, 'MULTIVERSE_ENCODING_TEMP', options.task._id)
+  const taskLogger = options.injector.getInstance(TaskLogger)
 
   const encodingTempDirExists = await existsAsync(encodingTempDir)
 
@@ -80,11 +82,13 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
         accessToken: options.task.authToken,
         codec: encodingSettings.codec,
         mode: encodingSettings.mode,
+        log: taskLogger.getAllEntries(),
       }),
       encoding: 'utf-8',
       retry: 10,
     })
-    logger.information({ message: 'Task finished, finialize request has been sent.' })
+    logger.information({ message: 'Task finished, the task has been finialized.' })
+    taskLogger.flush()
     return true
   } catch (error) {
     logger.warning({
@@ -107,6 +111,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
           stdout: error.stdout,
           stderr: error.stderr,
           originalError: error,
+          log: taskLogger.getAllEntries(),
         },
       }),
       encoding: 'utf-8',
@@ -120,6 +125,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
           data: { e },
         }),
       )
+    taskLogger.flush()
     return false
   }
 }

@@ -4,11 +4,12 @@ import { VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { FileStores } from '@common/config'
 import { RabbitListener } from './services/rabbit-listener'
+import { TaskLogger } from './services/task-logger'
 
 // const namePostfix = argv[2] || 'default'
 
 export const injector = new Injector()
-injector.useLogging(VerboseConsoleLogger)
+injector.useLogging(VerboseConsoleLogger, TaskLogger)
 
 const logger = injector.logger.withScope('INIT')
 ;(async () => {

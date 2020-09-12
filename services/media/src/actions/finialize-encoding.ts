@@ -1,10 +1,16 @@
 import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
 import { media } from '@common/models'
+import { LeveledLogEntry } from '@furystack/logging'
 
 export const FinializeEncodingAction: RequestAction<{
-  body: { accessToken: string; codec: media.EncodingType['codec']; mode: media.EncodingType['mode'] }
+  body: {
+    accessToken: string
+    codec: media.EncodingType['codec']
+    mode: media.EncodingType['mode']
+    log: Array<LeveledLogEntry<any>>
+  }
 }> = async ({ injector, getBody }) => {
-  const { accessToken, codec, mode } = await getBody()
+  const { accessToken, codec, mode, log } = await getBody()
 
   const tasks = injector.getDataSetFor(media.EncodingTask)
 
@@ -24,7 +30,7 @@ export const FinializeEncodingAction: RequestAction<{
 
   await injector
     .getDataSetFor(media.EncodingTask)
-    .update(injector, job._id, { status: 'finished', finishDate: new Date(), percent: 100, authToken: '' })
+    .update(injector, job._id, { status: 'finished', finishDate: new Date(), percent: 100, authToken: '', log })
 
   return JsonResult({ success: true })
 }

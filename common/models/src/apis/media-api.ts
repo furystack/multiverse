@@ -6,6 +6,7 @@ import {
   PostEndpoint,
   PatchEndpoint,
 } from '@furystack/rest'
+import { LeveledLogEntry } from '@furystack/logging'
 import { Movie, MovieLibrary, MovieWatchHistoryEntry, EncodingTask, EncodingType } from '../media'
 import { media } from '..'
 
@@ -32,10 +33,15 @@ export interface MediaApi extends RestApi {
     '/upload-encoded/:movieId/:accessToken': RequestAction<{ urlParams: { movieId: string; accessToken: string } }>
     '/upload-subtitles/:movieId/:accessToken': RequestAction<{ urlParams: { movieId: string; accessToken: string } }>
     '/finialize-encoding': RequestAction<{
-      body: { accessToken: string; codec: EncodingType['codec']; mode: EncodingType['mode'] }
+      body: {
+        accessToken: string
+        codec: EncodingType['codec']
+        mode: EncodingType['mode']
+        log: Array<LeveledLogEntry<any>>
+      }
     }>
     '/save-encoding-failure': RequestAction<{
-      body: { accessToken: string; error: any }
+      body: { accessToken: string; error: any; log: Array<LeveledLogEntry<any>> }
     }>
     '/encode/reencode': RequestAction<{ body: { movieId: string } }>
     '/movies/:movieId/re-fetch-metadata': RequestAction<{ urlParams: { movieId: string } }>

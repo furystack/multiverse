@@ -1,3 +1,4 @@
+import { LeveledLogEntry } from '@furystack/logging'
 import { Movie } from './movie'
 import { MovieLibrary } from './movie-library'
 
@@ -40,6 +41,7 @@ export class EncodingTask {
   creationDate!: Date
   modificationDate!: Date
   error?: any
+  log?: Array<LeveledLogEntry<any>>
   startDate?: Date
   finishDate?: Date
 }
