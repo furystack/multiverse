@@ -7,6 +7,7 @@ import { verifyAndCreateIndexes } from './create-indexes'
 import { authorizedDataSet } from './authorized-data-set'
 
 declare module '@furystack/inject/dist/injector' {
+  // eslint-disable-next-line no-shadow
   interface Injector {
     useCommonHttpAuth: () => this
   }

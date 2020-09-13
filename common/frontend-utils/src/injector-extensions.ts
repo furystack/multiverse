@@ -3,6 +3,7 @@ import { IdentityContext } from '@furystack/core'
 import { SessionService } from './session'
 
 declare module '@furystack/inject/dist/injector' {
+  // eslint-disable-next-line no-shadow
   export interface Injector {
     useSessionService: () => void
   }

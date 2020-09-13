@@ -46,6 +46,7 @@ export class DbLogger extends AbstractLogger implements Disposable {
 }
 
 declare module '@furystack/inject/dist/injector' {
+  // eslint-disable-next-line no-shadow
   interface Injector {
     useDbLogger: (settings: DbLoggerSettings) => Injector
   }

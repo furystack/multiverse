@@ -207,6 +207,7 @@ export class GoogleOauthProvider {
 }
 
 declare module '@furystack/inject/dist/injector' {
+  // eslint-disable-next-line no-shadow
   interface Injector {
     useGoogleAuth(options?: Partial<GoogleAuthenticationOptions>): Injector
   }

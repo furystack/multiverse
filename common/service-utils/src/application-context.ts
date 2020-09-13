@@ -5,6 +5,7 @@ export class ApplicationContextService {
 }
 
 declare module '@furystack/inject/dist/injector' {
+  // eslint-disable-next-line no-shadow
   export interface Injector {
     setupApplicationContext(appContext: ApplicationContextService): this
     getApplicationContext(): ApplicationContextService
