@@ -67,7 +67,10 @@ export class ChunkUploader {
           encoding: 'utf-8',
           cache: false,
           agent: false,
-          retry: { limit: this.options.retries },
+          timeout: {
+            socket: 10000,
+          },
+          retry: { limit: this.options.retries, methods: ['POST'] },
           hooks: {
             beforeRetry: [
               async (_options, error, retrycount) => {
@@ -77,6 +80,7 @@ export class ChunkUploader {
                 })
               },
             ],
+
             beforeError: [
               async (e) => {
                 this.logger.information({
