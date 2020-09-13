@@ -20,6 +20,10 @@ export class RabbitListener {
     return this.channel
   }
 
+  public async dispose() {
+    await this.connection?.close()
+  }
+
   private async init() {
     try {
       await this.initLock.acquire()

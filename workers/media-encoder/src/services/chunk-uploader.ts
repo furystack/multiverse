@@ -33,7 +33,7 @@ export class ChunkUploader {
         this.logger.verbose({ message: `${index + 1}/${this.options.parallel} upload locks acquired.` })
       }
     }
-    if (this.warns) {
+    if (this.warns.length) {
       this.logger.warning({ message: 'Encoding finished but some chunk uploads has been failed', data: this.warns })
     } else {
       this.logger.information({ message: 'All uploads finished' })
