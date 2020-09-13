@@ -1,5 +1,7 @@
+import { Injectable } from '@furystack/inject'
 import { AbstractLogger, LeveledLogEntry } from '@furystack/logging'
 
+@Injectable({ lifetime: 'singleton' })
 export class TaskLogger extends AbstractLogger {
   private _cache = new Set<LeveledLogEntry<any>>()
 
