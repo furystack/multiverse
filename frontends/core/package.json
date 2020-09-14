@@ -36,11 +36,11 @@
     "webpack-merge": "^5.1.4"
   },
   "dependencies": {
-    "@furystack/core": "^9.1.8",
-    "@furystack/rest": "^1.2.1",
-    "@furystack/rest-client-fetch": "^1.2.13",
-    "@furystack/shades": "^3.2.23",
-    "@furystack/shades-common-components": "^1.2.6",
+    "@furystack/core": "^9.1.9",
+    "@furystack/rest": "^1.2.2",
+    "@furystack/rest-client-fetch": "^1.2.14",
+    "@furystack/shades": "^3.2.24",
+    "@furystack/shades-common-components": "^1.2.7",
     "@types/video.js": "^7.3.9",
     "marked": "^1.1.1",
     "monaco-editor": "^0.20.0",
