@@ -10,6 +10,7 @@ import { getUniversalMetadataFromOmdb } from '../utils/get-universal-metadata-fr
 import { getFallbackMetadata } from '../utils/get-fallback-metadata'
 import { fetchOmdbMetadata } from '../utils/fetch-omdb-metadata'
 import { extractSubtitles } from '../utils/extract-subtitles'
+import { createEncodingTaskForMovie } from '../utils/create-encoding-task-for-movie'
 
 @Injectable({ lifetime: 'singleton' })
 export class MediaLibraryWatcher {
@@ -17,7 +18,30 @@ export class MediaLibraryWatcher {
 
   private watchers = new Map<string, FSWatcher>()
 
+  private onMovieAdded = this.injector
+    .getDataSetFor(media.Movie)
+    .onEntityAdded.subscribe(({ injector, entity }) => createEncodingTaskForMovie({ movie: entity, injector }))
+
+  private onMovieLibraryAdded = this.injector
+    .getDataSetFor(media.MovieLibrary)
+    .onEntityAdded.subscribe(({ entity }) => {
+      this.initWatcherForLibrary(entity)
+    })
+
+  private onMovieLibraryRemoved = this.injector
+    .getDataSetFor(media.MovieLibrary)
+    .onEntityRemoved.subscribe(({ key }) => {
+      const watcher = this.watchers.get(key as any)
+      if (watcher) {
+        watcher.close()
+        this.watchers.delete(key as any)
+      }
+    })
+
   public async dispose() {
+    this.onMovieAdded.dispose()
+    this.onMovieLibraryAdded.dispose()
+    this.onMovieLibraryRemoved.dispose()
     for (const watcher of this.watchers.values()) {
       watcher.close()
     }
@@ -64,6 +88,7 @@ export class MediaLibraryWatcher {
           omdbMeta,
           ffprobe,
         })
+        await createEncodingTaskForMovie({ injector: this.injector, movie: createResult.created[0] })
         await extractSubtitles({ injector: this.injector, movie: createResult.created[0] })
       }
     })
@@ -71,20 +96,11 @@ export class MediaLibraryWatcher {
     this.watchers.set(library._id, libWatcher)
   }
 
-  public onLibraryAdded(library: media.MovieLibrary) {
-    this.initWatcherForLibrary(library)
-  }
-
-  public onLibraryRemoved(library: media.MovieLibrary) {
-    const watcher = this.watchers.get(library._id)
-    if (watcher) {
-      watcher.close()
-      this.watchers.delete(library._id)
-    }
-  }
-
   private async init() {
-    const movieLibraries = await this.injector.getInstance(StoreManager).getStoreFor(media.MovieLibrary).find({})
+    const movieLibraries = await this.injector
+      .getInstance(StoreManager)
+      .getStoreFor(media.MovieLibrary)
+      .find({})
     this.logger.verbose({
       message: 'Initializing library watchers...',
       data: { paths: movieLibraries.map((m) => m.path) },
