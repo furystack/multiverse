@@ -33,9 +33,7 @@
           "type": "string"
         },
         "type": {
-          "enum": [
-            "app-list"
-          ],
+          "const": "app-list",
           "type": "string"
         },
         "width": {
@@ -75,9 +73,7 @@
           "type": "string"
         },
         "type": {
-          "enum": [
-            "app-shortcut"
-          ],
+          "const": "app-shortcut",
           "type": "string"
         },
         "width": {
@@ -103,9 +99,7 @@
           "type": "string"
         },
         "type": {
-          "enum": [
-            "continue-movies"
-          ],
+          "const": "continue-movies",
           "type": "string"
         },
         "width": {
@@ -125,13 +119,15 @@
           "type": "string"
         },
         "creationDate": {
-          "$ref": "#/definitions/Date"
+          "format": "date-time",
+          "type": "string"
         },
         "description": {
           "type": "string"
         },
         "modificationDate": {
-          "$ref": "#/definitions/Date"
+          "format": "date-time",
+          "type": "string"
         },
         "name": {
           "type": "string"
@@ -155,10 +151,6 @@
         "modificationDate",
         "widgets"
       ],
-      "type": "object"
-    },
-    "Date": {
-      "additionalProperties": false,
       "type": "object"
     },
     "EntityShortcutWidget": {
@@ -189,9 +181,7 @@
           "type": "string"
         },
         "type": {
-          "enum": [
-            "entity-shortcut"
-          ],
+          "const": "entity-shortcut",
           "type": "string"
         },
         "width": {
@@ -218,9 +208,7 @@
           "type": "string"
         },
         "type": {
-          "enum": [
-            "html"
-          ],
+          "const": "html",
           "type": "string"
         },
         "width": {
@@ -252,9 +240,7 @@
           "type": "string"
         },
         "type": {
-          "enum": [
-            "icon-url-widget"
-          ],
+          "const": "icon-url-widget",
           "type": "string"
         },
         "url": {
@@ -285,9 +271,7 @@
           "type": "string"
         },
         "type": {
-          "enum": [
-            "markdown"
-          ],
+          "const": "markdown",
           "type": "string"
         },
         "width": {
@@ -306,9 +290,7 @@
           "additionalProperties": false,
           "properties": {
             "type": {
-              "enum": [
-                "user"
-              ],
+              "const": "user",
               "type": "string"
             },
             "username": {
@@ -328,9 +310,7 @@
               "type": "string"
             },
             "type": {
-              "enum": [
-                "organization"
-              ],
+              "const": "organization",
               "type": "string"
             }
           },
@@ -344,9 +324,7 @@
           "additionalProperties": false,
           "properties": {
             "type": {
-              "enum": [
-                "system"
-              ],
+              "const": "system",
               "type": "string"
             }
           },
@@ -356,6 +334,243 @@
           "type": "object"
         }
       ]
+    },
+    "WeatherData": {
+      "additionalProperties": false,
+      "properties": {
+        "city": {
+          "$ref": "#/definitions/WeatherDataCity"
+        },
+        "cnt": {
+          "type": "number"
+        },
+        "cod": {
+          "type": "string"
+        },
+        "list": {
+          "items": {
+            "$ref": "#/definitions/WeatherDataListEntry"
+          },
+          "type": "array"
+        },
+        "message": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "cod",
+        "message",
+        "cnt",
+        "city",
+        "list"
+      ],
+      "type": "object"
+    },
+    "WeatherDataCity": {
+      "additionalProperties": false,
+      "properties": {
+        "coord": {
+          "additionalProperties": false,
+          "properties": {
+            "lat": {
+              "type": "number"
+            },
+            "lon": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "lat",
+            "lon"
+          ],
+          "type": "object"
+        },
+        "country": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "population": {
+          "type": "number"
+        },
+        "sunrise": {
+          "type": "number"
+        },
+        "sunset": {
+          "type": "number"
+        },
+        "timezone": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "coord",
+        "country",
+        "population",
+        "timezone",
+        "sunrise",
+        "sunset"
+      ],
+      "type": "object"
+    },
+    "WeatherDataListEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "clouds": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "dt_txt": {
+          "type": "string"
+        },
+        "main": {
+          "additionalProperties": false,
+          "properties": {
+            "grnd_level": {
+              "type": "number"
+            },
+            "humidity": {
+              "type": "number"
+            },
+            "pressure": {
+              "type": "number"
+            },
+            "sea_level": {
+              "type": "number"
+            },
+            "temp": {
+              "type": "number"
+            },
+            "temp_kf": {
+              "type": "number"
+            },
+            "temp_max": {
+              "type": "number"
+            },
+            "temp_min": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "temp",
+            "temp_min",
+            "temp_max",
+            "pressure",
+            "sea_level",
+            "grnd_level",
+            "humidity",
+            "temp_kf"
+          ],
+          "type": "object"
+        },
+        "sys": {
+          "additionalProperties": false,
+          "properties": {
+            "pod": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "pod"
+          ],
+          "type": "object"
+        },
+        "weather": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "description": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string"
+              },
+              "id": {
+                "type": "number"
+              },
+              "main": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "main",
+              "description",
+              "icon"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "wind": {
+          "additionalProperties": false,
+          "properties": {
+            "deg": {
+              "type": "number"
+            },
+            "speed": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "speed",
+            "deg"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "main",
+        "weather",
+        "clouds",
+        "wind",
+        "sys",
+        "dt_txt"
+      ],
+      "type": "object"
+    },
+    "WeatherWidget": {
+      "additionalProperties": false,
+      "properties": {
+        "city": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "type": {
+          "const": "weather",
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "city",
+        "type"
+      ],
+      "type": "object"
     },
     "Widget": {
       "anyOf": [
@@ -379,6 +594,9 @@
         },
         {
           "$ref": "#/definitions/EntityShortcutWidget"
+        },
+        {
+          "$ref": "#/definitions/WeatherWidget"
         }
       ]
     },
@@ -392,9 +610,7 @@
           "type": "string"
         },
         "type": {
-          "enum": [
-            "app-list"
-          ],
+          "const": "app-list",
           "type": "string"
         },
         "width": {
@@ -416,9 +632,7 @@
           "type": "string"
         },
         "type": {
-          "enum": [
-            "app-shortcut"
-          ],
+          "const": "app-shortcut",
           "type": "string"
         },
         "width": {
@@ -440,9 +654,7 @@
           "type": "string"
         },
         "type": {
-          "enum": [
-            "continue-movies"
-          ],
+          "const": "continue-movies",
           "type": "string"
         },
         "width": {
@@ -464,9 +676,7 @@
           "type": "string"
         },
         "type": {
-          "enum": [
-            "entity-shortcut"
-          ],
+          "const": "entity-shortcut",
           "type": "string"
         },
         "width": {
@@ -488,9 +698,7 @@
           "type": "string"
         },
         "type": {
-          "enum": [
-            "html"
-          ],
+          "const": "html",
           "type": "string"
         },
         "width": {
@@ -512,9 +720,7 @@
           "type": "string"
         },
         "type": {
-          "enum": [
-            "icon-url-widget"
-          ],
+          "const": "icon-url-widget",
           "type": "string"
         },
         "width": {
@@ -536,9 +742,29 @@
           "type": "string"
         },
         "type": {
-          "enum": [
-            "markdown"
-          ],
+          "const": "markdown",
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "WidgetBase<\"weather\">": {
+      "additionalProperties": false,
+      "properties": {
+        "maxWidth": {
+          "type": "string"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "type": {
+          "const": "weather",
           "type": "string"
         },
         "width": {

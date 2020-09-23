@@ -1,10 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "Date": {
-      "additionalProperties": false,
-      "type": "object"
-    },
     "EncodingTask": {
       "additionalProperties": false,
       "properties": {
@@ -15,13 +11,21 @@
           "type": "string"
         },
         "creationDate": {
-          "$ref": "#/definitions/Date",
-          "description": "The task creation date"
+          "description": "The task creation date",
+          "format": "date-time",
+          "type": "string"
         },
         "error": {
         },
         "finishDate": {
-          "$ref": "#/definitions/Date"
+          "format": "date-time",
+          "type": "string"
+        },
+        "log": {
+          "items": {
+            "$ref": "#/definitions/LeveledLogEntry%3Cany%3E"
+          },
+          "type": "array"
         },
         "mediaInfo": {
           "additionalProperties": false,
@@ -43,14 +47,16 @@
           "type": "object"
         },
         "modificationDate": {
-          "$ref": "#/definitions/Date"
+          "format": "date-time",
+          "type": "string"
         },
         "percent": {
           "description": "Shows how the progress of the encoding goes, reported by the worker agent",
           "type": "number"
         },
         "startDate": {
-          "$ref": "#/definitions/Date"
+          "format": "date-time",
+          "type": "string"
         },
         "status": {
           "description": "The current status of the task",
@@ -105,9 +111,7 @@
         "Error": {
         },
         "Response": {
-          "enum": [
-            "False"
-          ],
+          "const": "False",
           "type": "string"
         }
       },
@@ -182,9 +186,7 @@
           "type": "string"
         },
         "Response": {
-          "enum": [
-            "True"
-          ],
+          "const": "True",
           "type": "string"
         },
         "Runtime": {
@@ -503,6 +505,9 @@
             },
             "language": {
               "type": "string"
+            },
+            "title": {
+              "type": "string"
             }
           },
           "required": [
@@ -564,6 +569,67 @@
       ],
       "type": "object"
     },
+    "LeveledLogEntry<any>": {
+      "additionalProperties": false,
+      "description": "Interface that represents a log entry with a specific level",
+      "properties": {
+        "data": {
+          "description": "Additional entry data"
+        },
+        "level": {
+          "$ref": "#/definitions/LogLevel",
+          "description": "The verbosity level of the log entry"
+        },
+        "message": {
+          "description": "The message string",
+          "type": "string"
+        },
+        "scope": {
+          "description": "A well-defined scope for grouping entries, e.g. a component or service name.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "level",
+        "message",
+        "scope"
+      ],
+      "type": "object"
+    },
+    "LogEntry<any>": {
+      "additionalProperties": false,
+      "description": "A log entry representation",
+      "properties": {
+        "data": {
+          "description": "Additional entry data"
+        },
+        "message": {
+          "description": "The message string",
+          "type": "string"
+        },
+        "scope": {
+          "description": "A well-defined scope for grouping entries, e.g. a component or service name.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope",
+        "message"
+      ],
+      "type": "object"
+    },
+    "LogLevel": {
+      "description": "The verbosity level of a log entry",
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "type": "number"
+    },
     "Movie": {
       "additionalProperties": false,
       "properties": {
@@ -582,9 +648,7 @@
                 "type": "string"
               },
               "mode": {
-                "enum": [
-                  "dash"
-                ],
+                "const": "dash",
                 "type": "string"
               }
             },
@@ -616,6 +680,7 @@
         "_id",
         "path",
         "libraryId",
+        "ffprobe",
         "metadata"
       ],
       "type": "object"
@@ -632,9 +697,7 @@
               "$ref": "#/definitions/EncodingType"
             },
             {
-              "enum": [
-                false
-              ],
+              "const": false,
               "type": "boolean"
             }
           ]
@@ -692,7 +755,7 @@
         "type": {
           "enum": [
             "movie",
-            "series"
+            "episode"
           ],
           "type": "string"
         },
@@ -702,8 +765,6 @@
       },
       "required": [
         "title",
-        "year",
-        "duration",
         "genre",
         "thumbnailImageUrl",
         "plot",
@@ -721,13 +782,15 @@
           "type": "boolean"
         },
         "lastWatchDate": {
-          "$ref": "#/definitions/Date"
+          "format": "date-time",
+          "type": "string"
         },
         "movieId": {
           "type": "string"
         },
         "startDate": {
-          "$ref": "#/definitions/Date"
+          "format": "date-time",
+          "type": "string"
         },
         "userId": {
           "type": "string"
@@ -763,9 +826,7 @@
           "additionalProperties": false,
           "properties": {
             "type": {
-              "enum": [
-                "user"
-              ],
+              "const": "user",
               "type": "string"
             },
             "username": {
@@ -785,9 +846,7 @@
               "type": "string"
             },
             "type": {
-              "enum": [
-                "organization"
-              ],
+              "const": "organization",
               "type": "string"
             }
           },
@@ -801,9 +860,7 @@
           "additionalProperties": false,
           "properties": {
             "type": {
-              "enum": [
-                "system"
-              ],
+              "const": "system",
               "type": "string"
             }
           },
@@ -845,9 +902,7 @@
       "additionalProperties": false,
       "properties": {
         "codec": {
-          "enum": [
-            "libvpx-vp9"
-          ],
+          "const": "libvpx-vp9",
           "type": "string"
         },
         "formats": {
@@ -857,9 +912,7 @@
           "type": "array"
         },
         "mode": {
-          "enum": [
-            "dash"
-          ],
+          "const": "dash",
           "type": "string"
         }
       },
@@ -880,15 +933,17 @@
           "type": "number"
         }
       },
+      "required": [
+        "downScale",
+        "bitRate"
+      ],
       "type": "object"
     },
     "X264EncodingType": {
       "additionalProperties": false,
       "properties": {
         "codec": {
-          "enum": [
-            "x264"
-          ],
+          "const": "x264",
           "type": "string"
         },
         "formats": {
@@ -898,9 +953,7 @@
           "type": "array"
         },
         "mode": {
-          "enum": [
-            "dash"
-          ],
+          "const": "dash",
           "type": "string"
         }
       },

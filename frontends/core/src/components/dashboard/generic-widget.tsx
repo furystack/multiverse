@@ -8,6 +8,7 @@ import { HtmlWidget } from './html-widget'
 import { MarkdownWidget } from './markdown-widget'
 import { AppListWidget } from './app-list-widget'
 import { EntityShortcutWidget } from './entity-shortcut-widget'
+import { WeatherWidget } from './weather-widget'
 
 export const GenericWidget = Shade<dashboard.Widget & { index: number }>({
   shadowDomName: 'generic-widget',
@@ -33,6 +34,8 @@ export const GenericWidget = Shade<dashboard.Widget & { index: number }>({
         return <MarkdownWidget {...props} />
       case 'entity-shortcut':
         return <EntityShortcutWidget {...props} />
+      case 'weather':
+        return <WeatherWidget {...props} />
       default:
         return <BrokenWidget message={`There is no widget with type '${(props as any).type}'`} widgetData={props} />
     }

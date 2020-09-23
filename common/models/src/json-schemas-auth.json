@@ -285,9 +285,7 @@
           "additionalProperties": false,
           "properties": {
             "type": {
-              "enum": [
-                "user"
-              ],
+              "const": "user",
               "type": "string"
             },
             "username": {
@@ -307,9 +305,7 @@
               "type": "string"
             },
             "type": {
-              "enum": [
-                "organization"
-              ],
+              "const": "organization",
               "type": "string"
             }
           },
@@ -323,9 +319,7 @@
           "additionalProperties": false,
           "properties": {
             "type": {
-              "enum": [
-                "system"
-              ],
+              "const": "system",
               "type": "string"
             }
           },

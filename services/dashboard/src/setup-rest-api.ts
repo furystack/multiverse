@@ -4,9 +4,11 @@ import {
   createGetEntityEndpoint,
   createPostEndpoint,
   createPatchEndpoint,
+  Authenticate,
 } from '@furystack/rest-service'
 import { apis, deserialize, dashboard } from '@common/models'
 import { sites } from '@common/config'
+import { GetWeatherForecastAction } from './actions/get-weather-forecast-action'
 
 export const setupRestApi = (injector: Injector) => {
   injector.useCommonHttpAuth().useRestService<apis.DashboardApi>({
@@ -18,6 +20,7 @@ export const setupRestApi = (injector: Injector) => {
       GET: {
         '/boards': createGetCollectionEndpoint({ model: dashboard.Dashboard }),
         '/boards/:id': createGetEntityEndpoint({ model: dashboard.Dashboard }),
+        '/weather-forecast': Authenticate()(GetWeatherForecastAction),
       },
       POST: {
         '/boards': createPostEndpoint({ model: dashboard.Dashboard }),

@@ -5,6 +5,8 @@ import { HtmlWidget } from './html-widget'
 import { IconUrlWidget } from './icon-url-widget'
 import { MarkdownWidget } from './markdown-widget'
 import { EntityShortcutWidget } from './entity-shortcut-widget'
+import { WeatherData } from './weather-data'
+import { WeatherWidget } from './weather-widget'
 
 export * from './dashboard'
 
@@ -16,6 +18,8 @@ export {
   ContinueMoviesWidget,
   AppListWidget,
   EntityShortcutWidget,
+  WeatherData,
+  WeatherWidget,
 }
 
 export type Widget =
@@ -26,3 +30,4 @@ export type Widget =
   | ContinueMoviesWidget
   | AppListWidget
   | EntityShortcutWidget
+  | WeatherWidget

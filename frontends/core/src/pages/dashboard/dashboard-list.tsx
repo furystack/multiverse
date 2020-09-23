@@ -4,7 +4,7 @@ import { dashboard } from '@common/models'
 import { DashboardApiService } from '@common/frontend-utils'
 
 export const DashboardList = Shade<{}, { service: CollectionService<dashboard.Dashboard> }>({
-  shadowDomName: 'multiverse-patch-list',
+  shadowDomName: 'multiverse-dashboard-list',
   getInitialState: ({ injector }) => {
     return {
       service: new CollectionService<dashboard.Dashboard>(

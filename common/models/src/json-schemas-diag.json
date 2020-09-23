@@ -1,10 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "Date": {
-      "additionalProperties": false,
-      "type": "object"
-    },
     "LeveledLogEntry<>": {
       "additionalProperties": false,
       "description": "Interface that represents a log entry with a specific level",
@@ -39,7 +35,8 @@
           "type": "string"
         },
         "creationDate": {
-          "$ref": "#/definitions/Date"
+          "format": "date-time",
+          "type": "string"
         },
         "data": {
           "description": "Additional entry data",
@@ -134,13 +131,15 @@
           "type": "array"
         },
         "finishDate": {
-          "$ref": "#/definitions/Date"
+          "format": "date-time",
+          "type": "string"
         },
         "name": {
           "type": "string"
         },
         "startDate": {
-          "$ref": "#/definitions/Date"
+          "format": "date-time",
+          "type": "string"
         },
         "status": {
           "enum": [
