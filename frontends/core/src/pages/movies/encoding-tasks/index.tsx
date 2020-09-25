@@ -17,7 +17,12 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
         injector.getInstance(MediaApiService).call({
           method: 'GET',
           action: '/encode/tasks',
-          query: { findOptions },
+          query: {
+            findOptions: {
+              ...findOptions,
+              select: ['_id', 'mediaInfo', 'status', 'startDate', 'creationDate', 'finishDate', 'percent'],
+            },
+          },
         }),
       { top: 20, order: { creationDate: 'DESC' } },
     )
