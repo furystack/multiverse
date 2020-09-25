@@ -2,8 +2,11 @@ import { media } from '@common/models'
 import { Injector } from '@furystack/inject'
 import { StoreManager } from '@furystack/core'
 import { v4 } from 'uuid'
+import { MediaMessaging } from '../services/media-messaging'
 
 export const createEncodingTaskForMovie = async ({ movie, injector }: { movie: media.Movie; injector: Injector }) => {
+  injector.getInstance(MediaMessaging) // Has to ensure to it's initialized
+
   const logger = injector.logger.withScope('createEncodingTaskForMovie')
   const library: media.MovieLibrary | undefined = await injector
     .getInstance(StoreManager)
