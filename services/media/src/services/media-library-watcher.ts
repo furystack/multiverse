@@ -18,10 +18,6 @@ export class MediaLibraryWatcher {
 
   private watchers = new Map<string, FSWatcher>()
 
-  private onMovieAdded = this.injector
-    .getDataSetFor(media.Movie)
-    .onEntityAdded.subscribe(({ injector, entity }) => createEncodingTaskForMovie({ movie: entity, injector }))
-
   private onMovieLibraryAdded = this.injector
     .getDataSetFor(media.MovieLibrary)
     .onEntityAdded.subscribe(({ entity }) => {
@@ -39,7 +35,6 @@ export class MediaLibraryWatcher {
     })
 
   public async dispose() {
-    this.onMovieAdded.dispose()
     this.onMovieLibraryAdded.dispose()
     this.onMovieLibraryRemoved.dispose()
     for (const watcher of this.watchers.values()) {
