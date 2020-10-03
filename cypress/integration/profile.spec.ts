@@ -24,4 +24,8 @@ describe('Profile Management', () => {
 
     login(cy, 'testuser@gmail.com', 'password')
   })
+
+  it.skip('Should upload an avatar image')
+
+  it.skip('Should update the personal settings JSON')
 })
