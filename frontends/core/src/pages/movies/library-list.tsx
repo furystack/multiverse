@@ -7,7 +7,16 @@ export const LibraryList = Shade<{ libraries: media.MovieLibrary[]; isMovieAdmin
   shadowDomName: 'multiverse-library-list',
   render: ({ props }) => {
     return (
-      <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          overflow: 'auto',
+        }}>
         {props.libraries.map((lib, index) => (
           <IconUrlWidget
             icon={lib.icon}
