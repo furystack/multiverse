@@ -1,5 +1,5 @@
 import { v4 } from 'uuid'
-import { login, openUserMenu } from '../support/commands'
+import { login, navigateFromUserMenu, openUserMenu } from '../support/commands'
 
 describe('Xpense', () => {
   it('Should be available from the Dashboard', () => {
@@ -10,7 +10,7 @@ describe('Xpense', () => {
 
   it('Should be available from the User menu', () => {
     login(cy, 'testuser@gmail.com', 'password')
-    openUserMenu(cy)
+    navigateFromUserMenu(cy, 'Xpense')
     cy.get('shade-current-user-menu').contains('Xpense').scrollIntoView().click()
     cy.get('xpense-index')
   })

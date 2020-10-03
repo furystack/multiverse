@@ -1,3 +1,5 @@
+import { logoutFromUserMenu } from '../support/commands'
+
 describe('Core Application', () => {
   const headerSelector = 'shade-app-header'
   const loginFormSelector = 'shade-login>div>div>form'
@@ -35,8 +37,7 @@ describe('Core Application', () => {
       cy.get('welcome-page multiverse-dashboard > div').should('be.visible')
 
       cy.get(headerSelector).toMatchImageSnapshot({ threshold: 0.001 }) // with avatar and menu
-      cy.get('shade-current-user-menu').click()
-      cy.get('shade-current-user-menu a[title="Log out"]').click()
+      logoutFromUserMenu(cy)
 
       cy.log('Logging out...')
       cy.log('Checking Login form...')

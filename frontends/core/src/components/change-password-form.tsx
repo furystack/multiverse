@@ -44,18 +44,21 @@ export const ChangePasswordForm = Shade<
             labelTitle="Current password"
             type="password"
             required
+            name="currentPassword"
             onchange={(ev) => updateState({ currentPassword: (ev.target as HTMLInputElement).value }, true)}
           />
         ) : null}
         <Input
           labelTitle="New password"
           type="password"
+          name="newPassword"
           required
           onchange={(ev) => updateState({ newPassword: (ev.target as HTMLInputElement).value }, true)}
         />
         <Input
           labelTitle="Confirm new password"
           type="password"
+          name="confirmNewPassword"
           required
           onchange={(ev) => updateState({ confirmNewPassword: (ev.target as HTMLInputElement).value }, true)}
         />
