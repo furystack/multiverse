@@ -24,7 +24,7 @@ export const ChangePasswordAction: RequestAction<{
   }
 
   await userStore.update(userToUpdate._id, {
-    ...userToUpdate,
+    // ...userToUpdate,
     password: authSettings.hashMethod(newPassword),
   })
 
