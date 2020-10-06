@@ -6,6 +6,8 @@ const { sites, tokens } = require('@common/config')
 const { RelativeCiAgentWebpackPlugin } = require('@relative-ci/agent')
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+
 const proxyRules = {
   ...Object.values(sites.services).reduce((prev, current) => {
     prev[current.apiPath] = `http://localhost:${current.internalPort}`
@@ -37,6 +39,9 @@ module.exports = {
     new RelativeCiAgentWebpackPlugin(),
     new MonacoWebpackPlugin({
       // languages: ['json'],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: 'static' }],
     }),
   ],
   module: {
