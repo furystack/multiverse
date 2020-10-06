@@ -1,16 +1,32 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { ObservableValue } from '@furystack/utils'
-import { auth, serviceList } from '@common/models'
+import { auth, common, serviceList } from '@common/models'
 import { MyAvatar } from '@common/components'
 import { SessionService } from '@common/frontend-utils'
 import { styles, promisifyAnimation } from '@furystack/shades-common-components'
+import { Icon } from './icon'
 
-const CurrentUserMenuItem = Shade<{ title: string; icon: string; onclick: () => void }>({
+const CurrentUserMenuItem = Shade<{ title: string; icon: common.Icon; onclick: () => void }>({
   shadowDomName: 'current-user-menu-item',
   render: ({ props }) => {
     return (
-      <a onclick={props.onclick} style={{ cursor: 'pointer', display: 'block' }} title={props.title}>
-        {props.icon} &nbsp; {props.title}
+      <a
+        onclick={props.onclick}
+        style={{
+          cursor: 'pointer',
+          display: 'flex',
+          placeContent: 'center',
+          justifyContent: 'flex-start',
+          margin: '3px',
+        }}
+        title={props.title}>
+        <Icon
+          icon={props.icon}
+          elementProps={{
+            style: { display: 'inline', width: '32px', height: '24px', fontSize: '20px', lineHeight: '24px' },
+          }}
+        />{' '}
+        &nbsp; {props.title}
       </a>
     )
   },
@@ -123,7 +139,7 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: auth.User; isOpened: Ob
             <hr style={{ boxShadow: '1px 1px 1px solid rgba(0,0,0,0.1)' }} />
             <CurrentUserMenuItem
               title="Log out"
-              icon={'🚪'}
+              icon={{ type: 'flaticon-essential', name: '320-login.svg' }}
               onclick={() => {
                 injector.getInstance(SessionService).logout()
                 history.pushState({}, 'Home', '/')

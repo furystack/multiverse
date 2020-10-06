@@ -1,11 +1,12 @@
 import { createComponent } from '@furystack/shades'
 import { Injector } from '@furystack/inject'
 import { CommandPaletteSuggestionResult } from '@furystack/shades-common-components'
+import { common } from '@common/models'
 
 export interface SuggestionOptions {
   name: string
   description: string
-  icon: string
+  icon: common.Icon
   score: number
   onSelected: (options: { injector: Injector }) => void
 }

@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "@common/frontend-utils": "1.0.0",
-    "@furystack/shades": "^3.2.26"
+    "@furystack/shades": "^3.2.26",
+    "@lottiefiles/lottie-player": "^0.5.1"
   },
   "typings": "dist/index.d.ts",
   "main": "dist/index.js"

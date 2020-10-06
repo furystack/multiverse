@@ -1,6 +1,7 @@
 import { Shade, RouteLink, createComponent } from '@furystack/shades'
 import { promisifyAnimation } from '@furystack/shades-common-components'
 import { dashboard } from '@common/models'
+import { Icon } from '../icon'
 
 const focus = (el: HTMLElement) => {
   promisifyAnimation(el, [{ filter: 'saturate(0.3)brightness(0.6)' }, { filter: 'saturate(1)brightness(1)' }], {
@@ -54,6 +55,10 @@ export const IconUrlWidget = Shade<Omit<dashboard.IconUrlWidget, 'type'> & { ind
             width: '100%',
             height: '100%',
             overflow: 'hidden',
+            placeContent: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-evenly',
           }}
           onclick={(ev) => {
             if (props.url.startsWith('http') && new URL(props.url).href !== window.location.href) {
@@ -62,8 +67,27 @@ export const IconUrlWidget = Shade<Omit<dashboard.IconUrlWidget, 'type'> & { ind
               window.location.replace(props.url)
             }
           }}>
-          <div style={{ fontSize: '128px', textAlign: 'center' }}>{props.icon}</div>
-          <div style={{ maxWidth: '100%', overflow: 'hidden', textAlign: 'center', textOverflow: 'ellipsis' }}>
+          <Icon
+            icon={props.icon}
+            elementProps={{
+              style: {
+                height: '128px',
+                fontSize: '96px',
+                lineHeight: '128px',
+                display: 'block',
+                width: '100%',
+                placeContent: 'center',
+                textAlign: 'center',
+              },
+            }}
+          />
+          <div
+            style={{
+              maxWidth: '100%',
+              overflow: 'hidden',
+              textAlign: 'center',
+              textOverflow: 'ellipsis',
+            }}>
             {props.name}
           </div>
         </div>
