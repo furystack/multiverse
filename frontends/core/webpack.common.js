@@ -41,7 +41,7 @@ module.exports = {
       // languages: ['json'],
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: 'static' }],
+      patterns: [{ from: 'static', to: 'static' }],
     }),
   ],
   module: {
