@@ -139,7 +139,7 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: auth.User; isOpened: Ob
             <hr style={{ boxShadow: '1px 1px 1px solid rgba(0,0,0,0.1)' }} />
             <CurrentUserMenuItem
               title="Log out"
-              icon={'🚪'}
+              icon={{ type: 'flaticon-essential', name: '320-login.svg' }}
               onclick={() => {
                 injector.getInstance(SessionService).logout()
                 history.pushState({}, 'Home', '/')

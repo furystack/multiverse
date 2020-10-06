@@ -14,9 +14,20 @@ export const Header = Shade({
             fontFamily: '"Lucida Console", Monaco, monospace',
             whiteSpace: 'nowrap',
             textOverflow: 'ellipsis',
+            display: 'flex',
+            lineHeight: '50px',
           }}>
-          <RouteLink title="🌀 Multiverse" href="/" style={{ marginRight: '1em', cursor: 'pointer' }}>
-            🌀 Multiverse
+          <RouteLink
+            title="Multiverse"
+            href="/"
+            style={{
+              marginRight: '1em',
+              cursor: 'pointer',
+              placeContent: 'center',
+              display: 'flex',
+            }}>
+            <img src="/static/galaxy.png" alt="Multiverse Logo" style={{ marginRight: '1em' }} />
+            <div>Multiverse</div>
           </RouteLink>
           <Router
             notFound={() => <div />}
