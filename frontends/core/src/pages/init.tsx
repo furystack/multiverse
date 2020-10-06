@@ -10,6 +10,7 @@ export const Init = Shade<{ message: string }>({
         height: '100%',
         alignItems: 'center',
         justifyContent: 'center',
+        margin: '2em',
       }}>
       <style>{`
       @keyframes show{

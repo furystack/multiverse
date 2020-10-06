@@ -5,6 +5,7 @@ export * as diag from './diag'
 export * as xpense from './xpense'
 export * as media from './media'
 export * as dashboard from './dashboard'
+export * as common from './common'
 export * from './services'
 export * from './owner'
 
