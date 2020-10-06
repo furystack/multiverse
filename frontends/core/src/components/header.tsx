@@ -1,6 +1,7 @@
 import { createComponent, RouteLink, Shade, Router } from '@furystack/shades'
 import { AppBar, animations } from '@furystack/shades-common-components'
 import { serviceList } from '@common/models'
+import { Icon } from './icon'
 export const Header = Shade({
   shadowDomName: 'shade-app-header',
   render: ({ children }) => {
@@ -37,8 +38,10 @@ export const Header = Shade({
               onVisit: animations.showSlide,
               onLeave: animations.hideSlide,
               component: () => (
-                <RouteLink style={{ display: 'inline-block' }} href={s.url}>
-                  - {s.icon} {s.name}
+                <RouteLink style={{ display: 'inline-flex' }} href={s.url}>
+                  -{' '}
+                  <Icon icon={s.icon} elementProps={{ style: { height: '100%', margin: '0px 13px', width: '28px' } }} />{' '}
+                  {s.name}
                 </RouteLink>
               ),
             }))}
