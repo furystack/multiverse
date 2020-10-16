@@ -5,7 +5,7 @@
   "defaultCommandTimeout": 10000,
   "reporter": "junit",
   "reporterOptions": {
-    "mochaFile": "testresults/output.xml"
+    "mochaFile": "testresults/output-[hash].xml"
   },
   "ignoreTestFiles": ["**/__snapshots__/*", "**/__image_snapshots__/*"]
 }

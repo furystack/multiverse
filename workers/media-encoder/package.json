@@ -17,18 +17,18 @@
   },
   "dependencies": {
     "@common/service-utils": "1.0.0",
-    "@furystack/core": "^9.1.11",
-    "@furystack/inject": "^4.0.38",
-    "@furystack/logging": "^2.0.45",
-    "@furystack/rest": "^1.2.4",
+    "@furystack/core": "^9.1.12",
+    "@furystack/inject": "^4.0.40",
+    "@furystack/logging": "^2.0.47",
+    "@furystack/rest": "^1.2.5",
     "@types/fluent-ffmpeg": "^2.1.16",
     "amqplib": "^0.6.0",
-    "chokidar": "^3.4.2",
+    "chokidar": "^3.4.3",
     "fluent-ffmpeg": "^2.1.2",
     "form-data": "^3.0.0",
     "got": "^11.7.0",
     "rimraf": "^3.0.2",
     "semaphore-async-await": "1.5.1",
-    "tslib": "^2.0.1"
+    "tslib": "^2.0.3"
   }
 }

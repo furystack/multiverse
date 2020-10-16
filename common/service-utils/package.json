@@ -17,16 +17,16 @@
   "dependencies": {
     "@common/config": "1.0.0",
     "@common/models": "1.0.0",
-    "@furystack/core": "^9.1.11",
-    "@furystack/inject": "^4.0.38",
-    "@furystack/logging": "^2.0.45",
-    "@furystack/mongodb-store": "^3.1.16",
-    "@furystack/repository": "^4.0.1",
-    "@furystack/rest": "^1.2.4",
-    "@furystack/rest-service": "^2.2.4",
+    "@furystack/core": "^9.1.12",
+    "@furystack/inject": "^4.0.40",
+    "@furystack/logging": "^2.0.47",
+    "@furystack/mongodb-store": "^3.1.17",
+    "@furystack/repository": "^4.0.2",
+    "@furystack/rest": "^1.2.5",
+    "@furystack/rest-service": "^2.2.5",
     "got": "^11.7.0",
     "mongodb": "^3.6.2",
-    "tslib": "^2.0.1",
+    "tslib": "^2.0.3",
     "uuid": "^8.3.1"
   }
 }

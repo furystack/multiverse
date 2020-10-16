@@ -36,19 +36,19 @@
     "webpack-merge": "^5.1.4"
   },
   "dependencies": {
-    "@furystack/core": "^9.1.11",
-    "@furystack/rest": "^1.2.4",
-    "@furystack/rest-client-fetch": "^1.2.16",
-    "@furystack/shades": "^3.2.26",
-    "@furystack/shades-common-components": "^1.2.9",
+    "@furystack/core": "^9.1.12",
+    "@furystack/rest": "^1.2.5",
+    "@furystack/rest-client-fetch": "^1.2.17",
+    "@furystack/shades": "^3.2.27",
+    "@furystack/shades-common-components": "^1.2.10",
     "@types/video.js": "^7.3.11",
-    "copy-webpack-plugin": "^6.2.0",
+    "copy-webpack-plugin": "^6.2.1",
     "marked": "^1.2.0",
     "monaco-editor": "^0.21.2",
     "monaco-editor-webpack-plugin": "^2.0.0",
     "path-to-regexp": "^6.2.0",
     "reflect-metadata": "^0.1.13",
-    "video.js": "^7.8.4",
+    "video.js": "^7.9.7",
     "videojs-contrib-quality-levels": "^2.0.9",
     "videojs-http-source-selector": "^1.1.6"
   }
