@@ -15,6 +15,9 @@ const getWorkerServiceEntries = () => {
     cwd: dirname(packageFile),
     name: packageContent.name,
     script: packageContent.main,
+    env: {
+      MEDIA_ENCODER_WORKER_TEMP: `d:\\temp\\MULTIVERSE_ENCODING_TEMP\\`,
+    },
     watch: [
       join(dirname(packageFile), 'dist'),
       'common/config/dist',
