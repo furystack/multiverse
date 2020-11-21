@@ -41,7 +41,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
 
   if (encodingTempDirExists) {
     logger.information({ message: 'The Temp dir already exists. Cleaning up...' })
-    await new Promise((resolve, reject) => rimraf(encodingTempDir, (err) => (err ? reject(err) : resolve())))
+    await new Promise<void>((resolve, reject) => rimraf(encodingTempDir, (err) => (err ? reject(err) : resolve())))
   }
   await promises.mkdir(encodingTempDir, { recursive: true })
 
@@ -87,7 +87,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
       encoding: 'utf-8',
       retry: 10,
     })
-    await new Promise((resolve, reject) => rimraf(encodingTempDir, (err) => (err ? reject(err) : resolve())))
+    await new Promise<void>((resolve, reject) => rimraf(encodingTempDir, (err) => (err ? reject(err) : resolve())))
     logger.information({ message: 'Task finished, the task has been finialized.' })
     taskLogger.flush()
     return true

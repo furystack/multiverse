@@ -74,7 +74,7 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
       proc.on('start', (commandLine) => {
         logger.information({ message: `ffmpeg started with command:${commandLine}`, data: { commandLine } })
       })
-      return await new Promise((resolve, reject) => {
+      return await new Promise<void>((resolve, reject) => {
         proc
           .on('progress', (info) => {
             // logger.information({ message: `ffmpeg progress: ${info.percent}%`, data: { info } })

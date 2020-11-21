@@ -42,5 +42,5 @@ export const extractSubtitles = async (options: { injector: Injector; movie: med
   await Promise.all(files.map((file) => promises.copyFile(join(cwd, file), join(subtitlesDir, file))))
   await Promise.all(files.map((f) => promises.unlink(join(cwd, f))))
 
-  await new Promise((resolve, reject) => rimraf(cwd, {}, (err) => (err ? reject(err) : resolve())))
+  await new Promise<void>((resolve, reject) => rimraf(cwd, {}, (err) => (err ? reject(err) : resolve())))
 }

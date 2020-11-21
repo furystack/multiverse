@@ -67,7 +67,7 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
       proc.on('start', (commandLine) => {
         logger.information({ message: `ffmpeg started with command:${commandLine}`, data: { commandLine } })
       })
-      return await new Promise((resolve, reject) => {
+      return await new Promise<void>((resolve, reject) => {
         proc
           .on('progress', (info) => {
             progress.setValue(info.percent)
