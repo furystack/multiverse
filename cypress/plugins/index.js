@@ -11,38 +11,11 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
-const webpack = require('@cypress/webpack-preprocessor')
 const { initPlugin } = require('cypress-plugin-snapshots/plugin')
 const fs = require('fs')
 const path = require('path')
 
 const { sites } = require('@common/config')
-
-const webpackOptions = {
-  resolve: {
-    extensions: ['.ts', '.js'],
-  },
-  module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        exclude: [/node_modules/],
-        use: [
-          {
-            loader: 'ts-loader',
-            options: {
-              transpileOnly: true,
-            },
-          },
-        ],
-      },
-    ],
-  },
-}
-
-const options = {
-  webpackOptions,
-}
 
 const getCurrentUser = (filePath) => {
   try {
@@ -55,7 +28,7 @@ const getCurrentUser = (filePath) => {
 
 module.exports = (on, config) => {
   config.baseUrl = sites.frontends.core
-  on('file:preprocessor', webpack(options))
+  // on('file:preprocessor', webpack(options))
   on('task', {
     getCurrentUser(filePath) {
       return getCurrentUser(filePath)
