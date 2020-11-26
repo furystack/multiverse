@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@types/amqplib": "^0.5.16",
-    "@types/node": "^14.14.9",
+    "@types/node": "^14.14.10",
     "@types/rimraf": "^3.0.0"
   },
   "dependencies": {
