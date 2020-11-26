@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "build:stats": "webpack --config webpack.prod.js --profile --json > stats.json",
-    "start": "webpack-dev-server --config webpack.dev.js",
+    "start": "webpack serve --config webpack.dev.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "bundle-analyzer": "webpack --config webpack.bundle-analyzer.js"
   },
