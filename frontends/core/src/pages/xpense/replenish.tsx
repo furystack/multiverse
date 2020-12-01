@@ -1,5 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { styles, Input, Button } from '@furystack/shades-common-components'
+import { Input, Button } from '@furystack/shades-common-components'
 import { XpenseApiService } from '@common/frontend-utils'
 import { xpense } from '@common/models'
 import { GenericErrorPage } from '../generic-error'
@@ -23,7 +23,7 @@ export const ReplenishPage = Shade<
       return <GenericErrorPage error={error} subtitle="Failed to add to the balance 😓" />
     }
     return (
-      <div style={{ ...styles.glassBox, padding: '1em' }}>
+      <div style={{ background: 'rgba(128,128,128,0.03)', padding: '1em' }}>
         <SelectedAccountHeader account={props.account} area="Replenish" />
         <form
           onsubmit={async (ev) => {
@@ -78,7 +78,7 @@ export const ReplenishPage = Shade<
           <Button type="button" onclick={() => history.back()} style={{ marginRight: '1em' }}>
             Back
           </Button>
-          <Button type="submit" variant="primary">
+          <Button type="submit" color="primary" variant="contained">
             Replenish
           </Button>
         </form>

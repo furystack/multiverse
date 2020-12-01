@@ -1,4 +1,4 @@
-import { Button, Input, styles } from '@furystack/shades-common-components'
+import { Button, Input } from '@furystack/shades-common-components'
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { AuthApiService, SessionService } from '@common/frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
@@ -28,7 +28,8 @@ export const RegisterPage = Shade({
         ) : (
           <div
             style={{
-              ...styles.glassBox,
+              background: 'rgba(128,128,128,0.03)',
+
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',

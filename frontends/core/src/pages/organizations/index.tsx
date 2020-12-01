@@ -1,7 +1,7 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { AuthApiService } from '@common/frontend-utils'
 import { auth } from '@common/models'
-import { DataGrid, styles, Fab, colors, CollectionService } from '@furystack/shades-common-components'
+import { DataGrid, Fab, colors, CollectionService } from '@furystack/shades-common-components'
 
 export const OrganizationsPage = Shade<{}, { service: CollectionService<auth.Organization> }>({
   shadowDomName: 'shade-organizations-page',
@@ -19,7 +19,7 @@ export const OrganizationsPage = Shade<{}, { service: CollectionService<auth.Org
   },
   render: ({ getState, injector }) => {
     return (
-      <div style={{ ...styles.glassBox, width: '100%', height: '100%' }}>
+      <div style={{ background: 'rgba(128,128,128,0.03)', width: '100%', height: '100%' }}>
         <DataGrid<auth.Organization>
           columns={['name', 'description']}
           service={getState().service}

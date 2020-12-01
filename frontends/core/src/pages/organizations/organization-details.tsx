@@ -1,5 +1,5 @@
 import { Shade, createComponent, LazyLoad } from '@furystack/shades'
-import { Tabs, styles, Input } from '@furystack/shades-common-components'
+import { Tabs, Input } from '@furystack/shades-common-components'
 import { auth } from '@common/models'
 import { AuthApiService, SessionService } from '@common/frontend-utils'
 import { MemberList } from '@common/components'
@@ -20,7 +20,7 @@ export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }
         : false
     return (
       <Tabs
-        style={{ ...styles.glassBox, height: '100%', padding: '3em' }}
+        style={{ background: 'rgba(128,128,128,0.03)', height: '100%', padding: '3em' }}
         tabs={[
           {
             header: <div>General info</div>,

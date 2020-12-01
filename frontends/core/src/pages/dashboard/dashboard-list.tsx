@@ -1,5 +1,5 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { CollectionService, DataGrid, styles, Fab } from '@furystack/shades-common-components'
+import { CollectionService, DataGrid, Fab } from '@furystack/shades-common-components'
 import { dashboard } from '@common/models'
 import { DashboardApiService } from '@common/frontend-utils'
 
@@ -30,7 +30,7 @@ export const DashboardList = Shade<{}, { service: CollectionService<dashboard.Da
               textOverflow: 'ellipsis',
               overflow: 'hidden',
             },
-            wrapper: styles.glassBox,
+            wrapper: { background: 'rgba(128,128,128,0.03)' },
           }}
           headerComponents={{}}
           rowComponents={{}}

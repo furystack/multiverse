@@ -1,5 +1,5 @@
 import { createComponent, Shade } from '@furystack/shades'
-import { Tabs, styles, Input, Button, colors } from '@furystack/shades-common-components'
+import { Tabs, Input, Button, colors } from '@furystack/shades-common-components'
 import { auth } from '@common/models'
 import { AuthApiService, MyAvatarService } from '@common/frontend-utils'
 import { tokens } from '@common/config'
@@ -39,7 +39,7 @@ export const ProfilePage = Shade<
 
     return (
       <Tabs
-        style={{ ...styles.glassBox, height: '100%', padding: '1em' }}
+        style={{ background: 'rgba(128,128,128,0.03)', height: '100%', padding: '1em' }}
         tabs={[
           {
             header: <div>🎴 General info</div>,

@@ -1,6 +1,6 @@
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { media } from '@common/models'
-import { CollectionService, DataGrid, styles } from '@furystack/shades-common-components'
+import { CollectionService, DataGrid } from '@furystack/shades-common-components'
 import { MediaApiService } from '@common/frontend-utils'
 import { EncodingTaskProgressUpdater } from '../../../services/encoding-task-progress-updater'
 
@@ -48,7 +48,7 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
               overflow: 'hidden',
               position: 'relative',
             },
-            wrapper: styles.glassBox,
+            wrapper: { background: 'rgba(128,128,128,0.03)' },
           }}
           headerComponents={{}}
           rowComponents={{

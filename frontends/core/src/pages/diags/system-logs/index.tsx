@@ -1,7 +1,7 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { LogLevel } from '@furystack/logging'
 import { diag } from '@common/models'
-import { DataGrid, styles, CollectionService } from '@furystack/shades-common-components'
+import { DataGrid, CollectionService } from '@furystack/shades-common-components'
 import { DiagApiService } from '@common/frontend-utils'
 import { getLevelIcon } from './get-level-icon'
 
@@ -43,7 +43,7 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
               textOverflow: 'ellipsis',
               overflow: 'hidden',
             },
-            wrapper: styles.glassBox,
+            wrapper: { background: 'rgba(128,128,128,0.03)' },
           }}
           headerComponents={{}}
           rowComponents={{

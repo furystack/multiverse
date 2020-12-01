@@ -62,7 +62,7 @@ export const ChangePasswordForm = Shade<
           required
           onchange={(ev) => updateState({ confirmNewPassword: (ev.target as HTMLInputElement).value }, true)}
         />
-        <Button variant="primary" type="submit">
+        <Button color="primary" variant="contained" type="submit">
           Change password
         </Button>
       </form>

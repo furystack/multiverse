@@ -8,7 +8,7 @@ export const EditDashboard = Shade<{ dashboard: dashboard.Dashboard }>({
   render: ({ props, injector }) => {
     return (
       <GenericMonacoEditor<dashboard.Dashboard, 'dashboardSchema', 'Dashboard'>
-        title={`Edit movie "${props.dashboard.name}"`}
+        title={`Edit Dashboard "${props.dashboard.name}"`}
         schema="dashboardSchema"
         entity={'Dashboard'}
         data={props.dashboard}

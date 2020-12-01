@@ -1,5 +1,5 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { Input, Button, styles } from '@furystack/shades-common-components'
+import { Input, Button } from '@furystack/shades-common-components'
 import { XpenseApiService, SessionService } from '@common/frontend-utils'
 import { xpense } from '@common/models'
 
@@ -17,7 +17,7 @@ export const AddXpenseAccountPage = Shade<{}, Partial<xpense.Account>>({
   }),
   render: ({ injector, getState, updateState }) => {
     return (
-      <div style={{ ...styles.glassBox, padding: '1em' }}>
+      <div style={{ background: 'rgba(128,128,128,0.03)', padding: '1em' }}>
         <h3>Create new account</h3>
         <form
           onsubmit={async (ev) => {
@@ -60,7 +60,7 @@ export const AddXpenseAccountPage = Shade<{}, Partial<xpense.Account>>({
           <Button type="button" onclick={() => history.back()} style={{ marginRight: '2em' }}>
             Back
           </Button>
-          <Button type="submit" variant="primary">
+          <Button type="submit" color="primary" variant="contained">
             Create Account
           </Button>
         </form>

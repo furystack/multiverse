@@ -3,7 +3,7 @@ import { ObservableValue } from '@furystack/utils'
 import { auth, common, serviceList } from '@common/models'
 import { MyAvatar } from '@common/components'
 import { SessionService } from '@common/frontend-utils'
-import { styles, promisifyAnimation } from '@furystack/shades-common-components'
+import { promisifyAnimation } from '@furystack/shades-common-components'
 import { Icon } from './icon'
 
 const CurrentUserMenuItem = Shade<{ title: string; icon: common.Icon; onclick: () => void }>({
@@ -110,7 +110,7 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: auth.User; isOpened: Ob
           <div
             className="current-user-menu"
             style={{
-              ...styles.glassBox,
+              background: 'rgba(128,128,128,0.03)',
               backdropFilter: 'blur(4px)brightness(.2)contrast(0.8)',
               position: 'relative',
               width: '192px',

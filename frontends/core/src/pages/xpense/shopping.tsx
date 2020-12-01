@@ -1,5 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { styles, Autocomplete, Button, Input } from '@furystack/shades-common-components'
+import { Autocomplete, Button, Input } from '@furystack/shades-common-components'
 import { xpense } from '@common/models'
 import { XpenseApiService } from '@common/frontend-utils'
 import { Init } from '../init'
@@ -31,7 +31,7 @@ export const XpenseShoppingPage = Shade<
     }
 
     return (
-      <div style={{ ...styles.glassBox, padding: '1em', height: '100%', overflow: 'auto' }}>
+      <div style={{ background: 'rgba(128,128,128,0.03)', padding: '1em', height: '100%', overflow: 'auto' }}>
         <div style={{ display: 'flex' }}>
           <SelectedAccountHeader {...props} area="Shopping" account={props.account} />
           <div style={{ flex: '1' }} />

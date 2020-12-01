@@ -1,5 +1,5 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { CollectionService, DataGrid, styles } from '@furystack/shades-common-components'
+import { CollectionService, DataGrid } from '@furystack/shades-common-components'
 import { diag } from '@common/models'
 import { DiagApiService } from '@common/frontend-utils'
 
@@ -30,7 +30,7 @@ export const PatchList = Shade<{}, { service: CollectionService<diag.Patch> }>({
               textOverflow: 'ellipsis',
               overflow: 'hidden',
             },
-            wrapper: styles.glassBox,
+            wrapper: { background: 'rgba(128,128,128,0.03)' },
           }}
           headerComponents={{}}
           rowComponents={{}}

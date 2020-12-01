@@ -1,5 +1,5 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { styles, Input, Button, colors } from '@furystack/shades-common-components'
+import { Input, Button, colors } from '@furystack/shades-common-components'
 import { auth } from '@common/models'
 import { AuthApiService, SessionService } from '@common/frontend-utils'
 
@@ -15,7 +15,7 @@ export const AddOrganizationPage = Shade<{}, Omit<auth.Organization, '_id'>>({
   shadowDomName: 'shade-add-organization-page',
   render: ({ getState, injector, updateState }) => {
     return (
-      <div style={{ ...styles.glassBox, height: '100%', padding: '3em' }}>
+      <div style={{ background: 'rgba(128,128,128,0.03)', height: '100%', padding: '3em' }}>
         <form
           onsubmit={async (ev) => {
             ev.preventDefault()
@@ -45,7 +45,7 @@ export const AddOrganizationPage = Shade<{}, Omit<auth.Organization, '_id'>>({
             }}>
             Back
           </Button>
-          <Button type="submit" variant="primary">
+          <Button type="submit" color="primary" variant="contained">
             Create organization
           </Button>
         </form>

@@ -1,4 +1,4 @@
-import { colors, Button, Loader, Input, styles } from '@furystack/shades-common-components'
+import { colors, Button, Loader, Input } from '@furystack/shades-common-components'
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { SessionService, getErrorMessage } from '@common/frontend-utils'
 import { tokens } from '@common/config'
@@ -44,7 +44,7 @@ export const Login = Shade<
           <form
             style={
               {
-                ...styles.glassBox,
+                background: 'rgba(128,128,128,0.03)',
                 padding: '10px 55px 30px',
               } as any
             }
@@ -110,7 +110,8 @@ export const Login = Shade<
                 style={{ width: '100%' }}
                 disabled={getState().isOperationInProgress}
                 type="submit"
-                variant="primary">
+                variant="contained"
+                color="primary">
                 <div
                   style={{
                     display: 'flex',

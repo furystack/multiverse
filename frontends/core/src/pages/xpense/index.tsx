@@ -1,5 +1,4 @@
 import { Shade, createComponent, Router, LazyLoad } from '@furystack/shades'
-import { styles } from '@furystack/shades-common-components'
 import { xpense } from '@common/models'
 import { XpenseApiService } from '@common/frontend-utils'
 import { Init } from '../init'
@@ -11,7 +10,7 @@ export const XpensePage = Shade({
   shadowDomName: 'xpense-index',
   render: ({ injector }) => {
     return (
-      <div style={{ ...styles.glassBox, height: 'calc(100% - 2px)', width: 'calc(100% - 2px)' }}>
+      <div style={{ background: 'rgba(128,128,128,0.03)', height: 'calc(100% - 2px)', width: 'calc(100% - 2px)' }}>
         <Router
           routes={[
             {

@@ -1,6 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { dashboard } from '@common/models'
-import { styles } from '@furystack/shades-common-components'
 import { GenericWidget } from './generic-widget'
 
 export const Dashboard = Shade<dashboard.Dashboard>({
@@ -9,7 +8,7 @@ export const Dashboard = Shade<dashboard.Dashboard>({
     return (
       <div
         style={{
-          ...styles.glassBox,
+          background: 'rgba(128,128,128,0.03)',
           width: '100%',
           height: '100%',
           display: 'flex',
