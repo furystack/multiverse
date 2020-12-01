@@ -42,8 +42,9 @@ export const IconUrlWidget = Shade<Omit<dashboard.IconUrlWidget, 'type'> & { ind
         [{ transform: 'scale(0)' }, { transform: 'scale(1)' }],
         {
           fill: 'forwards',
-          delay: 500 + (props.index === undefined ? Math.random() * 10 : props.index) * 100,
-          duration: 200,
+          delay: (props.index || 0) * 160 + Math.random() * 100,
+          duration: 700,
+          easing: 'cubic-bezier(0.190, 1.000, 0.220, 1.000)',
         },
       )
     })
@@ -60,7 +61,7 @@ export const IconUrlWidget = Shade<Omit<dashboard.IconUrlWidget, 'type'> & { ind
             height: '256px',
             margin: '8px',
             borderRadius: '8px',
-            transform: 'scale(.05)',
+            transform: 'scale(0)',
             overflow: 'hidden',
             placeContent: 'center',
             display: 'flex',
