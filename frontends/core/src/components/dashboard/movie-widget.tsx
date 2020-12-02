@@ -2,6 +2,7 @@ import { Shade, RouteLink, createComponent, LocationService, LazyLoad } from '@f
 import { media, auth } from '@common/models'
 import { promisifyAnimation } from '@furystack/shades-common-components'
 import { SessionService, MediaApiService } from '@common/frontend-utils'
+import { Icon } from '../icon'
 
 const focus = (el: HTMLElement) => {
   promisifyAnimation(el, [{ filter: 'saturate(0.3)brightness(0.6)' }, { filter: 'saturate(1)brightness(1)' }], {
@@ -45,11 +46,16 @@ export const MovieWidget = Shade<
   getInitialState: ({ injector }) => ({ currentUser: injector.getInstance(SessionService).currentUser.getValue() }),
   constructed: ({ props, element }) => {
     setTimeout(() => {
-      promisifyAnimation(element.querySelector('a'), [{ transform: 'scale(0)' }, { transform: 'scale(1)' }], {
-        fill: 'forwards',
-        delay: 100 + (props.index !== undefined ? props.index : Math.random() * 10) * 100,
-        duration: 150,
-      })
+      promisifyAnimation(
+        element.querySelector('route-link div'),
+        [{ transform: 'scale(0)' }, { transform: 'scale(1)' }],
+        {
+          fill: 'forwards',
+          delay: (props.index || 0) * 160 + Math.random() * 100,
+          duration: 700,
+          easing: 'cubic-bezier(0.190, 1.000, 0.220, 1.000)',
+        },
+      )
     })
   },
   render: ({ props, injector, getState }) => {
@@ -57,30 +63,23 @@ export const MovieWidget = Shade<
     const meta = movie.metadata
     const url = `/movies/watch/${movie._id}`
     return (
-      <RouteLink
-        tabIndex={0}
-        title={meta.plot || meta.title}
-        onfocus={(ev) => focus(ev.target as HTMLElement)}
-        onblur={(ev) => blur(ev.target as HTMLElement)}
-        onmouseenter={(ev) => focus(ev.target as HTMLElement)}
-        onmouseleave={(ev) => blur(ev.target as HTMLElement)}
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-          width: `${props.size}px`,
-          height: `${props.size}px`,
-          filter: 'saturate(0.3)brightness(0.6)',
-          background: 'rgba(128,128,128,0.1)',
-          transform: 'scale(0)',
-          borderRadius: '8px',
-        }}
-        href={url}>
+      <RouteLink tabIndex={0} title={meta.plot || meta.title} href={url}>
         <div
+          onfocus={(ev) => focus(ev.target as HTMLElement)}
+          onblur={(ev) => blur(ev.target as HTMLElement)}
+          onmouseenter={(ev) => focus(ev.target as HTMLElement)}
+          onmouseleave={(ev) => blur(ev.target as HTMLElement)}
           style={{
-            width: '100%',
-            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            width: `${props.size}px`,
+            height: `${props.size}px`,
+            filter: 'saturate(0.3)brightness(0.6)',
+            background: 'rgba(128,128,128,0.1)',
+            transform: 'scale(0)',
+            borderRadius: '8px',
             overflow: 'hidden',
           }}
           onclick={(ev) => {
@@ -102,9 +101,12 @@ export const MovieWidget = Shade<
               justifyContent: 'space-evenly',
               filter: 'drop-shadow(black 0px 0px 5px) drop-shadow(black 0px 0px 8px) drop-shadow(black 0px 0px 10px)',
             }}>
-            <span title="Play movie">▶</span>
+            <span title="Play movie" style={{ width: '16px' }}>
+              <Icon icon={{ type: 'flaticon-essential', name: '025-play button.svg' }} />
+            </span>
             {getState().currentUser?.roles.includes('movie-admin') ? (
               <span
+                style={{ width: '16px' }}
                 onclick={(ev) => {
                   ev.preventDefault()
                   ev.stopImmediatePropagation()
@@ -112,7 +114,7 @@ export const MovieWidget = Shade<
                   injector.getInstance(LocationService).updateState()
                 }}
                 title="Edit movie details">
-                🖊
+                <Icon icon={{ type: 'flaticon-essential', name: '218-edit.svg' }} />
               </span>
             ) : null}
           </div>
