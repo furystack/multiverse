@@ -1,5 +1,5 @@
 import { createComponent, Shade, Router, LazyLoad } from '@furystack/shades'
-import { CommandPalette } from '@furystack/shades-common-components'
+import { CommandPalette, NotyList } from '@furystack/shades-common-components'
 import { DocsPage } from '../pages/docs'
 import { ContactPage } from '../pages/contact'
 import { Init } from '../pages'
@@ -22,9 +22,6 @@ export const Layout = Shade({
           width: '100%',
           height: '100%',
           backgroundImage: 'linear-gradient(to right bottom, #2b3036, #292c31, #27282d, #242428, #212023)',
-          // backgroundColor: '#151515',
-          // backgroundAttachment: 'fixed',
-          // backgroundSize: 'cover',
           color: 'rgb(192,192,192)',
           display: 'flex',
           flexDirection: 'column',
@@ -116,6 +113,7 @@ export const Layout = Shade({
             },
           ]}
         />
+        <NotyList />
       </div>
     )
   },

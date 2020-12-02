@@ -457,10 +457,10 @@
     "@furystack/inject" "^4.0.41"
     tslib "^2.0.3"
 
-"@furystack/shades-common-components@^1.2.12":
-  version "1.2.12"
-  resolved "https://registry.yarnpkg.com/@furystack/shades-common-components/-/shades-common-components-1.2.12.tgz#f6b9c7c1595f3e5a39dd13677d74ce37c0637244"
-  integrity sha512-Z/nB+MtrviU6+xEbqqJXXzxGJOf3DUkDhyQvs91HyfdA73zeK9DD4vgm9D4WNGhHZdCBvYEoMpOePud7DStcpQ==
+"@furystack/shades-common-components@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@furystack/shades-common-components/-/shades-common-components-1.3.0.tgz#0f97ce8ed81a9d6da69bb165c152c313ae240f2f"
+  integrity sha512-l4z80GJNJqPbPIzLGxZTPhIIIkrheztIaKR8n4Zf68LboliiHYl/Q0DlBYfsuVZuOL7LXKlhmUOcuMjz9O0QOQ==
   dependencies:
     "@furystack/shades" "^3.2.29"
     uuid "^8.3.1"

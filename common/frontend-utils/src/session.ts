@@ -2,6 +2,7 @@ import { Injectable } from '@furystack/inject'
 import { ObservableValue, usingAsync } from '@furystack/utils'
 import { IdentityContext, User as FUser } from '@furystack/core'
 import { auth } from '@common/models'
+import { NotyService } from '@furystack/shades-common-components'
 import { AuthApiService } from './apis/auth-api'
 import { getErrorMessage } from './get-error-message'
 
@@ -41,9 +42,19 @@ export class SessionService implements IdentityContext {
         const usr = await this.api.call({ method: 'POST', action: '/login', body: { username, password } })
         this.currentUser.setValue(usr)
         this.state.setValue('authenticated')
+        this.notys.addNoty({
+          body: 'Welcome back ;)',
+          title: 'You have been logged in',
+          type: 'success',
+        })
       } catch (error) {
         const errorMsg = await getErrorMessage(error)
         this.loginError.setValue(errorMsg)
+        this.notys.addNoty({
+          body: 'Please check your credentials',
+          title: 'Login failed',
+          type: 'warning',
+        })
       }
     })
   }
@@ -53,11 +64,12 @@ export class SessionService implements IdentityContext {
       this.api.call({ method: 'POST', action: '/logout' })
       this.currentUser.setValue(null)
       this.state.setValue('unauthenticated')
+      this.notys.addNoty({
+        body: 'Come back soon...',
+        title: 'You have been logged out',
+        type: 'info',
+      })
     })
-  }
-
-  constructor(private api: AuthApiService) {
-    this.init()
   }
 
   public async isAuthenticated(): Promise<boolean> {
@@ -75,8 +87,17 @@ export class SessionService implements IdentityContext {
   public async getCurrentUser<TUser extends FUser>(): Promise<TUser> {
     const currentUser = this.currentUser.getValue()
     if (!currentUser) {
+      this.notys.addNoty({
+        body: ':(((',
+        title: 'No User available',
+        type: 'warning',
+      })
       throw Error('No user available')
     }
     return (currentUser as unknown) as TUser
+  }
+
+  constructor(private api: AuthApiService, private readonly notys: NotyService) {
+    this.init()
   }
 }

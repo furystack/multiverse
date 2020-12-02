@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { Shade, createComponent, ChildrenList } from '@furystack/shades'
 import { Injector } from '@furystack/inject'
-import { Button } from '@furystack/shades-common-components'
+import { Button, NotyService } from '@furystack/shades-common-components'
+import { getErrorMessage } from '@common/frontend-utils'
 import { MonacoEditor, MonacoEditorProps } from '../monaco-editor'
 import { SchemaNames, EntityNames, MonacoModelProvider } from '../../services/monaco-model-provider'
 
@@ -82,7 +83,18 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
             </Button>
             <Button
               disabled={props.readOnly}
-              onclick={() => props.onSave && props.onSave(JSON.parse(getState().currentData))}>
+              onclick={async () => {
+                try {
+                  await (props.onSave && props.onSave(JSON.parse(getState().currentData)))
+                  injector
+                    .getInstance(NotyService)
+                    .addNoty({ type: 'success', title: 'Saved', body: 'Your changes has been saved succesfully' })
+                } catch (error) {
+                  injector
+                    .getInstance(NotyService)
+                    .addNoty({ type: 'error', title: 'Failed to save', body: getErrorMessage(error) })
+                }
+              }}>
               Save
             </Button>
           </div>
