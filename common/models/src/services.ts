@@ -56,7 +56,7 @@ export const serviceList: Array<ServiceDescription<typeof serviceNames[number]>>
     name: 'Users',
     icon: { type: 'flaticon-essential', name: '360-users.svg' },
     description: 'Manage user accesses and roles',
-    url: '/user-admin',
+    url: '/users',
     requiredRoles: ['user-admin'],
   },
   {

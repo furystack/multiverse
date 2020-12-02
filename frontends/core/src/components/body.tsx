@@ -307,6 +307,34 @@ export const Body = Shade<
                             },
                           ]
                         : []),
+                      ...(currentUser.roles.includes('user-admin')
+                        ? [
+                            {
+                              url: '/users',
+                              routingOptions: {
+                                end: false,
+                              },
+                              component: () => (
+                                <LazyLoad
+                                  error={(error, retry) => (
+                                    <GenericErrorPage
+                                      subtitle="Something bad happened during loading the Users Page"
+                                      error={error}
+                                      retry={retry}
+                                    />
+                                  )}
+                                  component={async () => {
+                                    const { UsersPage } = await import(
+                                      /* webpackChunkName: "feature-switches" */ '../pages/users'
+                                    )
+                                    return <UsersPage />
+                                  }}
+                                  loader={<Init message="Loading Users..." />}
+                                />
+                              ),
+                            },
+                          ]
+                        : []),
                       {
                         url: '/movies',
                         routingOptions: { end: false },

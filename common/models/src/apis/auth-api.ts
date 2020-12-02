@@ -1,4 +1,11 @@
-import { RequestAction, RestApi, GetCollectionEndpoint, PostEndpoint, PatchEndpoint } from '@furystack/rest'
+import {
+  RequestAction,
+  RestApi,
+  GetCollectionEndpoint,
+  PostEndpoint,
+  PatchEndpoint,
+  GetEntityEndpoint,
+} from '@furystack/rest'
 import { PartialResult } from '@furystack/core'
 import { User } from '../auth/user'
 import { Profile } from '../auth/profile'
@@ -28,6 +35,8 @@ export interface AuthApi extends RestApi {
         githubClientId: string
       }
     }>
+    '/users': GetCollectionEndpoint<User>
+    '/users/:id': GetEntityEndpoint<User>
   }
   POST: {
     '/login': RequestAction<{ body: { username: string; password: string }; result: Omit<User, 'password'> }>
@@ -76,6 +85,7 @@ export interface AuthApi extends RestApi {
       result: Organization
       urlParams: { organizationName: string }
     }>
-    '/profile/:id': PatchEndpoint<Profile>
+    '/profiles/:id': PatchEndpoint<Profile>
+    '/users/:id': PatchEndpoint<User>
   }
 }

@@ -11,6 +11,8 @@ import {
   LogoutAction,
   createPostEndpoint,
   createPatchEndpoint,
+  Authorize,
+  createGetEntityEndpoint,
 } from '@furystack/rest-service'
 import {
   GetProfile,
@@ -54,6 +56,8 @@ export const setupRestApi = async (injector: Injector) => {
         '/organization/:organizationName': GetOrganization,
         '/loginProviderDetails': Authenticate()(GetLoginProviderDetails),
         '/oauth-data': getOauthData,
+        '/users': Authorize('user-admin')(createGetCollectionEndpoint({ model: auth.User })),
+        '/users/:id': Authorize('user-admin')(createGetEntityEndpoint({ model: auth.User })),
       },
       POST: {
         '/avatar': UploadAvatar,
@@ -78,7 +82,8 @@ export const setupRestApi = async (injector: Injector) => {
       },
       PATCH: {
         '/organizations/:organizationName': PatchOrganization,
-        '/profile/:id': createPatchEndpoint({ model: auth.Profile }),
+        '/profiles/:id': createPatchEndpoint({ model: auth.Profile }),
+        '/users/:id': Authorize('user-admin')(createPatchEndpoint({ model: auth.User })),
       },
     },
     cors: {

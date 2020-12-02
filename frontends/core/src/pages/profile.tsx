@@ -80,7 +80,7 @@ export const ProfilePage = Shade<
                     ) {
                       injector.getInstance(AuthApiService).call({
                         method: 'PATCH',
-                        action: '/profile/:id',
+                        action: '/profiles/:id',
                         url: { id: state.profile._id },
                         body: { displayName: state.displayName, description: state.description },
                       })

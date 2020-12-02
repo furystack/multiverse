@@ -31,7 +31,7 @@ export const EditDashboard = Shade<{ dashboard: dashboard.Dashboard }>({
               })
               injector.getInstance(AuthApiService).call({
                 method: 'PATCH',
-                action: '/profile/:id',
+                action: '/profiles/:id',
                 url: { id: profile._id },
                 body: { userSettings: { ...profile.userSettings, dashboardId: props.dashboard._id } },
               })

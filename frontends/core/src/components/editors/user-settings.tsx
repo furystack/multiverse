@@ -15,7 +15,7 @@ export const UserSettingsEditor = Shade<{ settings: auth.UserSettings; profileId
         onSave={async (settings) => {
           injector.getInstance(AuthApiService).call({
             method: 'PATCH',
-            action: '/profile/:id',
+            action: '/profiles/:id',
             url: { id: props.profileId },
             body: { userSettings: settings },
           })
