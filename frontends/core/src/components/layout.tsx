@@ -1,5 +1,6 @@
-import { createComponent, Shade, Router, LazyLoad } from '@furystack/shades'
-import { CommandPalette, NotyList } from '@furystack/shades-common-components'
+import { createComponent, Shade, Router, LazyLoad, PartialElement } from '@furystack/shades'
+import { Injector } from '@furystack/inject'
+import { CommandPalette, defaultLightTheme, NotyList, ThemeProviderService } from '@furystack/shades-common-components'
 import { DocsPage } from '../pages/docs'
 import { ContactPage } from '../pages/contact'
 import { Init } from '../pages'
@@ -9,20 +10,40 @@ import { Body } from './body'
 import { Header } from './header'
 import { CurrentUserMenu } from './current-user-menu'
 
+const lightBackground = 'linear-gradient(to right bottom, #ebebf8, #e3e3f6, #dcdcf4, #d4d4f2, #cdcdf0)'
+const darkBackground = 'linear-gradient(to right bottom, #2b3036, #292c31, #27282d, #242428, #212023)'
+
+const getStyles = (injector: Injector): PartialElement<CSSStyleDeclaration> => {
+  const themeProvider = injector.getInstance(ThemeProviderService)
+  const isLight = themeProvider.theme.getValue() === defaultLightTheme
+  const backgroundImage = isLight ? lightBackground : darkBackground
+  const color = themeProvider.getTextColor(themeProvider.theme.getValue().background.paper)
+  return {
+    backgroundImage,
+    color,
+  }
+}
+
 export const Layout = Shade({
   shadowDomName: 'shade-app-layout',
-  render: () => {
+  constructed: ({ injector, element }) => {
+    const themeChange = injector.getInstance(ThemeProviderService).theme.subscribe(() => {
+      const styles = getStyles(injector)
+      Object.assign((element.querySelector('div') as HTMLDivElement).style, styles)
+    })
+    return () => themeChange.dispose()
+  },
+  render: ({ injector }) => {
     return (
       <div
         id="Layout"
         style={{
+          ...getStyles(injector),
           position: 'fixed',
           top: '0',
           left: '0',
           width: '100%',
           height: '100%',
-          backgroundImage: 'linear-gradient(to right bottom, #2b3036, #292c31, #27282d, #242428, #212023)',
-          color: 'rgb(192,192,192)',
           display: 'flex',
           flexDirection: 'column',
           fontFamily: 'Arial, Helvetica, sans-serif',

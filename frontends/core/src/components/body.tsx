@@ -1,7 +1,13 @@
 import { createComponent, Shade, Route, Router, LazyLoad } from '@furystack/shades'
 import { auth } from '@common/models'
 import { SessionService, sessionState, AuthApiService } from '@common/frontend-utils'
-import { promisifyAnimation, Loader } from '@furystack/shades-common-components'
+import {
+  promisifyAnimation,
+  Loader,
+  ThemeProviderService,
+  defaultDarkTheme,
+  defaultLightTheme,
+} from '@furystack/shades-common-components'
 import { Init, WelcomePage, Offline, Login } from '../pages'
 import { Page404 } from '../pages/404'
 import { GenericErrorPage } from '../pages/generic-error'
@@ -109,6 +115,12 @@ export const Body = Shade<
                                 action: '/profiles/:username',
                                 url: { username: currentUser.username },
                               })) as auth.Profile
+                              if (profile?.userSettings?.theme) {
+                                const { theme } = injector.getInstance(ThemeProviderService)
+                                theme.setValue(
+                                  profile.userSettings.theme === 'dark' ? defaultDarkTheme : defaultLightTheme,
+                                )
+                              }
                               return <WelcomePage profile={profile} />
                             }}
                             loader={<Init message="Loading your Profile..." />}

@@ -10,7 +10,7 @@ export const Header = Shade({
         <h3
           style={{
             margin: '0 2em 0 0',
-            color: '#aaa',
+            // color: '#aaa',
             textDecoration: 'none',
             fontFamily: '"Lucida Console", Monaco, monospace',
             whiteSpace: 'nowrap',
