@@ -79,7 +79,8 @@ export const MovieWidget = Shade<
             filter: 'saturate(0.3)brightness(0.6)',
             background: 'rgba(128,128,128,0.1)',
             transform: 'scale(0)',
-            borderRadius: '8px',
+            borderRadius: '4px',
+            margin: '8px',
             overflow: 'hidden',
           }}
           onclick={(ev) => {
