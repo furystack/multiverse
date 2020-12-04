@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { Shade, createComponent, ChildrenList } from '@furystack/shades'
 import { Injector } from '@furystack/inject'
-import { Button, NotyService } from '@furystack/shades-common-components'
+import { Button, defaultLightTheme, NotyService, ThemeProviderService } from '@furystack/shades-common-components'
 import { getErrorMessage } from '@common/frontend-utils'
 import { MonacoEditor, MonacoEditorProps } from '../monaco-editor'
 import { SchemaNames, EntityNames, MonacoModelProvider } from '../../services/monaco-model-provider'
@@ -50,12 +50,13 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
     }
   },
   render: ({ props, injector, updateState, getState }) => {
+    const isLight = injector.getInstance(ThemeProviderService).theme.getValue() === defaultLightTheme
     const monacoProps = {
       ...props.monacoProps,
       options: {
         readOnly: props.readOnly,
         ...props.monacoProps?.options,
-        theme: 'vs-dark',
+        theme: isLight ? 'vs-light' : 'vs-dark',
         automaticLayout: true,
         model: injector
           .getInstance(MonacoModelProvider)
