@@ -82,6 +82,7 @@ export const MovieWidget = Shade<
             borderRadius: '4px',
             margin: '8px',
             overflow: 'hidden',
+            color: 'white',
           }}
           onclick={(ev) => {
             if (url.startsWith('http') && new URL(url).href !== window.location.href) {
