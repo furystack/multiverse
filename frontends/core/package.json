@@ -40,7 +40,7 @@
     "@furystack/rest": "^1.3.0",
     "@furystack/rest-client-fetch": "^1.2.19",
     "@furystack/shades": "^3.2.31",
-    "@furystack/shades-common-components": "^1.3.2",
+    "@furystack/shades-common-components": "^1.3.3",
     "@types/video.js": "^7.3.11",
     "copy-webpack-plugin": "^6.3.2",
     "marked": "^1.2.5",
