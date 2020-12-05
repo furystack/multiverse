@@ -2,7 +2,12 @@ import { Injectable } from '@furystack/inject'
 import { ObservableValue, usingAsync } from '@furystack/utils'
 import { IdentityContext, User as FUser } from '@furystack/core'
 import { auth } from '@common/models'
-import { NotyService } from '@furystack/shades-common-components'
+import {
+  NotyService,
+  ThemeProviderService,
+  defaultDarkTheme,
+  defaultLightTheme,
+} from '@furystack/shades-common-components'
 import { AuthApiService } from './apis/auth-api'
 import { getErrorMessage } from './get-error-message'
 
@@ -97,7 +102,25 @@ export class SessionService implements IdentityContext {
     return (currentUser as unknown) as TUser
   }
 
-  constructor(private api: AuthApiService, private readonly notys: NotyService) {
+  public currentProfile = this.currentUser.subscribe(async (usr) => {
+    if (usr) {
+      const profile = (await this.api.call({
+        method: 'GET',
+        action: '/profiles/:username',
+        url: { username: usr.username },
+      })) as auth.Profile
+      if (profile?.userSettings?.theme) {
+        const { theme } = this.themeProvider
+        theme.setValue(profile.userSettings.theme === 'dark' ? defaultDarkTheme : defaultLightTheme)
+      }
+    }
+  })
+
+  constructor(
+    private api: AuthApiService,
+    private readonly notys: NotyService,
+    private readonly themeProvider: ThemeProviderService,
+  ) {
     this.init()
   }
 }

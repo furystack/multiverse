@@ -1,5 +1,4 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { deepMerge } from '@furystack/utils'
 import { auth } from '@common/models'
 import { AuthApiService } from '@common/frontend-utils'
 import { defaultDarkTheme, defaultLightTheme, ThemeProviderService } from '@furystack/shades-common-components'
@@ -22,9 +21,7 @@ export const UserSettingsEditor = Shade<{ settings: auth.UserSettings; profileId
             body: { userSettings: settings },
           })
           const themeProvider = injector.getInstance(ThemeProviderService)
-          themeProvider.theme.setValue(
-            deepMerge(themeProvider.theme.getValue(), settings.theme === 'dark' ? defaultDarkTheme : defaultLightTheme),
-          )
+          themeProvider.theme.setValue(settings.theme === 'dark' ? defaultDarkTheme : defaultLightTheme)
         }}
       />
     )

@@ -30,7 +30,7 @@ export const Layout = Shade({
     const themeChange = injector.getInstance(ThemeProviderService).theme.subscribe(() => {
       const styles = getStyles(injector)
       Object.assign((element.querySelector('div') as HTMLDivElement).style, styles)
-    })
+    }, true)
     return () => themeChange.dispose()
   },
   render: ({ injector }) => {
