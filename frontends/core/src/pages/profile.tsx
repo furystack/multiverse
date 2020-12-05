@@ -1,7 +1,7 @@
 import { createComponent, Shade } from '@furystack/shades'
 import { Tabs, Input, Button, colors } from '@furystack/shades-common-components'
 import { auth } from '@common/models'
-import { AuthApiService, MyAvatarService } from '@common/frontend-utils'
+import { AuthApiService, MyAvatarService, SessionService } from '@common/frontend-utils'
 import { tokens } from '@common/config'
 import { MyAvatar, ImageAvatar } from '@common/components'
 import { v4 } from 'uuid'
@@ -11,7 +11,6 @@ import { UserSettingsEditor } from '../components/editors/user-settings'
 
 export const ProfilePage = Shade<
   {
-    profile: auth.Profile
     loginProviderDetails: { hasPassword: boolean; google?: auth.GoogleAccount; github?: auth.GithubAccount }
     currentUser: Omit<auth.User, 'password'>
   },
@@ -24,11 +23,21 @@ export const ProfilePage = Shade<
   }
 >({
   shadowDomName: 'shade-profile-page',
-  getInitialState: ({ props }) => ({
-    ...props,
-    displayName: props.profile.displayName,
-    description: props.profile.description,
-  }),
+  getInitialState: ({ props, injector }) => {
+    const profile = injector.getInstance(SessionService).currentProfile.getValue()
+    return {
+      ...props,
+      profile,
+      displayName: profile.displayName,
+      description: profile.description,
+    }
+  },
+  constructed: ({ injector, updateState }) => {
+    const profileChange = injector.getInstance(SessionService).currentProfile.subscribe((profile) => {
+      updateState({ profile, displayName: profile.displayName, description: profile.description })
+    })
+    return () => profileChange.dispose()
+  },
   render: ({ injector, getState, updateState }) => {
     const { currentUser, profile, loginProviderDetails } = getState()
 

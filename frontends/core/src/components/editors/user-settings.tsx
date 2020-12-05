@@ -1,7 +1,7 @@
 import { Shade, createComponent } from '@furystack/shades'
+import { deepMerge } from '@furystack/utils'
 import { auth } from '@common/models'
-import { AuthApiService } from '@common/frontend-utils'
-import { defaultDarkTheme, defaultLightTheme, ThemeProviderService } from '@furystack/shades-common-components'
+import { AuthApiService, SessionService } from '@common/frontend-utils'
 import { GenericMonacoEditor } from './generic-monaco-editor'
 
 export const UserSettingsEditor = Shade<{ settings: auth.UserSettings; profileId: string }>({
@@ -28,8 +28,11 @@ export const UserSettingsEditor = Shade<{ settings: auth.UserSettings; profileId
               url: { id: props.profileId },
               body: { userSettings: settings },
             })
-            const themeProvider = injector.getInstance(ThemeProviderService)
-            themeProvider.theme.setValue(settings.theme === 'dark' ? defaultDarkTheme : defaultLightTheme)
+            const profile = injector.getInstance(SessionService).currentProfile
+            await profile.setValue({
+              ...profile.getValue(),
+              userSettings: deepMerge({ ...auth.DefaultUserSettings }, settings),
+            })
           }}
         />
       </div>

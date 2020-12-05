@@ -21,6 +21,7 @@ export interface GenericMonacoEditorState {
   lastSavedData: string
   currentData: string
   isDirty: boolean
+  isLight: boolean
 }
 
 export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity extends EntityNames<TSchema>>(
@@ -28,15 +29,16 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
   children: ChildrenList,
 ) => JSX.Element<any, any> = Shade<GenericMonacoEditorProps<any, any, any>, GenericMonacoEditorState>({
   shadowDomName: 'shades-generic-monaco-editor',
-  getInitialState: ({ props }) => {
+  getInitialState: ({ props, injector }) => {
     const data = JSON.stringify(props.data, undefined, 2)
     return {
       currentData: data,
       isDirty: false,
       lastSavedData: data,
+      isLight: injector.getInstance(ThemeProviderService).theme.getValue() === defaultLightTheme,
     }
   },
-  constructed: ({ props, getState }) => {
+  constructed: ({ props, getState, injector, updateState }) => {
     const oldOnBeforeUnload = window.onbeforeunload
     window.onbeforeunload = () => {
       const state = getState()
@@ -46,18 +48,44 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
       return undefined
     }
 
+    const themeChanged = injector.getInstance(ThemeProviderService).theme.subscribe((t) => {
+      updateState({ isLight: t === defaultLightTheme })
+    })
+
+    const saveListener = (ev: KeyboardEvent) => {
+      if (ev.ctrlKey && ev.key.toLocaleLowerCase() === 's') {
+        ev.preventDefault()
+        ev.stopPropagation()
+        props
+          .onSave?.(JSON.parse(getState().currentData))
+          .then(() =>
+            injector
+              .getInstance(NotyService)
+              .addNoty({ type: 'success', title: 'Saved', body: 'Your changes has been saved succesfully' }),
+          )
+          .catch((error) =>
+            injector
+              .getInstance(NotyService)
+              .addNoty({ type: 'error', title: 'Failed to save', body: getErrorMessage(error) }),
+          )
+      }
+    }
+
+    window.addEventListener('keydown', saveListener, true)
+
     return () => {
+      window.removeEventListener('keydown', saveListener, true)
       window.onbeforeunload = oldOnBeforeUnload
+      themeChanged.dispose()
     }
   },
   render: ({ props, injector, updateState, getState }) => {
-    const isLight = injector.getInstance(ThemeProviderService).theme.getValue() === defaultLightTheme
     const monacoProps = {
       ...props.monacoProps,
       options: {
         readOnly: props.readOnly,
         ...props.monacoProps?.options,
-        theme: isLight ? 'vs-light' : 'vs-dark',
+        theme: getState().isLight ? 'vs-light' : 'vs-dark',
         automaticLayout: true,
         model: injector
           .getInstance(MonacoModelProvider)
@@ -84,6 +112,7 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
               ↩
             </Button>
             <Button
+              variant="contained"
               disabled={props.readOnly}
               onclick={async () => {
                 try {

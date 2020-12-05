@@ -79,21 +79,12 @@ export const Body = Shade<
                                 const { ProfilePage } = await import(
                                   /* webpackChunkName: "profile" */ '../pages/profile'
                                 )
-                                const profile = (await injector.getInstance(AuthApiService).call({
-                                  method: 'GET',
-                                  action: '/profiles/:username',
-                                  url: { username: currentUser.username },
-                                })) as auth.Profile
                                 const loginProviderDetails = await injector.getInstance(AuthApiService).call({
                                   method: 'GET',
                                   action: '/loginProviderDetails',
                                 })
                                 return (
-                                  <ProfilePage
-                                    profile={profile}
-                                    loginProviderDetails={loginProviderDetails}
-                                    currentUser={currentUser}
-                                  />
+                                  <ProfilePage loginProviderDetails={loginProviderDetails} currentUser={currentUser} />
                                 )
                               }}
                               loader={<Init message="Loading your Profile..." />}
