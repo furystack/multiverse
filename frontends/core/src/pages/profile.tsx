@@ -23,6 +23,7 @@ export const ProfilePage = Shade<
     description: string
   }
 >({
+  shadowDomName: 'shade-profile-page',
   getInitialState: ({ props }) => ({
     ...props,
     displayName: props.profile.displayName,
@@ -39,7 +40,7 @@ export const ProfilePage = Shade<
 
     return (
       <Tabs
-        style={{ background: 'rgba(128,128,128,0.03)', height: '100%', padding: '1em' }}
+        style={{ padding: '1em 0' }}
         tabs={[
           {
             header: <div>🎴 General info</div>,

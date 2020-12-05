@@ -27,6 +27,7 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
   props: GenericMonacoEditorProps<T, TSchema, TEntity>,
   children: ChildrenList,
 ) => JSX.Element<any, any> = Shade<GenericMonacoEditorProps<any, any, any>, GenericMonacoEditorState>({
+  shadowDomName: 'shades-generic-monaco-editor',
   getInitialState: ({ props }) => {
     const data = JSON.stringify(props.data, undefined, 2)
     return {

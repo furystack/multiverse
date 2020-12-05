@@ -1,7 +1,7 @@
 import { logoutFromUserMenu } from '../support/commands'
 
 describe('Core Application', () => {
-  const headerSelector = 'shade-app-header'
+  const headerSelector = 'shade-app-header>shade-app-bar>div'
   const loginFormSelector = 'shade-login>div>div>form'
   const usernameInputSelector = 'shade-login input[type=text][title=username]'
   const passwordFieldSelector = 'shade-login input[type=password]'
@@ -36,7 +36,7 @@ describe('Core Application', () => {
       cy.log('Checking Welcome screen...')
       cy.get('welcome-page multiverse-dashboard > div').should('be.visible')
 
-      cy.get(headerSelector).toMatchImageSnapshot({ threshold: 0.001 }) // with avatar and menu
+      cy.get(headerSelector).should('be.visible').toMatchImageSnapshot({ threshold: 0.001 }) // with avatar and menu
       logoutFromUserMenu(cy)
 
       cy.log('Logging out...')
