@@ -12,7 +12,6 @@ trigger:
   - develop
   - feature/*
   - release/*
-  - greenkeeper/*
 
 pool:
   vmImage: 'ubuntu-latest'
