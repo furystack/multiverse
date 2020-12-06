@@ -93,10 +93,7 @@ export class MediaLibraryWatcher {
   }
 
   private async init() {
-    const movieLibraries = await this.injector
-      .getInstance(StoreManager)
-      .getStoreFor(media.MovieLibrary)
-      .find({})
+    const movieLibraries = await this.injector.getInstance(StoreManager).getStoreFor(media.MovieLibrary).find({})
     this.logger.verbose({
       message: 'Initializing library watchers...',
       data: { paths: movieLibraries.map((m) => m.path) },
