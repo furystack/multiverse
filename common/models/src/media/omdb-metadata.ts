@@ -36,6 +36,9 @@ export type FetchedOmdbMetadata = {
   Production: string // 'N/A'
   Website: string // 'N/A'
   Response: 'True'
+  seriesID?: string
+  Season?: string
+  Episode?: string
 }
 
 export type OmdbMetadata = FailedOmdbMetadata | FetchedOmdbMetadata

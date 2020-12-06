@@ -18,6 +18,7 @@ export const fetchOmdbMetadata = async ({
     ...(year ? [`y=${year}`] : []),
     ...(season ? [`Season=${season}`] : []),
     ...(episode ? [`Episode=${episode}`] : []),
+    'plot=full',
   ].join('&')
 
   const omdbResult = await got(`http://www.omdbapi.com/?apikey=${tokens.omdbApiKey}&${query}`)

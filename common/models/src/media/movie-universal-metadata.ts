@@ -6,6 +6,7 @@ export class MovieUniversalMetadata {
   thumbnailImageUrl!: string
   plot!: string
   type!: 'movie' | 'episode'
+  seriesId?: string
   season?: number
   episode?: number
 }

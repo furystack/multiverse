@@ -8,4 +8,11 @@ export const getUniversalMetadataFromOmdb = (omdbMeta: media.FetchedOmdbMetadata
   genre: omdbMeta.Genre.split(',').map((g) => g.trim()),
   thumbnailImageUrl: omdbMeta.Poster,
   type: omdbMeta.Type === 'movie' ? 'movie' : 'episode',
+  ...(omdbMeta.Type === 'series'
+    ? {
+        seriesId: omdbMeta.seriesID,
+        season: omdbMeta.Season ? parseInt(omdbMeta.Season, 10) : undefined,
+        episode: omdbMeta.Episode ? parseInt(omdbMeta.Episode, 10) : undefined,
+      }
+    : {}),
 })
