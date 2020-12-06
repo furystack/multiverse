@@ -11,7 +11,6 @@ export const login = (cy: Cypress.cy, username: string, password: string) => {
   cy.get(passwordFieldSelector)
     .type(password)
     .blur()
-  cy.log('Logging in...')
   cy.get(loginButtonSelector).click()
 }
 
