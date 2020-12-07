@@ -118,7 +118,7 @@ export class SessionService implements IdentityContext {
   public currentProfile = new ObservableValue<auth.Profile>()
 
   public themeUpdater = this.currentProfile.subscribe((profile) => {
-    if (profile) {
+    if (profile?.userSettings) {
       this.themeProvider.theme.setValue(profile.userSettings.theme === 'dark' ? defaultDarkTheme : defaultLightTheme)
     } else {
       this.themeProvider.theme.setValue(defaultDarkTheme)
