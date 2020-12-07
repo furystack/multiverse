@@ -30,13 +30,17 @@ const getWorkerServiceEntries = () => {
 const services = (module.exports = {
   apps: [
     ...getWorkerServiceEntries(),
-    {
-      cwd: process.cwd(),
-      name: 'tsc',
-      script: './node_modules/typescript/lib/tsc.js',
-      args: '-b --watch',
-      watch: false,
-    },
+    ...(process.env.DISABLE_TSC === 'true'
+      ? []
+      : [
+          {
+            cwd: process.cwd(),
+            name: 'tsc',
+            script: './node_modules/typescript/lib/tsc.js',
+            args: '-b --watch',
+            watch: false,
+          },
+        ]),
   ],
 })
 

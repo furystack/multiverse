@@ -72,7 +72,7 @@
     "start:pm2": "yarn build:common && yarn build:workers && yarn build:services && yarn pm2 start ecosystem.config.js",
     "start:watch": "yarn start:pm2 && yarn workspace @frontend/core start",
     "test:unit": "jest --verbose",
-    "test:cypress": "yarn workspace @service/auth seed && yarn start:pm2 && concurrently --kill-others \"yarn workspace @frontend/core start\" \"yarn cypress run\" --success first ",
+    "test:cypress": "yarn seed && DISABLE_TSC=true yarn start:pm2 && concurrently --kill-others \"yarn workspace @frontend/core start\" \"yarn cypress run\" --success first ",
     "start": "yarn build:common && yarn build:workers && yarn build:services && concurrently --kill-others \"yarn workspace @worker/media-encoder start\" \"yarn workspace @service/auth start\" \"yarn workspace @service/diag start\" \"yarn workspace @service/media start\"  \"yarn workspace @service/xpense start\" \"npx serve -n -p 8080 -s ./frontends/core/bundle/\"",
     "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache",
