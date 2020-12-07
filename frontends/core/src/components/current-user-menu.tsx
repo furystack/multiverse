@@ -3,7 +3,7 @@ import { ObservableValue } from '@furystack/utils'
 import { auth, common, serviceList } from '@common/models'
 import { MyAvatar } from '@common/components'
 import { SessionService } from '@common/frontend-utils'
-import { promisifyAnimation } from '@furystack/shades-common-components'
+import { ClickAwayService, promisifyAnimation, ThemeProviderService } from '@furystack/shades-common-components'
 import { Icon } from './icon'
 
 const CurrentUserMenuItem = Shade<{ title: string; icon: common.Icon; onclick: () => void }>({
@@ -42,12 +42,11 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: auth.User; isOpened: Ob
       }, true),
       getState().isOpened.subscribe(async (isOpened) => {
         const menu = element.querySelector('.current-user-menu') as HTMLElement
-        const backdrop = element.querySelector('.user-menu-backdrop') as HTMLElement
         const container = element.querySelector('.menu-container') as HTMLElement
         if (isOpened) {
           container.style.display = 'block'
           container.style.opacity = '1'
-          menu.animate(
+          await menu.animate(
             [
               { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
               { transform: 'scale(1) translateY(0)', opacity: 1 },
@@ -58,13 +57,8 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: auth.User; isOpened: Ob
               fill: 'forwards',
             },
           )
-          backdrop.animate([{ opacity: 0 }, { opacity: 1 }], {
-            duration: 300,
-            easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
-            fill: 'forwards',
-          })
         } else {
-          const menuPromise = promisifyAnimation(
+          await promisifyAnimation(
             menu,
             [
               { transform: 'scale(1) translateY(0)', opacity: 1 },
@@ -76,16 +70,11 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: auth.User; isOpened: Ob
               fill: 'forwards',
             },
           )
-          const backdropPromise = promisifyAnimation(backdrop, [{ opacity: 1 }, { opacity: 0 }], {
-            duration: 300,
-            easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
-            fill: 'forwards',
-          })
-          await Promise.all([menuPromise, backdropPromise])
           container.style.opacity = '0'
           container.style.display = 'none'
         }
       }),
+      new ClickAwayService(element, () => getState().isOpened.setValue(false)),
     ]
     return () => observers.map((o) => o.dispose())
   },
@@ -110,8 +99,7 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: auth.User; isOpened: Ob
           <div
             className="current-user-menu"
             style={{
-              background: 'rgba(128,128,128,0.03)',
-              backdropFilter: 'blur(4px)brightness(.2)contrast(0.8)',
+              background: injector.getInstance(ThemeProviderService).theme.getValue().background.paper,
               position: 'relative',
               width: '192px',
               zIndex: '2',
@@ -146,21 +134,6 @@ export const CurrentUserMenu = Shade<{}, { currentUser?: auth.User; isOpened: Ob
               }}
             />
           </div>
-          <div
-            className="user-menu-backdrop"
-            style={{
-              position: 'fixed',
-              top: '0',
-              left: '0',
-              width: '100%',
-              height: '100%',
-              zIndex: '1',
-              backgroundColor: 'rgba(0,0,0,0.3)',
-            }}
-            onclick={async (ev) => {
-              ev.stopPropagation()
-              isOpened.setValue(false)
-            }}></div>
         </div>
       </div>
     ) : (

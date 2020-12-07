@@ -53,7 +53,7 @@ export const Layout = Shade({
         <Header>
           <CommandPalette style={{ marginRight: '1em' }} commandProviders={getCommandProviders()} defaultPrefix={'>'} />{' '}
           <CurrentUserMenu />
-          <div style={{ width: '1em' }} />
+          <div style={{ width: '50px' }} />
         </Header>
         <Router
           routes={[
