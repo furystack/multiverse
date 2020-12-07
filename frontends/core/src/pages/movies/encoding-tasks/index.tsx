@@ -60,7 +60,7 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
                   style={{ width: '50px', marginRight: '0.5em' }}
                 />
                 <div style={{ textAlign: 'left' }}>
-                  <RouteLink href={`/`}>
+                  <RouteLink href={`/movies/watch/${entry.mediaInfo.movie._id}`}>
                     <h1 style={{ fontSize: '18px', margin: '0' }}>{entry.mediaInfo.movie.metadata.title}</h1>
                   </RouteLink>
                   <div style={{ fontSize: '14px', whiteSpace: 'nowrap' }}>
