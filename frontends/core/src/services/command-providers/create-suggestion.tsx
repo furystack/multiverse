@@ -2,6 +2,7 @@ import { createComponent } from '@furystack/shades'
 import { Injector } from '@furystack/inject'
 import { CommandPaletteSuggestionResult } from '@furystack/shades-common-components'
 import { common } from '@common/models'
+import { Icon } from '../../components/icon'
 
 export interface SuggestionOptions {
   name: string
@@ -15,7 +16,9 @@ export const createSuggestion = (options: SuggestionOptions) => ({
   name: options.name,
   element: (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
-      <div style={{ flexGrow: '0', margin: '0 15px 0 0', fontSize: '1.5em' }}>{options.icon}</div>
+      <div style={{ flexGrow: '0', margin: '0 15px 0 0', fontSize: '1.5em', width: '1.5em' }}>
+        {<Icon icon={options.icon} elementProps={{ style: { width: '100%', height: '100%' } }} />}
+      </div>
       <div>
         <div style={{ color: '#bbb', fontWeight: 'bolder' }}>{options.name}</div>
         <div style={{ color: '#777' }}>{options.description}</div>
