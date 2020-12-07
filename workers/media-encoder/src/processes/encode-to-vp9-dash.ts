@@ -58,7 +58,7 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
 
       options.encodingSettings.formats.map((format, index) => {
         proc.outputOptions([
-          `-filter_complex "[0]format=pix_fmts=yuv420p10le[temp${index}];[temp${index}]scale=-2:${format.downScale}[A${index}]"`,
+          `-filter_complex [0]format=pix_fmts=yuv420p10le[temp${index}];[temp${index}]scale=-2:${format.downScale}[A${index}]`,
           `-map [A${index}]:v`,
           `-b:v:${index} ${format.bitrate?.target || 0}k`,
           '-pix_fmt yuv420p10le',
