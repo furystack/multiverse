@@ -43,28 +43,29 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
       } as any)
         .output('dash.mpd')
         .format('dash')
-        .audioCodec('libopus')
+        .audioCodec('aac')
         .audioChannels(2)
-        .audioBitrate(128)
         .videoCodec('libvpx-vp9')
         .outputOptions([
           '-use_template 1',
           '-use_timeline 1',
           '-map 0:a',
-          '-speed 4',
+          '-b:a 96k',
+          '-quality good',
           '-reconnect_streamed 1',
           '-reconnect_delay_max 120',
         ])
 
       options.encodingSettings.formats.map((format, index) => {
         proc.outputOptions([
-          `-filter_complex [0]format=pix_fmts=yuv420p10le[temp${index}];[temp${index}]scale=-2:${format.downScale}[A${index}]`,
+          `-filter_complex [0]format=pix_fmts=yuv420p[temp${index}];[temp${index}]scale=-2:${format.downScale}[A${index}]`,
           `-map [A${index}]:v`,
           `-b:v:${index} ${format.bitrate?.target || 0}k`,
           '-pix_fmt yuv420p10le',
           '-color_primaries 9',
           '-colorspace 9',
           '-color_range 1',
+          '-dash 1',
           ...(format.quality ? [`-crf ${format.quality}`] : []),
           ...(format.bitrate?.min ? [`-minrate ${format.bitrate.min}k`] : []),
           ...(format.bitrate?.max ? [`-maxrate ${format.bitrate.max}k`] : []),
