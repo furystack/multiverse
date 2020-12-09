@@ -4,7 +4,10 @@ const { dirname, join } = require('path')
 const glob = require('glob')
 
 const getWorkerServiceEntries = () => {
-  const packageDirs = ['services/*', 'workers/*']
+  const packageDirs = [
+    //'services/*',
+    'workers/*',
+  ]
   const serviceWorkerPackageFiles = packageDirs.map((dir) => glob.sync(`${dir}/package.json`)).flatMap((f) => f)
 
   const serviceWorkerPackages = serviceWorkerPackageFiles.map((packageFile) => ({
