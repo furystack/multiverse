@@ -16,9 +16,13 @@ module.exports = merge(common, {
     chunkFilename: 'static/js/[name].chunk.js',
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin({
-      eslint: { files: '' },
-    }),
+    ...(process.env.DISABLE_TYPECHECKS === 'true'
+      ? []
+      : [
+          new ForkTsCheckerWebpackPlugin({
+            eslint: { files: '' },
+          }),
+        ]),
     new HtmlWebpackPlugin({
       template: './index.html',
       favicon: './favicon.ico',

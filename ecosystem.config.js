@@ -33,7 +33,7 @@ const getWorkerServiceEntries = () => {
 const services = (module.exports = {
   apps: [
     ...getWorkerServiceEntries(),
-    ...(process.env.DISABLE_TSC === 'true'
+    ...(process.env.DISABLE_TYPECHECKS === 'true'
       ? []
       : [
           {
