@@ -39,8 +39,6 @@ describe('Core Application', () => {
       cy.get(headerSelector).should('be.visible').toMatchImageSnapshot({ threshold: 0.001 }) // with avatar and menu
       logoutFromUserMenu(cy)
 
-      expectAndDismissNotification(cy, 'Come back soon...', 'info')
-
       cy.get(loginFormSelector).should('be.visible')
       cy.get(usernameInputSelector).should('be.visible').should('be.empty')
       cy.get(passwordFieldSelector).should('be.visible').should('be.empty')
