@@ -41,7 +41,7 @@ Injector.prototype.useCommonHttpAuth = function () {
         options: databases.standardOptions,
       }),
   ).useHttpAuthentication({
-    enableBasicAuth: true,
+    enableBasicAuth: false,
     cookieName: 'fsmvsc',
     model: auth.User,
     getUserStore: (sm) => sm.getStoreFor(auth.User),

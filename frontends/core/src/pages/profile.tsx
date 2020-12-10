@@ -65,7 +65,7 @@ export const ProfilePage = Shade<
                           injector.getInstance(MyAvatarService).uploadAvatar(file)
                         }
                       }}>
-                      <label htmlFor={uploadId} style={{ cursor: 'pointer' }}>
+                      <label className="uploadAvatar" htmlFor={uploadId} style={{ cursor: 'pointer' }}>
                         <MyAvatar style={{ display: 'inline-block', width: '3em', height: '3em', cursor: 'pointer' }} />
                       </label>
                       <input

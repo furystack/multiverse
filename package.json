@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.16",
+    "cypress-file-upload": "^4.1.1",
     "glob": "^7.1.6",
     "nodemon": "^2.0.6",
     "pm2": "^4.5.0",

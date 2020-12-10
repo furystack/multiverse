@@ -1,3 +1,4 @@
+import 'cypress-file-upload'
 import { serviceNames } from '../../common/models'
 
 export const login = (cy: Cypress.cy, username: string, password: string) => {

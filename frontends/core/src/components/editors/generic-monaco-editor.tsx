@@ -102,6 +102,7 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
             {props.additionalActions &&
               props.additionalActions.map((action) => (
                 <Button
+                  title={action.name}
                   onclick={() => {
                     action.action({ injector, entity: JSON.parse(getState().currentData) })
                   }}>
@@ -113,6 +114,7 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
             </Button>
             <Button
               variant="contained"
+              title="Save"
               disabled={props.readOnly}
               onclick={async () => {
                 try {
