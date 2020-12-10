@@ -22,9 +22,9 @@ describe('Core Application', () => {
       cy.visit('/')
       cy.get(loginFormSelector).should('be.visible')
       cy.get(usernameInputSelector).focus()
-      cy.get(loginFormSelector).toMatchImageSnapshot()
+      cy.get(loginFormSelector).toMatchImageSnapshot({ threshold: 0.001 })
 
-      cy.get(headerSelector).toMatchImageSnapshot() // with no avatar
+      cy.get(headerSelector).toMatchImageSnapshot({ threshold: 0.001 }) // with no avatar
       cy.get(usernameInputSelector).should('be.visible').should('be.enabled')
       cy.get(usernameInputSelector).type('testuser@gmail.com').blur()
       cy.get(passwordFieldSelector).should('be.visible').should('be.enabled')
