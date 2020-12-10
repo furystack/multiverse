@@ -45,6 +45,8 @@ describe('Profile Management', () => {
       { force: true },
     )
 
+    expectAndDismissNotification(cy, 'Your avatar has been updated', 'success')
+
     cy.get('shade-profile-page multiverse-my-avatar').toMatchImageSnapshot({ threshold: 0.001 })
   })
 

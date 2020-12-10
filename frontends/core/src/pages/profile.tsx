@@ -1,5 +1,5 @@
 import { createComponent, Shade } from '@furystack/shades'
-import { Tabs, Input, Button, colors } from '@furystack/shades-common-components'
+import { Tabs, Input, Button, colors, NotyService, Paper } from '@furystack/shades-common-components'
 import { auth } from '@common/models'
 import { AuthApiService, MyAvatarService, SessionService } from '@common/frontend-utils'
 import { tokens } from '@common/config'
@@ -55,65 +55,101 @@ export const ProfilePage = Shade<
             header: <div>🎴 General info</div>,
             component: (
               <div style={{ margin: '1em' }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <div>
-                    <form
-                      onchange={async (ev) => {
-                        const form = (ev.target as any).form as HTMLFormElement
-                        if (form.checkValidity()) {
-                          const file: File = (form.elements[0] as any).files[0]
-                          injector.getInstance(MyAvatarService).uploadAvatar(file)
-                        }
-                      }}>
-                      <label className="uploadAvatar" htmlFor={uploadId} style={{ cursor: 'pointer' }}>
-                        <MyAvatar style={{ display: 'inline-block', width: '3em', height: '3em', cursor: 'pointer' }} />
-                      </label>
-                      <input
-                        required
-                        name="avatar"
-                        id={uploadId}
-                        type="file"
-                        style={{ opacity: '0', position: 'absolute', zIndex: '-1' }}
-                      />
-                    </form>
-                  </div>
+                <Paper>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div>
+                      <form
+                        onchange={async (ev) => {
+                          const form = (ev.target as any).form as HTMLFormElement
+                          if (form.checkValidity()) {
+                            const file: File = (form.elements[0] as any).files[0]
+                            try {
+                              await injector.getInstance(MyAvatarService).uploadAvatar(file)
+                              injector.getInstance(NotyService).addNoty({
+                                type: 'success',
+                                title: 'Success',
+                                body: 'Your avatar has been updated',
+                              })
+                            } catch (error) {
+                              injector.getInstance(NotyService).addNoty({
+                                type: 'error',
+                                title: 'Error',
+                                body: 'Something went wrong during updating your avatar',
+                              })
+                            }
+                          }
+                        }}>
+                        <label className="uploadAvatar" htmlFor={uploadId} style={{ cursor: 'pointer' }}>
+                          <MyAvatar
+                            style={{ display: 'inline-block', width: '3em', height: '3em', cursor: 'pointer' }}
+                          />
+                        </label>
+                        <input
+                          required
+                          name="avatar"
+                          id={uploadId}
+                          type="file"
+                          style={{ opacity: '0', position: 'absolute', zIndex: '-1' }}
+                        />
+                      </form>
+                    </div>
 
-                  <h3 style={{ marginLeft: '2em' }}>{currentUser.username}</h3>
-                </div>
-                <form
-                  onsubmit={(ev) => {
-                    ev.preventDefault()
-                    const state = getState()
-                    if (
-                      state.description !== state.profile.description ||
-                      state.displayName !== state.profile.displayName
-                    ) {
-                      injector.getInstance(AuthApiService).call({
-                        method: 'PATCH',
-                        action: '/profiles/:id',
-                        url: { id: state.profile._id },
-                        body: { displayName: state.displayName, description: state.description },
-                      })
-                    }
-                  }}>
-                  <Input
-                    onTextChange={(displayName) => {
-                      updateState({ displayName }, true)
+                    <h3 style={{ marginLeft: '2em' }}>{currentUser.username}</h3>
+                  </div>
+                  <form
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
                     }}
-                    type="text"
-                    labelTitle="Display name"
-                    value={profile.displayName}
-                  />
-                  <Input
-                    type="text"
-                    labelTitle="Short introduction"
-                    value={profile.description}
-                    onTextChange={(description) => {
-                      updateState({ description }, true)
-                    }}
-                  />
-                  <Button type="submit">Save Changes</Button>
-                </form>
+                    onsubmit={async (ev) => {
+                      ev.preventDefault()
+                      const state = getState()
+                      if (
+                        state.description !== state.profile.description ||
+                        state.displayName !== state.profile.displayName
+                      ) {
+                        try {
+                          await injector.getInstance(AuthApiService).call({
+                            method: 'PATCH',
+                            action: '/profiles/:id',
+                            url: { id: state.profile._id },
+                            body: { displayName: state.displayName, description: state.description },
+                          })
+                          injector.getInstance(NotyService).addNoty({
+                            type: 'success',
+                            title: 'Success',
+                            body: 'Your personal details has been updated.',
+                          })
+                        } catch (error) {
+                          injector.getInstance(NotyService).addNoty({
+                            type: 'error',
+                            title: 'Failed to save',
+                            body: 'There was an error during saving your profile',
+                          })
+                        }
+                      }
+                    }}>
+                    <Input
+                      onTextChange={(displayName) => {
+                        updateState({ displayName }, true)
+                      }}
+                      type="text"
+                      labelTitle="Display name"
+                      value={profile.displayName}
+                    />
+                    <Input
+                      type="text"
+                      labelTitle="Short introduction"
+                      value={profile.description}
+                      onTextChange={(description) => {
+                        updateState({ description }, true)
+                      }}
+                    />
+                    <Button type="submit" variant="contained" style={{ alignSelf: 'flex-end' }}>
+                      Save Changes
+                    </Button>
+                  </form>
+                </Paper>
                 <Input type="text" labelTitle="Registration date" value={currentUser.registrationDate} disabled />
                 <Input type="text" labelTitle="Roles" value={currentUser.roles.join(', ')} disabled />
               </div>
