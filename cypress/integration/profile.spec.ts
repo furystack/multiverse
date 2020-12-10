@@ -45,7 +45,7 @@ describe('Profile Management', () => {
       { force: true },
     )
 
-    cy.get('shade-profile-page multiverse-my-avatar').toMatchImageSnapshot({ threshold: 0.1 })
+    cy.get('shade-profile-page multiverse-my-avatar').toMatchImageSnapshot({ threshold: 0.001 })
   })
 
   it('Should update the theme from the personal settings JSON', () => {

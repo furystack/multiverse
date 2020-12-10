@@ -65,11 +65,18 @@ jobs:
           testRunner: JUnit
           testResultsFiles: '$(System.DefaultWorkingDirectory)/testresults/output-**.xml'
       - task: PublishBuildArtifacts@1
-        displayName: Publish Cypress test artifacts
+        displayName: Publish Cypress videos
         condition: failed()
         inputs:
           pathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/videos'
           artifactName: cypress_videos
+      - task: PublishBuildArtifacts@1
+        displayName: Publish Cypress snapshot images
+        condition: failed()
+        inputs:
+          pathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/integration/__image_snapshots__'
+          artifactName: cypress_snapshots
+
   - deployment: deploy
     displayName: Deploy images to Docker HUB
     dependsOn: buildAndTest
