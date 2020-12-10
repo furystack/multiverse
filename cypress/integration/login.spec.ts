@@ -1,4 +1,4 @@
-import { logoutFromUserMenu } from '../support/commands'
+import { expectAndDismissNotification, logoutFromUserMenu } from '../support/commands'
 
 describe('Core Application', () => {
   const headerSelector = 'shade-app-header>shade-app-bar>div'
@@ -14,6 +14,7 @@ describe('Core Application', () => {
       cy.get(usernameInputSelector).type('wrongUser:(').blur()
       cy.get(passwordFieldSelector).type('wrongPassword').blur()
       cy.get(loginButtonSelector).click()
+      expectAndDismissNotification(cy, 'Please check your credentials')
       cy.get(loginErrorSelector).should('be.visible').contains('Login Failed')
     })
 
@@ -31,10 +32,14 @@ describe('Core Application', () => {
       cy.get(loginButtonSelector).should('be.visible')
       cy.get(loginButtonSelector).click()
 
+      expectAndDismissNotification(cy, 'Welcome back ;)')
+
       cy.get('welcome-page multiverse-dashboard > div').should('be.visible')
 
       cy.get(headerSelector).should('be.visible').toMatchImageSnapshot({ threshold: 0.001 }) // with avatar and menu
       logoutFromUserMenu(cy)
+
+      expectAndDismissNotification(cy, 'Come back soon...')
 
       cy.get(loginFormSelector).should('be.visible')
       cy.get(usernameInputSelector).should('be.visible').should('be.empty')

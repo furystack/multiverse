@@ -24,3 +24,17 @@ export const navigateFromUserMenu = (cy: Cypress.cy, app: typeof serviceNames[nu
   openUserMenu(cy)
   cy.get(`shade-current-user-menu`).contains(app).scrollIntoView().click()
 }
+
+export const expectAndDismissNotification = (
+  cy: Cypress.cy,
+  text: string,
+  type?: 'error' | 'warning' | 'info' | 'success',
+) => {
+  cy.get(`shade-noty div${type ? `.${type}` : ''}`)
+    .contains(text)
+    .should('be.visible')
+    .get('shade-button')
+    .contains('✖')
+    .should('be.visible')
+    .click()
+}
