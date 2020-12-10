@@ -56,7 +56,7 @@ export const ProfilePage = Shade<
             component: (
               <div style={{ margin: '1em' }}>
                 <Paper>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center' }} className="profileHeader">
                     <div>
                       <form
                         onchange={async (ev) => {
