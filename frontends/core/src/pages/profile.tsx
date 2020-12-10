@@ -54,7 +54,7 @@ export const ProfilePage = Shade<
           {
             header: <div>🎴 General info</div>,
             component: (
-              <div>
+              <div style={{ margin: '1em' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <div>
                     <form
