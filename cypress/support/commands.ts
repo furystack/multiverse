@@ -6,9 +6,14 @@ export const login = (cy: Cypress.cy, username: string, password: string) => {
   const usernameInputSelector = 'shade-login input[type=text][title=username]'
   const passwordFieldSelector = 'shade-login input[type=password]'
   cy.visit('/', { timeout: 120000 })
-  cy.get(usernameInputSelector).type(username).blur()
-  cy.get(passwordFieldSelector).type(password).blur()
+  cy.get(usernameInputSelector)
+    .type(username)
+    .blur()
+  cy.get(passwordFieldSelector)
+    .type(password)
+    .blur()
   cy.get(loginButtonSelector).click()
+  expectAndDismissNotification(cy, 'Welcome back ;)', 'success')
 }
 
 export const openUserMenu = (cy: Cypress.cy) => {
@@ -18,11 +23,15 @@ export const openUserMenu = (cy: Cypress.cy) => {
 export const logoutFromUserMenu = (cy: Cypress.cy) => {
   openUserMenu(cy)
   cy.get('shade-current-user-menu a[title="Log out"]').click()
+  expectAndDismissNotification(cy, 'Come back soon...', 'info')
 }
 
 export const navigateFromUserMenu = (cy: Cypress.cy, app: typeof serviceNames[number]) => {
   openUserMenu(cy)
-  cy.get(`shade-current-user-menu`).contains(app).scrollIntoView().click()
+  cy.get(`shade-current-user-menu`)
+    .contains(app)
+    .scrollIntoView()
+    .click()
 }
 
 export const expectAndDismissNotification = (
@@ -30,11 +39,11 @@ export const expectAndDismissNotification = (
   text: string,
   type?: 'error' | 'warning' | 'info' | 'success',
 ) => {
-  cy.get(`shade-noty div${type ? `.${type}` : ''}`)
-    .contains(text)
-    .should('be.visible')
-    .get('shade-button')
-    .contains('✖')
-    .should('be.visible')
-    .click()
+  cy.get(`shade-noty div.noty${type ? `.${type}` : ''}`).within(() => {
+    cy.contains(text).should('be.visible')
+    cy.get('button.dismissNoty')
+      .should('be.visible')
+      .click()
+      .should('not.be.visible')
+  })
 }

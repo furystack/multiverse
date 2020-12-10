@@ -1,5 +1,5 @@
 import { Shade, createComponent, PartialElement } from '@furystack/shades'
-import { Input, Button } from '@furystack/shades-common-components'
+import { Input, Button, NotyService } from '@furystack/shades-common-components'
 import { AuthApiService } from '@common/frontend-utils'
 
 export const ChangePasswordForm = Shade<
@@ -16,7 +16,11 @@ export const ChangePasswordForm = Shade<
           ev.preventDefault()
           const { currentPassword, newPassword, confirmNewPassword } = getState()
           if (newPassword !== confirmNewPassword) {
-            alert('Password and confirm password is not the same!')
+            injector.getInstance(NotyService).addNoty({
+              type: 'warning',
+              title: 'Cannot update password',
+              body: 'The password and the password confirmation should be the same',
+            })
             return
           }
           try {
@@ -29,15 +33,23 @@ export const ChangePasswordForm = Shade<
               },
             })
             if (result.success) {
-              alert('Your password has been changed.')
-              updateState({ confirmNewPassword: '', currentPassword: '', newPassword: '' })
+              injector.getInstance(NotyService).addNoty({
+                type: 'success',
+                title: 'Success',
+                body: 'Your password has been changed.',
+              })
+              updateState({ confirmNewPassword: '', currentPassword: '', newPassword: '' }, true)
               props.onUpdated && props.onUpdated()
               return
             }
           } catch (error) {
-            /** */
+            const responseJson = await error.response.json()
+            injector.getInstance(NotyService).addNoty({
+              type: 'error',
+              title: 'Failed to update password',
+              body: responseJson?.message || error.message || error.toString(),
+            })
           }
-          alert('Failed to change your password')
         }}>
         {props.showCurrentPassword ? (
           <Input
