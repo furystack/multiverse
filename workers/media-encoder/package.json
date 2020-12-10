@@ -6,7 +6,6 @@
   "private": true,
   "scripts": {
     "start": "node ./dist/worker.js",
-    "start:watch": "nodemon --delay 2500ms --watch dist --watch ../../common dist/worker.js",
     "clean": "rimraf dist && rimraf tsconfig.tsbuildinfo",
     "build": "tsc -b"
   },

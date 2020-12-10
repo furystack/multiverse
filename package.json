@@ -26,6 +26,7 @@
     "concurrently": "^5.1.0",
     "cypress": "^6.1.0",
     "cypress-plugin-snapshots": "^1.4.4",
+    "cypress-file-upload": "^4.1.1",
     "eslint": "^7.15.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-cypress": "^2.11.2",
@@ -36,14 +37,12 @@
     "jest": "^26.6.3",
     "jest-junit": "^12.0.0",
     "lint-staged": "^10.5.3",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "pm2": "^4.5.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.18",
-    "cypress-file-upload": "^4.1.1",
     "glob": "^7.1.6",
-    "nodemon": "^2.0.6",
-    "pm2": "^4.5.0",
     "rimraf": "^3.0.1",
     "ts-json-schema-generator": "^0.80.0",
     "typescript": "^4.1.2"
@@ -71,7 +70,6 @@
     "build:frontends": "yarn workspace @frontend/core build",
     "build": "yarn build:common && yarn build:workers && yarn build:services && yarn build:frontends",
     "start:pm2": "yarn build:common && yarn build:workers && yarn build:services && yarn pm2 start ecosystem.config.js",
-    "start:watch": "yarn start:pm2 && yarn workspace @frontend/core start",
     "test:unit": "jest --verbose",
     "test:cypress": "yarn seed && DISABLE_TYPECHECKS=true yarn start:pm2 && concurrently --kill-others \"yarn workspace @frontend/core start\" \"yarn cypress run\" --success first ",
     "start": "yarn build:common && yarn build:workers && yarn build:services && concurrently --kill-others \"yarn workspace @worker/media-encoder start\" \"yarn workspace @service/auth start\" \"yarn workspace @service/diag start\" \"yarn workspace @service/media start\"  \"yarn workspace @service/xpense start\" \"npx serve -n -p 8080 -s ./frontends/core/bundle/\"",
