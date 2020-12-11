@@ -125,6 +125,20 @@ export class SessionService implements IdentityContext {
     }
   })
 
+  public async acceptTerms() {
+    try {
+      const lastUser = this.currentUser.getValue() as auth.User
+      this.api.call({
+        method: 'POST',
+        action: '/accept-terms',
+      })
+      this.notys.addNoty({ type: 'success', title: 'Success', body: 'You have accepted the terms' })
+      this.currentUser.setValue({ ...lastUser, roles: [...lastUser?.roles, 'terms-accepted'] })
+    } catch (error) {
+      this.notys.addNoty({ type: 'success', title: 'Success', body: 'Something went wrong during accepting the Terms' })
+    }
+  }
+
   constructor(
     private api: AuthApiService,
     private readonly notys: NotyService,

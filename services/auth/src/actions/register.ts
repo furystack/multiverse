@@ -20,7 +20,7 @@ export const RegisterAction: RequestAction<{
   const { created } = await userStore.add({
     username: email,
     password: userCtx.authentication.hashMethod(password),
-    roles: ['terms-accepted'],
+    roles: [],
     registrationDate: new Date().toISOString(),
   })
   const newUser = created[0]
@@ -29,6 +29,9 @@ export const RegisterAction: RequestAction<{
 
   const { password: pw, ...user } = newUser
 
-  logger.information({ message: 'A New user has been registered', data: { ...user } })
+  logger.information({
+    message: `A New user has been registered with the username '${user.username}'`,
+    data: { ...user },
+  })
   return JsonResult(user, 200)
 }

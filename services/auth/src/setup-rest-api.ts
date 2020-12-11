@@ -35,6 +35,7 @@ import {
   OrganizationRemoveAdmin,
   OrganizationRemoveMember,
   PatchOrganization,
+  AcceptTermsAction,
 } from './actions'
 import { UploadAvatar } from './actions/upload-avatar'
 import { PostSettings } from './actions/post-settings'
@@ -72,6 +73,7 @@ export const setupRestApi = async (injector: Injector) => {
         '/login': LoginAction as any,
         '/logout': LogoutAction,
         '/register': RegisterAction,
+        '/accept-terms': Authenticate()(AcceptTermsAction),
         '/organizations': createPostEndpoint({ model: auth.Organization }),
         '/changePassword': Authenticate()(ChangePasswordAction),
         '/settings': Authenticate()(PostSettings),

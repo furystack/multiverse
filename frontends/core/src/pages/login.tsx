@@ -1,13 +1,10 @@
-import { colors, Button, Loader, Input } from '@furystack/shades-common-components'
+import { Button, Loader, Input } from '@furystack/shades-common-components'
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
-import { SessionService, getErrorMessage } from '@common/frontend-utils'
+import { SessionService } from '@common/frontend-utils'
 import { tokens } from '@common/config'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 
-export const Login = Shade<
-  unknown,
-  { username: string; password: string; error: string; isOperationInProgress: boolean }
->({
+export const Login = Shade<unknown, { username: string; password: string; isOperationInProgress: boolean }>({
   shadowDomName: 'shade-login',
   getInitialState: ({ injector }) => {
     const sessionService = injector.getInstance(SessionService)
@@ -21,13 +18,14 @@ export const Login = Shade<
   constructed: ({ injector, updateState }) => {
     const sessionService = injector.getInstance(SessionService)
     const subscriptions = [
-      sessionService.loginError.subscribe((error) => updateState({ error })),
-      sessionService.isOperationInProgress.subscribe((isOperationInProgress) => updateState({ isOperationInProgress })),
+      sessionService.isOperationInProgress.subscribe((isOperationInProgress) => {
+        updateState({ isOperationInProgress }, true)
+      }),
     ]
     return () => subscriptions.map((s) => s.dispose())
   },
   render: ({ injector, getState, updateState }) => {
-    const { error, username, password } = getState()
+    const { username, password } = getState()
     const sessinService = injector.getInstance(SessionService)
 
     return (
@@ -99,13 +97,6 @@ export const Login = Shade<
               style={{
                 padding: '1em 0',
               }}>
-              {error ? (
-                <div className="login-error" style={{ color: colors.error.main, fontSize: '12px' }}>
-                  {error}
-                </div>
-              ) : (
-                <div />
-              )}
               <Button
                 style={{ width: '100%' }}
                 disabled={getState().isOperationInProgress}
@@ -139,12 +130,7 @@ export const Login = Shade<
                 type="button"
                 title="Google"
                 onclick={async () => {
-                  try {
-                    await injector.getInstance(GoogleOauthProvider).login()
-                  } catch (e) {
-                    const errorMessage = await getErrorMessage(e)
-                    updateState({ error: errorMessage })
-                  }
+                  await injector.getInstance(GoogleOauthProvider).login()
                 }}>
                 Google
               </Button>

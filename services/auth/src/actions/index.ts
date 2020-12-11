@@ -1,3 +1,4 @@
+export * from './accept-terms'
 export * from './attach-github-account'
 export * from './attach-google-account'
 export * from './change-password.action'
