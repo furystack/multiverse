@@ -103,6 +103,6 @@ export const serviceList: Array<ServiceDescription<typeof serviceNames[number]>>
     icon: { type: 'flaticon-essential', name: '263-notepad.svg' },
     description: 'List of the available dashboards',
     url: '/dashboard/list',
-    requiredRoles: [],
+    requiredRoles: ['terms-accepted'],
   },
 ]
