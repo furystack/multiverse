@@ -1,10 +1,11 @@
 import { Shade, createComponent, LazyLoad } from '@furystack/shades'
-import { Tabs, Input } from '@furystack/shades-common-components'
+import { Tabs, Input, Paper, NotyService } from '@furystack/shades-common-components'
 import { auth } from '@common/models'
 import { AuthApiService, SessionService } from '@common/frontend-utils'
 import { MemberList } from '@common/components'
 import { Init } from '../init'
 import { GenericErrorPage } from '../generic-error'
+import { TransferOwnership } from '../../components/transfer-ownership'
 
 export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }>({
   shadowDomName: 'shade-organization-details-page',
@@ -19,106 +20,176 @@ export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }
         ? true
         : false
     return (
-      <Tabs
-        style={{ background: 'rgba(128,128,128,0.03)', height: '100%', padding: '3em' }}
-        tabs={[
-          {
-            header: <div>General info</div>,
-            component: (
-              <div>
-                <Input type="text" readOnly={!canEdit} value={organization?.name} labelTitle="Organization name" />
-                <textarea>{JSON.stringify(organization, undefined, 2)}</textarea>
-              </div>
-            ),
-          },
-          {
-            header: <div>Admins</div>,
-            component: (
-              <LazyLoad
-                loader={<Init message="Loading Admins..." />}
-                component={async () => {
-                  const users = await injector.getInstance(AuthApiService).call({
-                    method: 'GET',
-                    action: '/profiles',
-                    query: { findOptions: { filter: { username: { $in: [...props.organization.adminNames] } } } },
-                  })
-                  return (
-                    <MemberList
-                      addLabel="Add another Admin"
-                      users={users.entries as auth.Profile[]}
-                      canEdit={canEdit}
-                      onAddMember={(member) => {
-                        injector.getInstance(AuthApiService).call({
-                          method: 'POST',
-                          action: '/organization/:organizationName/addAdmin',
-                          url: { organizationName: props.organization.name },
-                          body: { username: member.username },
-                        })
-                      }}
-                      onRemoveMember={(member) => {
-                        injector.getInstance(AuthApiService).call({
-                          method: 'POST',
-                          action: '/organization/:organizationName/removeAdmin',
-                          url: { organizationName: props.organization.name },
-                          body: { username: member.username },
-                        })
-                      }}
-                    />
-                  )
-                }}
-                error={(error, retry) => (
-                  <GenericErrorPage subtitle="Failed to load the Admins" error={error} retry={retry} />
-                )}
-              />
-            ),
-          },
-          {
-            header: <div>Members</div>,
-            component: (
-              <LazyLoad
-                loader={<Init message="Loading Members..." />}
-                component={async () => {
-                  const users = await injector.getInstance(AuthApiService).call({
-                    method: 'GET',
-                    action: '/profiles',
-                    query: { findOptions: { filter: { username: { $in: [...props.organization.memberNames] } } } },
-                  })
-                  return (
-                    <MemberList
-                      addLabel="Add another Member"
-                      users={users.entries as auth.Profile[]}
-                      canEdit={canEdit}
-                      onAddMember={(member) => {
-                        injector.getInstance(AuthApiService).call({
-                          method: 'POST',
-                          action: '/organization/:organizationName/addMember',
-                          url: { organizationName: props.organization.name },
-                          body: { username: member.username },
-                        })
-                      }}
-                      onRemoveMember={(member) => {
-                        injector.getInstance(AuthApiService).call({
-                          method: 'POST',
-                          action: '/organization/:organizationName/removeMember',
-                          url: { organizationName: props.organization.name },
-                          body: { username: member.username },
-                        })
-                      }}
-                    />
-                  )
-                }}
-                error={(error, retry) => (
-                  <GenericErrorPage subtitle="Failed to load the Admins" error={error} retry={retry} />
-                )}
-              />
-            ),
-          },
-          {
-            header: <div>Transfer Ownership</div>,
-            component: <div></div>,
-          },
-        ]}
-      />
+      <Paper
+        elevation={3}
+        style={{
+          maxHeight: 'calc(100% - 100px)',
+          margin: '0.5em 2em',
+        }}>
+        <Tabs
+          tabs={[
+            {
+              header: <div>General info</div>,
+              component: (
+                <div style={{ padding: '2em' }}>
+                  <Input type="text" readOnly={!canEdit} value={organization?.name} labelTitle="Name" />
+                  <Input type="text" readOnly={!canEdit} value={organization?.description} labelTitle="Description" />
+                  <h3>Admins</h3>
+                  <LazyLoad
+                    loader={<Init message="Loading Admins..." />}
+                    component={async () => {
+                      const users = await injector.getInstance(AuthApiService).call({
+                        method: 'GET',
+                        action: '/profiles',
+                        query: { findOptions: { filter: { username: { $in: [...props.organization.adminNames] } } } },
+                      })
+                      return (
+                        <MemberList
+                          addLabel="Add another Admin"
+                          users={users.entries as auth.Profile[]}
+                          canEdit={canEdit}
+                          onAddMember={async (member) => {
+                            try {
+                              await injector.getInstance(AuthApiService).call({
+                                method: 'POST',
+                                action: '/organization/:organizationName/addAdmin',
+                                url: { organizationName: props.organization.name },
+                                body: { username: member.username },
+                              })
+                              injector.getInstance(NotyService).addNoty({
+                                type: 'success',
+                                title: 'Success',
+                                body: `User '${member.username}' added as Admin`,
+                              })
+                            } catch (error) {
+                              injector.getInstance(NotyService).addNoty({
+                                type: 'error',
+                                title: 'Error',
+                                body: `Failed to add admin '${member.username}'`,
+                              })
+                            }
+                          }}
+                          onRemoveMember={async (member) => {
+                            try {
+                              await injector.getInstance(AuthApiService).call({
+                                method: 'POST',
+                                action: '/organization/:organizationName/removeAdmin',
+                                url: { organizationName: props.organization.name },
+                                body: { username: member.username },
+                              })
+                              injector.getInstance(NotyService).addNoty({
+                                type: 'success',
+                                title: 'Success',
+                                body: `User '${member.username}' removed from Admins`,
+                              })
+                            } catch (error) {
+                              injector.getInstance(NotyService).addNoty({
+                                type: 'error',
+                                title: 'Error',
+                                body: `Failed to remove admin '${member.username}'`,
+                              })
+                            }
+                          }}
+                        />
+                      )
+                    }}
+                    error={(error, retry) => (
+                      <GenericErrorPage subtitle="Failed to load the Admins" error={error} retry={retry} />
+                    )}
+                  />
+                  <h3>Members</h3>
+                  <LazyLoad
+                    loader={<Init message="Loading Members..." />}
+                    component={async () => {
+                      const users = await injector.getInstance(AuthApiService).call({
+                        method: 'GET',
+                        action: '/profiles',
+                        query: { findOptions: { filter: { username: { $in: [...props.organization.memberNames] } } } },
+                      })
+                      return (
+                        <MemberList
+                          addLabel="Add another Member"
+                          users={users.entries as auth.Profile[]}
+                          canEdit={canEdit}
+                          onAddMember={async (member) => {
+                            try {
+                              await injector.getInstance(AuthApiService).call({
+                                method: 'POST',
+                                action: '/organization/:organizationName/addMember',
+                                url: { organizationName: props.organization.name },
+                                body: { username: member.username },
+                              })
+                              injector.getInstance(NotyService).addNoty({
+                                type: 'success',
+                                title: 'Success',
+                                body: `User '${member.username}' added as Member`,
+                              })
+                            } catch (error) {
+                              injector.getInstance(NotyService).addNoty({
+                                type: 'error',
+                                title: 'Error',
+                                body: `Failed to add member '${member.username}'`,
+                              })
+                            }
+                          }}
+                          onRemoveMember={async (member) => {
+                            try {
+                              await injector.getInstance(AuthApiService).call({
+                                method: 'POST',
+                                action: '/organization/:organizationName/removeMember',
+                                url: { organizationName: props.organization.name },
+                                body: { username: member.username },
+                              })
+                              injector.getInstance(NotyService).addNoty({
+                                type: 'success',
+                                title: 'Success',
+                                body: `User '${member.username}' removed from the member list`,
+                              })
+                            } catch (error) {
+                              injector.getInstance(NotyService).addNoty({
+                                type: 'error',
+                                title: 'Error',
+                                body: `Failed to remove member '${member.username}'`,
+                              })
+                            }
+                          }}
+                        />
+                      )
+                    }}
+                    error={(error, retry) => (
+                      <GenericErrorPage subtitle="Failed to load the Admins" error={error} retry={retry} />
+                    )}
+                  />
+                </div>
+              ),
+            },
+
+            {
+              header: <div>Transfer Ownership</div>,
+              component: (
+                <div>
+                  <TransferOwnership
+                    name={organization.name}
+                    currentOwner={organization.owner}
+                    onTransfer={async (newOwner) => {
+                      await injector.getInstance(AuthApiService).call({
+                        method: 'PATCH',
+                        action: '/organizations/:organizationName',
+                        url: {
+                          organizationName: organization.name,
+                        },
+                        body: {
+                          owner: newOwner,
+                        },
+                      })
+                    }}
+                  />
+                </div>
+              ),
+            },
+          ]}
+        />
+      </Paper>
     )
   },
 })

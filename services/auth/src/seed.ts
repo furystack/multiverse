@@ -2,7 +2,6 @@ import { PhysicalStore, StoreManager, FindOptions } from '@furystack/core'
 import { HttpAuthenticationSettings } from '@furystack/rest-service'
 import { Injector } from '@furystack/inject'
 import { auth } from '@common/models'
-import { roles } from '@common/models/src/auth'
 import { v4 } from 'uuid'
 import { setupStores } from './setup-stores'
 
@@ -44,7 +43,7 @@ export const createUser = async ({
 }: {
   email: string
   password: string
-  userRoles: Array<typeof roles[number]>
+  userRoles: Array<typeof auth.roles[number]>
   i: Injector
   displayName?: string
 }) => {

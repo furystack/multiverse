@@ -6,7 +6,7 @@ import { Init } from '../init'
 import { GenericErrorPage } from '../generic-error'
 import { GenericMonacoEditor } from '../../components/editors/generic-monaco-editor'
 import { LibraryList } from './library-list'
-import { NewMovieLibrary } from './new-movie-library'
+import { AddMovieLibrary } from './add-movie-library'
 import { MovieList } from './movie-list'
 import { Watch } from './watch'
 import { EditMovie } from './edit-movie'
@@ -44,7 +44,7 @@ export const MoviesPage = Shade({
               />
             ),
           },
-          { url: '/movies/add-new-movie-library', component: () => <NewMovieLibrary /> },
+          { url: '/movies/add-new-movie-library', component: () => <AddMovieLibrary /> },
           {
             url: '/movies/encoding-tasks',
             component: () => (

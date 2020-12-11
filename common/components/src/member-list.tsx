@@ -1,8 +1,7 @@
 import { auth } from '@common/models'
-import { AuthApiService } from '@common/frontend-utils'
 import { Shade, createComponent } from '@furystack/shades'
-import { Suggest } from '@furystack/shades-common-components'
 import { Avatar } from './avatar'
+import { SuggestUser } from './suggest-user'
 
 export type MemberListProps = { users: auth.Profile[]; addLabel: string } & (
   | {
@@ -24,62 +23,52 @@ export const MemberList = Shade<MemberListProps, MemberListState>({
   getInitialState: ({ props }) => ({
     users: props.users,
   }),
-  render: ({ props, getState, updateState, injector }) => {
+  render: ({ props, getState, updateState }) => {
     return (
-      <div>
-        <div style={{}}>
-          {getState().users.map((u) => (
-            <div style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
-              <Avatar userName={u.username} style={{ width: '32px', height: '32px', marginRight: '2em' }} />
-              {u.displayName}
-              {props.canEdit ? (
-                <span
-                  style={{ cursor: 'pointer', marginLeft: '1.5em' }}
-                  title="Remove"
-                  onclick={() => {
-                    props.onRemoveMember(u)
-                    updateState({ users: getState().users.filter((usr) => usr.username !== u.username) })
-                  }}>
-                  ❌
-                </span>
-              ) : null}
-            </div>
-          ))}
-        </div>
+      <div style={{ display: 'flex', background: 'rgba(128,128,128,0.2)', flexWrap: 'wrap', position: 'relative' }}>
+        {getState().users.map((u) => (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '2px',
+              margin: '4px',
+              fontSize: '12px',
+              background: 'rgba(0,0,0,0.2)',
+              border: '1px solid rgba(0,0,0,0.3)',
+              borderRadius: '25px',
+              boxShadow: '1px 3px 3px rgba(0,0,0,0.1)',
+            }}>
+            <Avatar
+              userName={u.username}
+              style={{ width: '28px', height: '28px', marginRight: '0.4em', lineHeight: '100%' }}
+            />
+            {u.displayName}
+            {props.canEdit ? (
+              <span
+                style={{ cursor: 'pointer', margin: '0.4em' }}
+                title="Remove"
+                onclick={() => {
+                  props.onRemoveMember(u)
+                  updateState({ users: getState().users.filter((usr) => usr.username !== u.username) })
+                }}>
+                ❌
+              </span>
+            ) : null}
+          </div>
+        ))}
         {props.canEdit ? (
-          <Suggest<auth.Profile>
-            defaultPrefix="+"
-            onSelectSuggestion={(user) => {
-              updateState({ users: [...getState().users, user] })
+          <SuggestUser
+            style={{
+              overflow: 'visible',
+              flexGrow: '1',
+            }}
+            prefix=""
+            onSelectUser={(user) => {
               props.onAddMember(user)
+              updateState({ users: [...getState().users, user] })
             }}
-            getEntries={async (term) => {
-              const users = await injector.getInstance(AuthApiService).call({
-                method: 'GET',
-                action: '/profiles',
-                query: {
-                  findOptions: {
-                    top: 10,
-                    filter: { $or: [{ username: { $regex: term } }, { displayName: { $regex: term } }] },
-                  },
-                },
-              })
-              return users.entries.filter((user) =>
-                getState().users.every((current) => current.username !== user.username),
-              ) as auth.Profile[]
-            }}
-            getSuggestionEntry={(u) => ({
-              score: 1,
-              element: (
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <Avatar userName={u.username} style={{ width: '48px', height: '48px' }} />
-                  <div style={{ marginLeft: '2em' }}>
-                    <strong>{u.displayName}</strong> <br />
-                    {u.username}
-                  </div>
-                </div>
-              ),
-            })}
+            exclude={(user) => (getState().users.find((usr) => usr.username === user.username) ? true : false)}
           />
         ) : null}
       </div>
