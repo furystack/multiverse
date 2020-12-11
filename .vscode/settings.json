@@ -7,6 +7,6 @@
     "**/.git/subtree-cache/**": true,
     "**/node_modules/*/**": true
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnPaste": true
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.formatOnPaste": true,
 }
