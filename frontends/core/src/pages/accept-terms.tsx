@@ -32,8 +32,8 @@ export const AcceptTermsPage = Shade({
         </div>
         <div style={{ display: 'flex', margin: '2em', justifyContent: 'center', alignItems: 'center' }}>
           <Button
-            style={{ padding: '2em 0' }}
-            variant="outlined"
+            style={{ padding: '1em 2em' }}
+            variant="contained"
             color="primary"
             onclick={() => {
               injector.getInstance(SessionService).acceptTerms()
