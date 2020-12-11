@@ -6,7 +6,6 @@ describe('Core Application', () => {
   const usernameInputSelector = 'shade-login input[type=text][title=username]'
   const passwordFieldSelector = 'shade-login input[type=password]'
   const loginButtonSelector = 'shade-login button[type=submit]'
-  const loginErrorSelector = 'shade-login div.login-error'
 
   describe('Login with username / password', () => {
     it('Should show proper error message for invalid credentials', () => {
@@ -15,21 +14,18 @@ describe('Core Application', () => {
       cy.get(passwordFieldSelector).type('wrongPassword').blur()
       cy.get(loginButtonSelector).click()
       expectAndDismissNotification(cy, 'Please check your credentials', 'warning')
-      cy.get(loginErrorSelector).should('be.visible').contains('Login Failed')
     })
 
     it('Should redirect to Accept Terms when not accepted', () => {
       cy.visit('/')
       cy.get(usernameInputSelector).type('testTermsNotAcceptedUser@gmail.com').blur()
       cy.get(passwordFieldSelector).type('password').blur()
+
       cy.get(loginButtonSelector).click()
+      expectAndDismissNotification(cy, 'Welcome back ;)', 'success')
       cy.get('welcome-page multiverse-dashboard > div').should('not.exist')
 
-      cy.get('accept-terms-page')
-        .should('be.visible')
-        .within(() => {
-          cy.contains('accept').scrollIntoView().click()
-        })
+      cy.get('button').contains('accept', { matchCase: false }).scrollIntoView().click()
       expectAndDismissNotification(cy, 'You have accepted the terms', 'success')
       cy.get('welcome-page multiverse-dashboard > div').should('be.visible')
     })

@@ -11,6 +11,7 @@ export const AcceptTermsPage = Shade({
     return (
       <div>
         <div
+          className="terms"
           style={{
             display: 'flex',
             flexDirection: 'column',

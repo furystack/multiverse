@@ -31,9 +31,9 @@ export const Avatar = Shade<AvatarProps>({
                 <div
                   style={{
                     fontVariant: 'all-petite-caps',
-                    fontSize: '2em',
-                    height: 'calc(100% + 7px)',
-                    lineHeight: 'calc(100% + 7px)',
+                    fontSize: '2.5em',
+                    height: '100%',
+                    lineHeight: '100%',
                     cursor: 'default',
                     userSelect: 'none',
                   }}>
