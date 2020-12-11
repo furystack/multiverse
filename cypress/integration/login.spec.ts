@@ -34,7 +34,7 @@ describe('Core Application', () => {
       cy.get('welcome-page multiverse-dashboard > div').should('be.visible')
     })
 
-    it.only('Login and logout roundtrip', () => {
+    it('Login and logout roundtrip', () => {
       cy.visit('/')
       cy.get(loginFormSelector).should('be.visible')
       cy.get(usernameInputSelector).focus()
