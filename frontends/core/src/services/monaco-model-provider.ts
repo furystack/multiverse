@@ -1,6 +1,6 @@
 import { authSchema, dashboardSchema, diagSchema, mediaSchema, xpenseSchema } from '@common/models'
 import { Injectable } from '@furystack/inject'
-import * as monaco from 'monaco-editor'
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 
 export type SchemaNames = keyof MonacoModelProvider['schemas']
 export type EntityNames<TSchema extends SchemaNames> = keyof MonacoModelProvider['schemas'][TSchema]['definitions']

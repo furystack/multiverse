@@ -38,7 +38,7 @@ module.exports = {
     }),
     new RelativeCiAgentWebpackPlugin(),
     new MonacoWebpackPlugin({
-      // languages: ['json'],
+      languages: ['json'],
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: 'static', to: 'static' }],
