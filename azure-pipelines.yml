@@ -18,14 +18,24 @@ pool:
 
 jobs:
   - job: buildAndTest
-    timeoutInMinutes: 10
+    variables:
+      YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+    timeoutInMinutes: "15"
     displayName: Build and test
     steps:
       - task: NodeTool@0
         inputs:
           versionSpec: '14.x'
         displayName: 'Install Node.js'
-      - script: yarn install
+      - task: Cache@2
+        inputs:
+          key: 'yarn | "$(Agent.OS)" | yarn.lock'
+          restoreKeys: |
+            yarn | "$(Agent.OS)"
+            yarn
+          path: $(YARN_CACHE_FOLDER)
+        displayName: Cache Yarn packages
+      - script: yarn install --frozen-lockfile
         displayName: 'Yarn install'
       - script: yarn lint
         displayName: 'Yarn Lint'
@@ -49,7 +59,7 @@ jobs:
           codeCoverageTool: Cobertura
           summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/*coverage.xml'
           reportDirectory: '$(System.DefaultWorkingDirectory)/coverage'
-      - task: PublishTestResults@2
+      - task: PublishTestResults@1
         displayName: Publish test results
         condition: succeededOrFailed()
         inputs:
@@ -58,7 +68,7 @@ jobs:
 
       - script: yarn test:cypress
         displayName: 'Cypress tests'
-      - task: PublishTestResults@2
+      - task: PublishTestResults@1
         displayName: Publish test results
         condition: always()
         inputs:
@@ -68,20 +78,22 @@ jobs:
         displayName: Publish Cypress videos
         condition: failed()
         inputs:
-          pathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/videos'
-          artifactName: cypress_videos
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/videos'
+          ArtifactName: cypress_videos
       - task: PublishBuildArtifacts@1
         displayName: Publish Cypress snapshot images
         condition: failed()
         inputs:
-          pathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/integration/__image_snapshots__'
-          artifactName: cypress_snapshots
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/integration/__image_snapshots__'
+          ArtifactName: cypress_snapshots
 
   - deployment: deploy
     displayName: Deploy images to Docker HUB
+    variables:
+      YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
     dependsOn: buildAndTest
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    timeoutInMinutes: 60
+    timeoutInMinutes: "60"
     environment:
       name: DockerHub
     strategy:
@@ -93,7 +105,15 @@ jobs:
               inputs:
                 versionSpec: '14.x'
               displayName: 'Install Node.js'
-            - script: yarn install
+            - task: Cache@2
+              inputs:
+                key: 'yarn | "$(Agent.OS)" | yarn.lock'
+                restoreKeys: |
+                  yarn | "$(Agent.OS)"
+                  yarn
+                path: $(YARN_CACHE_FOLDER)
+              displayName: Cache Yarn packages
+            - script: yarn install --frozen-lockfile
               displayName: 'Yarn install'
             - script: yarn build
               displayName: 'Yarn build'
