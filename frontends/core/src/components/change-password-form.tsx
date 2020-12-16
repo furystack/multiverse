@@ -3,7 +3,7 @@ import { Input, Button, NotyService } from '@furystack/shades-common-components'
 import { AuthApiService } from '@common/frontend-utils'
 
 export const ChangePasswordForm = Shade<
-  { style?: PartialElement<CSSStyleDeclaration>; showCurrentPassword?: boolean; onUpdated?: () => void },
+  { style?: Partial<CSSStyleDeclaration>; showCurrentPassword?: boolean; onUpdated?: () => void },
   { currentPassword: string; newPassword: string; confirmNewPassword: string }
 >({
   shadowDomName: 'shade-change-password-form',
