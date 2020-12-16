@@ -20,7 +20,7 @@ jobs:
   - job: buildAndTest
     variables:
       YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
-    timeoutInMinutes: "10"
+    timeoutInMinutes: "15"
     displayName: Build and test
     steps:
       - task: NodeTool@0
