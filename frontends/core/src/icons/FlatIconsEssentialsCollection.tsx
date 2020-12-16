@@ -4,7 +4,7 @@ import { createComponent, PartialElement, Shade } from '@furystack/shades'
 export const FlatIconsEssentialsCollection = Shade<
   {
     icon: typeof FlatIconEssentialNames[number]
-    style?: PartialElement<CSSStyleDeclaration>
+    style?: Partial<CSSStyleDeclaration>
   } & PartialElement<HTMLImageElement>
 >({
   render: ({ props }) => {
