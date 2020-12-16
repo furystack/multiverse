@@ -1,4 +1,4 @@
-import { Shade, createComponent, PartialElement } from '@furystack/shades'
+import { Shade, createComponent } from '@furystack/shades'
 import { Input, Button, NotyService } from '@furystack/shades-common-components'
 import { AuthApiService } from '@common/frontend-utils'
 
