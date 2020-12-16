@@ -32,7 +32,10 @@ const CurrentUserMenuItem = Shade<{ title: string; icon: common.Icon; onclick: (
   },
 })
 
-export const CurrentUserMenu = Shade<{}, { currentUser?: auth.User; isOpened: ObservableValue<boolean> }>({
+export const CurrentUserMenu = Shade<
+  {},
+  { currentUser?: Omit<auth.User, 'password'>; isOpened: ObservableValue<boolean> }
+>({
   shadowDomName: 'shade-current-user-menu',
   getInitialState: () => ({ currentUser: undefined, isOpened: new ObservableValue<boolean>(false) }),
   constructed: ({ injector, updateState, getState, element }) => {
