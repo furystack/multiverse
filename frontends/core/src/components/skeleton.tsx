@@ -1,9 +1,9 @@
-import { createComponent, PartialElement, Shade } from '@furystack/shades'
+import { createComponent, Shade } from '@furystack/shades'
 import large from '../animations/loading-skeleton-large.json'
 import list from '../animations/loading-skeleton-list.json'
 import twoRows from '../animations/loading-skeleton-two-rows.json'
 
-export const Skeleton = Shade<{ variant: 'large' | 'list' | 'two-rows' } & PartialElement<HTMLElement>>({
+export const Skeleton = Shade<{ variant: 'large' | 'list' | 'two-rows' } & Partial<HTMLElement>>({
   render: ({ props }) => {
     const src =
       props.variant === 'large'
