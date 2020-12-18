@@ -8,7 +8,8 @@
     "build:stats": "webpack --config webpack.prod.js --profile --json > stats.json",
     "start": "webpack serve --config webpack.dev.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bundle-analyzer": "webpack --config webpack.bundle-analyzer.js"
+    "bundle-analyzer": "webpack --config webpack.bundle-analyzer.js",
+    "createEnv": "node create-env.mjs"
   },
   "author": "",
   "license": "ISC",

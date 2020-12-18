@@ -3,19 +3,44 @@ import 'reflect-metadata'
 import { createComponent, initializeShadeRoot } from '@furystack/shades'
 import { VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
-import '@common/frontend-utils'
+import { EnvironmentService, SiteRoots } from '@common/frontend-utils'
 import { Layout } from './components/layout'
 import './services/google-auth-provider'
 import '@furystack/rest'
 
+declare global {
+  interface Window {
+    __multiverse_api_root?: string
+    __multiverse_site_roots?: SiteRoots
+  }
+}
+
+const apiRoot = window.__multiverse_api_root || window.location.origin
+const defaultSiteRoots: SiteRoots = {
+  auth: apiRoot,
+  dashboard: apiRoot,
+  diag: apiRoot,
+  media: apiRoot,
+  xpense: apiRoot,
+}
+
 const shadeInjector = new Injector()
 
-export const environmentOptions = {
-  nodeEnv: process.env.NODE_ENV as 'development' | 'production',
-  debug: Boolean(process.env.DEBUG),
-  appVersion: process.env.APP_VERSION as string,
-  buildDate: new Date(process.env.BUILD_DATE as string),
-}
+shadeInjector.setExplicitInstance(
+  new EnvironmentService({
+    nodeEnv: process.env.NODE_ENV as 'development' | 'production',
+    debug: Boolean(process.env.DEBUG),
+    appVersion: process.env.APP_VERSION as string,
+    buildDate: new Date(process.env.BUILD_DATE as string),
+    apiRoot,
+    siteRoots: {
+      ...defaultSiteRoots,
+      ...window.__multiverse_site_roots,
+    },
+  }),
+)
+
+export const environmentOptions = {}
 
 shadeInjector.useLogging(VerboseConsoleLogger)
 
