@@ -2,7 +2,7 @@ import { join } from 'path'
 import { writeFile } from 'fs/promises'
 
 const exec = async () => {
-  const targetPath = '/var/www/multiverse.my.to/public/static/env.js='
+  const targetPath = '/var/www/multiverse.my.to/public/static/env.js'
 
   const __multiverse_site_roots = {
     ...(process.env.API_ROOT_AUTH ? { auth: process.env.API_ROOT_AUTH } : {}),
