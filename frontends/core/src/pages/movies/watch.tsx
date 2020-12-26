@@ -5,8 +5,6 @@ import { sites } from '@common/config'
 import { MediaApiService } from '@common/frontend-utils'
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
-import 'videojs-contrib-quality-levels'
-import 'videojs-http-source-selector'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -48,11 +46,6 @@ export const Watch = Shade<
         nativeAudioTracks: formats && formats.length ? false : undefined,
         dash: {
           setXHRWithCredentialsForType: [undefined, true],
-        },
-      },
-      plugins: {
-        httpSourceSelector: {
-          default: 'auto',
         },
       },
       controls: true,
