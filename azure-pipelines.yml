@@ -39,6 +39,10 @@ jobs:
         displayName: 'Yarn install'
       - script: yarn lint
         displayName: 'Yarn Lint'
+      - script: yarn build
+        displayName: 'Yarn build'
+        env:
+          RELATIVE_CI_SLUG: furystack/multiverse
       - script: yarn dockerize
         displayName: 'Create Docker images'
       - task: DockerCompose@0
