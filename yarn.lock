@@ -1519,20 +1519,6 @@
     mux.js "5.6.7"
     video.js "^6 || ^7"
 
-"@videojs/http-streaming@2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@videojs/http-streaming/-/http-streaming-2.3.0.tgz#9017b34a78ad46cf0baaef7632ee291d8bce22ce"
-  integrity sha512-nMEnku3BSGIrB4dpo4LWCbDH9NqnGhY1cop0bn9Kwy63VJKG5B3d2mnS4N0OibNpY6I+mJKTqJLSRW9KYBs2TA==
-  dependencies:
-    "@babel/runtime" "^7.5.5"
-    "@videojs/vhs-utils" "^2.2.1"
-    aes-decrypter "3.1.0"
-    global "^4.3.2"
-    m3u8-parser "4.5.0"
-    mpd-parser "0.14.0"
-    mux.js "5.6.7"
-    video.js "^6 || ^7"
-
 "@videojs/vhs-utils@^2.2.1":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@videojs/vhs-utils/-/vhs-utils-2.3.0.tgz#490a3a00dfc1b51d85d5dcf8f8361e2d4c4d1440"
@@ -9296,20 +9282,6 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
-
-video.js@7.11.0:
-  version "7.11.0"
-  resolved "https://registry.yarnpkg.com/video.js/-/video.js-7.11.0.tgz#e20747d890716085e7255a90d73c00f32324a224"
-  integrity sha512-N10MQilHvCsrFa1hkbmTiLeyTEaJe70aIHX+WyafHtv+skBStCRoAfr3PFW9pDKxsXoBAI5NrLpocK/MT/SQhw==
-  dependencies:
-    "@babel/runtime" "^7.9.2"
-    "@videojs/http-streaming" "2.3.0"
-    "@videojs/xhr" "2.5.1"
-    global "4.3.2"
-    keycode "^2.2.0"
-    safe-json-parse "4.0.0"
-    videojs-font "3.2.0"
-    videojs-vtt.js "^0.15.2"
 
 "video.js@^6 || ^7", video.js@^7.0.0:
   version "7.10.2"
