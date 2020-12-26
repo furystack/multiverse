@@ -23,7 +23,6 @@
   "optionalDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.11.0",
     "@typescript-eslint/parser": "^4.11.0",
-    "concurrently": "^5.1.0",
     "cypress": "^6.2.0",
     "cypress-file-upload": "^4.1.1",
     "cypress-plugin-snapshots": "^1.4.4",
@@ -37,7 +36,6 @@
     "jest": "^26.6.3",
     "jest-junit": "^12.0.0",
     "lint-staged": "^10.5.3",
-    "pm2": "^4.5.1",
     "prettier": "^2.2.1"
   },
   "devDependencies": {
@@ -67,10 +65,8 @@
     "build:common": "tsc -b common",
     "build:frontends": "yarn workspace @frontend/core build",
     "build": "yarn build:common && yarn build:workers && yarn build:services && yarn build:frontends",
-    "start:pm2": "yarn build:common && yarn build:workers && yarn build:services && yarn pm2 start ecosystem.config.js",
     "test:unit": "jest --verbose",
-    "test:cypress": "yarn seed && DISABLE_TYPECHECKS=true yarn start:pm2 && concurrently --kill-others \"yarn workspace @frontend/core start\" \"yarn cypress run\" --success first ",
-    "start": "yarn build:common && yarn build:workers && yarn build:services && concurrently --kill-others \"yarn workspace @worker/media-encoder start\" \"yarn workspace @service/auth start\" \"yarn workspace @service/diag start\" \"yarn workspace @service/media start\"  \"yarn workspace @service/xpense start\" \"npx serve -n -p 8080 -s ./frontends/core/bundle/\"",
+    "test:cypress": "yarn seed && yarn cypress run",
     "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache",
     "seed": "yarn workspace @service/auth seed",
@@ -88,7 +84,7 @@
     "docker:media": "docker build . --file ./media.Dockerfile --tag furystack/multiverse-media:latest",
     "docker:media-encoder": "docker build . --file ./media-encoder.Dockerfile --tag furystack/multiverse-media-encoder:latest",
     "docker:xpense": "docker build . --file ./xpense.Dockerfile --tag furystack/multiverse-xpense:latest",
-    "dockerize": "yarn docker:base && yarn docker:auth && yarn docker:diag && yarn docker:dashboard && yarn docker:media && yarn docker_xpense"
+    "dockerize": "yarn docker:base && yarn docker:auth && yarn docker:diag && yarn docker:dashboard && yarn docker:media && yarn docker:xpense && yarn docker:frontend-core"
   },
   "jest-junit": {
     "suiteName": "FuryStack Multiverse Jest tests",
