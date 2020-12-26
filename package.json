@@ -23,7 +23,6 @@
   "optionalDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.11.0",
     "@typescript-eslint/parser": "^4.11.0",
-    "concurrently": "^5.1.0",
     "cypress": "^6.2.0",
     "cypress-file-upload": "^4.1.1",
     "cypress-plugin-snapshots": "^1.4.4",
@@ -67,7 +66,7 @@
     "build:frontends": "yarn workspace @frontend/core build",
     "build": "yarn build:common && yarn build:workers && yarn build:services && yarn build:frontends",
     "test:unit": "jest --verbose",
-    "test:cypress": "yarn seed && concurrently --kill-others \"yarn start\" \"yarn cypress run\" --success first ",
+    "test:cypress": "yarn seed && yarn cypress run",
     "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache",
     "seed": "yarn workspace @service/auth seed",
