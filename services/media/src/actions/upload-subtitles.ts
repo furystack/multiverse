@@ -50,11 +50,13 @@ export const UploadSubtitles: RequestAction<{ urlParams: { movieId: string; acce
 
   await Promise.all(
     files
-      .filter((f) => extname(f.name) === 'vtt')
+      .filter((f) => !(f instanceof Array) && extname(f.name) === 'vtt')
       .map(async (file) => {
-        await promises.copyFile(file.path, join(targetPath, file.name))
-        // Remove from temp
-        promises.unlink(file.path)
+        if (!(file instanceof Array)) {
+          await promises.copyFile(file.path, join(targetPath, file.name))
+          // Remove from temp
+          promises.unlink(file.path)
+        }
       }),
   )
 

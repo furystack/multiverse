@@ -42,6 +42,9 @@ export const UploadEncoded: RequestAction<{ urlParams: { movieId: string; access
   const { codec, mode } = parseResult.fields
 
   const file = parseResult.files.chunk
+  if (file instanceof Array) {
+    throw new RequestError('Multiple files are not supported', 400)
+  }
   if (file) {
     const targetPath = join(FileStores.encodedMedia, codec as string, mode as string, movie._id)
     const targetPathExists = await existsAsync(targetPath)
