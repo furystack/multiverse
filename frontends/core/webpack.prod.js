@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-// const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-// const { RelativeCiAgentWebpackPlugin } = require('@relative-ci/agent')
-// const CopyPlugin = require('copy-webpack-plugin')
+const { RelativeCiAgentWebpackPlugin } = require('@relative-ci/agent')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -52,6 +50,7 @@ module.exports = merge(common, {
         minifyURLs: true,
       },
     }),
+    new RelativeCiAgentWebpackPlugin(),
   ],
   module: {
     rules: [
