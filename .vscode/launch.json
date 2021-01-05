@@ -36,11 +36,7 @@
       "preLaunchTask": "npm: build:workers",
       "env": {
         // "ENABLE_NVENC": "true",
-        // "MEDIA_ENCODER_WORKER_TEMP": "d:\\temp"
-"RABBITMQ_HOST": "amqp://owgkzyil:Ju2HnjQHv9DLl09RGyjwRMW671BwMUOF@roedeer.rmq.cloudamqp.com/owgkzyil",
-"MEDIA_API_PATH": "http://multiverse.my.to/api/media",
-"ENABLE_NVENC": "true",
-"MEDIA_ENCODER_WORKER_TEMP": "d:\\temp\\MULTIVERSE_ENCODING_TEMP",
+        // "MEDIA_ENCODER_WORKER_TEMP": "d:\\temp\\MULTIVERSE_ENCODING_TEMP",
       }
     },
     {
