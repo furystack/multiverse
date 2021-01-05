@@ -19,6 +19,11 @@ export const UploadAvatar: RequestAction<{}> = async ({ injector, request }) => 
   )
 
   const file = parseResult.files.avatar
+
+  if (file instanceof Array) {
+    throw new RequestError('Multiple files are not supported', 400)
+  }
+
   if (!file) {
     throw new RequestError('No avatar file', 400)
   }
