@@ -20,7 +20,7 @@ export const attachShutdownHandler = (i: Injector) => {
           },
         })
       } else {
-        await logger.warning({ message: `Shutting down gracefully due '${reason}'` })
+        await logger.information({ message: `Shutting down gracefully due '${reason}'`, data: { code, reason, error } })
       }
       if (i.cachedSingletons.get(ServerManager)) {
         await i.getInstance(ServerManager).dispose()
