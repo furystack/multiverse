@@ -13,7 +13,7 @@ export interface PatchEntry {
 export const runPatches = async (options: { injector: Injector; patches: PatchEntry[] }) => {
   const { name: appName } = options.injector.getApplicationContext()
   const logger = options.injector.logger.withScope('runPatches')
-  await logger.information({ message: `Running patches for app '${appName}'...` })
+  await logger.verbose({ message: `Running patches for app '${appName}'...` })
   options.injector.setupStores((sm) =>
     sm.useMongoDb({
       model: diag.Patch,
