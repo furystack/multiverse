@@ -1,11 +1,11 @@
-import { Shade, createComponent } from '@furystack/shades'
+import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { media } from '@common/models'
 import { Fab } from '@furystack/shades-common-components'
 import { IconUrlWidget } from '../../components/dashboard/icon-url-widget'
 
 export const LibraryList = Shade<{ libraries: media.MovieLibrary[]; isMovieAdmin: boolean }>({
   shadowDomName: 'multiverse-library-list',
-  render: ({ props }) => {
+  render: ({ props, injector }) => {
     return (
       <div
         style={{
@@ -33,6 +33,7 @@ export const LibraryList = Shade<{ libraries: media.MovieLibrary[]; isMovieAdmin
               style={{ marginBottom: '5em', transform: 'scale(0.75)' }}
               onclick={() => {
                 window.history.pushState('', '', '/movies/encoding-tasks')
+                injector.getInstance(LocationService).updateState()
               }}>
               🔎
             </Fab>
@@ -41,6 +42,7 @@ export const LibraryList = Shade<{ libraries: media.MovieLibrary[]; isMovieAdmin
               title="Create new movie library"
               onclick={() => {
                 window.history.pushState('', '', '/movies/add-new-movie-library')
+                injector.getInstance(LocationService).updateState()
               }}>
               ➕
             </Fab>
