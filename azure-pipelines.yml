@@ -43,6 +43,7 @@ jobs:
         displayName: 'Yarn build'
         env:
           RELATIVE_CI_SLUG: furystack/multiverse
+          RELATIVE_CI_KEY: $(RELATIVE_CI_KEY)
       - script: yarn dockerize
         displayName: 'Create Docker images'
       - task: DockerCompose@0

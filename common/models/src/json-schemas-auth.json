@@ -171,7 +171,48 @@
           "type": "string"
         },
         "googleApiPayload": {
-          "$ref": "#/definitions/GoogleApiPayload"
+          "additionalProperties": false,
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "email_verified": {
+              "type": "boolean"
+            },
+            "family_name": {
+              "type": "string"
+            },
+            "given_name": {
+              "type": "string"
+            },
+            "iss": {
+              "type": "string"
+            },
+            "locale": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "picture": {
+              "type": "string"
+            },
+            "sub": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "iss",
+            "sub",
+            "email",
+            "email_verified",
+            "name",
+            "picture",
+            "given_name",
+            "family_name",
+            "locale"
+          ],
+          "type": "object"
         },
         "googleId": {
           "type": "number"
@@ -186,51 +227,6 @@
         "googleApiPayload",
         "username",
         "accountLinkDate"
-      ],
-      "type": "object"
-    },
-    "GoogleApiPayload": {
-      "additionalProperties": false,
-      "description": "Payload model from Google",
-      "properties": {
-        "email": {
-          "type": "string"
-        },
-        "email_verified": {
-          "type": "boolean"
-        },
-        "family_name": {
-          "type": "string"
-        },
-        "given_name": {
-          "type": "string"
-        },
-        "iss": {
-          "type": "string"
-        },
-        "locale": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "picture": {
-          "type": "string"
-        },
-        "sub": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "iss",
-        "sub",
-        "email",
-        "email_verified",
-        "name",
-        "picture",
-        "given_name",
-        "family_name",
-        "locale"
       ],
       "type": "object"
     },
