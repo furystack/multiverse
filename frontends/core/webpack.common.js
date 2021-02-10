@@ -36,7 +36,9 @@ module.exports = {
       ...sites.frontends,
       ...sites.services,
     }),
-    new RelativeCiAgentWebpackPlugin(),
+    new RelativeCiAgentWebpackPlugin({
+      key: process.env.RELATIVE_CI_KEY,
+    }),
     new MonacoWebpackPlugin({
       languages: ['json'],
     }),
