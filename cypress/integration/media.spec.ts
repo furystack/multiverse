@@ -15,7 +15,12 @@ describe('Movies', () => {
     cy.get('multiverse-library-list').should('be.visible')
   })
 
-  it.skip('Should create a Movie Library')
+  it.skip('Should create and browse a Movie Library', () => {
+    cy.visit('/')
+    login(cy, 'testMovieAdmin@gmail.com', 'password')
+    navigateFromUserMenu(cy, 'Movies')
+    cy.get('[title="Create new movie library"]').click()
+  })
 
   it.skip('Should watch movie libs for organization members')
 })
