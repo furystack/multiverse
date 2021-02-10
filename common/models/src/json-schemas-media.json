@@ -142,6 +142,9 @@
         "Director": {
           "type": "string"
         },
+        "Episode": {
+          "type": "string"
+        },
         "Genre": {
           "type": "string"
         },
@@ -192,6 +195,9 @@
         "Runtime": {
           "type": "string"
         },
+        "Season": {
+          "type": "string"
+        },
         "Title": {
           "type": "string"
         },
@@ -218,6 +224,9 @@
           "type": "string"
         },
         "imdbVotes": {
+          "type": "string"
+        },
+        "seriesID": {
           "type": "string"
         }
       },
@@ -745,6 +754,9 @@
         },
         "season": {
           "type": "number"
+        },
+        "seriesId": {
+          "type": "string"
         },
         "thumbnailImageUrl": {
           "type": "string"
