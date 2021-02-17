@@ -1,14 +1,13 @@
 import { promises, createReadStream } from 'fs'
-import { RequestAction, BypassResult, RequestError } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
 import { StoreManager, PartialResult } from '@furystack/core'
+import { RequestAction, BypassResult } from '@furystack/rest-service'
 
-export const StreamOriginalAction: RequestAction<{ urlParams: { movieId: string; accessToken?: string } }> = async ({
-  request,
-  response,
-  getUrlParams,
-  injector,
-}) => {
+export const StreamOriginalAction: RequestAction<{
+  url: { movieId: string; accessToken?: string }
+  result: unknown
+}> = async ({ request, response, getUrlParams, injector }) => {
   const { movieId, accessToken } = getUrlParams()
   let movie: PartialResult<media.Movie, 'path'> | undefined
 

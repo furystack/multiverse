@@ -1,10 +1,11 @@
-import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { auth } from '@common/models'
 import { PartialResult } from '@furystack/core'
+import { JsonResult, RequestAction } from '@furystack/rest-service'
 
 export const GetProfile: RequestAction<{
   result: PartialResult<auth.Profile, any>
-  urlParams: { username: string }
+  url: { username: string }
 }> = async ({ injector, getUrlParams }) => {
   const profileStore = injector.getDataSetFor(auth.Profile)
   const { username } = getUrlParams()

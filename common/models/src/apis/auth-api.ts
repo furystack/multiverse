@@ -1,11 +1,4 @@
-import {
-  RequestAction,
-  RestApi,
-  GetCollectionEndpoint,
-  PostEndpoint,
-  PatchEndpoint,
-  GetEntityEndpoint,
-} from '@furystack/rest'
+import { RestApi, GetCollectionEndpoint, PostEndpoint, PatchEndpoint, GetEntityEndpoint } from '@furystack/rest'
 import { PartialResult } from '@furystack/core'
 import { User } from '../auth/user'
 import { Profile } from '../auth/profile'
@@ -16,76 +9,76 @@ import { UserSettings } from '../auth'
 
 export interface AuthApi extends RestApi {
   GET: {
-    '/isAuthenticated': RequestAction<{ result: { isAuthenticated: boolean } }>
-    '/currentUser': RequestAction<{ result: User }>
-    '/loginProviderDetails': RequestAction<{
+    '/isAuthenticated': { result: { isAuthenticated: boolean } }
+    '/currentUser': { result: User }
+    '/loginProviderDetails': {
       result: { google?: GoogleAccount; github?: GithubAccount; hasPassword: boolean }
-    }>
-    '/profiles/:username': RequestAction<{ result: PartialResult<Profile, any>; urlParams: { username: string } }>
-    '/profiles/:username/avatar': RequestAction<{ result: any; urlParams: { username: string } }>
+    }
+    '/profiles/:username': { result: PartialResult<Profile, any>; url: { username: string } }
+    '/profiles/:username/avatar': { result: any; url: { username: string } }
     '/profiles': GetCollectionEndpoint<Profile>
     '/organizations': GetCollectionEndpoint<Organization>
-    '/organization/:organizationName': RequestAction<{
+    '/organization/:organizationName': {
       result: PartialResult<Organization, any>
-      urlParams: { organizationName: string }
-    }>
-    '/oauth-data': RequestAction<{
+      url: { organizationName: string }
+    }
+    '/oauth-data': {
       result: {
         googleClientId: string
         githubClientId: string
       }
-    }>
+    }
     '/users': GetCollectionEndpoint<User>
     '/users/:id': GetEntityEndpoint<User>
   }
   POST: {
-    '/login': RequestAction<{ body: { username: string; password: string }; result: Omit<User, 'password'> }>
-    '/register': RequestAction<{ body: { email: string; password: string }; result: Omit<User, 'password'> }>
-    '/googleLogin': RequestAction<{ body: { token: string }; result: Omit<User, 'password'> }>
-    '/googleRegister': RequestAction<{ body: { token: string }; result: Omit<User, 'password'> }>
-    '/attachGoogleAccount': RequestAction<{ body: { token: string }; result: Omit<User, 'password'> }>
-    '/detachGoogleAccount': RequestAction<{ result: Omit<User, 'password'> }>
-    '/githubLogin': RequestAction<{ body: { code: string; clientId: string }; result: Omit<User, 'password'> }>
-    '/githubRegister': RequestAction<{ body: { code: string; clientId: string }; result: Omit<User, 'password'> }>
-    '/attachGithubAccount': RequestAction<{ body: { code: string; clientId: string }; result: Omit<User, 'password'> }>
-    '/detachGithubAccount': RequestAction<{ result: Omit<User, 'password'> }>
-    '/logout': RequestAction<{}>
-    '/accept-terms': RequestAction<{}>
-    '/settings': RequestAction<{ body: UserSettings }>
-    '/avatar': RequestAction<{}>
-    '/changePassword': RequestAction<{
+    '/login': { body: { username: string; password: string }; result: Omit<User, 'password'> }
+    '/register': { body: { email: string; password: string }; result: Omit<User, 'password'> }
+    '/googleLogin': { body: { token: string }; result: Omit<User, 'password'> }
+    '/googleRegister': { body: { token: string }; result: Omit<User, 'password'> }
+    '/attachGoogleAccount': { body: { token: string }; result: Omit<User, 'password'> }
+    '/detachGoogleAccount': { result: Omit<User, 'password'> }
+    '/githubLogin': { body: { code: string; clientId: string }; result: Omit<User, 'password'> }
+    '/githubRegister': { body: { code: string; clientId: string }; result: Omit<User, 'password'> }
+    '/attachGithubAccount': { body: { code: string; clientId: string }; result: Omit<User, 'password'> }
+    '/detachGithubAccount': { result: Omit<User, 'password'> }
+    '/logout': { result: unknown }
+    '/accept-terms': { result: { success: boolean } }
+    '/settings': { body: UserSettings; result: UserSettings }
+    '/avatar': { result: { success: boolean } }
+    '/changePassword': {
       body: { currentPassword: string; newPassword: string }
       result: { success: boolean }
-    }>
+    }
 
     '/organizations': PostEndpoint<Organization>
-    '/organization/:organizationName/addMember': RequestAction<{
+    '/organization/:organizationName/addMember': {
       result: PartialResult<Organization, any>
       body: { username: string }
-      urlParams: { organizationName: string }
-    }>
-    '/organization/:organizationName/removeMember': RequestAction<{
+      url: { organizationName: string }
+    }
+    '/organization/:organizationName/removeMember': {
       result: PartialResult<Organization, any>
       body: { username: string }
-      urlParams: { organizationName: string }
-    }>
-    '/organization/:organizationName/addAdmin': RequestAction<{
+      url: { organizationName: string }
+    }
+    '/organization/:organizationName/addAdmin': {
       result: PartialResult<Organization, any>
       body: { username: string }
-      urlParams: { organizationName: string }
-    }>
-    '/organization/:organizationName/removeAdmin': RequestAction<{
+      url: { organizationName: string }
+    }
+    '/organization/:organizationName/removeAdmin': {
       result: PartialResult<Organization, any>
       body: { username: string }
-      urlParams: { organizationName: string }
-    }>
+      url: { organizationName: string }
+    }
   }
   PATCH: {
-    '/organizations/:organizationName': RequestAction<{
+    '/organizations/:organizationName': {
       body: Partial<Organization>
       result: Organization
-      urlParams: { organizationName: string }
-    }>
+      url: { organizationName: string }
+    }
     '/profiles/:id': PatchEndpoint<Profile>
     '/users/:id': PatchEndpoint<User>
   }

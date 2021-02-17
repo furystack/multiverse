@@ -1,12 +1,19 @@
 import { createReadStream, promises } from 'fs'
 import { join } from 'path'
-import { RequestAction, RequestError, BypassResult } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
 import { FileStores } from '@common/config'
 import { existsAsync } from '@common/service-utils'
+import { RequestAction, BypassResult } from '@furystack/rest-service'
 
 export const WatchStream: RequestAction<{
-  urlParams: { id: string; codec: media.EncodingType['codec']; mode: media.EncodingType['mode']; chunk?: string }
+  url: {
+    id: string
+    codec: media.EncodingType['codec']
+    mode: media.EncodingType['mode']
+    chunk?: string
+  }
+  result: unknown
 }> = async ({ getUrlParams, injector, request, response }) => {
   const params = getUrlParams()
   const chunk = params.chunk || 'dash.mpd'

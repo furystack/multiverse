@@ -95,6 +95,7 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
                     const shopping: xpense.Shopping = await api.call({
                       method: 'GET',
                       action: '/shoppings/:id',
+                      query: {},
                       url: { id: m.params.shoppingId },
                     })
                     return <ShoppingDetails shopping={shopping} />
@@ -118,6 +119,7 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
                     const replenishment: xpense.Replenishment = await api.call({
                       method: 'GET',
                       action: '/replenishments/:id',
+                      query: {},
                       url: { id: m.params.replenishmentId },
                     })
 
@@ -142,6 +144,7 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
                     const shop: xpense.Shop = await api.call({
                       method: 'GET',
                       action: '/shops/:id',
+                      query: {},
                       url: { id: m.params.shopId },
                     })
 
@@ -166,7 +169,8 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
                     const item: xpense.Item = await api.call({
                       method: 'GET',
                       action: '/items/:id',
-                      query: { id: m.params.itemId },
+                      url: { id: m.params.itemId },
+                      query: {},
                     })
                     return <ItemDetails account={account} item={item} />
                   }}

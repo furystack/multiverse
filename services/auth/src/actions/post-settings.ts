@@ -1,9 +1,10 @@
-import { RequestAction, JsonResult } from '@furystack/rest'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 import { auth } from '@common/models'
 import { deepMerge } from '@furystack/utils'
 
 export const PostSettings: RequestAction<{
   body: auth.UserSettings
+  result: auth.UserSettings
 }> = async ({ injector, getBody }) => {
   const user = await injector.getCurrentUser()
   const profiles = injector.getDataSetFor(auth.Profile)

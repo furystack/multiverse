@@ -1,10 +1,11 @@
-import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 import { fetchOmdbMetadata } from '../utils/fetch-omdb-metadata'
 import { getUniversalMetadataFromOmdb } from '../utils/get-universal-metadata-from-omdb'
 import { getFallbackMetadata } from '../utils/get-fallback-metadata'
 
-export const ReFetchMetadataAction: RequestAction<{ urlParams: { movieId: string } }> = async ({
+export const ReFetchMetadataAction: RequestAction<{ url: { movieId: string }; result: { success: boolean } }> = async ({
   getUrlParams,
   injector,
 }) => {

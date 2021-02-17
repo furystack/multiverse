@@ -1,8 +1,13 @@
-import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
+import { CreateResult } from '@furystack/core'
 import { createEncodingTaskForMovie } from '../utils/create-encoding-task-for-movie'
 
-export const ReEncodeAction: RequestAction<{ body: { movieId: string } }> = async ({ getBody, injector }) => {
+export const ReEncodeAction: RequestAction<{
+  body: { movieId: string }
+  result: { success: boolean; task?: CreateResult<media.EncodingTask> }
+}> = async ({ getBody, injector }) => {
   const { movieId } = await getBody()
   const dataSet = injector.getDataSetFor(media.Movie)
   const movie = await dataSet.get(injector, movieId)

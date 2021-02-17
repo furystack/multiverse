@@ -6,12 +6,5 @@
     "rootDir": "src",
     "composite": true
   },
-  "include": ["src"],
-  "files": [
-    "src/json-schemas-auth.json",
-    "src/json-schemas-dashboard.json",
-    "src/json-schemas-diag.json",
-    "src/json-schemas-media.json",
-    "src/json-schemas-xpense.json"
-  ]
+  "include": ["src", "src/*.json", "src/**/*.json"],
 }

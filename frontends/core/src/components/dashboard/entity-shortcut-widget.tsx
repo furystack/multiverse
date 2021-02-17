@@ -19,6 +19,7 @@ export const EntityShortcutWidget = Shade<dashboard.EntityShortcutWidget & { ind
               method: 'GET',
               action: '/boards/:id',
               url: { id: props.id },
+              query: {},
             })
             return (
               <IconUrlWidget
@@ -35,6 +36,7 @@ export const EntityShortcutWidget = Shade<dashboard.EntityShortcutWidget & { ind
               method: 'GET',
               action: '/movies/:id',
               url: { id: props.id },
+              query: {},
             })
             return <MovieWidget index={props.index} movie={movie} size={256} />
           }
@@ -43,6 +45,7 @@ export const EntityShortcutWidget = Shade<dashboard.EntityShortcutWidget & { ind
               method: 'GET',
               action: '/movie-libraries/:id',
               url: { id: props.id },
+              query: {},
             })
             return (
               <IconUrlWidget
@@ -59,6 +62,7 @@ export const EntityShortcutWidget = Shade<dashboard.EntityShortcutWidget & { ind
               method: 'GET',
               action: '/accounts/:id',
               url: { id: props.id },
+              query: {},
             })
             return (
               <IconUrlWidget

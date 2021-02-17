@@ -1,8 +1,9 @@
-import { RequestAction, RequestError, JsonResult } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 import { extractSubtitles } from '../utils/extract-subtitles'
 
-export const ReExtractSubtitles: RequestAction<{ urlParams: { movieId: string } }> = async ({
+export const ReExtractSubtitles: RequestAction<{ url: { movieId: string }; result: { success: boolean } }> = async ({
   injector,
   getUrlParams,
 }) => {

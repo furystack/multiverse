@@ -33,6 +33,7 @@ export const DiagsPage = Shade({
                       method: 'GET',
                       action: '/logEntries/:id',
                       url: { id: logEntryId },
+                      query: {},
                     })
                     return <EntryDetails entry={entry} />
                   }}
@@ -60,6 +61,7 @@ export const DiagsPage = Shade({
                       method: 'GET',
                       action: '/patches/:id',
                       url: { id: patchId },
+                      query: {},
                     })
                     return <PatchDetails entry={entry} />
                   }}

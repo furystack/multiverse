@@ -1,66 +1,32 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "GithubAccount": {
-      "additionalProperties": false,
+    "GithubApiPayload": {
+      "type": "object",
       "properties": {
-        "_id": {
+        "login": {
           "type": "string"
         },
-        "accountLinkDate": {
-          "type": "string"
-        },
-        "githubApiPayload": {
-          "$ref": "#/definitions/GithubApiPayload"
-        },
-        "githubId": {
+        "id": {
           "type": "number"
         },
-        "username": {
+        "node_id": {
           "type": "string"
-        }
-      },
-      "required": [
-        "_id",
-        "githubId",
-        "githubApiPayload",
-        "username",
-        "accountLinkDate"
-      ],
-      "type": "object"
-    },
-    "GithubApiPayload": {
-      "additionalProperties": false,
-      "properties": {
+        },
         "avatar_url": {
           "type": "string"
         },
-        "bio": {
+        "gravatar_id": {
           "type": "string"
         },
-        "blog": {
+        "url": {
           "type": "string"
         },
-        "company": {
+        "html_url": {
           "type": "string"
-        },
-        "created_at": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "events_url": {
-          "type": "string"
-        },
-        "followers": {
-          "type": "number"
         },
         "followers_url": {
           "type": "string"
-        },
-        "following": {
-          "type": "number"
         },
         "following_url": {
           "type": "string"
@@ -68,61 +34,67 @@
         "gists_url": {
           "type": "string"
         },
-        "gravatar_id": {
-          "type": "string"
-        },
-        "hireable": {
-          "type": "boolean"
-        },
-        "html_url": {
-          "type": "string"
-        },
-        "id": {
-          "type": "number"
-        },
-        "location": {
-          "type": "string"
-        },
-        "login": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "node_id": {
-          "type": "string"
-        },
-        "organizations_url": {
-          "type": "string"
-        },
-        "public_gists": {
-          "type": "number"
-        },
-        "public_repos": {
-          "type": "number"
-        },
-        "received_events_url": {
-          "type": "string"
-        },
-        "repos_url": {
-          "type": "string"
-        },
-        "site_admin": {
-          "type": "boolean"
-        },
         "starred_url": {
           "type": "string"
         },
         "subscriptions_url": {
           "type": "string"
         },
+        "organizations_url": {
+          "type": "string"
+        },
+        "repos_url": {
+          "type": "string"
+        },
+        "events_url": {
+          "type": "string"
+        },
+        "received_events_url": {
+          "type": "string"
+        },
         "type": {
           "type": "string"
         },
-        "updated_at": {
+        "site_admin": {
+          "type": "boolean"
+        },
+        "name": {
           "type": "string"
         },
-        "url": {
+        "company": {
+          "type": "string"
+        },
+        "blog": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "hireable": {
+          "type": "boolean"
+        },
+        "bio": {
+          "type": "string"
+        },
+        "public_repos": {
+          "type": "number"
+        },
+        "public_gists": {
+          "type": "number"
+        },
+        "followers": {
+          "type": "number"
+        },
+        "following": {
+          "type": "number"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
           "type": "string"
         }
       },
@@ -159,37 +131,59 @@
         "created_at",
         "updated_at"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
-    "GoogleAccount": {
-      "additionalProperties": false,
+    "GithubAccount": {
+      "type": "object",
       "properties": {
         "_id": {
           "type": "string"
         },
-        "accountLinkDate": {
+        "githubId": {
+          "type": "number"
+        },
+        "githubApiPayload": {
+          "$ref": "#/definitions/GithubApiPayload"
+        },
+        "username": {
           "type": "string"
         },
+        "accountLinkDate": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "githubId",
+        "githubApiPayload",
+        "username",
+        "accountLinkDate"
+      ],
+      "additionalProperties": false
+    },
+    "GoogleAccount": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "googleId": {
+          "type": "number"
+        },
         "googleApiPayload": {
-          "additionalProperties": false,
+          "type": "object",
           "properties": {
+            "iss": {
+              "type": "string"
+            },
+            "sub": {
+              "type": "number"
+            },
             "email": {
               "type": "string"
             },
             "email_verified": {
               "type": "boolean"
-            },
-            "family_name": {
-              "type": "string"
-            },
-            "given_name": {
-              "type": "string"
-            },
-            "iss": {
-              "type": "string"
-            },
-            "locale": {
-              "type": "string"
             },
             "name": {
               "type": "string"
@@ -197,8 +191,14 @@
             "picture": {
               "type": "string"
             },
-            "sub": {
-              "type": "number"
+            "given_name": {
+              "type": "string"
+            },
+            "family_name": {
+              "type": "string"
+            },
+            "locale": {
+              "type": "string"
             }
           },
           "required": [
@@ -212,12 +212,12 @@
             "family_name",
             "locale"
           ],
-          "type": "object"
-        },
-        "googleId": {
-          "type": "number"
+          "additionalProperties": false
         },
         "username": {
+          "type": "string"
+        },
+        "accountLinkDate": {
           "type": "string"
         }
       },
@@ -228,40 +228,40 @@
         "username",
         "accountLinkDate"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
     "Organization": {
-      "additionalProperties": false,
+      "type": "object",
       "properties": {
         "_id": {
           "type": "string"
         },
-        "adminNames": {
-          "description": "Unique user names of the admins",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "description": {
+        "name": {
           "type": "string"
         },
         "icon": {
           "type": "string"
         },
-        "memberNames": {
-          "description": "Unique user names of the organization members",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "name": {
+        "description": {
           "type": "string"
         },
         "owner": {
           "$ref": "#/definitions/Owner",
           "description": "The owner user name"
+        },
+        "memberNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unique user names of the organization members"
+        },
+        "adminNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unique user names of the admins"
         }
       },
       "required": [
@@ -273,16 +273,16 @@
         "memberNames",
         "adminNames"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
     "Owner": {
       "anyOf": [
         {
-          "additionalProperties": false,
+          "type": "object",
           "properties": {
             "type": {
-              "const": "user",
-              "type": "string"
+              "type": "string",
+              "const": "user"
             },
             "username": {
               "type": "string"
@@ -292,16 +292,16 @@
             "type",
             "username"
           ],
-          "type": "object"
+          "additionalProperties": false
         },
         {
-          "additionalProperties": false,
+          "type": "object",
           "properties": {
-            "organizationName": {
-              "type": "string"
-            },
             "type": {
-              "const": "organization",
+              "type": "string",
+              "const": "organization"
+            },
+            "organizationName": {
               "type": "string"
             }
           },
@@ -309,40 +309,59 @@
             "type",
             "organizationName"
           ],
-          "type": "object"
+          "additionalProperties": false
         },
         {
-          "additionalProperties": false,
+          "type": "object",
           "properties": {
             "type": {
-              "const": "system",
-              "type": "string"
+              "type": "string",
+              "const": "system"
             }
           },
           "required": [
             "type"
           ],
-          "type": "object"
+          "additionalProperties": false
         }
       ]
     },
+    "UserSettings": {
+      "type": "object",
+      "properties": {
+        "theme": {
+          "type": "string",
+          "enum": [
+            "light",
+            "dark"
+          ]
+        },
+        "dashboardId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "theme"
+      ],
+      "additionalProperties": false
+    },
     "Profile": {
-      "additionalProperties": false,
+      "type": "object",
       "properties": {
         "_id": {
           "type": "string"
         },
-        "description": {
+        "username": {
           "type": "string"
         },
         "displayName": {
           "type": "string"
         },
+        "description": {
+          "type": "string"
+        },
         "userSettings": {
           "$ref": "#/definitions/UserSettings"
-        },
-        "username": {
-          "type": "string"
         }
       },
       "required": [
@@ -352,10 +371,10 @@
         "description",
         "userSettings"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
     "Session": {
-      "additionalProperties": false,
+      "type": "object",
       "properties": {
         "sessionId": {
           "type": "string"
@@ -368,15 +387,15 @@
         "sessionId",
         "username"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
     "User": {
-      "additionalProperties": false,
+      "type": "object",
       "properties": {
         "_id": {
           "type": "string"
         },
-        "avatarFile": {
+        "username": {
           "type": "string"
         },
         "password": {
@@ -385,21 +404,21 @@
         "registrationDate": {
           "type": "string"
         },
+        "avatarFile": {
+          "type": "string"
+        },
         "roles": {
+          "type": "array",
           "items": {
+            "type": "string",
             "enum": [
               "terms-accepted",
               "sys-diags",
               "feature-switch-admin",
               "user-admin",
               "movie-admin"
-            ],
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "username": {
-          "type": "string"
+            ]
+          }
         }
       },
       "required": [
@@ -409,26 +428,7 @@
         "registrationDate",
         "roles"
       ],
-      "type": "object"
-    },
-    "UserSettings": {
-      "additionalProperties": false,
-      "properties": {
-        "dashboardId": {
-          "type": "string"
-        },
-        "theme": {
-          "enum": [
-            "light",
-            "dark"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "theme"
-      ],
-      "type": "object"
+      "additionalProperties": false
     }
   }
 }
