@@ -33,7 +33,7 @@ export const XpensePage = Shade({
                         method: 'GET',
                         action: '/accounts/:id',
                         query: {},
-                        url: { id: accountId, anyád: 2 },
+                        url: { id: accountId },
                       })
                       return <AccountContext account={account} />
                     }}

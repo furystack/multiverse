@@ -388,12 +388,30 @@
     semaphore-async-await "^1.5.1"
     tslib "^2.1.0"
 
+"@furystack/core@^9.1.23":
+  version "9.1.23"
+  resolved "https://registry.yarnpkg.com/@furystack/core/-/core-9.1.23.tgz#2583caf9a1c7304cb13b75fe17bc36ef85ae6f28"
+  integrity sha512-s2bPeOZ5JMPbZBD9+Uvb4Cx3+xRKmbGPxgQFkjOIlSYdUuHNCXs06RI98VOAZU5hK5kKM/NHssa9OW27tIqOjQ==
+  dependencies:
+    "@furystack/inject" "^4.0.51"
+    "@furystack/utils" "^1.2.21"
+    semaphore-async-await "^1.5.1"
+    tslib "^2.1.0"
+
 "@furystack/inject@^4.0.50":
   version "4.0.50"
   resolved "https://registry.yarnpkg.com/@furystack/inject/-/inject-4.0.50.tgz#505d8d6035b43e5474c8d8f26f47b654d2a98fdc"
   integrity sha512-pfYoXyn70uA4b9OyRhNNHu4gumS55DvL0Db4PYDJXlGvUtZXcAKf6znYYPRR2RYySbVF6KYQDXtJ3UJgyneiEg==
   dependencies:
     "@furystack/utils" "^1.2.20"
+    tslib "^2.1.0"
+
+"@furystack/inject@^4.0.51":
+  version "4.0.51"
+  resolved "https://registry.yarnpkg.com/@furystack/inject/-/inject-4.0.51.tgz#8012f3aa28063a957ef95349e1653daa1e8ed407"
+  integrity sha512-1u8fg0TvV2MgS/Vm0yAa5DS6fVgbZfOBQKNk6GiBk1g1Ylwzn51yBgpfHk9Hx8GTPOw1OzHiT7Yqy7o/IKa2dw==
+  dependencies:
+    "@furystack/utils" "^1.2.21"
     tslib "^2.1.0"
 
 "@furystack/logging@^2.0.57":
@@ -403,6 +421,15 @@
   dependencies:
     "@furystack/inject" "^4.0.50"
     "@furystack/utils" "^1.2.20"
+    tslib "^2.1.0"
+
+"@furystack/logging@^2.0.58":
+  version "2.0.58"
+  resolved "https://registry.yarnpkg.com/@furystack/logging/-/logging-2.0.58.tgz#b8bac35a988fbe5c8df4d5e6476ba516c13c0e15"
+  integrity sha512-DNOfhIFNeyNIZHIEpEVRnVDe/vaRLUwu610tA+3Rw3Q4PkmLnOcsvG218p9dJhNpFCukJmaCw1X0Ru2nMQJjkg==
+  dependencies:
+    "@furystack/inject" "^4.0.51"
+    "@furystack/utils" "^1.2.21"
     tslib "^2.1.0"
 
 "@furystack/mongodb-store@^3.1.27":
@@ -469,6 +496,14 @@
     "@furystack/inject" "^4.0.50"
     tslib "^2.1.0"
 
+"@furystack/rest@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@furystack/rest/-/rest-2.0.1.tgz#e74bb1d44fd1cf323b5bfa7220e0f253fa4b7aaf"
+  integrity sha512-KyS56ZF3XoqWOBY0RqHNcxc7LtlE0p3BrR5jzV9Ur82iIdcow7AfNXG0EWR6pu3c/RdvP/uXXgTVXe4ljLIloQ==
+  dependencies:
+    "@furystack/inject" "^4.0.51"
+    tslib "^2.1.0"
+
 "@furystack/shades-common-components@^1.3.12":
   version "1.3.12"
   resolved "https://registry.yarnpkg.com/@furystack/shades-common-components/-/shades-common-components-1.3.12.tgz#0605dd16085e6f36af8b9f82ca68531c3f37b650"
@@ -497,10 +532,29 @@
     tslib "^2.1.0"
     uuid "^8.3.2"
 
+"@furystack/shades@^3.2.40":
+  version "3.2.40"
+  resolved "https://registry.yarnpkg.com/@furystack/shades/-/shades-3.2.40.tgz#a470e7c1777186ee831d3df97ad685c8c58e8e51"
+  integrity sha512-2xckczwPOr9Ih28vdJKPvxhi8JvWYFSHQ0ckqhF/Uc92hO80KyZG0p3OGrQtbOnPnc1GNiIshAvVIUs9glawFA==
+  dependencies:
+    "@furystack/core" "^9.1.23"
+    "@furystack/inject" "^4.0.51"
+    "@furystack/utils" "^1.2.21"
+    path-to-regexp "^6.2.0"
+    tslib "^2.1.0"
+    uuid "^8.3.2"
+
 "@furystack/utils@^1.2.20":
   version "1.2.20"
   resolved "https://registry.yarnpkg.com/@furystack/utils/-/utils-1.2.20.tgz#cbc3d61e706ec792902117f88a9048f0d4490a1c"
   integrity sha512-V1Tqy/+bh+h1cXFcMkC/6aCPAjjYXLKIHFWUTMpfjDwuXajsraN8s+ixbaY4XkOzzTt3ncAbpwV7F4SpGsqn6A==
+  dependencies:
+    tslib "^2.1.0"
+
+"@furystack/utils@^1.2.21":
+  version "1.2.21"
+  resolved "https://registry.yarnpkg.com/@furystack/utils/-/utils-1.2.21.tgz#e1b09a7cd825db2c3aa53714ec2fb58330c1c6cd"
+  integrity sha512-65ZxL9RN4q2seG4g8XXOMTUrfJricylYk16lhiAy/fHoPo+jaV50av9i39M+oaY4/XMK2G75JBf+EH+SADkB2A==
   dependencies:
     tslib "^2.1.0"
 
@@ -9021,10 +9075,10 @@ truncate-utf8-bytes@^1.0.0:
   dependencies:
     utf8-byte-length "^1.0.1"
 
-ts-json-schema-generator@^0.85.0:
-  version "0.85.0"
-  resolved "https://registry.yarnpkg.com/ts-json-schema-generator/-/ts-json-schema-generator-0.85.0.tgz#fa17433cbd40889cba42d5545aef1ca54388155f"
-  integrity sha512-uatTN99wJ1G5MmhFf8t8o35CrhBtthGm5TjXWyFWqRnU87dlMSlLBBNVkX/GgbgxhbDz/efHqbz0psbPtB6SvQ==
+ts-json-schema-generator@^0.86.0:
+  version "0.86.0"
+  resolved "https://registry.yarnpkg.com/ts-json-schema-generator/-/ts-json-schema-generator-0.86.0.tgz#1f36f80249ab13e52225d00f2a83bd6352f4d673"
+  integrity sha512-8SFNH1FGGvMsJ5rF+0/nmI2+Liw76FS3LTe/fI40dytPinpjasRqGGW+uYaHUE3+GGPwB7gCnSDdbrs3zWgQ1g==
   dependencies:
     "@types/json-schema" "^7.0.7"
     commander "^7.1.0"
