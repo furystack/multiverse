@@ -1,10 +1,11 @@
-import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { IncomingForm, Fields, Files } from 'formidable'
 import { auth } from '@common/models'
 import { saveAvatar } from '@common/service-utils'
 import { FileStores } from '@common/config'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 
-export const UploadAvatar: RequestAction<{}> = async ({ injector, request }) => {
+export const UploadAvatar: RequestAction<{ result: { success: boolean } }> = async ({ injector, request }) => {
   const user = await injector.getCurrentUser<auth.User>()
   const form = new IncomingForm()
   form.uploadDir = FileStores.tempdir

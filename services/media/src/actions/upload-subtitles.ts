@@ -1,17 +1,17 @@
 import { join, extname } from 'path'
 import { promises } from 'fs'
-import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { IncomingForm, Fields, Files } from 'formidable'
 import { FileStores } from '@common/config'
 import { media } from '@common/models'
 import { StoreManager } from '@furystack/core'
 import { existsAsync } from '@common/service-utils'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 
-export const UploadSubtitles: RequestAction<{ urlParams: { movieId: string; accessToken: string } }> = async ({
-  injector,
-  request,
-  getUrlParams,
-}) => {
+export const UploadSubtitles: RequestAction<{
+  url: { movieId: string; accessToken: string }
+  result: { success: boolean }
+}> = async ({ injector, request, getUrlParams }) => {
   const { movieId, accessToken } = getUrlParams()
 
   const storeManager = injector.getInstance(StoreManager)

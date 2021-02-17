@@ -1,7 +1,7 @@
-import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
-import { HttpUserContext } from '@furystack/rest-service'
+import { HttpUserContext, JsonResult, RequestAction } from '@furystack/rest-service'
 import { downloadAsTempFile, saveAvatar } from '@common/service-utils'
 import { GithubAuthService } from '../services/github-login-service'
 

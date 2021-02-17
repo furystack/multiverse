@@ -1,4 +1,4 @@
-import { RestApi, RequestAction, GetCollectionEndpoint, GetEntityEndpoint, PostEndpoint } from '@furystack/rest'
+import { RestApi, GetCollectionEndpoint, GetEntityEndpoint, PostEndpoint } from '@furystack/rest'
 import { Account, Shop, Item, Replenishment, Shopping } from '../xpense'
 export interface XpenseApi extends RestApi {
   GET: {
@@ -17,19 +17,19 @@ export interface XpenseApi extends RestApi {
     '/accounts': PostEndpoint<Account>
     '/shops': PostEndpoint<Shop>
     '/items': PostEndpoint<Item>
-    '/accounts/:accountId/replenish': RequestAction<{
+    '/accounts/:accountId/replenish': {
       body: { amount: number; comment?: string; creationDate: string }
-      urlParams: { accountId: string }
+      url: { accountId: string }
       result: Replenishment
-    }>
-    '/accounts/:accountId/shop': RequestAction<{
+    }
+    '/accounts/:accountId/shop': {
       body: {
         shopName: string
         creationDate: string
         entries: Array<{ itemName: string; amount: number; unitPrice: number }>
       }
-      urlParams: { accountId: string }
+      url: { accountId: string }
       result: Shopping
-    }>
+    }
   }
 }

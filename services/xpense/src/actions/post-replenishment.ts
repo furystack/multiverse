@@ -1,10 +1,11 @@
-import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { xpense } from '@common/models'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 import { recalculateHistory } from '../services/recalculate-history'
 
 export const PostReplenishment: RequestAction<{
   body: { amount: number; comment?: string; creationDate: string }
-  urlParams: { accountId: string }
+  url: { accountId: string }
   result: xpense.Replenishment
 }> = async ({ injector, getBody, getUrlParams }) => {
   const currentUser = await injector.getCurrentUser()

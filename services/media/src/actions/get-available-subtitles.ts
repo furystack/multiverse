@@ -1,11 +1,12 @@
 import { join, extname } from 'path'
 import { promises } from 'fs'
-import { RequestAction, RequestError, JsonResult } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
 import { FileStores } from '@common/config'
 import { existsAsync } from '@common/service-utils'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 
-export const GetAvailableSubtitles: RequestAction<{ urlParams: { movieId: string }; result: string[] }> = async ({
+export const GetAvailableSubtitles: RequestAction<{ url: { movieId: string }; result: string[] }> = async ({
   injector,
   getUrlParams,
 }) => {

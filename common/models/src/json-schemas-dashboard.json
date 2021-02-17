@@ -2,10 +2,28 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
     "AppListWidget": {
-      "additionalProperties": false,
+      "type": "object",
       "properties": {
+        "type": {
+          "type": "string",
+          "const": "app-list"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
         "apps": {
+          "type": "array",
           "items": {
+            "type": "string",
             "enum": [
               "Profile",
               "Xpense",
@@ -18,26 +36,8 @@
               "Movies",
               "Encoding Tasks",
               "Dashboards"
-            ],
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        },
-        "type": {
-          "const": "app-list",
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
+            ]
+          }
         }
       },
       "required": [
@@ -45,12 +45,48 @@
         "title",
         "type"
       ],
-      "type": "object"
+      "additionalProperties": false
+    },
+    "WidgetBase<\"app-list\">": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "app-list"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
     },
     "AppShortcutWidget": {
-      "additionalProperties": false,
+      "type": "object",
       "properties": {
+        "type": {
+          "type": "string",
+          "const": "app-shortcut"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
         "appName": {
+          "type": "string",
           "enum": [
             "Profile",
             "Xpense",
@@ -63,142 +99,211 @@
             "Movies",
             "Encoding Tasks",
             "Dashboards"
-          ],
-          "type": "string"
-        },
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "const": "app-shortcut",
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
+          ]
         }
       },
       "required": [
         "appName",
         "type"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
-    "ContinueMoviesWidget": {
-      "additionalProperties": false,
+    "WidgetBase<\"app-shortcut\">": {
+      "type": "object",
       "properties": {
-        "count": {
-          "type": "number"
-        },
-        "maxWidth": {
-          "type": "string"
+        "type": {
+          "type": "string",
+          "const": "app-shortcut"
         },
         "minWidth": {
           "type": "string"
         },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "ContinueMoviesWidget": {
+      "type": "object",
+      "properties": {
         "type": {
-          "const": "continue-movies",
+          "type": "string",
+          "const": "continue-movies"
+        },
+        "minWidth": {
           "type": "string"
         },
         "width": {
           "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "count": {
+          "type": "number"
         }
       },
       "required": [
         "count",
         "type"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
-    "Dashboard": {
-      "additionalProperties": false,
+    "WidgetBase<\"continue-movies\">": {
+      "type": "object",
       "properties": {
-        "_id": {
+        "type": {
+          "type": "string",
+          "const": "continue-movies"
+        },
+        "minWidth": {
           "type": "string"
         },
-        "creationDate": {
-          "format": "date-time",
+        "width": {
           "type": "string"
         },
-        "description": {
+        "maxWidth": {
           "type": "string"
-        },
-        "modificationDate": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "owner": {
-          "$ref": "#/definitions/Owner"
-        },
-        "widgets": {
-          "items": {
-            "$ref": "#/definitions/Widget"
-          },
-          "type": "array"
         }
       },
       "required": [
-        "_id",
-        "name",
-        "description",
-        "owner",
-        "creationDate",
-        "modificationDate",
-        "widgets"
+        "type"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
-    "EntityShortcutWidget": {
-      "additionalProperties": false,
+    "HtmlWidget": {
+      "type": "object",
       "properties": {
-        "entityType": {
-          "enum": [
-            "movie",
-            "dashboard",
-            "xpense-account",
-            "movie-library"
-          ],
+        "type": {
+          "type": "string",
+          "const": "html"
+        },
+        "minWidth": {
           "type": "string"
         },
-        "icon": {
-          "type": "string"
-        },
-        "id": {
+        "width": {
           "type": "string"
         },
         "maxWidth": {
           "type": "string"
         },
-        "minWidth": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "type": {
-          "const": "entity-shortcut",
-          "type": "string"
-        },
-        "width": {
+        "content": {
           "type": "string"
         }
       },
       "required": [
-        "entityType",
-        "id",
+        "content",
         "type"
       ],
-      "type": "object"
+      "additionalProperties": false
+    },
+    "WidgetBase<\"html\">": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "html"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "IconUrlWidget": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "icon-url-widget"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "icon": {
+          "$ref": "#/definitions/Icon"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "icon",
+        "name",
+        "type",
+        "url"
+      ],
+      "additionalProperties": false
+    },
+    "WidgetBase<\"icon-url-widget\">": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "icon-url-widget"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "Icon": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/FlatEssentialType"
+        },
+        {
+          "type": "string"
+        }
+      ]
     },
     "FlatEssentialType": {
-      "additionalProperties": false,
+      "type": "object",
       "properties": {
+        "type": {
+          "type": "string",
+          "const": "flaticon-essential"
+        },
         "name": {
+          "type": "string",
           "enum": [
             "001-unlocked.svg",
             "002-video player.svg",
@@ -579,37 +684,32 @@
             "377-unlocked.svg",
             "378-locked.svg",
             "379-eyeglasses.svg"
-          ],
-          "type": "string"
-        },
-        "type": {
-          "const": "flaticon-essential",
-          "type": "string"
+          ]
         }
       },
       "required": [
         "type",
         "name"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
-    "HtmlWidget": {
-      "additionalProperties": false,
+    "MarkdownWidget": {
+      "type": "object",
       "properties": {
-        "content": {
+        "type": {
+          "type": "string",
+          "const": "markdown"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
           "type": "string"
         },
         "maxWidth": {
           "type": "string"
         },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "const": "html",
-          "type": "string"
-        },
-        "width": {
+        "content": {
           "type": "string"
         }
       },
@@ -617,168 +717,105 @@
         "content",
         "type"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
-    "Icon": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/FlatEssentialType"
+    "WidgetBase<\"markdown\">": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "markdown"
         },
-        {
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
           "type": "string"
         }
-      ]
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
     },
-    "IconUrlWidget": {
-      "additionalProperties": false,
+    "EntityShortcutWidget": {
+      "type": "object",
       "properties": {
-        "description": {
+        "type": {
+          "type": "string",
+          "const": "entity-shortcut"
+        },
+        "minWidth": {
           "type": "string"
         },
-        "icon": {
-          "$ref": "#/definitions/Icon"
+        "width": {
+          "type": "string"
         },
         "maxWidth": {
           "type": "string"
         },
-        "minWidth": {
+        "entityType": {
+          "type": "string",
+          "enum": [
+            "movie",
+            "dashboard",
+            "xpense-account",
+            "movie-library"
+          ]
+        },
+        "id": {
           "type": "string"
         },
         "name": {
           "type": "string"
         },
-        "type": {
-          "const": "icon-url-widget",
-          "type": "string"
-        },
-        "url": {
-          "type": "string"
-        },
-        "width": {
+        "icon": {
           "type": "string"
         }
       },
       "required": [
-        "icon",
-        "name",
-        "type",
-        "url"
+        "entityType",
+        "id",
+        "type"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
-    "MarkdownWidget": {
-      "additionalProperties": false,
+    "WidgetBase<\"entity-shortcut\">": {
+      "type": "object",
       "properties": {
-        "content": {
-          "type": "string"
-        },
-        "maxWidth": {
-          "type": "string"
+        "type": {
+          "type": "string",
+          "const": "entity-shortcut"
         },
         "minWidth": {
           "type": "string"
         },
-        "type": {
-          "const": "markdown",
-          "type": "string"
-        },
         "width": {
           "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
         }
       },
       "required": [
-        "content",
         "type"
       ],
-      "type": "object"
-    },
-    "Owner": {
-      "anyOf": [
-        {
-          "additionalProperties": false,
-          "properties": {
-            "type": {
-              "const": "user",
-              "type": "string"
-            },
-            "username": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "type",
-            "username"
-          ],
-          "type": "object"
-        },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "organizationName": {
-              "type": "string"
-            },
-            "type": {
-              "const": "organization",
-              "type": "string"
-            }
-          },
-          "required": [
-            "type",
-            "organizationName"
-          ],
-          "type": "object"
-        },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "type": {
-              "const": "system",
-              "type": "string"
-            }
-          },
-          "required": [
-            "type"
-          ],
-          "type": "object"
-        }
-      ]
-    },
-    "WeatherData": {
-      "additionalProperties": false,
-      "properties": {
-        "city": {
-          "$ref": "#/definitions/WeatherDataCity"
-        },
-        "cnt": {
-          "type": "number"
-        },
-        "cod": {
-          "type": "string"
-        },
-        "list": {
-          "items": {
-            "$ref": "#/definitions/WeatherDataListEntry"
-          },
-          "type": "array"
-        },
-        "message": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "cod",
-        "message",
-        "cnt",
-        "city",
-        "list"
-      ],
-      "type": "object"
+      "additionalProperties": false
     },
     "WeatherDataCity": {
-      "additionalProperties": false,
+      "type": "object",
       "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
         "coord": {
-          "additionalProperties": false,
+          "type": "object",
           "properties": {
             "lat": {
               "type": "number"
@@ -791,27 +828,21 @@
             "lat",
             "lon"
           ],
-          "type": "object"
+          "additionalProperties": false
         },
         "country": {
           "type": "string"
         },
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
         "population": {
+          "type": "number"
+        },
+        "timezone": {
           "type": "number"
         },
         "sunrise": {
           "type": "number"
         },
         "sunset": {
-          "type": "number"
-        },
-        "timezone": {
           "type": "number"
         }
       },
@@ -825,36 +856,21 @@
         "sunrise",
         "sunset"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
     "WeatherDataListEntry": {
-      "additionalProperties": false,
+      "type": "object",
       "properties": {
-        "clouds": {
-          "items": {
-            "additionalProperties": false,
-            "properties": {
-              "type": {
-                "type": "number"
-              }
-            },
-            "required": [
-              "type"
-            ],
-            "type": "object"
-          },
-          "type": "array"
-        },
-        "dt_txt": {
-          "type": "string"
-        },
         "main": {
-          "additionalProperties": false,
+          "type": "object",
           "properties": {
-            "grnd_level": {
+            "temp": {
               "type": "number"
             },
-            "humidity": {
+            "temp_min": {
+              "type": "number"
+            },
+            "temp_max": {
               "type": "number"
             },
             "pressure": {
@@ -863,16 +879,13 @@
             "sea_level": {
               "type": "number"
             },
-            "temp": {
+            "grnd_level": {
+              "type": "number"
+            },
+            "humidity": {
               "type": "number"
             },
             "temp_kf": {
-              "type": "number"
-            },
-            "temp_max": {
-              "type": "number"
-            },
-            "temp_min": {
               "type": "number"
             }
           },
@@ -886,34 +899,23 @@
             "humidity",
             "temp_kf"
           ],
-          "type": "object"
-        },
-        "sys": {
-          "additionalProperties": false,
-          "properties": {
-            "pod": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "pod"
-          ],
-          "type": "object"
+          "additionalProperties": false
         },
         "weather": {
+          "type": "array",
           "items": {
-            "additionalProperties": false,
+            "type": "object",
             "properties": {
-              "description": {
-                "type": "string"
-              },
-              "icon": {
-                "type": "string"
-              },
               "id": {
                 "type": "number"
               },
               "main": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "icon": {
                 "type": "string"
               }
             },
@@ -923,17 +925,31 @@
               "description",
               "icon"
             ],
-            "type": "object"
-          },
-          "type": "array"
+            "additionalProperties": false
+          }
+        },
+        "clouds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "additionalProperties": false
+          }
         },
         "wind": {
-          "additionalProperties": false,
+          "type": "object",
           "properties": {
-            "deg": {
+            "speed": {
               "type": "number"
             },
-            "speed": {
+            "deg": {
               "type": "number"
             }
           },
@@ -941,7 +957,22 @@
             "speed",
             "deg"
           ],
-          "type": "object"
+          "additionalProperties": false
+        },
+        "sys": {
+          "type": "object",
+          "properties": {
+            "pod": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "pod"
+          ],
+          "additionalProperties": false
+        },
+        "dt_txt": {
+          "type": "string"
         }
       },
       "required": [
@@ -952,25 +983,56 @@
         "sys",
         "dt_txt"
       ],
-      "type": "object"
+      "additionalProperties": false
+    },
+    "WeatherData": {
+      "type": "object",
+      "properties": {
+        "cod": {
+          "type": "string"
+        },
+        "message": {
+          "type": "number"
+        },
+        "cnt": {
+          "type": "number"
+        },
+        "city": {
+          "$ref": "#/definitions/WeatherDataCity"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WeatherDataListEntry"
+          }
+        }
+      },
+      "required": [
+        "cod",
+        "message",
+        "cnt",
+        "city",
+        "list"
+      ],
+      "additionalProperties": false
     },
     "WeatherWidget": {
-      "additionalProperties": false,
+      "type": "object",
       "properties": {
-        "city": {
+        "type": {
+          "type": "string",
+          "const": "weather"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
           "type": "string"
         },
         "maxWidth": {
           "type": "string"
         },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "const": "weather",
-          "type": "string"
-        },
-        "width": {
+        "city": {
           "type": "string"
         }
       },
@@ -978,7 +1040,29 @@
         "city",
         "type"
       ],
-      "type": "object"
+      "additionalProperties": false
+    },
+    "WidgetBase<\"weather\">": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "weather"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
     },
     "Widget": {
       "anyOf": [
@@ -1008,181 +1092,97 @@
         }
       ]
     },
-    "WidgetBase<\"app-list\">": {
-      "additionalProperties": false,
+    "Dashboard": {
+      "type": "object",
       "properties": {
-        "maxWidth": {
+        "_id": {
           "type": "string"
         },
-        "minWidth": {
+        "name": {
           "type": "string"
         },
-        "type": {
-          "const": "app-list",
+        "description": {
           "type": "string"
         },
-        "width": {
-          "type": "string"
+        "owner": {
+          "$ref": "#/definitions/Owner"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "modificationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "widgets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Widget"
+          }
         }
       },
       "required": [
-        "type"
+        "_id",
+        "name",
+        "description",
+        "owner",
+        "creationDate",
+        "modificationDate",
+        "widgets"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
-    "WidgetBase<\"app-shortcut\">": {
-      "additionalProperties": false,
-      "properties": {
-        "maxWidth": {
-          "type": "string"
+    "Owner": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "user"
+            },
+            "username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "username"
+          ],
+          "additionalProperties": false
         },
-        "minWidth": {
-          "type": "string"
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "organization"
+            },
+            "organizationName": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "organizationName"
+          ],
+          "additionalProperties": false
         },
-        "type": {
-          "const": "app-shortcut",
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "system"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "additionalProperties": false
         }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "WidgetBase<\"continue-movies\">": {
-      "additionalProperties": false,
-      "properties": {
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "const": "continue-movies",
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "WidgetBase<\"entity-shortcut\">": {
-      "additionalProperties": false,
-      "properties": {
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "const": "entity-shortcut",
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "WidgetBase<\"html\">": {
-      "additionalProperties": false,
-      "properties": {
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "const": "html",
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "WidgetBase<\"icon-url-widget\">": {
-      "additionalProperties": false,
-      "properties": {
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "const": "icon-url-widget",
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "WidgetBase<\"markdown\">": {
-      "additionalProperties": false,
-      "properties": {
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "const": "markdown",
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "WidgetBase<\"weather\">": {
-      "additionalProperties": false,
-      "properties": {
-        "maxWidth": {
-          "type": "string"
-        },
-        "minWidth": {
-          "type": "string"
-        },
-        "type": {
-          "const": "weather",
-          "type": "string"
-        },
-        "width": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
+      ]
     }
   }
 }

@@ -1,4 +1,4 @@
-import { RequestAction, JsonResult } from '@furystack/rest'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
 

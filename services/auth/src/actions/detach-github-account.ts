@@ -1,6 +1,6 @@
-import { RequestAction, JsonResult } from '@furystack/rest'
 import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 
 export const DetachGithubAccount: RequestAction<{ result: Omit<auth.User, 'password'> }> = async ({ injector }) => {
   const logger = injector.logger.withScope('DetachGithubAccountAction')

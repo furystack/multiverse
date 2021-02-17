@@ -1,0 +1,2969 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/AuthApi",
+  "definitions": {
+    "AuthApi": {
+      "type": "object",
+      "properties": {
+        "GET": {
+          "type": "object",
+          "properties": {
+            "/isAuthenticated": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "isAuthenticated": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "isAuthenticated"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/currentUser": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/User"
+                }
+              },
+              "required": [
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/loginProviderDetails": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "google": {
+                      "$ref": "#/definitions/GoogleAccount"
+                    },
+                    "github": {
+                      "$ref": "#/definitions/GithubAccount"
+                    },
+                    "hasPassword": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "hasPassword"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/profiles/:username": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/PartialResult%3CProfile%2Cany%3E"
+                },
+                "url": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "username"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "result",
+                "url"
+              ],
+              "additionalProperties": false
+            },
+            "/profiles/:username/avatar": {
+              "type": "object",
+              "properties": {
+                "result": {},
+                "url": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "username"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "result",
+                "url"
+              ],
+              "additionalProperties": false
+            },
+            "/profiles": {
+              "$ref": "#/definitions/GetCollectionEndpoint%3CProfile%3E"
+            },
+            "/organizations": {
+              "$ref": "#/definitions/GetCollectionEndpoint%3COrganization%3E"
+            },
+            "/organization/:organizationName": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/PartialResult%3COrganization%2Cany%3E"
+                },
+                "url": {
+                  "type": "object",
+                  "properties": {
+                    "organizationName": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "organizationName"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "result",
+                "url"
+              ],
+              "additionalProperties": false
+            },
+            "/oauth-data": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "googleClientId": {
+                      "type": "string"
+                    },
+                    "githubClientId": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "googleClientId",
+                    "githubClientId"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/users": {
+              "$ref": "#/definitions/GetCollectionEndpoint%3CUser%3E"
+            },
+            "/users/:id": {
+              "$ref": "#/definitions/GetEntityEndpoint%3CUser%3E"
+            }
+          },
+          "required": [
+            "/isAuthenticated",
+            "/currentUser",
+            "/loginProviderDetails",
+            "/profiles/:username",
+            "/profiles/:username/avatar",
+            "/profiles",
+            "/organizations",
+            "/organization/:organizationName",
+            "/oauth-data",
+            "/users",
+            "/users/:id"
+          ],
+          "additionalProperties": false
+        },
+        "POST": {
+          "type": "object",
+          "properties": {
+            "/login": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "username",
+                    "password"
+                  ],
+                  "additionalProperties": false
+                },
+                "result": {
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
+                }
+              },
+              "required": [
+                "body",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/register": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "email",
+                    "password"
+                  ],
+                  "additionalProperties": false
+                },
+                "result": {
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
+                }
+              },
+              "required": [
+                "body",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/googleLogin": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "token"
+                  ],
+                  "additionalProperties": false
+                },
+                "result": {
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
+                }
+              },
+              "required": [
+                "body",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/googleRegister": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "token"
+                  ],
+                  "additionalProperties": false
+                },
+                "result": {
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
+                }
+              },
+              "required": [
+                "body",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/attachGoogleAccount": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "token"
+                  ],
+                  "additionalProperties": false
+                },
+                "result": {
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
+                }
+              },
+              "required": [
+                "body",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/detachGoogleAccount": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
+                }
+              },
+              "required": [
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/githubLogin": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "clientId": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "clientId"
+                  ],
+                  "additionalProperties": false
+                },
+                "result": {
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
+                }
+              },
+              "required": [
+                "body",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/githubRegister": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "clientId": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "clientId"
+                  ],
+                  "additionalProperties": false
+                },
+                "result": {
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
+                }
+              },
+              "required": [
+                "body",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/attachGithubAccount": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "clientId": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "clientId"
+                  ],
+                  "additionalProperties": false
+                },
+                "result": {
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
+                }
+              },
+              "required": [
+                "body",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/detachGithubAccount": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
+                }
+              },
+              "required": [
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/logout": {
+              "type": "object",
+              "properties": {
+                "result": {}
+              },
+              "required": [
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/accept-terms": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/settings": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "$ref": "#/definitions/UserSettings"
+                },
+                "result": {
+                  "$ref": "#/definitions/UserSettings"
+                }
+              },
+              "required": [
+                "body",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/avatar": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/changePassword": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "currentPassword": {
+                      "type": "string"
+                    },
+                    "newPassword": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "currentPassword",
+                    "newPassword"
+                  ],
+                  "additionalProperties": false
+                },
+                "result": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "body",
+                "result"
+              ],
+              "additionalProperties": false
+            },
+            "/organizations": {
+              "$ref": "#/definitions/PostEndpoint%3COrganization%3E"
+            },
+            "/organization/:organizationName/addMember": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/PartialResult%3COrganization%2Cany%3E"
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "username"
+                  ],
+                  "additionalProperties": false
+                },
+                "url": {
+                  "type": "object",
+                  "properties": {
+                    "organizationName": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "organizationName"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "result",
+                "body",
+                "url"
+              ],
+              "additionalProperties": false
+            },
+            "/organization/:organizationName/removeMember": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/PartialResult%3COrganization%2Cany%3E"
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "username"
+                  ],
+                  "additionalProperties": false
+                },
+                "url": {
+                  "type": "object",
+                  "properties": {
+                    "organizationName": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "organizationName"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "result",
+                "body",
+                "url"
+              ],
+              "additionalProperties": false
+            },
+            "/organization/:organizationName/addAdmin": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/PartialResult%3COrganization%2Cany%3E"
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "username"
+                  ],
+                  "additionalProperties": false
+                },
+                "url": {
+                  "type": "object",
+                  "properties": {
+                    "organizationName": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "organizationName"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "result",
+                "body",
+                "url"
+              ],
+              "additionalProperties": false
+            },
+            "/organization/:organizationName/removeAdmin": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/PartialResult%3COrganization%2Cany%3E"
+                },
+                "body": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "username"
+                  ],
+                  "additionalProperties": false
+                },
+                "url": {
+                  "type": "object",
+                  "properties": {
+                    "organizationName": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "organizationName"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "result",
+                "body",
+                "url"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "/login",
+            "/register",
+            "/googleLogin",
+            "/googleRegister",
+            "/attachGoogleAccount",
+            "/detachGoogleAccount",
+            "/githubLogin",
+            "/githubRegister",
+            "/attachGithubAccount",
+            "/detachGithubAccount",
+            "/logout",
+            "/accept-terms",
+            "/settings",
+            "/avatar",
+            "/changePassword",
+            "/organizations",
+            "/organization/:organizationName/addMember",
+            "/organization/:organizationName/removeMember",
+            "/organization/:organizationName/addAdmin",
+            "/organization/:organizationName/removeAdmin"
+          ],
+          "additionalProperties": false
+        },
+        "PATCH": {
+          "type": "object",
+          "properties": {
+            "/organizations/:organizationName": {
+              "type": "object",
+              "properties": {
+                "body": {
+                  "$ref": "#/definitions/Partial%3COrganization%3E"
+                },
+                "result": {
+                  "$ref": "#/definitions/Organization"
+                },
+                "url": {
+                  "type": "object",
+                  "properties": {
+                    "organizationName": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "organizationName"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "body",
+                "result",
+                "url"
+              ],
+              "additionalProperties": false
+            },
+            "/profiles/:id": {
+              "$ref": "#/definitions/PatchEndpoint%3CProfile%3E"
+            },
+            "/users/:id": {
+              "$ref": "#/definitions/PatchEndpoint%3CUser%3E"
+            }
+          },
+          "required": [
+            "/organizations/:organizationName",
+            "/profiles/:id",
+            "/users/:id"
+          ],
+          "additionalProperties": false
+        },
+        "PUT": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "result": {},
+              "url": {},
+              "query": {},
+              "body": {},
+              "headers": {}
+            },
+            "required": [
+              "result"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "DELETE": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "result": {},
+              "url": {},
+              "query": {},
+              "body": {},
+              "headers": {}
+            },
+            "required": [
+              "result"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "GET",
+        "POST",
+        "PATCH"
+      ],
+      "additionalProperties": false
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "registrationDate": {
+          "type": "string"
+        },
+        "avatarFile": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "terms-accepted",
+              "sys-diags",
+              "feature-switch-admin",
+              "user-admin",
+              "movie-admin"
+            ]
+          }
+        }
+      },
+      "required": [
+        "_id",
+        "username",
+        "password",
+        "registrationDate",
+        "roles"
+      ],
+      "additionalProperties": false
+    },
+    "GoogleAccount": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "googleId": {
+          "type": "number"
+        },
+        "googleApiPayload": {
+          "type": "object",
+          "properties": {
+            "iss": {
+              "type": "string"
+            },
+            "sub": {
+              "type": "number"
+            },
+            "email": {
+              "type": "string"
+            },
+            "email_verified": {
+              "type": "boolean"
+            },
+            "name": {
+              "type": "string"
+            },
+            "picture": {
+              "type": "string"
+            },
+            "given_name": {
+              "type": "string"
+            },
+            "family_name": {
+              "type": "string"
+            },
+            "locale": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "iss",
+            "sub",
+            "email",
+            "email_verified",
+            "name",
+            "picture",
+            "given_name",
+            "family_name",
+            "locale"
+          ],
+          "additionalProperties": false
+        },
+        "username": {
+          "type": "string"
+        },
+        "accountLinkDate": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "googleId",
+        "googleApiPayload",
+        "username",
+        "accountLinkDate"
+      ],
+      "additionalProperties": false
+    },
+    "GithubAccount": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "githubId": {
+          "type": "number"
+        },
+        "githubApiPayload": {
+          "$ref": "#/definitions/GithubApiPayload"
+        },
+        "username": {
+          "type": "string"
+        },
+        "accountLinkDate": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "githubId",
+        "githubApiPayload",
+        "username",
+        "accountLinkDate"
+      ],
+      "additionalProperties": false
+    },
+    "GithubApiPayload": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string"
+        },
+        "id": {
+          "type": "number"
+        },
+        "node_id": {
+          "type": "string"
+        },
+        "avatar_url": {
+          "type": "string"
+        },
+        "gravatar_id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "html_url": {
+          "type": "string"
+        },
+        "followers_url": {
+          "type": "string"
+        },
+        "following_url": {
+          "type": "string"
+        },
+        "gists_url": {
+          "type": "string"
+        },
+        "starred_url": {
+          "type": "string"
+        },
+        "subscriptions_url": {
+          "type": "string"
+        },
+        "organizations_url": {
+          "type": "string"
+        },
+        "repos_url": {
+          "type": "string"
+        },
+        "events_url": {
+          "type": "string"
+        },
+        "received_events_url": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "site_admin": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string"
+        },
+        "blog": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "hireable": {
+          "type": "boolean"
+        },
+        "bio": {
+          "type": "string"
+        },
+        "public_repos": {
+          "type": "number"
+        },
+        "public_gists": {
+          "type": "number"
+        },
+        "followers": {
+          "type": "number"
+        },
+        "following": {
+          "type": "number"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "login",
+        "id",
+        "node_id",
+        "avatar_url",
+        "gravatar_id",
+        "url",
+        "html_url",
+        "followers_url",
+        "following_url",
+        "gists_url",
+        "starred_url",
+        "subscriptions_url",
+        "organizations_url",
+        "repos_url",
+        "events_url",
+        "received_events_url",
+        "type",
+        "site_admin",
+        "name",
+        "company",
+        "blog",
+        "location",
+        "email",
+        "hireable",
+        "bio",
+        "public_repos",
+        "public_gists",
+        "followers",
+        "following",
+        "created_at",
+        "updated_at"
+      ],
+      "additionalProperties": false
+    },
+    "PartialResult<Profile,any>": {
+      "$ref": "#/definitions/Profile"
+    },
+    "Profile": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "userSettings": {
+          "$ref": "#/definitions/UserSettings"
+        }
+      },
+      "required": [
+        "_id",
+        "username",
+        "displayName",
+        "description",
+        "userSettings"
+      ],
+      "additionalProperties": false
+    },
+    "UserSettings": {
+      "type": "object",
+      "properties": {
+        "theme": {
+          "type": "string",
+          "enum": [
+            "light",
+            "dark"
+          ]
+        },
+        "dashboardId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "theme"
+      ],
+      "additionalProperties": false
+    },
+    "GetCollectionEndpoint<Profile>": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "findOptions": {
+              "$ref": "#/definitions/FindOptions%3CProfile%2C(%22_id%22%7C%22username%22%7C%22displayName%22%7C%22description%22%7C%22userSettings%22)%5B%5D%3E"
+            }
+          },
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/GetCollectionResult%3CProfile%2C(%22_id%22%7C%22username%22%7C%22displayName%22%7C%22description%22%7C%22userSettings%22)%3E"
+        }
+      },
+      "required": [
+        "query",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Rest endpoint model for getting / querying collections"
+    },
+    "FindOptions<Profile,(\"_id\"|\"username\"|\"displayName\"|\"description\"|\"userSettings\")[]>": {
+      "type": "object",
+      "properties": {
+        "top": {
+          "type": "number",
+          "description": "Limits the hits"
+        },
+        "skip": {
+          "type": "number",
+          "description": "Skips the first N hit"
+        },
+        "order": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "username": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "displayName": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "userSettings": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "description": "Sets up an order by a field and a direction"
+        },
+        "select": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "_id",
+              "username",
+              "displayName",
+              "description",
+              "userSettings"
+            ]
+          },
+          "description": "The result set will be limited to these fields"
+        },
+        "filter": {
+          "$ref": "#/definitions/FilterType%3CProfile%3E",
+          "description": "The fields should match this filter"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Type for default filtering model"
+    },
+    "FilterType<Profile>": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "$and": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CProfile%3E"
+          }
+        },
+        "$not": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CProfile%3E"
+          }
+        },
+        "$nor": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CProfile%3E"
+          }
+        },
+        "$or": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CProfile%3E"
+          }
+        },
+        "_id": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "username": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "displayName": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "userSettings": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "$ref": "#/definitions/UserSettings"
+                },
+                "$ne": {
+                  "$ref": "#/definitions/UserSettings"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/UserSettings"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/UserSettings"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        }
+      }
+    },
+    "GetCollectionResult<Profile,(\"_id\"|\"username\"|\"displayName\"|\"description\"|\"userSettings\")>": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "number",
+          "description": "The Total count of entities"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PartialResult%3CProfile%2C(%22_id%22%7C%22username%22%7C%22displayName%22%7C%22description%22%7C%22userSettings%22)%3E"
+          },
+          "description": "List of the selected entities"
+        }
+      },
+      "required": [
+        "count",
+        "entries"
+      ],
+      "additionalProperties": false,
+      "description": "Response Model for GetCollection"
+    },
+    "PartialResult<Profile,(\"_id\"|\"username\"|\"displayName\"|\"description\"|\"userSettings\")>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "userSettings": {
+          "$ref": "#/definitions/UserSettings"
+        }
+      },
+      "required": [
+        "_id",
+        "username",
+        "displayName",
+        "description",
+        "userSettings"
+      ],
+      "additionalProperties": false
+    },
+    "GetCollectionEndpoint<Organization>": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "findOptions": {
+              "$ref": "#/definitions/FindOptions%3COrganization%2C(%22_id%22%7C%22name%22%7C%22icon%22%7C%22description%22%7C%22owner%22%7C%22memberNames%22%7C%22adminNames%22)%5B%5D%3E"
+            }
+          },
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/GetCollectionResult%3COrganization%2C(%22_id%22%7C%22name%22%7C%22icon%22%7C%22description%22%7C%22owner%22%7C%22memberNames%22%7C%22adminNames%22)%3E"
+        }
+      },
+      "required": [
+        "query",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Rest endpoint model for getting / querying collections"
+    },
+    "FindOptions<Organization,(\"_id\"|\"name\"|\"icon\"|\"description\"|\"owner\"|\"memberNames\"|\"adminNames\")[]>": {
+      "type": "object",
+      "properties": {
+        "top": {
+          "type": "number",
+          "description": "Limits the hits"
+        },
+        "skip": {
+          "type": "number",
+          "description": "Skips the first N hit"
+        },
+        "order": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "icon": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "owner": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "memberNames": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "adminNames": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "description": "Sets up an order by a field and a direction"
+        },
+        "select": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "_id",
+              "name",
+              "icon",
+              "description",
+              "owner",
+              "memberNames",
+              "adminNames"
+            ]
+          },
+          "description": "The result set will be limited to these fields"
+        },
+        "filter": {
+          "$ref": "#/definitions/FilterType%3COrganization%3E",
+          "description": "The fields should match this filter"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Type for default filtering model"
+    },
+    "FilterType<Organization>": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "$and": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3COrganization%3E"
+          }
+        },
+        "$not": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3COrganization%3E"
+          }
+        },
+        "$nor": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3COrganization%3E"
+          }
+        },
+        "$or": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3COrganization%3E"
+          }
+        },
+        "_id": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "icon": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "owner": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "$ref": "#/definitions/Owner",
+                  "description": "The owner user name"
+                },
+                "$ne": {
+                  "$ref": "#/definitions/Owner",
+                  "description": "The owner user name"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Owner",
+                    "description": "The owner user name"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Owner",
+                    "description": "The owner user name"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "memberNames": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Unique user names of the organization members"
+                },
+                "$ne": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Unique user names of the organization members"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Unique user names of the organization members"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Unique user names of the organization members"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "adminNames": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Unique user names of the admins"
+                },
+                "$ne": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Unique user names of the admins"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Unique user names of the admins"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Unique user names of the admins"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        }
+      }
+    },
+    "Owner": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "user"
+            },
+            "username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "username"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "organization"
+            },
+            "organizationName": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "organizationName"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "system"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "GetCollectionResult<Organization,(\"_id\"|\"name\"|\"icon\"|\"description\"|\"owner\"|\"memberNames\"|\"adminNames\")>": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "number",
+          "description": "The Total count of entities"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PartialResult%3COrganization%2C(%22_id%22%7C%22name%22%7C%22icon%22%7C%22description%22%7C%22owner%22%7C%22memberNames%22%7C%22adminNames%22)%3E"
+          },
+          "description": "List of the selected entities"
+        }
+      },
+      "required": [
+        "count",
+        "entries"
+      ],
+      "additionalProperties": false,
+      "description": "Response Model for GetCollection"
+    },
+    "PartialResult<Organization,(\"_id\"|\"name\"|\"icon\"|\"description\"|\"owner\"|\"memberNames\"|\"adminNames\")>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner",
+          "description": "The owner user name"
+        },
+        "memberNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unique user names of the organization members"
+        },
+        "adminNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unique user names of the admins"
+        }
+      },
+      "required": [
+        "_id",
+        "name",
+        "icon",
+        "description",
+        "owner",
+        "memberNames",
+        "adminNames"
+      ],
+      "additionalProperties": false
+    },
+    "PartialResult<Organization,any>": {
+      "$ref": "#/definitions/Organization"
+    },
+    "Organization": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner",
+          "description": "The owner user name"
+        },
+        "memberNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unique user names of the organization members"
+        },
+        "adminNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unique user names of the admins"
+        }
+      },
+      "required": [
+        "_id",
+        "name",
+        "icon",
+        "description",
+        "owner",
+        "memberNames",
+        "adminNames"
+      ],
+      "additionalProperties": false
+    },
+    "GetCollectionEndpoint<User>": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "findOptions": {
+              "$ref": "#/definitions/FindOptions%3CUser%2C(%22_id%22%7C%22username%22%7C%22password%22%7C%22registrationDate%22%7C%22avatarFile%22%7C%22roles%22)%5B%5D%3E"
+            }
+          },
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/GetCollectionResult%3CUser%2C(%22_id%22%7C%22username%22%7C%22password%22%7C%22registrationDate%22%7C%22avatarFile%22%7C%22roles%22)%3E"
+        }
+      },
+      "required": [
+        "query",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Rest endpoint model for getting / querying collections"
+    },
+    "FindOptions<User,(\"_id\"|\"username\"|\"password\"|\"registrationDate\"|\"avatarFile\"|\"roles\")[]>": {
+      "type": "object",
+      "properties": {
+        "top": {
+          "type": "number",
+          "description": "Limits the hits"
+        },
+        "skip": {
+          "type": "number",
+          "description": "Skips the first N hit"
+        },
+        "order": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "username": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "password": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "registrationDate": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "avatarFile": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "roles": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "description": "Sets up an order by a field and a direction"
+        },
+        "select": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "_id",
+              "username",
+              "password",
+              "registrationDate",
+              "avatarFile",
+              "roles"
+            ]
+          },
+          "description": "The result set will be limited to these fields"
+        },
+        "filter": {
+          "$ref": "#/definitions/FilterType%3CUser%3E",
+          "description": "The fields should match this filter"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Type for default filtering model"
+    },
+    "FilterType<User>": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "$and": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CUser%3E"
+          }
+        },
+        "$not": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CUser%3E"
+          }
+        },
+        "$nor": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CUser%3E"
+          }
+        },
+        "$or": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CUser%3E"
+          }
+        },
+        "_id": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "username": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "password": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "registrationDate": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "avatarFile": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "not": {}
+                      }
+                    ]
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "not": {}
+                      }
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "roles": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "terms-accepted",
+                      "sys-diags",
+                      "feature-switch-admin",
+                      "user-admin",
+                      "movie-admin"
+                    ]
+                  }
+                },
+                "$ne": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "terms-accepted",
+                      "sys-diags",
+                      "feature-switch-admin",
+                      "user-admin",
+                      "movie-admin"
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "terms-accepted",
+                        "sys-diags",
+                        "feature-switch-admin",
+                        "user-admin",
+                        "movie-admin"
+                      ]
+                    }
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "terms-accepted",
+                        "sys-diags",
+                        "feature-switch-admin",
+                        "user-admin",
+                        "movie-admin"
+                      ]
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        }
+      }
+    },
+    "GetCollectionResult<User,(\"_id\"|\"username\"|\"password\"|\"registrationDate\"|\"avatarFile\"|\"roles\")>": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "number",
+          "description": "The Total count of entities"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PartialResult%3CUser%2C(%22_id%22%7C%22username%22%7C%22password%22%7C%22registrationDate%22%7C%22avatarFile%22%7C%22roles%22)%3E"
+          },
+          "description": "List of the selected entities"
+        }
+      },
+      "required": [
+        "count",
+        "entries"
+      ],
+      "additionalProperties": false,
+      "description": "Response Model for GetCollection"
+    },
+    "PartialResult<User,(\"_id\"|\"username\"|\"password\"|\"registrationDate\"|\"avatarFile\"|\"roles\")>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "registrationDate": {
+          "type": "string"
+        },
+        "avatarFile": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "terms-accepted",
+              "sys-diags",
+              "feature-switch-admin",
+              "user-admin",
+              "movie-admin"
+            ]
+          }
+        }
+      },
+      "required": [
+        "_id",
+        "username",
+        "password",
+        "registrationDate",
+        "roles"
+      ],
+      "additionalProperties": false
+    },
+    "GetEntityEndpoint<User>": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "select": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "_id",
+                  "username",
+                  "password",
+                  "registrationDate",
+                  "avatarFile",
+                  "roles"
+                ]
+              },
+              "description": "The list of fields to select"
+            }
+          },
+          "additionalProperties": false
+        },
+        "url": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "terms-accepted",
+                      "sys-diags",
+                      "feature-switch-admin",
+                      "user-admin",
+                      "movie-admin"
+                    ]
+                  }
+                }
+              ],
+              "description": "The entity's unique identifier"
+            }
+          },
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/PartialResult%3CUser%2Cany%3E"
+        }
+      },
+      "required": [
+        "query",
+        "url",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Endpoint model for getting a single entity"
+    },
+    "PartialResult<User,any>": {
+      "$ref": "#/definitions/User"
+    },
+    "Omit<User,\"password\">": {
+      "$ref": "#/definitions/Pick%3CUser%2CExclude%3C(%22_id%22%7C%22username%22%7C%22password%22%7C%22registrationDate%22%7C%22avatarFile%22%7C%22roles%22)%2C%22password%22%3E%3E"
+    },
+    "Pick<User,Exclude<(\"_id\"|\"username\"|\"password\"|\"registrationDate\"|\"avatarFile\"|\"roles\"),\"password\">>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "registrationDate": {
+          "type": "string"
+        },
+        "avatarFile": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "terms-accepted",
+              "sys-diags",
+              "feature-switch-admin",
+              "user-admin",
+              "movie-admin"
+            ]
+          }
+        }
+      },
+      "required": [
+        "_id",
+        "username",
+        "registrationDate",
+        "roles"
+      ],
+      "additionalProperties": false
+    },
+    "PostEndpoint<Organization>": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "$ref": "#/definitions/WithOptionalId%3COrganization%2C(%22_id%22%7C%22name%22%7C%22icon%22%7C%22description%22%7C%22owner%22%7C%22memberNames%22%7C%22adminNames%22)%3E"
+        },
+        "result": {
+          "$ref": "#/definitions/Organization"
+        }
+      },
+      "required": [
+        "body",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Endpoint model for creating new entities"
+    },
+    "WithOptionalId<Organization,(\"_id\"|\"name\"|\"icon\"|\"description\"|\"owner\"|\"memberNames\"|\"adminNames\")>": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner",
+          "description": "The owner user name"
+        },
+        "memberNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unique user names of the organization members"
+        },
+        "adminNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unique user names of the admins"
+        }
+      }
+    },
+    "Partial<Organization>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner",
+          "description": "The owner user name"
+        },
+        "memberNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unique user names of the organization members"
+        },
+        "adminNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unique user names of the admins"
+        }
+      },
+      "additionalProperties": false
+    },
+    "PatchEndpoint<Profile>": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "$ref": "#/definitions/Partial%3CProfile%3E"
+        },
+        "url": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/definitions/UserSettings"
+                }
+              ]
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "result": {
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "body",
+        "url",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Endpoint model for updating entities"
+    },
+    "Partial<Profile>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "userSettings": {
+          "$ref": "#/definitions/UserSettings"
+        }
+      },
+      "additionalProperties": false
+    },
+    "PatchEndpoint<User>": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "$ref": "#/definitions/Partial%3CUser%3E"
+        },
+        "url": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "terms-accepted",
+                      "sys-diags",
+                      "feature-switch-admin",
+                      "user-admin",
+                      "movie-admin"
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "result": {
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "body",
+        "url",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Endpoint model for updating entities"
+    },
+    "Partial<User>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "registrationDate": {
+          "type": "string"
+        },
+        "avatarFile": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "terms-accepted",
+              "sys-diags",
+              "feature-switch-admin",
+              "user-admin",
+              "movie-admin"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

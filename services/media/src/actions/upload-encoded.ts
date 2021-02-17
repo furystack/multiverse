@@ -1,17 +1,17 @@
 import { join } from 'path'
 import { promises } from 'fs'
-import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { IncomingForm, Fields, Files } from 'formidable'
 import { FileStores } from '@common/config'
 import { media } from '@common/models'
 import { StoreManager } from '@furystack/core'
 import { existsAsync } from '@common/service-utils'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 
-export const UploadEncoded: RequestAction<{ urlParams: { movieId: string; accessToken: string } }> = async ({
-  injector,
-  request,
-  getUrlParams,
-}) => {
+export const UploadEncoded: RequestAction<{
+  url: { movieId: string; accessToken: string }
+  result: { success: boolean }
+}> = async ({ injector, request, getUrlParams }) => {
   const { movieId, accessToken } = getUrlParams()
 
   const storeManager = injector.getInstance(StoreManager)
@@ -67,7 +67,7 @@ export const UploadEncoded: RequestAction<{ urlParams: { movieId: string; access
       error,
       status: error ? 'failed' : 'inProgress',
       workerInfo: {
-        ip: (request.headers['x-forwarded-for'] as string) || request.connection.remoteAddress || 'unknown',
+        ip: (request.headers['x-forwarded-for'] as string) || request.socket.remoteAddress || 'unknown',
       },
     })
   }

@@ -38,6 +38,7 @@ export const MoviesPage = Shade({
                     method: 'GET',
                     action: '/movies/:id',
                     url: { id: match.params.movieId },
+                    query: {},
                   })
                   return <EditMovie movie={movie} />
                 }}
@@ -76,6 +77,7 @@ export const MoviesPage = Shade({
                     method: 'GET',
                     action: '/encode/tasks/:id',
                     url: { id: match.params.encodingTaskId },
+                    query: {},
                   })
                   return <EncodingTaskDetails encodingTask={task} />
                 }}
@@ -169,6 +171,7 @@ export const MoviesPage = Shade({
                       method: 'GET',
                       action: '/movie-libraries/:id',
                       url: { id: libraryId },
+                      query: {},
                     })
                     return (
                       <GenericMonacoEditor<media.MovieLibrary, 'mediaSchema', 'MovieLibrary'>
@@ -208,6 +211,7 @@ export const MoviesPage = Shade({
                     method: 'GET',
                     action: '/movies/:id',
                     url: { id: match.params.movieId },
+                    query: {},
                   })
                   const movieProgress = await injector.getInstance(MediaApiService).call({
                     method: 'GET',

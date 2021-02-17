@@ -1,0 +1,1787 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/DiagApi",
+  "definitions": {
+    "DiagApi": {
+      "type": "object",
+      "properties": {
+        "GET": {
+          "type": "object",
+          "properties": {
+            "/logEntries": {
+              "$ref": "#/definitions/GetCollectionEndpoint%3CLogEntry%3E"
+            },
+            "/logEntries/:id": {
+              "$ref": "#/definitions/GetEntityEndpoint%3CLogEntry%3E"
+            },
+            "/patches": {
+              "$ref": "#/definitions/GetCollectionEndpoint%3CPatch%3E"
+            },
+            "/patches/:id": {
+              "$ref": "#/definitions/GetEntityEndpoint%3CPatch%3E"
+            }
+          },
+          "required": [
+            "/logEntries",
+            "/logEntries/:id",
+            "/patches",
+            "/patches/:id"
+          ],
+          "additionalProperties": false
+        },
+        "POST": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "result": {},
+              "url": {},
+              "query": {},
+              "body": {},
+              "headers": {}
+            },
+            "required": [
+              "result"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "PATCH": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "result": {},
+              "url": {},
+              "query": {},
+              "body": {},
+              "headers": {}
+            },
+            "required": [
+              "result"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "PUT": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "result": {},
+              "url": {},
+              "query": {},
+              "body": {},
+              "headers": {}
+            },
+            "required": [
+              "result"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "DELETE": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "result": {},
+              "url": {},
+              "query": {},
+              "body": {},
+              "headers": {}
+            },
+            "required": [
+              "result"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "GET"
+      ],
+      "additionalProperties": false
+    },
+    "GetCollectionEndpoint<LogEntry>": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "findOptions": {
+              "$ref": "#/definitions/FindOptions%3CLogEntry%2C(%22_id%22%7C%22level%22%7C%22scope%22%7C%22message%22%7C%22data%22%7C%22appName%22%7C%22creationDate%22)%5B%5D%3E"
+            }
+          },
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/GetCollectionResult%3CLogEntry%2C(%22_id%22%7C%22level%22%7C%22scope%22%7C%22message%22%7C%22data%22%7C%22appName%22%7C%22creationDate%22)%3E"
+        }
+      },
+      "required": [
+        "query",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Rest endpoint model for getting / querying collections"
+    },
+    "FindOptions<LogEntry,(\"_id\"|\"level\"|\"scope\"|\"message\"|\"data\"|\"appName\"|\"creationDate\")[]>": {
+      "type": "object",
+      "properties": {
+        "top": {
+          "type": "number",
+          "description": "Limits the hits"
+        },
+        "skip": {
+          "type": "number",
+          "description": "Skips the first N hit"
+        },
+        "order": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "level": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "scope": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "data": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "appName": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "creationDate": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "description": "Sets up an order by a field and a direction"
+        },
+        "select": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "_id",
+              "level",
+              "scope",
+              "message",
+              "data",
+              "appName",
+              "creationDate"
+            ]
+          },
+          "description": "The result set will be limited to these fields"
+        },
+        "filter": {
+          "$ref": "#/definitions/FilterType%3CLogEntry%3E",
+          "description": "The fields should match this filter"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Type for default filtering model"
+    },
+    "FilterType<LogEntry>": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "$and": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CLogEntry%3E"
+          }
+        },
+        "$not": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CLogEntry%3E"
+          }
+        },
+        "$nor": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CLogEntry%3E"
+          }
+        },
+        "$or": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CLogEntry%3E"
+          }
+        },
+        "_id": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "level": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$gt": {
+                  "$ref": "#/definitions/LogLevel",
+                  "description": "The verbosity level of the log entry"
+                },
+                "$gte": {
+                  "$ref": "#/definitions/LogLevel",
+                  "description": "The verbosity level of the log entry"
+                },
+                "$lt": {
+                  "$ref": "#/definitions/LogLevel",
+                  "description": "The verbosity level of the log entry"
+                },
+                "$lte": {
+                  "$ref": "#/definitions/LogLevel",
+                  "description": "The verbosity level of the log entry"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "$ref": "#/definitions/LogLevel",
+                  "description": "The verbosity level of the log entry"
+                },
+                "$ne": {
+                  "$ref": "#/definitions/LogLevel",
+                  "description": "The verbosity level of the log entry"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/LogLevel",
+                    "description": "The verbosity level of the log entry"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/LogLevel",
+                    "description": "The verbosity level of the log entry"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string",
+                  "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+                },
+                "$ne": {
+                  "type": "string",
+                  "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "message": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string",
+                  "description": "The message string"
+                },
+                "$ne": {
+                  "type": "string",
+                  "description": "The message string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "The message string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "The message string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "data": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "description": "Additional entry data"
+                },
+                "$ne": {
+                  "description": "Additional entry data"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "not": {},
+                    "description": "Additional entry data"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "not": {},
+                    "description": "Additional entry data"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "appName": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "creationDate": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "$ne": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        }
+      }
+    },
+    "LogLevel": {
+      "type": "number",
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "description": "The verbosity level of a log entry"
+    },
+    "GetCollectionResult<LogEntry,(\"_id\"|\"level\"|\"scope\"|\"message\"|\"data\"|\"appName\"|\"creationDate\")>": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "number",
+          "description": "The Total count of entities"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PartialResult%3CLogEntry%2C(%22_id%22%7C%22level%22%7C%22scope%22%7C%22message%22%7C%22data%22%7C%22appName%22%7C%22creationDate%22)%3E"
+          },
+          "description": "List of the selected entities"
+        }
+      },
+      "required": [
+        "count",
+        "entries"
+      ],
+      "additionalProperties": false,
+      "description": "Response Model for GetCollection"
+    },
+    "PartialResult<LogEntry,(\"_id\"|\"level\"|\"scope\"|\"message\"|\"data\"|\"appName\"|\"creationDate\")>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "level": {
+          "$ref": "#/definitions/LogLevel",
+          "description": "The verbosity level of the log entry"
+        },
+        "scope": {
+          "type": "string",
+          "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+        },
+        "message": {
+          "type": "string",
+          "description": "The message string"
+        },
+        "data": {
+          "description": "Additional entry data"
+        },
+        "appName": {
+          "type": "string"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "_id",
+        "level",
+        "scope",
+        "message",
+        "appName",
+        "creationDate"
+      ],
+      "additionalProperties": false
+    },
+    "GetEntityEndpoint<LogEntry>": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "select": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "_id",
+                  "level",
+                  "scope",
+                  "message",
+                  "data",
+                  "appName",
+                  "creationDate"
+                ]
+              },
+              "description": "The list of fields to select"
+            }
+          },
+          "additionalProperties": false
+        },
+        "url": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/definitions/LogLevel",
+                  "description": "The verbosity level of the log entry"
+                },
+                {
+                  "type": "string",
+                  "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+                },
+                {
+                  "type": "string",
+                  "description": "The message string"
+                },
+                {
+                  "description": "Additional entry data"
+                },
+                {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              ],
+              "description": "The entity's unique identifier"
+            }
+          },
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/PartialResult%3CLogEntry%2Cany%3E"
+        }
+      },
+      "required": [
+        "query",
+        "url",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Endpoint model for getting a single entity"
+    },
+    "PartialResult<LogEntry,any>": {
+      "$ref": "#/definitions/LogEntry"
+    },
+    "LogEntry": {
+      "type": "object",
+      "properties": {
+        "scope": {
+          "type": "string",
+          "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+        },
+        "message": {
+          "type": "string",
+          "description": "The message string"
+        },
+        "data": {
+          "description": "Additional entry data"
+        },
+        "level": {
+          "$ref": "#/definitions/LogLevel",
+          "description": "The verbosity level of the log entry"
+        },
+        "_id": {
+          "type": "string"
+        },
+        "appName": {
+          "type": "string"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "_id",
+        "appName",
+        "creationDate",
+        "level",
+        "message",
+        "scope"
+      ],
+      "additionalProperties": false
+    },
+    "GetCollectionEndpoint<Patch>": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "findOptions": {
+              "$ref": "#/definitions/FindOptions%3CPatch%2C(%22_id%22%7C%22appName%22%7C%22name%22%7C%22description%22%7C%22status%22%7C%22startDate%22%7C%22finishDate%22%7C%22error%22%7C%22errors%22%7C%22warns%22%7C%22updates%22)%5B%5D%3E"
+            }
+          },
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/GetCollectionResult%3CPatch%2C(%22_id%22%7C%22appName%22%7C%22name%22%7C%22description%22%7C%22status%22%7C%22startDate%22%7C%22finishDate%22%7C%22error%22%7C%22errors%22%7C%22warns%22%7C%22updates%22)%3E"
+        }
+      },
+      "required": [
+        "query",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Rest endpoint model for getting / querying collections"
+    },
+    "FindOptions<Patch,(\"_id\"|\"appName\"|\"name\"|\"description\"|\"status\"|\"startDate\"|\"finishDate\"|\"error\"|\"errors\"|\"warns\"|\"updates\")[]>": {
+      "type": "object",
+      "properties": {
+        "top": {
+          "type": "number",
+          "description": "Limits the hits"
+        },
+        "skip": {
+          "type": "number",
+          "description": "Skips the first N hit"
+        },
+        "order": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "appName": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "startDate": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "finishDate": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "error": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "errors": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "warns": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "updates": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "description": "Sets up an order by a field and a direction"
+        },
+        "select": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "_id",
+              "appName",
+              "name",
+              "description",
+              "status",
+              "startDate",
+              "finishDate",
+              "error",
+              "errors",
+              "warns",
+              "updates"
+            ]
+          },
+          "description": "The result set will be limited to these fields"
+        },
+        "filter": {
+          "$ref": "#/definitions/FilterType%3CPatch%3E",
+          "description": "The fields should match this filter"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Type for default filtering model"
+    },
+    "FilterType<Patch>": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "$and": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CPatch%3E"
+          }
+        },
+        "$not": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CPatch%3E"
+          }
+        },
+        "$nor": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CPatch%3E"
+          }
+        },
+        "$or": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CPatch%3E"
+          }
+        },
+        "_id": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "appName": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string",
+                  "enum": [
+                    "completed",
+                    "failed"
+                  ]
+                },
+                "$ne": {
+                  "type": "string",
+                  "enum": [
+                    "completed",
+                    "failed"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "completed",
+                      "failed"
+                    ]
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "completed",
+                      "failed"
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "startDate": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "$ne": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "finishDate": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "$ne": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {},
+                "$ne": {}
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "not": {}
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "not": {}
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "errors": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      },
+                      "stack": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "message",
+                      "stack"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "$ne": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      },
+                      "stack": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "message",
+                      "stack"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string"
+                            },
+                            "stack": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "message",
+                            "stack"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      {
+                        "not": {}
+                      }
+                    ]
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string"
+                            },
+                            "stack": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "message",
+                            "stack"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      {
+                        "not": {}
+                      }
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "warns": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$ne": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {
+                        "not": {}
+                      }
+                    ]
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {
+                        "not": {}
+                      }
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "updates": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$ne": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {
+                        "not": {}
+                      }
+                    ]
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {
+                        "not": {}
+                      }
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        }
+      }
+    },
+    "GetCollectionResult<Patch,(\"_id\"|\"appName\"|\"name\"|\"description\"|\"status\"|\"startDate\"|\"finishDate\"|\"error\"|\"errors\"|\"warns\"|\"updates\")>": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "number",
+          "description": "The Total count of entities"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PartialResult%3CPatch%2C(%22_id%22%7C%22appName%22%7C%22name%22%7C%22description%22%7C%22status%22%7C%22startDate%22%7C%22finishDate%22%7C%22error%22%7C%22errors%22%7C%22warns%22%7C%22updates%22)%3E"
+          },
+          "description": "List of the selected entities"
+        }
+      },
+      "required": [
+        "count",
+        "entries"
+      ],
+      "additionalProperties": false,
+      "description": "Response Model for GetCollection"
+    },
+    "PartialResult<Patch,(\"_id\"|\"appName\"|\"name\"|\"description\"|\"status\"|\"startDate\"|\"finishDate\"|\"error\"|\"errors\"|\"warns\"|\"updates\")>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "appName": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "completed",
+            "failed"
+          ]
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "finishDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "error": {},
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "stack": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "message",
+              "stack"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "warns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "updates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "_id",
+        "appName",
+        "name",
+        "description",
+        "status",
+        "startDate",
+        "finishDate"
+      ],
+      "additionalProperties": false
+    },
+    "GetEntityEndpoint<Patch>": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "select": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "_id",
+                  "appName",
+                  "name",
+                  "description",
+                  "status",
+                  "startDate",
+                  "finishDate",
+                  "error",
+                  "errors",
+                  "warns",
+                  "updates"
+                ]
+              },
+              "description": "The list of fields to select"
+            }
+          },
+          "additionalProperties": false
+        },
+        "url": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "string",
+                  "const": "completed"
+                },
+                {
+                  "type": "string",
+                  "const": "failed"
+                },
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      },
+                      "stack": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "message",
+                      "stack"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "description": "The entity's unique identifier"
+            }
+          },
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/PartialResult%3CPatch%2Cany%3E"
+        }
+      },
+      "required": [
+        "query",
+        "url",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Endpoint model for getting a single entity"
+    },
+    "PartialResult<Patch,any>": {
+      "$ref": "#/definitions/Patch"
+    },
+    "Patch": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "appName": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "completed",
+            "failed"
+          ]
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "finishDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "error": {},
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "stack": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "message",
+              "stack"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "warns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "updates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "_id",
+        "appName",
+        "name",
+        "description",
+        "status",
+        "startDate",
+        "finishDate"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

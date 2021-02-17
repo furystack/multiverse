@@ -32,6 +32,7 @@ export const WelcomePage = Shade<{ profile: auth.Profile }>({
               method: 'GET',
               action: '/boards/:id',
               url: { id: dashboardId },
+              query: {},
             })
             return <Dashboard {...entry} />
           }
