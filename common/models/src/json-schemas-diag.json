@@ -1,7 +1,106 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$ref": "#/definitions/Patch",
   "definitions": {
+    "LogEntry": {
+      "type": "object",
+      "properties": {
+        "scope": {
+          "type": "string",
+          "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+        },
+        "message": {
+          "type": "string",
+          "description": "The message string"
+        },
+        "data": {
+          "description": "Additional entry data"
+        },
+        "level": {
+          "$ref": "#/definitions/LogLevel",
+          "description": "The verbosity level of the log entry"
+        },
+        "_id": {
+          "type": "string"
+        },
+        "appName": {
+          "type": "string"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "_id",
+        "appName",
+        "creationDate",
+        "level",
+        "message",
+        "scope"
+      ],
+      "additionalProperties": false
+    },
+    "LeveledLogEntry<any>": {
+      "type": "object",
+      "properties": {
+        "scope": {
+          "type": "string",
+          "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+        },
+        "message": {
+          "type": "string",
+          "description": "The message string"
+        },
+        "data": {
+          "description": "Additional entry data"
+        },
+        "level": {
+          "$ref": "#/definitions/LogLevel",
+          "description": "The verbosity level of the log entry"
+        }
+      },
+      "required": [
+        "level",
+        "message",
+        "scope"
+      ],
+      "additionalProperties": false,
+      "description": "Interface that represents a log entry with a specific level"
+    },
+    "LogEntry<any>": {
+      "type": "object",
+      "properties": {
+        "scope": {
+          "type": "string",
+          "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+        },
+        "message": {
+          "type": "string",
+          "description": "The message string"
+        },
+        "data": {
+          "description": "Additional entry data"
+        }
+      },
+      "required": [
+        "scope",
+        "message"
+      ],
+      "additionalProperties": false,
+      "description": "A log entry representation"
+    },
+    "LogLevel": {
+      "type": "number",
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "description": "The verbosity level of a log entry"
+    },
     "Patch": {
       "type": "object",
       "properties": {

@@ -71,6 +71,7 @@ export const exec = async () => {
       path: join(process.cwd(), schemaValue.inputFile),
       tsconfig: join(process.cwd(), './tsconfig.json'),
       skipTypeCheck: true,
+      expose: 'all',
     }).createSchema(schemaValue.type)
     await promises.writeFile(join(process.cwd(), schemaValue.outputFile), JSON.stringify(schema, null, 2))
   }

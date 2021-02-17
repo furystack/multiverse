@@ -1762,36 +1762,7 @@
       "type": "object",
       "properties": {
         "body": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            },
-            "description": {
-              "type": "string"
-            },
-            "owner": {
-              "$ref": "#/definitions/Owner"
-            },
-            "creationDate": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "modificationDate": {
-              "type": "string",
-              "format": "date-time"
-            },
-            "widgets": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Widget"
-              }
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/definitions/Partial%3CDashboard%3E"
         },
         "url": {
           "type": "object",
@@ -1834,6 +1805,38 @@
       ],
       "additionalProperties": false,
       "description": "Endpoint model for updating entities"
+    },
+    "Partial<Dashboard>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "modificationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "widgets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Widget"
+          }
+        }
+      },
+      "additionalProperties": false
     }
   }
 }

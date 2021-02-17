@@ -217,41 +217,7 @@
                   "additionalProperties": false
                 },
                 "result": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string"
-                    },
-                    "username": {
-                      "type": "string"
-                    },
-                    "registrationDate": {
-                      "type": "string"
-                    },
-                    "avatarFile": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "enum": [
-                          "terms-accepted",
-                          "sys-diags",
-                          "feature-switch-admin",
-                          "user-admin",
-                          "movie-admin"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "_id",
-                    "username",
-                    "registrationDate",
-                    "roles"
-                  ],
-                  "additionalProperties": false
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
                 }
               },
               "required": [
@@ -280,41 +246,7 @@
                   "additionalProperties": false
                 },
                 "result": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string"
-                    },
-                    "username": {
-                      "type": "string"
-                    },
-                    "registrationDate": {
-                      "type": "string"
-                    },
-                    "avatarFile": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "enum": [
-                          "terms-accepted",
-                          "sys-diags",
-                          "feature-switch-admin",
-                          "user-admin",
-                          "movie-admin"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "_id",
-                    "username",
-                    "registrationDate",
-                    "roles"
-                  ],
-                  "additionalProperties": false
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
                 }
               },
               "required": [
@@ -339,41 +271,7 @@
                   "additionalProperties": false
                 },
                 "result": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string"
-                    },
-                    "username": {
-                      "type": "string"
-                    },
-                    "registrationDate": {
-                      "type": "string"
-                    },
-                    "avatarFile": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "enum": [
-                          "terms-accepted",
-                          "sys-diags",
-                          "feature-switch-admin",
-                          "user-admin",
-                          "movie-admin"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "_id",
-                    "username",
-                    "registrationDate",
-                    "roles"
-                  ],
-                  "additionalProperties": false
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
                 }
               },
               "required": [
@@ -398,41 +296,7 @@
                   "additionalProperties": false
                 },
                 "result": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string"
-                    },
-                    "username": {
-                      "type": "string"
-                    },
-                    "registrationDate": {
-                      "type": "string"
-                    },
-                    "avatarFile": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "enum": [
-                          "terms-accepted",
-                          "sys-diags",
-                          "feature-switch-admin",
-                          "user-admin",
-                          "movie-admin"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "_id",
-                    "username",
-                    "registrationDate",
-                    "roles"
-                  ],
-                  "additionalProperties": false
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
                 }
               },
               "required": [
@@ -457,41 +321,7 @@
                   "additionalProperties": false
                 },
                 "result": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string"
-                    },
-                    "username": {
-                      "type": "string"
-                    },
-                    "registrationDate": {
-                      "type": "string"
-                    },
-                    "avatarFile": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "enum": [
-                          "terms-accepted",
-                          "sys-diags",
-                          "feature-switch-admin",
-                          "user-admin",
-                          "movie-admin"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "_id",
-                    "username",
-                    "registrationDate",
-                    "roles"
-                  ],
-                  "additionalProperties": false
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
                 }
               },
               "required": [
@@ -504,41 +334,7 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string"
-                    },
-                    "username": {
-                      "type": "string"
-                    },
-                    "registrationDate": {
-                      "type": "string"
-                    },
-                    "avatarFile": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "enum": [
-                          "terms-accepted",
-                          "sys-diags",
-                          "feature-switch-admin",
-                          "user-admin",
-                          "movie-admin"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "_id",
-                    "username",
-                    "registrationDate",
-                    "roles"
-                  ],
-                  "additionalProperties": false
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
                 }
               },
               "required": [
@@ -566,41 +362,7 @@
                   "additionalProperties": false
                 },
                 "result": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string"
-                    },
-                    "username": {
-                      "type": "string"
-                    },
-                    "registrationDate": {
-                      "type": "string"
-                    },
-                    "avatarFile": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "enum": [
-                          "terms-accepted",
-                          "sys-diags",
-                          "feature-switch-admin",
-                          "user-admin",
-                          "movie-admin"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "_id",
-                    "username",
-                    "registrationDate",
-                    "roles"
-                  ],
-                  "additionalProperties": false
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
                 }
               },
               "required": [
@@ -629,41 +391,7 @@
                   "additionalProperties": false
                 },
                 "result": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string"
-                    },
-                    "username": {
-                      "type": "string"
-                    },
-                    "registrationDate": {
-                      "type": "string"
-                    },
-                    "avatarFile": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "enum": [
-                          "terms-accepted",
-                          "sys-diags",
-                          "feature-switch-admin",
-                          "user-admin",
-                          "movie-admin"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "_id",
-                    "username",
-                    "registrationDate",
-                    "roles"
-                  ],
-                  "additionalProperties": false
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
                 }
               },
               "required": [
@@ -692,41 +420,7 @@
                   "additionalProperties": false
                 },
                 "result": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string"
-                    },
-                    "username": {
-                      "type": "string"
-                    },
-                    "registrationDate": {
-                      "type": "string"
-                    },
-                    "avatarFile": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "enum": [
-                          "terms-accepted",
-                          "sys-diags",
-                          "feature-switch-admin",
-                          "user-admin",
-                          "movie-admin"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "_id",
-                    "username",
-                    "registrationDate",
-                    "roles"
-                  ],
-                  "additionalProperties": false
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
                 }
               },
               "required": [
@@ -739,41 +433,7 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string"
-                    },
-                    "username": {
-                      "type": "string"
-                    },
-                    "registrationDate": {
-                      "type": "string"
-                    },
-                    "avatarFile": {
-                      "type": "string"
-                    },
-                    "roles": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "enum": [
-                          "terms-accepted",
-                          "sys-diags",
-                          "feature-switch-admin",
-                          "user-admin",
-                          "movie-admin"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "_id",
-                    "username",
-                    "registrationDate",
-                    "roles"
-                  ],
-                  "additionalProperties": false
+                  "$ref": "#/definitions/Omit%3CUser%2C%22password%22%3E"
                 }
               },
               "required": [
@@ -1074,40 +734,7 @@
               "type": "object",
               "properties": {
                 "body": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "icon": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "owner": {
-                      "$ref": "#/definitions/Owner",
-                      "description": "The owner user name"
-                    },
-                    "memberNames": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "description": "Unique user names of the organization members"
-                    },
-                    "adminNames": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "description": "Unique user names of the admins"
-                    }
-                  },
-                  "additionalProperties": false
+                  "$ref": "#/definitions/Partial%3COrganization%3E"
                 },
                 "result": {
                   "$ref": "#/definitions/Organization"
@@ -3071,6 +2698,46 @@
     "PartialResult<User,any>": {
       "$ref": "#/definitions/User"
     },
+    "Omit<User,\"password\">": {
+      "$ref": "#/definitions/Pick%3CUser%2CExclude%3C(%22_id%22%7C%22username%22%7C%22password%22%7C%22registrationDate%22%7C%22avatarFile%22%7C%22roles%22)%2C%22password%22%3E%3E"
+    },
+    "Pick<User,Exclude<(\"_id\"|\"username\"|\"password\"|\"registrationDate\"|\"avatarFile\"|\"roles\"),\"password\">>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "registrationDate": {
+          "type": "string"
+        },
+        "avatarFile": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "terms-accepted",
+              "sys-diags",
+              "feature-switch-admin",
+              "user-admin",
+              "movie-admin"
+            ]
+          }
+        }
+      },
+      "required": [
+        "_id",
+        "username",
+        "registrationDate",
+        "roles"
+      ],
+      "additionalProperties": false
+    },
     "PostEndpoint<Organization>": {
       "type": "object",
       "properties": {
@@ -3124,29 +2791,47 @@
         }
       }
     },
+    "Partial<Organization>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner",
+          "description": "The owner user name"
+        },
+        "memberNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unique user names of the organization members"
+        },
+        "adminNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Unique user names of the admins"
+        }
+      },
+      "additionalProperties": false
+    },
     "PatchEndpoint<Profile>": {
       "type": "object",
       "properties": {
         "body": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string"
-            },
-            "username": {
-              "type": "string"
-            },
-            "displayName": {
-              "type": "string"
-            },
-            "description": {
-              "type": "string"
-            },
-            "userSettings": {
-              "$ref": "#/definitions/UserSettings"
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/definitions/Partial%3CProfile%3E"
         },
         "url": {
           "type": "object",
@@ -3180,42 +2865,32 @@
       "additionalProperties": false,
       "description": "Endpoint model for updating entities"
     },
+    "Partial<Profile>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "userSettings": {
+          "$ref": "#/definitions/UserSettings"
+        }
+      },
+      "additionalProperties": false
+    },
     "PatchEndpoint<User>": {
       "type": "object",
       "properties": {
         "body": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string"
-            },
-            "username": {
-              "type": "string"
-            },
-            "password": {
-              "type": "string"
-            },
-            "registrationDate": {
-              "type": "string"
-            },
-            "avatarFile": {
-              "type": "string"
-            },
-            "roles": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "terms-accepted",
-                  "sys-diags",
-                  "feature-switch-admin",
-                  "user-admin",
-                  "movie-admin"
-                ]
-              }
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/definitions/Partial%3CUser%3E"
         },
         "url": {
           "type": "object",
@@ -3255,6 +2930,40 @@
       ],
       "additionalProperties": false,
       "description": "Endpoint model for updating entities"
+    },
+    "Partial<User>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "registrationDate": {
+          "type": "string"
+        },
+        "avatarFile": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "terms-accepted",
+              "sys-diags",
+              "feature-switch-admin",
+              "user-admin",
+              "movie-admin"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
     }
   }
 }

@@ -4400,52 +4400,7 @@
       "type": "object",
       "properties": {
         "body": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string"
-            },
-            "path": {
-              "type": "string"
-            },
-            "libraryId": {
-              "type": "string"
-            },
-            "omdbMeta": {
-              "$ref": "#/definitions/OmdbMetadata"
-            },
-            "ffprobe": {
-              "$ref": "#/definitions/FfprobeMetadata"
-            },
-            "metadata": {
-              "$ref": "#/definitions/MovieUniversalMetadata"
-            },
-            "availableFormats": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "codec": {
-                    "type": "string",
-                    "enum": [
-                      "libvpx-vp9",
-                      "x264"
-                    ]
-                  },
-                  "mode": {
-                    "type": "string",
-                    "const": "dash"
-                  }
-                },
-                "required": [
-                  "codec",
-                  "mode"
-                ],
-                "additionalProperties": false
-              }
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/definitions/Partial%3CMovie%3E"
         },
         "url": {
           "type": "object",
@@ -4506,40 +4461,59 @@
       "additionalProperties": false,
       "description": "Endpoint model for updating entities"
     },
+    "Partial<Movie>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "libraryId": {
+          "type": "string"
+        },
+        "omdbMeta": {
+          "$ref": "#/definitions/OmdbMetadata"
+        },
+        "ffprobe": {
+          "$ref": "#/definitions/FfprobeMetadata"
+        },
+        "metadata": {
+          "$ref": "#/definitions/MovieUniversalMetadata"
+        },
+        "availableFormats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "codec": {
+                "type": "string",
+                "enum": [
+                  "libvpx-vp9",
+                  "x264"
+                ]
+              },
+              "mode": {
+                "type": "string",
+                "const": "dash"
+              }
+            },
+            "required": [
+              "codec",
+              "mode"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
     "PatchEndpoint<MovieLibrary>": {
       "type": "object",
       "properties": {
         "body": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string"
-            },
-            "icon": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            },
-            "path": {
-              "type": "string"
-            },
-            "owner": {
-              "$ref": "#/definitions/Owner"
-            },
-            "encoding": {
-              "anyOf": [
-                {
-                  "$ref": "#/definitions/EncodingType"
-                },
-                {
-                  "type": "boolean",
-                  "const": false
-                }
-              ]
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/definitions/Partial%3CMovieLibrary%3E"
         },
         "url": {
           "type": "object",
@@ -4579,6 +4553,38 @@
       ],
       "additionalProperties": false,
       "description": "Endpoint model for updating entities"
+    },
+    "Partial<MovieLibrary>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner"
+        },
+        "encoding": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/EncodingType"
+            },
+            {
+              "type": "boolean",
+              "const": false
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
     }
   }
 }
