@@ -1,7 +1,6 @@
 import { Injector } from '@furystack/inject'
 import { apis, deserialize, auth } from '@common/models'
 import { sites } from '@common/config'
-import { RequestAction } from '@furystack/rest'
 import {
   GetCurrentUser,
   IsAuthenticated,
@@ -13,6 +12,7 @@ import {
   createPatchEndpoint,
   Authorize,
   createGetEntityEndpoint,
+  RequestAction,
 } from '@furystack/rest-service'
 import {
   GetProfile,

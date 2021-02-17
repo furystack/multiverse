@@ -1,11 +1,11 @@
-import { RequestAction, JsonResult } from '@furystack/rest'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 import { auth, media } from '@common/models'
 import { isValidOmdbMetadata } from '@common/models/dist/media'
 
-export const SaveWatchProgress: RequestAction<{ body: { movieId: string; watchedSeconds: number } }> = async ({
-  getBody,
-  injector,
-}) => {
+export const SaveWatchProgress: RequestAction<{
+  body: { movieId: string; watchedSeconds: number }
+  result: { success: boolean }
+}> = async ({ getBody, injector }) => {
   const logger = injector.logger.withScope('SaveWatchProgress')
 
   const usr = await injector.getCurrentUser<auth.User>()

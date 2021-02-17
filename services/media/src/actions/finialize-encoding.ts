@@ -1,6 +1,7 @@
-import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
 import { LeveledLogEntry } from '@furystack/logging'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 
 export const FinializeEncodingAction: RequestAction<{
   body: {
@@ -8,6 +9,9 @@ export const FinializeEncodingAction: RequestAction<{
     codec: media.EncodingType['codec']
     mode: media.EncodingType['mode']
     log: Array<LeveledLogEntry<any>>
+  }
+  result: {
+    success: boolean
   }
 }> = async ({ injector, getBody }) => {
   const { accessToken, codec, mode, log } = await getBody()

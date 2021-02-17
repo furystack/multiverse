@@ -1,9 +1,10 @@
-import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 
 export const GetWorkerTask: RequestAction<{
   result: media.EncodingTask
-  urlParams: { taskId: string }
+  url: { taskId: string }
 }> = async ({ injector, request, getUrlParams }) => {
   const token = request.headers?.['task-token']
 

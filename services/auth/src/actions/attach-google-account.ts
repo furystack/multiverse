@@ -1,7 +1,8 @@
-import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { GoogleLoginService } from '@furystack/auth-google'
 import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 
 /**
  * HTTP Request action for Google Logins

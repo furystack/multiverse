@@ -1,6 +1,6 @@
-import { RequestAction, JsonResult } from '@furystack/rest'
 import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 import { GithubAuthService } from '../services/github-login-service'
 
 export const AttachGithubAccount: RequestAction<{

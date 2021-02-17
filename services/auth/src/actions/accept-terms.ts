@@ -1,8 +1,8 @@
 import { auth } from '@common/models'
 import { StoreManager } from '@furystack/core'
-import { JsonResult, RequestAction } from '@furystack/rest'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 
-export const AcceptTermsAction: RequestAction<{}> = async ({ injector }) => {
+export const AcceptTermsAction: RequestAction<{ result: {} }> = async ({ injector }) => {
   const user = await injector.getCurrentUser<auth.User>()
   if (!user.roles.includes('terms-accepted')) {
     await injector
