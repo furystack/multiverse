@@ -8,7 +8,7 @@ export interface SchemaGenerationSetting {
   type: string
 }
 
-export const values: SchemaGenerationSetting[] = [
+export const entityValues: SchemaGenerationSetting[] = [
   {
     inputFile: './src/auth/*.ts',
     outputFile: './src/json-schemas-auth.json',
@@ -36,12 +36,40 @@ export const values: SchemaGenerationSetting[] = [
   },
 ]
 
+export const apiValues: SchemaGenerationSetting[] = [
+  {
+    inputFile: './src/apis/auth-api.ts',
+    outputFile: './src/apis/auth-api.schema.json',
+    type: '*',
+  },
+  {
+    inputFile: './src/apis/dashboard-api.ts',
+    outputFile: './src/apis/dashboard-api.schema.json',
+    type: '*',
+  },
+
+  {
+    inputFile: './src/apis/diag-api.ts',
+    outputFile: './src/apis/diag-api.schema.json',
+    type: '*',
+  },
+  {
+    inputFile: './src/apis/media-api.ts',
+    outputFile: './src/apis/media-api.schema.json',
+    type: '*',
+  },
+  {
+    inputFile: './src/apis/xpense-api.ts',
+    outputFile: './src/apis/xpense-api.schema.json',
+    type: '*',
+  },
+]
+
 export const exec = async () => {
-  for (const schemaValue of values) {
+  for (const schemaValue of [...entityValues, ...apiValues]) {
     const schema = createGenerator({
       path: join(process.cwd(), schemaValue.inputFile),
       tsconfig: join(process.cwd(), './tsconfig.json'),
-      expose: 'export',
       skipTypeCheck: true,
     }).createSchema(schemaValue.type)
     await promises.writeFile(join(process.cwd(), schemaValue.outputFile), JSON.stringify(schema, null, 2))

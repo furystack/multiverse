@@ -13,6 +13,7 @@ import {
   Authorize,
   createGetEntityEndpoint,
   RequestAction,
+  Validate,
 } from '@furystack/rest-service'
 import {
   GetProfile,
@@ -49,7 +50,10 @@ export const setupRestApi = async (injector: Injector) => {
       GET: {
         '/currentUser': (GetCurrentUser as unknown) as RequestAction<{ result: auth.User }>,
         '/isAuthenticated': IsAuthenticated,
-        '/profiles': createGetCollectionEndpoint({ model: auth.Profile }),
+        '/profiles': Validate({
+          schema: apis.authApiSchema,
+          schemaName: 'GetCollectionEndpoint<Profile>',
+        })(createGetCollectionEndpoint({ model: auth.Profile })),
         '/profiles/:username': GetProfile,
         '/profiles/:username/avatar': GetAvatar,
         '/organizations': createGetCollectionEndpoint({ model: auth.Organization }),

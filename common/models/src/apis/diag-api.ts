@@ -4,8 +4,8 @@ import { Patch } from '../diag'
 
 export interface DiagApi extends RestApi {
   GET: {
-    '/logEntries': GetCollectionEndpoint<LogEntry<any>>
-    '/logEntries/:id': GetEntityEndpoint<LogEntry<any>>
+    '/logEntries': GetCollectionEndpoint<LogEntry>
+    '/logEntries/:id': GetEntityEndpoint<LogEntry>
     '/patches': GetCollectionEndpoint<Patch>
     '/patches/:id': GetEntityEndpoint<Patch>
   }
