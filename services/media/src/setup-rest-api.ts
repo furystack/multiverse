@@ -1,5 +1,5 @@
 import { Injector } from '@furystack/inject'
-import { apis, deserialize, media } from '@common/models'
+import { apis, media } from '@common/models'
 import { sites } from '@common/config'
 import {
   createGetCollectionEndpoint,
@@ -26,7 +26,6 @@ import { ReExtractSubtitles } from './actions/re-extract-subtitles'
 export const setupRestApi = (injector: Injector) => {
   injector.useCommonHttpAuth().useRestService<apis.MediaApi>({
     port: parseInt(sites.services.media.internalPort as string, 10),
-    deserializeQueryParams: deserialize,
     root: '/api/media',
     api: {
       GET: {

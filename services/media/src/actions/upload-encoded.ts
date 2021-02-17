@@ -67,7 +67,7 @@ export const UploadEncoded: RequestAction<{
       error,
       status: error ? 'failed' : 'inProgress',
       workerInfo: {
-        ip: (request.headers['x-forwarded-for'] as string) || request.connection.remoteAddress || 'unknown',
+        ip: (request.headers['x-forwarded-for'] as string) || request.socket.remoteAddress || 'unknown',
       },
     })
   }

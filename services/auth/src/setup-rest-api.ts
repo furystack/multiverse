@@ -1,5 +1,5 @@
 import { Injector } from '@furystack/inject'
-import { apis, deserialize, auth } from '@common/models'
+import { apis, auth } from '@common/models'
 import { sites } from '@common/config'
 import {
   GetCurrentUser,
@@ -45,7 +45,6 @@ export const setupRestApi = async (injector: Injector) => {
   injector.useRestService<apis.AuthApi>({
     port: parseInt(sites.services.auth.internalPort as any, 10),
     root: '/api/auth',
-    deserializeQueryParams: deserialize,
     api: {
       GET: {
         '/currentUser': (GetCurrentUser as unknown) as RequestAction<{ result: auth.User }>,

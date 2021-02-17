@@ -1,5 +1,4 @@
 export * as apis from './apis'
-export * from './entity-serializer'
 export * as auth from './auth'
 export * as diag from './diag'
 export * as xpense from './xpense'

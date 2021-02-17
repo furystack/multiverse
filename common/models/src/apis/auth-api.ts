@@ -43,9 +43,9 @@ export interface AuthApi extends RestApi {
     '/attachGithubAccount': { body: { code: string; clientId: string }; result: Omit<User, 'password'> }
     '/detachGithubAccount': { result: Omit<User, 'password'> }
     '/logout': { result: unknown }
-    '/accept-terms': { result: unknown }
-    '/settings': { body: UserSettings; result: unknown }
-    '/avatar': { result: unknown }
+    '/accept-terms': { result: { success: boolean } }
+    '/settings': { body: UserSettings; result: UserSettings }
+    '/avatar': { result: { success: boolean } }
     '/changePassword': {
       body: { currentPassword: string; newPassword: string }
       result: { success: boolean }

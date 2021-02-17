@@ -26,9 +26,15 @@ export interface MediaApi extends RestApi {
   }
   POST: {
     '/movie-libraries': PostEndpoint<MovieLibrary>
-    '/save-watch-progress': { body: { movieId: string; watchedSeconds: number }; result: unknown }
-    '/upload-encoded/:movieId/:accessToken': { url: { movieId: string; accessToken: string }; result: unknown }
-    '/upload-subtitles/:movieId/:accessToken': { url: { movieId: string; accessToken: string }; result: unknown }
+    '/save-watch-progress': { body: { movieId: string; watchedSeconds: number }; result: { success: boolean } }
+    '/upload-encoded/:movieId/:accessToken': {
+      url: { movieId: string; accessToken: string }
+      result: { success: boolean }
+    }
+    '/upload-subtitles/:movieId/:accessToken': {
+      url: { movieId: string; accessToken: string }
+      result: { success: boolean }
+    }
     '/finialize-encoding': {
       body: {
         accessToken: string
@@ -36,15 +42,15 @@ export interface MediaApi extends RestApi {
         mode: EncodingType['mode']
         log: Array<LeveledLogEntry<any>>
       }
-      result: unknown
+      result: { success: boolean }
     }
     '/save-encoding-failure': {
       body: { accessToken: string; error: any; log: Array<LeveledLogEntry<any>> }
-      result: unknown
+      result: { success: boolean }
     }
-    '/encode/reencode': { body: { movieId: string }; result: unknown }
-    '/movies/:movieId/re-fetch-metadata': { url: { movieId: string }; result: unknown }
-    '/movies/:movieId/re-extract-subtitles': { url: { movieId: string }; result: unknown }
+    '/encode/reencode': { body: { movieId: string }; result: { success: boolean } }
+    '/movies/:movieId/re-fetch-metadata': { url: { movieId: string }; result: { success: boolean } }
+    '/movies/:movieId/re-extract-subtitles': { url: { movieId: string }; result: { success: boolean } }
   }
   PATCH: {
     '/movies/:id': PatchEndpoint<Movie>

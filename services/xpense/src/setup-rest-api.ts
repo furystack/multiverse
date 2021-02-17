@@ -1,5 +1,5 @@
 import { Injector } from '@furystack/inject'
-import { apis, deserialize, xpense } from '@common/models'
+import { apis, xpense } from '@common/models'
 import { sites } from '@common/config'
 import {
   Authenticate,
@@ -12,7 +12,6 @@ import { PostReplenishment, PostShopping } from './actions'
 export const setupRestApi = (injector: Injector) => {
   injector.useCommonHttpAuth().useRestService<apis.XpenseApi>({
     port: parseInt(sites.services.xpense.internalPort as string, 10),
-    deserializeQueryParams: deserialize,
     root: '/api/xpense',
     api: {
       GET: {

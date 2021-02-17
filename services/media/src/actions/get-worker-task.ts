@@ -5,8 +5,9 @@ import { RequestAction, JsonResult } from '@furystack/rest-service'
 export const GetWorkerTask: RequestAction<{
   result: media.EncodingTask
   url: { taskId: string }
-}> = async ({ injector, request, getUrlParams }) => {
-  const token = request.headers?.['task-token']
+  headers: { 'task-token': string }
+}> = async ({ injector, getUrlParams, headers }) => {
+  const token = headers['task-token']
 
   if (!token || typeof token !== 'string') {
     throw new RequestError('Missing or bad token', 400)
