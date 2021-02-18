@@ -1,12 +1,18 @@
 version: '3'
 services:
-  nginx:
-    image: 'nginx:alpine'
-    volumes:
-      - ./nginx-proxy.conf:/etc/nginx/nginx.conf:ro
-    ports:
-      - 80:80
-      - 443:443
+  # nginx:
+  #   depends_on:
+  #     - multiverse-auth
+  #     - multiverse-dashboard
+  #     - multiverse-diag
+  #     - multiverse-frontend-core
+  #     - multiverse-media
+  #     - multiverse-xpense
+  #   image: 'nginx:alpine'
+  #   volumes:
+  #     - ./nginx-proxy.conf:/etc/nginx/nginx.conf:ro
+  #   ports:
+  #     - 80:80
   mongo:
     image: 'mongo'
     ports:
@@ -49,11 +55,11 @@ services:
       - 9092:9092
   multiverse-frontend-core:
     image: furystack/multiverse-frontend-core
-    # environment:
-      # - API_ROOT_AUTH=http://localhost:9090
-      # - API_ROOT_DASHBOARD=http://localhost:9094
-      # - API_ROOT_DIAG=http://localhost:9091
-      # - API_ROOT_MEDIA=http://localhost:9093
-      # - API_ROOT_XPENSE=http://localhost:9092
+    environment:
+      - API_ROOT_AUTH=http://localhost:9090
+      - API_ROOT_DASHBOARD=http://localhost:9094
+      - API_ROOT_DIAG=http://localhost:9091
+      - API_ROOT_MEDIA=http://localhost:9093
+      - API_ROOT_XPENSE=http://localhost:9092
     ports:
       - 8080:8080
