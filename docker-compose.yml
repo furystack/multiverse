@@ -1,5 +1,18 @@
 version: '3'
 services:
+  # nginx:
+  #   depends_on:
+  #     - multiverse-auth
+  #     - multiverse-dashboard
+  #     - multiverse-diag
+  #     - multiverse-frontend-core
+  #     - multiverse-media
+  #     - multiverse-xpense
+  #   image: 'nginx:alpine'
+  #   volumes:
+  #     - ./nginx-proxy.conf:/etc/nginx/nginx.conf:ro
+  #   ports:
+  #     - 80:80
   mongo:
     image: 'mongo'
     ports:
