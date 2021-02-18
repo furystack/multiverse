@@ -264,10 +264,14 @@ export const ProfilePage = Shade<
                       Account not connected &nbsp;
                       <Button
                         style={{ color: 'rgba(16,92,32)' }}
-                        onclick={(ev) => {
+                        onclick={async (ev) => {
                           ev.preventDefault()
+                          const oauthData = await injector.getInstance(AuthApiService).call({
+                            method: 'GET',
+                            action: '/oauth-data',
+                          })
                           window.location.replace(
-                            `https://github.com/login/oauth/authorize?client_id=${tokens.githubClientId}&redirect_uri=${window.location.origin}/github-attach`,
+                            `https://github.com/login/oauth/authorize?client_id=${oauthData.githubClientId}&redirect_uri=${window.location.origin}/github-attach`,
                           )
                         }}>
                         Connect
