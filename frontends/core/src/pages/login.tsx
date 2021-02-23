@@ -1,7 +1,6 @@
 import { Button, Loader, Input } from '@furystack/shades-common-components'
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
-import { SessionService } from '@common/frontend-utils'
-import { tokens } from '@common/config'
+import { AuthApiService, SessionService } from '@common/frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 
 export const Login = Shade<unknown, { username: string; password: string; isOperationInProgress: boolean }>({
@@ -135,10 +134,14 @@ export const Login = Shade<unknown, { username: string; password: string; isOper
                 Google
               </Button>
               <Button
-                onclick={(ev) => {
+                onclick={async (ev) => {
                   ev.preventDefault()
+                  const oauthData = await injector.getInstance(AuthApiService).call({
+                    method: 'GET',
+                    action: '/oauth-data',
+                  })
                   window.location.replace(
-                    `https://github.com/login/oauth/authorize?client_id=${tokens.githubClientId}&redirect_uri=${window.location.origin}/github-login`,
+                    `https://github.com/login/oauth/authorize?client_id=${oauthData.githubClientId}&redirect_uri=${window.location.origin}/github-login`,
                   )
                 }}
                 title="Github">

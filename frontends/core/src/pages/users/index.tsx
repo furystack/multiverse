@@ -54,6 +54,7 @@ export const UsersPage = Shade<{}, { service: CollectionService<auth.User> }>({
                       url: {
                         id: match.params.userId,
                       },
+                      query: {},
                     })
                     return <EditUserPage entry={user as auth.User} />
                   }

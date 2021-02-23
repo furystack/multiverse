@@ -1,33 +1,24 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "LeveledLogEntry<>": {
-      "additionalProperties": false,
-      "description": "Interface that represents a log entry with a specific level",
+    "LogEntry": {
+      "type": "object",
       "properties": {
+        "scope": {
+          "type": "string",
+          "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+        },
+        "message": {
+          "type": "string",
+          "description": "The message string"
+        },
+        "data": {
+          "description": "Additional entry data"
+        },
         "level": {
           "$ref": "#/definitions/LogLevel",
           "description": "The verbosity level of the log entry"
         },
-        "message": {
-          "description": "The message string",
-          "type": "string"
-        },
-        "scope": {
-          "description": "A well-defined scope for grouping entries, e.g. a component or service name.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "level",
-        "message",
-        "scope"
-      ],
-      "type": "object"
-    },
-    "LogEntry": {
-      "additionalProperties": false,
-      "properties": {
         "_id": {
           "type": "string"
         },
@@ -35,25 +26,8 @@
           "type": "string"
         },
         "creationDate": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "data": {
-          "description": "Additional entry data",
-          "not": {
-          }
-        },
-        "level": {
-          "$ref": "#/definitions/LogLevel",
-          "description": "The verbosity level of the log entry"
-        },
-        "message": {
-          "description": "The message string",
-          "type": "string"
-        },
-        "scope": {
-          "description": "A well-defined scope for grouping entries, e.g. a component or service name.",
-          "type": "string"
+          "type": "string",
+          "format": "date-time"
         }
       },
       "required": [
@@ -64,29 +38,59 @@
         "message",
         "scope"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
-    "LogEntry<>": {
-      "additionalProperties": false,
-      "description": "A log entry representation",
+    "LeveledLogEntry<any>": {
+      "type": "object",
       "properties": {
-        "message": {
-          "description": "The message string",
-          "type": "string"
-        },
         "scope": {
-          "description": "A well-defined scope for grouping entries, e.g. a component or service name.",
-          "type": "string"
+          "type": "string",
+          "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+        },
+        "message": {
+          "type": "string",
+          "description": "The message string"
+        },
+        "data": {
+          "description": "Additional entry data"
+        },
+        "level": {
+          "$ref": "#/definitions/LogLevel",
+          "description": "The verbosity level of the log entry"
+        }
+      },
+      "required": [
+        "level",
+        "message",
+        "scope"
+      ],
+      "additionalProperties": false,
+      "description": "Interface that represents a log entry with a specific level"
+    },
+    "LogEntry<any>": {
+      "type": "object",
+      "properties": {
+        "scope": {
+          "type": "string",
+          "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+        },
+        "message": {
+          "type": "string",
+          "description": "The message string"
+        },
+        "data": {
+          "description": "Additional entry data"
         }
       },
       "required": [
         "scope",
         "message"
       ],
-      "type": "object"
+      "additionalProperties": false,
+      "description": "A log entry representation"
     },
     "LogLevel": {
-      "description": "The verbosity level of a log entry",
+      "type": "number",
       "enum": [
         0,
         1,
@@ -95,10 +99,10 @@
         4,
         5
       ],
-      "type": "number"
+      "description": "The verbosity level of a log entry"
     },
     "Patch": {
-      "additionalProperties": false,
+      "type": "object",
       "properties": {
         "_id": {
           "type": "string"
@@ -106,14 +110,32 @@
         "appName": {
           "type": "string"
         },
+        "name": {
+          "type": "string"
+        },
         "description": {
           "type": "string"
         },
-        "error": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "completed",
+            "failed"
+          ]
         },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "finishDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "error": {},
         "errors": {
+          "type": "array",
           "items": {
-            "additionalProperties": false,
+            "type": "object",
             "properties": {
               "message": {
                 "type": "string"
@@ -126,39 +148,20 @@
               "message",
               "stack"
             ],
-            "type": "object"
-          },
-          "type": "array"
-        },
-        "finishDate": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "startDate": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "status": {
-          "enum": [
-            "completed",
-            "failed"
-          ],
-          "type": "string"
-        },
-        "updates": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
+            "additionalProperties": false
+          }
         },
         "warns": {
+          "type": "array",
           "items": {
             "type": "string"
-          },
-          "type": "array"
+          }
+        },
+        "updates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": [
@@ -170,7 +173,7 @@
         "startDate",
         "finishDate"
       ],
-      "type": "object"
+      "additionalProperties": false
     }
   }
 }

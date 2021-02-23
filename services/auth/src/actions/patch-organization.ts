@@ -1,10 +1,11 @@
-import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { auth } from '@common/models'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 
 export const PatchOrganization: RequestAction<{
   body: Partial<auth.Organization>
   result: auth.Organization
-  urlParams: { organizationName: string }
+  url: { organizationName: string }
 }> = async ({ injector, getBody, getUrlParams }) => {
   const dataSet = injector.getDataSetFor(auth.Organization)
   const { organizationName } = getUrlParams()

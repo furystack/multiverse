@@ -1,5 +1,6 @@
-import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { xpense } from '@common/models'
+import { RequestAction, JsonResult } from '@furystack/rest-service'
 import { ensureItemsForShopping } from '../services/ensure-items-for-shopping'
 import { recalculateHistory } from '../services/recalculate-history'
 
@@ -9,7 +10,7 @@ export const PostShopping: RequestAction<{
     creationDate: string
     entries: Array<{ itemName: string; amount: number; unitPrice: number }>
   }
-  urlParams: { accountId: string }
+  url: { accountId: string }
   result: xpense.Shopping
 }> = async ({ injector, getBody, getUrlParams }) => {
   const currentUser = await injector.getCurrentUser()

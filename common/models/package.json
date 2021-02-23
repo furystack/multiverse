@@ -6,12 +6,13 @@
   "private": true,
   "scripts": {
     "clean": "rimraf dist && rimraf tsconfig.tsbuildinfo",
-    "build": "tsc -b"
+    "build": "tsc -b",
+    "create-schemas": "node ./dist/bin/create-schemas.js"
   },
   "types": "dist/index.d.ts",
   "devDependencies": {},
   "dependencies": {
-    "@furystack/rest": "^1.3.6",
+    "@furystack/rest": "^2.0.3",
     "tslib": "^2.1.0"
   }
 }

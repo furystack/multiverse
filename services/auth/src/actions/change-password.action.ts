@@ -1,6 +1,6 @@
-import { RequestAction, JsonResult, RequestError } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { auth } from '@common/models'
-import { HttpAuthenticationSettings } from '@furystack/rest-service'
+import { HttpAuthenticationSettings, JsonResult, RequestAction } from '@furystack/rest-service'
 import { StoreManager } from '@furystack/core'
 
 export const ChangePasswordAction: RequestAction<{

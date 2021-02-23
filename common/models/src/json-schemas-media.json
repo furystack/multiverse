@@ -1,171 +1,70 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "EncodingTask": {
-      "additionalProperties": false,
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "authToken": {
-          "type": "string"
-        },
-        "creationDate": {
-          "description": "The task creation date",
-          "format": "date-time",
-          "type": "string"
-        },
-        "error": {
-        },
-        "finishDate": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "log": {
-          "items": {
-            "$ref": "#/definitions/LeveledLogEntry%3Cany%3E"
-          },
-          "type": "array"
-        },
-        "mediaInfo": {
-          "additionalProperties": false,
-          "description": "Generic info about the media to encode",
-          "properties": {
-            "library": {
-              "$ref": "#/definitions/MovieLibrary",
-              "description": "The related movie library"
-            },
-            "movie": {
-              "$ref": "#/definitions/Movie",
-              "description": "The Movie entity"
-            }
-          },
-          "required": [
-            "movie",
-            "library"
-          ],
-          "type": "object"
-        },
-        "modificationDate": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "percent": {
-          "description": "Shows how the progress of the encoding goes, reported by the worker agent",
-          "type": "number"
-        },
-        "startDate": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "status": {
-          "description": "The current status of the task",
-          "enum": [
-            "pending",
-            "inProgress",
-            "finished",
-            "failed",
-            "cancelled"
-          ],
-          "type": "string"
-        },
-        "workerInfo": {
-          "additionalProperties": false,
-          "description": "Generic info about the worker who works on the task",
-          "properties": {
-            "ip": {
-              "description": "The IP address",
-              "type": "string"
-            }
-          },
-          "required": [
-            "ip"
-          ],
-          "type": "object"
-        }
-      },
-      "required": [
-        "_id",
-        "authToken",
-        "mediaInfo",
-        "status",
-        "percent",
-        "creationDate",
-        "modificationDate"
-      ],
-      "type": "object"
-    },
-    "EncodingType": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/Vp9EncodingType"
-        },
-        {
-          "$ref": "#/definitions/X264EncodingType"
-        }
-      ]
-    },
     "FailedOmdbMetadata": {
-      "additionalProperties": false,
+      "type": "object",
       "properties": {
-        "Error": {
-        },
         "Response": {
-          "const": "False",
-          "type": "string"
-        }
+          "type": "string",
+          "const": "False"
+        },
+        "Error": {}
       },
       "required": [
         "Response",
         "Error"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
     "FetchedOmdbMetadata": {
-      "additionalProperties": false,
+      "type": "object",
       "properties": {
-        "Actors": {
+        "Title": {
           "type": "string"
         },
-        "Awards": {
-          "type": "string"
-        },
-        "BoxOffice": {
-          "type": "string"
-        },
-        "Country": {
-          "type": "string"
-        },
-        "DVD": {
-          "type": "string"
-        },
-        "Director": {
-          "type": "string"
-        },
-        "Genre": {
-          "type": "string"
-        },
-        "Language": {
-          "type": "string"
-        },
-        "Metascore": {
-          "type": "string"
-        },
-        "Plot": {
-          "type": "string"
-        },
-        "Poster": {
-          "type": "string"
-        },
-        "Production": {
+        "Year": {
           "type": "string"
         },
         "Rated": {
           "type": "string"
         },
+        "Released": {
+          "type": "string"
+        },
+        "Runtime": {
+          "type": "string"
+        },
+        "Genre": {
+          "type": "string"
+        },
+        "Director": {
+          "type": "string"
+        },
+        "Writer": {
+          "type": "string"
+        },
+        "Actors": {
+          "type": "string"
+        },
+        "Plot": {
+          "type": "string"
+        },
+        "Language": {
+          "type": "string"
+        },
+        "Country": {
+          "type": "string"
+        },
+        "Awards": {
+          "type": "string"
+        },
+        "Poster": {
+          "type": "string"
+        },
         "Ratings": {
+          "type": "array",
           "items": {
-            "additionalProperties": false,
+            "type": "object",
             "properties": {
               "Source": {
                 "type": "string"
@@ -178,46 +77,51 @@
               "Source",
               "Value"
             ],
-            "type": "object"
-          },
-          "type": "array"
+            "additionalProperties": false
+          }
         },
-        "Released": {
-          "type": "string"
-        },
-        "Response": {
-          "const": "True",
-          "type": "string"
-        },
-        "Runtime": {
-          "type": "string"
-        },
-        "Title": {
-          "type": "string"
-        },
-        "Type": {
-          "enum": [
-            "movie",
-            "series"
-          ],
-          "type": "string"
-        },
-        "Website": {
-          "type": "string"
-        },
-        "Writer": {
-          "type": "string"
-        },
-        "Year": {
-          "type": "string"
-        },
-        "imdbID": {
+        "Metascore": {
           "type": "string"
         },
         "imdbRating": {
           "type": "string"
         },
         "imdbVotes": {
+          "type": "string"
+        },
+        "imdbID": {
+          "type": "string"
+        },
+        "Type": {
+          "type": "string",
+          "enum": [
+            "movie",
+            "series"
+          ]
+        },
+        "DVD": {
+          "type": "string"
+        },
+        "BoxOffice": {
+          "type": "string"
+        },
+        "Production": {
+          "type": "string"
+        },
+        "Website": {
+          "type": "string"
+        },
+        "Response": {
+          "type": "string",
+          "const": "True"
+        },
+        "seriesID": {
+          "type": "string"
+        },
+        "Season": {
+          "type": "string"
+        },
+        "Episode": {
           "type": "string"
         }
       },
@@ -248,114 +152,71 @@
         "Website",
         "Response"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
-    "FfprobeFormat": {
-      "additionalProperties": false,
-      "properties": {
-        "bit_rate": {
-          "type": "string"
+    "OmdbMetadata": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/FailedOmdbMetadata"
         },
-        "duration": {
-          "type": "string"
-        },
-        "filename": {
-          "type": "string"
-        },
-        "format_long_name": {
-          "type": "string"
-        },
-        "format_name": {
-          "type": "string"
-        },
-        "nb_programs": {
-          "type": "number"
-        },
-        "nb_streams": {
-          "type": "number"
-        },
-        "probe_score": {
-          "type": "number"
-        },
-        "size": {
-          "type": "string"
-        },
-        "start_time": {
-          "type": "string"
-        },
-        "tags": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
+        {
+          "$ref": "#/definitions/FetchedOmdbMetadata"
         }
-      },
-      "required": [
-        "filename",
-        "nb_streams",
-        "nb_programs",
-        "format_name",
-        "format_long_name",
-        "start_time",
-        "duration",
-        "size",
-        "bit_rate",
-        "probe_score",
-        "tags"
-      ],
-      "type": "object"
-    },
-    "FfprobeMetadata": {
-      "additionalProperties": false,
-      "properties": {
-        "format": {
-          "$ref": "#/definitions/FfprobeFormat"
-        },
-        "streams": {
-          "items": {
-            "$ref": "#/definitions/FfprobeStream"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "streams",
-        "format"
-      ],
-      "type": "object"
+      ]
     },
     "FfprobeStream": {
-      "additionalProperties": false,
+      "type": "object",
       "properties": {
-        "avg_frame_rate": {
+        "index": {
+          "type": "number"
+        },
+        "codec_name": {
           "type": "string"
         },
         "codec_long_name": {
           "type": "string"
         },
-        "codec_name": {
-          "type": "string"
-        },
-        "codec_tag": {
-          "type": "string"
-        },
-        "codec_tag_string": {
-          "type": "string"
-        },
-        "codec_time_base": {
+        "profile": {
           "type": "string"
         },
         "codec_type": {
           "type": "string"
         },
-        "coded_height": {
+        "codec_time_base": {
+          "type": "string"
+        },
+        "codec_tag_string": {
+          "type": "string"
+        },
+        "codec_tag": {
+          "type": "string"
+        },
+        "width": {
+          "type": "number"
+        },
+        "height": {
           "type": "number"
         },
         "coded_width": {
           "type": "number"
         },
-        "color_primaries": {
+        "coded_height": {
+          "type": "number"
+        },
+        "has_b_frames": {
+          "type": "number"
+        },
+        "sample_aspect_ratio": {
           "type": "string"
+        },
+        "display_aspect_ratio": {
+          "type": "string"
+        },
+        "pix_fmt": {
+          "type": "string"
+        },
+        "level": {
+          "type": "number"
         },
         "color_range": {
           "type": "string"
@@ -366,25 +227,46 @@
         "color_transfer": {
           "type": "string"
         },
-        "display_aspect_ratio": {
+        "color_primaries": {
+          "type": "string"
+        },
+        "refs": {
+          "type": "number"
+        },
+        "r_frame_rate": {
+          "type": "string"
+        },
+        "avg_frame_rate": {
+          "type": "string"
+        },
+        "time_base": {
+          "type": "string"
+        },
+        "start_pts": {
+          "type": "number"
+        },
+        "start_time": {
           "type": "string"
         },
         "disposition": {
-          "additionalProperties": false,
+          "type": "object",
           "properties": {
-            "attached_pic": {
+            "default": {
               "type": "number"
             },
-            "clean_effects": {
+            "dub": {
+              "type": "number"
+            },
+            "original": {
               "type": "number"
             },
             "comment": {
               "type": "number"
             },
-            "default": {
+            "lyrics": {
               "type": "number"
             },
-            "dub": {
+            "karaoke": {
               "type": "number"
             },
             "forced": {
@@ -393,19 +275,16 @@
             "hearing_impaired": {
               "type": "number"
             },
-            "karaoke": {
+            "visual_impaired": {
               "type": "number"
             },
-            "lyrics": {
+            "clean_effects": {
               "type": "number"
             },
-            "original": {
+            "attached_pic": {
               "type": "number"
             },
             "timed_thumbnails": {
-              "type": "number"
-            },
-            "visual_impaired": {
               "type": "number"
             }
           },
@@ -423,44 +302,17 @@
             "attached_pic",
             "timed_thumbnails"
           ],
-          "type": "object"
-        },
-        "has_b_frames": {
-          "type": "number"
-        },
-        "height": {
-          "type": "number"
-        },
-        "index": {
-          "type": "number"
-        },
-        "level": {
-          "type": "number"
-        },
-        "pix_fmt": {
-          "type": "string"
-        },
-        "profile": {
-          "type": "string"
-        },
-        "r_frame_rate": {
-          "type": "string"
-        },
-        "refs": {
-          "type": "number"
-        },
-        "sample_aspect_ratio": {
-          "type": "string"
-        },
-        "start_pts": {
-          "type": "number"
-        },
-        "start_time": {
-          "type": "string"
+          "additionalProperties": false
         },
         "tags": {
-          "additionalProperties": false,
+          "type": "object",
           "properties": {
+            "language": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
             "BPS": {
               "type": "string"
             },
@@ -473,22 +325,16 @@
             "DURATION-eng": {
               "type": "string"
             },
-            "NUMBER_OF_BYTES": {
-              "type": "string"
-            },
-            "NUMBER_OF_BYTES-eng": {
-              "type": "string"
-            },
             "NUMBER_OF_FRAMES": {
               "type": "string"
             },
             "NUMBER_OF_FRAMES-eng": {
               "type": "string"
             },
-            "_STATISTICS_TAGS": {
+            "NUMBER_OF_BYTES": {
               "type": "string"
             },
-            "_STATISTICS_TAGS-eng": {
+            "NUMBER_OF_BYTES-eng": {
               "type": "string"
             },
             "_STATISTICS_WRITING_APP": {
@@ -503,10 +349,10 @@
             "_STATISTICS_WRITING_DATE_UTC-eng": {
               "type": "string"
             },
-            "language": {
+            "_STATISTICS_TAGS": {
               "type": "string"
             },
-            "title": {
+            "_STATISTICS_TAGS-eng": {
               "type": "string"
             }
           },
@@ -527,13 +373,7 @@
             "_STATISTICS_TAGS",
             "_STATISTICS_TAGS-eng"
           ],
-          "type": "object"
-        },
-        "time_base": {
-          "type": "string"
-        },
-        "width": {
-          "type": "number"
+          "additionalProperties": false
         }
       },
       "required": [
@@ -567,199 +407,120 @@
         "disposition",
         "tags"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
-    "LeveledLogEntry<any>": {
-      "additionalProperties": false,
-      "description": "Interface that represents a log entry with a specific level",
+    "FfprobeFormat": {
+      "type": "object",
       "properties": {
-        "data": {
-          "description": "Additional entry data"
-        },
-        "level": {
-          "$ref": "#/definitions/LogLevel",
-          "description": "The verbosity level of the log entry"
-        },
-        "message": {
-          "description": "The message string",
+        "filename": {
           "type": "string"
         },
-        "scope": {
-          "description": "A well-defined scope for grouping entries, e.g. a component or service name.",
+        "nb_streams": {
+          "type": "number"
+        },
+        "nb_programs": {
+          "type": "number"
+        },
+        "format_name": {
           "type": "string"
+        },
+        "format_long_name": {
+          "type": "string"
+        },
+        "start_time": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        },
+        "size": {
+          "type": "string"
+        },
+        "bit_rate": {
+          "type": "string"
+        },
+        "probe_score": {
+          "type": "number"
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       },
       "required": [
-        "level",
-        "message",
-        "scope"
+        "filename",
+        "nb_streams",
+        "nb_programs",
+        "format_name",
+        "format_long_name",
+        "start_time",
+        "duration",
+        "size",
+        "bit_rate",
+        "probe_score",
+        "tags"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
-    "LogEntry<any>": {
-      "additionalProperties": false,
-      "description": "A log entry representation",
+    "FfprobeMetadata": {
+      "type": "object",
       "properties": {
-        "data": {
-          "description": "Additional entry data"
-        },
-        "message": {
-          "description": "The message string",
-          "type": "string"
-        },
-        "scope": {
-          "description": "A well-defined scope for grouping entries, e.g. a component or service name.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "scope",
-        "message"
-      ],
-      "type": "object"
-    },
-    "LogLevel": {
-      "description": "The verbosity level of a log entry",
-      "enum": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "type": "number"
-    },
-    "Movie": {
-      "additionalProperties": false,
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "availableFormats": {
+        "streams": {
+          "type": "array",
           "items": {
-            "additionalProperties": false,
-            "properties": {
-              "codec": {
-                "enum": [
-                  "libvpx-vp9",
-                  "x264"
-                ],
-                "type": "string"
-              },
-              "mode": {
-                "const": "dash",
-                "type": "string"
-              }
-            },
-            "required": [
-              "codec",
-              "mode"
-            ],
-            "type": "object"
-          },
-          "type": "array"
+            "$ref": "#/definitions/FfprobeStream"
+          }
         },
-        "ffprobe": {
-          "$ref": "#/definitions/FfprobeMetadata"
-        },
-        "libraryId": {
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/MovieUniversalMetadata"
-        },
-        "omdbMeta": {
-          "$ref": "#/definitions/OmdbMetadata"
-        },
-        "path": {
-          "type": "string"
+        "format": {
+          "$ref": "#/definitions/FfprobeFormat"
         }
       },
       "required": [
-        "_id",
-        "path",
-        "libraryId",
-        "ffprobe",
-        "metadata"
+        "streams",
+        "format"
       ],
-      "type": "object"
-    },
-    "MovieLibrary": {
-      "additionalProperties": false,
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "encoding": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/EncodingType"
-            },
-            {
-              "const": false,
-              "type": "boolean"
-            }
-          ]
-        },
-        "icon": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "owner": {
-          "$ref": "#/definitions/Owner"
-        },
-        "path": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "_id",
-        "icon",
-        "name",
-        "path",
-        "owner",
-        "encoding"
-      ],
-      "type": "object"
+      "additionalProperties": false
     },
     "MovieUniversalMetadata": {
-      "additionalProperties": false,
+      "type": "object",
       "properties": {
+        "title": {
+          "type": "string"
+        },
+        "year": {
+          "type": "number"
+        },
         "duration": {
           "type": "number"
         },
-        "episode": {
-          "type": "number"
-        },
         "genre": {
+          "type": "array",
           "items": {
             "type": "string"
-          },
-          "type": "array"
+          }
+        },
+        "thumbnailImageUrl": {
+          "type": "string"
         },
         "plot": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "movie",
+            "episode"
+          ]
+        },
+        "seriesId": {
           "type": "string"
         },
         "season": {
           "type": "number"
         },
-        "thumbnailImageUrl": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        },
-        "type": {
-          "enum": [
-            "movie",
-            "episode"
-          ],
-          "type": "string"
-        },
-        "year": {
+        "episode": {
           "type": "number"
         }
       },
@@ -770,33 +531,436 @@
         "plot",
         "type"
       ],
-      "type": "object"
+      "additionalProperties": false
     },
-    "MovieWatchHistoryEntry": {
+    "Vp9EncodingType": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "const": "dash"
+        },
+        "codec": {
+          "type": "string",
+          "const": "libvpx-vp9"
+        },
+        "formats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Vp9EncodingFormat"
+          }
+        }
+      },
+      "required": [
+        "mode",
+        "codec",
+        "formats"
+      ],
+      "additionalProperties": false
+    },
+    "Vp9EncodingFormat": {
+      "type": "object",
       "additionalProperties": false,
+      "properties": {
+        "bitrate": {
+          "type": "object",
+          "properties": {
+            "target": {
+              "type": "number"
+            },
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false
+        },
+        "quality": {
+          "type": "number"
+        },
+        "downScale": {
+          "type": "number"
+        }
+      }
+    },
+    "X264EncodingType": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "const": "dash"
+        },
+        "codec": {
+          "type": "string",
+          "const": "x264"
+        },
+        "formats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/X264EncodingFormat"
+          }
+        }
+      },
+      "required": [
+        "mode",
+        "codec",
+        "formats"
+      ],
+      "additionalProperties": false
+    },
+    "X264EncodingFormat": {
+      "type": "object",
+      "properties": {
+        "downScale": {
+          "type": "number"
+        },
+        "bitRate": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "downScale",
+        "bitRate"
+      ],
+      "additionalProperties": false
+    },
+    "EncodingType": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Vp9EncodingType"
+        },
+        {
+          "$ref": "#/definitions/X264EncodingType"
+        }
+      ]
+    },
+    "MovieLibrary": {
+      "type": "object",
       "properties": {
         "_id": {
           "type": "string"
         },
-        "completed": {
-          "type": "boolean"
+        "icon": {
+          "type": "string"
         },
-        "lastWatchDate": {
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner"
+        },
+        "encoding": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/EncodingType"
+            },
+            {
+              "type": "boolean",
+              "const": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "_id",
+        "icon",
+        "name",
+        "path",
+        "owner",
+        "encoding"
+      ],
+      "additionalProperties": false
+    },
+    "Owner": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "user"
+            },
+            "username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "username"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "organization"
+            },
+            "organizationName": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "organizationName"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "system"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Movie": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "libraryId": {
+          "type": "string"
+        },
+        "omdbMeta": {
+          "$ref": "#/definitions/OmdbMetadata"
+        },
+        "ffprobe": {
+          "$ref": "#/definitions/FfprobeMetadata"
+        },
+        "metadata": {
+          "$ref": "#/definitions/MovieUniversalMetadata"
+        },
+        "availableFormats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "codec": {
+                "type": "string",
+                "enum": [
+                  "libvpx-vp9",
+                  "x264"
+                ]
+              },
+              "mode": {
+                "type": "string",
+                "const": "dash"
+              }
+            },
+            "required": [
+              "codec",
+              "mode"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "_id",
+        "path",
+        "libraryId",
+        "ffprobe",
+        "metadata"
+      ],
+      "additionalProperties": false
+    },
+    "EncodingTask": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "authToken": {
+          "type": "string"
+        },
+        "mediaInfo": {
+          "type": "object",
+          "properties": {
+            "movie": {
+              "$ref": "#/definitions/Movie",
+              "description": "The Movie entity"
+            },
+            "library": {
+              "$ref": "#/definitions/MovieLibrary",
+              "description": "The related movie library"
+            }
+          },
+          "required": [
+            "movie",
+            "library"
+          ],
+          "additionalProperties": false,
+          "description": "Generic info about the media to encode"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "inProgress",
+            "finished",
+            "failed",
+            "cancelled"
+          ],
+          "description": "The current status of the task"
+        },
+        "workerInfo": {
+          "type": "object",
+          "properties": {
+            "ip": {
+              "type": "string",
+              "description": "The IP address"
+            }
+          },
+          "required": [
+            "ip"
+          ],
+          "additionalProperties": false,
+          "description": "Generic info about the worker who works on the task"
+        },
+        "percent": {
+          "type": "number",
+          "description": "Shows how the progress of the encoding goes, reported by the worker agent"
+        },
+        "creationDate": {
+          "type": "string",
           "format": "date-time",
+          "description": "The task creation date"
+        },
+        "modificationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "error": {},
+        "log": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LeveledLogEntry%3Cany%3E"
+          }
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "finishDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "_id",
+        "authToken",
+        "mediaInfo",
+        "status",
+        "percent",
+        "creationDate",
+        "modificationDate"
+      ],
+      "additionalProperties": false
+    },
+    "LeveledLogEntry<any>": {
+      "type": "object",
+      "properties": {
+        "scope": {
+          "type": "string",
+          "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+        },
+        "message": {
+          "type": "string",
+          "description": "The message string"
+        },
+        "data": {
+          "description": "Additional entry data"
+        },
+        "level": {
+          "$ref": "#/definitions/LogLevel",
+          "description": "The verbosity level of the log entry"
+        }
+      },
+      "required": [
+        "level",
+        "message",
+        "scope"
+      ],
+      "additionalProperties": false,
+      "description": "Interface that represents a log entry with a specific level"
+    },
+    "LogEntry<any>": {
+      "type": "object",
+      "properties": {
+        "scope": {
+          "type": "string",
+          "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+        },
+        "message": {
+          "type": "string",
+          "description": "The message string"
+        },
+        "data": {
+          "description": "Additional entry data"
+        }
+      },
+      "required": [
+        "scope",
+        "message"
+      ],
+      "additionalProperties": false,
+      "description": "A log entry representation"
+    },
+    "LogLevel": {
+      "type": "number",
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "description": "The verbosity level of a log entry"
+    },
+    "MovieWatchHistoryEntry": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "userId": {
           "type": "string"
         },
         "movieId": {
           "type": "string"
         },
         "startDate": {
-          "format": "date-time",
-          "type": "string"
+          "type": "string",
+          "format": "date-time"
         },
-        "userId": {
-          "type": "string"
+        "lastWatchDate": {
+          "type": "string",
+          "format": "date-time"
         },
         "watchedSeconds": {
           "type": "number"
+        },
+        "completed": {
+          "type": "boolean"
         }
       },
       "required": [
@@ -808,161 +972,7 @@
         "watchedSeconds",
         "completed"
       ],
-      "type": "object"
-    },
-    "OmdbMetadata": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/FailedOmdbMetadata"
-        },
-        {
-          "$ref": "#/definitions/FetchedOmdbMetadata"
-        }
-      ]
-    },
-    "Owner": {
-      "anyOf": [
-        {
-          "additionalProperties": false,
-          "properties": {
-            "type": {
-              "const": "user",
-              "type": "string"
-            },
-            "username": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "type",
-            "username"
-          ],
-          "type": "object"
-        },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "organizationName": {
-              "type": "string"
-            },
-            "type": {
-              "const": "organization",
-              "type": "string"
-            }
-          },
-          "required": [
-            "type",
-            "organizationName"
-          ],
-          "type": "object"
-        },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "type": {
-              "const": "system",
-              "type": "string"
-            }
-          },
-          "required": [
-            "type"
-          ],
-          "type": "object"
-        }
-      ]
-    },
-    "Vp9EncodingFormat": {
-      "additionalProperties": false,
-      "properties": {
-        "bitrate": {
-          "additionalProperties": false,
-          "properties": {
-            "max": {
-              "type": "number"
-            },
-            "min": {
-              "type": "number"
-            },
-            "target": {
-              "type": "number"
-            }
-          },
-          "type": "object"
-        },
-        "downScale": {
-          "type": "number"
-        },
-        "quality": {
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
-    "Vp9EncodingType": {
-      "additionalProperties": false,
-      "properties": {
-        "codec": {
-          "const": "libvpx-vp9",
-          "type": "string"
-        },
-        "formats": {
-          "items": {
-            "$ref": "#/definitions/Vp9EncodingFormat"
-          },
-          "type": "array"
-        },
-        "mode": {
-          "const": "dash",
-          "type": "string"
-        }
-      },
-      "required": [
-        "mode",
-        "codec",
-        "formats"
-      ],
-      "type": "object"
-    },
-    "X264EncodingFormat": {
-      "additionalProperties": false,
-      "properties": {
-        "bitRate": {
-          "type": "number"
-        },
-        "downScale": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "downScale",
-        "bitRate"
-      ],
-      "type": "object"
-    },
-    "X264EncodingType": {
-      "additionalProperties": false,
-      "properties": {
-        "codec": {
-          "const": "x264",
-          "type": "string"
-        },
-        "formats": {
-          "items": {
-            "$ref": "#/definitions/X264EncodingFormat"
-          },
-          "type": "array"
-        },
-        "mode": {
-          "const": "dash",
-          "type": "string"
-        }
-      },
-      "required": [
-        "mode",
-        "codec",
-        "formats"
-      ],
-      "type": "object"
+      "additionalProperties": false
     }
   }
 }

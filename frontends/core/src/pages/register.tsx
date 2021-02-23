@@ -116,9 +116,13 @@ export const RegisterPage = Shade({
               </Button>
               <Button
                 style={{ margin: '0 .3em' }}
-                onclick={() => {
+                onclick={async () => {
+                  const oauthData = await injector.getInstance(AuthApiService).call({
+                    method: 'GET',
+                    action: '/oauth-data',
+                  })
                   window.location.replace(
-                    `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${window.location.origin}/github-register`,
+                    `https://github.com/login/oauth/authorize?client_id=${oauthData.githubClientId}&redirect_uri=${window.location.origin}/github-register`,
                   )
                 }}>
                 GitHub

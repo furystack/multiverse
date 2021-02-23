@@ -1,11 +1,12 @@
 import { createReadStream } from 'fs'
 import { join } from 'path'
-import { RequestAction, RequestError, BypassResult } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
 import { FileStores } from '@common/config'
 import { existsAsync } from '@common/service-utils'
+import { RequestAction, BypassResult } from '@furystack/rest-service'
 
-export const GetSubtitle: RequestAction<{ urlParams: { movieId: string; subtitleName: string } }> = async ({
+export const GetSubtitle: RequestAction<{ url: { movieId: string; subtitleName: string }; result: unknown }> = async ({
   getUrlParams,
   injector,
   response,

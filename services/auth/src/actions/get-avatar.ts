@@ -1,14 +1,15 @@
 import { join } from 'path'
 import { createReadStream } from 'fs'
-import { RequestAction, RequestError, BypassResult } from '@furystack/rest'
+import { RequestError } from '@furystack/rest'
 import { auth } from '@common/models'
 import { FileStores } from '@common/config'
 import { StoreManager } from '@furystack/core'
 import { existsAsync } from '@common/service-utils'
+import { BypassResult, RequestAction } from '@furystack/rest-service'
 
 export const GetAvatar: RequestAction<{
-  result: string
-  urlParams: { username: string }
+  result: unknown
+  url: { username: string }
 }> = async ({ injector, getUrlParams, response }) => {
   const userStore = injector.getInstance(StoreManager).getStoreFor(auth.User)
   const { username } = getUrlParams()

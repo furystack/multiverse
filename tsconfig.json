@@ -62,6 +62,6 @@
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
-  "references": [{ "path": "common" }, { "path": "services" }],
+  "references": [{ "path": "common" }, { "path": "services" }, {"path": "workers"}],
   "include": []
 }

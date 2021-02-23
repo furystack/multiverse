@@ -40,6 +40,7 @@ export const DashboardsPage = Shade({
                     method: 'GET',
                     action: '/boards/:id',
                     url: { id: dashboardId },
+                    query: {},
                   })
                   return <EditDashboard dashboard={entry} />
                 }}
@@ -64,6 +65,7 @@ export const DashboardsPage = Shade({
                     method: 'GET',
                     action: '/boards/:id',
                     url: { id: dashboardId },
+                    query: {},
                   })
                   return <Dashboard {...entry} />
                 }}

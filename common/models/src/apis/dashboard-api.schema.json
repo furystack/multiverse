@@ -1,0 +1,1842 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/DashboardApi",
+  "definitions": {
+    "DashboardApi": {
+      "type": "object",
+      "properties": {
+        "GET": {
+          "type": "object",
+          "properties": {
+            "/boards": {
+              "$ref": "#/definitions/GetCollectionEndpoint%3CDashboard%3E"
+            },
+            "/boards/:id": {
+              "$ref": "#/definitions/GetEntityEndpoint%3CDashboard%3E"
+            },
+            "/weather-forecast": {
+              "type": "object",
+              "properties": {
+                "query": {
+                  "type": "object",
+                  "properties": {
+                    "city": {
+                      "type": "string"
+                    },
+                    "units": {
+                      "type": "string",
+                      "enum": [
+                        "standard",
+                        "metric",
+                        "imperial"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "city",
+                    "units"
+                  ],
+                  "additionalProperties": false
+                },
+                "result": {
+                  "$ref": "#/definitions/WeatherData"
+                }
+              },
+              "required": [
+                "query",
+                "result"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "/boards",
+            "/boards/:id",
+            "/weather-forecast"
+          ],
+          "additionalProperties": false
+        },
+        "POST": {
+          "type": "object",
+          "properties": {
+            "/boards": {
+              "$ref": "#/definitions/PostEndpoint%3CDashboard%3E"
+            }
+          },
+          "required": [
+            "/boards"
+          ],
+          "additionalProperties": false
+        },
+        "PATCH": {
+          "type": "object",
+          "properties": {
+            "/boards/:id": {
+              "$ref": "#/definitions/PatchEndpoint%3CDashboard%3E"
+            }
+          },
+          "required": [
+            "/boards/:id"
+          ],
+          "additionalProperties": false
+        },
+        "PUT": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "result": {},
+              "url": {},
+              "query": {},
+              "body": {},
+              "headers": {}
+            },
+            "required": [
+              "result"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "DELETE": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "result": {},
+              "url": {},
+              "query": {},
+              "body": {},
+              "headers": {}
+            },
+            "required": [
+              "result"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "GET",
+        "POST",
+        "PATCH"
+      ],
+      "additionalProperties": false
+    },
+    "GetCollectionEndpoint<Dashboard>": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "findOptions": {
+              "$ref": "#/definitions/FindOptions%3CDashboard%2C(%22_id%22%7C%22name%22%7C%22description%22%7C%22owner%22%7C%22creationDate%22%7C%22modificationDate%22%7C%22widgets%22)%5B%5D%3E"
+            }
+          },
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/GetCollectionResult%3CDashboard%2C(%22_id%22%7C%22name%22%7C%22description%22%7C%22owner%22%7C%22creationDate%22%7C%22modificationDate%22%7C%22widgets%22)%3E"
+        }
+      },
+      "required": [
+        "query",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Rest endpoint model for getting / querying collections"
+    },
+    "FindOptions<Dashboard,(\"_id\"|\"name\"|\"description\"|\"owner\"|\"creationDate\"|\"modificationDate\"|\"widgets\")[]>": {
+      "type": "object",
+      "properties": {
+        "top": {
+          "type": "number",
+          "description": "Limits the hits"
+        },
+        "skip": {
+          "type": "number",
+          "description": "Skips the first N hit"
+        },
+        "order": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "owner": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "creationDate": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "modificationDate": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "widgets": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "description": "Sets up an order by a field and a direction"
+        },
+        "select": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "_id",
+              "name",
+              "description",
+              "owner",
+              "creationDate",
+              "modificationDate",
+              "widgets"
+            ]
+          },
+          "description": "The result set will be limited to these fields"
+        },
+        "filter": {
+          "$ref": "#/definitions/FilterType%3CDashboard%3E",
+          "description": "The fields should match this filter"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Type for default filtering model"
+    },
+    "FilterType<Dashboard>": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "$and": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CDashboard%3E"
+          }
+        },
+        "$not": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CDashboard%3E"
+          }
+        },
+        "$nor": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CDashboard%3E"
+          }
+        },
+        "$or": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CDashboard%3E"
+          }
+        },
+        "_id": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "owner": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "$ref": "#/definitions/Owner"
+                },
+                "$ne": {
+                  "$ref": "#/definitions/Owner"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Owner"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Owner"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "creationDate": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "$ne": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "modificationDate": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "$ne": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "widgets": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Widget"
+                  }
+                },
+                "$ne": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Widget"
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Widget"
+                    }
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Widget"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        }
+      }
+    },
+    "Owner": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "user"
+            },
+            "username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "username"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "organization"
+            },
+            "organizationName": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "organizationName"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "system"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Widget": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/AppShortcutWidget"
+        },
+        {
+          "$ref": "#/definitions/HtmlWidget"
+        },
+        {
+          "$ref": "#/definitions/IconUrlWidget"
+        },
+        {
+          "$ref": "#/definitions/MarkdownWidget"
+        },
+        {
+          "$ref": "#/definitions/ContinueMoviesWidget"
+        },
+        {
+          "$ref": "#/definitions/AppListWidget"
+        },
+        {
+          "$ref": "#/definitions/EntityShortcutWidget"
+        },
+        {
+          "$ref": "#/definitions/WeatherWidget"
+        }
+      ]
+    },
+    "AppShortcutWidget": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "app-shortcut"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "appName": {
+          "type": "string",
+          "enum": [
+            "Profile",
+            "Xpense",
+            "Organizations",
+            "Feature Switches",
+            "Users",
+            "Diagnostics",
+            "System Logs",
+            "Patches",
+            "Movies",
+            "Encoding Tasks",
+            "Dashboards"
+          ]
+        }
+      },
+      "required": [
+        "appName",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "HtmlWidget": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "html"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "content",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "IconUrlWidget": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "icon-url-widget"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "icon": {
+          "$ref": "#/definitions/Icon"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "icon",
+        "name",
+        "type",
+        "url"
+      ],
+      "additionalProperties": false
+    },
+    "Icon": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/FlatEssentialType"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "FlatEssentialType": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "flaticon-essential"
+        },
+        "name": {
+          "type": "string",
+          "enum": [
+            "001-unlocked.svg",
+            "002-video player.svg",
+            "003-video player.svg",
+            "004-picture.svg",
+            "005-picture.svg",
+            "006-video player.svg",
+            "007-television.svg",
+            "008-film.svg",
+            "009-photo camera.svg",
+            "010-record.svg",
+            "011-photo camera.svg",
+            "012-video camera.svg",
+            "013-music player.svg",
+            "014-music player.svg",
+            "015-video camera.svg",
+            "016-music player.svg",
+            "017-compact disc.svg",
+            "018-compact disc.svg",
+            "019-compact disc.svg",
+            "020-music player.svg",
+            "021-view.svg",
+            "022-save.svg",
+            "023-next.svg",
+            "024-back.svg",
+            "025-play button.svg",
+            "026-stop.svg",
+            "027-pause.svg",
+            "028-fast forward.svg",
+            "029-rewind.svg",
+            "030-eject.svg",
+            "031-shuffle.svg",
+            "032-hide.svg",
+            "033-repeat.svg",
+            "034-skip.svg",
+            "035-previous.svg",
+            "036-play button.svg",
+            "037-stop.svg",
+            "038-pause.svg",
+            "039-fast forward.svg",
+            "040-rewind.svg",
+            "041-eject.svg",
+            "042-shuffle.svg",
+            "043-view.svg",
+            "044-repeat.svg",
+            "045-speaker.svg",
+            "046-speaker.svg",
+            "047-speaker.svg",
+            "048-speaker.svg",
+            "049-mute.svg",
+            "050-speaker.svg",
+            "051-speaker.svg",
+            "052-speaker.svg",
+            "053-speaker.svg",
+            "054-view.svg",
+            "055-speaker.svg",
+            "056-plus.svg",
+            "057-minus.svg",
+            "058-error.svg",
+            "059-success.svg",
+            "060-warning.svg",
+            "061-info.svg",
+            "062-forbidden.svg",
+            "063-shutdown.svg",
+            "064-restart.svg",
+            "065-perspective.svg",
+            "066-power.svg",
+            "067-add.svg",
+            "068-substract.svg",
+            "069-multiply.svg",
+            "070-divide.svg",
+            "071-equal.svg",
+            "072-percent.svg",
+            "073-add.svg",
+            "074-minus.svg",
+            "075-equal.svg",
+            "076-focus.svg",
+            "077-division.svg",
+            "078-magic wand.svg",
+            "079-calculator.svg",
+            "080-calculator.svg",
+            "081-checked.svg",
+            "082-add.svg",
+            "083-substract.svg",
+            "084-multiply.svg",
+            "085-divide.svg",
+            "086-equal.svg",
+            "087-menu.svg",
+            "088-percent.svg",
+            "089-share.svg",
+            "090-share.svg",
+            "091-share.svg",
+            "092-network.svg",
+            "093-binoculars.svg",
+            "094-checked.svg",
+            "095-download.svg",
+            "096-upload.svg",
+            "097-send.svg",
+            "098-menu.svg",
+            "099-incoming.svg",
+            "100-like.svg",
+            "101-dislike.svg",
+            "102-infinity.svg",
+            "103-wireless internet.svg",
+            "104-wifi.svg",
+            "105-photos.svg",
+            "106-wifi.svg",
+            "107-megaphone.svg",
+            "108-megaphone.svg",
+            "109-menu.svg",
+            "110-zoom in.svg",
+            "111-idea.svg",
+            "112-server.svg",
+            "113-server.svg",
+            "114-server.svg",
+            "115-server.svg",
+            "116-database.svg",
+            "117-database.svg",
+            "118-database.svg",
+            "119-database.svg",
+            "120-cloud.svg",
+            "121-menu.svg",
+            "122-cloud computing.svg",
+            "123-cloud computing.svg",
+            "124-cloud computing.svg",
+            "125-cloud computing.svg",
+            "126-cloud computing.svg",
+            "127-cloud computing.svg",
+            "128-like.svg",
+            "129-dislike.svg",
+            "130-like.svg",
+            "131-star.svg",
+            "132-tabs.svg",
+            "133-star.svg",
+            "134-map.svg",
+            "135-map.svg",
+            "136-map.svg",
+            "137-placeholder.svg",
+            "138-placeholder.svg",
+            "139-placeholder.svg",
+            "140-internet.svg",
+            "141-radar.svg",
+            "142-target.svg",
+            "143-windows.svg",
+            "144-television.svg",
+            "145-hourglass.svg",
+            "146-hourglass.svg",
+            "147-hourglass.svg",
+            "148-hourglass.svg",
+            "149-id card.svg",
+            "150-id card.svg",
+            "151-id card.svg",
+            "152-id card.svg",
+            "153-id card.svg",
+            "154-windows.svg",
+            "155-id card.svg",
+            "156-battery.svg",
+            "157-battery.svg",
+            "158-battery.svg",
+            "159-battery.svg",
+            "160-battery.svg",
+            "161-battery.svg",
+            "162-battery.svg",
+            "163-battery.svg",
+            "164-battery.svg",
+            "165-layers.svg",
+            "166-battery.svg",
+            "167-command.svg",
+            "168-compose.svg",
+            "169-reading.svg",
+            "170-flag.svg",
+            "171-flag.svg",
+            "172-flag.svg",
+            "173-flag.svg",
+            "174-flag.svg",
+            "175-bookmark.svg",
+            "176-windows.svg",
+            "177-agenda.svg",
+            "178-controls.svg",
+            "179-controls.svg",
+            "180-controls.svg",
+            "181-controls.svg",
+            "182-controls.svg",
+            "183-controls.svg",
+            "184-controls.svg",
+            "185-controls.svg",
+            "186-controls.svg",
+            "187-tabs.svg",
+            "188-controls.svg",
+            "189-umbrella.svg",
+            "190-help.svg",
+            "191-magnet.svg",
+            "192-magnet.svg",
+            "193-magnet.svg",
+            "194-fingerprint.svg",
+            "195-attachment.svg",
+            "196-hold.svg",
+            "197-diamond.svg",
+            "198-windows.svg",
+            "199-push pin.svg",
+            "200-settings.svg",
+            "201-settings.svg",
+            "202-settings.svg",
+            "203-settings.svg",
+            "204-settings.svg",
+            "205-settings.svg",
+            "206-settings.svg",
+            "207-settings.svg",
+            "208-settings.svg",
+            "209-windows.svg",
+            "210-settings.svg",
+            "211-gift.svg",
+            "212-alarm.svg",
+            "213-alarm.svg",
+            "214-worldwide.svg",
+            "215-funnel.svg",
+            "216-key.svg",
+            "217-worldwide.svg",
+            "218-edit.svg",
+            "219-fax.svg",
+            "220-layers.svg",
+            "221-zoom out.svg",
+            "222-print.svg",
+            "223-clock.svg",
+            "224-clock.svg",
+            "225-alarm clock.svg",
+            "226-alarm clock.svg",
+            "227-time.svg",
+            "228-stopwatch.svg",
+            "229-stopwatch.svg",
+            "230-stopwatch.svg",
+            "231-stopwatch.svg",
+            "232-albums.svg",
+            "233-stopwatch.svg",
+            "234-folder.svg",
+            "235-folder.svg",
+            "236-folder.svg",
+            "237-folder.svg",
+            "238-folder.svg",
+            "239-folder.svg",
+            "240-folder.svg",
+            "241-folder.svg",
+            "242-folder.svg",
+            "243-garbage.svg",
+            "244-folder.svg",
+            "245-folder.svg",
+            "246-folder.svg",
+            "247-folder.svg",
+            "248-folder.svg",
+            "249-folder.svg",
+            "250-folder.svg",
+            "251-folder.svg",
+            "252-folder.svg",
+            "253-folder.svg",
+            "254-garbage.svg",
+            "255-folder.svg",
+            "256-file.svg",
+            "257-file.svg",
+            "258-list.svg",
+            "259-document.svg",
+            "260-resume.svg",
+            "261-diploma.svg",
+            "262-file.svg",
+            "263-notepad.svg",
+            "264-notepad.svg",
+            "265-garbage.svg",
+            "266-notepad.svg",
+            "267-note.svg",
+            "268-calendar.svg",
+            "269-calendar.svg",
+            "270-calendar.svg",
+            "271-calendar.svg",
+            "272-blueprint.svg",
+            "273-calendar.svg",
+            "274-calendar.svg",
+            "275-bookmark.svg",
+            "276-trash.svg",
+            "277-newspaper.svg",
+            "278-list.svg",
+            "279-edit.svg",
+            "280-notebook.svg",
+            "281-notebook.svg",
+            "282-notebook.svg",
+            "283-notebook.svg",
+            "284-notebook.svg",
+            "285-notebook.svg",
+            "286-calendar.svg",
+            "287-link.svg",
+            "288-calendar.svg",
+            "289-smartphone.svg",
+            "290-smartphone.svg",
+            "291-smartphone.svg",
+            "292-smartphone.svg",
+            "293-smartphone.svg",
+            "294-smartphone.svg",
+            "295-smartphone.svg",
+            "296-smartphone.svg",
+            "297-smartphone.svg",
+            "298-unlink.svg",
+            "299-smartphone.svg",
+            "300-smartphone.svg",
+            "301-smartphone.svg",
+            "302-spotlight.svg",
+            "303-lamp.svg",
+            "304-archive.svg",
+            "305-archive.svg",
+            "306-archive.svg",
+            "307-archive.svg",
+            "308-price tag.svg",
+            "309-broken link.svg",
+            "310-briefcase.svg",
+            "311-app.svg",
+            "312-notification.svg",
+            "313-search.svg",
+            "314-menu.svg",
+            "315-more.svg",
+            "316-more.svg",
+            "317-bluetooth.svg",
+            "318-bluetooth.svg",
+            "319-exit.svg",
+            "320-login.svg",
+            "321-exit.svg",
+            "322-exit.svg",
+            "323-add.svg",
+            "324-search.svg",
+            "325-close.svg",
+            "326-switch.svg",
+            "327-switch.svg",
+            "328-switch.svg",
+            "329-switch.svg",
+            "330-volume control.svg",
+            "331-volume control.svg",
+            "332-switch.svg",
+            "333-switch.svg",
+            "334-switch.svg",
+            "335-home.svg",
+            "336-switch.svg",
+            "337-lock.svg",
+            "338-lock.svg",
+            "339-microphone.svg",
+            "340-muted.svg",
+            "341-microphone.svg",
+            "342-navigation.svg",
+            "343-navigation.svg",
+            "344-compass.svg",
+            "345-more.svg",
+            "346-home.svg",
+            "347-route.svg",
+            "348-street.svg",
+            "349-street.svg",
+            "350-sign.svg",
+            "351-sign.svg",
+            "352-pin.svg",
+            "353-placeholder.svg",
+            "354-map location.svg",
+            "355-placeholders.svg",
+            "356-paper plane.svg",
+            "357-home.svg",
+            "358-paper plane.svg",
+            "359-users.svg",
+            "360-users.svg",
+            "361-user.svg",
+            "362-user.svg",
+            "363-user.svg",
+            "364-user.svg",
+            "365-user.svg",
+            "366-user.svg",
+            "367-user.svg",
+            "368-house.svg",
+            "369-user.svg",
+            "370-locked.svg",
+            "371-locked.svg",
+            "372-locked.svg",
+            "373-locked.svg",
+            "374-locked.svg",
+            "375-unlocked.svg",
+            "376-locked.svg",
+            "377-unlocked.svg",
+            "378-locked.svg",
+            "379-eyeglasses.svg"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "MarkdownWidget": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "markdown"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "content",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "ContinueMoviesWidget": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "continue-movies"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "count": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "count",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "AppListWidget": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "app-list"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "apps": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "Profile",
+              "Xpense",
+              "Organizations",
+              "Feature Switches",
+              "Users",
+              "Diagnostics",
+              "System Logs",
+              "Patches",
+              "Movies",
+              "Encoding Tasks",
+              "Dashboards"
+            ]
+          }
+        }
+      },
+      "required": [
+        "apps",
+        "title",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "EntityShortcutWidget": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "entity-shortcut"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "entityType": {
+          "type": "string",
+          "enum": [
+            "movie",
+            "dashboard",
+            "xpense-account",
+            "movie-library"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "entityType",
+        "id",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "WeatherWidget": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "weather"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "city",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "GetCollectionResult<Dashboard,(\"_id\"|\"name\"|\"description\"|\"owner\"|\"creationDate\"|\"modificationDate\"|\"widgets\")>": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "number",
+          "description": "The Total count of entities"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PartialResult%3CDashboard%2C(%22_id%22%7C%22name%22%7C%22description%22%7C%22owner%22%7C%22creationDate%22%7C%22modificationDate%22%7C%22widgets%22)%3E"
+          },
+          "description": "List of the selected entities"
+        }
+      },
+      "required": [
+        "count",
+        "entries"
+      ],
+      "additionalProperties": false,
+      "description": "Response Model for GetCollection"
+    },
+    "PartialResult<Dashboard,(\"_id\"|\"name\"|\"description\"|\"owner\"|\"creationDate\"|\"modificationDate\"|\"widgets\")>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "modificationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "widgets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Widget"
+          }
+        }
+      },
+      "required": [
+        "_id",
+        "name",
+        "description",
+        "owner",
+        "creationDate",
+        "modificationDate",
+        "widgets"
+      ],
+      "additionalProperties": false
+    },
+    "GetEntityEndpoint<Dashboard>": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "select": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "_id",
+                  "name",
+                  "description",
+                  "owner",
+                  "creationDate",
+                  "modificationDate",
+                  "widgets"
+                ]
+              },
+              "description": "The list of fields to select"
+            }
+          },
+          "additionalProperties": false
+        },
+        "url": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/definitions/Owner"
+                },
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Widget"
+                  }
+                }
+              ],
+              "description": "The entity's unique identifier"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/PartialResult%3CDashboard%2Cany%3E"
+        }
+      },
+      "required": [
+        "query",
+        "url",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Endpoint model for getting a single entity"
+    },
+    "PartialResult<Dashboard,any>": {
+      "$ref": "#/definitions/Dashboard"
+    },
+    "Dashboard": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "modificationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "widgets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Widget"
+          }
+        }
+      },
+      "required": [
+        "_id",
+        "name",
+        "description",
+        "owner",
+        "creationDate",
+        "modificationDate",
+        "widgets"
+      ],
+      "additionalProperties": false
+    },
+    "WeatherData": {
+      "type": "object",
+      "properties": {
+        "cod": {
+          "type": "string"
+        },
+        "message": {
+          "type": "number"
+        },
+        "cnt": {
+          "type": "number"
+        },
+        "city": {
+          "$ref": "#/definitions/WeatherDataCity"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WeatherDataListEntry"
+          }
+        }
+      },
+      "required": [
+        "cod",
+        "message",
+        "cnt",
+        "city",
+        "list"
+      ],
+      "additionalProperties": false
+    },
+    "WeatherDataCity": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "coord": {
+          "type": "object",
+          "properties": {
+            "lat": {
+              "type": "number"
+            },
+            "lon": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "lat",
+            "lon"
+          ],
+          "additionalProperties": false
+        },
+        "country": {
+          "type": "string"
+        },
+        "population": {
+          "type": "number"
+        },
+        "timezone": {
+          "type": "number"
+        },
+        "sunrise": {
+          "type": "number"
+        },
+        "sunset": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "coord",
+        "country",
+        "population",
+        "timezone",
+        "sunrise",
+        "sunset"
+      ],
+      "additionalProperties": false
+    },
+    "WeatherDataListEntry": {
+      "type": "object",
+      "properties": {
+        "main": {
+          "type": "object",
+          "properties": {
+            "temp": {
+              "type": "number"
+            },
+            "temp_min": {
+              "type": "number"
+            },
+            "temp_max": {
+              "type": "number"
+            },
+            "pressure": {
+              "type": "number"
+            },
+            "sea_level": {
+              "type": "number"
+            },
+            "grnd_level": {
+              "type": "number"
+            },
+            "humidity": {
+              "type": "number"
+            },
+            "temp_kf": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "temp",
+            "temp_min",
+            "temp_max",
+            "pressure",
+            "sea_level",
+            "grnd_level",
+            "humidity",
+            "temp_kf"
+          ],
+          "additionalProperties": false
+        },
+        "weather": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "main": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "main",
+              "description",
+              "icon"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "clouds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "wind": {
+          "type": "object",
+          "properties": {
+            "speed": {
+              "type": "number"
+            },
+            "deg": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "speed",
+            "deg"
+          ],
+          "additionalProperties": false
+        },
+        "sys": {
+          "type": "object",
+          "properties": {
+            "pod": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "pod"
+          ],
+          "additionalProperties": false
+        },
+        "dt_txt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "main",
+        "weather",
+        "clouds",
+        "wind",
+        "sys",
+        "dt_txt"
+      ],
+      "additionalProperties": false
+    },
+    "PostEndpoint<Dashboard>": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "$ref": "#/definitions/WithOptionalId%3CDashboard%2C(%22_id%22%7C%22name%22%7C%22description%22%7C%22owner%22%7C%22creationDate%22%7C%22modificationDate%22%7C%22widgets%22)%3E"
+        },
+        "result": {
+          "$ref": "#/definitions/Dashboard"
+        }
+      },
+      "required": [
+        "body",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Endpoint model for creating new entities"
+    },
+    "WithOptionalId<Dashboard,(\"_id\"|\"name\"|\"description\"|\"owner\"|\"creationDate\"|\"modificationDate\"|\"widgets\")>": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "modificationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "widgets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Widget"
+          }
+        }
+      }
+    },
+    "PatchEndpoint<Dashboard>": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "$ref": "#/definitions/Partial%3CDashboard%3E"
+        },
+        "url": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/definitions/Owner"
+                },
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Widget"
+                  }
+                }
+              ]
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "result": {
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "body",
+        "url",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Endpoint model for updating entities"
+    },
+    "Partial<Dashboard>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "modificationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "widgets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Widget"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
