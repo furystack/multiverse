@@ -13,7 +13,11 @@ export const GithubLoginAction: RequestAction<{
   try {
     githubApiPayload = await injector.getInstance(GithubAuthService).getGithubUserData({ code, clientId })
   } catch (error) {
-    injector.logger.error({ scope: 'GithubLoginAction', message: 'Github Login error', data: { error } })
+    injector.logger.error({
+      scope: 'GithubLoginAction',
+      message: 'Github Login error',
+      data: { error, ...(error.response?.body ? { responseBody: error.response?.body } : {}) },
+    })
     throw new RequestError('Cannot get payload from Github', 500)
   }
   const existingGhUsers = await injector
