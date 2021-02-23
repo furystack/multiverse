@@ -14,7 +14,19 @@ export interface SystemLogsState {
 export const LogLevelCell = Shade<{ level: LogLevel }>({
   shadowDomName: 'log-level-cell',
   render: ({ props }) => {
-    return <span title={LogLevel[props.level]}>{getLevelIcon(props.level)}</span>
+    return (
+      <span
+        style={{
+          display: 'inline-flex',
+          width: '100%',
+          height: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        title={LogLevel[props.level]}>
+        {getLevelIcon(props.level)}
+      </span>
+    )
   },
 })
 
@@ -39,7 +51,7 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
           service={getState().systemLogsService}
           styles={{
             cell: {
-              textAlign: 'center',
+              // textAlign: 'center',
               textOverflow: 'ellipsis',
               overflow: 'hidden',
             },
