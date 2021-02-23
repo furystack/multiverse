@@ -37,7 +37,7 @@ export class GithubAuthService {
     })
     const accessToken = JSON.parse(response.body).access_token
     const currentUserResponse = await got.get({
-      href: 'https://api.github.com/user',
+      url: 'https://api.github.com/user',
       headers: {
         Authorization: `token ${accessToken}`,
       },
