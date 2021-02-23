@@ -34,14 +34,6 @@ export const GithubRegisterAction: RequestAction<{
 
   const newUser = created[0]
 
-  try {
-    const tempFilePath =
-      githubApiPayload && githubApiPayload.avatar_url && (await downloadAsTempFile(githubApiPayload.avatar_url))
-    tempFilePath && (await saveAvatar({ injector, user: newUser, tempFilePath }))
-  } catch (error) {
-    logger.warning({ message: 'Failed to get Avatar', data: { message: error.message, stack: error.stack } })
-  }
-
   await storeManager.getStoreFor(auth.GithubAccount).add({
     accountLinkDate: registrationDate,
     username: newUser.username,
@@ -60,5 +52,14 @@ export const GithubRegisterAction: RequestAction<{
     message: `User ${newUser.username} has been registered with Github Auth.`,
     data: newUser,
   })
+
+  try {
+    const tempFilePath =
+      githubApiPayload && githubApiPayload.avatar_url && (await downloadAsTempFile(githubApiPayload.avatar_url))
+    tempFilePath && (await saveAvatar({ injector, user: newUser, tempFilePath }))
+  } catch (error) {
+    logger.warning({ message: 'Failed to get Avatar', data: { message: error.message, stack: error.stack } })
+  }
+
   return JsonResult({ ...user })
 }
