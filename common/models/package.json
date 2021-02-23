@@ -12,7 +12,7 @@
   "types": "dist/index.d.ts",
   "devDependencies": {},
   "dependencies": {
-    "@furystack/rest": "^2.0.3",
+    "@furystack/rest": "^2.0.4",
     "tslib": "^2.1.0"
   }
 }
