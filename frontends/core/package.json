@@ -46,7 +46,7 @@
     "@types/video.js": "^7.3.14",
     "copy-webpack-plugin": "^7.0.0",
     "marked": "^2.0.0",
-    "monaco-editor": "^0.22.3",
+    "monaco-editor": "^0.23.0",
     "monaco-editor-webpack-plugin": "^3.0.0",
     "path-to-regexp": "^6.2.0",
     "reflect-metadata": "^0.1.13",
