@@ -22,7 +22,11 @@ export interface MediaApi extends RestApi {
     '/my-watch-progress': GetCollectionEndpoint<MovieWatchHistoryEntry>
     '/encode/tasks': GetCollectionEndpoint<EncodingTask>
     '/encode/tasks/:id': GetEntityEndpoint<EncodingTask>
-    '/encode/get-worker-task/:taskId': { url: { taskId: string }; result: media.EncodingTask }
+    '/encode/get-worker-task/:taskId': {
+      url: { taskId: string }
+      result: media.EncodingTask
+      headers: { 'task-token': string }
+    }
   }
   POST: {
     '/movie-libraries': PostEndpoint<MovieLibrary>

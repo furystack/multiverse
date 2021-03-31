@@ -1,10 +1,10 @@
 import { join } from 'path'
 import { promises } from 'fs'
-import { media } from '@common/models'
+import { apis, media } from '@common/models'
 import { FileStores } from '@common/config'
 import { PathHelper } from '@furystack/utils'
+import { createClient } from '@furystack/rest-client-got'
 import { Injector } from '@furystack/inject'
-import got from 'got'
 import rimraf from 'rimraf'
 import { existsAsync } from '@common/service-utils'
 import { TaskLogger } from '../services/task-logger'
@@ -14,6 +14,10 @@ import { encodeToX264Dash } from './encode-to-264-dash'
 export const mediaApiPath = process.env.MEDIA_API_PATH || 'http://localhost:9093/api/media'
 
 export const encodeTask = async (options: { task: media.EncodingTask; injector: Injector }): Promise<boolean> => {
+  const callApi = createClient<apis.MediaApi>({
+    endpointUrl: mediaApiPath,
+  })
+
   const logger = options.injector.logger.withScope('encodeTask')
   const uploadPath = PathHelper.joinPaths(
     mediaApiPath,
@@ -76,17 +80,28 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
       })
       return false
     }
-    await got(PathHelper.joinPaths(mediaApiPath, 'finialize-encoding'), {
+    await callApi({
       method: 'POST',
-      body: JSON.stringify({
+      action: '/finialize-encoding',
+      body: {
         accessToken: options.task.authToken,
         codec: encodingSettings.codec,
         mode: encodingSettings.mode,
         log: taskLogger.getAllEntries(),
-      }),
-      encoding: 'utf-8',
-      retry: 10,
+      },
     })
+    // ToDO: GOT Options
+    // await got(PathHelper.joinPaths(mediaApiPath, 'finialize-encoding'), {
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     accessToken: options.task.authToken,
+    //     codec: encodingSettings.codec,
+    //     mode: encodingSettings.mode,
+    //     log: taskLogger.getAllEntries(),
+    //   }),
+    //   encoding: 'utf-8',
+    //   retry: 10,
+    // })
     await new Promise<void>((resolve, reject) => rimraf(encodingTempDir, (err) => (err ? reject(err) : resolve())))
     logger.information({ message: 'Task finished, the task has been finialized.' })
     taskLogger.flush()
@@ -102,9 +117,10 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
         },
       },
     })
-    got(PathHelper.joinPaths(mediaApiPath, 'save-encoding-failure'), {
+    callApi({
       method: 'POST',
-      body: JSON.stringify({
+      action: '/save-encoding-failure',
+      body: {
         accessToken: options.task.authToken,
         error: {
           message: error.message,
@@ -112,11 +128,9 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
           stdout: error.stdout,
           stderr: error.stderr,
           originalError: error,
-          log: taskLogger.getAllEntries(),
         },
-      }),
-      encoding: 'utf-8',
-      retry: 10,
+        log: taskLogger.getAllEntries(),
+      },
     })
       .then(() => logger.information({ message: 'The Error details has been sent to the service' }))
       .catch((e) =>

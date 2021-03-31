@@ -20,6 +20,7 @@
     "@furystack/inject": "^4.0.55",
     "@furystack/logging": "^2.0.62",
     "@furystack/rest": "^2.0.5",
+    "@furystack/rest-client-got": "^1.0.5",
     "@types/fluent-ffmpeg": "^2.1.16",
     "amqplib": "^0.7.1",
     "chokidar": "^3.5.1",
