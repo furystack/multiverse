@@ -7,8 +7,9 @@ import { RequestAction, JsonResult } from '@furystack/rest-service'
 
 export const UploadAvatar: RequestAction<{ result: { success: boolean } }> = async ({ injector, request }) => {
   const user = await injector.getCurrentUser<auth.User>()
-  const form = new IncomingForm()
-  form.uploadDir = FileStores.tempdir
+  const form = new IncomingForm({
+    uploadDir: FileStores.tempdir,
+  })
 
   const parseResult = await new Promise<{ fields: Fields; files: Files }>((resolve, reject) =>
     form.parse(request, (err, fields, files) => {

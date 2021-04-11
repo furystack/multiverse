@@ -1,6 +1,6 @@
 {
   "name": "multiverse",
-  "version": "2021.02.18",
+  "version": "2021.03.31",
   "description": "A furystack-based microservice and microfrontend collection",
   "main": "services/auth/src/index.ts",
   "repository": "https://github.com/furystack/multiverse.git",
@@ -21,29 +21,29 @@
     "uuid": "^8.3.2"
   },
   "optionalDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.15.1",
-    "@typescript-eslint/parser": "^4.15.1",
-    "cypress": "^6.5.0",
-    "cypress-file-upload": "^5.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.20.0",
+    "@typescript-eslint/parser": "^4.20.0",
+    "cypress": "^6.8.0",
+    "cypress-file-upload": "^5.0.3",
     "cypress-plugin-snapshots": "^1.4.4",
-    "eslint": "^7.20.0",
-    "eslint-config-prettier": "^7.2.0",
+    "eslint": "^7.23.0",
+    "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsdoc": "^32.0.2",
+    "eslint-plugin-jsdoc": "^32.3.0",
     "eslint-plugin-prettier": "^3.3.1",
-    "husky": "^5.0.9",
+    "husky": "^6.0.0",
     "jest": "^26.6.3",
     "jest-junit": "^12.0.0",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.20",
+    "@types/jest": "^26.0.22",
     "glob": "^7.1.6",
     "rimraf": "^3.0.1",
-    "ts-json-schema-generator": "^0.86.0",
-    "typescript": "^4.1.5"
+    "ts-json-schema-generator": "^0.89.1",
+    "typescript": "^4.2.3"
   },
   "husky": {
     "hooks": {

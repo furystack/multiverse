@@ -28,8 +28,9 @@ export const UploadEncoded: RequestAction<{
     throw new RequestError('Movie not found', 404)
   }
 
-  const form = new IncomingForm()
-  form.uploadDir = FileStores.tempdir
+  const form = new IncomingForm({
+    uploadDir: FileStores.tempdir,
+  })
 
   const parseResult = await new Promise<{ fields: Fields; files: Files }>((resolve, reject) =>
     form.parse(request, (err, fields, files) => {
@@ -52,7 +53,7 @@ export const UploadEncoded: RequestAction<{
       await promises.mkdir(targetPath, { recursive: true })
     }
 
-    await promises.copyFile(file.path, join(targetPath, file.name))
+    await promises.copyFile(file.path, join(targetPath, file.name as string))
     // Remove from temp
     promises.unlink(file.path)
   }
