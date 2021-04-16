@@ -116,7 +116,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CLogEntry%2C(%22_id%22%7C%22level%22%7C%22scope%22%7C%22message%22%7C%22data%22%7C%22appName%22%7C%22creationDate%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CLogEntry%2C(%22_id%22%7C%22level%22%7C%22scope%22%7C%22message%22%7C%22data%22%7C%22appName%22%7C%22creationDate%22)%5B%5D%3E"
         }
       },
       "required": [
@@ -462,14 +462,24 @@
                 "$in": {
                   "type": "array",
                   "items": {
-                    "not": {},
+                    "anyOf": [
+                      {},
+                      {
+                        "not": {}
+                      }
+                    ],
                     "description": "Additional entry data"
                   }
                 },
                 "$nin": {
                   "type": "array",
                   "items": {
-                    "not": {},
+                    "anyOf": [
+                      {},
+                      {
+                        "not": {}
+                      }
+                    ],
                     "description": "Additional entry data"
                   }
                 }
@@ -582,7 +592,7 @@
       ],
       "description": "The verbosity level of a log entry"
     },
-    "GetCollectionResult<LogEntry,(\"_id\"|\"level\"|\"scope\"|\"message\"|\"data\"|\"appName\"|\"creationDate\")>": {
+    "GetCollectionResult<LogEntry,(\"_id\"|\"level\"|\"scope\"|\"message\"|\"data\"|\"appName\"|\"creationDate\")[]>": {
       "type": "object",
       "properties": {
         "count": {
@@ -592,7 +602,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CLogEntry%2C(%22_id%22%7C%22level%22%7C%22scope%22%7C%22message%22%7C%22data%22%7C%22appName%22%7C%22creationDate%22)%3E"
+            "$ref": "#/definitions/PartialResult%3CLogEntry%2C(%22_id%22%7C%22level%22%7C%22scope%22%7C%22message%22%7C%22data%22%7C%22appName%22%7C%22creationDate%22)%5B%5D%3E"
           },
           "description": "List of the selected entities"
         }
@@ -604,7 +614,7 @@
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
     },
-    "PartialResult<LogEntry,(\"_id\"|\"level\"|\"scope\"|\"message\"|\"data\"|\"appName\"|\"creationDate\")>": {
+    "PartialResult<LogEntry,(\"_id\"|\"level\"|\"scope\"|\"message\"|\"data\"|\"appName\"|\"creationDate\")[]>": {
       "type": "object",
       "properties": {
         "_id": {
@@ -702,7 +712,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/PartialResult%3CLogEntry%2Cany%3E"
+          "$ref": "#/definitions/PartialResult%3CLogEntry%2C(%22_id%22%7C%22level%22%7C%22scope%22%7C%22message%22%7C%22data%22%7C%22appName%22%7C%22creationDate%22)%5B%5D%3E"
         }
       },
       "required": [
@@ -712,48 +722,6 @@
       ],
       "additionalProperties": false,
       "description": "Endpoint model for getting a single entity"
-    },
-    "PartialResult<LogEntry,any>": {
-      "$ref": "#/definitions/LogEntry"
-    },
-    "LogEntry": {
-      "type": "object",
-      "properties": {
-        "scope": {
-          "type": "string",
-          "description": "A well-defined scope for grouping entries, e.g. a component or service name."
-        },
-        "message": {
-          "type": "string",
-          "description": "The message string"
-        },
-        "data": {
-          "description": "Additional entry data"
-        },
-        "level": {
-          "$ref": "#/definitions/LogLevel",
-          "description": "The verbosity level of the log entry"
-        },
-        "_id": {
-          "type": "string"
-        },
-        "appName": {
-          "type": "string"
-        },
-        "creationDate": {
-          "type": "string",
-          "format": "date-time"
-        }
-      },
-      "required": [
-        "_id",
-        "appName",
-        "creationDate",
-        "level",
-        "message",
-        "scope"
-      ],
-      "additionalProperties": false
     },
     "GetCollectionEndpoint<Patch>": {
       "type": "object",
@@ -768,7 +736,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CPatch%2C(%22_id%22%7C%22appName%22%7C%22name%22%7C%22description%22%7C%22status%22%7C%22startDate%22%7C%22finishDate%22%7C%22error%22%7C%22errors%22%7C%22warns%22%7C%22updates%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CPatch%2C(%22_id%22%7C%22appName%22%7C%22name%22%7C%22description%22%7C%22status%22%7C%22startDate%22%7C%22finishDate%22%7C%22error%22%7C%22errors%22%7C%22warns%22%7C%22updates%22)%5B%5D%3E"
         }
       },
       "required": [
@@ -1270,13 +1238,23 @@
                 "$in": {
                   "type": "array",
                   "items": {
-                    "not": {}
+                    "anyOf": [
+                      {},
+                      {
+                        "not": {}
+                      }
+                    ]
                   }
                 },
                 "$nin": {
                   "type": "array",
                   "items": {
-                    "not": {}
+                    "anyOf": [
+                      {},
+                      {
+                        "not": {}
+                      }
+                    ]
                   }
                 }
               },
@@ -1518,7 +1496,7 @@
         }
       }
     },
-    "GetCollectionResult<Patch,(\"_id\"|\"appName\"|\"name\"|\"description\"|\"status\"|\"startDate\"|\"finishDate\"|\"error\"|\"errors\"|\"warns\"|\"updates\")>": {
+    "GetCollectionResult<Patch,(\"_id\"|\"appName\"|\"name\"|\"description\"|\"status\"|\"startDate\"|\"finishDate\"|\"error\"|\"errors\"|\"warns\"|\"updates\")[]>": {
       "type": "object",
       "properties": {
         "count": {
@@ -1528,7 +1506,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CPatch%2C(%22_id%22%7C%22appName%22%7C%22name%22%7C%22description%22%7C%22status%22%7C%22startDate%22%7C%22finishDate%22%7C%22error%22%7C%22errors%22%7C%22warns%22%7C%22updates%22)%3E"
+            "$ref": "#/definitions/PartialResult%3CPatch%2C(%22_id%22%7C%22appName%22%7C%22name%22%7C%22description%22%7C%22status%22%7C%22startDate%22%7C%22finishDate%22%7C%22error%22%7C%22errors%22%7C%22warns%22%7C%22updates%22)%5B%5D%3E"
           },
           "description": "List of the selected entities"
         }
@@ -1540,7 +1518,7 @@
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
     },
-    "PartialResult<Patch,(\"_id\"|\"appName\"|\"name\"|\"description\"|\"status\"|\"startDate\"|\"finishDate\"|\"error\"|\"errors\"|\"warns\"|\"updates\")>": {
+    "PartialResult<Patch,(\"_id\"|\"appName\"|\"name\"|\"description\"|\"status\"|\"startDate\"|\"finishDate\"|\"error\"|\"errors\"|\"warns\"|\"updates\")[]>": {
       "type": "object",
       "properties": {
         "_id": {
@@ -1663,6 +1641,7 @@
                   "type": "string",
                   "format": "date-time"
                 },
+                {},
                 {
                   "type": "array",
                   "items": {
@@ -1695,7 +1674,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/PartialResult%3CPatch%2Cany%3E"
+          "$ref": "#/definitions/PartialResult%3CPatch%2C(%22_id%22%7C%22appName%22%7C%22name%22%7C%22description%22%7C%22status%22%7C%22startDate%22%7C%22finishDate%22%7C%22error%22%7C%22errors%22%7C%22warns%22%7C%22updates%22)%5B%5D%3E"
         }
       },
       "required": [
@@ -1705,83 +1684,6 @@
       ],
       "additionalProperties": false,
       "description": "Endpoint model for getting a single entity"
-    },
-    "PartialResult<Patch,any>": {
-      "$ref": "#/definitions/Patch"
-    },
-    "Patch": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "appName": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string",
-          "enum": [
-            "completed",
-            "failed"
-          ]
-        },
-        "startDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "finishDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "error": {},
-        "errors": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "message": {
-                "type": "string"
-              },
-              "stack": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "message",
-              "stack"
-            ],
-            "additionalProperties": false
-          }
-        },
-        "warns": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "updates": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": [
-        "_id",
-        "appName",
-        "name",
-        "description",
-        "status",
-        "startDate",
-        "finishDate"
-      ],
-      "additionalProperties": false
     }
   }
 }

@@ -1,7 +1,7 @@
 import { promises, createReadStream } from 'fs'
 import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
-import { StoreManager, PartialResult } from '@furystack/core'
+import { StoreManager } from '@furystack/core'
 import { RequestAction, BypassResult } from '@furystack/rest-service'
 
 export const StreamOriginalAction: RequestAction<{
@@ -9,7 +9,7 @@ export const StreamOriginalAction: RequestAction<{
   result: unknown
 }> = async ({ request, response, getUrlParams, injector }) => {
   const { movieId, accessToken } = getUrlParams()
-  let movie: PartialResult<media.Movie, 'path'> | undefined
+  let movie: media.Movie | undefined
 
   if (accessToken) {
     const [job] = await injector
