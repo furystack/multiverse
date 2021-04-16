@@ -28,6 +28,16 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "create-schemas",
+      "program": "${workspaceFolder}/common/models/src/bin/create-schemas.ts",
+      "outFiles": ["${workspaceFolder}/common/models/dist/bin/create-schemas.js"],
+      "cwd": "${workspaceFolder}/common/models",
+      "skipFiles": ["<node_internals>/**"],
+      "preLaunchTask": "npm: build:common"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Worker",
       "program": "${workspaceFolder}/workers/${input:worker}/src/worker.ts",
       "outFiles": ["${workspaceFolder}/workers/${input:worker}/dist/**/*.js"],
