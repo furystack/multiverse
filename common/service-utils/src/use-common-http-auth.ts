@@ -32,7 +32,7 @@ Injector.prototype.useCommonHttpAuth = function () {
         options: databases.standardOptions,
       })
       .useMongoDb({
-        primaryKey: 'sessionId',
+        primaryKey: '_id',
         model: auth.Session,
         url: databases['common-auth'].sessionStoreUrl,
         db: databases['common-auth'].dbName,
@@ -43,8 +43,8 @@ Injector.prototype.useCommonHttpAuth = function () {
     enableBasicAuth: false,
     cookieName: 'fsmvsc',
     model: auth.User,
-    getUserStore: (sm) => sm.getStoreFor(auth.User, 'username'),
-    getSessionStore: (sm) => sm.getStoreFor(auth.Session, 'sessionId'),
+    getUserStore: (sm) => sm.getStoreFor(auth.User, '_id'),
+    getSessionStore: (sm) => sm.getStoreFor(auth.Session, '_id'),
   })
 
   this.setupRepository((repo) =>
