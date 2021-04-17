@@ -3,7 +3,7 @@ import { auth } from '@common/models'
 
 export const setupRepository = (injector: Injector) => {
   injector.setupRepository((repo) =>
-    repo.createDataSet(auth.Profile, {
+    repo.createDataSet(auth.Profile, '_id', {
       authorizeUpdateEntity: async ({ injector: i, entity: profile }) => {
         const currentUser = await i.getCurrentUser()
         if (profile.username === currentUser.username) {

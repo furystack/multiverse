@@ -12,13 +12,13 @@
               "$ref": "#/definitions/GetCollectionEndpoint%3CLogEntry%3E"
             },
             "/logEntries/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CLogEntry%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CLogEntry%2C%22_id%22%3E"
             },
             "/patches": {
               "$ref": "#/definitions/GetCollectionEndpoint%3CPatch%3E"
             },
             "/patches/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CPatch%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CPatch%2C%22_id%22%3E"
             }
           },
           "required": [
@@ -653,7 +653,7 @@
       ],
       "additionalProperties": false
     },
-    "GetEntityEndpoint<LogEntry>": {
+    "GetEntityEndpoint<LogEntry,\"_id\">": {
       "type": "object",
       "properties": {
         "query": {
@@ -682,33 +682,13 @@
           "type": "object",
           "properties": {
             "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "#/definitions/LogLevel",
-                  "description": "The verbosity level of the log entry"
-                },
-                {
-                  "type": "string",
-                  "description": "A well-defined scope for grouping entries, e.g. a component or service name."
-                },
-                {
-                  "type": "string",
-                  "description": "The message string"
-                },
-                {
-                  "description": "Additional entry data"
-                },
-                {
-                  "type": "string",
-                  "format": "date-time"
-                }
-              ],
+              "type": "string",
               "description": "The entity's unique identifier"
             }
           },
+          "required": [
+            "id"
+          ],
           "additionalProperties": false
         },
         "result": {
@@ -1592,7 +1572,7 @@
       ],
       "additionalProperties": false
     },
-    "GetEntityEndpoint<Patch>": {
+    "GetEntityEndpoint<Patch,\"_id\">": {
       "type": "object",
       "properties": {
         "query": {
@@ -1625,52 +1605,13 @@
           "type": "object",
           "properties": {
             "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "string",
-                  "const": "completed"
-                },
-                {
-                  "type": "string",
-                  "const": "failed"
-                },
-                {
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {},
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string"
-                      },
-                      "stack": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "message",
-                      "stack"
-                    ],
-                    "additionalProperties": false
-                  }
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              ],
+              "type": "string",
               "description": "The entity's unique identifier"
             }
           },
+          "required": [
+            "id"
+          ],
           "additionalProperties": false
         },
         "result": {

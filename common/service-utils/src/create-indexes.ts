@@ -10,7 +10,9 @@ export const verifyAndCreateIndexes = async <T>(options: {
   indexSpecification: { [K in keyof T]?: 1 }
   indexOptions: IndexOptions
 }) => {
-  const store: MongodbStore<T> = options.injector.getInstance(StoreManager).getStoreFor(options.model)
+  const store: MongodbStore<T, any> = options.injector
+    .getInstance(StoreManager)
+    .getStoreFor(options.model, '_id' as any) // ToDo: Fix Me
   if (!(store instanceof MongodbStore)) {
     throw Error(`Store for ${options.model.name} is not a MongodbStore!`)
   }

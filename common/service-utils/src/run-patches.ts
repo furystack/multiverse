@@ -23,7 +23,7 @@ export const runPatches = async (options: { injector: Injector; patches: PatchEn
       collection: databases.diag.patches,
     }),
   )
-  const patchStore = options.injector.getInstance(StoreManager).getStoreFor(diag.Patch)
+  const patchStore = options.injector.getInstance(StoreManager).getStoreFor(diag.Patch, '_id')
   for (const patch of options.patches) {
     if (patch.mode === 'once') {
       const existing = await patchStore.find({

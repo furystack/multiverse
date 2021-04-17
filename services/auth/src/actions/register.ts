@@ -2,7 +2,6 @@ import { RequestError } from '@furystack/rest'
 import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
 import { HttpUserContext, JsonResult, RequestAction } from '@furystack/rest-service'
-import { ObjectId } from 'mongodb'
 
 export const RegisterAction: RequestAction<{
   body: { email: string; password: string }
@@ -11,7 +10,7 @@ export const RegisterAction: RequestAction<{
   const logger = injector.logger.withScope('RegisterAction')
   const storeManager = injector.getInstance(StoreManager)
   const { email, password } = await getBody()
-  const userStore = storeManager.getStoreFor(auth.User)
+  const userStore = storeManager.getStoreFor(auth.User, '_id')
   const existing = await userStore.find({ filter: { username: { $eq: email } } })
   if (existing && existing.length) {
     logger.information({ message: 'Tried to register an already existing user', data: { email, user: existing[0] } })
@@ -25,9 +24,12 @@ export const RegisterAction: RequestAction<{
     registrationDate: new Date().toISOString(),
   })
   const newUser = created[0]
-  await storeManager
-    .getStoreFor(auth.Profile)
-    .add({ _id: new ObjectId().toString(), username: newUser.username, displayName: newUser.username, description: '' })
+  await storeManager.getStoreFor(auth.Profile, '_id').add({
+    username: newUser.username,
+    displayName: newUser.username,
+    description: '',
+    userSettings: { theme: 'dark' },
+  })
   await userCtx.cookieLogin(newUser, response)
 
   const { password: pw, ...user } = newUser

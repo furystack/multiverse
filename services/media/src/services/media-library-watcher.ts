@@ -19,13 +19,13 @@ export class MediaLibraryWatcher {
   private watchers = new Map<string, FSWatcher>()
 
   private onMovieLibraryAdded = this.injector
-    .getDataSetFor(media.MovieLibrary)
+    .getDataSetFor(media.MovieLibrary, '_id')
     .onEntityAdded.subscribe(({ entity }) => {
       this.initWatcherForLibrary(entity)
     })
 
   private onMovieLibraryRemoved = this.injector
-    .getDataSetFor(media.MovieLibrary)
+    .getDataSetFor(media.MovieLibrary, '_id')
     .onEntityRemoved.subscribe(({ key }) => {
       const watcher = this.watchers.get(key as any)
       if (watcher) {
@@ -58,7 +58,7 @@ export class MediaLibraryWatcher {
         return
       }
 
-      const dataSet = this.injector.getDataSetFor(media.Movie)
+      const dataSet = this.injector.getDataSetFor(media.Movie, '_id')
 
       const movieEntries = await dataSet.find(this.injector, { top: 1, filter: { path: { $eq: name } } })
       if (!movieEntries.length) {
@@ -93,7 +93,7 @@ export class MediaLibraryWatcher {
   }
 
   private async init() {
-    const movieLibraries = await this.injector.getInstance(StoreManager).getStoreFor(media.MovieLibrary).find({})
+    const movieLibraries = await this.injector.getInstance(StoreManager).getStoreFor(media.MovieLibrary, '_id').find({})
     this.logger.verbose({
       message: 'Initializing library watchers...',
       data: { paths: movieLibraries.map((m) => m.path) },

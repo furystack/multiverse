@@ -1,4 +1,3 @@
-import { DefaultSession } from '@furystack/rest-service'
 import '@furystack/mongodb-store'
 import { Injector } from '@furystack/inject/dist/injector'
 import { databases } from '@common/config'
@@ -44,13 +43,13 @@ Injector.prototype.useCommonHttpAuth = function () {
     enableBasicAuth: false,
     cookieName: 'fsmvsc',
     model: auth.User,
-    getUserStore: (sm) => sm.getStoreFor(auth.User),
-    getSessionStore: (sm) => sm.getStoreFor<DefaultSession>(auth.Session),
+    getUserStore: (sm) => sm.getStoreFor(auth.User, 'username'),
+    getSessionStore: (sm) => sm.getStoreFor(auth.Session, 'sessionId'),
   })
 
   this.setupRepository((repo) =>
     repo
-      .createDataSet(auth.Organization, {
+      .createDataSet(auth.Organization, '_id', {
         authorizeUpdateEntity: async ({ injector: i, entity }) => {
           const currentUser = await i.getCurrentUser()
           if (
@@ -62,7 +61,7 @@ Injector.prototype.useCommonHttpAuth = function () {
           return { isAllowed: false, message: 'Only the owner or admins can modify an organization' }
         },
       })
-      .createDataSet(auth.User, {
+      .createDataSet(auth.User, '_id', {
         ...authorizedDataSet,
         authorizeAdd: async (authorize) => {
           const success = await authorize.injector.isAuthorized('user-admin')

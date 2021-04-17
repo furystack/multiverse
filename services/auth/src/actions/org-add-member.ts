@@ -7,7 +7,7 @@ export const OrganizationAddMember: RequestAction<{
   body: { username: string }
   url: { organizationName: string }
 }> = async ({ getBody, getUrlParams, injector }) => {
-  const dataSet = injector.getDataSetFor(auth.Organization)
+  const dataSet = injector.getDataSetFor(auth.Organization, '_id')
 
   const { username } = await getBody()
   const { organizationName } = getUrlParams()

@@ -20,7 +20,7 @@ export const AuthorizeOwnership: <T extends { owner: Owner }>(
   if (owner.type === 'organization') {
     const [ownerOrg] = await injector
       .getInstance(StoreManager)
-      .getStoreFor(auth.Organization)
+      .getStoreFor(auth.Organization, '_id')
       .find({ top: 1, filter: { name: { $eq: owner.organizationName } } })
     if (ownerOrg) {
       if (

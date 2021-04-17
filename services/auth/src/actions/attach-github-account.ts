@@ -12,7 +12,7 @@ export const AttachGithubAccount: RequestAction<{
   const { password, ...currentUser } = (await injector.getCurrentUser()) as auth.User
   const { code, clientId } = await getBody()
   const githubApiPayload = await injector.getInstance(GithubAuthService).getGithubUserData({ code, clientId })
-  const ghAccountStore = injector.getInstance(StoreManager).getStoreFor(auth.GithubAccount)
+  const ghAccountStore = injector.getInstance(StoreManager).getStoreFor(auth.GithubAccount, '_id')
   const registrationDate = new Date().toISOString()
 
   const { created } = await ghAccountStore.add({

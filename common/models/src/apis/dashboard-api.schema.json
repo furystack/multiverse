@@ -12,7 +12,7 @@
               "$ref": "#/definitions/GetCollectionEndpoint%3CDashboard%3E"
             },
             "/boards/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CDashboard%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CDashboard%2C%22_id%22%3E"
             },
             "/weather-forecast": {
               "type": "object",
@@ -72,7 +72,7 @@
           "type": "object",
           "properties": {
             "/boards/:id": {
-              "$ref": "#/definitions/PatchEndpoint%3CDashboard%3E"
+              "$ref": "#/definitions/PatchEndpoint%3CDashboard%2C%22_id%22%3E"
             }
           },
           "required": [
@@ -1387,7 +1387,7 @@
       ],
       "additionalProperties": false
     },
-    "GetEntityEndpoint<Dashboard>": {
+    "GetEntityEndpoint<Dashboard,\"_id\">": {
       "type": "object",
       "properties": {
         "query": {
@@ -1416,24 +1416,7 @@
           "type": "object",
           "properties": {
             "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "#/definitions/Owner"
-                },
-                {
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/Widget"
-                  }
-                }
-              ],
+              "type": "string",
               "description": "The entity's unique identifier"
             }
           },
@@ -1721,7 +1704,7 @@
       ],
       "additionalProperties": false
     },
-    "PatchEndpoint<Dashboard>": {
+    "PatchEndpoint<Dashboard,\"_id\">": {
       "type": "object",
       "properties": {
         "body": {
@@ -1731,24 +1714,7 @@
           "type": "object",
           "properties": {
             "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "#/definitions/Owner"
-                },
-                {
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/Widget"
-                  }
-                }
-              ]
+              "type": "string"
             }
           },
           "required": [

@@ -16,5 +16,5 @@ setupRestApi(injector)
 attachShutdownHandler(injector)
 
 runPatches({ injector, patches: [createInitialIndexes] }).then(() => {
-  injector.setupRepository((repo) => repo.createDataSet(diag.Patch, {}))
+  injector.setupRepository((repo) => repo.createDataSet(diag.Patch, '_id', {}))
 })

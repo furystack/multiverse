@@ -12,7 +12,7 @@
               "$ref": "#/definitions/GetCollectionEndpoint%3CMovie%3E"
             },
             "/movies/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CMovie%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CMovie%2C%22_id%22%3E"
             },
             "/movies/:movieId/subtitles": {
               "type": "object",
@@ -73,7 +73,7 @@
               "$ref": "#/definitions/GetCollectionEndpoint%3CMovieLibrary%3E"
             },
             "/movie-libraries/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CMovieLibrary%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CMovieLibrary%2C%22_id%22%3E"
             },
             "/stream-original/:movieId/:accessToken?": {
               "type": "object",
@@ -147,7 +147,7 @@
               "$ref": "#/definitions/GetCollectionEndpoint%3CEncodingTask%3E"
             },
             "/encode/tasks/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CEncodingTask%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CEncodingTask%2C%22_id%22%3E"
             },
             "/encode/get-worker-task/:taskId": {
               "type": "object",
@@ -541,10 +541,10 @@
           "type": "object",
           "properties": {
             "/movies/:id": {
-              "$ref": "#/definitions/PatchEndpoint%3CMovie%3E"
+              "$ref": "#/definitions/PatchEndpoint%3CMovie%2C%22_id%22%3E"
             },
             "/movie-libraries/:id": {
-              "$ref": "#/definitions/PatchEndpoint%3CMovieLibrary%3E"
+              "$ref": "#/definitions/PatchEndpoint%3CMovieLibrary%2C%22_id%22%3E"
             }
           },
           "required": [
@@ -1725,7 +1725,7 @@
       ],
       "additionalProperties": false
     },
-    "GetEntityEndpoint<Movie>": {
+    "GetEntityEndpoint<Movie,\"_id\">": {
       "type": "object",
       "properties": {
         "query": {
@@ -1754,47 +1754,13 @@
           "type": "object",
           "properties": {
             "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "#/definitions/OmdbMetadata"
-                },
-                {
-                  "$ref": "#/definitions/FfprobeMetadata"
-                },
-                {
-                  "$ref": "#/definitions/MovieUniversalMetadata"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "codec": {
-                        "type": "string",
-                        "enum": [
-                          "libvpx-vp9",
-                          "x264"
-                        ]
-                      },
-                      "mode": {
-                        "type": "string",
-                        "const": "dash"
-                      }
-                    },
-                    "required": [
-                      "codec",
-                      "mode"
-                    ],
-                    "additionalProperties": false
-                  }
-                }
-              ],
+              "type": "string",
               "description": "The entity's unique identifier"
             }
           },
+          "required": [
+            "id"
+          ],
           "additionalProperties": false
         },
         "result": {
@@ -2433,7 +2399,7 @@
       ],
       "additionalProperties": false
     },
-    "GetEntityEndpoint<MovieLibrary>": {
+    "GetEntityEndpoint<MovieLibrary,\"_id\">": {
       "type": "object",
       "properties": {
         "query": {
@@ -2461,21 +2427,7 @@
           "type": "object",
           "properties": {
             "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "#/definitions/Owner"
-                },
-                {
-                  "$ref": "#/definitions/EncodingType"
-                },
-                {
-                  "type": "boolean",
-                  "const": false
-                }
-              ],
+              "type": "string",
               "description": "The entity's unique identifier"
             }
           },
@@ -4060,7 +4012,7 @@
       ],
       "additionalProperties": false
     },
-    "GetEntityEndpoint<EncodingTask>": {
+    "GetEntityEndpoint<EncodingTask,\"_id\">": {
       "type": "object",
       "properties": {
         "query": {
@@ -4094,77 +4046,13 @@
           "type": "object",
           "properties": {
             "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "movie": {
-                      "$ref": "#/definitions/Movie",
-                      "description": "The Movie entity"
-                    },
-                    "library": {
-                      "$ref": "#/definitions/MovieLibrary",
-                      "description": "The related movie library"
-                    }
-                  },
-                  "required": [
-                    "movie",
-                    "library"
-                  ],
-                  "additionalProperties": false,
-                  "description": "Generic info about the media to encode"
-                },
-                {
-                  "type": "string",
-                  "enum": [
-                    "pending",
-                    "inProgress",
-                    "finished",
-                    "failed",
-                    "cancelled"
-                  ],
-                  "description": "The current status of the task"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "ip": {
-                      "type": "string",
-                      "description": "The IP address"
-                    }
-                  },
-                  "required": [
-                    "ip"
-                  ],
-                  "additionalProperties": false,
-                  "description": "Generic info about the worker who works on the task"
-                },
-                {
-                  "type": "number",
-                  "description": "Shows how the progress of the encoding goes, reported by the worker agent"
-                },
-                {
-                  "type": "string",
-                  "description": "The task creation date"
-                },
-                {
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {},
-                {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/LeveledLogEntry%3Cany%3E"
-                  }
-                }
-              ],
+              "type": "string",
               "description": "The entity's unique identifier"
             }
           },
+          "required": [
+            "id"
+          ],
           "additionalProperties": false
         },
         "result": {
@@ -4243,7 +4131,7 @@
       ],
       "additionalProperties": false
     },
-    "PatchEndpoint<Movie>": {
+    "PatchEndpoint<Movie,\"_id\">": {
       "type": "object",
       "properties": {
         "body": {
@@ -4253,46 +4141,12 @@
           "type": "object",
           "properties": {
             "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "#/definitions/OmdbMetadata"
-                },
-                {
-                  "$ref": "#/definitions/FfprobeMetadata"
-                },
-                {
-                  "$ref": "#/definitions/MovieUniversalMetadata"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "codec": {
-                        "type": "string",
-                        "enum": [
-                          "libvpx-vp9",
-                          "x264"
-                        ]
-                      },
-                      "mode": {
-                        "type": "string",
-                        "const": "dash"
-                      }
-                    },
-                    "required": [
-                      "codec",
-                      "mode"
-                    ],
-                    "additionalProperties": false
-                  }
-                }
-              ]
+              "type": "string"
             }
           },
+          "required": [
+            "id"
+          ],
           "additionalProperties": false
         },
         "result": {
@@ -4356,7 +4210,7 @@
       },
       "additionalProperties": false
     },
-    "PatchEndpoint<MovieLibrary>": {
+    "PatchEndpoint<MovieLibrary,\"_id\">": {
       "type": "object",
       "properties": {
         "body": {
@@ -4366,21 +4220,7 @@
           "type": "object",
           "properties": {
             "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "#/definitions/Owner"
-                },
-                {
-                  "$ref": "#/definitions/EncodingType"
-                },
-                {
-                  "type": "boolean",
-                  "const": false
-                }
-              ]
+              "type": "string"
             }
           },
           "required": [

@@ -176,7 +176,7 @@
               "$ref": "#/definitions/GetCollectionEndpoint%3CUser%3E"
             },
             "/users/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CUser%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CUser%2C%22_id%22%3E"
             }
           },
           "required": [
@@ -796,10 +796,10 @@
               "additionalProperties": false
             },
             "/profiles/:id": {
-              "$ref": "#/definitions/PatchEndpoint%3CProfile%3E"
+              "$ref": "#/definitions/PatchEndpoint%3CProfile%2C%22_id%22%3E"
             },
             "/users/:id": {
-              "$ref": "#/definitions/PatchEndpoint%3CUser%3E"
+              "$ref": "#/definitions/PatchEndpoint%3CUser%2C%22_id%22%3E"
             }
           },
           "required": [
@@ -2548,7 +2548,7 @@
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
     },
-    "GetEntityEndpoint<User>": {
+    "GetEntityEndpoint<User,\"_id\">": {
       "type": "object",
       "properties": {
         "query": {
@@ -2576,27 +2576,13 @@
           "type": "object",
           "properties": {
             "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "enum": [
-                      "terms-accepted",
-                      "sys-diags",
-                      "feature-switch-admin",
-                      "user-admin",
-                      "movie-admin"
-                    ]
-                  }
-                }
-              ],
+              "type": "string",
               "description": "The entity's unique identifier"
             }
           },
+          "required": [
+            "id"
+          ],
           "additionalProperties": false
         },
         "result": {
@@ -2748,7 +2734,7 @@
       },
       "additionalProperties": false
     },
-    "PatchEndpoint<Profile>": {
+    "PatchEndpoint<Profile,\"_id\">": {
       "type": "object",
       "properties": {
         "body": {
@@ -2758,14 +2744,7 @@
           "type": "object",
           "properties": {
             "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "#/definitions/UserSettings"
-                }
-              ]
+              "type": "string"
             }
           },
           "required": [
@@ -2807,7 +2786,7 @@
       },
       "additionalProperties": false
     },
-    "PatchEndpoint<User>": {
+    "PatchEndpoint<User,\"_id\">": {
       "type": "object",
       "properties": {
         "body": {
@@ -2817,26 +2796,12 @@
           "type": "object",
           "properties": {
             "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "enum": [
-                      "terms-accepted",
-                      "sys-diags",
-                      "feature-switch-admin",
-                      "user-admin",
-                      "movie-admin"
-                    ]
-                  }
-                }
-              ]
+              "type": "string"
             }
           },
+          "required": [
+            "id"
+          ],
           "additionalProperties": false
         },
         "result": {

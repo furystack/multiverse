@@ -3,7 +3,6 @@ import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
 import { HttpUserContext, JsonResult, RequestAction } from '@furystack/rest-service'
 import { downloadAsTempFile, saveAvatar } from '@common/service-utils'
-import { ObjectId } from 'mongodb'
 import { GithubAuthService } from '../services/github-login-service'
 
 export const GithubRegisterAction: RequestAction<{
@@ -20,13 +19,13 @@ export const GithubRegisterAction: RequestAction<{
   const githubApiPayload = await injector.getInstance(GithubAuthService).getGithubUserData({ code, clientId })
 
   const existingGhUsers = await storeManager
-    .getStoreFor(auth.GithubAccount)
+    .getStoreFor(auth.GithubAccount, '_id')
     .find({ filter: { githubId: { $eq: githubApiPayload.id } }, top: 2 })
   if (existingGhUsers.length !== 0) {
     throw new RequestError(`Github user already registered`, 401)
   }
 
-  const { created } = await storeManager.getStoreFor(auth.User).add({
+  const { created } = await storeManager.getStoreFor(auth.User, '_id').add({
     password: '',
     roles: ['terms-accepted'],
     username: githubApiPayload.email || `${githubApiPayload.login}@github.com`,
@@ -35,18 +34,20 @@ export const GithubRegisterAction: RequestAction<{
 
   const newUser = created[0]
 
-  await storeManager.getStoreFor(auth.GithubAccount).add({
+  await storeManager.getStoreFor(auth.GithubAccount, '_id').add({
     accountLinkDate: registrationDate,
     username: newUser.username,
     githubId: githubApiPayload.id,
     githubApiPayload,
   })
 
-  await storeManager.getStoreFor(auth.Profile).add({
-    _id: new ObjectId().toString(),
+  await storeManager.getStoreFor(auth.Profile, '_id').add({
     username: newUser.username,
     displayName: newUser.username,
     description: '',
+    userSettings: {
+      theme: 'dark',
+    },
   })
 
   await injector.getInstance(HttpUserContext).cookieLogin(newUser, response)

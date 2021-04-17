@@ -7,7 +7,7 @@ export const PatchOrganization: RequestAction<{
   result: auth.Organization
   url: { organizationName: string }
 }> = async ({ injector, getBody, getUrlParams }) => {
-  const dataSet = injector.getDataSetFor(auth.Organization)
+  const dataSet = injector.getDataSetFor(auth.Organization, '_id')
   const { organizationName } = getUrlParams()
   const patchData = await getBody()
   const [existing] = await dataSet.find(injector, { top: 1, filter: { name: { $eq: organizationName } } })

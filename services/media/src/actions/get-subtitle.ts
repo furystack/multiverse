@@ -12,7 +12,7 @@ export const GetSubtitle: RequestAction<{ url: { movieId: string; subtitleName: 
   response,
 }) => {
   const params = getUrlParams()
-  const movie = await injector.getDataSetFor(media.Movie).get(injector, params.movieId)
+  const movie = await injector.getDataSetFor(media.Movie, '_id').get(injector, params.movieId)
   if (!movie) {
     throw new RequestError('not found', 404)
   }

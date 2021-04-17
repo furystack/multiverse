@@ -11,7 +11,7 @@ export const GetAvatar: RequestAction<{
   result: unknown
   url: { username: string }
 }> = async ({ injector, getUrlParams, response }) => {
-  const userStore = injector.getInstance(StoreManager).getStoreFor(auth.User)
+  const userStore = injector.getInstance(StoreManager).getStoreFor(auth.User, '_id')
   const { username } = getUrlParams()
 
   const [user] = await userStore.find({ filter: { username: { $eq: username } }, top: 1 })

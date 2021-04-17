@@ -28,7 +28,7 @@ export interface AuthApi extends RestApi {
       }
     }
     '/users': GetCollectionEndpoint<User>
-    '/users/:id': GetEntityEndpoint<User>
+    '/users/:id': GetEntityEndpoint<User, '_id'>
   }
   POST: {
     '/login': { body: { username: string; password: string }; result: Omit<User, 'password'> }
@@ -78,7 +78,7 @@ export interface AuthApi extends RestApi {
       result: Organization
       url: { organizationName: string }
     }
-    '/profiles/:id': PatchEndpoint<Profile>
-    '/users/:id': PatchEndpoint<User>
+    '/profiles/:id': PatchEndpoint<Profile, '_id'>
+    '/users/:id': PatchEndpoint<User, '_id'>
   }
 }

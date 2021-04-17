@@ -13,16 +13,16 @@ export const StreamOriginalAction: RequestAction<{
 
   if (accessToken) {
     const [job] = await injector
-      .getDataSetFor(media.EncodingTask)
+      .getDataSetFor(media.EncodingTask, '_id')
       .find(injector, { filter: { authToken: { $eq: accessToken }, status: { $ne: 'finished' } }, top: 1 })
     if (!job) {
       throw new RequestError('Unauthorized', 401)
     }
     // elevated load with token
-    movie = await injector.getInstance(StoreManager).getStoreFor(media.Movie).get(movieId)
+    movie = await injector.getInstance(StoreManager).getStoreFor(media.Movie, '_id').get(movieId)
   } else {
     // normal load with user ctx
-    movie = await injector.getDataSetFor(media.Movie).get(injector, movieId)
+    movie = await injector.getDataSetFor(media.Movie, '_id').get(injector, movieId)
   }
 
   if (!movie) {

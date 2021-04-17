@@ -12,31 +12,31 @@
               "$ref": "#/definitions/GetCollectionEndpoint%3CShop%3E"
             },
             "/shops/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CShop%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CShop%2C%22_id%22%3E"
             },
             "/items": {
               "$ref": "#/definitions/GetCollectionEndpoint%3CItem%3E"
             },
             "/items/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CItem%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CItem%2C%22_id%22%3E"
             },
             "/accounts": {
               "$ref": "#/definitions/GetCollectionEndpoint%3CAccount%3E"
             },
             "/accounts/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CAccount%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CAccount%2C%22_id%22%3E"
             },
             "/shoppings": {
               "$ref": "#/definitions/GetCollectionEndpoint%3CShopping%3E"
             },
             "/shoppings/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CShopping%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CShopping%2C%22_id%22%3E"
             },
             "/replenishments": {
               "$ref": "#/definitions/GetCollectionEndpoint%3CReplenishment%3E"
             },
             "/replenishments/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CReplenishment%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CReplenishment%2C%22_id%22%3E"
             }
           },
           "required": [
@@ -582,7 +582,7 @@
       ],
       "additionalProperties": false
     },
-    "GetEntityEndpoint<Shop>": {
+    "GetEntityEndpoint<Shop,\"_id\">": {
       "type": "object",
       "properties": {
         "query": {
@@ -608,9 +608,7 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": [
-                "string"
-              ],
+              "type": "string",
               "description": "The entity's unique identifier"
             }
           },
@@ -1087,7 +1085,7 @@
       ],
       "additionalProperties": false
     },
-    "GetEntityEndpoint<Item>": {
+    "GetEntityEndpoint<Item,\"_id\">": {
       "type": "object",
       "properties": {
         "query": {
@@ -1119,6 +1117,9 @@
               "description": "The entity's unique identifier"
             }
           },
+          "required": [
+            "id"
+          ],
           "additionalProperties": false
         },
         "result": {
@@ -1862,7 +1863,7 @@
       ],
       "additionalProperties": false
     },
-    "GetEntityEndpoint<Account>": {
+    "GetEntityEndpoint<Account,\"_id\">": {
       "type": "object",
       "properties": {
         "query": {
@@ -1893,23 +1894,7 @@
           "type": "object",
           "properties": {
             "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "#/definitions/Owner"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/AccountHistoryEntry"
-                  }
-                },
-                {
-                  "type": "number"
-                }
-              ],
+              "type": "string",
               "description": "The entity's unique identifier"
             }
           },
@@ -2533,7 +2518,7 @@
       ],
       "additionalProperties": false
     },
-    "GetEntityEndpoint<Shopping>": {
+    "GetEntityEndpoint<Shopping,\"_id\">": {
       "type": "object",
       "properties": {
         "query": {
@@ -2562,37 +2547,7 @@
           "type": "object",
           "properties": {
             "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "itemName": {
-                        "type": "string"
-                      },
-                      "amount": {
-                        "type": "number"
-                      },
-                      "unitPrice": {
-                        "type": "number"
-                      }
-                    },
-                    "required": [
-                      "itemName",
-                      "amount",
-                      "unitPrice"
-                    ],
-                    "additionalProperties": false
-                  }
-                },
-                {
-                  "type": "number"
-                }
-              ],
+              "type": "string",
               "description": "The entity's unique identifier"
             }
           },
@@ -3074,7 +3029,7 @@
       ],
       "additionalProperties": false
     },
-    "GetEntityEndpoint<Replenishment>": {
+    "GetEntityEndpoint<Replenishment,\"_id\">": {
       "type": "object",
       "properties": {
         "query": {
@@ -3102,13 +3057,13 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": [
-                "string",
-                "number"
-              ],
+              "type": "string",
               "description": "The entity's unique identifier"
             }
           },
+          "required": [
+            "id"
+          ],
           "additionalProperties": false
         },
         "result": {

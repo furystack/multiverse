@@ -14,7 +14,7 @@ export const createEncodingTaskForMovie = async ({ movie, injector }: { movie: m
   const logger = injector.logger.withScope('createEncodingTaskForMovie')
   const library: media.MovieLibrary | undefined = await injector
     .getInstance(StoreManager)
-    .getStoreFor(media.MovieLibrary)
+    .getStoreFor(media.MovieLibrary, '_id')
     .get(movie.libraryId)
   if (!library) {
     logger.warning({ message: 'No Library for movie found, encoding task cannot be created' })
@@ -42,7 +42,7 @@ export const createEncodingTaskForMovie = async ({ movie, injector }: { movie: m
     })
   }
 
-  return await injector.getDataSetFor(media.EncodingTask).add(injector, {
+  return await injector.getDataSetFor(media.EncodingTask, '_id').add(injector, {
     authToken: v4(),
     percent: 0,
     status: 'pending',

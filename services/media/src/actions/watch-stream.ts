@@ -17,7 +17,7 @@ export const WatchStream: RequestAction<{
 }> = async ({ getUrlParams, injector, request, response }) => {
   const params = getUrlParams()
   const chunk = params.chunk || 'dash.mpd'
-  const movie = await injector.getDataSetFor(media.Movie).get(injector, params.id)
+  const movie = await injector.getDataSetFor(media.Movie, '_id').get(injector, params.id)
   if (!movie) {
     throw new RequestError('not found', 404)
   }

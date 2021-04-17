@@ -9,10 +9,10 @@ export const setupRestApi = (injector: Injector) => {
     root: '/api/diag',
     api: {
       GET: {
-        '/logEntries': Authorize('sys-diags')(createGetCollectionEndpoint({ model: diag.LogEntry })),
-        '/logEntries/:id': Authorize('sys-diags')(createGetEntityEndpoint({ model: diag.LogEntry })),
-        '/patches': Authorize('sys-diags')(createGetCollectionEndpoint({ model: diag.Patch })),
-        '/patches/:id': Authorize('sys-diags')(createGetEntityEndpoint({ model: diag.Patch })),
+        '/logEntries': Authorize('sys-diags')(createGetCollectionEndpoint({ model: diag.LogEntry, primaryKey: '_id' })),
+        '/logEntries/:id': Authorize('sys-diags')(createGetEntityEndpoint({ model: diag.LogEntry, primaryKey: '_id' })),
+        '/patches': Authorize('sys-diags')(createGetCollectionEndpoint({ model: diag.Patch, primaryKey: '_id' })),
+        '/patches/:id': Authorize('sys-diags')(createGetEntityEndpoint({ model: diag.Patch, primaryKey: '_id' })),
       },
     },
     cors: {

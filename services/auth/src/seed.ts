@@ -14,7 +14,7 @@ import { setupStores } from './setup-stores'
 export const getOrCreate = async <T, TId extends keyof T>(
   filter: FindOptions<T, Array<keyof T>>,
   instance: WithOptionalId<T, TId>,
-  store: PhysicalStore<T>,
+  store: PhysicalStore<T, TId>,
   i: Injector,
 ) => {
   const result = await store.find(filter)
@@ -48,10 +48,10 @@ export const createUser = async ({
   displayName?: string
 }) => {
   const sm = i.getInstance(StoreManager)
-  const userStore = sm.getStoreFor(auth.User)
-  const profileStore = sm.getStoreFor(auth.Profile)
-  const ghAccountStore = sm.getStoreFor(auth.GithubAccount)
-  const googleAccountStore = sm.getStoreFor(auth.GoogleAccount)
+  const userStore = sm.getStoreFor(auth.User, '_id')
+  const profileStore = sm.getStoreFor(auth.Profile, '_id')
+  const ghAccountStore = sm.getStoreFor(auth.GithubAccount, '_id')
+  const googleAccountStore = sm.getStoreFor(auth.GoogleAccount, '_id')
 
   const user = await getOrCreate<auth.User, '_id'>(
     { filter: { username: { $eq: email } } },

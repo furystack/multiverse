@@ -4,7 +4,7 @@ import { AuthorizeOwnership, getOrgsForCurrentUser } from '@common/service-utils
 
 export const setupRepository = (injector: Injector) => {
   injector.setupRepository((repo) =>
-    repo.createDataSet(dashboard.Dashboard, {
+    repo.createDataSet(dashboard.Dashboard, '_id', {
       authorizeGetEntity: AuthorizeOwnership({
         level: ['member', 'owner', 'admin', 'organizationOwner'],
       }),

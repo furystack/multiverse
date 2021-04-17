@@ -12,8 +12,8 @@ export const ensureItemsForShopping = async ({
   shopping: xpense.Shopping
 }) => {
   const logger = injector.logger.withScope('xpense/services/ensureItemsForShopping')
-  const shopStore: MongodbStore<xpense.Shop> = injector.getInstance(StoreManager).getStoreFor(xpense.Shop)
-  const itemStore: MongodbStore<xpense.Item> = injector.getInstance(StoreManager).getStoreFor(xpense.Item)
+  const shopStore: MongodbStore<xpense.Shop, '_id'> = injector.getInstance(StoreManager).getStoreFor(xpense.Shop, '_id')
+  const itemStore: MongodbStore<xpense.Item, '_id'> = injector.getInstance(StoreManager).getStoreFor(xpense.Item, '_id')
 
   const shopCollection = await shopStore.getCollection()
   const itemCollection = await itemStore.getCollection()

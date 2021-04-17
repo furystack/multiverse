@@ -10,7 +10,7 @@ export const SaveWatchProgress: RequestAction<{
 
   const usr = await injector.getCurrentUser<auth.User>()
   const { movieId, watchedSeconds } = await getBody()
-  const dataSet = await injector.getDataSetFor(media.MovieWatchHistoryEntry)
+  const dataSet = await injector.getDataSetFor(media.MovieWatchHistoryEntry, '_id')
 
   const [existing] = await dataSet.find(injector, {
     top: 1,
@@ -18,7 +18,7 @@ export const SaveWatchProgress: RequestAction<{
     filter: { userId: { $eq: usr._id }, movieId: { $eq: movieId } },
   })
 
-  const movie = await injector.getDataSetFor(media.Movie).get(injector, movieId)
+  const movie = await injector.getDataSetFor(media.Movie, '_id').get(injector, movieId)
   if (!movie) {
     logger.warning({ message: 'User tried to watch a movie that does not exists', data: { usr, movieId } })
   }

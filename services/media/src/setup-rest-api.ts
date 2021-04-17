@@ -29,21 +29,27 @@ export const setupRestApi = (injector: Injector) => {
     root: '/api/media',
     api: {
       GET: {
-        '/movie-libraries': createGetCollectionEndpoint({ model: media.MovieLibrary }),
-        '/movie-libraries/:id': createGetEntityEndpoint({ model: media.MovieLibrary }),
-        '/movies': createGetCollectionEndpoint({ model: media.Movie }),
-        '/movies/:id': createGetEntityEndpoint({ model: media.Movie }),
+        '/movie-libraries': createGetCollectionEndpoint({ model: media.MovieLibrary, primaryKey: '_id' }),
+        '/movie-libraries/:id': createGetEntityEndpoint({ model: media.MovieLibrary, primaryKey: '_id' }),
+        '/movies': createGetCollectionEndpoint({ model: media.Movie, primaryKey: '_id' }),
+        '/movies/:id': createGetEntityEndpoint({ model: media.Movie, primaryKey: '_id' }),
         '/movies/:movieId/subtitles': GetAvailableSubtitles,
         '/movies/:movieId/subtitles/:subtitleName': GetSubtitle,
         '/stream-original/:movieId/:accessToken?': StreamOriginalAction,
         '/watch-stream/:id/:codec/:mode/:chunk?': Authenticate()(WatchStream),
-        '/my-watch-progress': Authenticate()(createGetCollectionEndpoint({ model: media.MovieWatchHistoryEntry })),
-        '/encode/tasks': Authorize('movie-admin')(createGetCollectionEndpoint({ model: media.EncodingTask })),
-        '/encode/tasks/:id': Authorize('movie-admin')(createGetEntityEndpoint({ model: media.EncodingTask })),
+        '/my-watch-progress': Authenticate()(
+          createGetCollectionEndpoint({ model: media.MovieWatchHistoryEntry, primaryKey: '_id' }),
+        ),
+        '/encode/tasks': Authorize('movie-admin')(
+          createGetCollectionEndpoint({ model: media.EncodingTask, primaryKey: '_id' }),
+        ),
+        '/encode/tasks/:id': Authorize('movie-admin')(
+          createGetEntityEndpoint({ model: media.EncodingTask, primaryKey: '_id' }),
+        ),
         '/encode/get-worker-task/:taskId': GetWorkerTask,
       },
       POST: {
-        '/movie-libraries': createPostEndpoint({ model: media.MovieLibrary }),
+        '/movie-libraries': createPostEndpoint({ model: media.MovieLibrary, primaryKey: '_id' }),
         '/save-watch-progress': SaveWatchProgress,
         '/upload-encoded/:movieId/:accessToken': UploadEncoded,
         '/upload-subtitles/:movieId/:accessToken': UploadSubtitles,
@@ -54,8 +60,10 @@ export const setupRestApi = (injector: Injector) => {
         '/movies/:movieId/re-extract-subtitles': ReExtractSubtitles,
       },
       PATCH: {
-        '/movies/:id': Authorize('movie-admin')(createPatchEndpoint({ model: media.Movie })),
-        '/movie-libraries/:id': Authorize('movie-admin')(createPatchEndpoint({ model: media.MovieLibrary })),
+        '/movies/:id': Authorize('movie-admin')(createPatchEndpoint({ model: media.Movie, primaryKey: '_id' })),
+        '/movie-libraries/:id': Authorize('movie-admin')(
+          createPatchEndpoint({ model: media.MovieLibrary, primaryKey: '_id' }),
+        ),
       },
     },
     cors: {
