@@ -14,9 +14,9 @@ export interface XpenseApi extends RestApi {
     '/replenishments/:id': GetEntityEndpoint<Replenishment>
   }
   POST: {
-    '/accounts': PostEndpoint<Account>
-    '/shops': PostEndpoint<Shop>
-    '/items': PostEndpoint<Item>
+    '/accounts': PostEndpoint<Pick<Account, '_id' | 'name' | 'description'>, '_id'>
+    '/shops': PostEndpoint<Shop, '_id'>
+    '/items': PostEndpoint<Item, '_id'>
     '/accounts/:accountId/replenish': {
       body: { amount: number; comment?: string; creationDate: string }
       url: { accountId: string }

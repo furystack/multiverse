@@ -116,7 +116,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CLogEntry%2C(%22_id%22%7C%22level%22%7C%22scope%22%7C%22message%22%7C%22data%22%7C%22appName%22%7C%22creationDate%22)%5B%5D%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CLogEntry%3E"
         }
       },
       "required": [
@@ -592,7 +592,7 @@
       ],
       "description": "The verbosity level of a log entry"
     },
-    "GetCollectionResult<LogEntry,(\"_id\"|\"level\"|\"scope\"|\"message\"|\"data\"|\"appName\"|\"creationDate\")[]>": {
+    "GetCollectionResult<LogEntry>": {
       "type": "object",
       "properties": {
         "count": {
@@ -602,7 +602,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CLogEntry%2C(%22_id%22%7C%22level%22%7C%22scope%22%7C%22message%22%7C%22data%22%7C%22appName%22%7C%22creationDate%22)%5B%5D%3E"
+            "$ref": "#/definitions/LogEntry"
           },
           "description": "List of the selected entities"
         }
@@ -614,16 +614,9 @@
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
     },
-    "PartialResult<LogEntry,(\"_id\"|\"level\"|\"scope\"|\"message\"|\"data\"|\"appName\"|\"creationDate\")[]>": {
+    "LogEntry": {
       "type": "object",
       "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "level": {
-          "$ref": "#/definitions/LogLevel",
-          "description": "The verbosity level of the log entry"
-        },
         "scope": {
           "type": "string",
           "description": "A well-defined scope for grouping entries, e.g. a component or service name."
@@ -635,6 +628,13 @@
         "data": {
           "description": "Additional entry data"
         },
+        "level": {
+          "$ref": "#/definitions/LogLevel",
+          "description": "The verbosity level of the log entry"
+        },
+        "_id": {
+          "type": "string"
+        },
         "appName": {
           "type": "string"
         },
@@ -645,11 +645,11 @@
       },
       "required": [
         "_id",
-        "level",
-        "scope",
-        "message",
         "appName",
-        "creationDate"
+        "creationDate",
+        "level",
+        "message",
+        "scope"
       ],
       "additionalProperties": false
     },
@@ -712,7 +712,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/PartialResult%3CLogEntry%2C(%22_id%22%7C%22level%22%7C%22scope%22%7C%22message%22%7C%22data%22%7C%22appName%22%7C%22creationDate%22)%5B%5D%3E"
+          "$ref": "#/definitions/LogEntry"
         }
       },
       "required": [
@@ -736,7 +736,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CPatch%2C(%22_id%22%7C%22appName%22%7C%22name%22%7C%22description%22%7C%22status%22%7C%22startDate%22%7C%22finishDate%22%7C%22error%22%7C%22errors%22%7C%22warns%22%7C%22updates%22)%5B%5D%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CPatch%3E"
         }
       },
       "required": [
@@ -1496,7 +1496,7 @@
         }
       }
     },
-    "GetCollectionResult<Patch,(\"_id\"|\"appName\"|\"name\"|\"description\"|\"status\"|\"startDate\"|\"finishDate\"|\"error\"|\"errors\"|\"warns\"|\"updates\")[]>": {
+    "GetCollectionResult<Patch>": {
       "type": "object",
       "properties": {
         "count": {
@@ -1506,7 +1506,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CPatch%2C(%22_id%22%7C%22appName%22%7C%22name%22%7C%22description%22%7C%22status%22%7C%22startDate%22%7C%22finishDate%22%7C%22error%22%7C%22errors%22%7C%22warns%22%7C%22updates%22)%5B%5D%3E"
+            "$ref": "#/definitions/Patch"
           },
           "description": "List of the selected entities"
         }
@@ -1518,7 +1518,7 @@
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
     },
-    "PartialResult<Patch,(\"_id\"|\"appName\"|\"name\"|\"description\"|\"status\"|\"startDate\"|\"finishDate\"|\"error\"|\"errors\"|\"warns\"|\"updates\")[]>": {
+    "Patch": {
       "type": "object",
       "properties": {
         "_id": {
@@ -1674,7 +1674,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/PartialResult%3CPatch%2C(%22_id%22%7C%22appName%22%7C%22name%22%7C%22description%22%7C%22status%22%7C%22startDate%22%7C%22finishDate%22%7C%22error%22%7C%22errors%22%7C%22warns%22%7C%22updates%22)%5B%5D%3E"
+          "$ref": "#/definitions/Patch"
         }
       },
       "required": [

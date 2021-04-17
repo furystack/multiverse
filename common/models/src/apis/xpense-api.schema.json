@@ -57,13 +57,13 @@
           "type": "object",
           "properties": {
             "/accounts": {
-              "$ref": "#/definitions/PostEndpoint%3CAccount%3E"
+              "$ref": "#/definitions/PostEndpoint%3CPick%3CAccount%2C(%22_id%22%7C%22name%22%7C%22description%22)%3E%2C%22_id%22%3E"
             },
             "/shops": {
-              "$ref": "#/definitions/PostEndpoint%3CShop%3E"
+              "$ref": "#/definitions/PostEndpoint%3CShop%2C%22_id%22%3E"
             },
             "/items": {
-              "$ref": "#/definitions/PostEndpoint%3CItem%3E"
+              "$ref": "#/definitions/PostEndpoint%3CItem%2C%22_id%22%3E"
             },
             "/accounts/:accountId/replenish": {
               "type": "object",
@@ -257,7 +257,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CShop%2C(%22_id%22%7C%22name%22%7C%22creationDate%22%7C%22createdBy%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CShop%3E"
         }
       },
       "required": [
@@ -536,7 +536,7 @@
         }
       }
     },
-    "GetCollectionResult<Shop,(\"_id\"|\"name\"|\"creationDate\"|\"createdBy\")>": {
+    "GetCollectionResult<Shop>": {
       "type": "object",
       "properties": {
         "count": {
@@ -546,7 +546,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CShop%2C(%22_id%22%7C%22name%22%7C%22creationDate%22%7C%22createdBy%22)%3E"
+            "$ref": "#/definitions/Shop"
           },
           "description": "List of the selected entities"
         }
@@ -558,7 +558,7 @@
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
     },
-    "PartialResult<Shop,(\"_id\"|\"name\"|\"creationDate\"|\"createdBy\")>": {
+    "Shop": {
       "type": "object",
       "properties": {
         "_id": {
@@ -620,7 +620,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/PartialResult%3CShop%2Cany%3E"
+          "$ref": "#/definitions/Shop"
         }
       },
       "required": [
@@ -630,33 +630,6 @@
       ],
       "additionalProperties": false,
       "description": "Endpoint model for getting a single entity"
-    },
-    "PartialResult<Shop,any>": {
-      "$ref": "#/definitions/Shop"
-    },
-    "Shop": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "creationDate": {
-          "type": "string"
-        },
-        "createdBy": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "_id",
-        "name",
-        "creationDate",
-        "createdBy"
-      ],
-      "additionalProperties": false
     },
     "GetCollectionEndpoint<Item>": {
       "type": "object",
@@ -671,7 +644,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CItem%2C(%22_id%22%7C%22name%22%7C%22description%22%7C%22category%22%7C%22creationDate%22%7C%22createdBy%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CItem%3E"
         }
       },
       "required": [
@@ -1062,7 +1035,7 @@
         }
       }
     },
-    "GetCollectionResult<Item,(\"_id\"|\"name\"|\"description\"|\"category\"|\"creationDate\"|\"createdBy\")>": {
+    "GetCollectionResult<Item>": {
       "type": "object",
       "properties": {
         "count": {
@@ -1072,7 +1045,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CItem%2C(%22_id%22%7C%22name%22%7C%22description%22%7C%22category%22%7C%22creationDate%22%7C%22createdBy%22)%3E"
+            "$ref": "#/definitions/Item"
           },
           "description": "List of the selected entities"
         }
@@ -1084,7 +1057,7 @@
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
     },
-    "PartialResult<Item,(\"_id\"|\"name\"|\"description\"|\"category\"|\"creationDate\"|\"createdBy\")>": {
+    "Item": {
       "type": "object",
       "properties": {
         "_id": {
@@ -1149,7 +1122,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/PartialResult%3CItem%2Cany%3E"
+          "$ref": "#/definitions/Item"
         }
       },
       "required": [
@@ -1159,39 +1132,6 @@
       ],
       "additionalProperties": false,
       "description": "Endpoint model for getting a single entity"
-    },
-    "PartialResult<Item,any>": {
-      "$ref": "#/definitions/Item"
-    },
-    "Item": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "category": {
-          "type": "string"
-        },
-        "creationDate": {
-          "type": "string"
-        },
-        "createdBy": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "_id",
-        "name",
-        "creationDate",
-        "createdBy"
-      ],
-      "additionalProperties": false
     },
     "GetCollectionEndpoint<Account>": {
       "type": "object",
@@ -1206,7 +1146,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CAccount%2C(%22_id%22%7C%22owner%22%7C%22name%22%7C%22description%22%7C%22icon%22%7C%22history%22%7C%22current%22%7C%22createdBy%22%7C%22creationDate%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CAccount%3E"
         }
       },
       "required": [
@@ -1853,7 +1793,7 @@
       ],
       "additionalProperties": false
     },
-    "GetCollectionResult<Account,(\"_id\"|\"owner\"|\"name\"|\"description\"|\"icon\"|\"history\"|\"current\"|\"createdBy\"|\"creationDate\")>": {
+    "GetCollectionResult<Account>": {
       "type": "object",
       "properties": {
         "count": {
@@ -1863,7 +1803,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CAccount%2C(%22_id%22%7C%22owner%22%7C%22name%22%7C%22description%22%7C%22icon%22%7C%22history%22%7C%22current%22%7C%22createdBy%22%7C%22creationDate%22)%3E"
+            "$ref": "#/definitions/Account"
           },
           "description": "List of the selected entities"
         }
@@ -1875,7 +1815,7 @@
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
     },
-    "PartialResult<Account,(\"_id\"|\"owner\"|\"name\"|\"description\"|\"icon\"|\"history\"|\"current\"|\"createdBy\"|\"creationDate\")>": {
+    "Account": {
       "type": "object",
       "properties": {
         "_id": {
@@ -1979,7 +1919,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/PartialResult%3CAccount%2Cany%3E"
+          "$ref": "#/definitions/Account"
         }
       },
       "required": [
@@ -1989,56 +1929,6 @@
       ],
       "additionalProperties": false,
       "description": "Endpoint model for getting a single entity"
-    },
-    "PartialResult<Account,any>": {
-      "$ref": "#/definitions/Account"
-    },
-    "Account": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "owner": {
-          "$ref": "#/definitions/Owner"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "icon": {
-          "type": "string"
-        },
-        "history": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AccountHistoryEntry"
-          }
-        },
-        "current": {
-          "type": "number"
-        },
-        "createdBy": {
-          "type": "string"
-        },
-        "creationDate": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "_id",
-        "owner",
-        "name",
-        "description",
-        "icon",
-        "history",
-        "current",
-        "createdBy",
-        "creationDate"
-      ],
-      "additionalProperties": false
     },
     "GetCollectionEndpoint<Shopping>": {
       "type": "object",
@@ -2053,7 +1943,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CShopping%2C(%22_id%22%7C%22accountId%22%7C%22creationDate%22%7C%22entries%22%7C%22sumAmount%22%7C%22shopName%22%7C%22createdBy%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CShopping%3E"
         }
       },
       "required": [
@@ -2565,7 +2455,7 @@
         }
       }
     },
-    "GetCollectionResult<Shopping,(\"_id\"|\"accountId\"|\"creationDate\"|\"entries\"|\"sumAmount\"|\"shopName\"|\"createdBy\")>": {
+    "GetCollectionResult<Shopping>": {
       "type": "object",
       "properties": {
         "count": {
@@ -2575,7 +2465,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CShopping%2C(%22_id%22%7C%22accountId%22%7C%22creationDate%22%7C%22entries%22%7C%22sumAmount%22%7C%22shopName%22%7C%22createdBy%22)%3E"
+            "$ref": "#/definitions/Shopping"
           },
           "description": "List of the selected entities"
         }
@@ -2587,7 +2477,7 @@
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
     },
-    "PartialResult<Shopping,(\"_id\"|\"accountId\"|\"creationDate\"|\"entries\"|\"sumAmount\"|\"shopName\"|\"createdBy\")>": {
+    "Shopping": {
       "type": "object",
       "properties": {
         "_id": {
@@ -2712,7 +2602,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/PartialResult%3CShopping%2Cany%3E"
+          "$ref": "#/definitions/Shopping"
         }
       },
       "required": [
@@ -2722,65 +2612,6 @@
       ],
       "additionalProperties": false,
       "description": "Endpoint model for getting a single entity"
-    },
-    "PartialResult<Shopping,any>": {
-      "$ref": "#/definitions/Shopping"
-    },
-    "Shopping": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "accountId": {
-          "type": "string"
-        },
-        "creationDate": {
-          "type": "string"
-        },
-        "entries": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "itemName": {
-                "type": "string"
-              },
-              "amount": {
-                "type": "number"
-              },
-              "unitPrice": {
-                "type": "number"
-              }
-            },
-            "required": [
-              "itemName",
-              "amount",
-              "unitPrice"
-            ],
-            "additionalProperties": false
-          }
-        },
-        "sumAmount": {
-          "type": "number"
-        },
-        "shopName": {
-          "type": "string"
-        },
-        "createdBy": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "_id",
-        "accountId",
-        "creationDate",
-        "entries",
-        "sumAmount",
-        "shopName",
-        "createdBy"
-      ],
-      "additionalProperties": false
     },
     "GetCollectionEndpoint<Replenishment>": {
       "type": "object",
@@ -2795,7 +2626,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CReplenishment%2C(%22_id%22%7C%22createdBy%22%7C%22creationDate%22%7C%22accountId%22%7C%22amount%22%7C%22comment%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CReplenishment%3E"
         }
       },
       "required": [
@@ -3190,7 +3021,7 @@
         }
       }
     },
-    "GetCollectionResult<Replenishment,(\"_id\"|\"createdBy\"|\"creationDate\"|\"accountId\"|\"amount\"|\"comment\")>": {
+    "GetCollectionResult<Replenishment>": {
       "type": "object",
       "properties": {
         "count": {
@@ -3200,7 +3031,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CReplenishment%2C(%22_id%22%7C%22createdBy%22%7C%22creationDate%22%7C%22accountId%22%7C%22amount%22%7C%22comment%22)%3E"
+            "$ref": "#/definitions/Replenishment"
           },
           "description": "List of the selected entities"
         }
@@ -3212,7 +3043,7 @@
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
     },
-    "PartialResult<Replenishment,(\"_id\"|\"createdBy\"|\"creationDate\"|\"accountId\"|\"amount\"|\"comment\")>": {
+    "Replenishment": {
       "type": "object",
       "properties": {
         "_id": {
@@ -3281,7 +3112,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/PartialResult%3CReplenishment%2Cany%3E"
+          "$ref": "#/definitions/Replenishment"
         }
       },
       "required": [
@@ -3292,48 +3123,14 @@
       "additionalProperties": false,
       "description": "Endpoint model for getting a single entity"
     },
-    "PartialResult<Replenishment,any>": {
-      "$ref": "#/definitions/Replenishment"
-    },
-    "Replenishment": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "createdBy": {
-          "type": "string"
-        },
-        "creationDate": {
-          "type": "string"
-        },
-        "accountId": {
-          "type": "string"
-        },
-        "amount": {
-          "type": "number"
-        },
-        "comment": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "_id",
-        "createdBy",
-        "creationDate",
-        "accountId",
-        "amount"
-      ],
-      "additionalProperties": false
-    },
-    "PostEndpoint<Account>": {
+    "PostEndpoint<Pick<Account,(\"_id\"|\"name\"|\"description\")>,\"_id\">": {
       "type": "object",
       "properties": {
         "body": {
-          "$ref": "#/definitions/WithOptionalId%3CAccount%2C(%22_id%22%7C%22owner%22%7C%22name%22%7C%22description%22%7C%22icon%22%7C%22history%22%7C%22current%22%7C%22createdBy%22%7C%22creationDate%22)%3E"
+          "$ref": "#/definitions/WithOptionalId%3CPick%3CAccount%2C(%22_id%22%7C%22name%22%7C%22description%22)%3E%2C%22_id%22%3E"
         },
         "result": {
-          "$ref": "#/definitions/Account"
+          "$ref": "#/definitions/Pick%3CAccount%2C(%22_id%22%7C%22name%22%7C%22description%22)%3E"
         }
       },
       "required": [
@@ -3343,47 +3140,50 @@
       "additionalProperties": false,
       "description": "Endpoint model for creating new entities"
     },
-    "WithOptionalId<Account,(\"_id\"|\"owner\"|\"name\"|\"description\"|\"icon\"|\"history\"|\"current\"|\"createdBy\"|\"creationDate\")>": {
+    "WithOptionalId<Pick<Account,(\"_id\"|\"name\"|\"description\")>,\"_id\">": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "_id": {
           "type": "string"
         },
-        "owner": {
-          "$ref": "#/definitions/Owner"
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "name"
+      ]
+    },
+    "Pick<Account,(\"_id\"|\"name\"|\"description\")>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
         },
         "name": {
           "type": "string"
         },
         "description": {
           "type": "string"
-        },
-        "icon": {
-          "type": "string"
-        },
-        "history": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AccountHistoryEntry"
-          }
-        },
-        "current": {
-          "type": "number"
-        },
-        "createdBy": {
-          "type": "string"
-        },
-        "creationDate": {
-          "type": "string"
         }
-      }
+      },
+      "required": [
+        "_id",
+        "name",
+        "description"
+      ],
+      "additionalProperties": false
     },
-    "PostEndpoint<Shop>": {
+    "PostEndpoint<Shop,\"_id\">": {
       "type": "object",
       "properties": {
         "body": {
-          "$ref": "#/definitions/WithOptionalId%3CShop%2C(%22_id%22%7C%22name%22%7C%22creationDate%22%7C%22createdBy%22)%3E"
+          "$ref": "#/definitions/WithOptionalId%3CShop%2C%22_id%22%3E"
         },
         "result": {
           "$ref": "#/definitions/Shop"
@@ -3396,7 +3196,7 @@
       "additionalProperties": false,
       "description": "Endpoint model for creating new entities"
     },
-    "WithOptionalId<Shop,(\"_id\"|\"name\"|\"creationDate\"|\"createdBy\")>": {
+    "WithOptionalId<Shop,\"_id\">": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -3412,13 +3212,18 @@
         "createdBy": {
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "createdBy",
+        "creationDate",
+        "name"
+      ]
     },
-    "PostEndpoint<Item>": {
+    "PostEndpoint<Item,\"_id\">": {
       "type": "object",
       "properties": {
         "body": {
-          "$ref": "#/definitions/WithOptionalId%3CItem%2C(%22_id%22%7C%22name%22%7C%22description%22%7C%22category%22%7C%22creationDate%22%7C%22createdBy%22)%3E"
+          "$ref": "#/definitions/WithOptionalId%3CItem%2C%22_id%22%3E"
         },
         "result": {
           "$ref": "#/definitions/Item"
@@ -3431,7 +3236,7 @@
       "additionalProperties": false,
       "description": "Endpoint model for creating new entities"
     },
-    "WithOptionalId<Item,(\"_id\"|\"name\"|\"description\"|\"category\"|\"creationDate\"|\"createdBy\")>": {
+    "WithOptionalId<Item,\"_id\">": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -3453,7 +3258,12 @@
         "createdBy": {
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "createdBy",
+        "creationDate",
+        "name"
+      ]
     }
   }
 }

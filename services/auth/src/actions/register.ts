@@ -2,6 +2,7 @@ import { RequestError } from '@furystack/rest'
 import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
 import { HttpUserContext, JsonResult, RequestAction } from '@furystack/rest-service'
+import { ObjectId } from 'mongodb'
 
 export const RegisterAction: RequestAction<{
   body: { email: string; password: string }
@@ -24,7 +25,9 @@ export const RegisterAction: RequestAction<{
     registrationDate: new Date().toISOString(),
   })
   const newUser = created[0]
-  await storeManager.getStoreFor(auth.Profile).add({ username: newUser.username, displayName: newUser.username })
+  await storeManager
+    .getStoreFor(auth.Profile)
+    .add({ _id: new ObjectId().toString(), username: newUser.username, displayName: newUser.username, description: '' })
   await userCtx.cookieLogin(newUser, response)
 
   const { password: pw, ...user } = newUser

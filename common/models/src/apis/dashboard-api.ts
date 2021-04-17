@@ -12,7 +12,7 @@ export interface DashboardApi extends RestApi {
     }
   }
   POST: {
-    '/boards': PostEndpoint<Dashboard>
+    '/boards': PostEndpoint<Pick<Dashboard, 'name' | 'description' | '_id'>, '_id'>
   }
   PATCH: {
     '/boards/:id': PatchEndpoint<Dashboard>

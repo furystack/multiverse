@@ -1,10 +1,9 @@
 import { RequestError } from '@furystack/rest'
 import { auth } from '@common/models'
-import { PartialResult } from '@furystack/core'
 import { JsonResult, RequestAction } from '@furystack/rest-service'
 
 export const OrganizationRemoveMember: RequestAction<{
-  result: PartialResult<auth.Organization, any>
+  result: { success: boolean }
   body: { username: string }
   url: { organizationName: string }
 }> = async ({ getBody, getUrlParams, injector }) => {

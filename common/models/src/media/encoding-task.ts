@@ -39,7 +39,7 @@ export class EncodingTask {
    * The task creation date
    */
   creationDate!: Date
-  modificationDate!: Date
+  modificationDate?: Date
   error?: any
   log?: Array<LeveledLogEntry<any>>
   startDate?: Date

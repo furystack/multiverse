@@ -35,6 +35,8 @@ export const SaveWatchProgress: RequestAction<{
       watchedSeconds,
       userId: usr._id,
       completed: false,
+      lastWatchDate: new Date(),
+      startDate: new Date(),
     })
   } else {
     await dataSet.update(injector, existing._id, { watchedSeconds })

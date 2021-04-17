@@ -4,6 +4,7 @@ import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
 import { HttpUserContext, JsonResult, RequestAction } from '@furystack/rest-service'
 import { downloadAsTempFile, saveAvatar } from '@common/service-utils'
+import { ObjectId } from 'mongodb'
 
 /**
  * HTTP Request action for Google Logins
@@ -66,8 +67,10 @@ export const GoogleRegisterAction: RequestAction<{
   })
 
   await storeManager.getStoreFor(auth.Profile).add({
+    _id: new ObjectId().toString(),
     username: userToAdd.username,
     displayName: googleUserData.name,
+    description: '',
   })
 
   logger.information({

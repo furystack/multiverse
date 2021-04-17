@@ -72,7 +72,7 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/PartialResult%3CProfile%2Cany%3E"
+                  "$ref": "#/definitions/Profile"
                 },
                 "url": {
                   "type": "object",
@@ -126,7 +126,7 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/PartialResult%3COrganization%2Cany%3E"
+                  "$ref": "#/definitions/Organization"
                 },
                 "url": {
                   "type": "object",
@@ -548,13 +548,22 @@
               "additionalProperties": false
             },
             "/organizations": {
-              "$ref": "#/definitions/PostEndpoint%3COrganization%3E"
+              "$ref": "#/definitions/PostEndpoint%3COrganization%2C%22_id%22%3E"
             },
             "/organization/:organizationName/addMember": {
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/PartialResult%3COrganization%2Cany%3E"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ],
+                  "additionalProperties": false
                 },
                 "body": {
                   "type": "object",
@@ -592,7 +601,16 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/PartialResult%3COrganization%2Cany%3E"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ],
+                  "additionalProperties": false
                 },
                 "body": {
                   "type": "object",
@@ -630,7 +648,16 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/PartialResult%3COrganization%2Cany%3E"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ],
+                  "additionalProperties": false
                 },
                 "body": {
                   "type": "object",
@@ -668,7 +695,16 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/PartialResult%3COrganization%2Cany%3E"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ],
+                  "additionalProperties": false
                 },
                 "body": {
                   "type": "object",
@@ -1085,9 +1121,6 @@
       ],
       "additionalProperties": false
     },
-    "PartialResult<Profile,any>": {
-      "$ref": "#/definitions/Profile"
-    },
     "Profile": {
       "type": "object",
       "properties": {
@@ -1148,7 +1181,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CProfile%2C(%22_id%22%7C%22username%22%7C%22displayName%22%7C%22description%22%7C%22userSettings%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CProfile%3E"
         }
       },
       "required": [
@@ -1469,7 +1502,7 @@
         }
       }
     },
-    "GetCollectionResult<Profile,(\"_id\"|\"username\"|\"displayName\"|\"description\"|\"userSettings\")>": {
+    "GetCollectionResult<Profile>": {
       "type": "object",
       "properties": {
         "count": {
@@ -1479,7 +1512,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CProfile%2C(%22_id%22%7C%22username%22%7C%22displayName%22%7C%22description%22%7C%22userSettings%22)%3E"
+            "$ref": "#/definitions/Profile"
           },
           "description": "List of the selected entities"
         }
@@ -1490,34 +1523,6 @@
       ],
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
-    },
-    "PartialResult<Profile,(\"_id\"|\"username\"|\"displayName\"|\"description\"|\"userSettings\")>": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "displayName": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "userSettings": {
-          "$ref": "#/definitions/UserSettings"
-        }
-      },
-      "required": [
-        "_id",
-        "username",
-        "displayName",
-        "description",
-        "userSettings"
-      ],
-      "additionalProperties": false
     },
     "GetCollectionEndpoint<Organization>": {
       "type": "object",
@@ -1532,7 +1537,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3COrganization%2C(%22_id%22%7C%22name%22%7C%22icon%22%7C%22description%22%7C%22owner%22%7C%22memberNames%22%7C%22adminNames%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3COrganization%3E"
         }
       },
       "required": [
@@ -2024,7 +2029,7 @@
         }
       ]
     },
-    "GetCollectionResult<Organization,(\"_id\"|\"name\"|\"icon\"|\"description\"|\"owner\"|\"memberNames\"|\"adminNames\")>": {
+    "GetCollectionResult<Organization>": {
       "type": "object",
       "properties": {
         "count": {
@@ -2034,7 +2039,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3COrganization%2C(%22_id%22%7C%22name%22%7C%22icon%22%7C%22description%22%7C%22owner%22%7C%22memberNames%22%7C%22adminNames%22)%3E"
+            "$ref": "#/definitions/Organization"
           },
           "description": "List of the selected entities"
         }
@@ -2045,54 +2050,6 @@
       ],
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
-    },
-    "PartialResult<Organization,(\"_id\"|\"name\"|\"icon\"|\"description\"|\"owner\"|\"memberNames\"|\"adminNames\")>": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "icon": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "owner": {
-          "$ref": "#/definitions/Owner",
-          "description": "The owner user name"
-        },
-        "memberNames": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Unique user names of the organization members"
-        },
-        "adminNames": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Unique user names of the admins"
-        }
-      },
-      "required": [
-        "_id",
-        "name",
-        "icon",
-        "description",
-        "owner",
-        "memberNames",
-        "adminNames"
-      ],
-      "additionalProperties": false
-    },
-    "PartialResult<Organization,any>": {
-      "$ref": "#/definitions/Organization"
     },
     "Organization": {
       "type": "object",
@@ -2152,7 +2109,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CUser%2C(%22_id%22%7C%22username%22%7C%22password%22%7C%22registrationDate%22%7C%22avatarFile%22%7C%22roles%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CUser%3E"
         }
       },
       "required": [
@@ -2569,7 +2526,7 @@
         }
       }
     },
-    "GetCollectionResult<User,(\"_id\"|\"username\"|\"password\"|\"registrationDate\"|\"avatarFile\"|\"roles\")>": {
+    "GetCollectionResult<User>": {
       "type": "object",
       "properties": {
         "count": {
@@ -2579,7 +2536,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CUser%2C(%22_id%22%7C%22username%22%7C%22password%22%7C%22registrationDate%22%7C%22avatarFile%22%7C%22roles%22)%3E"
+            "$ref": "#/definitions/User"
           },
           "description": "List of the selected entities"
         }
@@ -2590,47 +2547,6 @@
       ],
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
-    },
-    "PartialResult<User,(\"_id\"|\"username\"|\"password\"|\"registrationDate\"|\"avatarFile\"|\"roles\")>": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "registrationDate": {
-          "type": "string"
-        },
-        "avatarFile": {
-          "type": "string"
-        },
-        "roles": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": [
-              "terms-accepted",
-              "sys-diags",
-              "feature-switch-admin",
-              "user-admin",
-              "movie-admin"
-            ]
-          }
-        }
-      },
-      "required": [
-        "_id",
-        "username",
-        "password",
-        "registrationDate",
-        "roles"
-      ],
-      "additionalProperties": false
     },
     "GetEntityEndpoint<User>": {
       "type": "object",
@@ -2684,7 +2600,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/PartialResult%3CUser%2Cany%3E"
+          "$ref": "#/definitions/User"
         }
       },
       "required": [
@@ -2694,9 +2610,6 @@
       ],
       "additionalProperties": false,
       "description": "Endpoint model for getting a single entity"
-    },
-    "PartialResult<User,any>": {
-      "$ref": "#/definitions/User"
     },
     "Omit<User,\"password\">": {
       "$ref": "#/definitions/Pick%3CUser%2CExclude%3C(%22_id%22%7C%22username%22%7C%22password%22%7C%22registrationDate%22%7C%22avatarFile%22%7C%22roles%22)%2C%22password%22%3E%3E"
@@ -2738,11 +2651,11 @@
       ],
       "additionalProperties": false
     },
-    "PostEndpoint<Organization>": {
+    "PostEndpoint<Organization,\"_id\">": {
       "type": "object",
       "properties": {
         "body": {
-          "$ref": "#/definitions/WithOptionalId%3COrganization%2C(%22_id%22%7C%22name%22%7C%22icon%22%7C%22description%22%7C%22owner%22%7C%22memberNames%22%7C%22adminNames%22)%3E"
+          "$ref": "#/definitions/WithOptionalId%3COrganization%2C%22_id%22%3E"
         },
         "result": {
           "$ref": "#/definitions/Organization"
@@ -2755,7 +2668,7 @@
       "additionalProperties": false,
       "description": "Endpoint model for creating new entities"
     },
-    "WithOptionalId<Organization,(\"_id\"|\"name\"|\"icon\"|\"description\"|\"owner\"|\"memberNames\"|\"adminNames\")>": {
+    "WithOptionalId<Organization,\"_id\">": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -2789,7 +2702,15 @@
           },
           "description": "Unique user names of the admins"
         }
-      }
+      },
+      "required": [
+        "adminNames",
+        "description",
+        "icon",
+        "memberNames",
+        "name",
+        "owner"
+      ]
     },
     "Partial<Organization>": {
       "type": "object",

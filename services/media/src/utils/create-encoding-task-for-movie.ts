@@ -50,5 +50,7 @@ export const createEncodingTaskForMovie = async ({ movie, injector }: { movie: m
       movie,
       library: { ...library, encoding: library.encoding || media.defaultEncoding },
     },
+    creationDate: new Date(),
+    log: [],
   })
 }

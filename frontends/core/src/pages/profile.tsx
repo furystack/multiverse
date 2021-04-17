@@ -23,9 +23,11 @@ export const ProfilePage = Shade<
 >({
   shadowDomName: 'shade-profile-page',
   getInitialState: ({ props, injector }) => {
-    const profile = injector.getInstance(SessionService).currentProfile.getValue()
+    const session = injector.getInstance(SessionService)
+    const profile = session.currentProfile.getValue()
     return {
-      ...props,
+      loginProviderDetails: props.loginProviderDetails,
+      currentUser: props.currentUser,
       profile,
       displayName: profile.displayName,
       description: profile.description,

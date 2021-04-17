@@ -60,7 +60,7 @@
           "type": "object",
           "properties": {
             "/boards": {
-              "$ref": "#/definitions/PostEndpoint%3CDashboard%3E"
+              "$ref": "#/definitions/PostEndpoint%3CPick%3CDashboard%2C(%22name%22%7C%22description%22%7C%22_id%22)%3E%2C%22_id%22%3E"
             }
           },
           "required": [
@@ -135,7 +135,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CDashboard%2C(%22_id%22%7C%22name%22%7C%22description%22%7C%22owner%22%7C%22creationDate%22%7C%22modificationDate%22%7C%22widgets%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CDashboard%3E"
         }
       },
       "required": [
@@ -1324,7 +1324,7 @@
       ],
       "additionalProperties": false
     },
-    "GetCollectionResult<Dashboard,(\"_id\"|\"name\"|\"description\"|\"owner\"|\"creationDate\"|\"modificationDate\"|\"widgets\")>": {
+    "GetCollectionResult<Dashboard>": {
       "type": "object",
       "properties": {
         "count": {
@@ -1334,7 +1334,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CDashboard%2C(%22_id%22%7C%22name%22%7C%22description%22%7C%22owner%22%7C%22creationDate%22%7C%22modificationDate%22%7C%22widgets%22)%3E"
+            "$ref": "#/definitions/Dashboard"
           },
           "description": "List of the selected entities"
         }
@@ -1346,7 +1346,7 @@
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
     },
-    "PartialResult<Dashboard,(\"_id\"|\"name\"|\"description\"|\"owner\"|\"creationDate\"|\"modificationDate\"|\"widgets\")>": {
+    "Dashboard": {
       "type": "object",
       "properties": {
         "_id": {
@@ -1443,7 +1443,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/PartialResult%3CDashboard%2Cany%3E"
+          "$ref": "#/definitions/Dashboard"
         }
       },
       "required": [
@@ -1453,50 +1453,6 @@
       ],
       "additionalProperties": false,
       "description": "Endpoint model for getting a single entity"
-    },
-    "PartialResult<Dashboard,any>": {
-      "$ref": "#/definitions/Dashboard"
-    },
-    "Dashboard": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "owner": {
-          "$ref": "#/definitions/Owner"
-        },
-        "creationDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "modificationDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "widgets": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Widget"
-          }
-        }
-      },
-      "required": [
-        "_id",
-        "name",
-        "description",
-        "owner",
-        "creationDate",
-        "modificationDate",
-        "widgets"
-      ],
-      "additionalProperties": false
     },
     "WeatherData": {
       "type": "object",
@@ -1709,14 +1665,14 @@
       ],
       "additionalProperties": false
     },
-    "PostEndpoint<Dashboard>": {
+    "PostEndpoint<Pick<Dashboard,(\"name\"|\"description\"|\"_id\")>,\"_id\">": {
       "type": "object",
       "properties": {
         "body": {
-          "$ref": "#/definitions/WithOptionalId%3CDashboard%2C(%22_id%22%7C%22name%22%7C%22description%22%7C%22owner%22%7C%22creationDate%22%7C%22modificationDate%22%7C%22widgets%22)%3E"
+          "$ref": "#/definitions/WithOptionalId%3CPick%3CDashboard%2C(%22name%22%7C%22description%22%7C%22_id%22)%3E%2C%22_id%22%3E"
         },
         "result": {
-          "$ref": "#/definitions/Dashboard"
+          "$ref": "#/definitions/Pick%3CDashboard%2C(%22name%22%7C%22description%22%7C%22_id%22)%3E"
         }
       },
       "required": [
@@ -1726,37 +1682,44 @@
       "additionalProperties": false,
       "description": "Endpoint model for creating new entities"
     },
-    "WithOptionalId<Dashboard,(\"_id\"|\"name\"|\"description\"|\"owner\"|\"creationDate\"|\"modificationDate\"|\"widgets\")>": {
+    "WithOptionalId<Pick<Dashboard,(\"name\"|\"description\"|\"_id\")>,\"_id\">": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "_id": {
-          "type": "string"
-        },
         "name": {
           "type": "string"
         },
         "description": {
           "type": "string"
         },
-        "owner": {
-          "$ref": "#/definitions/Owner"
-        },
-        "creationDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "modificationDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "widgets": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Widget"
-          }
+        "_id": {
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "description",
+        "name"
+      ]
+    },
+    "Pick<Dashboard,(\"name\"|\"description\"|\"_id\")>": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "_id"
+      ],
+      "additionalProperties": false
     },
     "PatchEndpoint<Dashboard>": {
       "type": "object",

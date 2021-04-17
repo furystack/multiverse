@@ -29,7 +29,7 @@ export interface MediaApi extends RestApi {
     }
   }
   POST: {
-    '/movie-libraries': PostEndpoint<MovieLibrary>
+    '/movie-libraries': PostEndpoint<Pick<MovieLibrary, '_id' | 'name' | 'path' | 'icon'>, '_id'>
     '/save-watch-progress': { body: { movieId: string; watchedSeconds: number }; result: { success: boolean } }
     '/upload-encoded/:movieId/:accessToken': {
       url: { movieId: string; accessToken: string }

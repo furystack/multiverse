@@ -1,5 +1,4 @@
 import { RestApi, GetCollectionEndpoint, PostEndpoint, PatchEndpoint, GetEntityEndpoint } from '@furystack/rest'
-import { PartialResult } from '@furystack/core'
 import { User } from '../auth/user'
 import { Profile } from '../auth/profile'
 import { Organization } from '../auth/organization'
@@ -14,12 +13,12 @@ export interface AuthApi extends RestApi {
     '/loginProviderDetails': {
       result: { google?: GoogleAccount; github?: GithubAccount; hasPassword: boolean }
     }
-    '/profiles/:username': { result: PartialResult<Profile, any>; url: { username: string } }
+    '/profiles/:username': { result: Profile; url: { username: string } }
     '/profiles/:username/avatar': { result: any; url: { username: string } }
     '/profiles': GetCollectionEndpoint<Profile>
     '/organizations': GetCollectionEndpoint<Organization>
     '/organization/:organizationName': {
-      result: PartialResult<Organization, any>
+      result: Organization
       url: { organizationName: string }
     }
     '/oauth-data': {
@@ -51,24 +50,24 @@ export interface AuthApi extends RestApi {
       result: { success: boolean }
     }
 
-    '/organizations': PostEndpoint<Organization>
+    '/organizations': PostEndpoint<Organization, '_id'>
     '/organization/:organizationName/addMember': {
-      result: PartialResult<Organization, any>
+      result: { success: boolean }
       body: { username: string }
       url: { organizationName: string }
     }
     '/organization/:organizationName/removeMember': {
-      result: PartialResult<Organization, any>
+      result: { success: boolean }
       body: { username: string }
       url: { organizationName: string }
     }
     '/organization/:organizationName/addAdmin': {
-      result: PartialResult<Organization, any>
+      result: { success: boolean }
       body: { username: string }
       url: { organizationName: string }
     }
     '/organization/:organizationName/removeAdmin': {
-      result: PartialResult<Organization, any>
+      result: { success: boolean }
       body: { username: string }
       url: { organizationName: string }
     }

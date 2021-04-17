@@ -3,6 +3,7 @@ import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
 import { HttpUserContext, JsonResult, RequestAction } from '@furystack/rest-service'
 import { downloadAsTempFile, saveAvatar } from '@common/service-utils'
+import { ObjectId } from 'mongodb'
 import { GithubAuthService } from '../services/github-login-service'
 
 export const GithubRegisterAction: RequestAction<{
@@ -42,8 +43,10 @@ export const GithubRegisterAction: RequestAction<{
   })
 
   await storeManager.getStoreFor(auth.Profile).add({
+    _id: new ObjectId().toString(),
     username: newUser.username,
     displayName: newUser.username,
+    description: '',
   })
 
   await injector.getInstance(HttpUserContext).cookieLogin(newUser, response)
