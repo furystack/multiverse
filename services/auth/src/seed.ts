@@ -69,7 +69,7 @@ export const createUser = async ({
     {
       filter: { username: { $eq: email } },
     },
-    { displayName: displayName || email, username: email, description: '', userSettings: { theme: 'light' } },
+    { displayName: displayName || email, username: email, description: '', userSettings: { theme: 'dark' } },
     profileStore,
     i,
   )
