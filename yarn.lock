@@ -436,10 +436,10 @@
     "@furystack/utils" "^1.2.30"
     tslib "^2.2.0"
 
-"@furystack/rest-client-fetch@^2.0.10":
-  version "2.0.10"
-  resolved "https://registry.yarnpkg.com/@furystack/rest-client-fetch/-/rest-client-fetch-2.0.10.tgz#30de6d33f274e73845e3b7340aaef4521db0d4fd"
-  integrity sha512-7ff2spitZAj7oemtYLandl1LXQ2C9fvyDmzx9CbKkfPDT0lbrgwYIzjSPw5WWNnHAgthPB1YArKu3dl1qq1YaA==
+"@furystack/rest-client-fetch@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@furystack/rest-client-fetch/-/rest-client-fetch-3.0.0.tgz#9bcff4ac5de4fe8885296f9471aac44869f129ce"
+  integrity sha512-oFJA+4tYcGlenab7cIUDC3/WABusGKvVM4PAVJjUckJv0q0snibMnnl6+nWxiQ7KuvpgWcC/82BbMTjH8Ym5rw==
   dependencies:
     "@furystack/inject" "^4.0.60"
     "@furystack/logging" "^2.0.67"
