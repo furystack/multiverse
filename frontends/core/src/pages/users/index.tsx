@@ -10,12 +10,14 @@ export const UsersPage = Shade<{}, { service: CollectionService<auth.User> }>({
   shadowDomName: 'shade-users-page',
   getInitialState: ({ injector }) => {
     const service = new CollectionService<auth.User>(
-      (findOptions) =>
-        injector.getInstance(AuthApiService).call({
+      async (findOptions) => {
+        const { result } = await injector.getInstance(AuthApiService).call({
           method: 'GET',
           action: '/users',
           query: { findOptions },
-        }),
+        })
+        return result
+      },
       { top: 20, order: { username: 'ASC' } },
     )
     return { service }
@@ -48,7 +50,7 @@ export const UsersPage = Shade<{}, { service: CollectionService<auth.User> }>({
                 error={(error, retry) => <GenericErrorPage error={error} retry={retry} />}
                 component={async () => {
                   if (await injector.isAuthorized('user-admin')) {
-                    const user = await injector.getInstance(AuthApiService).call({
+                    const { result: user } = await injector.getInstance(AuthApiService).call({
                       method: 'GET',
                       action: '/users/:id',
                       url: {

@@ -267,7 +267,7 @@ export const ProfilePage = Shade<
                         style={{ color: 'rgba(16,92,32)' }}
                         onclick={async (ev) => {
                           ev.preventDefault()
-                          const oauthData = await injector.getInstance(AuthApiService).call({
+                          const { result: oauthData } = await injector.getInstance(AuthApiService).call({
                             method: 'GET',
                             action: '/oauth-data',
                           })

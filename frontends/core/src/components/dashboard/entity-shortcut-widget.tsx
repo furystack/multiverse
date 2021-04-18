@@ -1,5 +1,5 @@
 import { Shade, LazyLoad, createComponent } from '@furystack/shades'
-import { dashboard, media, xpense } from '@common/models'
+import { dashboard } from '@common/models'
 import { DashboardApiService, MediaApiService, XpenseApiService } from '@common/frontend-utils'
 import { Init } from '../../pages'
 import { IconUrlWidget } from './icon-url-widget'
@@ -15,7 +15,7 @@ export const EntityShortcutWidget = Shade<dashboard.EntityShortcutWidget & { ind
         error={(error) => <BrokenWidget widgetData={{ props, error }} message={'Failed to display widget'} />}
         component={async () => {
           if (props.entityType === 'dashboard') {
-            const board: dashboard.Dashboard = await injector.getInstance(DashboardApiService).call({
+            const { result: board } = await injector.getInstance(DashboardApiService).call({
               method: 'GET',
               action: '/boards/:id',
               url: { id: props.id },
@@ -32,7 +32,7 @@ export const EntityShortcutWidget = Shade<dashboard.EntityShortcutWidget & { ind
             )
           }
           if (props.entityType === 'movie') {
-            const movie: media.Movie = await injector.getInstance(MediaApiService).call({
+            const { result: movie } = await injector.getInstance(MediaApiService).call({
               method: 'GET',
               action: '/movies/:id',
               url: { id: props.id },
@@ -41,7 +41,7 @@ export const EntityShortcutWidget = Shade<dashboard.EntityShortcutWidget & { ind
             return <MovieWidget index={props.index} movie={movie} size={256} />
           }
           if (props.entityType === 'movie-library') {
-            const movieLib: media.MovieLibrary = await injector.getInstance(MediaApiService).call({
+            const { result: movieLib } = await injector.getInstance(MediaApiService).call({
               method: 'GET',
               action: '/movie-libraries/:id',
               url: { id: props.id },
@@ -58,7 +58,7 @@ export const EntityShortcutWidget = Shade<dashboard.EntityShortcutWidget & { ind
           }
 
           if (props.entityType === 'xpense-account') {
-            const account: xpense.Account = await injector.getInstance(XpenseApiService).call({
+            const { result: account } = await injector.getInstance(XpenseApiService).call({
               method: 'GET',
               action: '/accounts/:id',
               url: { id: props.id },

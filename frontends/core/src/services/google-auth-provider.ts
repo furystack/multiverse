@@ -36,7 +36,7 @@ export class GoogleOauthProvider {
     try {
       this.session.isOperationInProgress.setValue(true)
       const token = await this.getToken()
-      const user = await this.api.call({ method: 'POST', action: '/googleLogin', body: { token } })
+      const { result: user } = await this.api.call({ method: 'POST', action: '/googleLogin', body: { token } })
       if (user) {
         this.session.currentUser.setValue(user)
         this.session.state.setValue('authenticated')
@@ -53,7 +53,7 @@ export class GoogleOauthProvider {
     try {
       this.session.isOperationInProgress.setValue(true)
       const token = await this.getToken()
-      const user = await this.api.call({ method: 'POST', action: '/googleRegister', body: { token } })
+      const { result: user } = await this.api.call({ method: 'POST', action: '/googleRegister', body: { token } })
       if (user) {
         this.session.currentUser.setValue(user)
         this.session.state.setValue('authenticated')
@@ -152,7 +152,7 @@ export class GoogleOauthProvider {
    * @returns {Promise<string>} A promise that will be resolved with an id_token, or will be rejected in case of errors or if the dialog closes
    */
   public async getToken(): Promise<string> {
-    const oauthData = await this.api.call({
+    const { result: oauthData } = await this.api.call({
       method: 'GET',
       action: '/oauth-data',
     })

@@ -79,10 +79,12 @@ export const Body = Shade<
                                   const { ProfilePage } = await import(
                                     /* webpackChunkName: "profile" */ '../pages/profile'
                                   )
-                                  const loginProviderDetails = await injector.getInstance(AuthApiService).call({
-                                    method: 'GET',
-                                    action: '/loginProviderDetails',
-                                  })
+                                  const { result: loginProviderDetails } = await injector
+                                    .getInstance(AuthApiService)
+                                    .call({
+                                      method: 'GET',
+                                      action: '/loginProviderDetails',
+                                    })
                                   return (
                                     <ProfilePage
                                       loginProviderDetails={loginProviderDetails}
@@ -106,11 +108,11 @@ export const Body = Shade<
                                   />
                                 )}
                                 component={async () => {
-                                  const profile = (await injector.getInstance(AuthApiService).call({
+                                  const { result: profile } = await injector.getInstance(AuthApiService).call({
                                     method: 'GET',
                                     action: '/profiles/:username',
                                     url: { username: currentUser.username },
-                                  })) as auth.Profile
+                                  })
                                   return <WelcomePage profile={profile} />
                                 }}
                                 loader={<Init message="Loading your Profile..." />}
@@ -174,7 +176,7 @@ export const Body = Shade<
                                   const { OrganizationDetailsPage } = await import(
                                     /* webpackChunkName: "edit-organization" */ '../pages/organizations/organization-details'
                                   )
-                                  const org = await injector.getInstance(AuthApiService).call({
+                                  const { result: org } = await injector.getInstance(AuthApiService).call({
                                     method: 'GET',
                                     action: '/organization/:organizationName',
                                     url: { organizationName: match.params.organizationName },

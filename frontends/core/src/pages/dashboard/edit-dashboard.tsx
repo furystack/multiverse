@@ -1,5 +1,5 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { dashboard, auth } from '@common/models'
+import { dashboard } from '@common/models'
 import { DashboardApiService, AuthApiService } from '@common/frontend-utils'
 import { GenericMonacoEditor } from '../../components/editors/generic-monaco-editor'
 
@@ -24,7 +24,7 @@ export const EditDashboard = Shade<{ dashboard: dashboard.Dashboard }>({
             name: 'Set as my default',
             action: async () => {
               const currentUser = await injector.getCurrentUser()
-              const profile: auth.Profile = await injector.getInstance(AuthApiService).call({
+              const { result: profile } = await injector.getInstance(AuthApiService).call({
                 method: 'GET',
                 action: '/profiles/:username',
                 url: { username: currentUser.username },

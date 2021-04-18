@@ -17,7 +17,7 @@ export const ContinueMoviesWidget = Shade<{ count: number }>({
         )}
         component={async () => {
           const mediaApi = injector.getInstance(MediaApiService)
-          const progress = await mediaApi.call({
+          const { result: progress } = await mediaApi.call({
             method: 'GET',
             action: '/my-watch-progress',
             query: {
@@ -33,7 +33,7 @@ export const ContinueMoviesWidget = Shade<{ count: number }>({
             return nothingToShow
           }
 
-          const movies = await mediaApi.call({
+          const { result: movies } = await mediaApi.call({
             method: 'GET',
             action: '/movies',
             query: { findOptions: { filter: { _id: { $in: progress.entries.map((e) => e.movieId) } } } },

@@ -9,14 +9,16 @@ export const AccountHistoryReplenishments = Shade<
 >({
   getInitialState: ({ injector, props }) => ({
     service: new CollectionService<xpense.Replenishment>(
-      (findOptions) =>
-        injector.getInstance(XpenseApiService).call({
+      async (findOptions) => {
+        const response = await injector.getInstance(XpenseApiService).call({
           method: 'GET',
           action: '/replenishments',
           query: {
             findOptions: { ...findOptions, filter: { ...findOptions.filter, accountId: props.account._id } as any },
           },
-        }),
+        })
+        return response.result
+      },
       { top: 20, order: { creationDate: 'DESC' } },
     ),
   }),

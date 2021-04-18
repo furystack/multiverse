@@ -4,7 +4,7 @@ import { AuthApiService, SessionService } from '@common/frontend-utils'
 @Injectable({ lifetime: 'singleton' })
 export class GithubAuthProvider {
   private async getClientId() {
-    const oauthData = await this.api.call({
+    const { result: oauthData } = await this.api.call({
       method: 'GET',
       action: '/oauth-data',
     })
@@ -15,7 +15,7 @@ export class GithubAuthProvider {
     try {
       this.session.isOperationInProgress.setValue(true)
       const clientId = await this.getClientId()
-      const user = await this.api.call({
+      const { result: user } = await this.api.call({
         method: 'POST',
         action: '/githubLogin',
         body: {
@@ -36,7 +36,7 @@ export class GithubAuthProvider {
     try {
       this.session.isOperationInProgress.setValue(true)
       const clientId = await this.getClientId()
-      const user = await this.api.call({
+      const { result: user } = await this.api.call({
         method: 'POST',
         action: '/githubRegister',
         body: { code, clientId },

@@ -12,7 +12,7 @@ export const CreateDashboard = Shade<{}, Pick<dashboard.Dashboard, 'name' | 'des
         <form
           onsubmit={async (ev) => {
             ev.preventDefault()
-            const created = await injector.getInstance(DashboardApiService).call({
+            const { result: created } = await injector.getInstance(DashboardApiService).call({
               method: 'POST',
               action: '/boards',
               body: {

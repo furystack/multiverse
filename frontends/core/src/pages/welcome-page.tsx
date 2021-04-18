@@ -28,7 +28,7 @@ export const WelcomePage = Shade<{ profile: auth.Profile }>({
         component={async () => {
           const dashboardId = props.profile?.userSettings?.dashboardId
           if (dashboardId) {
-            const entry: dashboard.Dashboard = await injector.getInstance(DashboardApiService).call({
+            const { result: entry } = await injector.getInstance(DashboardApiService).call({
               method: 'GET',
               action: '/boards/:id',
               url: { id: dashboardId },

@@ -52,7 +52,7 @@ export const XpenseShoppingPage = Shade<
             try {
               const state = getState()
               updateState({ isSaveInProgress: true })
-              const shopping = await injector.getInstance(XpenseApiService).call({
+              const { result: shopping } = await injector.getInstance(XpenseApiService).call({
                 method: 'POST',
                 action: '/accounts/:accountId/shop',
                 url: { accountId: props.account._id },

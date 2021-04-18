@@ -1,6 +1,5 @@
 import { Shade, Router, createComponent, LazyLoad } from '@furystack/shades'
 
-import { dashboard } from '@common/models'
 import { DashboardApiService } from '@common/frontend-utils'
 import { GenericErrorPage } from '../generic-error'
 import { Init } from '../init'
@@ -36,13 +35,13 @@ export const DashboardsPage = Shade({
                 )}
                 component={async () => {
                   const { dashboardId } = match.params
-                  const entry: dashboard.Dashboard = await injector.getInstance(DashboardApiService).call({
+                  const { result } = await injector.getInstance(DashboardApiService).call({
                     method: 'GET',
                     action: '/boards/:id',
                     url: { id: dashboardId },
                     query: {},
                   })
-                  return <EditDashboard dashboard={entry} />
+                  return <EditDashboard dashboard={result} />
                 }}
                 loader={<Init message="Loading Dashboard to edit..." />}
               />
@@ -61,13 +60,13 @@ export const DashboardsPage = Shade({
                 )}
                 component={async () => {
                   const { dashboardId } = match.params
-                  const entry: dashboard.Dashboard = await injector.getInstance(DashboardApiService).call({
+                  const { result } = await injector.getInstance(DashboardApiService).call({
                     method: 'GET',
                     action: '/boards/:id',
                     url: { id: dashboardId },
                     query: {},
                   })
-                  return <Dashboard {...entry} />
+                  return <Dashboard {...result} />
                 }}
                 loader={<Init message="Loading Dashboard..." />}
               />

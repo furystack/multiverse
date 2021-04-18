@@ -62,8 +62,8 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
                     return (
                       <XpenseShoppingPage
                         account={account}
-                        shops={shops.entries as xpense.Shop[]}
-                        items={items.entries as xpense.Item[]}
+                        shops={shops.result.entries}
+                        items={items.result.entries}
                         onShopped={(s) => {
                           const acc = getState().account
                           const updatedAccount = { ...acc, ...account, current: account.current - s.sumAmount }
@@ -92,7 +92,7 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
                   )}
                   loader={<Init message="Loading Shopping details..." />}
                   component={async () => {
-                    const shopping: xpense.Shopping = await api.call({
+                    const { result: shopping } = await api.call({
                       method: 'GET',
                       action: '/shoppings/:id',
                       query: {},
@@ -116,7 +116,7 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
                   )}
                   loader={<Init message="Loading Replenishment details..." />}
                   component={async () => {
-                    const replenishment: xpense.Replenishment = await api.call({
+                    const { result: replenishment } = await api.call({
                       method: 'GET',
                       action: '/replenishments/:id',
                       query: {},
@@ -141,7 +141,7 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
                   )}
                   loader={<Init message="Loading Shop..." />}
                   component={async () => {
-                    const shop: xpense.Shop = await api.call({
+                    const { result: shop } = await api.call({
                       method: 'GET',
                       action: '/shops/:id',
                       query: {},
@@ -166,7 +166,7 @@ export const AccountContext = Shade<{ account: xpense.Account }, { account: xpen
                   )}
                   loader={<Init message="Loading item..." />}
                   component={async () => {
-                    const item: xpense.Item = await api.call({
+                    const { result: item } = await api.call({
                       method: 'GET',
                       action: '/items/:id',
                       url: { id: m.params.itemId },

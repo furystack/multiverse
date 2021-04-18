@@ -34,7 +34,7 @@ export const MoviesPage = Shade({
                 )}
                 loader={<Init message="Loading Movie..." />}
                 component={async () => {
-                  const movie: media.Movie = await injector.getInstance(MediaApiService).call({
+                  const { result: movie } = await injector.getInstance(MediaApiService).call({
                     method: 'GET',
                     action: '/movies/:id',
                     url: { id: match.params.movieId },
@@ -73,7 +73,7 @@ export const MoviesPage = Shade({
                 loader={<Init message="Loading Task..." />}
                 error={(error, retry) => <GenericErrorPage error={error} retry={retry} />}
                 component={async () => {
-                  const task: media.EncodingTask = await injector.getInstance(MediaApiService).call({
+                  const { result: task } = await injector.getInstance(MediaApiService).call({
                     method: 'GET',
                     action: '/encode/tasks/:id',
                     url: { id: match.params.encodingTaskId },
@@ -100,7 +100,7 @@ export const MoviesPage = Shade({
                 )}
                 loader={<Init message="Loading Libraries..." />}
                 component={async () => {
-                  const libs = await injector.getInstance(MediaApiService).call({
+                  const { result: libs } = await injector.getInstance(MediaApiService).call({
                     method: 'GET',
                     action: '/movie-libraries',
                     query: { findOptions: { order: { name: 'ASC' } } },
@@ -129,7 +129,7 @@ export const MoviesPage = Shade({
                   loader={<Init message="Loading movies..." />}
                   component={async () => {
                     const libraryId = match.params.libraryId as string
-                    const movies = await injector.getInstance(MediaApiService).call({
+                    const { result: movies } = await injector.getInstance(MediaApiService).call({
                       method: 'GET',
                       action: '/movies',
                       query: { findOptions: { filter: { libraryId: { $eq: libraryId } } } },
@@ -167,7 +167,7 @@ export const MoviesPage = Shade({
                     />
                   )}
                   component={async () => {
-                    const lib: media.MovieLibrary = await injector.getInstance(MediaApiService).call({
+                    const { result: lib } = await injector.getInstance(MediaApiService).call({
                       method: 'GET',
                       action: '/movie-libraries/:id',
                       url: { id: libraryId },
@@ -207,13 +207,13 @@ export const MoviesPage = Shade({
                 )}
                 loader={<Init message="Loading movie..." />}
                 component={async () => {
-                  const movie = await injector.getInstance(MediaApiService).call({
+                  const { result: movie } = await injector.getInstance(MediaApiService).call({
                     method: 'GET',
                     action: '/movies/:id',
                     url: { id: match.params.movieId },
                     query: {},
                   })
-                  const movieProgress = await injector.getInstance(MediaApiService).call({
+                  const { result: movieProgress } = await injector.getInstance(MediaApiService).call({
                     method: 'GET',
                     action: '/my-watch-progress',
                     query: {
@@ -224,7 +224,7 @@ export const MoviesPage = Shade({
                     },
                   })
 
-                  const subtitles = await injector.getInstance(MediaApiService).call({
+                  const { result: subtitles } = await injector.getInstance(MediaApiService).call({
                     method: 'GET',
                     action: '/movies/:movieId/subtitles',
                     url: { movieId: match.params.movieId },
@@ -233,7 +233,7 @@ export const MoviesPage = Shade({
                   return (
                     <Watch
                       watchedSeconds={movieProgress.entries[0] ? movieProgress.entries[0].watchedSeconds : 0}
-                      movie={movie as media.Movie}
+                      movie={movie}
                       availableSubtitles={subtitles}
                     />
                   )

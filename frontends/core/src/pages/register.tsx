@@ -53,7 +53,7 @@ export const RegisterPage = Shade({
                 updateState({ isOperationInProgress: true })
 
                 try {
-                  const user = await injector
+                  const { result: user } = await injector
                     .getInstance(AuthApiService)
                     .call({ method: 'POST', action: '/register', body: { email, password } })
                   if (user && user.username === email) {
@@ -117,7 +117,7 @@ export const RegisterPage = Shade({
               <Button
                 style={{ margin: '0 .3em' }}
                 onclick={async () => {
-                  const oauthData = await injector.getInstance(AuthApiService).call({
+                  const { result: oauthData } = await injector.getInstance(AuthApiService).call({
                     method: 'GET',
                     action: '/oauth-data',
                   })

@@ -163,7 +163,7 @@ export const MovieWidget = Shade<
                         },
                       },
                     })
-                  ).entries[0]
+                  ).result.entries[0]
 
                 const percent =
                   watchProgress &&
