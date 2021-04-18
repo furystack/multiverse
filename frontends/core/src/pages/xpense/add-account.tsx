@@ -1,15 +1,27 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { Input, Button } from '@furystack/shades-common-components'
-import { XpenseApiService } from '@common/frontend-utils'
+import { SessionService, XpenseApiService } from '@common/frontend-utils'
 import { xpense } from '@common/models'
+import { WithOptionalId } from '@furystack/core'
 import { FullScreenForm } from '../../components/full-screen-form'
 
-export const AddXpenseAccountPage = Shade<{}, Pick<xpense.Account, 'name' | 'icon' | 'description'>>({
-  getInitialState: () => ({
-    name: '',
-    description: '',
-    icon: '💳',
-  }),
+export const AddXpenseAccountPage = Shade<{}, WithOptionalId<xpense.Account, '_id'>>({
+  getInitialState: ({ injector }) => {
+    const user = injector.getInstance(SessionService).currentUser.getValue()
+    return {
+      name: '',
+      description: '',
+      icon: '💳',
+      creationDate: new Date().toISOString(),
+      createdBy: user?._id || '',
+      current: 0,
+      history: [],
+      owner: {
+        type: 'user',
+        username: user?.username || '',
+      },
+    }
+  },
   render: ({ injector, getState, updateState }) => {
     return (
       <FullScreenForm
