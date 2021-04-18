@@ -21,12 +21,52 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
 
   const progress = new ObservableValue(0)
 
+  logger.verbose({ message: 'Initializing Dash encode...' })
+
+  const proc = ffmpeg({
+    source: options.source,
+    cwd: options.cwd,
+  } as any)
+    .output('dash.mpd')
+    .format('dash')
+    .audioCodec('aac')
+    .audioChannels(2)
+    .videoCodec('libvpx-vp9')
+    .outputOptions([
+      '-use_template 1',
+      '-use_timeline 1',
+      '-map 0:a',
+      '-b:a 96k',
+      '-quality good',
+      '-reconnect_streamed 1',
+      '-reconnect_delay_max 120',
+    ])
+
+  options.encodingSettings.formats.map((format, index) => {
+    proc.outputOptions([
+      `-filter_complex [0]format=pix_fmts=yuv420p[temp${index}];[temp${index}]scale=-2:${format.downScale}[A${index}]`,
+      `-map [A${index}]:v`,
+      `-b:v:${index} ${format.bitrate?.target || 0}k`,
+      '-pix_fmt yuv420p10le',
+      '-color_primaries 9',
+      '-colorspace 9',
+      '-color_range 1',
+      '-dash 1',
+      ...(format.quality ? [`-crf ${format.quality}`] : []),
+      ...(format.bitrate?.min ? [`-minrate ${format.bitrate.min}k`] : []),
+      ...(format.bitrate?.max ? [`-maxrate ${format.bitrate.max}k`] : []),
+    ])
+  })
+
+  proc.on('start', async (commandLine) => {
+    await logger.information({ message: `ffmpeg started with command:${commandLine}`, data: { commandLine } })
+  })
   await usingAsync(
     new ChunkUploader({
       injector: options.injector,
       directory: options.cwd,
       isFileAllowed: (fileName) => fileName.endsWith('mpd') || fileName.endsWith('m4s') || fileName.endsWith('webm'),
-      parallel: 1,
+      parallel: 16,
       task: options.task,
       progress,
       uploadPath: options.uploadPath,
@@ -35,46 +75,6 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
       retries: 15,
     }),
     async () => {
-      logger.verbose({ message: 'Initializing Dash encode...' })
-
-      const proc = ffmpeg({
-        source: options.source,
-        cwd: options.cwd,
-      } as any)
-        .output('dash.mpd')
-        .format('dash')
-        .audioCodec('aac')
-        .audioChannels(2)
-        .videoCodec('libvpx-vp9')
-        .outputOptions([
-          '-use_template 1',
-          '-use_timeline 1',
-          '-map 0:a',
-          '-b:a 96k',
-          '-quality good',
-          '-reconnect_streamed 1',
-          '-reconnect_delay_max 120',
-        ])
-
-      options.encodingSettings.formats.map((format, index) => {
-        proc.outputOptions([
-          `-filter_complex [0]format=pix_fmts=yuv420p[temp${index}];[temp${index}]scale=-2:${format.downScale}[A${index}]`,
-          `-map [A${index}]:v`,
-          `-b:v:${index} ${format.bitrate?.target || 0}k`,
-          '-pix_fmt yuv420p10le',
-          '-color_primaries 9',
-          '-colorspace 9',
-          '-color_range 1',
-          '-dash 1',
-          ...(format.quality ? [`-crf ${format.quality}`] : []),
-          ...(format.bitrate?.min ? [`-minrate ${format.bitrate.min}k`] : []),
-          ...(format.bitrate?.max ? [`-maxrate ${format.bitrate.max}k`] : []),
-        ])
-      })
-
-      proc.on('start', async (commandLine) => {
-        await logger.information({ message: `ffmpeg started with command:${commandLine}`, data: { commandLine } })
-      })
       return await new Promise<void>((resolve, reject) => {
         proc
           .on('progress', (info) => {
@@ -101,6 +101,7 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
             await logger.warning({ message: 'ffmpeg vp9 encoding failed', data: { error } })
             reject(error)
           })
+
         proc.run()
       })
     },

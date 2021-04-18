@@ -21,12 +21,44 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
 
   const progress = new ObservableValue(0)
 
+  logger.verbose({ message: 'Initializing Dash encode...' })
+
+  const proc = ffmpeg({
+    source: options.source,
+    cwd: options.cwd,
+  } as any)
+    .output('dash.mpd')
+    .format('dash')
+    .audioCodec('aac')
+    .audioChannels(2)
+    .videoCodec(process.env.ENABLE_NVENC ? 'h264_nvenc' : 'libx264')
+    .outputOptions([
+      '-use_template 1',
+      '-use_timeline 1',
+      '-map 0:a',
+      '-b:a 96k',
+      '-quality good',
+      '-reconnect_streamed 1',
+      '-reconnect_delay_max 120',
+    ])
+
+  options.encodingSettings.formats.map((format, index) => {
+    proc.outputOptions([
+      `-filter_complex [0]format=pix_fmts=yuv420p[temp${index}];[temp${index}]scale=-2:${format.downScale}[A${index}]`,
+      `-map [A${index}]:v`,
+      `-b:v:${index} ${format.bitRate || 0}k`,
+    ])
+  })
+
+  proc.on('start', async (commandLine) => {
+    await logger.information({ message: `ffmpeg started with command:${commandLine}`, data: { commandLine } })
+  })
   await usingAsync(
     new ChunkUploader({
       injector: options.injector,
       directory: options.cwd,
       isFileAllowed: (fileName) => fileName.endsWith('mpd') || fileName.endsWith('m4s') || fileName.endsWith('webm'),
-      parallel: 2,
+      parallel: 16,
       task: options.task,
       progress,
       uploadPath: options.uploadPath,
@@ -35,41 +67,10 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
       retries: 25,
     }),
     async () => {
-      logger.verbose({ message: 'Initializing Dash encode...' })
-
-      const proc = ffmpeg({
-        source: options.source,
-        cwd: options.cwd,
-      } as any)
-        .output('dash.mpd')
-        .format('dash')
-        .audioCodec('aac')
-        .audioChannels(2)
-        .videoCodec(process.env.ENABLE_NVENC ? 'h264_nvenc' : 'libx264')
-        .outputOptions([
-          '-use_template 1',
-          '-use_timeline 1',
-          '-map 0:a',
-          '-b:a 96k',
-          '-quality good',
-          '-reconnect_streamed 1',
-          '-reconnect_delay_max 120',
-        ])
-
-      options.encodingSettings.formats.map((format, index) => {
-        proc.outputOptions([
-          `-filter_complex [0]format=pix_fmts=yuv420p[temp${index}];[temp${index}]scale=-2:${format.downScale}[A${index}]`,
-          `-map [A${index}]:v`,
-          `-b:v:${index} ${format.bitRate || 0}k`,
-        ])
-      })
-
-      proc.on('start', async (commandLine) => {
-        await logger.information({ message: `ffmpeg started with command:${commandLine}`, data: { commandLine } })
-      })
-      return await new Promise<void>((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         proc
-          .on('progress', (info) => {
+          .on('progress', async (info) => {
+            await logger.information({ message: `${info.percent.toFixed(2)}% of x264 encoding completed` })
             progress.setValue(info.percent)
           })
           .on('end', async () => {
