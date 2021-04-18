@@ -1,16 +1,21 @@
-import { PathHelper } from '@furystack/utils'
-import { media } from '@common/models'
-import got from 'got'
-
+import { apis, media } from '@common/models'
+import { createClient } from '@furystack/rest-client-got'
 import { mediaApiPath } from './encode-task'
 
 export const loadTaskDetails = async ({ taskId, token }: { taskId: string; token: string }) => {
-  const { body } = await got(PathHelper.joinPaths(mediaApiPath, 'encode', 'get-worker-task', taskId), {
+  const callApi = createClient<apis.MediaApi>({
+    endpointUrl: mediaApiPath,
+  })
+  const body = await callApi({
+    method: 'GET',
+    action: '/encode/get-worker-task/:taskId',
+    url: {
+      taskId,
+    },
     headers: {
       'task-token': token,
     },
-    retry: 15,
   })
-  const task: media.EncodingTask = JSON.parse(body)
+  const task: media.EncodingTask = body.getJson()
   return task
 }

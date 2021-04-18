@@ -6,7 +6,7 @@ export class TaskLogger extends AbstractLogger {
   private _cache = new Set<LeveledLogEntry<any>>()
 
   public getAllEntries() {
-    return [...this._cache.entries()]
+    return Array.from(this._cache)
   }
 
   public flush() {
