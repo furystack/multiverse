@@ -66,7 +66,7 @@
     "build:frontends": "yarn workspace @frontend/core build",
     "build": "yarn build:common && yarn build:workers && yarn build:services && yarn build:frontends",
     "test:unit": "jest --verbose",
-    "test:cypress": "docker-compose up -d && docker-compose exec multiverse-auth node ./services/auth/dist/seed.js && yarn cypress run",
+    "test:cypress": "yarn seed && yarn cypress run",
     "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache",
     "seed": "yarn workspace @service/auth seed",
