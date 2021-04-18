@@ -73,8 +73,10 @@ export const CurrentUserMenu = Shade<
               fill: 'forwards',
             },
           )
-          container.style.opacity = '0'
-          container.style.display = 'none'
+          if (container.isConnected) {
+            container.style.opacity = '0'
+            container.style.display = 'none'
+          }
         }
       }),
       new ClickAwayService(element, () => getState().isOpened.setValue(false)),
