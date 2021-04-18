@@ -63,8 +63,7 @@ export class MediaMessaging {
   }
 
   public async dispose() {
-    /** */
-    this.channel && this.channel.close()
+    this.channel?.close()
     this.onEncodeTaskAdded.dispose()
     this.onEncodeTaskUpdated.dispose()
     this.onEncodeTaskRemoved.dispose()

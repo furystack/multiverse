@@ -1,5 +1,4 @@
 import { attachShutdownHandler, runPatches } from '@common/service-utils'
-import '@furystack/websocket-api'
 import { Injector } from '@furystack/inject'
 import { LogLevel, VerboseConsoleLogger } from '@furystack/logging'
 import { createInitialIndexes } from './patches'

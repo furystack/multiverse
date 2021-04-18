@@ -56,7 +56,7 @@ export const UploadSubtitles: RequestAction<{
         if (!(file instanceof Array)) {
           await promises.copyFile(file.path, join(targetPath, file.name as string))
           // Remove from temp
-          promises.unlink(file.path)
+          await promises.unlink(file.path)
         }
       }),
   )
