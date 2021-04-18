@@ -29,9 +29,9 @@ export class SessionService implements IdentityContext {
   private async init() {
     await usingAsync(this.operation(), async () => {
       try {
-        const { result: isAuthenticated } = await this.api.call({ method: 'GET', action: '/isAuthenticated' })
-        this.state.setValue(isAuthenticated ? 'authenticated' : 'unauthenticated')
-        if (isAuthenticated) {
+        const { result } = await this.api.call({ method: 'GET', action: '/isAuthenticated' })
+        this.state.setValue(result.isAuthenticated ? 'authenticated' : 'unauthenticated')
+        if (result.isAuthenticated) {
           const { result: usr } = await this.api.call({ method: 'GET', action: '/currentUser' })
           this.currentUser.setValue(usr)
         }
