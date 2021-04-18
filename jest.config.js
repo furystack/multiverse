@@ -4,7 +4,7 @@ module.exports = {
     // '<rootDir>/common/config',
     // '<rootDir>/common/frontend-utils',
     // '<rootDir>/common/models',
-    // '<rootDir>/common/service-utils',
+    '<rootDir>/common/service-utils',
 
     // '<rootDir>/frontends/core',
 
