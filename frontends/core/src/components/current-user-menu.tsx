@@ -138,8 +138,9 @@ export const CurrentUserMenu = Shade<
               title="Log out"
               icon={{ type: 'flaticon-essential', name: '320-login.svg' }}
               onclick={() => {
-                injector.getInstance(SessionService).logout()
                 history.pushState({}, 'Home', '/')
+                injector.getInstance(LocationService).updateState()
+                injector.getInstance(SessionService).logout()
               }}
             />
           </div>

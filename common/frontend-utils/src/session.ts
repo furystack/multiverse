@@ -66,7 +66,9 @@ export class SessionService implements IdentityContext {
 
   public async logout() {
     await usingAsync(this.operation(), async () => {
-      this.api.call({ method: 'POST', action: '/logout' })
+      this.api.call({ method: 'POST', action: '/logout' }).catch(() => {
+        // ignore
+      })
       this.currentUser.setValue(null)
       this.state.setValue('unauthenticated')
       this.notys.addNoty({
