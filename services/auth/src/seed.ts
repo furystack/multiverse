@@ -1,4 +1,4 @@
-import { PhysicalStore, StoreManager, FindOptions } from '@furystack/core'
+import { PhysicalStore, StoreManager, FindOptions, WithOptionalId } from '@furystack/core'
 import { HttpAuthenticationSettings } from '@furystack/rest-service'
 import { Injector } from '@furystack/inject'
 import { auth } from '@common/models'
@@ -11,10 +11,10 @@ import { setupStores } from './setup-stores'
  * @param instance The instance to be created if there is no instance present
  * @param store The physical store to use
  */
-export const getOrCreate = async <T>(
+export const getOrCreate = async <T, TId extends keyof T>(
   filter: FindOptions<T, Array<keyof T>>,
-  instance: Partial<T>,
-  store: PhysicalStore<T>,
+  instance: WithOptionalId<T, TId>,
+  store: PhysicalStore<T, TId>,
   i: Injector,
 ) => {
   const result = await store.find(filter)
@@ -25,7 +25,7 @@ export const getOrCreate = async <T>(
     logger.verbose({
       message: `Entity of type '${store.model.name}' not exists, adding: '${JSON.stringify(filter)}'`,
     })
-    await store.add(instance as T)
+    await store.add(instance)
     return instance
   } else {
     const message = `Seed filter contains '${result.length}' results for ${JSON.stringify(filter)}`
@@ -48,27 +48,28 @@ export const createUser = async ({
   displayName?: string
 }) => {
   const sm = i.getInstance(StoreManager)
-  const userStore = sm.getStoreFor(auth.User)
-  const profileStore = sm.getStoreFor(auth.Profile)
-  const ghAccountStore = sm.getStoreFor(auth.GithubAccount)
-  const googleAccountStore = sm.getStoreFor(auth.GoogleAccount)
+  const userStore = sm.getStoreFor(auth.User, '_id')
+  const profileStore = sm.getStoreFor(auth.Profile, '_id')
+  const ghAccountStore = sm.getStoreFor(auth.GithubAccount, '_id')
+  const googleAccountStore = sm.getStoreFor(auth.GoogleAccount, '_id')
 
-  const user = await getOrCreate(
+  const user = await getOrCreate<auth.User, '_id'>(
     { filter: { username: { $eq: email } } },
     {
       username: email,
       password: i.getInstance(HttpAuthenticationSettings).hashMethod(password),
       roles: userRoles,
+      registrationDate: new Date().toISOString(),
     },
     userStore,
     i,
   )
 
-  const profile = await getOrCreate(
+  const profile = await getOrCreate<auth.Profile, '_id'>(
     {
       filter: { username: { $eq: email } },
     },
-    { displayName: displayName || email, username: email },
+    { displayName: displayName || email, username: email, description: '', userSettings: { theme: 'dark' } },
     profileStore,
     i,
   )
@@ -87,7 +88,7 @@ export const createUser = async ({
     i,
   )
 
-  const githubAccount = await getOrCreate(
+  const githubAccount = await getOrCreate<auth.GithubAccount, '_id'>(
     {
       filter: { username: { $eq: email } },
     },
@@ -97,6 +98,7 @@ export const createUser = async ({
       githubApiPayload: {
         avatar_url: 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png',
       } as any,
+      accountLinkDate: new Date().toISOString(),
     },
     ghAccountStore,
     i,

@@ -8,12 +8,14 @@ export const PatchList = Shade<{}, { service: CollectionService<diag.Patch> }>({
   getInitialState: ({ injector }) => {
     return {
       service: new CollectionService<diag.Patch>(
-        (findOptions) =>
-          injector.getInstance(DiagApiService).call({
+        async (findOptions) => {
+          const { result } = await injector.getInstance(DiagApiService).call({
             method: 'GET',
             action: '/patches',
             query: { findOptions },
-          }),
+          })
+          return result
+        },
         { top: 20, order: { startDate: 'DESC' } },
       ),
     }

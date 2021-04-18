@@ -38,7 +38,11 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
     })
     return true
   }
-  const encodingTempDir = join(FileStores.mediaEncoderWorkerTemp, 'MULTIVERSE_ENCODING_TEMP', options.task._id)
+  const encodingTempDir = join(
+    FileStores.mediaEncoderWorkerTemp,
+    'MULTIVERSE_ENCODING_TEMP',
+    options.task._id as string,
+  )
   const taskLogger = options.injector.getInstance(TaskLogger)
 
   const encodingTempDirExists = await existsAsync(encodingTempDir)

@@ -12,13 +12,13 @@
               "$ref": "#/definitions/GetCollectionEndpoint%3CLogEntry%3E"
             },
             "/logEntries/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CLogEntry%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CLogEntry%2C%22_id%22%3E"
             },
             "/patches": {
               "$ref": "#/definitions/GetCollectionEndpoint%3CPatch%3E"
             },
             "/patches/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CPatch%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CPatch%2C%22_id%22%3E"
             }
           },
           "required": [
@@ -116,7 +116,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CLogEntry%2C(%22_id%22%7C%22level%22%7C%22scope%22%7C%22message%22%7C%22data%22%7C%22appName%22%7C%22creationDate%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CLogEntry%3E"
         }
       },
       "required": [
@@ -462,14 +462,24 @@
                 "$in": {
                   "type": "array",
                   "items": {
-                    "not": {},
+                    "anyOf": [
+                      {},
+                      {
+                        "not": {}
+                      }
+                    ],
                     "description": "Additional entry data"
                   }
                 },
                 "$nin": {
                   "type": "array",
                   "items": {
-                    "not": {},
+                    "anyOf": [
+                      {},
+                      {
+                        "not": {}
+                      }
+                    ],
                     "description": "Additional entry data"
                   }
                 }
@@ -582,7 +592,7 @@
       ],
       "description": "The verbosity level of a log entry"
     },
-    "GetCollectionResult<LogEntry,(\"_id\"|\"level\"|\"scope\"|\"message\"|\"data\"|\"appName\"|\"creationDate\")>": {
+    "GetCollectionResult<LogEntry>": {
       "type": "object",
       "properties": {
         "count": {
@@ -592,7 +602,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CLogEntry%2C(%22_id%22%7C%22level%22%7C%22scope%22%7C%22message%22%7C%22data%22%7C%22appName%22%7C%22creationDate%22)%3E"
+            "$ref": "#/definitions/LogEntry"
           },
           "description": "List of the selected entities"
         }
@@ -603,118 +613,6 @@
       ],
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
-    },
-    "PartialResult<LogEntry,(\"_id\"|\"level\"|\"scope\"|\"message\"|\"data\"|\"appName\"|\"creationDate\")>": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "level": {
-          "$ref": "#/definitions/LogLevel",
-          "description": "The verbosity level of the log entry"
-        },
-        "scope": {
-          "type": "string",
-          "description": "A well-defined scope for grouping entries, e.g. a component or service name."
-        },
-        "message": {
-          "type": "string",
-          "description": "The message string"
-        },
-        "data": {
-          "description": "Additional entry data"
-        },
-        "appName": {
-          "type": "string"
-        },
-        "creationDate": {
-          "type": "string",
-          "format": "date-time"
-        }
-      },
-      "required": [
-        "_id",
-        "level",
-        "scope",
-        "message",
-        "appName",
-        "creationDate"
-      ],
-      "additionalProperties": false
-    },
-    "GetEntityEndpoint<LogEntry>": {
-      "type": "object",
-      "properties": {
-        "query": {
-          "type": "object",
-          "properties": {
-            "select": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "_id",
-                  "level",
-                  "scope",
-                  "message",
-                  "data",
-                  "appName",
-                  "creationDate"
-                ]
-              },
-              "description": "The list of fields to select"
-            }
-          },
-          "additionalProperties": false
-        },
-        "url": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "#/definitions/LogLevel",
-                  "description": "The verbosity level of the log entry"
-                },
-                {
-                  "type": "string",
-                  "description": "A well-defined scope for grouping entries, e.g. a component or service name."
-                },
-                {
-                  "type": "string",
-                  "description": "The message string"
-                },
-                {
-                  "description": "Additional entry data"
-                },
-                {
-                  "type": "string",
-                  "format": "date-time"
-                }
-              ],
-              "description": "The entity's unique identifier"
-            }
-          },
-          "additionalProperties": false
-        },
-        "result": {
-          "$ref": "#/definitions/PartialResult%3CLogEntry%2Cany%3E"
-        }
-      },
-      "required": [
-        "query",
-        "url",
-        "result"
-      ],
-      "additionalProperties": false,
-      "description": "Endpoint model for getting a single entity"
-    },
-    "PartialResult<LogEntry,any>": {
-      "$ref": "#/definitions/LogEntry"
     },
     "LogEntry": {
       "type": "object",
@@ -755,6 +653,56 @@
       ],
       "additionalProperties": false
     },
+    "GetEntityEndpoint<LogEntry,\"_id\">": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "select": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "_id",
+                  "level",
+                  "scope",
+                  "message",
+                  "data",
+                  "appName",
+                  "creationDate"
+                ]
+              },
+              "description": "The list of fields to select"
+            }
+          },
+          "additionalProperties": false
+        },
+        "url": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The entity's unique identifier"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/LogEntry"
+        }
+      },
+      "required": [
+        "query",
+        "url",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Endpoint model for getting a single entity"
+    },
     "GetCollectionEndpoint<Patch>": {
       "type": "object",
       "properties": {
@@ -768,7 +716,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CPatch%2C(%22_id%22%7C%22appName%22%7C%22name%22%7C%22description%22%7C%22status%22%7C%22startDate%22%7C%22finishDate%22%7C%22error%22%7C%22errors%22%7C%22warns%22%7C%22updates%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CPatch%3E"
         }
       },
       "required": [
@@ -1270,13 +1218,23 @@
                 "$in": {
                   "type": "array",
                   "items": {
-                    "not": {}
+                    "anyOf": [
+                      {},
+                      {
+                        "not": {}
+                      }
+                    ]
                   }
                 },
                 "$nin": {
                   "type": "array",
                   "items": {
-                    "not": {}
+                    "anyOf": [
+                      {},
+                      {
+                        "not": {}
+                      }
+                    ]
                   }
                 }
               },
@@ -1518,7 +1476,7 @@
         }
       }
     },
-    "GetCollectionResult<Patch,(\"_id\"|\"appName\"|\"name\"|\"description\"|\"status\"|\"startDate\"|\"finishDate\"|\"error\"|\"errors\"|\"warns\"|\"updates\")>": {
+    "GetCollectionResult<Patch>": {
       "type": "object",
       "properties": {
         "count": {
@@ -1528,7 +1486,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CPatch%2C(%22_id%22%7C%22appName%22%7C%22name%22%7C%22description%22%7C%22status%22%7C%22startDate%22%7C%22finishDate%22%7C%22error%22%7C%22errors%22%7C%22warns%22%7C%22updates%22)%3E"
+            "$ref": "#/definitions/Patch"
           },
           "description": "List of the selected entities"
         }
@@ -1539,175 +1497,6 @@
       ],
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
-    },
-    "PartialResult<Patch,(\"_id\"|\"appName\"|\"name\"|\"description\"|\"status\"|\"startDate\"|\"finishDate\"|\"error\"|\"errors\"|\"warns\"|\"updates\")>": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "appName": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string",
-          "enum": [
-            "completed",
-            "failed"
-          ]
-        },
-        "startDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "finishDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "error": {},
-        "errors": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "message": {
-                "type": "string"
-              },
-              "stack": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "message",
-              "stack"
-            ],
-            "additionalProperties": false
-          }
-        },
-        "warns": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "updates": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": [
-        "_id",
-        "appName",
-        "name",
-        "description",
-        "status",
-        "startDate",
-        "finishDate"
-      ],
-      "additionalProperties": false
-    },
-    "GetEntityEndpoint<Patch>": {
-      "type": "object",
-      "properties": {
-        "query": {
-          "type": "object",
-          "properties": {
-            "select": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "_id",
-                  "appName",
-                  "name",
-                  "description",
-                  "status",
-                  "startDate",
-                  "finishDate",
-                  "error",
-                  "errors",
-                  "warns",
-                  "updates"
-                ]
-              },
-              "description": "The list of fields to select"
-            }
-          },
-          "additionalProperties": false
-        },
-        "url": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "string",
-                  "const": "completed"
-                },
-                {
-                  "type": "string",
-                  "const": "failed"
-                },
-                {
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string"
-                      },
-                      "stack": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "message",
-                      "stack"
-                    ],
-                    "additionalProperties": false
-                  }
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              ],
-              "description": "The entity's unique identifier"
-            }
-          },
-          "additionalProperties": false
-        },
-        "result": {
-          "$ref": "#/definitions/PartialResult%3CPatch%2Cany%3E"
-        }
-      },
-      "required": [
-        "query",
-        "url",
-        "result"
-      ],
-      "additionalProperties": false,
-      "description": "Endpoint model for getting a single entity"
-    },
-    "PartialResult<Patch,any>": {
-      "$ref": "#/definitions/Patch"
     },
     "Patch": {
       "type": "object",
@@ -1782,6 +1571,60 @@
         "finishDate"
       ],
       "additionalProperties": false
+    },
+    "GetEntityEndpoint<Patch,\"_id\">": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "select": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "_id",
+                  "appName",
+                  "name",
+                  "description",
+                  "status",
+                  "startDate",
+                  "finishDate",
+                  "error",
+                  "errors",
+                  "warns",
+                  "updates"
+                ]
+              },
+              "description": "The list of fields to select"
+            }
+          },
+          "additionalProperties": false
+        },
+        "url": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The entity's unique identifier"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/Patch"
+        }
+      },
+      "required": [
+        "query",
+        "url",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Endpoint model for getting a single entity"
     }
   }
 }

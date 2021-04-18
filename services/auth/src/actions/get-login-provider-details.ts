@@ -13,16 +13,16 @@ export const GetLoginProviderDetails: RequestAction<{
   const storeManager = injector.getInstance(StoreManager)
 
   const [loadedUser] = await storeManager
-    .getStoreFor(auth.User)
+    .getStoreFor(auth.User, '_id')
     .find({ top: 1, filter: { username: { $eq: currentUser.username } } })
   const hasPassword = loadedUser.password ? true : false
 
   const [google] = await storeManager
-    .getStoreFor(auth.GoogleAccount)
+    .getStoreFor(auth.GoogleAccount, '_id')
     .find({ top: 1, filter: { username: { $eq: currentUser.username } } })
 
   const [github] = await storeManager
-    .getStoreFor(auth.GithubAccount)
+    .getStoreFor(auth.GithubAccount, '_id')
     .find({ top: 1, filter: { username: { $eq: currentUser.username } } })
 
   return JsonResult({ hasPassword, google, github })

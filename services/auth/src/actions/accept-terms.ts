@@ -7,7 +7,7 @@ export const AcceptTermsAction: RequestAction<{ result: { success: boolean } }> 
   if (!user.roles.includes('terms-accepted')) {
     await injector
       .getInstance(StoreManager)
-      .getStoreFor(auth.User)
+      .getStoreFor(auth.User, '_id')
       .update(user._id, { roles: [...user.roles, 'terms-accepted'] })
   }
   await injector.logger.withScope('accept-terms').information({

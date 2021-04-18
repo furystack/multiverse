@@ -376,6 +376,9 @@
     "Session": {
       "type": "object",
       "properties": {
+        "_id": {
+          "type": "string"
+        },
         "sessionId": {
           "type": "string"
         },
@@ -384,6 +387,7 @@
         }
       },
       "required": [
+        "_id",
         "sessionId",
         "username"
       ],

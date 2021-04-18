@@ -6,14 +6,14 @@ import { media } from '..'
 export interface MediaApi extends RestApi {
   GET: {
     '/movies': GetCollectionEndpoint<Movie>
-    '/movies/:id': GetEntityEndpoint<Movie>
+    '/movies/:id': GetEntityEndpoint<Movie, '_id'>
     '/movies/:movieId/subtitles': { url: { movieId: string }; result: string[] }
     '/movies/:movieId/subtitles/:subtitleName': {
       url: { movieId: string; subtitleName: string }
       result: unknown
     }
     '/movie-libraries': GetCollectionEndpoint<MovieLibrary>
-    '/movie-libraries/:id': GetEntityEndpoint<MovieLibrary>
+    '/movie-libraries/:id': GetEntityEndpoint<MovieLibrary, '_id'>
     '/stream-original/:movieId/:accessToken?': { url: { movieId: string; accessToken?: string }; result: unknown }
     '/watch-stream/:id/:codec/:mode/:chunk?': {
       url: { id: string; codec: EncodingType['codec']; mode: EncodingType['mode']; chunk?: string }
@@ -21,7 +21,7 @@ export interface MediaApi extends RestApi {
     }
     '/my-watch-progress': GetCollectionEndpoint<MovieWatchHistoryEntry>
     '/encode/tasks': GetCollectionEndpoint<EncodingTask>
-    '/encode/tasks/:id': GetEntityEndpoint<EncodingTask>
+    '/encode/tasks/:id': GetEntityEndpoint<EncodingTask, '_id'>
     '/encode/get-worker-task/:taskId': {
       url: { taskId: string }
       result: media.EncodingTask
@@ -29,7 +29,7 @@ export interface MediaApi extends RestApi {
     }
   }
   POST: {
-    '/movie-libraries': PostEndpoint<MovieLibrary>
+    '/movie-libraries': PostEndpoint<Pick<MovieLibrary, '_id' | 'name' | 'path' | 'icon'>, '_id'>
     '/save-watch-progress': { body: { movieId: string; watchedSeconds: number }; result: { success: boolean } }
     '/upload-encoded/:movieId/:accessToken': {
       url: { movieId: string; accessToken: string }
@@ -57,7 +57,7 @@ export interface MediaApi extends RestApi {
     '/movies/:movieId/re-extract-subtitles': { url: { movieId: string }; result: { success: boolean } }
   }
   PATCH: {
-    '/movies/:id': PatchEndpoint<Movie>
-    '/movie-libraries/:id': PatchEndpoint<MovieLibrary>
+    '/movies/:id': PatchEndpoint<Movie, '_id'>
+    '/movie-libraries/:id': PatchEndpoint<MovieLibrary, '_id'>
   }
 }

@@ -25,7 +25,7 @@ export class DbLogger extends AbstractLogger implements Disposable {
       .withScope(this.constructor.name)
       .information({ message: 'Disposing, no logs will be saved to the DB...' })
   }
-  public readonly store: MongodbStore<diag.LogEntry<any>>
+  public readonly store: MongodbStore<diag.LogEntry<any>, '_id'>
   public async addEntry<T>(entry: import('@furystack/logging').LeveledLogEntry<T>): Promise<void> {
     const { name: appName } = this.injector.getApplicationContext()
     if (!this.isDisposing) {
@@ -41,7 +41,7 @@ export class DbLogger extends AbstractLogger implements Disposable {
 
   constructor(private injector: Injector, private readonly settings: DbLoggerSettings) {
     super()
-    this.store = injector.getInstance(StoreManager).getStoreFor(diag.LogEntry)
+    this.store = injector.getInstance(StoreManager).getStoreFor(diag.LogEntry, '_id')
   }
 }
 
@@ -65,7 +65,7 @@ Injector.prototype.useDbLogger = function (settings) {
   )
 
   this.setupRepository((repo) =>
-    repo.createDataSet(diag.LogEntry, {
+    repo.createDataSet(diag.LogEntry, '_id', {
       authorizeAdd: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
       authorizeRemove: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
       authorizeUpdate: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),

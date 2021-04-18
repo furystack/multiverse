@@ -15,7 +15,7 @@ export const AttachGoogleAccountAction: RequestAction<{
   const logger = injector.logger.withScope('AttachGoogleAccountAction')
 
   const { password, ...currentUser } = (await injector.getCurrentUser()) as auth.User
-  const googleAcccounts = injector.getInstance(StoreManager).getStoreFor(auth.GoogleAccount)
+  const googleAcccounts = injector.getInstance(StoreManager).getStoreFor(auth.GoogleAccount, '_id')
   const { token } = await getBody()
   const registrationDate = new Date().toISOString()
 

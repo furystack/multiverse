@@ -19,7 +19,7 @@ export const SuggestUser = Shade<{
           props.onSelectUser(user)
         }}
         getEntries={async (term) => {
-          const users = await injector.getInstance(AuthApiService).call({
+          const { result: users } = await injector.getInstance(AuthApiService).call({
             method: 'GET',
             action: '/profiles',
             query: {

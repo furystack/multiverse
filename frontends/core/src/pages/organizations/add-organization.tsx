@@ -36,7 +36,7 @@ export const AddOrganizationPage = Shade<{}, Omit<auth.Organization, '_id'>>({
         }
         onSubmit={async (ev) => {
           ev.preventDefault()
-          const created = await injector.getInstance(AuthApiService).call({
+          const { result: created } = await injector.getInstance(AuthApiService).call({
             method: 'POST',
             action: '/organizations',
             body: {

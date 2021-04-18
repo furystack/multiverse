@@ -15,6 +15,6 @@ import { setupRepository } from './setup-repository'
   injector.useDbLogger({ minLevel: LogLevel.Information }).useLogging(VerboseConsoleLogger)
 
   runPatches({ injector, patches: [createInitialIndexes] }).then(() => {
-    injector.setupRepository((repo) => repo.createDataSet(diag.Patch, {}))
+    injector.setupRepository((repo) => repo.createDataSet(diag.Patch, '_id', {}))
   })
 })()

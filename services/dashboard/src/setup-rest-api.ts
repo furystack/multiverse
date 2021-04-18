@@ -16,15 +16,15 @@ export const setupRestApi = (injector: Injector) => {
     root: '/api/dashboard',
     api: {
       GET: {
-        '/boards': createGetCollectionEndpoint({ model: dashboard.Dashboard }),
-        '/boards/:id': createGetEntityEndpoint({ model: dashboard.Dashboard }),
+        '/boards': createGetCollectionEndpoint({ model: dashboard.Dashboard, primaryKey: '_id' }),
+        '/boards/:id': createGetEntityEndpoint({ model: dashboard.Dashboard, primaryKey: '_id' }),
         '/weather-forecast': Authenticate()(GetWeatherForecastAction),
       },
       POST: {
-        '/boards': createPostEndpoint({ model: dashboard.Dashboard }),
+        '/boards': createPostEndpoint({ model: dashboard.Dashboard, primaryKey: '_id' }),
       },
       PATCH: {
-        '/boards/:id': createPatchEndpoint({ model: dashboard.Dashboard }),
+        '/boards/:id': createPatchEndpoint({ model: dashboard.Dashboard, primaryKey: '_id' }),
       },
     },
     cors: {

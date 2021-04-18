@@ -23,7 +23,7 @@ export const runPatches = async (options: { injector: Injector; patches: PatchEn
       collection: databases.diag.patches,
     }),
   )
-  const patchStore = options.injector.getInstance(StoreManager).getStoreFor(diag.Patch)
+  const patchStore = options.injector.getInstance(StoreManager).getStoreFor(diag.Patch, '_id')
   for (const patch of options.patches) {
     if (patch.mode === 'once') {
       const existing = await patchStore.find({
@@ -46,6 +46,7 @@ export const runPatches = async (options: { injector: Injector; patches: PatchEn
         ...result,
         appName,
         name: patch.patchName,
+        description: patch.patchDescription,
         startDate,
         finishDate,
         status: 'completed',
@@ -59,6 +60,7 @@ export const runPatches = async (options: { injector: Injector; patches: PatchEn
       const finishDate = new Date()
       await patchStore.add({
         name: patch.patchName,
+        description: patch.patchDescription,
         appName,
         startDate,
         finishDate,

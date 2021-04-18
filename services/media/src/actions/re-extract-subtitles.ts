@@ -8,7 +8,7 @@ export const ReExtractSubtitles: RequestAction<{ url: { movieId: string }; resul
   getUrlParams,
 }) => {
   const { movieId } = getUrlParams()
-  const movie = await injector.getDataSetFor(media.Movie).get(injector, movieId)
+  const movie = await injector.getDataSetFor(media.Movie, '_id').get(injector, movieId)
   if (!movie) {
     throw new RequestError('Movie not found', 404)
   }

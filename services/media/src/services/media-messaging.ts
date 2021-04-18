@@ -13,7 +13,7 @@ export class MediaMessaging {
   private isInitialized = false
 
   private onEncodeTaskAdded = this.injector
-    .getDataSetFor(media.EncodingTask)
+    .getDataSetFor(media.EncodingTask, '_id')
     .onEntityAdded.subscribe(async ({ injector, entity }) => {
       await this.init()
       await this.getChannel().publish(
@@ -35,7 +35,7 @@ export class MediaMessaging {
     })
 
   private readonly onEncodeTaskUpdated = this.injector
-    .getDataSetFor(media.EncodingTask)
+    .getDataSetFor(media.EncodingTask, '_id')
     .onEntityUpdated.subscribe(({ injector, id, change }) => {
       injector.getInstance(WebSocketApi).broadcast(async ({ injector: socketInjector, ws }) => {
         if (await socketInjector.isAuthorized('movie-admin')) {
@@ -45,7 +45,7 @@ export class MediaMessaging {
     })
 
   private readonly onEncodeTaskRemoved = this.injector
-    .getDataSetFor(media.EncodingTask)
+    .getDataSetFor(media.EncodingTask, '_id')
     .onEntityRemoved.subscribe(({ injector, key }) => {
       injector.getInstance(WebSocketApi).broadcast(async ({ injector: socketInjector, ws }) => {
         if (await socketInjector.isAuthorized('movie-admin')) {

@@ -33,7 +33,7 @@ export const ReplenishPage = Shade<
             }
             try {
               const state = getState()
-              const replenishment = await injector.getInstance(XpenseApiService).call({
+              const { result: replenishment } = await injector.getInstance(XpenseApiService).call({
                 method: 'POST',
                 action: '/accounts/:accountId/replenish',
                 url: { accountId: props.account._id },

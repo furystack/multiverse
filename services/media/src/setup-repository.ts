@@ -6,7 +6,7 @@ import { FindOptions, IdentityContext } from '@furystack/core'
 export const setupRepository = (injector: Injector) => {
   injector.setupRepository((repo) =>
     repo
-      .createDataSet(media.Movie, {
+      .createDataSet(media.Movie, '_id', {
         // ToDo: authorize update with Movie Admin role
         addFilter: async ({ injector: i, filter }) => {
           const identityContext = i.getInstance(IdentityContext)
@@ -19,7 +19,7 @@ export const setupRepository = (injector: Injector) => {
             return filter
           }
 
-          const movieLibs = await i.getDataSetFor(media.MovieLibrary).find(i, { select: ['_id'] })
+          const movieLibs = await i.getDataSetFor(media.MovieLibrary, '_id').find(i, { select: ['_id'] })
           const movieLibIds = movieLibs.map((lib) => lib._id)
 
           return {
@@ -32,7 +32,7 @@ export const setupRepository = (injector: Injector) => {
         authorizeGetEntity: async ({ injector: i, entity }) => {
           try {
             const isMovieAdmin = await i.isAuthorized('movie-admin')
-            isMovieAdmin || (await i.getDataSetFor(media.MovieLibrary).get(i, entity.libraryId))
+            isMovieAdmin || (await i.getDataSetFor(media.MovieLibrary, '_id').get(i, entity.libraryId))
           } catch (error) {
             return { isAllowed: false, message: 'In order to view this movie, you need permisson to its library' }
           }
@@ -40,7 +40,7 @@ export const setupRepository = (injector: Injector) => {
           return { isAllowed: true }
         },
       })
-      .createDataSet(media.MovieLibrary, {
+      .createDataSet(media.MovieLibrary, '_id', {
         addFilter: async ({ injector: i, filter }) => {
           const currentUser = await i.getCurrentUser()
           const orgs = await getOrgsForCurrentUser(i, currentUser)
@@ -82,7 +82,7 @@ export const setupRepository = (injector: Injector) => {
           }
         },
       })
-      .createDataSet(media.MovieWatchHistoryEntry, {
+      .createDataSet(media.MovieWatchHistoryEntry, '_id', {
         modifyOnAdd: async ({ entity }) => {
           return { ...entity, startDate: new Date() }
         },
@@ -104,7 +104,7 @@ export const setupRepository = (injector: Injector) => {
           return { isAllowed: false, message: 'That entity belongs to another user' }
         },
       })
-      .createDataSet(media.EncodingTask, {
+      .createDataSet(media.EncodingTask, '_id', {
         modifyOnAdd: async ({ entity }) => ({ ...entity, creationDate: new Date() }),
         modifyOnUpdate: async ({ entity }) => ({ ...entity, modificationDate: new Date() }),
       }),

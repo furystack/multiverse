@@ -38,7 +38,7 @@ export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }
                   <LazyLoad
                     loader={<Init message="Loading Admins..." />}
                     component={async () => {
-                      const users = await injector.getInstance(AuthApiService).call({
+                      const { result: users } = await injector.getInstance(AuthApiService).call({
                         method: 'GET',
                         action: '/profiles',
                         query: { findOptions: { filter: { username: { $in: [...props.organization.adminNames] } } } },
@@ -101,7 +101,7 @@ export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }
                   <LazyLoad
                     loader={<Init message="Loading Members..." />}
                     component={async () => {
-                      const users = await injector.getInstance(AuthApiService).call({
+                      const { result: users } = await injector.getInstance(AuthApiService).call({
                         method: 'GET',
                         action: '/profiles',
                         query: { findOptions: { filter: { username: { $in: [...props.organization.memberNames] } } } },

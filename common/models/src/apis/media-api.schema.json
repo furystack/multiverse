@@ -12,7 +12,7 @@
               "$ref": "#/definitions/GetCollectionEndpoint%3CMovie%3E"
             },
             "/movies/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CMovie%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CMovie%2C%22_id%22%3E"
             },
             "/movies/:movieId/subtitles": {
               "type": "object",
@@ -73,7 +73,7 @@
               "$ref": "#/definitions/GetCollectionEndpoint%3CMovieLibrary%3E"
             },
             "/movie-libraries/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CMovieLibrary%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CMovieLibrary%2C%22_id%22%3E"
             },
             "/stream-original/:movieId/:accessToken?": {
               "type": "object",
@@ -147,7 +147,7 @@
               "$ref": "#/definitions/GetCollectionEndpoint%3CEncodingTask%3E"
             },
             "/encode/tasks/:id": {
-              "$ref": "#/definitions/GetEntityEndpoint%3CEncodingTask%3E"
+              "$ref": "#/definitions/GetEntityEndpoint%3CEncodingTask%2C%22_id%22%3E"
             },
             "/encode/get-worker-task/:taskId": {
               "type": "object",
@@ -166,11 +166,24 @@
                 },
                 "result": {
                   "$ref": "#/definitions/EncodingTask"
+                },
+                "headers": {
+                  "type": "object",
+                  "properties": {
+                    "task-token": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "task-token"
+                  ],
+                  "additionalProperties": false
                 }
               },
               "required": [
                 "url",
-                "result"
+                "result",
+                "headers"
               ],
               "additionalProperties": false
             }
@@ -195,7 +208,7 @@
           "type": "object",
           "properties": {
             "/movie-libraries": {
-              "$ref": "#/definitions/PostEndpoint%3CMovieLibrary%3E"
+              "$ref": "#/definitions/PostEndpoint%3CPick%3CMovieLibrary%2C(%22_id%22%7C%22name%22%7C%22path%22%7C%22icon%22)%3E%2C%22_id%22%3E"
             },
             "/save-watch-progress": {
               "type": "object",
@@ -528,10 +541,10 @@
           "type": "object",
           "properties": {
             "/movies/:id": {
-              "$ref": "#/definitions/PatchEndpoint%3CMovie%3E"
+              "$ref": "#/definitions/PatchEndpoint%3CMovie%2C%22_id%22%3E"
             },
             "/movie-libraries/:id": {
-              "$ref": "#/definitions/PatchEndpoint%3CMovieLibrary%3E"
+              "$ref": "#/definitions/PatchEndpoint%3CMovieLibrary%2C%22_id%22%3E"
             }
           },
           "required": [
@@ -595,7 +608,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CMovie%2C(%22_id%22%7C%22path%22%7C%22libraryId%22%7C%22omdbMeta%22%7C%22ffprobe%22%7C%22metadata%22%7C%22availableFormats%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CMovie%3E"
         }
       },
       "required": [
@@ -1635,7 +1648,7 @@
       ],
       "additionalProperties": false
     },
-    "GetCollectionResult<Movie,(\"_id\"|\"path\"|\"libraryId\"|\"omdbMeta\"|\"ffprobe\"|\"metadata\"|\"availableFormats\")>": {
+    "GetCollectionResult<Movie>": {
       "type": "object",
       "properties": {
         "count": {
@@ -1645,7 +1658,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CMovie%2C(%22_id%22%7C%22path%22%7C%22libraryId%22%7C%22omdbMeta%22%7C%22ffprobe%22%7C%22metadata%22%7C%22availableFormats%22)%3E"
+            "$ref": "#/definitions/Movie"
           },
           "description": "List of the selected entities"
         }
@@ -1656,148 +1669,6 @@
       ],
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
-    },
-    "PartialResult<Movie,(\"_id\"|\"path\"|\"libraryId\"|\"omdbMeta\"|\"ffprobe\"|\"metadata\"|\"availableFormats\")>": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "path": {
-          "type": "string"
-        },
-        "libraryId": {
-          "type": "string"
-        },
-        "omdbMeta": {
-          "$ref": "#/definitions/OmdbMetadata"
-        },
-        "ffprobe": {
-          "$ref": "#/definitions/FfprobeMetadata"
-        },
-        "metadata": {
-          "$ref": "#/definitions/MovieUniversalMetadata"
-        },
-        "availableFormats": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "codec": {
-                "type": "string",
-                "enum": [
-                  "libvpx-vp9",
-                  "x264"
-                ]
-              },
-              "mode": {
-                "type": "string",
-                "const": "dash"
-              }
-            },
-            "required": [
-              "codec",
-              "mode"
-            ],
-            "additionalProperties": false
-          }
-        }
-      },
-      "required": [
-        "_id",
-        "path",
-        "libraryId",
-        "ffprobe",
-        "metadata"
-      ],
-      "additionalProperties": false
-    },
-    "GetEntityEndpoint<Movie>": {
-      "type": "object",
-      "properties": {
-        "query": {
-          "type": "object",
-          "properties": {
-            "select": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "_id",
-                  "path",
-                  "libraryId",
-                  "omdbMeta",
-                  "ffprobe",
-                  "metadata",
-                  "availableFormats"
-                ]
-              },
-              "description": "The list of fields to select"
-            }
-          },
-          "additionalProperties": false
-        },
-        "url": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "#/definitions/OmdbMetadata"
-                },
-                {
-                  "$ref": "#/definitions/FfprobeMetadata"
-                },
-                {
-                  "$ref": "#/definitions/MovieUniversalMetadata"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "codec": {
-                        "type": "string",
-                        "enum": [
-                          "libvpx-vp9",
-                          "x264"
-                        ]
-                      },
-                      "mode": {
-                        "type": "string",
-                        "const": "dash"
-                      }
-                    },
-                    "required": [
-                      "codec",
-                      "mode"
-                    ],
-                    "additionalProperties": false
-                  }
-                }
-              ],
-              "description": "The entity's unique identifier"
-            }
-          },
-          "additionalProperties": false
-        },
-        "result": {
-          "$ref": "#/definitions/PartialResult%3CMovie%2Cany%3E"
-        }
-      },
-      "required": [
-        "query",
-        "url",
-        "result"
-      ],
-      "additionalProperties": false,
-      "description": "Endpoint model for getting a single entity"
-    },
-    "PartialResult<Movie,any>": {
-      "$ref": "#/definitions/Movie"
     },
     "Movie": {
       "type": "object",
@@ -1854,6 +1725,56 @@
       ],
       "additionalProperties": false
     },
+    "GetEntityEndpoint<Movie,\"_id\">": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "select": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "_id",
+                  "path",
+                  "libraryId",
+                  "omdbMeta",
+                  "ffprobe",
+                  "metadata",
+                  "availableFormats"
+                ]
+              },
+              "description": "The list of fields to select"
+            }
+          },
+          "additionalProperties": false
+        },
+        "url": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The entity's unique identifier"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/Movie"
+        }
+      },
+      "required": [
+        "query",
+        "url",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Endpoint model for getting a single entity"
+    },
     "GetCollectionEndpoint<MovieLibrary>": {
       "type": "object",
       "properties": {
@@ -1867,7 +1788,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CMovieLibrary%2C(%22_id%22%7C%22icon%22%7C%22name%22%7C%22path%22%7C%22owner%22%7C%22encoding%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CMovieLibrary%3E"
         }
       },
       "required": [
@@ -2416,7 +2337,7 @@
       ],
       "additionalProperties": false
     },
-    "GetCollectionResult<MovieLibrary,(\"_id\"|\"icon\"|\"name\"|\"path\"|\"owner\"|\"encoding\")>": {
+    "GetCollectionResult<MovieLibrary>": {
       "type": "object",
       "properties": {
         "count": {
@@ -2426,7 +2347,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CMovieLibrary%2C(%22_id%22%7C%22icon%22%7C%22name%22%7C%22path%22%7C%22owner%22%7C%22encoding%22)%3E"
+            "$ref": "#/definitions/MovieLibrary"
           },
           "description": "List of the selected entities"
         }
@@ -2437,112 +2358,6 @@
       ],
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
-    },
-    "PartialResult<MovieLibrary,(\"_id\"|\"icon\"|\"name\"|\"path\"|\"owner\"|\"encoding\")>": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "icon": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "path": {
-          "type": "string"
-        },
-        "owner": {
-          "$ref": "#/definitions/Owner"
-        },
-        "encoding": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/EncodingType"
-            },
-            {
-              "type": "boolean",
-              "const": false
-            }
-          ]
-        }
-      },
-      "required": [
-        "_id",
-        "icon",
-        "name",
-        "path",
-        "owner",
-        "encoding"
-      ],
-      "additionalProperties": false
-    },
-    "GetEntityEndpoint<MovieLibrary>": {
-      "type": "object",
-      "properties": {
-        "query": {
-          "type": "object",
-          "properties": {
-            "select": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "_id",
-                  "icon",
-                  "name",
-                  "path",
-                  "owner",
-                  "encoding"
-                ]
-              },
-              "description": "The list of fields to select"
-            }
-          },
-          "additionalProperties": false
-        },
-        "url": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "#/definitions/Owner"
-                },
-                {
-                  "$ref": "#/definitions/EncodingType"
-                },
-                {
-                  "type": "boolean",
-                  "const": false
-                }
-              ],
-              "description": "The entity's unique identifier"
-            }
-          },
-          "required": [
-            "id"
-          ],
-          "additionalProperties": false
-        },
-        "result": {
-          "$ref": "#/definitions/PartialResult%3CMovieLibrary%2Cany%3E"
-        }
-      },
-      "required": [
-        "query",
-        "url",
-        "result"
-      ],
-      "additionalProperties": false,
-      "description": "Endpoint model for getting a single entity"
-    },
-    "PartialResult<MovieLibrary,any>": {
-      "$ref": "#/definitions/MovieLibrary"
     },
     "MovieLibrary": {
       "type": "object",
@@ -2584,6 +2399,55 @@
       ],
       "additionalProperties": false
     },
+    "GetEntityEndpoint<MovieLibrary,\"_id\">": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "select": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "_id",
+                  "icon",
+                  "name",
+                  "path",
+                  "owner",
+                  "encoding"
+                ]
+              },
+              "description": "The list of fields to select"
+            }
+          },
+          "additionalProperties": false
+        },
+        "url": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The entity's unique identifier"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/MovieLibrary"
+        }
+      },
+      "required": [
+        "query",
+        "url",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Endpoint model for getting a single entity"
+    },
     "GetCollectionEndpoint<MovieWatchHistoryEntry>": {
       "type": "object",
       "properties": {
@@ -2597,7 +2461,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CMovieWatchHistoryEntry%2C(%22_id%22%7C%22userId%22%7C%22movieId%22%7C%22startDate%22%7C%22lastWatchDate%22%7C%22watchedSeconds%22%7C%22completed%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CMovieWatchHistoryEntry%3E"
         }
       },
       "required": [
@@ -3037,7 +2901,7 @@
         }
       }
     },
-    "GetCollectionResult<MovieWatchHistoryEntry,(\"_id\"|\"userId\"|\"movieId\"|\"startDate\"|\"lastWatchDate\"|\"watchedSeconds\"|\"completed\")>": {
+    "GetCollectionResult<MovieWatchHistoryEntry>": {
       "type": "object",
       "properties": {
         "count": {
@@ -3047,7 +2911,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CMovieWatchHistoryEntry%2C(%22_id%22%7C%22userId%22%7C%22movieId%22%7C%22startDate%22%7C%22lastWatchDate%22%7C%22watchedSeconds%22%7C%22completed%22)%3E"
+            "$ref": "#/definitions/MovieWatchHistoryEntry"
           },
           "description": "List of the selected entities"
         }
@@ -3059,7 +2923,7 @@
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
     },
-    "PartialResult<MovieWatchHistoryEntry,(\"_id\"|\"userId\"|\"movieId\"|\"startDate\"|\"lastWatchDate\"|\"watchedSeconds\"|\"completed\")>": {
+    "MovieWatchHistoryEntry": {
       "type": "object",
       "properties": {
         "_id": {
@@ -3110,7 +2974,7 @@
           "additionalProperties": false
         },
         "result": {
-          "$ref": "#/definitions/GetCollectionResult%3CEncodingTask%2C(%22_id%22%7C%22authToken%22%7C%22mediaInfo%22%7C%22status%22%7C%22workerInfo%22%7C%22percent%22%7C%22creationDate%22%7C%22modificationDate%22%7C%22error%22%7C%22log%22%7C%22startDate%22%7C%22finishDate%22)%3E"
+          "$ref": "#/definitions/GetCollectionResult%3CEncodingTask%3E"
         }
       },
       "required": [
@@ -3742,15 +3606,6 @@
             {
               "type": "object",
               "properties": {
-                "$regex": {
-                  "type": "string"
-                }
-              },
-              "additionalProperties": false
-            },
-            {
-              "type": "object",
-              "properties": {
                 "$eq": {
                   "type": "string",
                   "format": "date-time"
@@ -3768,14 +3623,28 @@
                 "$in": {
                   "type": "array",
                   "items": {
-                    "type": "string",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "not": {}
+                      }
+                    ],
                     "format": "date-time"
                   }
                 },
                 "$nin": {
                   "type": "array",
                   "items": {
-                    "type": "string",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "not": {}
+                      }
+                    ],
                     "format": "date-time"
                   }
                 }
@@ -3800,13 +3669,23 @@
                 "$in": {
                   "type": "array",
                   "items": {
-                    "not": {}
+                    "anyOf": [
+                      {},
+                      {
+                        "not": {}
+                      }
+                    ]
                   }
                 },
                 "$nin": {
                   "type": "array",
                   "items": {
-                    "not": {}
+                    "anyOf": [
+                      {},
+                      {
+                        "not": {}
+                      }
+                    ]
                   }
                 }
               },
@@ -4019,7 +3898,7 @@
       ],
       "description": "The verbosity level of a log entry"
     },
-    "GetCollectionResult<EncodingTask,(\"_id\"|\"authToken\"|\"mediaInfo\"|\"status\"|\"workerInfo\"|\"percent\"|\"creationDate\"|\"modificationDate\"|\"error\"|\"log\"|\"startDate\"|\"finishDate\")>": {
+    "GetCollectionResult<EncodingTask>": {
       "type": "object",
       "properties": {
         "count": {
@@ -4029,7 +3908,7 @@
         "entries": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PartialResult%3CEncodingTask%2C(%22_id%22%7C%22authToken%22%7C%22mediaInfo%22%7C%22status%22%7C%22workerInfo%22%7C%22percent%22%7C%22creationDate%22%7C%22modificationDate%22%7C%22error%22%7C%22log%22%7C%22startDate%22%7C%22finishDate%22)%3E"
+            "$ref": "#/definitions/EncodingTask"
           },
           "description": "List of the selected entities"
         }
@@ -4040,219 +3919,6 @@
       ],
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
-    },
-    "PartialResult<EncodingTask,(\"_id\"|\"authToken\"|\"mediaInfo\"|\"status\"|\"workerInfo\"|\"percent\"|\"creationDate\"|\"modificationDate\"|\"error\"|\"log\"|\"startDate\"|\"finishDate\")>": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "authToken": {
-          "type": "string"
-        },
-        "mediaInfo": {
-          "type": "object",
-          "properties": {
-            "movie": {
-              "$ref": "#/definitions/Movie",
-              "description": "The Movie entity"
-            },
-            "library": {
-              "$ref": "#/definitions/MovieLibrary",
-              "description": "The related movie library"
-            }
-          },
-          "required": [
-            "movie",
-            "library"
-          ],
-          "additionalProperties": false,
-          "description": "Generic info about the media to encode"
-        },
-        "status": {
-          "type": "string",
-          "enum": [
-            "pending",
-            "inProgress",
-            "finished",
-            "failed",
-            "cancelled"
-          ],
-          "description": "The current status of the task"
-        },
-        "workerInfo": {
-          "type": "object",
-          "properties": {
-            "ip": {
-              "type": "string",
-              "description": "The IP address"
-            }
-          },
-          "required": [
-            "ip"
-          ],
-          "additionalProperties": false,
-          "description": "Generic info about the worker who works on the task"
-        },
-        "percent": {
-          "type": "number",
-          "description": "Shows how the progress of the encoding goes, reported by the worker agent"
-        },
-        "creationDate": {
-          "type": "string",
-          "description": "The task creation date"
-        },
-        "modificationDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "error": {},
-        "log": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/LeveledLogEntry%3Cany%3E"
-          }
-        },
-        "startDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "finishDate": {
-          "type": "string",
-          "format": "date-time"
-        }
-      },
-      "required": [
-        "_id",
-        "authToken",
-        "mediaInfo",
-        "status",
-        "percent",
-        "creationDate",
-        "modificationDate"
-      ],
-      "additionalProperties": false
-    },
-    "GetEntityEndpoint<EncodingTask>": {
-      "type": "object",
-      "properties": {
-        "query": {
-          "type": "object",
-          "properties": {
-            "select": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "_id",
-                  "authToken",
-                  "mediaInfo",
-                  "status",
-                  "workerInfo",
-                  "percent",
-                  "creationDate",
-                  "modificationDate",
-                  "error",
-                  "log",
-                  "startDate",
-                  "finishDate"
-                ]
-              },
-              "description": "The list of fields to select"
-            }
-          },
-          "additionalProperties": false
-        },
-        "url": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "movie": {
-                      "$ref": "#/definitions/Movie",
-                      "description": "The Movie entity"
-                    },
-                    "library": {
-                      "$ref": "#/definitions/MovieLibrary",
-                      "description": "The related movie library"
-                    }
-                  },
-                  "required": [
-                    "movie",
-                    "library"
-                  ],
-                  "additionalProperties": false,
-                  "description": "Generic info about the media to encode"
-                },
-                {
-                  "type": "string",
-                  "enum": [
-                    "pending",
-                    "inProgress",
-                    "finished",
-                    "failed",
-                    "cancelled"
-                  ],
-                  "description": "The current status of the task"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "ip": {
-                      "type": "string",
-                      "description": "The IP address"
-                    }
-                  },
-                  "required": [
-                    "ip"
-                  ],
-                  "additionalProperties": false,
-                  "description": "Generic info about the worker who works on the task"
-                },
-                {
-                  "type": "number",
-                  "description": "Shows how the progress of the encoding goes, reported by the worker agent"
-                },
-                {
-                  "type": "string",
-                  "description": "The task creation date"
-                },
-                {
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/LeveledLogEntry%3Cany%3E"
-                  }
-                }
-              ],
-              "description": "The entity's unique identifier"
-            }
-          },
-          "additionalProperties": false
-        },
-        "result": {
-          "$ref": "#/definitions/PartialResult%3CEncodingTask%2Cany%3E"
-        }
-      },
-      "required": [
-        "query",
-        "url",
-        "result"
-      ],
-      "additionalProperties": false,
-      "description": "Endpoint model for getting a single entity"
-    },
-    "PartialResult<EncodingTask,any>": {
-      "$ref": "#/definitions/EncodingTask"
     },
     "EncodingTask": {
       "type": "object",
@@ -4342,19 +4008,73 @@
         "mediaInfo",
         "status",
         "percent",
-        "creationDate",
-        "modificationDate"
+        "creationDate"
       ],
       "additionalProperties": false
     },
-    "PostEndpoint<MovieLibrary>": {
+    "GetEntityEndpoint<EncodingTask,\"_id\">": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "select": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "_id",
+                  "authToken",
+                  "mediaInfo",
+                  "status",
+                  "workerInfo",
+                  "percent",
+                  "creationDate",
+                  "modificationDate",
+                  "error",
+                  "log",
+                  "startDate",
+                  "finishDate"
+                ]
+              },
+              "description": "The list of fields to select"
+            }
+          },
+          "additionalProperties": false
+        },
+        "url": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The entity's unique identifier"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/EncodingTask"
+        }
+      },
+      "required": [
+        "query",
+        "url",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Endpoint model for getting a single entity"
+    },
+    "PostEndpoint<Pick<MovieLibrary,(\"_id\"|\"name\"|\"path\"|\"icon\")>,\"_id\">": {
       "type": "object",
       "properties": {
         "body": {
-          "$ref": "#/definitions/WithOptionalId%3CMovieLibrary%2C(%22_id%22%7C%22icon%22%7C%22name%22%7C%22path%22%7C%22owner%22%7C%22encoding%22)%3E"
+          "$ref": "#/definitions/WithOptionalId%3CPick%3CMovieLibrary%2C(%22_id%22%7C%22name%22%7C%22path%22%7C%22icon%22)%3E%2C%22_id%22%3E"
         },
         "result": {
-          "$ref": "#/definitions/MovieLibrary"
+          "$ref": "#/definitions/Pick%3CMovieLibrary%2C(%22_id%22%7C%22name%22%7C%22path%22%7C%22icon%22)%3E"
         }
       },
       "required": [
@@ -4364,14 +4084,11 @@
       "additionalProperties": false,
       "description": "Endpoint model for creating new entities"
     },
-    "WithOptionalId<MovieLibrary,(\"_id\"|\"icon\"|\"name\"|\"path\"|\"owner\"|\"encoding\")>": {
+    "WithOptionalId<Pick<MovieLibrary,(\"_id\"|\"name\"|\"path\"|\"icon\")>,\"_id\">": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "_id": {
-          "type": "string"
-        },
-        "icon": {
           "type": "string"
         },
         "name": {
@@ -4380,23 +4097,41 @@
         "path": {
           "type": "string"
         },
-        "owner": {
-          "$ref": "#/definitions/Owner"
-        },
-        "encoding": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/EncodingType"
-            },
-            {
-              "type": "boolean",
-              "const": false
-            }
-          ]
+        "icon": {
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "icon",
+        "name",
+        "path"
+      ]
     },
-    "PatchEndpoint<Movie>": {
+    "Pick<MovieLibrary,(\"_id\"|\"name\"|\"path\"|\"icon\")>": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "_id",
+        "name",
+        "path",
+        "icon"
+      ],
+      "additionalProperties": false
+    },
+    "PatchEndpoint<Movie,\"_id\">": {
       "type": "object",
       "properties": {
         "body": {
@@ -4406,46 +4141,12 @@
           "type": "object",
           "properties": {
             "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "#/definitions/OmdbMetadata"
-                },
-                {
-                  "$ref": "#/definitions/FfprobeMetadata"
-                },
-                {
-                  "$ref": "#/definitions/MovieUniversalMetadata"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "codec": {
-                        "type": "string",
-                        "enum": [
-                          "libvpx-vp9",
-                          "x264"
-                        ]
-                      },
-                      "mode": {
-                        "type": "string",
-                        "const": "dash"
-                      }
-                    },
-                    "required": [
-                      "codec",
-                      "mode"
-                    ],
-                    "additionalProperties": false
-                  }
-                }
-              ]
+              "type": "string"
             }
           },
+          "required": [
+            "id"
+          ],
           "additionalProperties": false
         },
         "result": {
@@ -4509,7 +4210,7 @@
       },
       "additionalProperties": false
     },
-    "PatchEndpoint<MovieLibrary>": {
+    "PatchEndpoint<MovieLibrary,\"_id\">": {
       "type": "object",
       "properties": {
         "body": {
@@ -4519,21 +4220,7 @@
           "type": "object",
           "properties": {
             "id": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "#/definitions/Owner"
-                },
-                {
-                  "$ref": "#/definitions/EncodingType"
-                },
-                {
-                  "type": "boolean",
-                  "const": false
-                }
-              ]
+              "type": "string"
             }
           },
           "required": [

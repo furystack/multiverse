@@ -870,8 +870,7 @@
         "mediaInfo",
         "status",
         "percent",
-        "creationDate",
-        "modificationDate"
+        "creationDate"
       ],
       "additionalProperties": false
     },

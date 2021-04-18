@@ -1,9 +1,9 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { dashboard } from '@common/models'
-import { DashboardApiService, SessionService } from '@common/frontend-utils'
+import { DashboardApiService } from '@common/frontend-utils'
 import { Input, Button } from '@furystack/shades-common-components'
 
-export const CreateDashboard = Shade<{}, Partial<dashboard.Dashboard>>({
+export const CreateDashboard = Shade<{}, Pick<dashboard.Dashboard, 'name' | 'description'>>({
   getInitialState: () => ({ name: '', description: '' }),
   shadowDomName: 'multiverse-create-dashboard',
   render: ({ injector, getState, updateState }) => {
@@ -12,15 +12,11 @@ export const CreateDashboard = Shade<{}, Partial<dashboard.Dashboard>>({
         <form
           onsubmit={async (ev) => {
             ev.preventDefault()
-            const created = await injector.getInstance(DashboardApiService).call({
+            const { result: created } = await injector.getInstance(DashboardApiService).call({
               method: 'POST',
               action: '/boards',
               body: {
                 ...getState(),
-                owner: {
-                  type: 'user',
-                  username: injector.getInstance(SessionService).currentUser.getValue()?.username || '',
-                },
               },
             })
             window.history.pushState('', '', `/dashboard/edit/${created._id}`)

@@ -38,5 +38,5 @@ export const saveAvatar = async ({
   await promises.copyFile(tempFilePath, fullPath)
   // Remove from temp file
   promises.unlink(tempFilePath)
-  await injector.getDataSetFor(auth.User).update(injector, user._id, { avatarFile: fileName })
+  await injector.getDataSetFor(auth.User, '_id').update(injector, user._id, { avatarFile: fileName })
 }

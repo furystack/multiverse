@@ -7,7 +7,7 @@ export const PostSettings: RequestAction<{
   result: auth.UserSettings
 }> = async ({ injector, getBody }) => {
   const user = await injector.getCurrentUser()
-  const profiles = injector.getDataSetFor(auth.Profile)
+  const profiles = injector.getDataSetFor(auth.Profile, '_id')
   const postedSettings = await getBody()
   const [profile] = await profiles.find(injector, {
     top: 1,

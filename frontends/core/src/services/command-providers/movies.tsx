@@ -7,7 +7,7 @@ import { MovieWidget } from '../../components/dashboard/movie-widget'
 export const continueMovieProvider: CommandProvider = async ({ injector, term }) => {
   if (term.toLowerCase().startsWith('cont') || term.toLowerCase().includes('movie')) {
     const mediaApi = injector.getInstance(MediaApiService)
-    const progress = await mediaApi.call({
+    const { result: progress } = await mediaApi.call({
       method: 'GET',
       action: '/my-watch-progress',
       query: {
@@ -21,7 +21,7 @@ export const continueMovieProvider: CommandProvider = async ({ injector, term })
     if (!progress.entries.length) {
       return []
     }
-    const movies = await mediaApi.call({
+    const { result: movies } = await mediaApi.call({
       method: 'GET',
       action: '/movies',
       query: { findOptions: { filter: { _id: { $in: progress.entries.map((e) => e.movieId) } } } },

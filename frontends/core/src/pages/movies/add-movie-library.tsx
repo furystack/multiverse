@@ -4,7 +4,7 @@ import { Input, Button } from '@furystack/shades-common-components'
 import { MediaApiService } from '@common/frontend-utils'
 import { FullScreenForm } from '../../components/full-screen-form'
 
-export const AddMovieLibrary = Shade<unknown, Partial<media.MovieLibrary>>({
+export const AddMovieLibrary = Shade<unknown, Pick<media.MovieLibrary, 'name' | 'path' | 'icon'>>({
   shadowDomName: 'multiverse-add-movie-library',
   getInitialState: () => ({
     path: '',

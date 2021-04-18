@@ -16,13 +16,13 @@ export const PostShopping: RequestAction<{
   const currentUser = await injector.getCurrentUser()
   const body = await getBody()
   const { accountId } = getUrlParams()
-  const ds = injector.getDataSetFor(xpense.Account)
+  const ds = injector.getDataSetFor(xpense.Account, '_id')
   const account = await ds.get(injector, accountId)
   if (!account) {
     throw new RequestError('Account not found!', 404)
   }
 
-  const { created } = await injector.getDataSetFor(xpense.Shopping).add(injector, {
+  const { created } = await injector.getDataSetFor(xpense.Shopping, '_id').add(injector, {
     createdBy: currentUser.username,
     entries: body.entries,
     creationDate: new Date(body.creationDate).toISOString(),

@@ -44,37 +44,43 @@ export const CurrentUserMenu = Shade<
         updateState({ currentUser: usr || undefined })
       }, true),
       getState().isOpened.subscribe(async (isOpened) => {
-        const menu = element.querySelector('.current-user-menu') as HTMLElement
-        const container = element.querySelector('.menu-container') as HTMLElement
-        if (isOpened) {
-          container.style.display = 'block'
-          container.style.opacity = '1'
-          await menu.animate(
-            [
-              { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
-              { transform: 'scale(1) translateY(0)', opacity: 1 },
-            ],
-            {
-              duration: 300,
-              easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
-              fill: 'forwards',
-            },
-          )
-        } else {
-          await promisifyAnimation(
-            menu,
-            [
-              { transform: 'scale(1) translateY(0)', opacity: 1 },
-              { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
-            ],
-            {
-              duration: 300,
-              easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
-              fill: 'forwards',
-            },
-          )
-          container.style.opacity = '0'
-          container.style.display = 'none'
+        try {
+          const menu = element.querySelector('.current-user-menu') as HTMLElement
+          const container = element.querySelector('.menu-container') as HTMLElement
+          if (isOpened) {
+            container.style.display = 'block'
+            container.style.opacity = '1'
+            await menu.animate(
+              [
+                { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
+                { transform: 'scale(1) translateY(0)', opacity: 1 },
+              ],
+              {
+                duration: 300,
+                easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
+                fill: 'forwards',
+              },
+            )
+          } else {
+            await promisifyAnimation(
+              menu,
+              [
+                { transform: 'scale(1) translateY(0)', opacity: 1 },
+                { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
+              ],
+              {
+                duration: 300,
+                easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
+                fill: 'forwards',
+              },
+            )
+            if (container.isConnected) {
+              container.style.opacity = '0'
+              container.style.display = 'none'
+            }
+          }
+        } catch (error) {
+          // ignore
         }
       }),
       new ClickAwayService(element, () => getState().isOpened.setValue(false)),
@@ -132,8 +138,9 @@ export const CurrentUserMenu = Shade<
               title="Log out"
               icon={{ type: 'flaticon-essential', name: '320-login.svg' }}
               onclick={() => {
-                injector.getInstance(SessionService).logout()
                 history.pushState({}, 'Home', '/')
+                injector.getInstance(LocationService).updateState()
+                injector.getInstance(SessionService).logout()
               }}
             />
           </div>

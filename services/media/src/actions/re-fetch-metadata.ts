@@ -10,7 +10,7 @@ export const ReFetchMetadataAction: RequestAction<{ url: { movieId: string }; re
   injector,
 }) => {
   const { movieId } = getUrlParams()
-  const movies = injector.getDataSetFor(media.Movie)
+  const movies = injector.getDataSetFor(media.Movie, '_id')
 
   const movie = await movies.get(injector, movieId)
 

@@ -9,7 +9,7 @@ export const xpenseCommandProvider: CommandProvider = async ({ term, injector })
 
   const api = injector.getInstance(XpenseApiService)
 
-  const accountList = await api.call({
+  const { result: accountList } = await api.call({
     method: 'GET',
     action: '/accounts',
     query: {

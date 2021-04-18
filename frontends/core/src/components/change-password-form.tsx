@@ -24,7 +24,7 @@ export const ChangePasswordForm = Shade<
             return
           }
           try {
-            const result = await injector.getInstance(AuthApiService).call({
+            const { result } = await injector.getInstance(AuthApiService).call({
               method: 'POST',
               action: '/changePassword',
               body: {

@@ -5,7 +5,7 @@ import { getOrgsForCurrentUser, AuthorizeOwnership } from '@common/service-utils
 export const setupRepository = (injector: Injector) => {
   injector.setupRepository((repo) =>
     repo
-      .createDataSet(xpense.Account, {
+      .createDataSet(xpense.Account, '_id', {
         addFilter: async ({ injector: i, filter }) => {
           const currentUser = await i.getCurrentUser()
           const orgs = await getOrgsForCurrentUser(i, currentUser)
@@ -61,19 +61,19 @@ export const setupRepository = (injector: Injector) => {
         },
         authorizeGetEntity: AuthorizeOwnership({ level: ['admin', 'member', 'owner', 'organizationOwner'] }),
       })
-      .createDataSet(xpense.Item, {})
-      .createDataSet(xpense.Replenishment, {
+      .createDataSet(xpense.Item, '_id', {})
+      .createDataSet(xpense.Replenishment, '_id', {
         authorizeGetEntity: async ({ entity, injector: i }) => {
-          await injector.getDataSetFor(xpense.Account).get(i, entity.accountId)
+          await injector.getDataSetFor(xpense.Account, '_id').get(i, entity.accountId)
           return { isAllowed: true }
         },
         authorizeRemove: async () => ({ isAllowed: false, message: 'Replenishments are permanent.' }),
         authorizeUpdate: async () => ({ isAllowed: false, message: 'Replenishments are read-only.' }),
       })
-      .createDataSet(xpense.Shop, {})
-      .createDataSet(xpense.Shopping, {
+      .createDataSet(xpense.Shop, '_id', {})
+      .createDataSet(xpense.Shopping, '_id', {
         authorizeGetEntity: async ({ entity, injector: i }) => {
-          await injector.getDataSetFor(xpense.Account).get(i, entity.accountId)
+          await injector.getDataSetFor(xpense.Account, '_id').get(i, entity.accountId)
           return { isAllowed: true }
         },
         authorizeRemove: async () => ({ isAllowed: false, message: 'Shoppings are permanent.' }),

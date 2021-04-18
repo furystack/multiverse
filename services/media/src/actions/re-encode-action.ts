@@ -9,13 +9,13 @@ export const ReEncodeAction: RequestAction<{
   result: { success: boolean; task?: CreateResult<media.EncodingTask> }
 }> = async ({ getBody, injector }) => {
   const { movieId } = await getBody()
-  const dataSet = injector.getDataSetFor(media.Movie)
+  const dataSet = injector.getDataSetFor(media.Movie, '_id')
   const movie = await dataSet.get(injector, movieId)
   if (!movie) {
     throw new RequestError('Movie not found', 404)
   }
 
-  const tasks = injector.getDataSetFor(media.EncodingTask)
+  const tasks = injector.getDataSetFor(media.EncodingTask, '_id')
 
   const oldTasks = await tasks.find(injector, {
     filter: {

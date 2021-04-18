@@ -14,8 +14,8 @@ export const GoogleLoginAction: RequestAction<{
 }> = async ({ injector, getBody, response }) => {
   const loginData = await getBody()
 
-  const googleAccountStore = await injector.getInstance(StoreManager).getStoreFor(auth.GoogleAccount)
-  const userStore = await injector.getInstance(StoreManager).getStoreFor(auth.User)
+  const googleAccountStore = await injector.getInstance(StoreManager).getStoreFor(auth.GoogleAccount, '_id')
+  const userStore = await injector.getInstance(StoreManager).getStoreFor(auth.User, '_id')
   const googleUserData = await injector.getInstance(GoogleLoginService).getGoogleUserData(loginData.token)
   if (!googleUserData.email_verified) {
     throw new RequestError('Email address for account not verified', 401)

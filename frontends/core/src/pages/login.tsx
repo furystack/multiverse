@@ -136,7 +136,7 @@ export const Login = Shade<unknown, { username: string; password: string; isOper
               <Button
                 onclick={async (ev) => {
                   ev.preventDefault()
-                  const oauthData = await injector.getInstance(AuthApiService).call({
+                  const { result: oauthData } = await injector.getInstance(AuthApiService).call({
                     method: 'GET',
                     action: '/oauth-data',
                   })

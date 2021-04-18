@@ -1,5 +1,4 @@
 import { Shade, createComponent, Router, LazyLoad } from '@furystack/shades'
-import { xpense } from '@common/models'
 import { XpenseApiService } from '@common/frontend-utils'
 import { Init } from '../init'
 import { GenericErrorPage } from '../generic-error'
@@ -29,13 +28,13 @@ export const XpensePage = Shade({
                     )}
                     loader={<Init message="Loading Account..." />}
                     component={async () => {
-                      const account: xpense.Account = await injector.getInstance(XpenseApiService).call({
+                      const { result } = await injector.getInstance(XpenseApiService).call({
                         method: 'GET',
                         action: '/accounts/:id',
                         query: {},
                         url: { id: accountId },
                       })
-                      return <AccountContext account={account} />
+                      return <AccountContext account={result} />
                     }}
                   />
                 )
@@ -57,7 +56,7 @@ export const XpensePage = Shade({
                   )}
                   loader={<Init message="Loading Accounts..." />}
                   component={async () => {
-                    const { entries } = await injector.getInstance(XpenseApiService).call({
+                    const { result } = await injector.getInstance(XpenseApiService).call({
                       method: 'GET',
                       action: '/accounts',
                       query: {
@@ -68,7 +67,7 @@ export const XpensePage = Shade({
                         },
                       },
                     })
-                    return <AccountList accounts={entries as xpense.Account[]} />
+                    return <AccountList accounts={result.entries} />
                   }}
                 />
               ),

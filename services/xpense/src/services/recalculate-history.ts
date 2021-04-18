@@ -8,17 +8,17 @@ export const recalculateHistory = async ({
   accountId: string
   injector: Injector
 }): Promise<xpense.Account> => {
-  const currentAccount = await injector.getDataSetFor(xpense.Account).get(injector, accountId)
+  const currentAccount = await injector.getDataSetFor(xpense.Account, '_id').get(injector, accountId)
 
   if (!currentAccount) {
     throw new Error('Account not found')
   }
 
   const replenishPromise = injector
-    .getDataSetFor(xpense.Replenishment)
+    .getDataSetFor(xpense.Replenishment, '_id')
     .find(injector, { filter: { accountId: { $eq: accountId } }, select: ['_id', 'amount', 'creationDate'] })
   const shoppingPromise = injector
-    .getDataSetFor(xpense.Shopping)
+    .getDataSetFor(xpense.Shopping, '_id')
     .find(injector, { filter: { accountId: { $eq: accountId } }, select: ['_id', 'sumAmount', 'creationDate'] })
 
   const [replenishments, shoppings] = await Promise.all([replenishPromise, shoppingPromise])
@@ -53,7 +53,7 @@ export const recalculateHistory = async ({
 
   const current = history[history.length - 1].balance
 
-  await injector.getDataSetFor(xpense.Account).update(injector, accountId, { history, current })
+  await injector.getDataSetFor(xpense.Account, '_id').update(injector, accountId, { history, current })
 
   return { ...currentAccount, history, current }
 }

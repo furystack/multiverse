@@ -14,7 +14,7 @@ export const GetWorkerTask: RequestAction<{
   }
 
   const { taskId } = getUrlParams()
-  const task = await injector.getDataSetFor(media.EncodingTask).get(injector, taskId)
+  const task = await injector.getDataSetFor(media.EncodingTask, '_id').get(injector, taskId)
 
   if (task?.authToken !== token) {
     throw new RequestError('Failed to authorize with the token', 401)

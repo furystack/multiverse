@@ -9,7 +9,9 @@ export const ChangePasswordAction: RequestAction<{
 }> = async ({ injector, getBody }) => {
   const currentUser = await injector.getCurrentUser()
   const authSettings = injector.getInstance(HttpAuthenticationSettings)
-  const userStore = injector.getInstance(StoreManager).getStoreFor<auth.User & { password: string }>(auth.User)
+  const userStore = injector
+    .getInstance(StoreManager)
+    .getStoreFor<auth.User & { password: string }, '_id'>(auth.User, '_id')
   const { currentPassword, newPassword } = await getBody()
 
   const [userToUpdate] = await userStore.find({

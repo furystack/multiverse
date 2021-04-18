@@ -17,13 +17,13 @@ export const UploadSubtitles: RequestAction<{
   const storeManager = injector.getInstance(StoreManager)
 
   const [job] = await storeManager
-    .getStoreFor(media.EncodingTask)
+    .getStoreFor(media.EncodingTask, '_id')
     .find({ filter: { authToken: { $eq: accessToken } }, top: 1 })
   if (!job) {
     throw new RequestError('Unauthorized', 401)
   }
 
-  const movie = (await storeManager.getStoreFor(media.Movie).get(movieId)) as media.Movie
+  const movie = (await storeManager.getStoreFor(media.Movie, '_id').get(movieId)) as media.Movie
   if (!movie) {
     throw new RequestError('Movie not found', 404)
   }

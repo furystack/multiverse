@@ -16,8 +16,8 @@ export const GoogleRegisterAction: RequestAction<{
   const logger = injector.logger.withScope('GoogleRegisterAction')
   const storeManager = injector.getInstance(StoreManager)
   const userContext = injector.getInstance(HttpUserContext)
-  const googleAcccounts = storeManager.getStoreFor(auth.GoogleAccount)
-  const users = storeManager.getStoreFor(auth.User)
+  const googleAcccounts = storeManager.getStoreFor(auth.GoogleAccount, '_id')
+  const users = storeManager.getStoreFor(auth.User, '_id')
   const { token } = await getBody()
   const registrationDate = new Date().toISOString()
 
@@ -65,9 +65,13 @@ export const GoogleRegisterAction: RequestAction<{
     accountLinkDate: registrationDate,
   })
 
-  await storeManager.getStoreFor(auth.Profile).add({
+  await storeManager.getStoreFor(auth.Profile, '_id').add({
     username: userToAdd.username,
     displayName: googleUserData.name,
+    description: '',
+    userSettings: {
+      theme: 'dark',
+    },
   })
 
   logger.information({

@@ -9,14 +9,16 @@ export const AccountHistoryShoppings = Shade<
 >({
   getInitialState: ({ injector, props }) => ({
     service: new CollectionService<xpense.Shopping>(
-      (findOptions) =>
-        injector.getInstance(XpenseApiService).call({
+      async (findOptions) => {
+        const response = await injector.getInstance(XpenseApiService).call({
           method: 'GET',
           action: '/shoppings',
           query: {
             findOptions: { ...findOptions, filter: { ...findOptions.filter, accountId: props.account._id } as any },
           },
-        }),
+        })
+        return response.result
+      },
       { top: 20, order: { creationDate: 'DESC' } },
     ),
   }),

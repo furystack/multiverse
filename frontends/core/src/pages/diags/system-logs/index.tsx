@@ -34,12 +34,14 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
   shadowDomName: 'system-logs-page',
   getInitialState: ({ injector }) => ({
     systemLogsService: new CollectionService<diag.LogEntry<any>>(
-      (findOptions) =>
-        injector.getInstance(DiagApiService).call({
+      async (findOptions) => {
+        const { result } = await injector.getInstance(DiagApiService).call({
           method: 'GET',
           action: '/logEntries',
           query: { findOptions },
-        }),
+        })
+        return result
+      },
       { top: 20, order: { creationDate: 'DESC' } },
     ),
   }),

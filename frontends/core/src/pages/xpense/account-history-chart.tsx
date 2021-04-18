@@ -3,7 +3,7 @@ import { Chart, ChartPoint } from 'chart.js'
 import { xpense } from '@common/models'
 import { colors, Button } from '@furystack/shades-common-components'
 
-export const AccountHistoryChart = Shade<{ accountId: 'string'; history: xpense.Account['history'] }>({
+export const AccountHistoryChart = Shade<{ accountId: string; history: xpense.Account['history'] }>({
   shadowDomName: 'xpense-account-history-page',
   onAttach: ({ element, props, injector }) => {
     setTimeout(() => {

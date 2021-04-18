@@ -8,12 +8,14 @@ export const DashboardList = Shade<{}, { service: CollectionService<dashboard.Da
   getInitialState: ({ injector }) => {
     return {
       service: new CollectionService<dashboard.Dashboard>(
-        (findOptions) =>
-          injector.getInstance(DashboardApiService).call({
+        async (findOptions) => {
+          const { result } = await injector.getInstance(DashboardApiService).call({
             method: 'GET',
             action: '/boards',
             query: { findOptions },
-          }),
+          })
+          return result
+        },
         { top: 20, order: { creationDate: 'DESC' } },
       ),
     }

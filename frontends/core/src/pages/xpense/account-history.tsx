@@ -30,7 +30,7 @@ export const AccountHistory = Shade<{ account: xpense.Account }>({
                 )}
                 loader={<Init message="Loading Account History..." />}
                 component={async () => {
-                  const loadedAccount = await injector.getInstance(XpenseApiService).call({
+                  const { result: loadedAccount } = await injector.getInstance(XpenseApiService).call({
                     method: 'GET',
                     action: '/accounts/:id',
                     url: { id: props.account._id },

@@ -17,7 +17,7 @@ export const SuggestOrganization = Shade<{
           props.onSelectOrganization(org)
         }}
         getEntries={async (term) => {
-          const orgs = await injector.getInstance(AuthApiService).call({
+          const { result: orgs } = await injector.getInstance(AuthApiService).call({
             method: 'GET',
             action: '/organizations',
             query: {
