@@ -22,7 +22,7 @@ export const AttachGithubAccount: RequestAction<{
     githubApiPayload,
   })
 
-  logger.information({
+  await logger.information({
     message: `Github account '${githubApiPayload.name}' has been attached to user '${currentUser.username}' `,
     data: { user: currentUser, githubAccount: created[0] },
   })

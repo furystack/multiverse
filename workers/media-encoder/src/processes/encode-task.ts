@@ -26,13 +26,13 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
     options.task.authToken,
   )
 
-  logger.information({
+  await logger.information({
     message: `Started to work on task ${options.task._id} - Encoding ${options.task.mediaInfo.movie.metadata.title}`,
   })
   const encodingSettings = options.task.mediaInfo.library.encoding || media.defaultEncoding
   const tempDirExists = await existsAsync(FileStores.mediaEncoderWorkerTemp)
   if (!tempDirExists) {
-    logger.error({
+    await logger.error({
       message: 'Media Worker temp dir does not exists or not accessible. Task skipped!',
       data: { dir: FileStores.mediaEncoderWorkerTemp },
     })
@@ -48,7 +48,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
   const encodingTempDirExists = await existsAsync(encodingTempDir)
 
   if (encodingTempDirExists) {
-    logger.information({ message: 'The Temp dir already exists. Cleaning up...' })
+    await logger.information({ message: 'The Temp dir already exists. Cleaning up...' })
     await new Promise<void>((resolve, reject) => rimraf(encodingTempDir, (err) => (err ? reject(err) : resolve())))
   }
   await promises.mkdir(encodingTempDir, { recursive: true })
@@ -79,7 +79,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
         encodingSettings,
       })
     } else {
-      logger.warning({
+      await logger.warning({
         message: `Encoding with codec '${encodingSettings.codec}' and type '${encodingSettings.mode}' is not supported. Skipping encoding`,
       })
       return false
@@ -107,11 +107,11 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
     //   retry: 10,
     // })
     await new Promise<void>((resolve, reject) => rimraf(encodingTempDir, (err) => (err ? reject(err) : resolve())))
-    logger.information({ message: 'Task finished, the task has been finialized.' })
+    await logger.information({ message: 'Task finished, the task has been finialized.' })
     taskLogger.flush()
     return true
   } catch (error) {
-    logger.warning({
+    await logger.warning({
       message: `Task encoding failed`,
       data: {
         task: options.task,
@@ -137,12 +137,13 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
       },
     })
       .then(() => logger.information({ message: 'The Error details has been sent to the service' }))
-      .catch((e) =>
-        logger.error({
-          message:
-            'There was an error during sending the error details to the service - probably the task will remain in progress',
-          data: { e },
-        }),
+      .catch(
+        async (e) =>
+          await logger.error({
+            message:
+              'There was an error during sending the error details to the service - probably the task will remain in progress',
+            data: { e },
+          }),
       )
     taskLogger.flush()
     return false

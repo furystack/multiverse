@@ -52,7 +52,7 @@ export const GithubRegisterAction: RequestAction<{
 
   await injector.getInstance(HttpUserContext).cookieLogin(newUser, response)
   const { password, ...user } = newUser
-  logger.information({
+  await logger.information({
     message: `User ${newUser.username} has been registered with Github Auth.`,
     data: newUser,
   })
@@ -62,7 +62,7 @@ export const GithubRegisterAction: RequestAction<{
       githubApiPayload && githubApiPayload.avatar_url && (await downloadAsTempFile(githubApiPayload.avatar_url))
     tempFilePath && (await saveAvatar({ injector, user: newUser, tempFilePath }))
   } catch (error) {
-    logger.warning({ message: 'Failed to get Avatar', data: { message: error.message, stack: error.stack } })
+    await logger.warning({ message: 'Failed to get Avatar', data: { message: error.message, stack: error.stack } })
   }
 
   return JsonResult({ ...user })

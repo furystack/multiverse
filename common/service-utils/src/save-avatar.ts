@@ -22,7 +22,7 @@ export const saveAvatar = async ({
 
   const avatarDirExists = await existsAsync(FileStores.avatars)
   if (!avatarDirExists) {
-    logger.information({
+    await logger.information({
       message: 'Avatar Store path does not exists, trying to create it...',
       data: { path: FileStores.avatars },
     })

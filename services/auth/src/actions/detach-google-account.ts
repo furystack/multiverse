@@ -10,7 +10,7 @@ export const DetachGoogleAccount: RequestAction<{ result: Omit<auth.User, 'passw
   const [googleAccount] = await googleAccountStore.find({ top: 1, filter: { username: { $eq: currentUser.username } } })
 
   await googleAccountStore.remove(googleAccount._id)
-  logger.information({ message: `User '${currentUser.username}' has detached a google account` })
+  await logger.information({ message: `User '${currentUser.username}' has detached a google account` })
 
   return JsonResult(currentUser)
 }

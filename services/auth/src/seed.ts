@@ -29,7 +29,7 @@ export const getOrCreate = async <T, TId extends keyof T>(
     return instance
   } else {
     const message = `Seed filter contains '${result.length}' results for ${JSON.stringify(filter)}`
-    logger.warning({ message })
+    await logger.warning({ message })
     throw Error(message)
   }
 }

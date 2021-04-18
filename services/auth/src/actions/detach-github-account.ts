@@ -10,7 +10,7 @@ export const DetachGithubAccount: RequestAction<{ result: Omit<auth.User, 'passw
   const [ghAccount] = await ghAccountStore.find({ top: 1, filter: { username: { $eq: currentUser.username } } })
 
   await ghAccountStore.remove(ghAccount._id)
-  logger.information({ message: `User '${currentUser.username}' has detached a github account` })
+  await logger.information({ message: `User '${currentUser.username}' has detached a github account` })
 
   return JsonResult(currentUser)
 }

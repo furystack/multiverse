@@ -45,8 +45,9 @@
       "skipFiles": ["<node_internals>/**"],
       "preLaunchTask": "npm: build:workers",
       "env": {
-        // "ENABLE_NVENC": "true",
-        // "MEDIA_ENCODER_WORKER_TEMP": "d:\\temp\\MULTIVERSE_ENCODING_TEMP",
+        "ENABLE_NVENC": "true",
+        "MEDIA_ENCODER_WORKER_TEMP": "d:\\temp\\MULTIVERSE_DEBUG",
+        "FILE_STORE_ENCODED_MEDIA": "d:\\temp\\MULTIVERSE_DEBUG\\encoded-media"
       }
     },
     {

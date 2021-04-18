@@ -26,7 +26,7 @@ export const AttachGoogleAccountAction: RequestAction<{
   const googleUserData = await injector.getInstance(GoogleLoginService).getGoogleUserData(token)
 
   if (!googleUserData.email_verified) {
-    logger.warning({
+    await logger.warning({
       message: `User '${googleUserData.email}' tried to register with a not-verified e-mail. `,
     })
     throw new RequestError('Email address for account not verified', 401)
@@ -45,7 +45,7 @@ export const AttachGoogleAccountAction: RequestAction<{
     accountLinkDate: registrationDate,
   })
 
-  logger.information({
+  await logger.information({
     message: `User ${currentUser.username} has attached a Google account.`,
     data: { user: currentUser, googleAccount: created[0] },
   })

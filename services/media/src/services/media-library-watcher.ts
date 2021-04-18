@@ -59,30 +59,36 @@ export class MediaLibraryWatcher {
 
       const movieEntries = await dataSet.find(this.injector, { top: 1, filter: { path: { $eq: name } } })
       if (!movieEntries.length) {
-        this.logger.information({
+        await this.logger.information({
           message: `New Movie found, adding to Library...`,
           data: { moviePath: name, library, stats },
         })
+        try {
+          const fallbackMeta = getFallbackMetadata(name)
+          const ffprobe = await getFfprobeData(name)
+          const omdbMeta = await fetchOmdbMetadata({
+            title: fallbackMeta.title,
+            year: fallbackMeta.year,
+            episode: fallbackMeta.episode,
+            season: fallbackMeta.season,
+          })
+          const metadata = media.isValidOmdbMetadata(omdbMeta) ? getUniversalMetadataFromOmdb(omdbMeta) : fallbackMeta
 
-        const fallbackMeta = getFallbackMetadata(name)
-        const ffprobe = await getFfprobeData(name)
-        const omdbMeta = await fetchOmdbMetadata({
-          title: fallbackMeta.title,
-          year: fallbackMeta.year,
-          episode: fallbackMeta.episode,
-          season: fallbackMeta.season,
-        })
-        const metadata = media.isValidOmdbMetadata(omdbMeta) ? getUniversalMetadataFromOmdb(omdbMeta) : fallbackMeta
-
-        const createResult = await dataSet.add(this.injector, {
-          path: name,
-          libraryId: library._id,
-          metadata,
-          omdbMeta,
-          ffprobe,
-        })
-        await createEncodingTaskForMovie({ injector: this.injector, movie: createResult.created[0] })
-        await extractSubtitles({ injector: this.injector, movie: createResult.created[0] })
+          const createResult = await dataSet.add(this.injector, {
+            path: name,
+            libraryId: library._id,
+            metadata,
+            omdbMeta,
+            ffprobe,
+          })
+          await createEncodingTaskForMovie({ injector: this.injector, movie: createResult.created[0] })
+          await extractSubtitles({ injector: this.injector, movie: createResult.created[0] })
+        } catch (error) {
+          await this.logger.error({
+            message: 'Something went wrong when adding a new entry to the Movie Library',
+            data: { error },
+          })
+        }
       }
     })
 
@@ -91,7 +97,7 @@ export class MediaLibraryWatcher {
 
   private async init() {
     const movieLibraries = await this.injector.getInstance(StoreManager).getStoreFor(media.MovieLibrary, '_id').find({})
-    this.logger.verbose({
+    await this.logger.verbose({
       message: 'Initializing library watchers...',
       data: { paths: movieLibraries.map((m) => m.path) },
     })

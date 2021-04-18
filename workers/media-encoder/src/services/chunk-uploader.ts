@@ -1,4 +1,4 @@
-import { Stats, createReadStream } from 'fs'
+import { Stats, createReadStream, promises } from 'fs'
 import { watch, FSWatcher } from 'chokidar'
 import { Injector } from '@furystack/inject'
 import { ScopedLogger } from '@furystack/logging'
@@ -30,13 +30,16 @@ export class ChunkUploader {
     for (let index = 0; index < this.options.parallel; index++) {
       await this.lock.acquire()
       if (index <= this.options.parallel) {
-        this.logger.verbose({ message: `${index + 1}/${this.options.parallel} upload locks acquired.` })
+        await this.logger.verbose({ message: `${index + 1}/${this.options.parallel} upload locks acquired.` })
       }
     }
     if (this.warns.length) {
-      this.logger.warning({ message: 'Encoding finished but some chunk uploads has been failed', data: this.warns })
+      await this.logger.warning({
+        message: 'Encoding finished but some chunk uploads has been failed',
+        data: this.warns,
+      })
     } else {
-      this.logger.information({ message: 'All uploads finished' })
+      await this.logger.information({ message: 'All uploads finished' })
     }
   }
 
@@ -44,11 +47,13 @@ export class ChunkUploader {
 
   private readonly watcher: FSWatcher = watch(this.options.directory, {
     awaitWriteFinish: {
-      stabilityThreshold: 1000,
-      pollInterval: 100,
+      pollInterval: 250,
+      stabilityThreshold: 500,
     },
   })
-    .on('add', (path, stats) => this.upload(path, parseInt(this.options.progress.getValue().toString(), 10), stats))
+    .on('add', async (path, stats) => {
+      await this.upload(path, parseInt(this.options.progress.getValue().toString(), 10), stats)
+    })
     .on('change', (path, stats) => this.upload(path, parseInt(this.options.progress.getValue().toString(), 10), stats))
 
   private async upload(path: string, percent: number, stats?: Stats) {
@@ -59,11 +64,11 @@ export class ChunkUploader {
         const form = new FormData({ encoding: 'utf-8' })
         form.append('codec', this.options.codec)
         form.append('mode', this.options.mode)
-        form.append('chunk', createReadStream(path) as any)
+        form.append('chunk', createReadStream(path))
         form.append('percent', percent)
-        await got(this.options.uploadPath, {
+        const response = await got(this.options.uploadPath, {
           method: 'POST',
-          body: form as any,
+          body: form,
           encoding: 'utf-8',
           cache: false,
           agent: false,
@@ -74,7 +79,7 @@ export class ChunkUploader {
           hooks: {
             beforeRetry: [
               async (_options, error, retrycount) => {
-                this.logger.information({
+                await this.logger.information({
                   message: `Chunk upload has been failed, will retry (${retrycount}/${this.options.retries})...`,
                   data: { codec: this.options.codec, mode: this.options.mode, fileName, error, retrycount },
                 })
@@ -83,7 +88,7 @@ export class ChunkUploader {
 
             beforeError: [
               async (e) => {
-                this.logger.information({
+                await this.logger.information({
                   message: 'Chunk upload has been failed, giving up...',
                   data: { codec: this.options.codec, mode: this.options.mode, fileName, e },
                 })
@@ -92,9 +97,16 @@ export class ChunkUploader {
             ],
           },
         })
-        this.logger.verbose({ message: `Chunk '${fileName}' uploaded - ${Math.floor(percent)}% done.` })
+        if (JSON.parse(response.body).success) {
+          await this.logger.verbose({ message: `Chunk '${fileName}' uploaded - ${percent.toFixed(2)}% done.` })
+          if (!fileName.includes('dash.mpd')) {
+            await promises.unlink(path)
+          }
+        } else {
+          await this.logger.warning({ message: `Chunk '${fileName}' unexpected response: ${response.body}` })
+        }
       } catch (error) {
-        this.logger.warning({
+        await this.logger.warning({
           message: 'Error uploading chunk',
           data: { error, fileName },
         })

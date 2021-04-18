@@ -20,7 +20,7 @@ export const ensureItemsForShopping = async ({
 
   const shop = await shopCollection.findOne({ name: shopping.shopName })
   if (!shop) {
-    logger.information({ message: `Shop '${shopping.shopName}' does not exists, adding...` })
+    await logger.information({ message: `Shop '${shopping.shopName}' does not exists, adding...` })
     await shopCollection.insertOne({
       name: shopping.shopName,
       creationDate: new Date().toISOString(),
@@ -32,7 +32,7 @@ export const ensureItemsForShopping = async ({
   for (const entry of shopping.entries) {
     const existing = await itemCollection.findOne({ name: entry.itemName })
     if (!existing) {
-      logger.information({ message: `Entry '${entry.itemName}' does not exists, adding...` })
+      await logger.information({ message: `Entry '${entry.itemName}' does not exists, adding...` })
       await itemCollection.insertOne({
         creationDate: new Date().toISOString(),
         createdBy: shopping.createdBy,

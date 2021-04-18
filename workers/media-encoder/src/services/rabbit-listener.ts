@@ -42,7 +42,7 @@ export class RabbitListener {
       })
       this.initLock.release()
     } catch (error) {
-      this.logger.warning({
+      await this.logger.warning({
         message: 'There was an error during RabbitMQ connection. Will retry in 30s',
         data: { error: { message: error.message, stack: error.stack } },
       })
@@ -50,19 +50,19 @@ export class RabbitListener {
       this.initLock.release()
       this.init()
     }
-    this.logger.verbose({ message: 'Started listening' })
+    await this.logger.verbose({ message: 'Started listening' })
   }
 
   private async onEncodeVideo(msg: ConsumeMessage | null) {
     if (msg) {
-      this.logger.verbose({
+      await this.logger.verbose({
         message: `Task message received, loading task details...`,
       })
       const { taskId, token } = JSON.parse(msg.content.toString())
 
       loadTaskDetails({ taskId, token })
         .then(async (task) => {
-          this.logger.verbose({
+          await this.logger.verbose({
             message: `Encoding task loaded for movie ${task.mediaInfo.movie.metadata.title}`,
             data: { task },
           })
@@ -71,20 +71,23 @@ export class RabbitListener {
         })
         .catch(async (reason) => {
           if (reason.code === 'ECONNREFUSED') {
-            this.logger.warning({
+            await this.logger.warning({
               message: 'The Service seems to be offline. The task will be re-queued in a minute.',
               data: { reason },
             })
             await sleepAsync(60 * 1000)
             this.getChannel().nack(msg, undefined, true)
           } else if (reason.name === 'HTTPError' && reason.message === 'Response code 401 (Unauthorized)') {
-            this.logger.warning({
+            await this.logger.warning({
               message: 'The token is invalid. The message will not be re-queued',
               data: { reason },
             })
             this.getChannel().nack(msg, undefined, false)
           } else {
-            this.logger.warning({ message: `Failed to retrieve task details, reason:${reason.code}`, data: { reason } })
+            await this.logger.warning({
+              message: `Failed to retrieve task details, reason:${reason.code}`,
+              data: { reason },
+            })
           }
         })
     }

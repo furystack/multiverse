@@ -28,7 +28,7 @@ export const GoogleRegisterAction: RequestAction<{
   const googleUserData = await injector.getInstance(GoogleLoginService).getGoogleUserData(token)
 
   if (!googleUserData.email_verified) {
-    logger.warning({
+    await logger.warning({
       message: `User '${googleUserData.email}' tried to register with a not-verified e-mail. `,
     })
     throw new RequestError('Email address for account not verified', 401)
@@ -53,7 +53,7 @@ export const GoogleRegisterAction: RequestAction<{
     const tempFilePath = googleUserData && googleUserData.picture && (await downloadAsTempFile(googleUserData.picture))
     tempFilePath && (await saveAvatar({ injector, user: userToAdd, tempFilePath }))
   } catch (error) {
-    logger.warning({ message: 'Failed to get Avatar', data: { message: error.message, stack: error.stack } })
+    await logger.warning({ message: 'Failed to get Avatar', data: { message: error.message, stack: error.stack } })
   }
 
   const { password, ...userToAddWithoutPw } = userToAdd
@@ -74,7 +74,7 @@ export const GoogleRegisterAction: RequestAction<{
     },
   })
 
-  logger.information({
+  await logger.information({
     message: `User ${userToAdd.username} has been registered with Google Auth.`,
     data: userToAddWithoutPw,
   })

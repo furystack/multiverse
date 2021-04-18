@@ -17,11 +17,11 @@ export const createEncodingTaskForMovie = async ({ movie, injector }: { movie: m
     .getStoreFor(media.MovieLibrary, '_id')
     .get(movie.libraryId)
   if (!library) {
-    logger.warning({ message: 'No Library for movie found, encoding task cannot be created' })
+    await logger.warning({ message: 'No Library for movie found, encoding task cannot be created' })
     return
   }
   if (library.encoding === false) {
-    logger.verbose({ message: 'Encoding has been disabled for the Movie Library, skipping...' })
+    await logger.verbose({ message: 'Encoding has been disabled for the Movie Library, skipping...' })
     return
   }
   const targetPath = join(FileStores.encodedMedia, library.encoding.codec, library.encoding.mode, movie._id)

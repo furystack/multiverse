@@ -17,7 +17,7 @@ const logger = injector.logger.withScope('INIT')
   const tempDirExists = await existsAsync(FileStores.mediaEncoderWorkerTemp)
 
   if (!tempDirExists) {
-    logger.error({
+    await logger.error({
       message: 'Media Worker temp dir does not exists or not accessible. Task skipped!',
       data: { dir: FileStores.mediaEncoderWorkerTemp },
     })

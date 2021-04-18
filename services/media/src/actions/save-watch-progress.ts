@@ -20,12 +20,12 @@ export const SaveWatchProgress: RequestAction<{
 
   const movie = await injector.getDataSetFor(media.Movie, '_id').get(injector, movieId)
   if (!movie) {
-    logger.warning({ message: 'User tried to watch a movie that does not exists', data: { usr, movieId } })
+    await logger.warning({ message: 'User tried to watch a movie that does not exists', data: { usr, movieId } })
   }
 
   if (!existing) {
     const meta = movie?.omdbMeta
-    logger.information({
+    await logger.information({
       message: `User '${usr.username}' has been started to watch movie '${
         isValidOmdbMetadata(meta) ? meta.Title : movie?.path
       }'`,

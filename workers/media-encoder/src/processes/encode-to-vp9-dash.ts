@@ -72,17 +72,17 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
         ])
       })
 
-      proc.on('start', (commandLine) => {
-        logger.information({ message: `ffmpeg started with command:${commandLine}`, data: { commandLine } })
+      proc.on('start', async (commandLine) => {
+        await logger.information({ message: `ffmpeg started with command:${commandLine}`, data: { commandLine } })
       })
       return await new Promise<void>((resolve, reject) => {
         proc
           .on('progress', (info) => {
-            // logger.information({ message: `ffmpeg progress: ${info.percent}%`, data: { info } })
+            // await logger.information({ message: `ffmpeg progress: ${info.percent}%`, data: { info } })
             progress.setValue(info.percent)
           })
           .on('end', async () => {
-            logger.information({ message: `ffmpeg vp9 encoding completed` })
+            await logger.information({ message: `ffmpeg vp9 encoding completed` })
             resolve()
           })
           .on('error', async (error, stdout, stderr) => {
@@ -98,7 +98,7 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
               encoding: 'utf-8',
               retry: 10,
             })
-            logger.warning({ message: 'ffmpeg vp9 encoding failed', data: { error } })
+            await logger.warning({ message: 'ffmpeg vp9 encoding failed', data: { error } })
             reject(error)
           })
         proc.run()

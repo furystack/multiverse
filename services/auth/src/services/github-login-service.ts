@@ -18,7 +18,7 @@ export class GithubAuthService {
   public async getGithubUserData(options: { code: string; clientId: string }): Promise<auth.GithubApiPayload> {
     const clientSecret = tokens.githubClientSecret
     if (!clientSecret) {
-      this.logger.error({
+      await this.logger.error({
         message: `Github Client secret has not been set up in the GITHUB_CLIENT_SECRET env. variable.`,
       })
       throw Error('Github Authentication failed')

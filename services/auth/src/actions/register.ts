@@ -13,7 +13,10 @@ export const RegisterAction: RequestAction<{
   const userStore = storeManager.getStoreFor(auth.User, '_id')
   const existing = await userStore.find({ filter: { username: { $eq: email } } })
   if (existing && existing.length) {
-    logger.information({ message: 'Tried to register an already existing user', data: { email, user: existing[0] } })
+    await logger.information({
+      message: 'Tried to register an already existing user',
+      data: { email, user: existing[0] },
+    })
     throw new RequestError('Failed to register user', 400)
   }
   const userCtx = injector.getInstance(HttpUserContext)
@@ -34,7 +37,7 @@ export const RegisterAction: RequestAction<{
 
   const { password: pw, ...user } = newUser
 
-  logger.information({
+  await logger.information({
     message: `A New user has been registered with the username '${user.username}'`,
     data: { ...user },
   })

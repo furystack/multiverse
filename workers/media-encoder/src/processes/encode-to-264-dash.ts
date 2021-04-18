@@ -26,7 +26,7 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
       injector: options.injector,
       directory: options.cwd,
       isFileAllowed: (fileName) => fileName.endsWith('mpd') || fileName.endsWith('m4s') || fileName.endsWith('webm'),
-      parallel: 1,
+      parallel: 2,
       task: options.task,
       progress,
       uploadPath: options.uploadPath,
@@ -64,8 +64,8 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
         ])
       })
 
-      proc.on('start', (commandLine) => {
-        logger.information({ message: `ffmpeg started with command:${commandLine}`, data: { commandLine } })
+      proc.on('start', async (commandLine) => {
+        await logger.information({ message: `ffmpeg started with command:${commandLine}`, data: { commandLine } })
       })
       return await new Promise<void>((resolve, reject) => {
         proc
@@ -73,7 +73,7 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
             progress.setValue(info.percent)
           })
           .on('end', async () => {
-            logger.information({ message: `x264 encoding completed` })
+            await logger.information({ message: `x264 encoding completed` })
             resolve()
           })
           .on('error', async (error, stdout, stderr) => {
@@ -89,7 +89,7 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
               encoding: 'utf-8',
               retry: 10,
             })
-            logger.warning({ message: 'ffmpeg errored', data: { error } })
+            await logger.warning({ message: 'ffmpeg errored', data: { error } })
             reject(error)
           })
         proc.run()
