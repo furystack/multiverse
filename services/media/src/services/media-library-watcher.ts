@@ -46,9 +46,6 @@ export class MediaLibraryWatcher {
     const libWatcher = watch(library.path, {
       ignoreInitial: false,
       awaitWriteFinish: true,
-      usePolling: true,
-
-      interval: 120 * 60 * 1000, // 2 hours
     })
     libWatcher.on('add', async (name, stats) => {
       if (!isMovieFile(name)) {
