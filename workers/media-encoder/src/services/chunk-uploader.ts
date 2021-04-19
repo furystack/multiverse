@@ -61,12 +61,8 @@ export class ChunkUploader {
     if ((!stats || !stats.isDirectory()) && this.options.isFileAllowed(fileName)) {
       try {
         await this.lock.acquire()
-        const form = new FormData({ encoding: 'utf-8' })
-        form.append('codec', this.options.codec)
-        form.append('mode', this.options.mode)
-        form.append('chunk', createReadStream(path))
-        form.append('percent', percent)
-        const response = await this.uploadWithRetries(form, fileName)
+
+        const response = await this.uploadWithRetries(path, percent, fileName)
         if (JSON.parse(response.body).success) {
           await this.logger.verbose({ message: `Chunk '${fileName}' uploaded - ${(percent || 0).toFixed(2)}% done.` })
           if (!fileName.includes('dash.mpd') && !fileName.includes('init-stream')) {
@@ -93,10 +89,16 @@ export class ChunkUploader {
     this.logger = options.injector.logger.withScope('ChunkUploader')
   }
 
-  private async uploadWithRetries(form: FormData, fileName: string): Promise<Response<string>> {
+  private async uploadWithRetries(path: string, percent: number, fileName: string): Promise<Response<string>> {
     let retries = 0
+    let form!: FormData
     do {
       try {
+        form = new FormData({ encoding: 'utf-8' })
+        form.append('codec', this.options.codec)
+        form.append('mode', this.options.mode)
+        form.append('chunk', createReadStream(path, { autoClose: true }))
+        form.append('percent', percent)
         return await got(this.options.uploadPath, {
           method: 'POST',
           body: form,
@@ -104,7 +106,7 @@ export class ChunkUploader {
           cache: false,
           agent: false,
           timeout: {
-            socket: 2000,
+            socket: 10000,
           },
           retry: {
             methods: ['POST'],
@@ -123,6 +125,8 @@ export class ChunkUploader {
             data: { codec: this.options.codec, mode: this.options.mode, fileName, error, retries },
           })
         }
+      } finally {
+        form.destroy()
       }
     } while (retries++ < this.options.retries)
     throw Error('No response')
