@@ -39,7 +39,7 @@ export const WatchStream: RequestAction<{
     const start = parseInt(parts[0], 10)
     const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1
     const chunksize = end - start + 1
-    const file = createReadStream(filePath, { start, end })
+    const file = createReadStream(filePath, { start, end, autoClose: true })
     const head = {
       'Content-Range': `bytes ${start}-${end}/${fileSize}`,
       'Accept-Ranges': 'bytes',
@@ -55,7 +55,9 @@ export const WatchStream: RequestAction<{
       'Content-Type': contentType,
     }
     response.writeHead(200, head)
-    createReadStream(filePath).pipe(response)
+    createReadStream(filePath, {
+      autoClose: true,
+    }).pipe(response)
   }
 
   return BypassResult()
