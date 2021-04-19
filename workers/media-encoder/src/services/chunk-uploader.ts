@@ -106,7 +106,7 @@ export class ChunkUploader {
           cache: false,
           agent: false,
           timeout: {
-            socket: 10000,
+            socket: 20000,
           },
           retry: {
             methods: ['POST'],
