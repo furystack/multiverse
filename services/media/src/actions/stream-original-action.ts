@@ -37,7 +37,7 @@ export const StreamOriginalAction: RequestAction<{
     const start = parseInt(parts[0], 10)
     const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1
     const chunksize = end - start + 1
-    const file = createReadStream(movie.path, { start, end })
+    const file = createReadStream(movie.path, { start, end, autoClose: true })
     const head = {
       'Content-Range': `bytes ${start}-${end}/${fileSize}`,
       'Accept-Ranges': 'bytes',
@@ -53,7 +53,7 @@ export const StreamOriginalAction: RequestAction<{
       'Content-Type': 'video/mp4',
     }
     response.writeHead(200, head)
-    createReadStream(movie.path).pipe(response)
+    createReadStream(movie.path, { autoClose: true }).pipe(response)
   }
   return BypassResult()
 }
