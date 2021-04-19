@@ -70,7 +70,7 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
       return await new Promise<void>((resolve, reject) => {
         proc
           .on('progress', async (info) => {
-            await logger.information({ message: `${info.percent.toFixed(2)}% of x264 encoding completed` })
+            await logger.information({ message: `${(info.percent || 0).toFixed(2)}% of x264 encoding completed` })
             progress.setValue(info.percent)
           })
           .on('end', async () => {

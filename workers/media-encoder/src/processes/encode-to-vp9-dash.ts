@@ -78,7 +78,7 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
       return await new Promise<void>((resolve, reject) => {
         proc
           .on('progress', async (info) => {
-            await logger.information({ message: `${info.percent.toFixed(2)}% of VP9 encoding completed` })
+            await logger.information({ message: `${(info.percent || 0).toFixed(2)}% of VP9 encoding completed` })
             progress.setValue(info.percent)
           })
           .on('end', async () => {
