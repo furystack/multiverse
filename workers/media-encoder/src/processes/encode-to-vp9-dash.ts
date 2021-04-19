@@ -47,11 +47,11 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
       `-filter_complex [0]format=pix_fmts=yuv420p[temp${index}];[temp${index}]scale=-2:${format.downScale}[A${index}]`,
       `-map [A${index}]:v`,
       `-b:v:${index} ${format.bitrate?.target || 0}k`,
-      '-pix_fmt yuv420p10le',
-      '-color_primaries 9',
-      '-colorspace 9',
-      '-color_range 1',
-      '-dash 1',
+      // '-pix_fmt yuv420p10le',
+      // '-color_primaries 9',
+      // '-colorspace 9',
+      // '-color_range 1',
+      // '-dash 1',
       ...(format.quality ? [`-crf ${format.quality}`] : []),
       ...(format.bitrate?.min ? [`-minrate ${format.bitrate.min}k`] : []),
       ...(format.bitrate?.max ? [`-maxrate ${format.bitrate.max}k`] : []),
@@ -77,8 +77,8 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
     async () => {
       return await new Promise<void>((resolve, reject) => {
         proc
-          .on('progress', (info) => {
-            // await logger.information({ message: `ffmpeg progress: ${info.percent}%`, data: { info } })
+          .on('progress', async (info) => {
+            await logger.information({ message: `${info.percent.toFixed(2)}% of VP9 encoding completed` })
             progress.setValue(info.percent)
           })
           .on('end', async () => {
@@ -101,7 +101,6 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
             await logger.warning({ message: 'ffmpeg vp9 encoding failed', data: { error } })
             reject(error)
           })
-
         proc.run()
       })
     },

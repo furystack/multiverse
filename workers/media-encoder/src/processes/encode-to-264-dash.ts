@@ -64,10 +64,10 @@ export const encodeToX264Dash = async (options: EncodeToX264DashOptions) => {
       uploadPath: options.uploadPath,
       codec: 'x264',
       mode: 'dash',
-      retries: 25,
+      retries: 15,
     }),
     async () => {
-      await new Promise<void>((resolve, reject) => {
+      return await new Promise<void>((resolve, reject) => {
         proc
           .on('progress', async (info) => {
             await logger.information({ message: `${info.percent.toFixed(2)}% of x264 encoding completed` })
