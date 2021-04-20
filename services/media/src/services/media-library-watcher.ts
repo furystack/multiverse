@@ -9,7 +9,6 @@ import { getFfprobeData } from '../utils/get-ffprobe-data'
 import { getUniversalMetadataFromOmdb } from '../utils/get-universal-metadata-from-omdb'
 import { getFallbackMetadata } from '../utils/get-fallback-metadata'
 import { fetchOmdbMetadata } from '../utils/fetch-omdb-metadata'
-import { extractSubtitles } from '../utils/extract-subtitles'
 import { createEncodingTaskForMovie } from '../utils/create-encoding-task-for-movie'
 
 @Injectable({ lifetime: 'singleton' })
@@ -82,7 +81,8 @@ export class MediaLibraryWatcher {
             ffprobe,
           })
           await createEncodingTaskForMovie({ injector: this.injector, movie: createResult.created[0] })
-          await extractSubtitles({ injector: this.injector, movie: createResult.created[0] })
+          // Should be a manual step to avoid initial high pressure
+          // await extractSubtitles({ injector: this.injector, movie: createResult.created[0] })
         } catch (error) {
           await this.logger.error({
             message: 'Something went wrong when adding a new entry to the Movie Library',
