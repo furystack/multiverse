@@ -3,7 +3,7 @@ import { media } from '@common/models'
 import { MovieWidget } from '../../components/dashboard/movie-widget'
 
 export const MovieList = Shade<
-  { movies: media.Movie[] },
+  { movies: media.Movie[]; watchProgresses: media.MovieWatchHistoryEntry[] },
   { orderedMovies: media.Movie[]; order: keyof media.Movie; orderType: 'asc' | 'desc' }
 >({
   getInitialState: ({ props }) => ({
@@ -12,7 +12,7 @@ export const MovieList = Shade<
     orderedMovies: props.movies.sortBy('_id', 'desc'),
   }),
   shadowDomName: 'multiverse-movie-list',
-  render: ({ getState }) => {
+  render: ({ props, getState }) => {
     return (
       <div
         style={{
@@ -25,7 +25,12 @@ export const MovieList = Shade<
           height: '100%',
         }}>
         {getState().orderedMovies.map((m, index) => (
-          <MovieWidget size={348} movie={m} index={index} />
+          <MovieWidget
+            size={348}
+            movie={m}
+            index={index}
+            watchHistory={props.watchProgresses?.find((wp) => wp.movieId === m._id)}
+          />
         ))}
       </div>
     )

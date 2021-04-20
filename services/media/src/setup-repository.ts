@@ -7,7 +7,6 @@ export const setupRepository = (injector: Injector) => {
   injector.setupRepository((repo) =>
     repo
       .createDataSet(media.Movie, '_id', {
-        // ToDo: authorize update with Movie Admin role
         addFilter: async ({ injector: i, filter }) => {
           const identityContext = i.getInstance(IdentityContext)
           if (identityContext.constructor === IdentityContext) {

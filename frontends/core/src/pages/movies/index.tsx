@@ -134,9 +134,20 @@ export const MoviesPage = Shade({
                       action: '/movies',
                       query: { findOptions: { filter: { libraryId: { $eq: libraryId } } } },
                     })
+                    const { result: watchProgresses } = await injector.getInstance(MediaApiService).call({
+                      method: 'GET',
+                      action: '/my-watch-progress',
+                      query: {
+                        findOptions: {
+                          filter: {
+                            movieId: { $in: movies.entries.map((m) => m._id) },
+                          },
+                        },
+                      },
+                    })
                     return (
                       <div style={{ width: '100%', height: '100%' }}>
-                        <MovieList movies={movies.entries as media.Movie[]} />
+                        <MovieList movies={movies.entries as media.Movie[]} watchProgresses={watchProgresses.entries} />
                         <Fab
                           title="Watch encoding jobs"
                           style={{ marginBottom: '5em', transform: 'scale(0.75)' }}

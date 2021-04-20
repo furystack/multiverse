@@ -149,21 +149,22 @@ export const MovieWidget = Shade<
               loader={<div />}
               component={async () => {
                 const watchProgress =
-                  movie.metadata.duration &&
-                  (
-                    await injector.getInstance(MediaApiService).call({
-                      method: 'GET',
-                      action: '/my-watch-progress',
-                      query: {
-                        findOptions: {
-                          filter: {
-                            movieId: { $eq: movie._id },
+                  props.watchHistory ||
+                  (movie.metadata.duration &&
+                    (
+                      await injector.getInstance(MediaApiService).call({
+                        method: 'GET',
+                        action: '/my-watch-progress',
+                        query: {
+                          findOptions: {
+                            filter: {
+                              movieId: { $eq: movie._id },
+                            },
+                            select: ['watchedSeconds'],
                           },
-                          select: ['watchedSeconds'],
                         },
-                      },
-                    })
-                  ).result.entries[0]
+                      })
+                    ).result.entries[0])
 
                 const percent =
                   watchProgress &&
