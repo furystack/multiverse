@@ -1,7 +1,7 @@
 import { Shade, createComponent, Router, LazyLoad } from '@furystack/shades'
 import { media } from '@common/models'
 import { MediaApiService } from '@common/frontend-utils'
-import { Fab } from '@furystack/shades-common-components'
+import { Fab, promisifyAnimation } from '@furystack/shades-common-components'
 import { Init } from '../init'
 import { GenericErrorPage } from '../generic-error'
 import { GenericMonacoEditor } from '../../components/editors/generic-monaco-editor'
@@ -117,6 +117,18 @@ export const MoviesPage = Shade({
             routingOptions: {
               end: true,
             },
+            onLeave: async ({ element }) => {
+              await promisifyAnimation(
+                element.querySelector('div'),
+                [
+                  { transform: 'translate(0px, 0px)', opacity: 1 },
+                  { transform: 'translate(0px, -2000px)', opacity: 0 },
+                ],
+                {
+                  duration: 300,
+                },
+              )
+            },
             component: ({ match }) => {
               return (
                 <LazyLoad
@@ -208,6 +220,13 @@ export const MoviesPage = Shade({
           },
           {
             url: '/movies/overview/:movieId',
+            onLeave: async ({ element }) => {
+              const el = element.querySelector('div')
+              el &&
+                (await promisifyAnimation(el, [{ opacity: 1 }, { opacity: 0 }], {
+                  duration: 100,
+                }))
+            },
             component: ({ match }) => (
               <LazyLoad
                 error={(error, retry) => (
