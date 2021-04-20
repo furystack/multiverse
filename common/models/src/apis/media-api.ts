@@ -1,4 +1,5 @@
 import { RestApi, GetCollectionEndpoint, GetEntityEndpoint, PostEndpoint, PatchEndpoint } from '@furystack/rest'
+import { CreateResult } from '@furystack/core'
 import { LeveledLogEntry } from '@furystack/logging'
 import { Movie, MovieLibrary, MovieWatchHistoryEntry, EncodingTask, EncodingType } from '../media'
 import { media } from '..'
@@ -52,7 +53,7 @@ export interface MediaApi extends RestApi {
       body: { accessToken: string; error: any; log: Array<LeveledLogEntry<any>> }
       result: { success: boolean }
     }
-    '/encode/reencode': { body: { movieId: string }; result: { success: boolean } }
+    '/encode/reencode': { body: { movieId: string }; result: CreateResult<EncodingTask> }
     '/movies/:movieId/re-fetch-metadata': { url: { movieId: string }; result: { success: boolean } }
     '/movies/:movieId/re-extract-subtitles': { url: { movieId: string }; result: { success: boolean } }
   }

@@ -6,7 +6,7 @@ import { createEncodingTaskForMovie } from '../utils/create-encoding-task-for-mo
 
 export const ReEncodeAction: RequestAction<{
   body: { movieId: string }
-  result: { success: boolean; task?: CreateResult<media.EncodingTask> }
+  result: CreateResult<media.EncodingTask>
 }> = async ({ getBody, injector }) => {
   const { movieId } = await getBody()
   const dataSet = injector.getDataSetFor(media.Movie, '_id')
@@ -41,5 +41,5 @@ export const ReEncodeAction: RequestAction<{
     },
   })
 
-  return JsonResult({ success: task ? true : false, task })
+  return JsonResult(task)
 }

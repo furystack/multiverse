@@ -61,7 +61,7 @@ export const MovieWidget = Shade<
   render: ({ props, injector, getState }) => {
     const { movie } = props
     const meta = movie.metadata
-    const url = `/movies/watch/${movie._id}`
+    const url = `/movies/overview/${movie._id}`
     return (
       <RouteLink tabIndex={0} title={meta.plot || meta.title} href={url}>
         <div

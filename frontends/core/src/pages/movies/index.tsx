@@ -12,6 +12,7 @@ import { Watch } from './watch'
 import { EditMovie } from './edit-movie'
 import { EncodingTasks } from './encoding-tasks'
 import { EncodingTaskDetails } from './encoding-tasks/encoding-task-details'
+import { MovieOverview } from './movie-overview'
 
 export const MoviesPage = Shade({
   shadowDomName: 'multiverse-movies-page',
@@ -204,6 +205,53 @@ export const MoviesPage = Shade({
                 />
               )
             },
+          },
+          {
+            url: '/movies/overview/:movieId',
+            component: ({ match }) => (
+              <LazyLoad
+                error={(error, retry) => (
+                  <GenericErrorPage
+                    subtitle="Something bad happened during loading the movie metadata"
+                    error={error}
+                    retry={retry}
+                  />
+                )}
+                loader={<Init message="Loading movie..." />}
+                component={async () => {
+                  const { result: movie } = await injector.getInstance(MediaApiService).call({
+                    method: 'GET',
+                    action: '/movies/:id',
+                    url: { id: match.params.movieId },
+                    query: {},
+                  })
+                  const { result: movieProgress } = await injector.getInstance(MediaApiService).call({
+                    method: 'GET',
+                    action: '/my-watch-progress',
+                    query: {
+                      findOptions: {
+                        filter: { movieId: { $eq: match.params.movieId }, completed: { $eq: false } },
+                        order: { lastWatchDate: 'DESC' },
+                      },
+                    },
+                  })
+
+                  const { result: subtitles } = await injector.getInstance(MediaApiService).call({
+                    method: 'GET',
+                    action: '/movies/:movieId/subtitles',
+                    url: { movieId: match.params.movieId },
+                  })
+
+                  return (
+                    <MovieOverview
+                      watchedSeconds={movieProgress.entries[0] ? movieProgress.entries[0].watchedSeconds : 0}
+                      movie={movie}
+                      availableSubtitles={subtitles}
+                    />
+                  )
+                }}
+              />
+            ),
           },
           {
             url: '/movies/watch/:movieId',

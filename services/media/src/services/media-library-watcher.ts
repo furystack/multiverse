@@ -9,7 +9,6 @@ import { getFfprobeData } from '../utils/get-ffprobe-data'
 import { getUniversalMetadataFromOmdb } from '../utils/get-universal-metadata-from-omdb'
 import { getFallbackMetadata } from '../utils/get-fallback-metadata'
 import { fetchOmdbMetadata } from '../utils/fetch-omdb-metadata'
-import { createEncodingTaskForMovie } from '../utils/create-encoding-task-for-movie'
 
 @Injectable({ lifetime: 'singleton' })
 export class MediaLibraryWatcher {
@@ -73,15 +72,15 @@ export class MediaLibraryWatcher {
           })
           const metadata = media.isValidOmdbMetadata(omdbMeta) ? getUniversalMetadataFromOmdb(omdbMeta) : fallbackMeta
 
-          const createResult = await dataSet.add(this.injector, {
+          await dataSet.add(this.injector, {
             path: name,
             libraryId: library._id,
             metadata,
             omdbMeta,
             ffprobe,
           })
-          await createEncodingTaskForMovie({ injector: this.injector, movie: createResult.created[0] })
           // Should be a manual step to avoid initial high pressure
+          // await createEncodingTaskForMovie({ injector: this.injector, movie: createResult.created[0] })
           // await extractSubtitles({ injector: this.injector, movie: createResult.created[0] })
         } catch (error) {
           await this.logger.error({

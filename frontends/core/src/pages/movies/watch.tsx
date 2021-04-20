@@ -2,9 +2,9 @@ import { Shade, createComponent, PartialElement } from '@furystack/shades'
 import { ObservableValue } from '@furystack/utils'
 import { media } from '@common/models'
 import { sites } from '@common/config'
-import { MediaApiService } from '@common/frontend-utils'
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
+import { MovieService } from '../../services/movie-service'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -88,11 +88,7 @@ export const Watch = Shade<
     })
 
     const subscription = getState().watchedSeconds.subscribe((watchedSeconds) => {
-      injector.getInstance(MediaApiService).call({
-        method: 'POST',
-        action: '/save-watch-progress',
-        body: { movieId: props.movie._id, watchedSeconds },
-      })
+      injector.getInstance(MovieService).saveWatchProgress(props.movie, watchedSeconds)
     })
 
     const interval = setInterval(() => {
