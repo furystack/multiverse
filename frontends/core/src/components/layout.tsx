@@ -1,14 +1,12 @@
 import { createComponent, Shade, Router, LazyLoad } from '@furystack/shades'
 import { Injector } from '@furystack/inject'
-import { CommandPalette, defaultLightTheme, NotyList, ThemeProviderService } from '@furystack/shades-common-components'
+import { defaultLightTheme, NotyList, ThemeProviderService } from '@furystack/shades-common-components'
 import { DocsPage } from '../pages/docs'
 import { ContactPage } from '../pages/contact'
 import { Init } from '../pages'
-import { getCommandProviders } from '../services/command-providers'
 import { GenericErrorPage } from '../pages/generic-error'
 import { Body } from './body'
 import { Header } from './header'
-import { CurrentUserMenu } from './current-user-menu'
 
 const lightBackground = 'linear-gradient(to right bottom, #ebebf8, #e3e3f6, #dcdcf4, #d4d4f2, #cdcdf0)'
 const darkBackground = 'linear-gradient(to right bottom, #2b3036, #292c31, #27282d, #242428, #212023)'
@@ -50,11 +48,7 @@ export const Layout = Shade({
           lineHeight: '1.6',
         }}
         className="eee">
-        <Header>
-          <CommandPalette style={{ marginRight: '1em' }} commandProviders={getCommandProviders()} defaultPrefix={'>'} />{' '}
-          <CurrentUserMenu />
-          <div style={{ width: '50px' }} />
-        </Header>
+        <Header />
         <Router
           routes={[
             /** If you needs routes with session dependency, use the <Body /> */

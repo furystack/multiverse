@@ -33,7 +33,7 @@ const CurrentUserMenuItem = Shade<{ title: string; icon: common.Icon; onclick: (
 })
 
 export const CurrentUserMenu = Shade<
-  {},
+  { isDesktop: boolean },
   { currentUser?: Omit<auth.User, 'password'>; isOpened: ObservableValue<boolean> }
 >({
   shadowDomName: 'shade-current-user-menu',

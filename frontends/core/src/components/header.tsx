@@ -1,16 +1,54 @@
-import { createComponent, RouteLink, Shade, Router } from '@furystack/shades'
-import { AppBar, animations } from '@furystack/shades-common-components'
+import { createComponent, RouteLink, Shade, Screen, Router } from '@furystack/shades'
+
+import { AppBar, animations, CommandPalette } from '@furystack/shades-common-components'
 import { serviceList } from '@common/models'
+import { getCommandProviders } from '../services/command-providers'
 import { Icon } from './icon'
-export const Header = Shade({
+import { CurrentUserMenu } from './current-user-menu'
+export const Header = Shade<unknown, { isDesktop: boolean }>({
+  getInitialState: ({ injector }) => ({ isDesktop: injector.getInstance(Screen).screenSize.atLeast.md.getValue() }),
   shadowDomName: 'shade-app-header',
-  render: ({ children }) => {
+  constructed: ({ injector, updateState }) => {
+    const isDesktopObserver = injector
+      .getInstance(Screen)
+      .screenSize.atLeast.md.subscribe((val) => updateState({ isDesktop: val }))
+    return () => isDesktopObserver.dispose()
+  },
+  render: ({ getState }) => {
+    const { isDesktop } = getState()
+    if (!isDesktop) {
+      return (
+        <AppBar>
+          <RouteLink
+            title="Multiverse"
+            href="/"
+            style={{
+              marginRight: '1em',
+              cursor: 'pointer',
+              placeContent: 'center',
+              display: 'flex',
+              overflow: 'hidden',
+              flexShrink: '1',
+              textOverflow: 'hidden',
+            }}>
+            <img src="/static/galaxy.png" alt="Multiverse Logo" style={{ marginRight: '0.5em', flexGrow: '0' }} />
+          </RouteLink>
+          <CommandPalette
+            style={{ marginRight: '0.5em' }}
+            commandProviders={getCommandProviders()}
+            fullScreenSuggestions={true}
+            defaultPrefix={'>'}
+          />
+          <CurrentUserMenu isDesktop={isDesktop} />
+          <div style={{ width: '30px' }} />
+        </AppBar>
+      )
+    }
     return (
       <AppBar>
         <h3
           style={{
             margin: '0 2em 0 0',
-            // color: '#aaa',
             textDecoration: 'none',
             fontFamily: '"Lucida Console", Monaco, monospace',
             whiteSpace: 'nowrap',
@@ -26,9 +64,12 @@ export const Header = Shade({
               cursor: 'pointer',
               placeContent: 'center',
               display: 'flex',
+              overflow: 'hidden',
+              flexShrink: '1',
+              textOverflow: 'hidden',
             }}>
             <img src="/static/galaxy.png" alt="Multiverse Logo" style={{ marginRight: '1em' }} />
-            <div>Multiverse</div>
+            <div style={{ overflow: 'hidden', textOverflow: 'ellipsos' }}>Multiverse</div>
           </RouteLink>
           <Router
             notFound={() => <div />}
@@ -40,14 +81,21 @@ export const Header = Shade({
               component: () => (
                 <RouteLink style={{ display: 'inline-flex' }} href={s.url}>
                   -{' '}
-                  <Icon icon={s.icon} elementProps={{ style: { height: '100%', margin: '0px 13px', width: '28px' } }} />{' '}
+                  <Icon icon={s.icon} elementProps={{ style: { height: '100%', margin: '0px 13px', width: '28px' } }} />
                   {s.name}
                 </RouteLink>
               ),
             }))}
           />
         </h3>
-        {children}
+        <CommandPalette
+          style={{ marginRight: '1em' }}
+          commandProviders={getCommandProviders()}
+          defaultPrefix={'>'}
+          fullScreenSuggestions={false}
+        />
+        <CurrentUserMenu isDesktop={isDesktop} />
+        <div style={{ width: '50px' }} />
       </AppBar>
     )
   },
