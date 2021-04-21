@@ -1,4 +1,4 @@
-import { ResponseError } from '@furystack/rest-client-fetch/dist/response-error'
+import { ResponseError } from '@furystack/rest-client-fetch'
 
 export const getErrorMessage = async (error: Error): Promise<string> => {
   if (error instanceof ResponseError) {

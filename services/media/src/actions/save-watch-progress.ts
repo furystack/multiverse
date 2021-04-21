@@ -1,6 +1,5 @@
 import { RequestAction, JsonResult } from '@furystack/rest-service'
 import { auth, media } from '@common/models'
-import { isValidOmdbMetadata } from '@common/models/dist/media'
 
 export const SaveWatchProgress: RequestAction<{
   body: { movieId: string; watchedSeconds: number }
@@ -27,7 +26,7 @@ export const SaveWatchProgress: RequestAction<{
     const meta = movie?.omdbMeta
     await logger.information({
       message: `User '${usr.username}' has been started to watch movie '${
-        isValidOmdbMetadata(meta) ? meta.Title : movie?.path
+        media.isValidOmdbMetadata(meta) ? meta.Title : movie?.path
       }'`,
     })
     await dataSet.add(injector, {

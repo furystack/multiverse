@@ -1,4 +1,4 @@
-import { MovieUniversalMetadata } from '@common/models/dist/media/movie-universal-metadata'
+import { media } from '@common/models'
 
 const getYear = (segment: string) => {
   const yearStr = segment.split(/['.'|' ']/).find((v) => {
@@ -10,7 +10,7 @@ const getYear = (segment: string) => {
 
 const getResolution = (segment: string) => new RegExp(/\.(?<resolution>(\d+p))\./gm).exec(segment)?.groups?.resolution
 
-export const getFallbackMetaWithScore = (segment: string): { meta: MovieUniversalMetadata; score: number } => {
+export const getFallbackMetaWithScore = (segment: string): { meta: media.MovieUniversalMetadata; score: number } => {
   if (!segment) {
     return {
       score: -1,
@@ -60,7 +60,7 @@ export const getFallbackMetaWithScore = (segment: string): { meta: MovieUniversa
   }
 }
 
-export const getFallbackMetadata = (path: string): MovieUniversalMetadata => {
+export const getFallbackMetadata = (path: string): media.MovieUniversalMetadata => {
   const segments = path.split(/\/|\\/g)
   const fileName = segments[segments.length - 1]
   const folderName = segments[segments.length - 2]
