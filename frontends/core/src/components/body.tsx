@@ -1,6 +1,6 @@
 import { createComponent, Shade, Route, Router, LazyLoad } from '@furystack/shades'
 import { auth } from '@common/models'
-import { SessionService, sessionState, AuthApiService } from '@common/frontend-utils'
+import { SessionService, SessionState, AuthApiService } from '@common/frontend-utils'
 import { promisifyAnimation, Loader } from '@furystack/shades-common-components'
 import { Init, WelcomePage, Offline, Login } from '../pages'
 import { Page404 } from '../pages/404'
@@ -9,7 +9,7 @@ import { AcceptTermsPage } from '../pages/accept-terms'
 
 export const Body = Shade<
   unknown,
-  { sessionState: sessionState; currentUser: Omit<auth.User, 'password'> | null; isOperationInProgress: boolean }
+  { sessionState: SessionState; currentUser: Omit<auth.User, 'password'> | null; isOperationInProgress: boolean }
 >({
   shadowDomName: 'shade-app-body',
   getInitialState: ({ injector }) => {
@@ -34,10 +34,14 @@ export const Body = Shade<
     return () => observables.forEach((o) => o.dispose())
   },
   render: ({ getState, injector }) => {
-    // eslint-disable-next-line no-shadow
     const { currentUser, sessionState, isOperationInProgress } = getState()
 
-    if (isOperationInProgress) return <Init message="Initializing app..." />
+    if (isOperationInProgress)
+      return (
+        <div style={{ position: 'fixed', display: 'flex', width: '100%', height: '100%', placeContent: 'center' }}>
+          <Init message="Authenticating..." />
+        </div>
+      )
 
     return (
       <div
@@ -136,7 +140,7 @@ export const Body = Shade<
                                   )
                                   return <OrganizationsPage />
                                 }}
-                                loader={<Init message="Loading your Profile..." />}
+                                loader={<Init message="Loading Organizations..." />}
                               />
                             ),
                           },
@@ -157,7 +161,7 @@ export const Body = Shade<
                                   )
                                   return <AddOrganizationPage />
                                 }}
-                                loader={<Init message="Loading your Profile..." />}
+                                loader={<Init message="Loading Organizations..." />}
                               />
                             ),
                           },
@@ -183,7 +187,7 @@ export const Body = Shade<
                                   })
                                   return <OrganizationDetailsPage organization={org as auth.Organization} />
                                 }}
-                                loader={<Init message="Loading your Profile..." />}
+                                loader={<Init message="Loading the Organization..." />}
                               />
                             ),
                           },
@@ -204,7 +208,7 @@ export const Body = Shade<
                                   )
                                   return <AddXpenseAccountPage />
                                 }}
-                                loader={<Init message="Loading your Profile..." />}
+                                loader={<Init message="Loading Xpense..." />}
                               />
                             ),
                           },
@@ -234,7 +238,7 @@ export const Body = Shade<
                                     />
                                   )
                                 }}
-                                loader={<Init message="Loading your Profile..." />}
+                                loader={<Init message="Loading Xpense..." />}
                               />
                             ),
                           },
@@ -258,7 +262,7 @@ export const Body = Shade<
                                   )
                                   return <DashboardsPage />
                                 }}
-                                loader={<Init message="Loading Dashboards page..." />}
+                                loader={<Init message="Loading Dashboards..." />}
                               />
                             ),
                           },
@@ -466,7 +470,18 @@ export const Body = Shade<
                   />
                 )
               default:
-                return <Init message="Initializing app..." />
+                return (
+                  <div
+                    style={{
+                      position: 'fixed',
+                      display: 'flex',
+                      width: '100%',
+                      height: '100%',
+                      placeContent: 'center',
+                    }}>
+                    <Init message="Initializing app..." />
+                  </div>
+                )
             }
           })()}
         </div>

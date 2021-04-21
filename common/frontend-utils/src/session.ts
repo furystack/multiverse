@@ -11,7 +11,7 @@ import {
 import { AuthApiService } from './apis/auth-api'
 import { getErrorMessage } from './get-error-message'
 
-export type sessionState = 'initializing' | 'offline' | 'unauthenticated' | 'authenticated'
+export type SessionState = 'initializing' | 'offline' | 'unauthenticated' | 'authenticated'
 
 @Injectable({ lifetime: 'singleton' })
 export class SessionService implements IdentityContext {
@@ -20,7 +20,7 @@ export class SessionService implements IdentityContext {
     return { dispose: () => this.isOperationInProgress.setValue(false) }
   }
 
-  public state = new ObservableValue<sessionState>('initializing')
+  public state = new ObservableValue<SessionState>('initializing')
   public currentUser = new ObservableValue<Omit<auth.User, 'password'> | null>(null)
 
   public isOperationInProgress = new ObservableValue(true)

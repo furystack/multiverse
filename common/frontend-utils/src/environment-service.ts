@@ -10,6 +10,8 @@ export class EnvironmentService {
   public readonly apiRoot: string
   public readonly siteRoots: SiteRoots
 
+  public readonly commitHash: string
+
   constructor({
     apiRoot,
     appVersion,
@@ -17,6 +19,7 @@ export class EnvironmentService {
     buildDate,
     debug,
     siteRoots,
+    commitHash,
   }: {
     nodeEnv: 'development' | 'production'
     buildDate: Date
@@ -24,6 +27,7 @@ export class EnvironmentService {
     appVersion: string
     apiRoot: string
     siteRoots: SiteRoots
+    commitHash: string
   }) {
     this.apiRoot = apiRoot
     this.appVersion = appVersion
@@ -31,5 +35,6 @@ export class EnvironmentService {
     this.buildDate = buildDate
     this.nodeEnv = nodeEnv
     this.siteRoots = siteRoots
+    this.commitHash = commitHash
   }
 }

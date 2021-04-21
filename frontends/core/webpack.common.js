@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const commitHash = require('child_process').execSync('git rev-parse HEAD').toString()
 const path = require('path')
 const webpack = require('webpack')
 const { sites, tokens } = require('@common/config')
@@ -33,6 +34,7 @@ module.exports = {
       BUILD_DATE: new Date().toISOString(),
       GITHUB_CLIENT_ID: tokens.githubClientId,
       GOOGLE_CLIENT_ID: tokens.googleClientId,
+      COMMIT_HASH: commitHash,
       ...sites.frontends,
       ...sites.services,
     }),

@@ -28,6 +28,7 @@ const shadeInjector = new Injector()
 
 shadeInjector.setExplicitInstance(
   new EnvironmentService({
+    commitHash: process.env.COMMIT_HASH || '',
     nodeEnv: process.env.NODE_ENV as 'development' | 'production',
     debug: Boolean(process.env.DEBUG),
     appVersion: process.env.APP_VERSION as string,
