@@ -15,14 +15,14 @@
   },
   "dependencies": {
     "@common/service-utils": "1.0.0",
-    "@furystack/auth-google": "^4.0.71",
-    "@furystack/core": "^10.0.2",
-    "@furystack/inject": "^4.0.61",
-    "@furystack/logging": "^2.0.68",
-    "@furystack/mongodb-store": "^4.0.2",
-    "@furystack/repository": "^5.0.2",
-    "@furystack/rest": "^3.0.2",
-    "@furystack/rest-service": "^4.0.2",
+    "@furystack/auth-google": "^4.0.72",
+    "@furystack/core": "^10.0.3",
+    "@furystack/inject": "^4.0.62",
+    "@furystack/logging": "^2.0.69",
+    "@furystack/mongodb-store": "^4.0.3",
+    "@furystack/repository": "^5.0.3",
+    "@furystack/rest": "^3.0.3",
+    "@furystack/rest-service": "^4.0.3",
     "tslib": "^2.1.0"
   }
 }
