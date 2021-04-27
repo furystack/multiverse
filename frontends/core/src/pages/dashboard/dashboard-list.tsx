@@ -35,7 +35,15 @@ export const DashboardList = Shade<{}, { service: CollectionService<dashboard.Da
             wrapper: { background: 'rgba(128,128,128,0.03)' },
           }}
           headerComponents={{}}
-          rowComponents={{}}
+          rowComponents={{
+            name: (el) => {
+              return (
+                <div>
+                  {el.name} <br /> {el.description}
+                </div>
+              )
+            },
+          }}
           onDoubleClick={(entry) => {
             window.history.pushState('', '', `/dashboard/edit/${entry._id}`)
             injector.getInstance(LocationService).updateState()
@@ -45,6 +53,7 @@ export const DashboardList = Shade<{}, { service: CollectionService<dashboard.Da
           title="Create new dashboard"
           onclick={() => {
             window.history.pushState('', '', '/dashboard/new')
+            injector.getInstance(LocationService).updateState()
           }}>
           ➕
         </Fab>
