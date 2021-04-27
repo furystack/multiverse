@@ -437,16 +437,7 @@
                   "additionalProperties": false
                 },
                 "result": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    }
-                  },
-                  "required": [
-                    "success"
-                  ],
-                  "additionalProperties": false
+                  "$ref": "#/definitions/CreateResult%3CEncodingTask%3E"
                 }
               },
               "required": [
@@ -4128,6 +4119,21 @@
         "name",
         "path",
         "icon"
+      ],
+      "additionalProperties": false
+    },
+    "CreateResult<EncodingTask>": {
+      "type": "object",
+      "properties": {
+        "created": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EncodingTask"
+          }
+        }
+      },
+      "required": [
+        "created"
       ],
       "additionalProperties": false
     },

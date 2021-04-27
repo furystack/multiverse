@@ -1,3 +1,4 @@
+import { AllMovieLibrariesWidget } from './all-movie-libraries-widget'
 import { AppListWidget } from './app-list-widget'
 import { AppShortcutWidget } from './app-shortcut-widget'
 import { ContinueMoviesWidget } from './continue-movies'
@@ -11,6 +12,7 @@ import { WeatherWidget } from './weather-widget'
 export * from './dashboard'
 
 export {
+  AllMovieLibrariesWidget,
   HtmlWidget,
   AppShortcutWidget,
   IconUrlWidget,
@@ -23,6 +25,7 @@ export {
 }
 
 export type Widget =
+  | AllMovieLibrariesWidget
   | AppShortcutWidget
   | HtmlWidget
   | IconUrlWidget

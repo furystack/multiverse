@@ -9,6 +9,7 @@ import { MarkdownWidget } from './markdown-widget'
 import { AppListWidget } from './app-list-widget'
 import { EntityShortcutWidget } from './entity-shortcut-widget'
 import { WeatherWidget } from './weather-widget'
+import { AllMovieLibrariesWidget } from './all-movie-libraries-widget'
 
 export const GenericWidget = Shade<dashboard.Widget & { index: number }>({
   shadowDomName: 'generic-widget',
@@ -22,6 +23,8 @@ export const GenericWidget = Shade<dashboard.Widget & { index: number }>({
     switch (props.type) {
       case 'icon-url-widget':
         return <IconUrlWidget {...props} />
+      case 'all-movie-libraries':
+        return <AllMovieLibrariesWidget />
       case 'app-shortcut':
         return <AppShortcutWidget {...props} />
       case 'app-list':
