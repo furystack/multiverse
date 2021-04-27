@@ -5,6 +5,7 @@ import { ContinueMoviesWidget } from './continue-movies'
 import { HtmlWidget } from './html-widget'
 import { IconUrlWidget } from './icon-url-widget'
 import { MarkdownWidget } from './markdown-widget'
+import { MovieListWidget } from './movie-list-widget'
 import { EntityShortcutWidget } from './entity-shortcut-widget'
 import { WeatherData } from './weather-data'
 import { WeatherWidget } from './weather-widget'
@@ -13,6 +14,7 @@ export * from './dashboard'
 
 export {
   AllMovieLibrariesWidget,
+  MovieListWidget,
   HtmlWidget,
   AppShortcutWidget,
   IconUrlWidget,
@@ -30,6 +32,7 @@ export type Widget =
   | HtmlWidget
   | IconUrlWidget
   | MarkdownWidget
+  | MovieListWidget
   | ContinueMoviesWidget
   | AppListWidget
   | EntityShortcutWidget

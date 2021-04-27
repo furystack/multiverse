@@ -638,6 +638,9 @@
           "$ref": "#/definitions/MarkdownWidget"
         },
         {
+          "$ref": "#/definitions/MovieListWidget"
+        },
+        {
           "$ref": "#/definitions/ContinueMoviesWidget"
         },
         {
@@ -1208,6 +1211,39 @@
       },
       "required": [
         "content",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "MovieListWidget": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "movie-list"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "movieIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "movieIds",
+        "title",
         "type"
       ],
       "additionalProperties": false

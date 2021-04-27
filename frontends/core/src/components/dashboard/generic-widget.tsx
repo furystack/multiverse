@@ -10,6 +10,7 @@ import { AppListWidget } from './app-list-widget'
 import { EntityShortcutWidget } from './entity-shortcut-widget'
 import { WeatherWidget } from './weather-widget'
 import { AllMovieLibrariesWidget } from './all-movie-libraries-widget'
+import { MovieListWidget } from './movie-list'
 
 export const GenericWidget = Shade<dashboard.Widget & { index: number }>({
   shadowDomName: 'generic-widget',
@@ -31,6 +32,9 @@ export const GenericWidget = Shade<dashboard.Widget & { index: number }>({
         return <AppListWidget {...props} />
       case 'continue-movies':
         return <ContinueMoviesWidget {...props} />
+      case 'movie-list': {
+        return <MovieListWidget {...props} />
+      }
       case 'html':
         return <HtmlWidget {...props} />
       case 'markdown':
