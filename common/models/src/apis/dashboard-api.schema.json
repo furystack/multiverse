@@ -623,6 +623,9 @@
     "Widget": {
       "anyOf": [
         {
+          "$ref": "#/definitions/AllMovieLibrariesWidget"
+        },
+        {
           "$ref": "#/definitions/AppShortcutWidget"
         },
         {
@@ -633,6 +636,9 @@
         },
         {
           "$ref": "#/definitions/MarkdownWidget"
+        },
+        {
+          "$ref": "#/definitions/MovieListWidget"
         },
         {
           "$ref": "#/definitions/ContinueMoviesWidget"
@@ -647,6 +653,31 @@
           "$ref": "#/definitions/WeatherWidget"
         }
       ]
+    },
+    "AllMovieLibrariesWidget": {
+      "$ref": "#/definitions/WidgetBase%3C%22all-movie-libraries%22%3E"
+    },
+    "WidgetBase<\"all-movie-libraries\">": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "all-movie-libraries"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
     },
     "AppShortcutWidget": {
       "type": "object",
@@ -1180,6 +1211,39 @@
       },
       "required": [
         "content",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "MovieListWidget": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "movie-list"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "movieIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "movieIds",
+        "title",
         "type"
       ],
       "additionalProperties": false

@@ -1,7 +1,6 @@
 import { Injector } from '@furystack/inject'
 import { dashboard } from '@common/models'
 import { AuthorizeOwnership, getOrgsForCurrentUser } from '@common/service-utils'
-import { WithOptionalId } from '@furystack/core'
 
 export const setupRepository = (injector: Injector) => {
   injector.setupRepository((repo) =>
@@ -13,17 +12,8 @@ export const setupRepository = (injector: Injector) => {
         level: ['owner', 'organizationOwner', 'admin'],
       }),
       modifyOnAdd: async ({ injector: i, entity }) => {
-        const usr = await i.getCurrentUser()
-        if (!usr) {
-          throw new Error('')
-        }
-        return {
-          ...entity,
-          owner: {
-            type: 'user',
-            username: usr.username,
-          },
-        } as WithOptionalId<dashboard.Dashboard, '_id'>
+        const currentUser = await i.getCurrentUser()
+        return { ...entity, owner: { type: 'user', username: currentUser.username } } as dashboard.Dashboard
       },
       addFilter: async ({ injector: i, filter }) => {
         const currentUser = await i.getCurrentUser()
