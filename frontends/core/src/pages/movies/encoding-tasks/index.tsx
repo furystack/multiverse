@@ -1,6 +1,6 @@
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { media } from '@common/models'
-import { CollectionService, DataGrid } from '@furystack/shades-common-components'
+import { Button, CollectionService, DataGrid } from '@furystack/shades-common-components'
 import { MediaApiService } from '@common/frontend-utils'
 import { EncodingTaskProgressUpdater } from '../../../services/encoding-task-progress-updater'
 
@@ -26,7 +26,7 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
         })
         return response.result
       },
-      { top: 20, order: { creationDate: 'DESC' } },
+      { order: { creationDate: 'DESC' } },
     )
     const taskUpdater = new EncodingTaskProgressUpdater(service)
     return {
@@ -80,12 +80,28 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
                         }
                       }}
                       title="Re-encode">
-                      Re-encode
-                    </span>{' '}
-                    | <RouteLink href={`/movies/encoding-tasks/${entry._id}`}>Task details</RouteLink> |{' '}
-                    <RouteLink href={`/movies/${entry.mediaInfo.library._id}/edit/${entry.mediaInfo.movie._id}`}>
-                      Edit movie
+                      <Button>Re-encode</Button>
+                    </span>
+                    <RouteLink href={`/movies/encoding-tasks/${entry._id}`}>
+                      <Button>Task details</Button>
                     </RouteLink>
+                    <RouteLink href={`/movies/${entry.mediaInfo.library._id}/edit/${entry.mediaInfo.movie._id}`}>
+                      <Button>Edit movie</Button>
+                    </RouteLink>
+                    <Button
+                      onclick={() => {
+                        if (confirm('Really delete task?')) {
+                          injector.getInstance(MediaApiService).call({
+                            method: 'DELETE',
+                            action: '/encode/tasks/:id',
+                            url: {
+                              id: entry._id,
+                            },
+                          })
+                        }
+                      }}>
+                      Delete
+                    </Button>
                   </div>
                 </div>
               </div>

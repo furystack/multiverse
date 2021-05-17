@@ -8,6 +8,7 @@ import {
   Authorize,
   createPostEndpoint,
   createPatchEndpoint,
+  createDeleteEndpoint,
 } from '@furystack/rest-service'
 import { GetAvailableSubtitles } from './actions/get-available-subtitles'
 import { GetSubtitle } from './actions/get-subtitle'
@@ -63,6 +64,11 @@ export const setupRestApi = (injector: Injector) => {
         '/movies/:id': Authorize('movie-admin')(createPatchEndpoint({ model: media.Movie, primaryKey: '_id' })),
         '/movie-libraries/:id': Authorize('movie-admin')(
           createPatchEndpoint({ model: media.MovieLibrary, primaryKey: '_id' }),
+        ),
+      },
+      DELETE: {
+        '/encode/tasks/:id': Authorize('movie-admin')(
+          createDeleteEndpoint({ model: media.EncodingTask, primaryKey: '_id' }),
         ),
       },
     },

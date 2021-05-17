@@ -437,16 +437,7 @@
                   "additionalProperties": false
                 },
                 "result": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    }
-                  },
-                  "required": [
-                    "success"
-                  ],
-                  "additionalProperties": false
+                  "$ref": "#/definitions/CreateResult%3CEncodingTask%3E"
                 }
               },
               "required": [
@@ -572,26 +563,22 @@
         },
         "DELETE": {
           "type": "object",
-          "additionalProperties": {
-            "type": "object",
-            "properties": {
-              "result": {},
-              "url": {},
-              "query": {},
-              "body": {},
-              "headers": {}
-            },
-            "required": [
-              "result"
-            ],
-            "additionalProperties": false
-          }
+          "properties": {
+            "/encode/tasks/:id": {
+              "$ref": "#/definitions/DeleteEndpoint%3CEncodingTask%2C%22_id%22%3E"
+            }
+          },
+          "required": [
+            "/encode/tasks/:id"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [
         "GET",
         "POST",
-        "PATCH"
+        "PATCH",
+        "DELETE"
       ],
       "additionalProperties": false
     },
@@ -4131,6 +4118,21 @@
       ],
       "additionalProperties": false
     },
+    "CreateResult<EncodingTask>": {
+      "type": "object",
+      "properties": {
+        "created": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EncodingTask"
+          }
+        }
+      },
+      "required": [
+        "created"
+      ],
+      "additionalProperties": false
+    },
     "PatchEndpoint<Movie,\"_id\">": {
       "type": "object",
       "properties": {
@@ -4272,6 +4274,33 @@
         }
       },
       "additionalProperties": false
+    },
+    "DeleteEndpoint<EncodingTask,\"_id\">": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "result": {
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "url",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Endpoint model for deleting entities"
     }
   }
 }

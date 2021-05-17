@@ -623,6 +623,9 @@
     "Widget": {
       "anyOf": [
         {
+          "$ref": "#/definitions/AllMovieLibrariesWidget"
+        },
+        {
           "$ref": "#/definitions/AppShortcutWidget"
         },
         {
@@ -633,6 +636,9 @@
         },
         {
           "$ref": "#/definitions/MarkdownWidget"
+        },
+        {
+          "$ref": "#/definitions/MovieListWidget"
         },
         {
           "$ref": "#/definitions/ContinueMoviesWidget"
@@ -647,6 +653,31 @@
           "$ref": "#/definitions/WeatherWidget"
         }
       ]
+    },
+    "AllMovieLibrariesWidget": {
+      "$ref": "#/definitions/WidgetBase%3C%22all-movie-libraries%22%3E"
+    },
+    "WidgetBase<\"all-movie-libraries\">": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "all-movie-libraries"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
     },
     "AppShortcutWidget": {
       "type": "object",
@@ -678,7 +709,8 @@
             "Movies",
             "Encoding Tasks",
             "Dashboards"
-          ]
+          ],
+          "description": "The Application name"
         }
       },
       "required": [
@@ -1184,6 +1216,46 @@
       ],
       "additionalProperties": false
     },
+    "MovieListWidget": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "movie-list"
+        },
+        "minWidth": {
+          "type": "string"
+        },
+        "width": {
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string",
+          "description": "The Widget Title"
+        },
+        "movieIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of movie IDs"
+        },
+        "size": {
+          "type": "number",
+          "description": "A size of a Movie widget"
+        }
+      },
+      "required": [
+        "movieIds",
+        "size",
+        "title",
+        "type"
+      ],
+      "additionalProperties": false
+    },
     "ContinueMoviesWidget": {
       "type": "object",
       "properties": {
@@ -1201,7 +1273,8 @@
           "type": "string"
         },
         "count": {
-          "type": "number"
+          "type": "number",
+          "description": "The number of last seen movies"
         }
       },
       "required": [
@@ -1227,7 +1300,8 @@
           "type": "string"
         },
         "title": {
-          "type": "string"
+          "type": "string",
+          "description": "The Title of the Widget"
         },
         "apps": {
           "type": "array",
@@ -1246,7 +1320,8 @@
               "Encoding Tasks",
               "Dashboards"
             ]
-          }
+          },
+          "description": "A list of apps to display"
         }
       },
       "required": [
@@ -1279,16 +1354,20 @@
             "dashboard",
             "xpense-account",
             "movie-library"
-          ]
+          ],
+          "description": "The Entity Type"
         },
         "id": {
-          "type": "string"
+          "type": "string",
+          "description": "The Unique identifier"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "A display name"
         },
         "icon": {
-          "type": "string"
+          "$ref": "#/definitions/Icon",
+          "description": "The Icon to display"
         }
       },
       "required": [

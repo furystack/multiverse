@@ -11,7 +11,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const proxyRules = {
   ...Object.values(sites.services).reduce((prev, current) => {
-    prev[current.apiPath] = `http://localhost:${current.internalPort}`
+    prev[current.apiPath] = { target: `http://localhost:${current.internalPort}`, ws: true }
     return prev
   }, {}),
 }
