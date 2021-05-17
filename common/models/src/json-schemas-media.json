@@ -164,6 +164,16 @@
         }
       ]
     },
+    "def-object-902072349-1553-1676-902072349-1531-1676-902072349-1525-1676-902072349-1515-1676-902072349-0-1678": {
+      "type": "object",
+      "properties": {
+        "metadata": {}
+      },
+      "required": [
+        "metadata"
+      ],
+      "additionalProperties": false
+    },
     "FfprobeStream": {
       "type": "object",
       "properties": {
