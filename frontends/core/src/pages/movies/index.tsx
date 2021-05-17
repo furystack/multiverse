@@ -5,6 +5,7 @@ import { Fab, promisifyAnimation } from '@furystack/shades-common-components'
 import { Init } from '../init'
 import { GenericErrorPage } from '../generic-error'
 import { GenericMonacoEditor } from '../../components/editors/generic-monaco-editor'
+import { Icon } from '../../components/icon'
 import { LibraryList } from './library-list'
 import { AddMovieLibrary } from './add-movie-library'
 import { MovieList } from './movie-list'
@@ -167,7 +168,10 @@ export const MoviesPage = Shade({
                           onclick={() => {
                             window.history.pushState('', '', `/movies/edit-library/${libraryId}`)
                           }}>
-                          ✏
+                          <Icon
+                            icon={{ type: 'flaticon-essential', name: '218-edit.svg' }}
+                            elementProps={{ style: { width: '24px' } }}
+                          />
                         </Fab>
                       </div>
                     )
