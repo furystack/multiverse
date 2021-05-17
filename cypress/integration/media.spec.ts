@@ -19,7 +19,7 @@ describe('Movies', () => {
     cy.visit('/')
     login(cy, 'testMovieAdmin@gmail.com', 'password')
     navigateFromUserMenu(cy, 'Movies')
-    cy.get('shade-fab div[title="Create new movie library"]').contains('➕').click()
+    cy.get('shade-fab div[title="Create new movie library"]').click()
     cy.get('label').contains('Name').find('input').clear().type('ExampleMovieLib')
     cy.get('label').contains('Path').find('input').clear().type('/tmp')
     cy.get('label').contains('Icon').find('input').clear().type('🧪')
