@@ -43,7 +43,8 @@
           "type": "string"
         },
         "title": {
-          "type": "string"
+          "type": "string",
+          "description": "The Title of the Widget"
         },
         "apps": {
           "type": "array",
@@ -62,7 +63,8 @@
               "Encoding Tasks",
               "Dashboards"
             ]
-          }
+          },
+          "description": "A list of apps to display"
         }
       },
       "required": [
@@ -124,7 +126,8 @@
             "Movies",
             "Encoding Tasks",
             "Dashboards"
-          ]
+          ],
+          "description": "The Application name"
         }
       },
       "required": [
@@ -172,7 +175,8 @@
           "type": "string"
         },
         "count": {
-          "type": "number"
+          "type": "number",
+          "description": "The number of last seen movies"
         }
       },
       "required": [
@@ -783,17 +787,24 @@
           "type": "string"
         },
         "title": {
-          "type": "string"
+          "type": "string",
+          "description": "The Widget Title"
         },
         "movieIds": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "description": "A list of movie IDs"
+        },
+        "size": {
+          "type": "number",
+          "description": "A size of a Movie widget"
         }
       },
       "required": [
         "movieIds",
+        "size",
         "title",
         "type"
       ],
@@ -844,16 +855,20 @@
             "dashboard",
             "xpense-account",
             "movie-library"
-          ]
+          ],
+          "description": "The Entity Type"
         },
         "id": {
-          "type": "string"
+          "type": "string",
+          "description": "The Unique identifier"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "A display name"
         },
         "icon": {
-          "type": "string"
+          "$ref": "#/definitions/Icon",
+          "description": "The Icon to display"
         }
       },
       "required": [
