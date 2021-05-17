@@ -58,7 +58,7 @@ export const MovieOverview = Shade<
             <p style={{ fontSize: '0.8em' }}>
               {props.movie.metadata.year?.toString()} &nbsp; {props.movie.metadata.genre.join(', ')}
             </p>
-            <p>{props.movie.metadata.plot}</p>
+            <p style={{ textAlign: 'justify' }}>{props.movie.metadata.plot}</p>
             <div>
               {props.watchedSeconds ? (
                 <span>
