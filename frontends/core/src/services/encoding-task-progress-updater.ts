@@ -22,22 +22,31 @@ export class EncodingTaskProgressUpdater {
       try {
         const messageData = JSON.parse(msg.data)
         const currentData = this.service.data.getValue()
+        const taskToUpdate = messageData.task as media.EncodingTask
         switch (messageData.event) {
-          case 'encoding-task-added':
-            this.service.data.setValue({
-              count: currentData.count + 1,
-              entries: [messageData.task as media.EncodingTask, ...currentData.entries],
-            })
+          case 'update':
+            currentData.entries.some((task) => task._id === taskToUpdate._id)
+              ? this.service.data.setValue({
+                  count: currentData.count,
+                  entries: currentData.entries.map((e) => {
+                    if (e._id === taskToUpdate._id) {
+                      return {
+                        ...e,
+                        ...taskToUpdate,
+                      }
+                    }
+                    return e
+                  }),
+                })
+              : this.service.data.setValue({
+                  count: currentData.count + 1,
+                  entries: [taskToUpdate, ...currentData.entries],
+                })
             break
-          case 'encoding-task-updated':
+          case 'remove':
             this.service.data.setValue({
-              count: currentData.count,
-              entries: currentData.entries.map((e) => {
-                if (e._id === messageData.id) {
-                  return { ...e, ...messageData.change }
-                }
-                return e
-              }),
+              count: currentData.count - 1,
+              entries: currentData.entries.filter((e) => e._id !== messageData.taskId),
             })
             break
           default:

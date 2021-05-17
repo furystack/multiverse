@@ -1,4 +1,11 @@
-import { RestApi, GetCollectionEndpoint, GetEntityEndpoint, PostEndpoint, PatchEndpoint } from '@furystack/rest'
+import {
+  RestApi,
+  GetCollectionEndpoint,
+  GetEntityEndpoint,
+  PostEndpoint,
+  PatchEndpoint,
+  DeleteEndpoint,
+} from '@furystack/rest'
 import { CreateResult } from '@furystack/core'
 import { LeveledLogEntry } from '@furystack/logging'
 import { Movie, MovieLibrary, MovieWatchHistoryEntry, EncodingTask, EncodingType } from '../media'
@@ -60,5 +67,8 @@ export interface MediaApi extends RestApi {
   PATCH: {
     '/movies/:id': PatchEndpoint<Movie, '_id'>
     '/movie-libraries/:id': PatchEndpoint<MovieLibrary, '_id'>
+  }
+  DELETE: {
+    '/encode/tasks/:id': DeleteEndpoint<EncodingTask, '_id'>
   }
 }

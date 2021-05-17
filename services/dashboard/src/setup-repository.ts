@@ -11,6 +11,10 @@ export const setupRepository = (injector: Injector) => {
       authorizeUpdateEntity: AuthorizeOwnership({
         level: ['owner', 'organizationOwner', 'admin'],
       }),
+      modifyOnAdd: async ({ injector: i, entity }) => {
+        const currentUser = await i.getCurrentUser()
+        return { ...entity, owner: { type: 'user', username: currentUser.username } } as dashboard.Dashboard
+      },
       addFilter: async ({ injector: i, filter }) => {
         const currentUser = await i.getCurrentUser()
         const orgs = await getOrgsForCurrentUser(i, currentUser)

@@ -99,7 +99,7 @@ export class SessionService implements IdentityContext {
       })
       throw Error('No user available')
     }
-    return (currentUser as unknown) as TUser
+    return currentUser as unknown as TUser
   }
 
   public currentProfileUpdate = this.currentUser.subscribe(async (usr) => {

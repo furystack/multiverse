@@ -1,9 +1,11 @@
+import { AllMovieLibrariesWidget } from './all-movie-libraries-widget'
 import { AppListWidget } from './app-list-widget'
 import { AppShortcutWidget } from './app-shortcut-widget'
 import { ContinueMoviesWidget } from './continue-movies'
 import { HtmlWidget } from './html-widget'
 import { IconUrlWidget } from './icon-url-widget'
 import { MarkdownWidget } from './markdown-widget'
+import { MovieListWidget } from './movie-list-widget'
 import { EntityShortcutWidget } from './entity-shortcut-widget'
 import { WeatherData } from './weather-data'
 import { WeatherWidget } from './weather-widget'
@@ -11,6 +13,8 @@ import { WeatherWidget } from './weather-widget'
 export * from './dashboard'
 
 export {
+  AllMovieLibrariesWidget,
+  MovieListWidget,
   HtmlWidget,
   AppShortcutWidget,
   IconUrlWidget,
@@ -23,10 +27,12 @@ export {
 }
 
 export type Widget =
+  | AllMovieLibrariesWidget
   | AppShortcutWidget
   | HtmlWidget
   | IconUrlWidget
   | MarkdownWidget
+  | MovieListWidget
   | ContinueMoviesWidget
   | AppListWidget
   | EntityShortcutWidget

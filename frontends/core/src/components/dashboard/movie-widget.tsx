@@ -11,11 +11,12 @@ const focus = (el: HTMLElement) => {
     easing: 'cubic-bezier(0.230, 1.000, 0.320, 1.000)',
   })
   promisifyAnimation(
-    el.querySelector('img') as HTMLImageElement,
-    [{ transform: 'scale(1.1)' }, { transform: 'scale(1.3)' }],
+    el.querySelector('img.cover') as HTMLImageElement,
+    [{ transform: 'scale(1)' }, { transform: 'scale(1.1)' }],
     {
       fill: 'forwards',
-      duration: 500,
+      easing: 'cubic-bezier(0.310, 0.805, 0.605, 1.145)',
+      duration: 850,
     },
   )
 }
@@ -27,9 +28,9 @@ const blur = (el: HTMLElement) => {
     easing: 'cubic-bezier(0.230, 1.000, 0.320, 1.000)',
   })
   promisifyAnimation(
-    el.querySelector('img') as HTMLImageElement,
-    [{ transform: 'scale(1.3)' }, { transform: 'scale(1.1)' }],
-    { fill: 'forwards', duration: 200 },
+    el.querySelector('img.cover') as HTMLImageElement,
+    [{ transform: 'scale(1.1)' }, { transform: 'scale(1)' }],
+    { fill: 'forwards', duration: 150 },
   )
 }
 
@@ -123,13 +124,14 @@ export const MovieWidget = Shade<
           <img
             src={meta.thumbnailImageUrl}
             alt={meta.title}
+            className="cover"
             style={{
               display: 'inline-block',
               backgroundColor: '#666',
               objectFit: 'cover',
               width: '100%',
               height: '100%',
-              transform: 'scale(1.1)',
+              transform: 'scale(1)',
             }}
           />
           <div

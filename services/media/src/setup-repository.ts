@@ -2,6 +2,7 @@ import { Injector } from '@furystack/inject'
 import { media, auth } from '@common/models'
 import { getOrgsForCurrentUser, AuthorizeOwnership, existsAsync } from '@common/service-utils'
 import { FindOptions, IdentityContext } from '@furystack/core'
+import { WebSocketApi } from '@furystack/websocket-api'
 
 export const setupRepository = (injector: Injector) => {
   injector.setupRepository((repo) =>
@@ -108,4 +109,34 @@ export const setupRepository = (injector: Injector) => {
         modifyOnUpdate: async ({ entity }) => ({ ...entity, modificationDate: new Date() }),
       }),
   )
+
+  const taskDataSet = injector.getDataSetFor(media.EncodingTask, '_id')
+
+  const sendUpdate = (change: Partial<media.EncodingTask>) => {
+    const api = injector.getInstance(WebSocketApi)
+    api.broadcast(async ({ injector: socketInjector, ws }) => {
+      const hasPerm = (await socketInjector.getCurrentUser()).roles.includes('movie-admin')
+      if (hasPerm) {
+        await new Promise<void>((resolve, reject) =>
+          ws.send(JSON.stringify({ event: 'update', task: change }), (err) => (err ? reject(err) : resolve())),
+        )
+      }
+    })
+  }
+  taskDataSet.onEntityUpdated.subscribe(({ change, id }) => sendUpdate({ ...change, _id: id }))
+  taskDataSet.onEntityAdded.subscribe(async ({ entity }) => {
+    sendUpdate(entity)
+  })
+
+  taskDataSet.onEntityRemoved.subscribe(({ key }) => {
+    const api = injector.getInstance(WebSocketApi)
+    api.broadcast(async ({ injector: socketInjector, ws }) => {
+      const hasPerm = (await socketInjector.getCurrentUser()).roles.includes('movie-admin')
+      if (hasPerm) {
+        await new Promise<void>((resolve, reject) =>
+          ws.send(JSON.stringify({ event: 'remove', taskId: key }), (err) => (err ? reject(err) : resolve())),
+        )
+      }
+    })
+  })
 }

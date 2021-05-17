@@ -1,15 +1,16 @@
 import { SessionService } from '@common/frontend-utils'
 import { auth, media } from '@common/models'
-import { createComponent, LocationService, RouteLink, Shade } from '@furystack/shades'
+import { createComponent, LocationService, RouteLink, Screen, Shade } from '@furystack/shades'
 import { Button, promisifyAnimation } from '@furystack/shades-common-components'
 import { MovieService } from '../../services/movie-service'
 
 export const MovieOverview = Shade<
   { movie: media.Movie; watchedSeconds: number; availableSubtitles: string[] },
-  { roles: auth.User['roles'] }
+  { roles: auth.User['roles']; isDesktop: boolean }
 >({
   getInitialState: ({ injector }) => ({
     roles: injector.getInstance(SessionService).currentUser.getValue()?.roles || [],
+    isDesktop: injector.getInstance(Screen).screenSize.atLeast.md.getValue(),
   }),
   constructed: ({ injector, updateState, element }) => {
     promisifyAnimation(
@@ -25,10 +26,13 @@ export const MovieOverview = Shade<
         fill: 'forwards',
       },
     )
-    const roleSubscriber = injector.getInstance(SessionService).currentUser.subscribe((usr) => {
-      updateState({ roles: usr?.roles })
-    })
-    return () => roleSubscriber.dispose()
+    const subscribers = [
+      injector.getInstance(SessionService).currentUser.subscribe((usr) => {
+        updateState({ roles: usr?.roles })
+      }),
+      injector.getInstance(Screen).screenSize.atLeast.md.subscribe((isDesktop) => updateState({ isDesktop })),
+    ]
+    return () => subscribers.forEach((sub) => sub.dispose())
   },
   render: ({ props, getState, injector }) => {
     return (
@@ -49,12 +53,12 @@ export const MovieOverview = Shade<
               style={{ boxShadow: '3px 3px 8px rgba(0,0,0,0.3)', borderRadius: '8px', opacity: '0' }}
             />
           </div>
-          <div style={{ padding: '2em', maxWidth: '800px', minWidth: '550px' }}>
+          <div style={{ padding: '2em', maxWidth: '800px', minWidth: getState().isDesktop ? '550px' : undefined }}>
             <h1>{props.movie.metadata.title}</h1>
             <p style={{ fontSize: '0.8em' }}>
               {props.movie.metadata.year?.toString()} &nbsp; {props.movie.metadata.genre.join(', ')}
             </p>
-            <p>{props.movie.metadata.plot}</p>
+            <p style={{ textAlign: 'justify' }}>{props.movie.metadata.plot}</p>
             <div>
               {props.watchedSeconds ? (
                 <span>

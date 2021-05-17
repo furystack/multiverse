@@ -2,6 +2,7 @@ import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { media } from '@common/models'
 import { Fab } from '@furystack/shades-common-components'
 import { IconUrlWidget } from '../../components/dashboard/icon-url-widget'
+import { Icon } from '../../components/icon'
 
 export const LibraryList = Shade<{ libraries: media.MovieLibrary[]; isMovieAdmin: boolean }>({
   shadowDomName: 'multiverse-library-list',
@@ -35,7 +36,13 @@ export const LibraryList = Shade<{ libraries: media.MovieLibrary[]; isMovieAdmin
                 window.history.pushState('', '', '/movies/encoding-tasks')
                 injector.getInstance(LocationService).updateState()
               }}>
-              🔎
+              <Icon
+                icon={{
+                  type: 'flaticon-essential',
+                  name: '324-search.svg',
+                }}
+                elementProps={{ style: { width: '18px', filter: 'drop-shadow(2px 4px 6px black)' } }}
+              />
             </Fab>
 
             <Fab
@@ -44,7 +51,13 @@ export const LibraryList = Shade<{ libraries: media.MovieLibrary[]; isMovieAdmin
                 window.history.pushState('', '', '/movies/add-new-movie-library')
                 injector.getInstance(LocationService).updateState()
               }}>
-              ➕
+              <Icon
+                icon={{
+                  type: 'flaticon-essential',
+                  name: '073-add.svg',
+                }}
+                elementProps={{ style: { width: '22px', filter: 'drop-shadow(2px 4px 6px black)' } }}
+              />
             </Fab>
           </div>
         ) : null}
