@@ -39,7 +39,7 @@ export const Watch = Shade<
       },
     ]
 
-    const player = videojs(element.querySelector('video-js'), {
+    const player = videojs(element.querySelector('video-js') as HTMLElement, {
       poster: props.movie.metadata.thumbnailImageUrl,
       html5: {
         nativeCaptions: false,
