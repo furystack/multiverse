@@ -10,17 +10,17 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/amqplib": "^0.5.17",
-    "@types/node": "^15.6.0",
+    "@types/amqplib": "^0.8.0",
+    "@types/node": "^15.12.1",
     "@types/rimraf": "^3.0.0"
   },
   "dependencies": {
     "@common/service-utils": "1.0.0",
-    "@furystack/core": "^10.0.6",
-    "@furystack/inject": "^4.0.65",
-    "@furystack/logging": "^2.0.72",
-    "@furystack/rest": "^3.0.6",
-    "@furystack/rest-client-got": "^1.0.15",
+    "@furystack/core": "^10.0.7",
+    "@furystack/inject": "^4.0.66",
+    "@furystack/logging": "^2.0.73",
+    "@furystack/rest": "^3.0.7",
+    "@furystack/rest-client-got": "^1.0.16",
     "@types/fluent-ffmpeg": "^2.1.16",
     "amqplib": "^0.8.0",
     "chokidar": "^3.5.1",
