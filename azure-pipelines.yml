@@ -134,7 +134,7 @@ jobs:
               displayName: Create new buildx builder
             - script: docker buildx inspect --bootstrap
               displayName: Bootstrap BuildX builder
-            - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./frontend-core.Dockerfile --tag furystack/multiverse-frontend-core:latest --tag furystack/multiverse-frontend-core$(Build.BuildNumber) . --push
+            - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./frontend-core.Dockerfile --tag furystack/multiverse-frontend-core:latest --tag furystack/multiverse-frontend-core:$(Build.BuildNumber) . --push
               displayName: Build Frontend-Core image
             - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./base.Dockerfile --tag furystack/multiverse-base:latest --tag furystack/multiverse-base:$(Build.BuildNumber) . --push
               displayName: Build Base image
@@ -146,7 +146,7 @@ jobs:
               displayName: Build Diag image
             - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./media.Dockerfile --tag furystack/multiverse-media:latest --tag furystack/multiverse-media:$(Build.BuildNumber) . --push
               displayName: Build Media image
-            - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./media-encoder.Dockerfile --tag furystack/multiverse-media-encoder:latest --tag furystack/multiverse-media-encoder$(Build.BuildNumber) . --push
+            - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./media-encoder.Dockerfile --tag furystack/multiverse-media-encoder:latest --tag furystack/multiverse-media-encoder:$(Build.BuildNumber) . --push
               displayName: Build Media Encoder worker image
             - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./xpense.Dockerfile --tag furystack/multiverse-xpense:latest --tag furystack/multiverse-xpense:$(Build.BuildNumber) . --push
               displayName: Build Xpense image
