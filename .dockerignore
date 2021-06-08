@@ -7,4 +7,10 @@ npm-debug.log
 .gitignore
 .npmrc
 .travis.yml
-Dockerfile
+*Dockerfile
+cypress
+testresults
+.vscode
+.eslintcache
+.eslintignore
+.eslintrc.js
