@@ -108,16 +108,23 @@ export const MovieWidget = Shade<
               <Icon icon={{ type: 'flaticon-essential', name: '025-play button.svg' }} />
             </span>
             {getState().currentUser?.roles.includes('movie-admin') ? (
-              <span
-                style={{ width: '16px' }}
-                onclick={(ev) => {
-                  ev.preventDefault()
-                  ev.stopImmediatePropagation()
-                  history.pushState('', '', `/movies/${movie.libraryId}/edit/${movie._id}`)
-                  injector.getInstance(LocationService).updateState()
-                }}
-                title="Edit movie details">
-                <Icon icon={{ type: 'flaticon-essential', name: '218-edit.svg' }} />
+              <span>
+                {movie.availableFormats?.length ? null : (
+                  <span title="The media encoding for this movie has not finished">
+                    <Icon icon={{ type: 'flaticon-essential', name: '060-warning.svg' }} />
+                  </span>
+                )}
+                <span
+                  style={{ width: '16px' }}
+                  onclick={(ev) => {
+                    ev.preventDefault()
+                    ev.stopImmediatePropagation()
+                    history.pushState('', '', `/movies/${movie.libraryId}/edit/${movie._id}`)
+                    injector.getInstance(LocationService).updateState()
+                  }}
+                  title="Edit movie details">
+                  <Icon icon={{ type: 'flaticon-essential', name: '218-edit.svg' }} />
+                </span>
               </span>
             ) : null}
           </div>
