@@ -8,6 +8,18 @@ import { Injector } from '@furystack/inject'
 import rimraf from 'rimraf'
 
 export const extractSubtitles = async (options: { injector: Injector; movie: media.Movie }) => {
+  const logger = options.injector.logger.withScope('extract-subtitles')
+
+  logger.information({
+    message: `Starting to extract subtitles for movie '${options.movie.metadata.title}'`,
+    data: {
+      movie: {
+        _id: options.movie._id,
+        title: options.movie.metadata.title,
+      },
+    },
+  })
+
   const subtitles: Array<{
     streamIndex: number
   }> =
@@ -43,4 +55,13 @@ export const extractSubtitles = async (options: { injector: Injector; movie: med
   await Promise.all(files.map((f) => promises.unlink(join(cwd, f))))
 
   await new Promise<void>((resolve, reject) => rimraf(cwd, {}, (err) => (err ? reject(err) : resolve())))
+  logger.information({
+    message: `Subtitles has been extracted from stream for movie '${options.movie.metadata.title}'`,
+    data: {
+      movie: {
+        _id: options.movie._id,
+        title: options.movie.metadata.title,
+      },
+    },
+  })
 }

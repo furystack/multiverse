@@ -61,11 +61,20 @@ export const setupRepository = (injector: Injector) => {
         },
         authorizeGetEntity: AuthorizeOwnership({ level: ['owner', 'admin', 'member', 'organizationOwner'] }),
         authorizeAdd: async ({ injector: i, entity }) => {
-          if (!i.isAuthorized('movie-adimn')) {
+          const isAuthorized = await i.isAuthorized('movie-adimn')
+          if (!isAuthorized) {
+            const user = await i.getCurrentUser()
+            await i.logger.withScope('media-repository').warning({
+              message: `User ${user.username} tried add a movie library without movie-admin permission`,
+            })
             return { isAllowed: false, message: `Role 'movie-admin' needed` }
           }
           const pathExists = await existsAsync(entity.path as string)
           if (!pathExists) {
+            const user = await i.getCurrentUser()
+            await i.logger.withScope('media-repository').warning({
+              message: `User ${user.username} tried add a movie library without movie-admin permission`,
+            })
             return { isAllowed: false, message: 'Path does not exists or not accessible' }
           }
           return { isAllowed: true }
@@ -101,6 +110,9 @@ export const setupRepository = (injector: Injector) => {
           if (entity.userId === user._id) {
             return { isAllowed: true }
           }
+          await i.logger.withScope('media-repository').warning({
+            message: `User ${user.username} tried to retrieve a watch history entry that doesn't belong to her`,
+          })
           return { isAllowed: false, message: 'That entity belongs to another user' }
         },
       })

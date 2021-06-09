@@ -41,6 +41,18 @@ export const createEncodingTaskForMovie = async ({ movie, injector }: { movie: m
     })
   }
 
+  await logger.information({
+    message: `A new encoding task has been created for movie ${movie.metadata.title}`,
+    data: {
+      codec: library.encoding.codec,
+      mode: library.encoding.mode,
+      movie: {
+        _id: movie._id,
+        title: movie.metadata.title,
+      },
+    },
+  })
+
   return await injector.getDataSetFor(media.EncodingTask, '_id').add(injector, {
     authToken: v4(),
     percent: 0,

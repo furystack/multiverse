@@ -71,6 +71,12 @@ Injector.prototype.useDbLogger = function (settings) {
       authorizeUpdate: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
       authorizeGet: async (options) => {
         const result = await options.injector.isAuthorized('sys-diags')
+        if (!result) {
+          const user = await options.injector.getCurrentUser()
+          options.injector.logger
+            .withScope('db-logger')
+            .warning({ message: `User '${user.username}' tried to retrieve log entries without 'sys-diags' role` })
+        }
         return {
           isAllowed: result,
           message: result ? '' : "Role 'sys-diags' required",

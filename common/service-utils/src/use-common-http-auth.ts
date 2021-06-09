@@ -58,6 +58,9 @@ Injector.prototype.useCommonHttpAuth = function () {
           ) {
             return { isAllowed: true }
           }
+          await i.logger.withScope('common-auth').warning({
+            message: `User '${currentUser.username}' tried to modify organization '${entity.name}' without owning it or beign an admin`,
+          })
           return { isAllowed: false, message: 'Only the owner or admins can modify an organization' }
         },
       })
@@ -65,6 +68,12 @@ Injector.prototype.useCommonHttpAuth = function () {
         ...authorizedDataSet,
         authorizeAdd: async (authorize) => {
           const success = await authorize.injector.isAuthorized('user-admin')
+          if (!success) {
+            const currentUser = await authorize.injector.getCurrentUser()
+            await authorize.injector.logger.withScope('common-auth').warning({
+              message: `User '${currentUser.username}' tried to create an user without user-admin permissions`,
+            })
+          }
           return {
             isAllowed: success ? true : false,
             message: success ? '' : "Role 'user-admin' required.",

@@ -23,13 +23,14 @@ export const ReFetchMetadataAction: RequestAction<{ url: { movieId: string }; re
     year: movie.metadata.year,
     season: movie.metadata.season,
     episode: movie.metadata.episode,
+    injector,
   })
   const metadata = media.isValidOmdbMetadata(omdbMeta)
     ? getUniversalMetadataFromOmdb(omdbMeta)
     : getFallbackMetadata(movie.path)
 
   await movies.update(injector, movieId, {
-    omdbMeta,
+    ...(media.isValidOmdbMetadata(omdbMeta) ? { omdbMeta } : {}), //don't override existing, if failed to fetch new
     metadata,
   })
 
