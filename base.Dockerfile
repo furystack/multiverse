@@ -10,4 +10,6 @@ RUN rm -rf frontends && yarn install    --production \
                     --ignore-scripts \
                     --frozen-lockfile
 
+RUN yarn cache clean
+
 USER node
