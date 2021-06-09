@@ -61,7 +61,7 @@ export const setupRepository = (injector: Injector) => {
         },
         authorizeGetEntity: AuthorizeOwnership({ level: ['owner', 'admin', 'member', 'organizationOwner'] }),
         authorizeAdd: async ({ injector: i, entity }) => {
-          const isAuthorized = await i.isAuthorized('movie-adimn')
+          const isAuthorized = await i.isAuthorized('movie-admin')
           if (!isAuthorized) {
             const user = await i.getCurrentUser()
             await i.logger.withScope('media-repository').warning({
