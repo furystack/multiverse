@@ -41,6 +41,8 @@ export const attachShutdownHandler = (i: Injector) => {
   // catches ctrl+c event
   process.once('SIGINT', () => onExit({ code: 0, reason: 'SIGINT' }))
 
+  process.once('SIGTERM', () => onExit({ code: 0, reason: 'SIGINT' }))
+
   // catches "kill pid" (for example: nodemon restart)
   process.once('SIGUSR1', () => onExit({ code: 0, reason: 'SIGUSR1' }))
   process.once('SIGUSR2', () => onExit({ code: 0, reason: 'SIGUSR2' }))
