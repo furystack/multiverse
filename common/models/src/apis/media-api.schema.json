@@ -1769,7 +1769,7 @@
           "type": "object",
           "properties": {
             "findOptions": {
-              "$ref": "#/definitions/FindOptions%3CMovieLibrary%2C(%22_id%22%7C%22icon%22%7C%22name%22%7C%22path%22%7C%22owner%22%7C%22encoding%22)%5B%5D%3E"
+              "$ref": "#/definitions/FindOptions%3CMovieLibrary%2C(%22_id%22%7C%22icon%22%7C%22name%22%7C%22path%22%7C%22owner%22%7C%22encoding%22%7C%22autoCreateEncodingTasks%22%7C%22autoExtractSubtitles%22)%5B%5D%3E"
             }
           },
           "additionalProperties": false
@@ -1785,7 +1785,7 @@
       "additionalProperties": false,
       "description": "Rest endpoint model for getting / querying collections"
     },
-    "FindOptions<MovieLibrary,(\"_id\"|\"icon\"|\"name\"|\"path\"|\"owner\"|\"encoding\")[]>": {
+    "FindOptions<MovieLibrary,(\"_id\"|\"icon\"|\"name\"|\"path\"|\"owner\"|\"encoding\"|\"autoCreateEncodingTasks\"|\"autoExtractSubtitles\")[]>": {
       "type": "object",
       "properties": {
         "top": {
@@ -1840,6 +1840,20 @@
                 "ASC",
                 "DESC"
               ]
+            },
+            "autoCreateEncodingTasks": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "autoExtractSubtitles": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
             }
           },
           "additionalProperties": false,
@@ -1855,7 +1869,9 @@
               "name",
               "path",
               "owner",
-              "encoding"
+              "encoding",
+              "autoCreateEncodingTasks",
+              "autoExtractSubtitles"
             ]
           },
           "description": "The result set will be limited to these fields"
@@ -2167,6 +2183,102 @@
               "additionalProperties": false
             }
           ]
+        },
+        "autoCreateEncodingTasks": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "boolean"
+                },
+                "$ne": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "not": {}
+                      }
+                    ]
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "not": {}
+                      }
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "autoExtractSubtitles": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "boolean"
+                },
+                "$ne": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "not": {}
+                      }
+                    ]
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "not": {}
+                      }
+                    ]
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
         }
       }
     },
@@ -2374,6 +2486,12 @@
               "const": false
             }
           ]
+        },
+        "autoCreateEncodingTasks": {
+          "type": "boolean"
+        },
+        "autoExtractSubtitles": {
+          "type": "boolean"
         }
       },
       "required": [
@@ -2402,7 +2520,9 @@
                   "name",
                   "path",
                   "owner",
-                  "encoding"
+                  "encoding",
+                  "autoCreateEncodingTasks",
+                  "autoExtractSubtitles"
                 ]
               },
               "description": "The list of fields to select"
@@ -4271,6 +4391,12 @@
               "const": false
             }
           ]
+        },
+        "autoCreateEncodingTasks": {
+          "type": "boolean"
+        },
+        "autoExtractSubtitles": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false

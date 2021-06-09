@@ -9,6 +9,8 @@ import { getFfprobeData } from '../utils/get-ffprobe-data'
 import { getUniversalMetadataFromOmdb } from '../utils/get-universal-metadata-from-omdb'
 import { getFallbackMetadata } from '../utils/get-fallback-metadata'
 import { fetchOmdbMetadata } from '../utils/fetch-omdb-metadata'
+import { createEncodingTaskForMovie } from '../utils/create-encoding-task-for-movie'
+import { extractSubtitles } from '../utils/extract-subtitles'
 
 @Injectable({ lifetime: 'singleton' })
 export class MediaLibraryWatcher {
@@ -69,19 +71,37 @@ export class MediaLibraryWatcher {
             year: fallbackMeta.year,
             episode: fallbackMeta.episode,
             season: fallbackMeta.season,
+            injector: this.injector,
           })
           const metadata = media.isValidOmdbMetadata(omdbMeta) ? getUniversalMetadataFromOmdb(omdbMeta) : fallbackMeta
 
-          await dataSet.add(this.injector, {
+          const createResult = await dataSet.add(this.injector, {
             path: name,
             libraryId: library._id,
             metadata,
             omdbMeta,
             ffprobe,
           })
-          // Should be a manual step to avoid initial high pressure
-          // await createEncodingTaskForMovie({ injector: this.injector, movie: createResult.created[0] })
-          // await extractSubtitles({ injector: this.injector, movie: createResult.created[0] })
+          const createdMovie = createResult.created[0]
+
+          if (library.autoCreateEncodingTasks) {
+            try {
+              await createEncodingTaskForMovie({ injector: this.injector, movie: createdMovie })
+            } catch (error) {
+              await this.logger.warning({
+                message: `Failed to create encoding task for movie '${createdMovie.metadata.title}'`,
+              })
+            }
+          }
+          if (library.autoExtractSubtitles) {
+            try {
+              await extractSubtitles({ injector: this.injector, movie: createResult.created[0] })
+            } catch (error) {
+              await this.logger.warning({
+                message: `Failed to extract subtitles for movie '${createdMovie.metadata.title}'`,
+              })
+            }
+          }
         } catch (error) {
           await this.logger.error({
             message: 'Something went wrong when adding a new entry to the Movie Library',

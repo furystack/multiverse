@@ -35,6 +35,8 @@ export class MovieLibrary {
   path!: string
   owner!: Owner
   encoding!: EncodingType | false
+  autoCreateEncodingTasks?: boolean
+  autoExtractSubtitles?: boolean
 }
 
 export const defaultX264Encoding: EncodingType = {

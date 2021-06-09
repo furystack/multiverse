@@ -674,6 +674,12 @@
               "const": false
             }
           ]
+        },
+        "autoCreateEncodingTasks": {
+          "type": "boolean"
+        },
+        "autoExtractSubtitles": {
+          "type": "boolean"
         }
       },
       "required": [
