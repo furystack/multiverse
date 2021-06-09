@@ -1,7 +1,7 @@
 import { SessionService } from '@common/frontend-utils'
 import { auth, media } from '@common/models'
 import { createComponent, LocationService, RouteLink, Screen, Shade } from '@furystack/shades'
-import { Button, promisifyAnimation } from '@furystack/shades-common-components'
+import { Button, promisifyAnimation, NotyService } from '@furystack/shades-common-components'
 import { MovieService } from '../../services/movie-service'
 
 export const MovieOverview = Shade<
@@ -89,9 +89,38 @@ export const MovieOverview = Shade<
                 </RouteLink>
               )}
               {getState().roles.includes('movie-admin') ? (
-                <RouteLink href={`/movies/${props.movie.libraryId}/edit/${props.movie._id}`}>
-                  <Button>Edit</Button>
-                </RouteLink>
+                <span>
+                  <RouteLink href={`/movies/${props.movie.libraryId}/edit/${props.movie._id}`}>
+                    <Button>Edit</Button>
+                  </RouteLink>
+                  {!props.movie.availableFormats?.length ? (
+                    <Button
+                      onclick={(ev) => {
+                        ev.stopPropagation()
+                        injector
+                          .getInstance(MovieService)
+                          .createEncodeTask(props.movie)
+                          .then(() => {
+                            injector.getInstance(NotyService).addNoty({
+                              type: 'success',
+                              title: 'Success',
+                              body: `Encoding task created for '${props.movie.metadata.title}'`,
+                            })
+                          })
+                          .catch((reason) => {
+                            injector.getInstance(NotyService).addNoty({
+                              type: 'error',
+                              title: 'Error',
+                              body: `Failed to create encoding task for '${
+                                props.movie.metadata.title
+                              }': ${reason.toString()}`,
+                            })
+                          })
+                      }}>
+                      Re-encode
+                    </Button>
+                  ) : null}
+                </span>
               ) : null}
             </div>
           </div>

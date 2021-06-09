@@ -95,27 +95,40 @@ export const MovieWidget = Shade<
           <div
             style={{
               position: 'absolute',
-              top: '0.5em',
-              right: '0',
+              top: '0',
+              left: '0',
               zIndex: '1',
               fontSize: '1.3em',
-              width: '30%',
+              width: 'calc(100% - 2em)',
               display: 'flex',
-              justifyContent: 'space-evenly',
+              margin: '1em',
+              justifyContent: 'space-between',
               filter: 'drop-shadow(black 0px 0px 5px) drop-shadow(black 0px 0px 8px) drop-shadow(black 0px 0px 10px)',
             }}>
-            <span title="Play movie" style={{ width: '16px' }}>
-              <Icon icon={{ type: 'flaticon-essential', name: '025-play button.svg' }} />
-            </span>
+            <div style={{ display: 'flex' }}>
+              <div
+                title="Play movie"
+                style={{ width: '16px' }}
+                onclick={(ev) => {
+                  ev.stopImmediatePropagation()
+                  ev.preventDefault()
+                  window.history.pushState({}, '', `/movies/watch/${props.movie._id}`)
+                  injector.getInstance(LocationService).updateState()
+                }}>
+                <Icon icon={{ type: 'flaticon-essential', name: '025-play button.svg' }} />
+              </div>
+            </div>
             {getState().currentUser?.roles.includes('movie-admin') ? (
-              <span>
+              <div style={{ display: 'flex' }}>
                 {movie.availableFormats?.length ? null : (
-                  <span title="The media encoding for this movie has not finished">
-                    <Icon icon={{ type: 'flaticon-essential', name: '060-warning.svg' }} />
-                  </span>
+                  <div
+                    style={{ width: '16px' }}
+                    title="The media encoding for this movie has not finished. Pls re-encode it.">
+                    <Icon icon={{ type: 'flaticon-essential', name: '058-error.svg' }} />
+                  </div>
                 )}
-                <span
-                  style={{ width: '16px' }}
+                <div
+                  style={{ width: '16px', height: '16px', marginLeft: '1em' }}
                   onclick={(ev) => {
                     ev.preventDefault()
                     ev.stopImmediatePropagation()
@@ -124,8 +137,8 @@ export const MovieWidget = Shade<
                   }}
                   title="Edit movie details">
                   <Icon icon={{ type: 'flaticon-essential', name: '218-edit.svg' }} />
-                </span>
-              </span>
+                </div>
+              </div>
             ) : null}
           </div>
           <img
