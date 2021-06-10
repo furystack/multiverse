@@ -82,7 +82,9 @@ export class SlackLogger extends AbstractLogger implements Logger {
                     elements: [
                       {
                         type: 'mrkdwn' as const,
-                        text: `Level: ${entry.level} ${getSlackIconForLogLevel(entry.level)}, Scope: ${entry.scope}`,
+                        text: `Level: ${LogLevel[entry.level]} ${getSlackIconForLogLevel(entry.level)}  Scope: ${
+                          entry.scope
+                        }`,
                       },
                     ],
                   },
