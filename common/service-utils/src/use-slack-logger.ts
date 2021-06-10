@@ -13,20 +13,19 @@ export class SlackLogger extends AbstractLogger implements Logger {
   >(entry: LeveledLogEntry<T>): Promise<void> {
     const shouldSendToSlack = entry.data?.sendToSlack === true
     if (shouldSendToSlack) {
-      /** */
-      this.hook
-        .send({
+      try {
+        await this.hook.send({
           ...(entry.data?.blocks ? { blocks: entry.data?.blocks } : {}),
           ...(entry.data?.attachments ? { attachments: entry.data?.attachments } : {}),
           ...(!entry.data?.blocks ? { text: entry.message } : {}),
         })
-        .catch((reason) => {
-          this.warning({ scope: entry.scope, message: `Failed to send a Slack message`, data: { reason } }).catch(
-            () => {
-              /** */
-            },
-          )
-        })
+      } catch (error) {
+        await this.warning({ scope: entry.scope, message: `Failed to send a Slack message`, data: { error } }).catch(
+          () => {
+            /** */
+          },
+        )
+      }
     }
   }
 
