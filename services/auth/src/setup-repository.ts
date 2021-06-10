@@ -9,6 +9,10 @@ export const setupRepository = (injector: Injector) => {
         if (profile.username === currentUser.username) {
           return { isAllowed: true }
         }
+        i.logger.withScope('auth repository').warning({
+          message: `User '${currentUser.username}' has tried to modify the profile of user '${profile.username}' without permission`,
+          data: { sendToSlack: true },
+        })
         return { isAllowed: false, message: 'Only the owner can modify its profile' }
       },
     }),

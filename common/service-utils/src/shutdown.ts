@@ -11,7 +11,7 @@ export const attachShutdownHandler = (i: Injector) => {
     process.removeAllListeners('exit')
     try {
       if (code) {
-        await logger.warning({
+        await logger.fatal({
           message: `Something bad happened, starting shutdown with code '${code}' due '${reason}'`,
           data: {
             code,

@@ -20,6 +20,9 @@ export class GithubAuthService {
     if (!clientSecret) {
       await this.logger.error({
         message: `Github Client secret has not been set up in the GITHUB_CLIENT_SECRET env. variable.`,
+        data: {
+          sendToSlack: true,
+        },
       })
       throw Error('Github Authentication failed')
     }

@@ -34,6 +34,11 @@ export const setupRepository = (injector: Injector) => {
             const isMovieAdmin = await i.isAuthorized('movie-admin')
             isMovieAdmin || (await i.getDataSetFor(media.MovieLibrary, '_id').get(i, entity.libraryId))
           } catch (error) {
+            const user = await i.getCurrentUser()
+            i.logger.withScope('media-repository').warning({
+              message: `User '${user.username}' tried to access a movie without permission to its library`,
+              data: { sendToSlack: true },
+            })
             return { isAllowed: false, message: 'In order to view this movie, you need permisson to its library' }
           }
 
@@ -73,7 +78,8 @@ export const setupRepository = (injector: Injector) => {
           if (!pathExists) {
             const user = await i.getCurrentUser()
             await i.logger.withScope('media-repository').warning({
-              message: `User ${user.username} tried add a movie library without movie-admin permission`,
+              message: `User ${user.username} tried add a movie library to a path that doesn't exists`,
+              data: { sendToSlack: true },
             })
             return { isAllowed: false, message: 'Path does not exists or not accessible' }
           }
@@ -112,6 +118,7 @@ export const setupRepository = (injector: Injector) => {
           }
           await i.logger.withScope('media-repository').warning({
             message: `User ${user.username} tried to retrieve a watch history entry that doesn't belong to her`,
+            data: { sendToSlack: true },
           })
           return { isAllowed: false, message: 'That entity belongs to another user' }
         },

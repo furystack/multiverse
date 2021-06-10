@@ -15,8 +15,6 @@ injector
   .useLogging(VerboseConsoleLogger)
   .useSlackLogger(tokens.slackLogger)
 
-injector.logger.withScope('Test').verbose({ message: 'alma', data: { sendToSlack: true } })
-
 setupStores(injector)
 setupRepository(injector)
 setupRestApi(injector)

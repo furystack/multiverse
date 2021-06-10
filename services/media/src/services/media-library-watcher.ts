@@ -90,6 +90,7 @@ export class MediaLibraryWatcher {
             } catch (error) {
               await this.logger.warning({
                 message: `Failed to create encoding task for movie '${createdMovie.metadata.title}'`,
+                data: { error, sendToSlack: true },
               })
             }
           }
@@ -99,13 +100,14 @@ export class MediaLibraryWatcher {
             } catch (error) {
               await this.logger.warning({
                 message: `Failed to extract subtitles for movie '${createdMovie.metadata.title}'`,
+                data: { error, sendToSlack: true },
               })
             }
           }
         } catch (error) {
           await this.logger.error({
             message: 'Something went wrong when adding a new entry to the Movie Library',
-            data: { error },
+            data: { error, sendToSlack: true },
           })
         }
       }
