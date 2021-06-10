@@ -1,9 +1,11 @@
 import { Injector } from '@furystack/inject'
 import { ServerManager } from '@furystack/rest-service'
+import { Block, KnownBlock } from '@slack/types'
 import { DbLogger } from './use-db-logger'
 
 export const attachShutdownHandler = (i: Injector) => {
   const logger = i.logger.withScope('shutdown-handler')
+  const appName = i.getApplicationContext().name
 
   const onExit = async ({ code, reason, error }: { code: number; reason: string; error?: any }) => {
     process.removeAllListeners('exit')
@@ -17,10 +19,70 @@ export const attachShutdownHandler = (i: Injector) => {
             error,
             errorMessage: error?.message,
             errorStack: error?.stack,
+            sendToSlack: true,
+            blocks: [
+              {
+                type: 'header',
+                text: {
+                  type: 'plain_text',
+                  text: `*${appName}* down 😢`,
+                  emoji: true,
+                },
+              },
+              {
+                type: 'divider',
+              },
+              {
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: `Something bad happened and *${appName}* has been terminated.`,
+                },
+              },
+              {
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: `Call stack: \`\`\`${JSON.stringify(
+                    { stack: error?.stack, message: error?.message },
+                    undefined,
+                    2,
+                  )}\`\`\``,
+                },
+              },
+            ] as Array<Block | KnownBlock>,
           },
         })
       } else {
-        await logger.information({ message: `Shutting down gracefully due '${reason}'`, data: { code, reason, error } })
+        await logger.information({
+          message: `Shutting down gracefully due '${reason}'`,
+          data: {
+            code,
+            reason,
+            error,
+            sendToSlack: true,
+            blocks: [
+              {
+                type: 'header',
+                text: {
+                  type: 'plain_text',
+                  text: `*${appName}* shutting down 🌜`,
+                  emoji: true,
+                },
+              },
+              {
+                type: 'divider',
+              },
+              {
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: `The service *${appName}* is shutting down gracefully due '${reason}'`,
+                },
+              },
+            ] as Array<Block | KnownBlock>,
+          },
+        })
       }
       if (i.cachedSingletons.get(ServerManager)) {
         await i.getInstance(ServerManager).dispose()

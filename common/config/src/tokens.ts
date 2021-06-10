@@ -5,4 +5,5 @@ export const tokens = {
   omdbApiKey: process.env.OMDB_API_KEY || 'notProvided',
   rapidApiKey: process.env.RAPID_API_KEY || 'notProvided',
   rapidApiHost: process.env.RAPID_API_HOST || 'notProvided',
+  slackLogger: process.env.SLACK_LOGGER_URL,
 }

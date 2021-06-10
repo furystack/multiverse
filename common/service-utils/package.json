@@ -24,6 +24,7 @@
     "@furystack/repository": "^5.0.7",
     "@furystack/rest": "^3.0.7",
     "@furystack/rest-service": "^4.0.7",
+    "@slack/webhook": "^6.0.0",
     "got": "^11.8.2",
     "mongodb": "^3.6.9",
     "tslib": "^2.1.0",

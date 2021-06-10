@@ -2,6 +2,7 @@ import { diag } from '@common/models'
 import { attachShutdownHandler, runPatches } from '@common/service-utils'
 import { LogLevel, VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
+import { tokens } from '@common/config'
 import { createInitialIndexes } from './patches'
 import { setupRestApi } from './setup-rest-api'
 
@@ -11,6 +12,7 @@ injector
   .setupApplicationContext({ name: 'diag' })
   .useDbLogger({ minLevel: LogLevel.Information })
   .useLogging(VerboseConsoleLogger)
+  .useSlackLogger(tokens.slackLogger)
 setupRestApi(injector)
 
 attachShutdownHandler(injector)

@@ -1,6 +1,7 @@
 import { attachShutdownHandler, runPatches } from '@common/service-utils'
 import { Injector } from '@furystack/inject'
 import { LogLevel, VerboseConsoleLogger } from '@furystack/logging'
+import { tokens } from '@common/config'
 import { createInitialIndexes } from './patches'
 import { setupStores } from './setup-stores'
 import { setupRestApi } from './setup-rest-api'
@@ -12,6 +13,7 @@ injector
   .setupApplicationContext({ name: 'media' })
   .useDbLogger({ minLevel: LogLevel.Information })
   .useLogging(VerboseConsoleLogger)
+  .useSlackLogger(tokens.slackLogger)
 
 setupStores(injector)
 setupRepository(injector)
