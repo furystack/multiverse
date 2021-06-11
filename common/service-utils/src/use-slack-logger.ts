@@ -39,7 +39,7 @@ export class SlackLogger extends AbstractLogger implements Logger {
   >(entry: LeveledLogEntry<T>): Promise<void> {
     const shouldSendToSlack = entry.data?.sendToSlack === true
     if (shouldSendToSlack) {
-      this.hook
+      await this.hook
         .send({
           ...(entry.data?.blocks
             ? { blocks: entry.data?.blocks }
