@@ -11,8 +11,8 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/formidable": "^1.2.2",
-    "@types/node": "^15.12.4"
+    "@types/formidable": "^1.2.3",
+    "@types/node": "^16.0.1"
   },
   "dependencies": {
     "@common/config": "1.0.0",

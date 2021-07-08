@@ -11,9 +11,9 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/amqplib": "^0.8.0",
-    "@types/node": "^15.12.4",
-    "@types/ws": "^7.4.5"
+    "@types/amqplib": "^0.8.1",
+    "@types/node": "^16.0.1",
+    "@types/ws": "^7.4.6"
   },
   "dependencies": {
     "@common/service-utils": "1.0.0",
