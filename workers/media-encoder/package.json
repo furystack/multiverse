@@ -21,7 +21,7 @@
     "@furystack/logging": "^2.0.79",
     "@furystack/rest": "^3.0.13",
     "@furystack/rest-client-got": "^1.0.22",
-    "@types/fluent-ffmpeg": "^2.1.16",
+    "@types/fluent-ffmpeg": "^2.1.18",
     "amqplib": "^0.8.0",
     "chokidar": "^3.5.2",
     "fluent-ffmpeg": "^2.1.2",
