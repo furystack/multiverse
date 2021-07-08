@@ -11,12 +11,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^4.3.4"
+    "typescript": "^4.3.5"
   },
   "dependencies": {
     "@common/frontend-utils": "1.0.0",
-    "@furystack/shades": "^3.3.7",
-    "@furystack/shades-lottie": "^1.0.32"
+    "@furystack/shades": "^3.3.10",
+    "@furystack/shades-lottie": "^1.0.35"
   },
   "typings": "dist/index.d.ts",
   "main": "dist/index.js"

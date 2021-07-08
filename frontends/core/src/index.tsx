@@ -12,8 +12,11 @@ declare global {
   interface Window {
     __multiverse_api_root?: string
     __multiverse_site_roots?: SiteRoots
+    process: {}
   }
 }
+
+window.process = { env: {} } as any
 
 const apiRoot = window.__multiverse_api_root || window.location.origin
 const defaultSiteRoots: SiteRoots = {
