@@ -38,11 +38,11 @@
     "webpack-merge": "^5.7.3"
   },
   "dependencies": {
-    "@furystack/core": "^10.0.10",
-    "@furystack/rest": "^3.0.10",
-    "@furystack/rest-client-fetch": "^3.0.9",
-    "@furystack/shades": "^3.3.7",
-    "@furystack/shades-common-components": "^1.4.7",
+    "@furystack/core": "^10.0.11",
+    "@furystack/rest": "^3.0.11",
+    "@furystack/rest-client-fetch": "^3.0.10",
+    "@furystack/shades": "^3.3.8",
+    "@furystack/shades-common-components": "^1.4.8",
     "@types/video.js": "^7.3.23",
     "copy-webpack-plugin": "^9.0.1",
     "marked": "^2.1.3",
