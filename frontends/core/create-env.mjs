@@ -21,7 +21,9 @@ ${
   Object.keys(__multiverse_site_roots).length
     ? `window.__multiverse_site_roots = ${JSON.stringify(__multiverse_site_roots, undefined, 2)}`
     : ''
-}`,
+}
+globalThis.process = { env: {} };
+`,
   )
 }
 

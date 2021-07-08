@@ -17,11 +17,15 @@ services:
     image: 'mongo'
     ports:
       - '27017:27017'
+    restart: unless-stopped
+    volumes:
+      - multiverse-dev-db:/data/db
   rabbitmq:
     image: rabbitmq:3-management-alpine
     ports:
       - 5672:5672
       - 15672:15672
+    restart: unless-stopped
   multiverse-auth:
     image: furystack/multiverse-auth
     environment:
@@ -63,3 +67,6 @@ services:
       - API_ROOT_XPENSE=http://localhost:9092
     ports:
       - 8080:8080
+
+volumes:
+  multiverse-dev-db:
