@@ -1,6 +1,6 @@
 {
   "name": "@worker/media-encoder",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "dist/worker.js",
   "license": "GPL-2.0-only",
   "private": true,
@@ -15,7 +15,7 @@
     "@types/rimraf": "^3.0.1"
   },
   "dependencies": {
-    "@common/service-utils": "1.0.0",
+    "@common/service-utils": "^1.1.0",
     "@furystack/core": "^10.2.0",
     "@furystack/inject": "^4.0.73",
     "@furystack/logging": "^2.0.80",
