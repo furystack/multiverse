@@ -11,22 +11,21 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/mongodb": "^3.6.20",
-    "@types/node": "^16.0.1"
+    "@types/node": "^16.4.7"
   },
   "dependencies": {
     "@common/config": "1.0.0",
     "@common/models": "1.0.0",
-    "@furystack/core": "^10.1.0",
-    "@furystack/inject": "^4.0.72",
-    "@furystack/logging": "^2.0.79",
-    "@furystack/mongodb-store": "^4.0.13",
-    "@furystack/repository": "^5.0.13",
-    "@furystack/rest": "^3.0.13",
-    "@furystack/rest-service": "^4.0.13",
+    "@furystack/core": "^10.2.0",
+    "@furystack/inject": "^4.0.73",
+    "@furystack/logging": "^2.0.80",
+    "@furystack/mongodb-store": "^4.0.14",
+    "@furystack/repository": "^5.0.14",
+    "@furystack/rest": "^3.0.14",
+    "@furystack/rest-service": "^4.0.14",
     "@slack/webhook": "^6.0.0",
     "got": "^11.8.2",
-    "mongodb": "^3.6.10",
+    "mongodb": "^4.0.1",
     "tslib": "^2.3.0",
     "uuid": "^8.3.2"
   }
