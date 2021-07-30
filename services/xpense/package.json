@@ -1,6 +1,6 @@
 {
   "name": "@service/xpense",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "dist/service.js",
   "license": "GPL-2.0-only",
   "private": true,
@@ -13,7 +13,7 @@
     "@types/node": "^16.4.7"
   },
   "dependencies": {
-    "@common/service-utils": "1.0.0",
+    "@common/service-utils": "^1.1.0",
     "@furystack/auth-google": "^4.0.83",
     "@furystack/core": "^10.2.0",
     "@furystack/inject": "^4.0.73",
