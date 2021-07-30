@@ -1,14 +1,14 @@
 import { Injector, Constructable } from '@furystack/inject'
 import { MongodbStore } from '@furystack/mongodb-store'
 import { StoreManager } from '@furystack/core'
-import { IndexOptions } from 'mongodb'
+import { IndexSpecification, CreateIndexesOptions } from 'mongodb'
 
 export const verifyAndCreateIndexes = async <T>(options: {
   injector: Injector
   model: Constructable<T>
   indexName: string
-  indexSpecification: { [K in keyof T]?: 1 }
-  indexOptions: IndexOptions
+  indexSpecification: IndexSpecification
+  indexOptions: CreateIndexesOptions
 }) => {
   const store: MongodbStore<T, any> = options.injector
     .getInstance(StoreManager)
