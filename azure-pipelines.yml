@@ -72,7 +72,7 @@ jobs:
           testRunner: JUnit
           testResultsFiles: '$(System.DefaultWorkingDirectory)/coverage/junit.xml'
 
-      - script: yarn test:cypress
+      - script: yarn cypress  run --record
         displayName: 'Cypress tests'
       - task: PublishTestResults@1
         displayName: Publish test results
