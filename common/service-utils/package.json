@@ -11,7 +11,7 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/node": "^16.4.7"
+    "@types/node": "^16.6.1"
   },
   "dependencies": {
     "@common/config": "^1.1.0",
@@ -25,8 +25,8 @@
     "@furystack/rest-service": "^4.0.14",
     "@slack/webhook": "^6.0.0",
     "got": "^11.8.2",
-    "mongodb": "^4.0.1",
-    "tslib": "^2.3.0",
+    "mongodb": "^4.1.0",
+    "tslib": "^2.3.1",
     "uuid": "^8.3.2"
   }
 }
