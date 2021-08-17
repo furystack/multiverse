@@ -11,7 +11,7 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/node": "^16.4.7"
+    "@types/node": "^16.6.1"
   },
   "dependencies": {
     "@common/config": "^1.1.0",
@@ -24,6 +24,6 @@
     "@furystack/repository": "^5.0.14",
     "@furystack/rest": "^3.0.14",
     "@furystack/rest-service": "^4.0.14",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.1"
   }
 }

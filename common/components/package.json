@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "@common/frontend-utils": "^1.1.0",
-    "@furystack/shades": "^3.4.0",
-    "@furystack/shades-lottie": "^1.1.0"
+    "@furystack/shades": "^3.5.0",
+    "@furystack/shades-lottie": "^1.2.0"
   },
   "typings": "dist/index.d.ts",
   "main": "dist/index.js"
