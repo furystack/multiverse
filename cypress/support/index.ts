@@ -21,12 +21,3 @@
 // require('./commands')
 
 import './commands'
-import 'cypress-plugin-snapshots/commands'
-
-declare global {
-  namespace Cypress {
-    interface Chainable<Subject> {
-      toMatchImageSnapshot: (options?: { threshold?: number }) => void
-    }
-  }
-}
