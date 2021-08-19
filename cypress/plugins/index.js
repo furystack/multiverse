@@ -11,9 +11,9 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
-const { initPlugin } = require('cypress-plugin-snapshots/plugin')
 const fs = require('fs')
 const path = require('path')
+const getCompareSnapshotsPlugin = require('cypress-visual-regression/dist/plugin')
 
 const { sites } = require('@common/config')
 
@@ -28,12 +28,6 @@ const getCurrentUser = (filePath) => {
 
 module.exports = (on, config) => {
   config.baseUrl = sites.frontends.core
-  // on('file:preprocessor', webpack(options))
-  on('task', {
-    getCurrentUser(filePath) {
-      return getCurrentUser(filePath)
-    },
-  })
-  initPlugin(on, config)
+  getCompareSnapshotsPlugin(on, config)
   return config
 }

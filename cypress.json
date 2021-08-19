@@ -7,5 +7,11 @@
   "reporterOptions": {
     "mochaFile": "testresults/output-[hash].xml"
   },
-  "ignoreTestFiles": ["**/__snapshots__/*", "**/__image_snapshots__/*"]
+  "ignoreTestFiles": ["**/__snapshots__/*", "**/__image_snapshots__/*"],
+  "screenshotsFolder": "./cypress/snapshots/actual",
+  "trashAssetsBeforeRuns": true,
+    "env": {
+    "failSilently": false
+  },
+  "projectId": "3zrp8x"
 }

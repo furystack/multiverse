@@ -34,9 +34,9 @@ describe('Core Application', () => {
       cy.visit('/')
       cy.get(loginFormSelector).should('be.visible')
       cy.get(usernameInputSelector).focus()
-      cy.get(loginFormSelector).toMatchImageSnapshot({ threshold: 0.001 })
+      cy.get(loginFormSelector).compareSnapshot('login-form', 0.01)
 
-      cy.get(headerSelector).toMatchImageSnapshot({ threshold: 0.001 }) // with no avatar
+      cy.get(headerSelector).compareSnapshot('login-header-no-avatar', 0.01) // with no avatar
       cy.get(usernameInputSelector).should('be.visible').should('be.enabled')
       cy.get(usernameInputSelector).type('testuser@gmail.com').blur()
       cy.get(passwordFieldSelector).should('be.visible').should('be.enabled')
@@ -48,7 +48,7 @@ describe('Core Application', () => {
 
       cy.get('welcome-page multiverse-dashboard > div').should('be.visible')
 
-      cy.get(headerSelector).should('be.visible').toMatchImageSnapshot({ threshold: 0.001 }) // with avatar and menu
+      cy.get(headerSelector).should('be.visible').compareSnapshot('login-header-with-avatar-and-menu', 0.001) // with avatar and menu
       logoutFromUserMenu(cy)
 
       cy.get(loginFormSelector).should('be.visible')

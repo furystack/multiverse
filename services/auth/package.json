@@ -12,20 +12,20 @@
   },
   "devDependencies": {
     "@types/formidable": "^1.2.3",
-    "@types/node": "^16.4.7"
+    "@types/node": "^16.6.2"
   },
   "dependencies": {
     "@common/config": "^1.1.0",
     "@common/service-utils": "^1.1.0",
-    "@furystack/auth-google": "^4.0.83",
-    "@furystack/core": "^10.2.0",
-    "@furystack/inject": "^4.0.73",
-    "@furystack/logging": "^2.0.80",
-    "@furystack/mongodb-store": "^4.0.14",
-    "@furystack/repository": "^5.0.14",
-    "@furystack/rest": "^3.0.14",
-    "@furystack/rest-service": "^4.0.14",
+    "@furystack/auth-google": "^4.0.85",
+    "@furystack/core": "^10.3.1",
+    "@furystack/inject": "^4.0.74",
+    "@furystack/logging": "^2.0.81",
+    "@furystack/mongodb-store": "^4.0.16",
+    "@furystack/repository": "^5.0.16",
+    "@furystack/rest": "^3.0.16",
+    "@furystack/rest-service": "^4.0.16",
     "formidable": "^1.2.2",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.1"
   }
 }

@@ -12,7 +12,7 @@ describe('Sign up', () => {
     cy.get('input[required][title=Password]').should('be.visible').type('asdasd').blur()
     cy.get('input[required][title="Confirm password"]').should('be.visible').type('89715264').blur()
     cy.get('button[title=Register]').click()
-    cy.get('register-page > div > div').toMatchImageSnapshot()
+    cy.get('register-page > div > div').compareSnapshot('register-view', 0.001)
   })
 
   it('Should log in a registered user', () => {

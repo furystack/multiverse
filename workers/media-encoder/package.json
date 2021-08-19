@@ -11,16 +11,16 @@
   },
   "devDependencies": {
     "@types/amqplib": "^0.8.1",
-    "@types/node": "^16.4.7",
-    "@types/rimraf": "^3.0.1"
+    "@types/node": "^16.6.2",
+    "@types/rimraf": "^3.0.2"
   },
   "dependencies": {
     "@common/service-utils": "^1.1.0",
-    "@furystack/core": "^10.2.0",
-    "@furystack/inject": "^4.0.73",
-    "@furystack/logging": "^2.0.80",
-    "@furystack/rest": "^3.0.14",
-    "@furystack/rest-client-got": "^1.0.23",
+    "@furystack/core": "^10.3.1",
+    "@furystack/inject": "^4.0.74",
+    "@furystack/logging": "^2.0.81",
+    "@furystack/rest": "^3.0.16",
+    "@furystack/rest-client-got": "^1.0.25",
     "@types/fluent-ffmpeg": "^2.1.18",
     "amqplib": "^0.8.0",
     "chokidar": "^3.5.2",
@@ -29,6 +29,6 @@
     "got": "^11.8.2",
     "rimraf": "^3.0.2",
     "semaphore-async-await": "1.5.1",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.1"
   }
 }

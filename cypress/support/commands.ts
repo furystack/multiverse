@@ -1,4 +1,5 @@
 import 'cypress-file-upload'
+import * as compareSnapshotCommand from 'cypress-visual-regression/dist/command'
 import { serviceNames } from '../../common/models'
 
 export const login = (cy: Cypress.cy, username: string, password: string) => {
@@ -42,3 +43,5 @@ export const expectAndDismissNotification = (
       .should('not.exist')
   })
 }
+
+compareSnapshotCommand()
