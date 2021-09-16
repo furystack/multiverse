@@ -55,7 +55,7 @@ export const runPatches = async (options: { injector: Injector; patches: PatchEn
     } catch (error) {
       await logger.fatal({
         message: `Patch '${patch.patchName}' has been failed. Stopping execution...`,
-        data: { error: { message: error.message, stack: error.stack } },
+        data: { error },
       })
       const finishDate = new Date()
       await patchStore.add({
@@ -64,10 +64,7 @@ export const runPatches = async (options: { injector: Injector; patches: PatchEn
         appName,
         startDate,
         finishDate,
-        error: {
-          message: error.message,
-          stack: error.stack,
-        },
+        error,
         status: 'failed',
       })
     }
