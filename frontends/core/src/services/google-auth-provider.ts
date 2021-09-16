@@ -77,7 +77,6 @@ export class GoogleOauthProvider {
         loginReqUrl,
         '_blank',
         'toolbar=no,scrollbars=no,resizable=no,top=200,left=300,width=400,height=400',
-        true,
       )
       const timer = setInterval(() => {
         if (this.popup && this.popup.window) {

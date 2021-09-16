@@ -1,6 +1,6 @@
 {
   "name": "@common/models",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "main": "dist/index.js",
   "license": "GPL-2.0-only",
   "private": true,
@@ -11,7 +11,7 @@
   },
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@furystack/rest": "^3.0.16",
+    "@furystack/rest": "^3.0.18",
     "tslib": "^2.3.1"
   }
 }

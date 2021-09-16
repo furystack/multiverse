@@ -115,10 +115,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
       message: `Task encoding failed`,
       data: {
         task: options.task,
-        error: {
-          message: error.message,
-          stack: error.stack,
-        },
+        error,
       },
     })
     callApi({
@@ -126,13 +123,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
       action: '/save-encoding-failure',
       body: {
         accessToken: options.task.authToken,
-        error: {
-          message: error.message,
-          stack: error.stack,
-          stdout: error.stdout,
-          stderr: error.stderr,
-          originalError: error,
-        },
+        error,
         log: taskLogger.getAllEntries(),
       },
     })

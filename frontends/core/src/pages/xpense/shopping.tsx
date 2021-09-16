@@ -8,7 +8,7 @@ import { ShoppingEntry, ShoppingEntryRow } from './components/shopping-entry'
 
 export const XpenseShoppingPage = Shade<
   { account: xpense.Account; shops: xpense.Shop[]; items: xpense.Item[]; onShopped?: (total: xpense.Shopping) => void },
-  { entries: ShoppingEntry[]; shopName: string; error?: Error; isSaveInProgress?: boolean; date: string }
+  { entries: ShoppingEntry[]; shopName: string; error?: unknown; isSaveInProgress?: boolean; date: string }
 >({
   shadowDomName: 'xpense-shopping-page',
   getInitialState: () => ({

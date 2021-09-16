@@ -1,6 +1,7 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { Input, Button, NotyService } from '@furystack/shades-common-components'
 import { AuthApiService } from '@common/frontend-utils'
+import { ResponseError } from '@furystack/rest-client-fetch'
 
 export const ChangePasswordForm = Shade<
   { style?: Partial<CSSStyleDeclaration>; showCurrentPassword?: boolean; onUpdated?: () => void },
@@ -43,12 +44,20 @@ export const ChangePasswordForm = Shade<
               return
             }
           } catch (error) {
-            const responseJson = await error.response.json()
-            injector.getInstance(NotyService).addNoty({
-              type: 'error',
-              title: 'Failed to update password',
-              body: responseJson?.message || error.message || error.toString(),
-            })
+            if (error instanceof ResponseError) {
+              const responseJson = await error.response.json()
+              injector.getInstance(NotyService).addNoty({
+                type: 'error',
+                title: 'Failed to update password',
+                body: responseJson?.message || error.message || error.toString(),
+              })
+            } else {
+              injector.getInstance(NotyService).addNoty({
+                type: 'error',
+                title: 'Failed to update password',
+                body: 'An unknown error happened',
+              })
+            }
           }
         }}>
         {props.showCurrentPassword ? (
