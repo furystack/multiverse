@@ -53,7 +53,7 @@ export const GoogleRegisterAction: RequestAction<{
     const tempFilePath = googleUserData && googleUserData.picture && (await downloadAsTempFile(googleUserData.picture))
     tempFilePath && (await saveAvatar({ injector, user: userToAdd, tempFilePath }))
   } catch (error) {
-    await logger.warning({ message: 'Failed to get Avatar', data: { message: error.message, stack: error.stack } })
+    await logger.warning({ message: 'Failed to get Avatar', data: { error } })
   }
 
   const { password, ...userToAddWithoutPw } = userToAdd
