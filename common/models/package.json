@@ -11,7 +11,7 @@
   },
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@furystack/rest": "^3.0.18",
+    "@furystack/rest": "^3.0.19",
     "tslib": "^2.3.1"
   }
 }
