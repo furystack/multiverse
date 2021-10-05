@@ -1,6 +1,6 @@
 {
   "name": "@common/service-utils",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "main": "dist/index.js",
   "license": "GPL-2.0-only",
   "private": true,
@@ -11,18 +11,18 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/node": "^16.9.1"
+    "@types/node": "^16.10.2"
   },
   "dependencies": {
     "@common/config": "^1.1.0",
-    "@common/models": "^1.2.0",
-    "@furystack/core": "^10.3.3",
-    "@furystack/inject": "^4.0.74",
-    "@furystack/logging": "^2.0.81",
-    "@furystack/mongodb-store": "^4.0.18",
-    "@furystack/repository": "^5.0.18",
-    "@furystack/rest": "^3.0.18",
-    "@furystack/rest-service": "^4.0.19",
+    "@common/models": "^1.2.1",
+    "@furystack/core": "^10.3.4",
+    "@furystack/inject": "^4.0.75",
+    "@furystack/logging": "^2.0.82",
+    "@furystack/mongodb-store": "^4.0.19",
+    "@furystack/repository": "^5.0.19",
+    "@furystack/rest": "^3.0.19",
+    "@furystack/rest-service": "^4.0.20",
     "@slack/webhook": "^6.0.0",
     "got": "^11.8.2",
     "mongodb": "^4.1.2",

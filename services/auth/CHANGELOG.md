@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [1.2.1](https://github.com/furystack/multiverse/compare/@service/auth@1.2.0...@service/auth@1.2.1) (2021-10-05)
+
+
+### 🐛 Bug Fixes
+
+* **@services/auth:** possible id collision on seeding test users ([946fb73](https://github.com/furystack/multiverse/commit/946fb7358d20f3daee0776d38f953c7f1f1845f4))
+
+
+
+
 ## 1.2.0 (2021-09-16)
 
 
