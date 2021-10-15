@@ -133,7 +133,7 @@ export class SessionService implements IdentityContext {
         action: '/accept-terms',
       })
       this.notys.addNoty({ type: 'success', title: 'Success', body: 'You have accepted the terms' })
-      this.currentUser.setValue({ ...lastUser, roles: [...lastUser?.roles, 'terms-accepted'] })
+      this.currentUser.setValue({ ...lastUser, roles: [...lastUser.roles, 'terms-accepted'] })
     } catch (error) {
       this.notys.addNoty({ type: 'success', title: 'Success', body: 'Something went wrong during accepting the Terms' })
     }
