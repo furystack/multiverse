@@ -1,6 +1,6 @@
 {
   "name": "@common/components",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "",
   "private": true,
   "scripts": {
@@ -14,7 +14,7 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
-    "@common/frontend-utils": "^1.2.1",
+    "@common/frontend-utils": "^1.2.2",
     "@furystack/shades": "^3.6.5",
     "@furystack/shades-lottie": "^1.3.5"
   },
