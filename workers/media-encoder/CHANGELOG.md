@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [1.2.3](https://github.com/furystack/multiverse/compare/@worker/media-encoder@1.2.2...@worker/media-encoder@1.2.3) (2021-11-09)
+
+**Note:** Version bump only for package @worker/media-encoder
+
+
+
+
+
+
 ### [1.2.2](https://github.com/furystack/multiverse/compare/@worker/media-encoder@1.2.1...@worker/media-encoder@1.2.2) (2021-10-15)
 
 **Note:** Version bump only for package @worker/media-encoder
