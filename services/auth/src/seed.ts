@@ -5,6 +5,8 @@ import { auth } from '@common/models'
 import { v4 } from 'uuid'
 import { setupStores } from './setup-stores'
 
+let githubIndex = 0
+
 /**
  * gets an existing instance if exists or create and return if not. Throws error on multiple result
  * @param filter The filter term
@@ -93,7 +95,7 @@ export const createUser = async ({
       filter: { username: { $eq: email } },
     },
     {
-      githubId: Math.round(Math.random() * 1000),
+      githubId: githubIndex++,
       username: email,
       githubApiPayload: {
         avatar_url: 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png',

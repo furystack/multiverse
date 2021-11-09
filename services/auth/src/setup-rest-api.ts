@@ -48,7 +48,7 @@ export const setupRestApi = async (injector: Injector) => {
     root: '/api/auth',
     api: {
       GET: {
-        '/currentUser': GetCurrentUser as unknown as RequestAction<{ result: auth.User }>,
+        '/currentUser': GetCurrentUser as RequestAction<{ result: auth.User }>,
         '/isAuthenticated': IsAuthenticated,
         '/profiles': Validate({
           schema: apis.authApiSchema,

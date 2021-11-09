@@ -6,7 +6,13 @@ import { GenericErrorPage } from './generic-error'
 
 export const RegisterPage = Shade({
   shadowDomName: 'register-page',
-  getInitialState: () => ({ error: '', email: '', password: '', confirmPassword: '', isOperationInProgress: false }),
+  getInitialState: () => ({
+    error: '' as unknown,
+    email: '',
+    password: '',
+    confirmPassword: '',
+    isOperationInProgress: false,
+  }),
   render: ({ injector, getState, updateState }) => {
     const { error } = getState()
     return (

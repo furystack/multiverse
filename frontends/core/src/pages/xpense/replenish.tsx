@@ -10,7 +10,7 @@ export const ReplenishPage = Shade<
     account: xpense.Account
     onReplenished?: (replenishment: xpense.Replenishment) => void
   },
-  { amount: number; comment?: string; date: string; error?: Error }
+  { amount: number; comment?: string; date: string; error?: unknown }
 >({
   getInitialState: () => ({
     amount: 0,

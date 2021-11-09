@@ -44,7 +44,7 @@ export class RabbitListener {
     } catch (error) {
       await this.logger.warning({
         message: 'There was an error during RabbitMQ connection. Will retry in 30s',
-        data: { error: { message: error.message, stack: error.stack } },
+        data: { error },
       })
       await sleepAsync(1000 * 30)
       this.initLock.release()

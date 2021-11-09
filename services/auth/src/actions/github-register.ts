@@ -62,7 +62,7 @@ export const GithubRegisterAction: RequestAction<{
       githubApiPayload && githubApiPayload.avatar_url && (await downloadAsTempFile(githubApiPayload.avatar_url))
     tempFilePath && (await saveAvatar({ injector, user: newUser, tempFilePath }))
   } catch (error) {
-    await logger.warning({ message: 'Failed to get Avatar', data: { message: error.message, stack: error.stack } })
+    await logger.warning({ message: 'Failed to get Avatar', data: { error } })
   }
 
   return JsonResult({ ...user })
