@@ -54,9 +54,7 @@ export const UploadSubtitles: RequestAction<{
       .filter((f) => !(f instanceof Array) && f.originalFilename && extname(f.originalFilename) === 'vtt')
       .map(async (file) => {
         if (!(file instanceof Array)) {
-          await promises.copyFile(file.filepath, join(targetPath, file.originalFilename as string))
-          // Remove from temp
-          await promises.unlink(file.filepath)
+          await promises.rename(file.filepath, join(targetPath, file.originalFilename as string))
         }
       }),
   )
