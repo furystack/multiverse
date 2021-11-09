@@ -1,5 +1,6 @@
 import { join } from 'path'
 import { promises } from 'fs'
+import { assert } from 'console'
 import { RequestError } from '@furystack/rest'
 import { IncomingForm, Fields, Files } from 'formidable'
 import { FileStores } from '@common/config'
@@ -7,6 +8,7 @@ import { media } from '@common/models'
 import { StoreManager } from '@furystack/core'
 import { existsAsync } from '@common/service-utils'
 import { RequestAction, JsonResult } from '@furystack/rest-service'
+import { assertIsValidFolderName } from '../utils/assert-is-valid-foldername'
 
 export const UploadEncoded: RequestAction<{
   url: { movieId: string; accessToken: string }
@@ -42,14 +44,15 @@ export const UploadEncoded: RequestAction<{
   )
   const { codec, mode } = parseResult.fields
 
-  const parsedCodec = ['x264', 'libvpx-vp9'].find((c) => c === codec) || 'unknown'
+  assertIsValidFolderName(codec)
+  assertIsValidFolderName(mode)
 
   const file = parseResult.files.chunk
   if (file instanceof Array) {
     throw new RequestError('Multiple files are not supported', 400)
   }
   if (file) {
-    const targetPath = join(FileStores.encodedMedia, parsedCodec, mode as string, movie._id)
+    const targetPath = join(FileStores.encodedMedia, codec as string, mode as string, movie._id)
     const targetPathExists = await existsAsync(targetPath)
     if (!targetPathExists) {
       await promises.mkdir(targetPath, { recursive: true })
