@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [1.2.4](https://github.com/furystack/multiverse/compare/@service/media@1.2.3...@service/media@1.2.4) (2021-11-09)
+
+
+### 🐛 Bug Fixes
+
+* **@service/media,@service/auth:** move files from temp ([752e0bd](https://github.com/furystack/multiverse/commit/752e0bdf70364021af986d419665db36e56b456d))
+
+
+
+
 ### [1.2.3](https://github.com/furystack/multiverse/compare/@service/media@1.2.2...@service/media@1.2.3) (2021-11-09)
 
 **Note:** Version bump only for package @service/media
