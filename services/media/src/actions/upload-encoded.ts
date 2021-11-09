@@ -53,9 +53,9 @@ export const UploadEncoded: RequestAction<{
       await promises.mkdir(targetPath, { recursive: true })
     }
 
-    await promises.copyFile(file.path, join(targetPath, file.name as string))
+    await promises.copyFile(file.filepath, join(targetPath, file.originalFilename as string))
     // Remove from temp
-    await promises.unlink(file.path)
+    await promises.unlink(file.filepath)
   }
 
   const { percent, error } = parseResult.fields
