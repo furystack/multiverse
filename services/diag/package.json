@@ -11,7 +11,7 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/node": "^16.11.0"
+    "@types/node": "^16.11.7"
   },
   "dependencies": {
     "@common/service-utils": "^1.2.2",

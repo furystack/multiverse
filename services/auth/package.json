@@ -11,8 +11,8 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/formidable": "^1.2.4",
-    "@types/node": "^16.11.0"
+    "@types/formidable": "^2.0.0",
+    "@types/node": "^16.11.7"
   },
   "dependencies": {
     "@common/config": "^1.1.0",
@@ -25,7 +25,7 @@
     "@furystack/repository": "^5.0.20",
     "@furystack/rest": "^3.0.20",
     "@furystack/rest-service": "^4.0.21",
-    "formidable": "^1.2.2",
+    "formidable": "^2.0.1",
     "tslib": "^2.3.1"
   }
 }
