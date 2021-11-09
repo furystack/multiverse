@@ -1,6 +1,5 @@
 import { join } from 'path'
 import { promises } from 'fs'
-import { assert } from 'console'
 import { RequestError } from '@furystack/rest'
 import { IncomingForm, Fields, Files } from 'formidable'
 import { FileStores } from '@common/config'
