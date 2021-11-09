@@ -31,6 +31,7 @@ export const UploadEncoded: RequestAction<{
 
   const form = new IncomingForm({
     uploadDir: FileStores.tempdir,
+    multiples: false,
   })
 
   const parseResult = await new Promise<{ fields: Fields; files: Files }>((resolve, reject) =>
@@ -53,9 +54,7 @@ export const UploadEncoded: RequestAction<{
     if (!targetPathExists) {
       await promises.mkdir(targetPath, { recursive: true })
     }
-    await promises.copyFile(file.filepath, join(targetPath, sanitize(file.originalFilename as string)))
-    // Remove from temp
-    await promises.unlink(file.filepath)
+    await promises.rename(file.filepath, join(targetPath, sanitize(file.originalFilename as string)))
   }
 
   const { percent, error } = parseResult.fields
