@@ -7,6 +7,7 @@ import { media } from '@common/models'
 import { StoreManager } from '@furystack/core'
 import { existsAsync } from '@common/service-utils'
 import { RequestAction, JsonResult } from '@furystack/rest-service'
+import sanitize from 'sanitize-filename'
 
 export const UploadEncoded: RequestAction<{
   url: { movieId: string; accessToken: string }
@@ -30,6 +31,7 @@ export const UploadEncoded: RequestAction<{
 
   const form = new IncomingForm({
     uploadDir: FileStores.tempdir,
+    multiples: false,
   })
 
   const parseResult = await new Promise<{ fields: Fields; files: Files }>((resolve, reject) =>
@@ -47,15 +49,12 @@ export const UploadEncoded: RequestAction<{
     throw new RequestError('Multiple files are not supported', 400)
   }
   if (file) {
-    const targetPath = join(FileStores.encodedMedia, codec as string, mode as string, movie._id)
+    const targetPath = join(FileStores.encodedMedia, sanitize(codec as string), sanitize(mode as string), movie._id)
     const targetPathExists = await existsAsync(targetPath)
     if (!targetPathExists) {
       await promises.mkdir(targetPath, { recursive: true })
     }
-
-    await promises.copyFile(file.path, join(targetPath, file.name as string))
-    // Remove from temp
-    await promises.unlink(file.path)
+    await promises.rename(file.filepath, join(targetPath, sanitize(file.originalFilename as string)))
   }
 
   const { percent, error } = parseResult.fields
