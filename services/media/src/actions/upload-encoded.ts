@@ -7,11 +7,7 @@ import { media } from '@common/models'
 import { StoreManager } from '@furystack/core'
 import { existsAsync } from '@common/service-utils'
 import { RequestAction, JsonResult } from '@furystack/rest-service'
-
-const validatedCodec = (codec: string | string[]) =>
-  ['x264', 'libvpx-vp9'].find((c) => typeof c === 'string' && c === codec) || 'unknown'
-
-const validatedMode = (_mode: string | string[]) => 'dash'
+import sanitize from 'sanitize-filename'
 
 export const UploadEncoded: RequestAction<{
   url: { movieId: string; accessToken: string }
@@ -52,13 +48,12 @@ export const UploadEncoded: RequestAction<{
     throw new RequestError('Multiple files are not supported', 400)
   }
   if (file) {
-    const targetPath = join(FileStores.encodedMedia, validatedCodec(codec), validatedMode(mode), movie._id)
+    const targetPath = join(FileStores.encodedMedia, sanitize(codec as string), sanitize(mode as string), movie._id)
     const targetPathExists = await existsAsync(targetPath)
     if (!targetPathExists) {
       await promises.mkdir(targetPath, { recursive: true })
     }
-
-    await promises.copyFile(file.filepath, join(targetPath, file.originalFilename as string))
+    await promises.copyFile(file.filepath, join(targetPath, sanitize(file.originalFilename as string)))
     // Remove from temp
     await promises.unlink(file.filepath)
   }
