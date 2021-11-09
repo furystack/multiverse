@@ -42,12 +42,14 @@ export const UploadEncoded: RequestAction<{
   )
   const { codec, mode } = parseResult.fields
 
+  const parsedCodec = ['x264', 'libvpx-vp9'].find((c) => c === codec) || 'unknown'
+
   const file = parseResult.files.chunk
   if (file instanceof Array) {
     throw new RequestError('Multiple files are not supported', 400)
   }
   if (file) {
-    const targetPath = join(FileStores.encodedMedia, codec as string, mode as string, movie._id)
+    const targetPath = join(FileStores.encodedMedia, parsedCodec, mode as string, movie._id)
     const targetPathExists = await existsAsync(targetPath)
     if (!targetPathExists) {
       await promises.mkdir(targetPath, { recursive: true })
