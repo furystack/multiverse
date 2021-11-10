@@ -96,7 +96,7 @@
           "type": "string",
           "enum": [
             "movie",
-            "series"
+            "episode"
           ]
         },
         "DVD": {

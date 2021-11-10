@@ -30,7 +30,7 @@ export type FetchedOmdbMetadata = {
   imdbRating: string // '6.7'
   imdbVotes: string // '422,380'
   imdbID: string // 'tt0800080'
-  Type: 'movie' | 'series' // 'movie'
+  Type: 'movie' | 'episode' // 'movie'
   DVD: string // 'N/A'
   BoxOffice: string // 'N/A'
   Production: string // 'N/A'
