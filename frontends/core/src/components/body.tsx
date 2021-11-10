@@ -1,6 +1,6 @@
 import { createComponent, Shade, Route, Router, LazyLoad } from '@furystack/shades'
 import { auth } from '@common/models'
-import { SessionService, SessionState, AuthApiService } from '@common/frontend-utils'
+import { SessionService, SessionState, AuthApiService, MediaApiService } from '@common/frontend-utils'
 import { promisifyAnimation, Loader } from '@furystack/shades-common-components'
 import { Init, WelcomePage, Offline, Login } from '../pages'
 import { Page404 } from '../pages/404'
@@ -370,6 +370,56 @@ export const Body = Shade<
                                 />
                               )
                             },
+                          },
+                          {
+                            url: '/series/:imdbId',
+                            component: ({ match }) => (
+                              <LazyLoad
+                                error={(error, retry) => (
+                                  <GenericErrorPage
+                                    subtitle="Something bad happened during loading the Movies page"
+                                    error={error}
+                                    retry={retry}
+                                  />
+                                )}
+                                component={async () => {
+                                  const { Series } = await import(
+                                    /* webpackChunkName: "movies" */ '../pages/movies/series'
+                                  )
+                                  const mediaApi = injector.getInstance(MediaApiService)
+
+                                  const seriesResult = await mediaApi.call({
+                                    method: 'GET',
+                                    action: '/series',
+                                    query: {
+                                      findOptions: {
+                                        filter: {
+                                          imdbId: { $eq: match.params.imdbId },
+                                        },
+                                        top: 1,
+                                      },
+                                    },
+                                  })
+
+                                  const movies = await mediaApi.call({
+                                    method: 'GET',
+                                    action: '/movies',
+                                    query: {
+                                      findOptions: {
+                                        filter: {
+                                          'metadata.seriesId': match.params.imdbId,
+                                        } as any,
+                                      },
+                                    },
+                                  })
+
+                                  return (
+                                    <Series series={seriesResult.result.entries[0]} movies={movies.result.entries} />
+                                  )
+                                }}
+                                loader={<Init message="Loading Series..." />}
+                              />
+                            ),
                           },
                         ] as Array<Route<any>>
                       }></Router>
