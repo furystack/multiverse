@@ -186,6 +186,12 @@
                 "headers"
               ],
               "additionalProperties": false
+            },
+            "/series": {
+              "$ref": "#/definitions/GetCollectionEndpoint%3CSeries%3E"
+            },
+            "/series/:id": {
+              "$ref": "#/definitions/GetEntityEndpoint%3CSeries%2C%22_id%22%3E"
             }
           },
           "required": [
@@ -200,7 +206,9 @@
             "/my-watch-progress",
             "/encode/tasks",
             "/encode/tasks/:id",
-            "/encode/get-worker-task/:taskId"
+            "/encode/get-worker-task/:taskId",
+            "/series",
+            "/series/:id"
           ],
           "additionalProperties": false
         },
@@ -4110,6 +4118,438 @@
         },
         "result": {
           "$ref": "#/definitions/EncodingTask"
+        }
+      },
+      "required": [
+        "query",
+        "url",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Endpoint model for getting a single entity"
+    },
+    "GetCollectionEndpoint<Series>": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "findOptions": {
+              "$ref": "#/definitions/FindOptions%3CSeries%2C(%22_id%22%7C%22imdbId%22%7C%22omdbMetadata%22)%5B%5D%3E"
+            }
+          },
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/GetCollectionResult%3CSeries%3E"
+        }
+      },
+      "required": [
+        "query",
+        "result"
+      ],
+      "additionalProperties": false,
+      "description": "Rest endpoint model for getting / querying collections"
+    },
+    "FindOptions<Series,(\"_id\"|\"imdbId\"|\"omdbMetadata\")[]>": {
+      "type": "object",
+      "properties": {
+        "top": {
+          "type": "number",
+          "description": "Limits the hits"
+        },
+        "skip": {
+          "type": "number",
+          "description": "Skips the first N hit"
+        },
+        "order": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "imdbId": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "omdbMetadata": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "description": "Sets up an order by a field and a direction"
+        },
+        "select": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "_id",
+              "imdbId",
+              "omdbMetadata"
+            ]
+          },
+          "description": "The result set will be limited to these fields"
+        },
+        "filter": {
+          "$ref": "#/definitions/FilterType%3CSeries%3E",
+          "description": "The fields should match this filter"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Type for default filtering model"
+    },
+    "FilterType<Series>": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "$and": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CSeries%3E"
+          }
+        },
+        "$not": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CSeries%3E"
+          }
+        },
+        "$nor": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CSeries%3E"
+          }
+        },
+        "$or": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FilterType%3CSeries%3E"
+          }
+        },
+        "_id": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "imdbId": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$regex": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "type": "string"
+                },
+                "$ne": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "omdbMetadata": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "$eq": {
+                  "$ref": "#/definitions/SeriesOmdbMetadata"
+                },
+                "$ne": {
+                  "$ref": "#/definitions/SeriesOmdbMetadata"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "$in": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/SeriesOmdbMetadata"
+                  }
+                },
+                "$nin": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/SeriesOmdbMetadata"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        }
+      }
+    },
+    "SeriesOmdbMetadata": {
+      "type": "object",
+      "properties": {
+        "Title": {
+          "type": "string"
+        },
+        "Year": {
+          "type": "string"
+        },
+        "Rated": {
+          "type": "string"
+        },
+        "Released": {
+          "type": "string"
+        },
+        "Runtime": {
+          "type": "string"
+        },
+        "Genre": {
+          "type": "string"
+        },
+        "Director": {
+          "type": "string"
+        },
+        "Writer": {
+          "type": "string"
+        },
+        "Actors": {
+          "type": "string"
+        },
+        "Plot": {
+          "type": "string"
+        },
+        "Language": {
+          "type": "string"
+        },
+        "Country": {
+          "type": "string"
+        },
+        "Awards": {
+          "type": "string"
+        },
+        "Poster": {
+          "type": "string"
+        },
+        "Ratings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "Source": {
+                "type": "string"
+              },
+              "Value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "Source",
+              "Value"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "Metascore": {
+          "type": "string"
+        },
+        "imdbRating": {
+          "type": "string"
+        },
+        "imdbVotes": {
+          "type": "string"
+        },
+        "imdbID": {
+          "type": "string"
+        },
+        "Type": {
+          "type": "string"
+        },
+        "totalSeasons": {
+          "type": "string"
+        },
+        "Response": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Title",
+        "Year",
+        "Rated",
+        "Released",
+        "Runtime",
+        "Genre",
+        "Director",
+        "Writer",
+        "Actors",
+        "Plot",
+        "Language",
+        "Country",
+        "Awards",
+        "Poster",
+        "Ratings",
+        "Metascore",
+        "imdbRating",
+        "imdbVotes",
+        "imdbID",
+        "Type",
+        "totalSeasons",
+        "Response"
+      ],
+      "additionalProperties": false
+    },
+    "GetCollectionResult<Series>": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "number",
+          "description": "The Total count of entities"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Series"
+          },
+          "description": "List of the selected entities"
+        }
+      },
+      "required": [
+        "count",
+        "entries"
+      ],
+      "additionalProperties": false,
+      "description": "Response Model for GetCollection"
+    },
+    "Series": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "imdbId": {
+          "type": "string"
+        },
+        "omdbMetadata": {
+          "$ref": "#/definitions/SeriesOmdbMetadata"
+        }
+      },
+      "required": [
+        "_id",
+        "imdbId",
+        "omdbMetadata"
+      ],
+      "additionalProperties": false
+    },
+    "GetEntityEndpoint<Series,\"_id\">": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "object",
+          "properties": {
+            "select": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "_id",
+                  "imdbId",
+                  "omdbMetadata"
+                ]
+              },
+              "description": "The list of fields to select"
+            }
+          },
+          "additionalProperties": false
+        },
+        "url": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The entity's unique identifier"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        },
+        "result": {
+          "$ref": "#/definitions/Series"
         }
       },
       "required": [

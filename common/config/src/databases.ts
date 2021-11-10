@@ -32,6 +32,7 @@ export const databases = {
     movieWatchEntries: 'movie-watch-entries',
     encodingTasks: 'encoding-tasks',
     movies: 'movies',
+    series: 'series',
   },
   standardOptions: {
     useUnifiedTopology: true,

@@ -11,6 +11,7 @@ import { getFallbackMetadata } from '../utils/get-fallback-metadata'
 import { fetchOmdbMovieMetadata } from '../utils/fetch-omdb-movie-metadata'
 import { createEncodingTaskForMovie } from '../utils/create-encoding-task-for-movie'
 import { extractSubtitles } from '../utils/extract-subtitles'
+import { fetchOmdbSeriesMetadata } from '../utils/fetch-omdb-series-metadata'
 
 @Injectable({ lifetime: 'singleton' })
 export class MediaLibraryWatcher {
@@ -39,6 +40,42 @@ export class MediaLibraryWatcher {
     this.onMovieLibraryRemoved.dispose()
     for (const watcher of this.watchers.values()) {
       watcher.close()
+    }
+  }
+
+  private async ensureSeriesExists(movie: media.Movie) {
+    try {
+      const imdbId = (movie.omdbMeta && movie.omdbMeta.Response === 'True' && movie.omdbMeta?.seriesID) || null
+      if (imdbId) {
+        const store = this.injector.getInstance(StoreManager).getStoreFor(media.Series, '_id')
+        const existing = await store.find({
+          filter: {
+            imdbId: { $eq: imdbId },
+          },
+          top: 1,
+        })
+
+        if (!existing.length) {
+          const omdbMetadata = await fetchOmdbSeriesMetadata({
+            injector: this.injector,
+            imdbId,
+          })
+          if (!omdbMetadata) {
+            throw new Error(`Series data not found for imdb id '${imdbId}'`)
+          }
+          await store.add({
+            imdbId,
+            omdbMetadata,
+          })
+        }
+      }
+    } catch (error) {
+      this.logger.warning({
+        message: `Failed to fetch Series data for movie '${movie.metadata.title}'`,
+        data: {
+          movie,
+        },
+      })
     }
   }
 
@@ -96,7 +133,7 @@ export class MediaLibraryWatcher {
           }
           if (library.autoExtractSubtitles) {
             try {
-              await extractSubtitles({ injector: this.injector, movie: createResult.created[0] })
+              await extractSubtitles({ injector: this.injector, movie: createdMovie })
             } catch (error) {
               await this.logger.warning({
                 message: `Failed to extract subtitles for movie '${createdMovie.metadata.title}'`,
@@ -104,6 +141,7 @@ export class MediaLibraryWatcher {
               })
             }
           }
+          await this.ensureSeriesExists(createdMovie)
         } catch (error) {
           await this.logger.error({
             message: 'Something went wrong when adding a new entry to the Movie Library',
