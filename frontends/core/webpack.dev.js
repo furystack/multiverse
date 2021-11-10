@@ -8,7 +8,10 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'source-map',
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: {
+      disableDotRule: true,
+      rewrites: [{ from: /(?!\/api\/)/gm, to: '/' }],
+    },
     host: '0.0.0.0',
   },
   output: {
