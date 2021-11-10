@@ -1,7 +1,7 @@
 import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
 import { RequestAction, JsonResult } from '@furystack/rest-service'
-import { fetchOmdbMetadata } from '../utils/fetch-omdb-metadata'
+import { fetchOmdbMovieMetadata } from '../utils/fetch-omdb-movie-metadata'
 import { getUniversalMetadataFromOmdb } from '../utils/get-universal-metadata-from-omdb'
 import { getFallbackMetadata } from '../utils/get-fallback-metadata'
 
@@ -18,7 +18,7 @@ export const ReFetchMetadataAction: RequestAction<{ url: { movieId: string }; re
     throw new RequestError('Movie not found with id', 404)
   }
 
-  const omdbMeta = await fetchOmdbMetadata({
+  const omdbMeta = await fetchOmdbMovieMetadata({
     title: movie.metadata.title,
     year: movie.metadata.year,
     season: movie.metadata.season,

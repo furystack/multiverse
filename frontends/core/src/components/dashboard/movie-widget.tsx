@@ -191,7 +191,8 @@ export const MovieWidget = Shade<
                 const percent =
                   watchProgress &&
                   Math.round(
-                    100 * (watchProgress.watchedSeconds / (parseFloat(movie.ffprobe.format.duration) || Infinity)),
+                    100 *
+                      (watchProgress.watchedSeconds / (parseFloat((movie.ffprobe as any).format.duration) || Infinity)),
                   )
 
                 return (

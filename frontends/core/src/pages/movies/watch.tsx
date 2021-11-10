@@ -25,7 +25,7 @@ export const Watch = Shade<
   shadowDomName: 'multiverse-movie-watch',
   constructed: ({ props, injector, getState, element }) => {
     const formats = props.movie.availableFormats || []
-    const subtitleStreams = props.movie.ffprobe.streams.filter((s) => s.codec_type === 'subtitle')
+    const subtitleStreams = props.movie.ffprobe.streams.filter((s) => (s.codec_type as any) === 'subtitle')
     const sources = [
       ...formats.sortBy('codec', 'desc').map((f) => ({
         src: `${sites.services.media.apiPath}/watch-stream/${props.movie._id}/${f.codec}/${f.mode}/dash.mpd`,

@@ -31,10 +31,10 @@ export type FetchedOmdbMetadata = {
   imdbVotes: string // '422,380'
   imdbID: string // 'tt0800080'
   Type: 'movie' | 'episode' // 'movie'
-  DVD: string // 'N/A'
-  BoxOffice: string // 'N/A'
-  Production: string // 'N/A'
-  Website: string // 'N/A'
+  DVD?: string // 'N/A'
+  BoxOffice?: string // 'N/A'
+  Production?: string // 'N/A'
+  Website?: string // 'N/A'
   Response: 'True'
   seriesID?: string
   Season?: string

@@ -8,7 +8,7 @@ import { isSampleFile } from '../utils/is-sample-file'
 import { getFfprobeData } from '../utils/get-ffprobe-data'
 import { getUniversalMetadataFromOmdb } from '../utils/get-universal-metadata-from-omdb'
 import { getFallbackMetadata } from '../utils/get-fallback-metadata'
-import { fetchOmdbMetadata } from '../utils/fetch-omdb-metadata'
+import { fetchOmdbMovieMetadata } from '../utils/fetch-omdb-movie-metadata'
 import { createEncodingTaskForMovie } from '../utils/create-encoding-task-for-movie'
 import { extractSubtitles } from '../utils/extract-subtitles'
 
@@ -66,7 +66,7 @@ export class MediaLibraryWatcher {
         try {
           const fallbackMeta = getFallbackMetadata(name)
           const ffprobe = await getFfprobeData(name)
-          const omdbMeta = await fetchOmdbMetadata({
+          const omdbMeta = await fetchOmdbMovieMetadata({
             title: fallbackMeta.title,
             year: fallbackMeta.year,
             episode: fallbackMeta.episode,

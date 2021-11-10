@@ -146,10 +146,6 @@
         "imdbVotes",
         "imdbID",
         "Type",
-        "DVD",
-        "BoxOffice",
-        "Production",
-        "Website",
         "Response"
       ],
       "additionalProperties": false
@@ -171,325 +167,6 @@
       },
       "required": [
         "metadata"
-      ],
-      "additionalProperties": false
-    },
-    "FfprobeStream": {
-      "type": "object",
-      "properties": {
-        "index": {
-          "type": "number"
-        },
-        "codec_name": {
-          "type": "string"
-        },
-        "codec_long_name": {
-          "type": "string"
-        },
-        "profile": {
-          "type": "string"
-        },
-        "codec_type": {
-          "type": "string"
-        },
-        "codec_time_base": {
-          "type": "string"
-        },
-        "codec_tag_string": {
-          "type": "string"
-        },
-        "codec_tag": {
-          "type": "string"
-        },
-        "width": {
-          "type": "number"
-        },
-        "height": {
-          "type": "number"
-        },
-        "coded_width": {
-          "type": "number"
-        },
-        "coded_height": {
-          "type": "number"
-        },
-        "has_b_frames": {
-          "type": "number"
-        },
-        "sample_aspect_ratio": {
-          "type": "string"
-        },
-        "display_aspect_ratio": {
-          "type": "string"
-        },
-        "pix_fmt": {
-          "type": "string"
-        },
-        "level": {
-          "type": "number"
-        },
-        "color_range": {
-          "type": "string"
-        },
-        "color_space": {
-          "type": "string"
-        },
-        "color_transfer": {
-          "type": "string"
-        },
-        "color_primaries": {
-          "type": "string"
-        },
-        "refs": {
-          "type": "number"
-        },
-        "r_frame_rate": {
-          "type": "string"
-        },
-        "avg_frame_rate": {
-          "type": "string"
-        },
-        "time_base": {
-          "type": "string"
-        },
-        "start_pts": {
-          "type": "number"
-        },
-        "start_time": {
-          "type": "string"
-        },
-        "disposition": {
-          "type": "object",
-          "properties": {
-            "default": {
-              "type": "number"
-            },
-            "dub": {
-              "type": "number"
-            },
-            "original": {
-              "type": "number"
-            },
-            "comment": {
-              "type": "number"
-            },
-            "lyrics": {
-              "type": "number"
-            },
-            "karaoke": {
-              "type": "number"
-            },
-            "forced": {
-              "type": "number"
-            },
-            "hearing_impaired": {
-              "type": "number"
-            },
-            "visual_impaired": {
-              "type": "number"
-            },
-            "clean_effects": {
-              "type": "number"
-            },
-            "attached_pic": {
-              "type": "number"
-            },
-            "timed_thumbnails": {
-              "type": "number"
-            }
-          },
-          "required": [
-            "default",
-            "dub",
-            "original",
-            "comment",
-            "lyrics",
-            "karaoke",
-            "forced",
-            "hearing_impaired",
-            "visual_impaired",
-            "clean_effects",
-            "attached_pic",
-            "timed_thumbnails"
-          ],
-          "additionalProperties": false
-        },
-        "tags": {
-          "type": "object",
-          "properties": {
-            "language": {
-              "type": "string"
-            },
-            "title": {
-              "type": "string"
-            },
-            "BPS": {
-              "type": "string"
-            },
-            "BPS-eng": {
-              "type": "string"
-            },
-            "DURATION": {
-              "type": "string"
-            },
-            "DURATION-eng": {
-              "type": "string"
-            },
-            "NUMBER_OF_FRAMES": {
-              "type": "string"
-            },
-            "NUMBER_OF_FRAMES-eng": {
-              "type": "string"
-            },
-            "NUMBER_OF_BYTES": {
-              "type": "string"
-            },
-            "NUMBER_OF_BYTES-eng": {
-              "type": "string"
-            },
-            "_STATISTICS_WRITING_APP": {
-              "type": "string"
-            },
-            "_STATISTICS_WRITING_APP-eng": {
-              "type": "string"
-            },
-            "_STATISTICS_WRITING_DATE_UTC": {
-              "type": "string"
-            },
-            "_STATISTICS_WRITING_DATE_UTC-eng": {
-              "type": "string"
-            },
-            "_STATISTICS_TAGS": {
-              "type": "string"
-            },
-            "_STATISTICS_TAGS-eng": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "language",
-            "BPS",
-            "BPS-eng",
-            "DURATION",
-            "DURATION-eng",
-            "NUMBER_OF_FRAMES",
-            "NUMBER_OF_FRAMES-eng",
-            "NUMBER_OF_BYTES",
-            "NUMBER_OF_BYTES-eng",
-            "_STATISTICS_WRITING_APP",
-            "_STATISTICS_WRITING_APP-eng",
-            "_STATISTICS_WRITING_DATE_UTC",
-            "_STATISTICS_WRITING_DATE_UTC-eng",
-            "_STATISTICS_TAGS",
-            "_STATISTICS_TAGS-eng"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "index",
-        "codec_name",
-        "codec_long_name",
-        "profile",
-        "codec_type",
-        "codec_time_base",
-        "codec_tag_string",
-        "codec_tag",
-        "width",
-        "height",
-        "coded_width",
-        "coded_height",
-        "has_b_frames",
-        "sample_aspect_ratio",
-        "display_aspect_ratio",
-        "pix_fmt",
-        "level",
-        "color_range",
-        "color_space",
-        "color_transfer",
-        "color_primaries",
-        "refs",
-        "r_frame_rate",
-        "avg_frame_rate",
-        "time_base",
-        "start_pts",
-        "start_time",
-        "disposition",
-        "tags"
-      ],
-      "additionalProperties": false
-    },
-    "FfprobeFormat": {
-      "type": "object",
-      "properties": {
-        "filename": {
-          "type": "string"
-        },
-        "nb_streams": {
-          "type": "number"
-        },
-        "nb_programs": {
-          "type": "number"
-        },
-        "format_name": {
-          "type": "string"
-        },
-        "format_long_name": {
-          "type": "string"
-        },
-        "start_time": {
-          "type": "string"
-        },
-        "duration": {
-          "type": "string"
-        },
-        "size": {
-          "type": "string"
-        },
-        "bit_rate": {
-          "type": "string"
-        },
-        "probe_score": {
-          "type": "number"
-        },
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      },
-      "required": [
-        "filename",
-        "nb_streams",
-        "nb_programs",
-        "format_name",
-        "format_long_name",
-        "start_time",
-        "duration",
-        "size",
-        "bit_rate",
-        "probe_score",
-        "tags"
-      ],
-      "additionalProperties": false
-    },
-    "FfprobeMetadata": {
-      "type": "object",
-      "properties": {
-        "streams": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/FfprobeStream"
-          }
-        },
-        "format": {
-          "$ref": "#/definitions/FfprobeFormat"
-        }
-      },
-      "required": [
-        "streams",
-        "format"
       ],
       "additionalProperties": false
     },
@@ -759,7 +436,7 @@
           "$ref": "#/definitions/OmdbMetadata"
         },
         "ffprobe": {
-          "$ref": "#/definitions/FfprobeMetadata"
+          "$ref": "#/definitions/getInfo.FFProbeResult"
         },
         "metadata": {
           "$ref": "#/definitions/MovieUniversalMetadata"
@@ -797,6 +474,275 @@
         "metadata"
       ],
       "additionalProperties": false
+    },
+    "getInfo.FFProbeResult": {
+      "type": "object",
+      "properties": {
+        "streams": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/getInfo.FFProbeStream"
+          }
+        }
+      },
+      "required": [
+        "streams"
+      ],
+      "additionalProperties": false
+    },
+    "getInfo.FFProbeStream": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "number"
+        },
+        "codec_name": {
+          "type": "string"
+        },
+        "codec_long_name": {
+          "type": "string"
+        },
+        "profile": {
+          "type": "string"
+        },
+        "codec_type": {
+          "type": "string",
+          "enum": [
+            "video",
+            "audio",
+            "images"
+          ]
+        },
+        "codec_time_base": {
+          "type": "string"
+        },
+        "codec_tag_string": {
+          "type": "string"
+        },
+        "codec_tag": {
+          "type": "string"
+        },
+        "extradata": {
+          "type": "string"
+        },
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        },
+        "coded_width": {
+          "type": "number"
+        },
+        "coded_height": {
+          "type": "number"
+        },
+        "closed_captions": {
+          "$ref": "#/definitions/getInfo.FFProbeBoolean"
+        },
+        "has_b_frames": {
+          "type": "number"
+        },
+        "sample_aspect_ratio": {
+          "type": "string"
+        },
+        "display_aspect_ratio": {
+          "type": "string"
+        },
+        "pix_fmt": {
+          "type": "string"
+        },
+        "level": {
+          "type": "number"
+        },
+        "color_range": {
+          "type": "string"
+        },
+        "color_space": {
+          "type": "string"
+        },
+        "color_transfer": {
+          "type": "string"
+        },
+        "color_primaries": {
+          "type": "string"
+        },
+        "chroma_location": {
+          "type": "string"
+        },
+        "field_order": {
+          "type": "string"
+        },
+        "timecode": {
+          "type": "string"
+        },
+        "refs": {
+          "type": "number"
+        },
+        "sample_fmt": {
+          "type": "string"
+        },
+        "sample_rate": {
+          "type": "number"
+        },
+        "channels": {
+          "type": "number"
+        },
+        "channel_layout": {
+          "type": "string"
+        },
+        "bits_per_sample": {
+          "type": "number"
+        },
+        "id": {
+          "type": "string"
+        },
+        "r_frame_rate": {
+          "type": "string"
+        },
+        "avg_frame_rate": {
+          "type": "string"
+        },
+        "time_base": {
+          "type": "string"
+        },
+        "start_pts": {
+          "type": "number"
+        },
+        "start_time": {
+          "type": "number"
+        },
+        "duration_ts": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "number"
+        },
+        "bit_rate": {
+          "type": "number"
+        },
+        "max_bit_rate": {
+          "type": "number"
+        },
+        "bits_per_raw_sample": {
+          "type": "number"
+        },
+        "nb_frames": {
+          "type": "number"
+        },
+        "nb_read_frames": {
+          "type": "number"
+        },
+        "nb_read_packets": {
+          "type": "number"
+        },
+        "is_avc": {
+          "type": "number"
+        },
+        "nal_length_size": {
+          "type": "number"
+        },
+        "disposition": {
+          "type": "object",
+          "properties": {
+            "default": {
+              "type": "number"
+            },
+            "dub": {
+              "type": "number"
+            },
+            "original": {
+              "type": "number"
+            },
+            "comment": {
+              "type": "number"
+            },
+            "lyrics": {
+              "type": "number"
+            },
+            "karaoke": {
+              "type": "number"
+            },
+            "forced": {
+              "type": "number"
+            },
+            "hearing_impaired": {
+              "type": "number"
+            },
+            "visual_impaired": {
+              "type": "number"
+            },
+            "clean_effects": {
+              "type": "number"
+            },
+            "attached_pic": {
+              "type": "number"
+            },
+            "timed_thumbnails": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "default",
+            "dub",
+            "original",
+            "comment",
+            "lyrics",
+            "karaoke",
+            "forced",
+            "hearing_impaired",
+            "visual_impaired",
+            "clean_effects",
+            "attached_pic"
+          ],
+          "additionalProperties": false
+        },
+        "tags": {
+          "type": "object",
+          "properties": {
+            "language": {
+              "type": "string"
+            },
+            "handler_name": {
+              "type": "string"
+            },
+            "creation_time": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "not": {}
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "index",
+        "codec_time_base",
+        "codec_tag_string",
+        "codec_tag",
+        "id",
+        "r_frame_rate",
+        "avg_frame_rate",
+        "time_base",
+        "disposition",
+        "tags"
+      ],
+      "additionalProperties": false,
+      "description": "Based on the XML definition of the ffprobe stream type {@see https://github.com/FFmpeg/FFmpeg/blob/master/doc/ffprobe.xsd#L206}"
+    },
+    "getInfo.FFProbeBoolean": {
+      "type": "string",
+      "enum": [
+        "0",
+        "1"
+      ]
     },
     "EncodingTask": {
       "type": "object",
@@ -986,6 +932,138 @@
         "lastWatchDate",
         "watchedSeconds",
         "completed"
+      ],
+      "additionalProperties": false
+    },
+    "SeriesOmdbMetadata": {
+      "type": "object",
+      "properties": {
+        "Title": {
+          "type": "string"
+        },
+        "Year": {
+          "type": "string"
+        },
+        "Rated": {
+          "type": "string"
+        },
+        "Released": {
+          "type": "string"
+        },
+        "Runtime": {
+          "type": "string"
+        },
+        "Genre": {
+          "type": "string"
+        },
+        "Director": {
+          "type": "string"
+        },
+        "Writer": {
+          "type": "string"
+        },
+        "Actors": {
+          "type": "string"
+        },
+        "Plot": {
+          "type": "string"
+        },
+        "Language": {
+          "type": "string"
+        },
+        "Country": {
+          "type": "string"
+        },
+        "Awards": {
+          "type": "string"
+        },
+        "Poster": {
+          "type": "string"
+        },
+        "Ratings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "Source": {
+                "type": "string"
+              },
+              "Value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "Source",
+              "Value"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "Metascore": {
+          "type": "string"
+        },
+        "imdbRating": {
+          "type": "string"
+        },
+        "imdbVotes": {
+          "type": "string"
+        },
+        "imdbID": {
+          "type": "string"
+        },
+        "Type": {
+          "type": "string"
+        },
+        "totalSeasons": {
+          "type": "string"
+        },
+        "Response": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Title",
+        "Year",
+        "Rated",
+        "Released",
+        "Runtime",
+        "Genre",
+        "Director",
+        "Writer",
+        "Actors",
+        "Plot",
+        "Language",
+        "Country",
+        "Awards",
+        "Poster",
+        "Ratings",
+        "Metascore",
+        "imdbRating",
+        "imdbVotes",
+        "imdbID",
+        "Type",
+        "totalSeasons",
+        "Response"
+      ],
+      "additionalProperties": false
+    },
+    "Series": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "imdbId": {
+          "type": "string"
+        },
+        "omdbMetadata": {
+          "$ref": "#/definitions/SeriesOmdbMetadata"
+        }
+      },
+      "required": [
+        "_id",
+        "imdbId",
+        "omdbMetadata"
       ],
       "additionalProperties": false
     }

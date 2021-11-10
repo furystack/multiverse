@@ -1781,6 +1781,11 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.50.tgz#1e0caa9364d3fccd2931c3ed96fdbeaa5d4cca83"
   integrity sha512-C6N5s2ZFtuZRj54k2/zyRhNDjJwwcViAM3Nbm8zjBpbqAdZ00mr0CFxvSKeO8Y/e03WVFLpQMdHYVfUd6SB+Hw==
 
+"@types/ffprobe@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@types/ffprobe/-/ffprobe-1.1.2.tgz#8b683441113b8c14d09c371c071fa2345be5cc74"
+  integrity sha512-IWzp4Kc8vwXPTTIDurrlneubzmYP7nce1WdmvAl0TG+3LrMGCsQ3IxSiM8tnF4wwkTUUZ2Dsknt3wNlncrrmtA==
+
 "@types/fluent-ffmpeg@^2.1.19":
   version "2.1.19"
   resolved "https://registry.yarnpkg.com/@types/fluent-ffmpeg/-/fluent-ffmpeg-2.1.19.tgz#564710b3d8d1c8a2be9db9bd9ce6dcd450a73779"

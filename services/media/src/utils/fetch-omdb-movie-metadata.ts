@@ -3,7 +3,7 @@ import got from 'got'
 import { tokens } from '@common/config'
 import { Injector } from '@furystack/inject'
 
-export const fetchOmdbMetadata = async ({
+export const fetchOmdbMovieMetadata = async ({
   title,
   year,
   season,
