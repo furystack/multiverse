@@ -383,7 +383,7 @@ export const Body = Shade<
                                   />
                                 )}
                                 component={async () => {
-                                  const { Series } = await import(
+                                  const { SeriesPage } = await import(
                                     /* webpackChunkName: "movies" */ '../pages/movies/series'
                                   )
                                   const mediaApi = injector.getInstance(MediaApiService)
@@ -409,12 +409,16 @@ export const Body = Shade<
                                         filter: {
                                           'metadata.seriesId': match.params.imdbId,
                                         } as any,
+                                        select: ['_id', 'metadata'],
                                       },
                                     },
                                   })
 
                                   return (
-                                    <Series series={seriesResult.result.entries[0]} movies={movies.result.entries} />
+                                    <SeriesPage
+                                      series={seriesResult.result.entries[0]}
+                                      movies={movies.result.entries}
+                                    />
                                   )
                                 }}
                                 loader={<Init message="Loading Series..." />}

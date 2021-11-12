@@ -1,13 +1,15 @@
 import { media } from '@common/models'
+import { PartialResult } from '@furystack/core'
 import { createComponent, Screen, Shade } from '@furystack/shades'
 import { promisifyAnimation } from '@furystack/shades-common-components'
+import { MovieListWidget } from '../../components/dashboard/movie-list'
 
 export interface SeriesListProps {
   series: media.Series
-  movies: media.Movie[]
+  movies: Array<PartialResult<media.Movie, ['_id', 'metadata']>>
 }
 
-export const Series = Shade<SeriesListProps, { isDesktop: boolean }>({
+export const SeriesPage = Shade<SeriesListProps, { isDesktop: boolean }>({
   getInitialState: ({ injector }) => ({
     isDesktop: injector.getInstance(Screen).screenSize.atLeast.md.getValue(),
   }),
@@ -31,6 +33,10 @@ export const Series = Shade<SeriesListProps, { isDesktop: boolean }>({
     return () => subscribers.forEach((sub) => sub.dispose())
   },
   render: ({ props, getState }) => {
+    const seasons = Array.from(
+      new Set(props.movies.map((m) => m.metadata.season).filter((s) => !isNaN(s as number))),
+    ).sort() as number[]
+
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <div
@@ -55,70 +61,16 @@ export const Series = Shade<SeriesListProps, { isDesktop: boolean }>({
               {props.series.omdbMetadata.Year?.toString()} &nbsp; {props.series.omdbMetadata.Genre}
             </p>
             <p style={{ textAlign: 'justify' }}>{props.series.omdbMetadata.Plot}</p>
-            {/* <div>
-              {props.watchedSeconds ? (
-                <span>
-                  <RouteLink href={`/movies/watch/${props.movie._id}`}>
-                    <Button variant="contained" color="primary">
-                      Continue from{' '}
-                      {(() => {
-                        const date = new Date(0)
-                        date.setSeconds(props.watchedSeconds)
-                        return date.toISOString().substr(11, 8)
-                      })()}
-                    </Button>
-                  </RouteLink>
-                  <Button
-                    onclick={async () => {
-                      await injector.getInstance(MovieService).saveWatchProgress(props.movie, 0)
-                      history.pushState({}, '', `/movies/watch/${props.movie._id}`)
-                      injector.getInstance(LocationService).updateState()
-                    }}>
-                    Watch from the beginning
-                  </Button>
-                </span>
-              ) : (
-                <RouteLink href={`/movies/watch/${props.movie._id}`}>
-                  <Button variant="contained" color="primary">
-                    Start watching{' '}
-                  </Button>
-                </RouteLink>
-              )}
-              {getState().roles.includes('movie-admin') ? (
-                <span>
-                  <RouteLink href={`/movies/${props.movie.libraryId}/edit/${props.movie._id}`}>
-                    <Button>Edit</Button>
-                  </RouteLink>
-                  {!props.movie.availableFormats?.length ? (
-                    <Button
-                      onclick={(ev) => {
-                        ev.stopPropagation()
-                        injector
-                          .getInstance(MovieService)
-                          .createEncodeTask(props.movie)
-                          .then(() => {
-                            injector.getInstance(NotyService).addNoty({
-                              type: 'success',
-                              title: 'Success',
-                              body: `Encoding task created for '${props.movie.metadata.title}'`,
-                            })
-                          })
-                          .catch((reason) => {
-                            injector.getInstance(NotyService).addNoty({
-                              type: 'error',
-                              title: 'Error',
-                              body: `Failed to create encoding task for '${
-                                props.movie.metadata.title
-                              }': ${reason.toString()}`,
-                            })
-                          })
-                      }}>
-                      Re-encode
-                    </Button>
-                  ) : null}
-                </span>
-              ) : null}
-            </div> */}
+            <div style={{ width: '100%', overflow: 'hidden' }}>
+              {seasons.map((s) => (
+                <MovieListWidget
+                  align="flex-start"
+                  movieIds={props.movies.filter((m) => m.metadata.season === s).map((m) => m._id)}
+                  title={`Season ${s}`}
+                  size={256}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

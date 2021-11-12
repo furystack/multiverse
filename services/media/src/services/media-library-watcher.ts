@@ -74,6 +74,7 @@ export class MediaLibraryWatcher {
         message: `Failed to fetch Series data for movie '${movie.metadata.title}'`,
         data: {
           movie,
+          error,
         },
       })
     }

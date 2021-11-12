@@ -4,7 +4,12 @@ import { Init } from '../../pages'
 import { GenericErrorPage } from '../../pages/generic-error'
 import { MovieWidget } from './movie-widget'
 
-export const MovieListWidget = Shade<{ title: string; movieIds: string[]; size?: number }>({
+export const MovieListWidget = Shade<{
+  title: string
+  movieIds: string[]
+  size?: number
+  align?: 'center' | 'flex-start'
+}>({
   shadowDomName: 'movie-list-widget',
   render: ({ injector, props }) => {
     return (
@@ -30,7 +35,7 @@ export const MovieListWidget = Shade<{ title: string; movieIds: string[]; size?:
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
+                alignItems: props.align || 'center',
                 overflow: 'hidden',
                 padding: '1em',
               }}>
