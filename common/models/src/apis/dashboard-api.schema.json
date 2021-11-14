@@ -1353,7 +1353,8 @@
             "movie",
             "dashboard",
             "xpense-account",
-            "movie-library"
+            "movie-library",
+            "series"
           ],
           "description": "The Entity Type"
         },

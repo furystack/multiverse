@@ -5,7 +5,7 @@ export interface EntityShortcutWidget extends WidgetBase<'entity-shortcut'> {
   /**
    * The Entity Type
    */
-  entityType: 'movie' | 'dashboard' | 'xpense-account' | 'movie-library'
+  entityType: 'movie' | 'dashboard' | 'xpense-account' | 'movie-library' | 'series'
   /**
    * The Unique identifier
    */

@@ -22,7 +22,6 @@ export const MovieList = Shade<
           flexWrap: 'wrap',
           overflow: 'auto',
           width: '100%',
-          height: '100%',
         }}>
         {getState().orderedMovies.map((m, index) => (
           <MovieWidget

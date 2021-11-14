@@ -401,6 +401,10 @@ export const Body = Shade<
                                     },
                                   })
 
+                                  if (seriesResult.result.entries.length !== 1) {
+                                    return <Page404 />
+                                  }
+
                                   const movies = await mediaApi.call({
                                     method: 'GET',
                                     action: '/movies',
