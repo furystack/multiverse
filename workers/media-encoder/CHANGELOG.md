@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.0](https://github.com/furystack/multiverse/compare/@worker/media-encoder@1.2.4...@worker/media-encoder@1.3.0) (2021-11-17)
+
+
+### 🚀 What's new
+
+* **@service/media:** Display episodes on Series screen ([b3a8433](https://github.com/furystack/multiverse/commit/b3a84331ae52f625bd1b9899df4741487941e117))
+
+
+
+
 ### [1.2.4](https://github.com/furystack/multiverse/compare/@worker/media-encoder@1.2.3...@worker/media-encoder@1.2.4) (2021-11-09)
 
 **Note:** Version bump only for package @worker/media-encoder

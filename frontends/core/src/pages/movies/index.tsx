@@ -14,6 +14,7 @@ import { EditMovie } from './edit-movie'
 import { EncodingTasks } from './encoding-tasks'
 import { EncodingTaskDetails } from './encoding-tasks/encoding-task-details'
 import { MovieOverview } from './movie-overview'
+import { SeriesList } from './series-list'
 
 export const MoviesPage = Shade({
   shadowDomName: 'multiverse-movies-page',
@@ -142,13 +143,14 @@ export const MoviesPage = Shade({
                   )}
                   loader={<Init message="Loading movies..." />}
                   component={async () => {
+                    const api = injector.getInstance(MediaApiService)
                     const libraryId = match.params.libraryId as string
-                    const { result: movies } = await injector.getInstance(MediaApiService).call({
+                    const { result: movies } = await api.call({
                       method: 'GET',
                       action: '/movies',
                       query: { findOptions: { filter: { libraryId: { $eq: libraryId } } } },
                     })
-                    const { result: watchProgresses } = await injector.getInstance(MediaApiService).call({
+                    const { result: watchProgresses } = await api.call({
                       method: 'GET',
                       action: '/my-watch-progress',
                       query: {
@@ -159,9 +161,37 @@ export const MoviesPage = Shade({
                         },
                       },
                     })
+
+                    const filteredMovies = movies.entries.filter((m) => m.metadata.type === 'movie')
+
+                    const seriesMovies = Array.from(
+                      new Set(movies.entries.filter((m) => m.metadata.type === 'episode' && m.metadata.seriesId)),
+                    )
+
+                    const seriesIds = seriesMovies.map((m) => m.metadata.seriesId as string)
+
+                    const series = await api.call({
+                      method: 'GET',
+                      action: '/series',
+                      query: {
+                        findOptions: {
+                          filter: {
+                            imdbId: {
+                              $in: seriesIds,
+                            },
+                          },
+                        },
+                      },
+                    })
+
                     return (
                       <div style={{ width: '100%', height: '100%' }}>
-                        <MovieList movies={movies.entries as media.Movie[]} watchProgresses={watchProgresses.entries} />
+                        <MovieList movies={filteredMovies as media.Movie[]} watchProgresses={watchProgresses.entries} />
+                        <SeriesList
+                          movies={seriesMovies}
+                          series={series.result.entries}
+                          watchProgresses={watchProgresses.entries}
+                        />
                         <Fab
                           title="Watch encoding jobs"
                           style={{ marginBottom: '5em', transform: 'scale(0.75)' }}

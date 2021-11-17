@@ -80,7 +80,7 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
     }
   },
   render: ({ props, injector, updateState, getState }) => {
-    const monacoProps = {
+    const monacoProps: MonacoEditorProps = {
       ...props.monacoProps,
       options: {
         readOnly: props.readOnly,
@@ -91,6 +91,8 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
           .getInstance(MonacoModelProvider)
           .getModelForEntityType({ schema: props.schema, entity: props.entity }),
         language: 'json',
+        fontLigatures: true,
+        fontFamily: 'Cascadia code, Times , Serif',
       },
     }
 

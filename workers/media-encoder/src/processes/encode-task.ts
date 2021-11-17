@@ -94,18 +94,6 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
         log: taskLogger.getAllEntries(),
       },
     })
-    // ToDO: GOT Options
-    // await got(PathHelper.joinPaths(mediaApiPath, 'finialize-encoding'), {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     accessToken: options.task.authToken,
-    //     codec: encodingSettings.codec,
-    //     mode: encodingSettings.mode,
-    //     log: taskLogger.getAllEntries(),
-    //   }),
-    //   encoding: 'utf-8',
-    //   retry: 10,
-    // })
     await new Promise<void>((resolve, reject) => rimraf(encodingTempDir, (err) => (err ? reject(err) : resolve())))
     await logger.information({ message: 'Task finished, the task has been finialized.' })
     taskLogger.flush()

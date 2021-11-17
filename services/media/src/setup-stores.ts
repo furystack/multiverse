@@ -21,6 +21,13 @@ export const setupStores = (injector: Injector) => {
         collection: databases.media.movies,
       })
       .useMongoDb({
+        model: media.Series,
+        primaryKey: '_id',
+        url: databases.media.mongoUrl,
+        db: databases.media.dbName,
+        collection: databases.media.series,
+      })
+      .useMongoDb({
         model: media.MovieWatchHistoryEntry,
         primaryKey: '_id',
         url: databases.media.mongoUrl,

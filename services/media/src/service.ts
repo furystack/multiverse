@@ -7,6 +7,7 @@ import { setupStores } from './setup-stores'
 import { setupRestApi } from './setup-rest-api'
 import { setupRepository } from './setup-repository'
 import { MediaLibraryWatcher } from './services/media-library-watcher'
+import { createSeriesIndex } from './patches/01-create-series-index'
 
 const injector = new Injector()
 injector
@@ -22,4 +23,4 @@ attachShutdownHandler(injector)
 
 injector.getInstance(MediaLibraryWatcher) // To init fs watcher
 
-runPatches({ injector, patches: [createInitialIndexes] })
+runPatches({ injector, patches: [createInitialIndexes, createSeriesIndex] })

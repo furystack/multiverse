@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.0](https://github.com/furystack/multiverse/compare/@frontend/core@1.2.3...@frontend/core@1.3.0) (2021-11-17)
+
+
+### 🐛 Bug Fixes
+
+* **@frontend/core:** Empty environment init with HMR ([e481df7](https://github.com/furystack/multiverse/commit/e481df750705d710a8ca9473802ae35b2398bbfd))
+* **@frontend/core:** History API fallback for API routes ([d8d94a8](https://github.com/furystack/multiverse/commit/d8d94a8a7f615c3be42d7ccfd6516881cd4cf1a5))
+
+
+### 🚀 What's new
+
+* **@frontend/core:** Cascadia Code for Monaco default font ([bf33a2f](https://github.com/furystack/multiverse/commit/bf33a2fc2278a8c8b5b013b649da190c4e026e07))
+* **@frontend/core:** Series entries in Movie Library ([e65988c](https://github.com/furystack/multiverse/commit/e65988cdbf11d2ece127174f5adb505737766eb7))
+* **@frontend/core:** Series Page ([3c1bffe](https://github.com/furystack/multiverse/commit/3c1bffef99364fdc3c1725ce80bd2bf2583edde3))
+* **@service/media:** Added series model, external ffprobe types ([e85ccbd](https://github.com/furystack/multiverse/commit/e85ccbdf293a5f3474c409b6c2892a6602882203))
+* **@service/media:** Display episodes on Series screen ([b3a8433](https://github.com/furystack/multiverse/commit/b3a84331ae52f625bd1b9899df4741487941e117))
+
+
+
+
 ### [1.2.3](https://github.com/furystack/multiverse/compare/@frontend/core@1.2.2...@frontend/core@1.2.3) (2021-11-09)
 
 **Note:** Version bump only for package @frontend/core

@@ -13,7 +13,10 @@
       "program": "${workspaceFolder}/services/${input:service}/dist/service.js",
       "cwd": "${workspaceFolder}/services/${input:service}",
       // "skipFiles": ["<node_internals>/**"],
-      "preLaunchTask": "npm: build:services"
+      "preLaunchTask": "npm: build:services",
+      "env": {
+        "FILE_STORE_ENCODED_MEDIA": "d:\\temp\\MULTIVERSE_DEBUG\\encoded-media"
+      }
     },
     {
       "type": "node",

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [1.2.5](https://github.com/furystack/multiverse/compare/@service/xpense@1.2.4...@service/xpense@1.2.5) (2021-11-17)
+
+**Note:** Version bump only for package @service/xpense
+
+
+
+
+
+
 ### [1.2.4](https://github.com/furystack/multiverse/compare/@service/xpense@1.2.3...@service/xpense@1.2.4) (2021-11-09)
 
 **Note:** Version bump only for package @service/xpense

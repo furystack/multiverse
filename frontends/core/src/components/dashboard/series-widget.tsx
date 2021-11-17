@@ -1,7 +1,7 @@
-import { Shade, RouteLink, createComponent, LocationService, LazyLoad } from '@furystack/shades'
+import { Shade, RouteLink, createComponent, LocationService } from '@furystack/shades'
 import { media, auth } from '@common/models'
 import { promisifyAnimation } from '@furystack/shades-common-components'
-import { SessionService, MediaApiService } from '@common/frontend-utils'
+import { SessionService } from '@common/frontend-utils'
 import { Icon } from '../icon'
 
 const focus = (el: HTMLElement) => {
@@ -34,16 +34,16 @@ const blur = (el: HTMLElement) => {
   )
 }
 
-export const MovieWidget = Shade<
+export const SeriesWidget = Shade<
   {
     size: number
-    movie: media.Movie
+    series: media.Series
     index: number
-    watchHistory?: media.MovieWatchHistoryEntry
+    watchHistoryEntries: media.MovieWatchHistoryEntry[]
   },
   { currentUser: Omit<auth.User, 'password'> | null }
 >({
-  shadowDomName: 'multiverse-movie-widget',
+  shadowDomName: 'multiverse-series-widget',
   getInitialState: ({ injector }) => ({ currentUser: injector.getInstance(SessionService).currentUser.getValue() }),
   constructed: ({ props, element }) => {
     setTimeout(() => {
@@ -60,11 +60,11 @@ export const MovieWidget = Shade<
     })
   },
   render: ({ props, injector, getState }) => {
-    const { movie } = props
-    const meta = movie.metadata
-    const url = `/movies/overview/${movie._id}`
+    const { series } = props
+    const meta = series.omdbMetadata
+    const url = `/series/${series.imdbId}`
     return (
-      <RouteLink tabIndex={0} title={meta.plot || meta.title} href={url}>
+      <RouteLink tabIndex={0} title={meta.Plot || meta.Title} href={url}>
         <div
           onfocus={(ev) => focus(ev.target as HTMLElement)}
           onblur={(ev) => blur(ev.target as HTMLElement)}
@@ -107,12 +107,12 @@ export const MovieWidget = Shade<
             }}>
             <div style={{ display: 'flex' }}>
               <div
-                title="Play movie"
+                title="Continue Watching" /** TODO */
                 style={{ width: '16px' }}
                 onclick={(ev) => {
                   ev.stopImmediatePropagation()
                   ev.preventDefault()
-                  window.history.pushState({}, '', `/movies/watch/${props.movie._id}`)
+                  window.history.pushState({}, '', `/series/${series.imdbId}/continue`)
                   injector.getInstance(LocationService).updateState()
                 }}>
                 <Icon icon={{ type: 'flaticon-essential', name: '025-play button.svg' }} />
@@ -120,19 +120,12 @@ export const MovieWidget = Shade<
             </div>
             {getState().currentUser?.roles.includes('movie-admin') ? (
               <div style={{ display: 'flex' }}>
-                {movie.availableFormats?.length ? null : (
-                  <div
-                    style={{ width: '16px' }}
-                    title="The media encoding for this movie has not finished. Pls re-encode it.">
-                    <Icon icon={{ type: 'flaticon-essential', name: '058-error.svg' }} />
-                  </div>
-                )}
                 <div
                   style={{ width: '16px', height: '16px', marginLeft: '1em' }}
                   onclick={(ev) => {
                     ev.preventDefault()
                     ev.stopImmediatePropagation()
-                    history.pushState('', '', `/movies/${movie.libraryId}/edit/${movie._id}`)
+                    history.pushState('', '', `/series/${series.imdbId}/edit`) /** TODO */
                     injector.getInstance(LocationService).updateState()
                   }}
                   title="Edit movie details">
@@ -142,8 +135,8 @@ export const MovieWidget = Shade<
             ) : null}
           </div>
           <img
-            src={meta.thumbnailImageUrl}
-            alt={meta.title}
+            src={meta.Poster}
+            alt={meta.Title}
             className="cover"
             style={{
               display: 'inline-block',
@@ -166,8 +159,8 @@ export const MovieWidget = Shade<
               padding: '1em',
               background: 'rgba(0,0,0,0.7)',
             }}>
-            {meta.title}
-            <LazyLoad
+            {meta.Title}
+            {/* <LazyLoad
               loader={<div />}
               component={async () => {
                 const watchProgress =
@@ -208,7 +201,7 @@ export const MovieWidget = Shade<
                   />
                 )
               }}
-            />
+            /> */}
           </div>
         </div>
       </RouteLink>

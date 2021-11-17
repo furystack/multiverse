@@ -3,7 +3,7 @@ import got from 'got'
 import { tokens } from '@common/config'
 import { Injector } from '@furystack/inject'
 
-export const fetchOmdbMetadata = async ({
+export const fetchOmdbMovieMetadata = async ({
   title,
   year,
   season,
@@ -31,7 +31,7 @@ export const fetchOmdbMetadata = async ({
   } catch (error) {
     injector.logger
       .withScope('fetch-omdb-metadata')
-      .warning({ message: `Failed to fetch OMDB metadata`, data: { error, title, year, season, episode } })
+      .warning({ message: `Failed to fetch OMDB Movie metadata`, data: { error, title, year, season, episode } })
     return undefined
   }
 }

@@ -126,6 +126,11 @@ export const setupRepository = (injector: Injector) => {
       .createDataSet(media.EncodingTask, '_id', {
         modifyOnAdd: async ({ entity }) => ({ ...entity, creationDate: new Date() }),
         modifyOnUpdate: async ({ entity }) => ({ ...entity, modificationDate: new Date() }),
+      })
+      .createDataSet(media.Series, '_id', {
+        authorizeAdd: async () => ({ isAllowed: false, message: 'Can be added only by system' }),
+        authorizeUpdate: async () => ({ isAllowed: false, message: 'Can be updated only by system' }),
+        authorizeRemove: async () => ({ isAllowed: false, message: 'Can be removed only by system' }),
       }),
   )
 

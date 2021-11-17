@@ -24,7 +24,7 @@ export const extractSubtitles = async (options: { injector: Injector; movie: med
     streamIndex: number
   }> =
     options.movie.ffprobe.streams
-      .filter((stream) => stream.codec_type === 'subtitle')
+      .filter((stream) => (stream.codec_type as any) === 'subtitle')
       .map((stream) => ({
         streamIndex: stream.index,
       })) || []

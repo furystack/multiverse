@@ -8,7 +8,7 @@ import {
 } from '@furystack/rest'
 import { CreateResult } from '@furystack/core'
 import { LeveledLogEntry } from '@furystack/logging'
-import { Movie, MovieLibrary, MovieWatchHistoryEntry, EncodingTask, EncodingType } from '../media'
+import { Movie, MovieLibrary, MovieWatchHistoryEntry, EncodingTask, EncodingType, Series } from '../media'
 import { media } from '..'
 
 export interface MediaApi extends RestApi {
@@ -35,6 +35,8 @@ export interface MediaApi extends RestApi {
       result: media.EncodingTask
       headers: { 'task-token': string }
     }
+    '/series': GetCollectionEndpoint<Series>
+    '/series/:id': GetEntityEndpoint<Series, '_id'>
   }
   POST: {
     '/movie-libraries': PostEndpoint<Pick<MovieLibrary, '_id' | 'name' | 'path' | 'icon'>, '_id'>

@@ -48,6 +48,8 @@ export const setupRestApi = (injector: Injector) => {
           createGetEntityEndpoint({ model: media.EncodingTask, primaryKey: '_id' }),
         ),
         '/encode/get-worker-task/:taskId': GetWorkerTask,
+        '/series': createGetCollectionEndpoint({ model: media.Series, primaryKey: '_id' }),
+        '/series/:id': createGetEntityEndpoint({ model: media.Series, primaryKey: '_id' }),
       },
       POST: {
         '/movie-libraries': createPostEndpoint({ model: media.MovieLibrary, primaryKey: '_id' }),

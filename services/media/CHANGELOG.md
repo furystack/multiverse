@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.0](https://github.com/furystack/multiverse/compare/@service/media@1.2.4...@service/media@1.3.0) (2021-11-17)
+
+
+### 🐛 Bug Fixes
+
+* **@service/media:** movie/episode detection ([e10822b](https://github.com/furystack/multiverse/commit/e10822b488e762fc84e9e0a5972049f6563949ff))
+
+
+### 🚀 What's new
+
+* **@service/media:** Added series model, external ffprobe types ([e85ccbd](https://github.com/furystack/multiverse/commit/e85ccbdf293a5f3474c409b6c2892a6602882203))
+* **@service/media:** Display episodes on Series screen ([b3a8433](https://github.com/furystack/multiverse/commit/b3a84331ae52f625bd1b9899df4741487941e117))
+* **@service/media:** fetch series metadata ([df40cc3](https://github.com/furystack/multiverse/commit/df40cc3dd1c568ccccd6adf923b2450f849d3283))
+
+
+
+
 ### [1.2.4](https://github.com/furystack/multiverse/compare/@service/media@1.2.3...@service/media@1.2.4) (2021-11-09)
 
 
