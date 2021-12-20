@@ -1,6 +1,6 @@
 import { createComponent, Shade, Router, LazyLoad } from '@furystack/shades'
 import { Injector } from '@furystack/inject'
-import { defaultLightTheme, NotyList, ThemeProviderService } from '@furystack/shades-common-components'
+import { defaultLightTheme, ThemeProviderService } from '@furystack/shades-common-components'
 import { DocsPage } from '../pages/docs'
 import { ContactPage } from '../pages/contact'
 import { Init } from '../pages'
@@ -24,13 +24,12 @@ const getStyles = (injector: Injector): Partial<CSSStyleDeclaration> => {
 
 export const Layout = Shade({
   shadowDomName: 'shade-app-layout',
-  constructed: ({ injector, element }) => {
-    const themeChange = injector.getInstance(ThemeProviderService).theme.subscribe(() => {
+  resources: ({ injector, element }) => [
+    injector.getInstance(ThemeProviderService).theme.subscribe(() => {
       const styles = getStyles(injector)
       Object.assign((element.querySelector('div') as HTMLDivElement).style, styles)
-    }, true)
-    return () => themeChange.dispose()
-  },
+    }, true),
+  ],
   render: ({ injector }) => {
     return (
       <div
@@ -54,7 +53,7 @@ export const Layout = Shade({
             /** If you needs routes with session dependency, use the <Body /> */
             {
               url: '/github-login',
-              component: ({ currentUrl }) => (
+              component: () => (
                 <LazyLoad
                   error={(error, retry) => (
                     <GenericErrorPage
@@ -65,7 +64,7 @@ export const Layout = Shade({
                   )}
                   component={async () => {
                     const { GithubLogin } = await import(/* webpackChunkName: "github-login" */ '../pages/github/login')
-                    return <GithubLogin code={currentUrl.search.replace('?', '').split('=')[1]} />
+                    return <GithubLogin code={location.search.replace('?', '').split('=')[1]} />
                   }}
                   loader={<Init message="Loading Github Login..." />}
                 />
@@ -73,7 +72,7 @@ export const Layout = Shade({
             },
             {
               url: '/github-register',
-              component: ({ currentUrl }) => (
+              component: () => (
                 <LazyLoad
                   error={(error, retry) => (
                     <GenericErrorPage
@@ -86,7 +85,7 @@ export const Layout = Shade({
                     const { GithubRegister } = await import(
                       /* webpackChunkName: "github-register" */ '../pages/github/register'
                     )
-                    return <GithubRegister code={currentUrl.search.replace('?', '').split('=')[1]} />
+                    return <GithubRegister code={location.search.replace('?', '').split('=')[1]} />
                   }}
                   loader={<Init message="Loading Github Registration..." />}
                 />
@@ -94,7 +93,7 @@ export const Layout = Shade({
             },
             {
               url: '/github-attach',
-              component: ({ currentUrl }) => (
+              component: () => (
                 <LazyLoad
                   error={(error, retry) => (
                     <GenericErrorPage
@@ -107,7 +106,7 @@ export const Layout = Shade({
                     const { GithubAttach } = await import(
                       /* webpackChunkName: "github-register" */ '../pages/github/attach'
                     )
-                    return <GithubAttach code={currentUrl.search.replace('?', '').split('=')[1]} />
+                    return <GithubAttach code={location.search.replace('?', '').split('=')[1]} />
                   }}
                   loader={<Init message="Loading Github Attach..." />}
                 />
@@ -128,7 +127,6 @@ export const Layout = Shade({
             },
           ]}
         />
-        <NotyList />
       </div>
     )
   },

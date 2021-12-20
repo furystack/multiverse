@@ -1,4 +1,4 @@
-import { createComponent, RouteLink, Shade, Screen, Router } from '@furystack/shades'
+import { createComponent, RouteLink, Shade, ScreenService, Router } from '@furystack/shades'
 
 import { AppBar, animations, CommandPalette } from '@furystack/shades-common-components'
 import { serviceList } from '@common/models'
@@ -6,11 +6,13 @@ import { getCommandProviders } from '../services/command-providers'
 import { Icon } from './icon'
 import { CurrentUserMenu } from './current-user-menu'
 export const Header = Shade<unknown, { isDesktop: boolean }>({
-  getInitialState: ({ injector }) => ({ isDesktop: injector.getInstance(Screen).screenSize.atLeast.md.getValue() }),
+  getInitialState: ({ injector }) => ({
+    isDesktop: injector.getInstance(ScreenService).screenSize.atLeast.md.getValue(),
+  }),
   shadowDomName: 'shade-app-header',
   constructed: ({ injector, updateState }) => {
     const isDesktopObserver = injector
-      .getInstance(Screen)
+      .getInstance(ScreenService)
       .screenSize.atLeast.md.subscribe((val) => updateState({ isDesktop: val }))
     return () => isDesktopObserver.dispose()
   },

@@ -1,6 +1,6 @@
 import { SessionService } from '@common/frontend-utils'
 import { auth, media } from '@common/models'
-import { createComponent, LocationService, RouteLink, Screen, Shade } from '@furystack/shades'
+import { createComponent, LocationService, RouteLink, ScreenService, Shade } from '@furystack/shades'
 import { Button, promisifyAnimation, NotyService } from '@furystack/shades-common-components'
 import { MovieService } from '../../services/movie-service'
 
@@ -10,7 +10,7 @@ export const MovieOverview = Shade<
 >({
   getInitialState: ({ injector }) => ({
     roles: injector.getInstance(SessionService).currentUser.getValue()?.roles || [],
-    isDesktop: injector.getInstance(Screen).screenSize.atLeast.md.getValue(),
+    isDesktop: injector.getInstance(ScreenService).screenSize.atLeast.md.getValue(),
   }),
   constructed: ({ injector, updateState, element }) => {
     promisifyAnimation(
@@ -30,7 +30,7 @@ export const MovieOverview = Shade<
       injector.getInstance(SessionService).currentUser.subscribe((usr) => {
         updateState({ roles: usr?.roles })
       }),
-      injector.getInstance(Screen).screenSize.atLeast.md.subscribe((isDesktop) => updateState({ isDesktop })),
+      injector.getInstance(ScreenService).screenSize.atLeast.md.subscribe((isDesktop) => updateState({ isDesktop })),
     ]
     return () => subscribers.forEach((sub) => sub.dispose())
   },

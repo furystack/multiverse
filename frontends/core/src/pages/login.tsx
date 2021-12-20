@@ -3,7 +3,10 @@ import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { AuthApiService, SessionService } from '@common/frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 
-export const Login = Shade<unknown, { username: string; password: string; isOperationInProgress: boolean }>({
+export const Login = Shade<
+  unknown,
+  { username: string; password: string; isOperationInProgress: boolean; error?: string }
+>({
   shadowDomName: 'shade-login',
   getInitialState: ({ injector }) => {
     const sessionService = injector.getInstance(SessionService)
@@ -14,14 +17,16 @@ export const Login = Shade<unknown, { username: string; password: string; isOper
       isOperationInProgress: sessionService.isOperationInProgress.getValue(),
     }
   },
-  constructed: ({ injector, updateState }) => {
+  resources: ({ injector, updateState }) => {
     const sessionService = injector.getInstance(SessionService)
-    const subscriptions = [
+    return [
       sessionService.isOperationInProgress.subscribe((isOperationInProgress) => {
-        updateState({ isOperationInProgress }, true)
-      }),
+        updateState({ isOperationInProgress })
+      }, true),
+      sessionService.loginError.subscribe((error) => {
+        updateState({ error })
+      }, true),
     ]
-    return () => subscriptions.map((s) => s.dispose())
   },
   render: ({ injector, getState, updateState }) => {
     const { username, password } = getState()
@@ -35,7 +40,7 @@ export const Login = Shade<unknown, { username: string; password: string; isOper
           height: '100%',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '0 100px',
+          width: '100%',
         }}>
         <div>
           <form
@@ -104,10 +109,11 @@ export const Login = Shade<unknown, { username: string; password: string; isOper
                 color="primary">
                 <div
                   style={{
-                    display: 'flex',
+                    display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     position: 'relative',
+                    width: '100%',
                   }}>
                   Login
                   {getState().isOperationInProgress ? (

@@ -20,9 +20,9 @@ export const Body = Shade<
       isOperationInProgress: sessionService.isOperationInProgress.getValue(),
     }
   },
-  constructed: async ({ injector, updateState }) => {
+  resources: ({ injector, updateState }) => {
     const session = injector.getInstance(SessionService)
-    const observables = [
+    return [
       session.state.subscribe((newState) => {
         updateState({
           sessionState: newState,
@@ -31,7 +31,6 @@ export const Body = Shade<
       session.currentUser.subscribe((currentUser) => updateState({ currentUser })),
       session.isOperationInProgress.subscribe((isOperationInProgress) => updateState({ isOperationInProgress })),
     ]
-    return () => observables.forEach((o) => o.dispose())
   },
   render: ({ getState, injector }) => {
     const { currentUser, sessionState, isOperationInProgress } = getState()
