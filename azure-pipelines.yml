@@ -83,6 +83,7 @@ jobs:
           testResultsFiles: '$(System.DefaultWorkingDirectory)/testresults/output-**.xml'
       - task: DockerCompose@0
         displayName: logs
+        condition: always()
         inputs:
           action: Run a Docker Compose command
           dockerComposeFile: '$(System.DefaultWorkingDirectory)/docker-compose.yml'
