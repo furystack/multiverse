@@ -10,7 +10,7 @@
   "ignoreTestFiles": ["**/__snapshots__/*", "**/__image_snapshots__/*"],
   "screenshotsFolder": "./cypress/snapshots/actual",
   "trashAssetsBeforeRuns": true,
-    "env": {
+  "env": {
     "failSilently": false
   }
 }
