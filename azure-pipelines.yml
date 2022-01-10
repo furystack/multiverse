@@ -81,8 +81,9 @@ jobs:
         inputs:
           testRunner: JUnit
           testResultsFiles: '$(System.DefaultWorkingDirectory)/testresults/output-**.xml'
-      - script: docker-compose logs > compose-logs.txt
+      - script: docker-compose logs > $(System.DefaultWorkingDirectory)/compose-logs.txt
         displayName: Extract Docker Compose logs
+        condition: always()
       - task: PublishBuildArtifacts@1
         displayName: Publish Docker Compose logs
         condition: always()
