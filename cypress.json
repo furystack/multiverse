@@ -12,6 +12,5 @@
   "trashAssetsBeforeRuns": true,
     "env": {
     "failSilently": false
-  },
-  "projectId": "3zrp8x"
+  }
 }
