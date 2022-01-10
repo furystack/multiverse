@@ -85,6 +85,7 @@ jobs:
         displayName: Extract Docker Compose logs
       - task: PublishBuildArtifacts@1
         displayName: Publish Docker Compose logs
+        condition: always()
         inputs:
           PathtoPublish: '$(System.DefaultWorkingDirectory)/compose-logs.txt'
           ArtifactName: cypress_snapshots
@@ -96,7 +97,7 @@ jobs:
           ArtifactName: cypress_videos
       - task: PublishBuildArtifacts@1
         displayName: Publish Cypress snapshot images
-        condition: failed()
+        condition: or(failed(), canceled())
         inputs:
           PathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/integration/__image_snapshots__'
           ArtifactName: cypress_snapshots
