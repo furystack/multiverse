@@ -81,15 +81,27 @@ jobs:
         inputs:
           testRunner: JUnit
           testResultsFiles: '$(System.DefaultWorkingDirectory)/testresults/output-**.xml'
-      - script: docker-compose -f $(System.DefaultWorkingDirectory)/docker-compose.yml  logs > $(System.DefaultWorkingDirectory)/compose-logs.txt
-        displayName: Extract Docker Compose logs
-        condition: always()
-      - task: PublishBuildArtifacts@1
-        displayName: Publish Docker Compose logs
-        condition: always()
+      - task: DockerCompose@0
+        displayName: logs
         inputs:
-          PathtoPublish: '$(System.DefaultWorkingDirectory)/compose-logs.txt'
-          ArtifactName: cypress_snapshots
+          action: Run a Docker Compose command
+          dockerComposeFile: '$(System.DefaultWorkingDirectory)/docker-compose.yml'
+          projectName: $(Build.Repository.Name)
+          dockerComposeCommand: "logs" 
+          arguments:
+            --no-color
+            --timestamps
+          # detached: true
+          # buildImages: true
+      # - script: docker-compose -f $(System.DefaultWorkingDirectory)/docker-compose.yml  logs > $(System.DefaultWorkingDirectory)/compose-logs.txt
+      #   displayName: Extract Docker Compose logs
+      #   condition: always()
+      # - task: PublishBuildArtifacts@1
+      #   displayName: Publish Docker Compose logs
+      #   condition: always()
+      #   inputs:
+      #     PathtoPublish: '$(System.DefaultWorkingDirectory)/compose-logs.txt'
+      #     ArtifactName: compose_logs
       - task: PublishBuildArtifacts@1
         displayName: Publish Cypress videos
         condition: or(failed(), canceled())
