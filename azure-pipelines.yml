@@ -83,7 +83,7 @@ jobs:
           testResultsFiles: '$(System.DefaultWorkingDirectory)/testresults/output-**.xml'
       - task: PublishBuildArtifacts@1
         displayName: Publish Cypress videos
-        condition: failed()
+        condition: or(failed(), canceled())
         inputs:
           PathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/videos'
           ArtifactName: cypress_videos
