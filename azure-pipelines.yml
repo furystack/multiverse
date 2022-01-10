@@ -81,6 +81,13 @@ jobs:
         inputs:
           testRunner: JUnit
           testResultsFiles: '$(System.DefaultWorkingDirectory)/testresults/output-**.xml'
+      - script: docker-compose logs > compose-logs.txt
+        displayName: Extract Docker Compose logs
+      - task: PublishBuildArtifacts@1
+        displayName: Publish Docker Compose logs
+        inputs:
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/compose-logs.txt'
+          ArtifactName: cypress_snapshots
       - task: PublishBuildArtifacts@1
         displayName: Publish Cypress videos
         condition: or(failed(), canceled())
