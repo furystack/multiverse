@@ -1,6 +1,6 @@
 {
   "name": "@service/media",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "main": "dist/service.js",
   "license": "GPL-2.0-only",
   "private": true,
@@ -16,7 +16,7 @@
     "@types/ws": "^8.2.2"
   },
   "dependencies": {
-    "@common/service-utils": "^1.2.5",
+    "@common/service-utils": "^1.2.6",
     "@furystack/auth-google": "^4.0.100",
     "@furystack/core": "^10.4.5",
     "@furystack/inject": "^5.0.2",
