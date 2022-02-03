@@ -2,7 +2,6 @@ import { Injector } from '@furystack/inject'
 import { SessionService, SessionState } from '@common/frontend-utils'
 import { createComponent, LazyLoad, Router, Shade } from '@furystack/shades'
 import { defaultLightTheme, Loader, NotyList, ThemeProviderService } from '@furystack/shades-common-components'
-import { Layout } from './components/layout'
 import { Init, Login } from './pages'
 import { GenericErrorPage } from './pages/generic-error'
 
@@ -38,8 +37,40 @@ export const MultiverseApp = Shade<{}, { sessionState: SessionState }>({
 
     const Component = () => {
       switch (sessionState) {
+        case 'offline':
+          return (
+            <LazyLoad
+              error={(error, retry) => (
+                <GenericErrorPage
+                  subtitle="Something bad happened during loading the Github Login page"
+                  error={error}
+                  retry={retry}
+                />
+              )}
+              component={async () => {
+                const { Offline } = await import(/* webpackChunkName: "offline" */ './pages/offline')
+                return <Offline />
+              }}
+              loader={<Init message="Loading Offline Page..." />}
+            />
+          )
         case 'authenticated':
-          return <Layout />
+          return (
+            <LazyLoad
+              error={(error, retry) => (
+                <GenericErrorPage
+                  subtitle="Something bad happened during loading the Github Login page"
+                  error={error}
+                  retry={retry}
+                />
+              )}
+              component={async () => {
+                const { Layout } = await import(/* webpackChunkName: "offline" */ './components/layout')
+                return <Layout />
+              }}
+              loader={<Init message="Loading Layout..." />}
+            />
+          )
         case 'unauthenticated':
           return (
             <Router
@@ -104,6 +135,46 @@ export const MultiverseApp = Shade<{}, { sessionState: SessionState }>({
                         return <GithubAttach code={location.search.replace('?', '').split('=')[1]} />
                       }}
                       loader={<Init message="Loading Github Attach..." />}
+                    />
+                  ),
+                },
+                {
+                  url: '/register',
+                  component: () => (
+                    <LazyLoad
+                      error={(error, retry) => (
+                        <GenericErrorPage
+                          subtitle="Something bad happened during loading the Register page"
+                          error={error}
+                          retry={retry}
+                        />
+                      )}
+                      component={async () => {
+                        const { RegisterPage } = await import(/* webpackChunkName: "register" */ './pages/register')
+                        return <RegisterPage />
+                      }}
+                      loader={<Init message="Loading Registration Page..." />}
+                    />
+                  ),
+                },
+                {
+                  url: '/reset-password',
+                  component: () => (
+                    <LazyLoad
+                      error={(error, retry) => (
+                        <GenericErrorPage
+                          subtitle="Something bad happened during loading the Reset Password page"
+                          error={error}
+                          retry={retry}
+                        />
+                      )}
+                      component={async () => {
+                        const { ResetPasswordPage } = await import(
+                          /* webpackChunkName: "reset-password" */ './pages/reset-password'
+                        )
+                        return <ResetPasswordPage />
+                      }}
+                      loader={<Init message="Loading Password Reset Page..." />}
                     />
                   ),
                 },
