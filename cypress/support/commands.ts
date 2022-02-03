@@ -45,3 +45,12 @@ export const expectAndDismissNotification = (
 }
 
 compareSnapshotCommand()
+
+Cypress.on('uncaught:exception', (err) => {
+  // returning false here prevents Cypress from
+  // failing the test
+
+  // "ResizeObserver loop limit exceeded" exception is more of a warning than an error, we don't want our tests to fail because of it.
+  if (err.message.includes('ResizeObserver loop limit exceeded')) return false
+  return true
+})

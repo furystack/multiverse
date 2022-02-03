@@ -11,10 +11,10 @@
   },
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@furystack/rest": "^3.0.21",
+    "@furystack/rest": "^3.1.7",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@types/ffprobe": "^1.1.2"
+    "@types/ffprobe": "^1.1.3"
   }
 }
