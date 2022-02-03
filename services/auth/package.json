@@ -11,20 +11,20 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/formidable": "^2.0.3",
-    "@types/node": "^17.0.8"
+    "@types/formidable": "^2.0.4",
+    "@types/node": "^17.0.14"
   },
   "dependencies": {
     "@common/config": "^1.2.0",
     "@common/service-utils": "^1.2.5",
-    "@furystack/auth-google": "^4.0.99",
-    "@furystack/core": "^10.4.4",
+    "@furystack/auth-google": "^4.0.100",
+    "@furystack/core": "^10.4.5",
     "@furystack/inject": "^5.0.2",
     "@furystack/logging": "^2.0.86",
-    "@furystack/mongodb-store": "^4.0.28",
-    "@furystack/repository": "^5.0.28",
-    "@furystack/rest": "^3.1.6",
-    "@furystack/rest-service": "^4.1.8",
+    "@furystack/mongodb-store": "^4.0.29",
+    "@furystack/repository": "^5.0.29",
+    "@furystack/rest": "^3.1.7",
+    "@furystack/rest-service": "^4.1.9",
     "formidable": "^2.0.1",
     "tslib": "^2.3.1"
   }
