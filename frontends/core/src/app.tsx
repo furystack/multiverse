@@ -1,9 +1,10 @@
 import { Injector } from '@furystack/inject'
 import { SessionService, SessionState } from '@common/frontend-utils'
-import { createComponent, Shade } from '@furystack/shades'
+import { createComponent, LazyLoad, Router, Shade } from '@furystack/shades'
 import { defaultLightTheme, Loader, NotyList, ThemeProviderService } from '@furystack/shades-common-components'
 import { Layout } from './components/layout'
-import { Login } from './pages'
+import { Init, Login } from './pages'
+import { GenericErrorPage } from './pages/generic-error'
 
 const lightBackground = 'linear-gradient(to right bottom, #ebebf8, #e3e3f6, #dcdcf4, #d4d4f2, #cdcdf0)'
 const darkBackground = 'linear-gradient(to right bottom, #2b3036, #292c31, #27282d, #242428, #212023)'
@@ -40,7 +41,77 @@ export const MultiverseApp = Shade<{}, { sessionState: SessionState }>({
         case 'authenticated':
           return <Layout />
         case 'unauthenticated':
-          return <Login style={{ height: '100%' }} />
+          return (
+            <Router
+              routes={[
+                {
+                  url: '/github-login',
+                  component: () => (
+                    <LazyLoad
+                      error={(error, retry) => (
+                        <GenericErrorPage
+                          subtitle="Something bad happened during loading the Github Login page"
+                          error={error}
+                          retry={retry}
+                        />
+                      )}
+                      component={async () => {
+                        const { GithubLogin } = await import(
+                          /* webpackChunkName: "github-login" */ './pages/github/login'
+                        )
+                        return <GithubLogin code={location.search.replace('?', '').split('=')[1]} />
+                      }}
+                      loader={<Init message="Loading Github Login..." />}
+                    />
+                  ),
+                },
+                {
+                  url: '/github-register',
+                  component: () => (
+                    <LazyLoad
+                      error={(error, retry) => (
+                        <GenericErrorPage
+                          subtitle="Something bad happened during loading the Github Registration page"
+                          error={error}
+                          retry={retry}
+                        />
+                      )}
+                      component={async () => {
+                        const { GithubRegister } = await import(
+                          /* webpackChunkName: "github-register" */ './pages/github/register'
+                        )
+                        return <GithubRegister code={location.search.replace('?', '').split('=')[1]} />
+                      }}
+                      loader={<Init message="Loading Github Registration..." />}
+                    />
+                  ),
+                },
+                {
+                  url: '/github-attach',
+                  component: () => (
+                    <LazyLoad
+                      error={(error, retry) => (
+                        <GenericErrorPage
+                          subtitle="Something bad happened during loading the Github Attach page"
+                          error={error}
+                          retry={retry}
+                        />
+                      )}
+                      component={async () => {
+                        const { GithubAttach } = await import(
+                          /* webpackChunkName: "github-register" */ './pages/github/attach'
+                        )
+                        return <GithubAttach code={location.search.replace('?', '').split('=')[1]} />
+                      }}
+                      loader={<Init message="Loading Github Attach..." />}
+                    />
+                  ),
+                },
+              ]}
+              notFound={() => <Login style={{ height: '100%' }} />}
+            />
+          )
+
         default:
           return <Loader />
       }

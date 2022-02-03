@@ -35,6 +35,7 @@ export const Login = Shade<
     return (
       <div
         style={{
+          position: 'fixed',
           display: 'flex',
           flexDirection: 'column',
           height: '100%',
@@ -150,6 +151,7 @@ export const Login = Shade<
                     `https://github.com/login/oauth/authorize?client_id=${oauthData.githubClientId}&redirect_uri=${window.location.origin}/github-login`,
                   )
                 }}
+                type="button"
                 title="Github">
                 GitHub
               </Button>
