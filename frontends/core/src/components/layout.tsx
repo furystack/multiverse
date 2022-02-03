@@ -1,10 +1,6 @@
-import { createComponent, Shade, Router, LazyLoad } from '@furystack/shades'
+import { createComponent, Shade } from '@furystack/shades'
 import { Injector } from '@furystack/inject'
-import { defaultLightTheme, NotyList, ThemeProviderService } from '@furystack/shades-common-components'
-import { DocsPage } from '../pages/docs'
-import { ContactPage } from '../pages/contact'
-import { Init } from '../pages'
-import { GenericErrorPage } from '../pages/generic-error'
+import { defaultLightTheme, ThemeProviderService } from '@furystack/shades-common-components'
 import { Body } from './body'
 import { Header } from './header'
 
@@ -24,13 +20,12 @@ const getStyles = (injector: Injector): Partial<CSSStyleDeclaration> => {
 
 export const Layout = Shade({
   shadowDomName: 'shade-app-layout',
-  constructed: ({ injector, element }) => {
-    const themeChange = injector.getInstance(ThemeProviderService).theme.subscribe(() => {
+  resources: ({ injector, element }) => [
+    injector.getInstance(ThemeProviderService).theme.subscribe(() => {
       const styles = getStyles(injector)
       Object.assign((element.querySelector('div') as HTMLDivElement).style, styles)
-    }, true)
-    return () => themeChange.dispose()
-  },
+    }, true),
+  ],
   render: ({ injector }) => {
     return (
       <div
@@ -49,86 +44,7 @@ export const Layout = Shade({
         }}
         className="eee">
         <Header />
-        <Router
-          routes={[
-            /** If you needs routes with session dependency, use the <Body /> */
-            {
-              url: '/github-login',
-              component: ({ currentUrl }) => (
-                <LazyLoad
-                  error={(error, retry) => (
-                    <GenericErrorPage
-                      subtitle="Something bad happened during loading the Github Login page"
-                      error={error}
-                      retry={retry}
-                    />
-                  )}
-                  component={async () => {
-                    const { GithubLogin } = await import(/* webpackChunkName: "github-login" */ '../pages/github/login')
-                    return <GithubLogin code={currentUrl.search.replace('?', '').split('=')[1]} />
-                  }}
-                  loader={<Init message="Loading Github Login..." />}
-                />
-              ),
-            },
-            {
-              url: '/github-register',
-              component: ({ currentUrl }) => (
-                <LazyLoad
-                  error={(error, retry) => (
-                    <GenericErrorPage
-                      subtitle="Something bad happened during loading the Github Registration page"
-                      error={error}
-                      retry={retry}
-                    />
-                  )}
-                  component={async () => {
-                    const { GithubRegister } = await import(
-                      /* webpackChunkName: "github-register" */ '../pages/github/register'
-                    )
-                    return <GithubRegister code={currentUrl.search.replace('?', '').split('=')[1]} />
-                  }}
-                  loader={<Init message="Loading Github Registration..." />}
-                />
-              ),
-            },
-            {
-              url: '/github-attach',
-              component: ({ currentUrl }) => (
-                <LazyLoad
-                  error={(error, retry) => (
-                    <GenericErrorPage
-                      subtitle="Something bad happened during loading the Github Attach page"
-                      error={error}
-                      retry={retry}
-                    />
-                  )}
-                  component={async () => {
-                    const { GithubAttach } = await import(
-                      /* webpackChunkName: "github-register" */ '../pages/github/attach'
-                    )
-                    return <GithubAttach code={currentUrl.search.replace('?', '').split('=')[1]} />
-                  }}
-                  loader={<Init message="Loading Github Attach..." />}
-                />
-              ),
-            },
-            {
-              url: '/contact',
-              component: () => <ContactPage />,
-            },
-            {
-              url: '/docs',
-              component: () => <DocsPage />,
-            },
-            {
-              url: '/',
-              component: () => <Body />,
-              routingOptions: { end: false },
-            },
-          ]}
-        />
-        <NotyList />
+        <Body />
       </div>
     )
   },

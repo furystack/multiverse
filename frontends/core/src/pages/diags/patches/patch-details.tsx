@@ -3,7 +3,7 @@ import { diag } from '@common/models'
 import { GenericMonacoEditor } from '../../../components/editors/generic-monaco-editor'
 
 export const PatchDetails = Shade<{ entry: diag.Patch }>({
-  shadowDomName: 'shade-system-log-entry-details',
+  shadowDomName: 'shade-patch-entry-details',
   render: ({ props }) => {
     return (
       <div

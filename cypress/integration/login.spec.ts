@@ -36,7 +36,6 @@ describe('Core Application', () => {
       cy.get(usernameInputSelector).focus()
       cy.get(loginFormSelector).compareSnapshot('login-form', 0.01)
 
-      cy.get(headerSelector).compareSnapshot('login-header-no-avatar', 0.01) // with no avatar
       cy.get(usernameInputSelector).should('be.visible').should('be.enabled')
       cy.get(usernameInputSelector).type('testuser@gmail.com').blur()
       cy.get(passwordFieldSelector).should('be.visible').should('be.enabled')

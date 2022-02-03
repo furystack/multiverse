@@ -1,6 +1,6 @@
 import { media } from '@common/models'
 import { PartialResult } from '@furystack/core'
-import { createComponent, Screen, Shade } from '@furystack/shades'
+import { createComponent, ScreenService, Shade } from '@furystack/shades'
 import { promisifyAnimation } from '@furystack/shades-common-components'
 import { MovieListWidget } from '../../components/dashboard/movie-list'
 
@@ -11,7 +11,7 @@ export interface SeriesListProps {
 
 export const SeriesPage = Shade<SeriesListProps, { isDesktop: boolean }>({
   getInitialState: ({ injector }) => ({
-    isDesktop: injector.getInstance(Screen).screenSize.atLeast.md.getValue(),
+    isDesktop: injector.getInstance(ScreenService).screenSize.atLeast.md.getValue(),
   }),
   constructed: ({ injector, updateState, element }) => {
     promisifyAnimation(
@@ -28,7 +28,7 @@ export const SeriesPage = Shade<SeriesListProps, { isDesktop: boolean }>({
       },
     )
     const subscribers = [
-      injector.getInstance(Screen).screenSize.atLeast.md.subscribe((isDesktop) => updateState({ isDesktop })),
+      injector.getInstance(ScreenService).screenSize.atLeast.md.subscribe((isDesktop) => updateState({ isDesktop })),
     ]
     return () => subscribers.forEach((sub) => sub.dispose())
   },

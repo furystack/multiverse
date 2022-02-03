@@ -3,6 +3,7 @@ import { Injectable, Injector } from '@furystack/inject'
 import { ScopedLogger } from '@furystack/logging'
 import { media } from '@common/models'
 import { StoreManager } from '@furystack/core'
+import Semaphore from 'semaphore-async-await'
 import { isMovieFile } from '../utils/is-movie-file'
 import { isSampleFile } from '../utils/is-sample-file'
 import { getFfprobeData } from '../utils/get-ffprobe-data'
@@ -16,6 +17,8 @@ import { fetchOmdbSeriesMetadata } from '../utils/fetch-omdb-series-metadata'
 @Injectable({ lifetime: 'singleton' })
 export class MediaLibraryWatcher {
   private readonly logger: ScopedLogger
+
+  private readonly lock = new Semaphore(1)
 
   private watchers = new Map<string, FSWatcher>()
 
@@ -45,6 +48,7 @@ export class MediaLibraryWatcher {
 
   private async ensureSeriesExists(movie: media.Movie) {
     try {
+      await this.lock.acquire()
       const imdbId = (movie.omdbMeta && movie.omdbMeta.Response === 'True' && movie.omdbMeta?.seriesID) || null
       if (imdbId) {
         const store = this.injector.getInstance(StoreManager).getStoreFor(media.Series, '_id')
@@ -77,6 +81,8 @@ export class MediaLibraryWatcher {
           error,
         },
       })
+    } finally {
+      this.lock.release()
     }
   }
 

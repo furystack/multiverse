@@ -4,7 +4,7 @@ import { createComponent, initializeShadeRoot } from '@furystack/shades'
 import { VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { EnvironmentService, SiteRoots } from '@common/frontend-utils'
-import { Layout } from './components/layout'
+import { MultiverseApp } from './app'
 import './services/google-auth-provider'
 import '@furystack/rest'
 
@@ -61,5 +61,5 @@ const rootElement: HTMLDivElement = document.getElementById('root') as HTMLDivEl
 initializeShadeRoot({
   rootElement,
   injector: shadeInjector,
-  jsxElement: <Layout />,
+  jsxElement: <MultiverseApp />,
 })

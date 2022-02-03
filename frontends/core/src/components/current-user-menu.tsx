@@ -38,59 +38,60 @@ export const CurrentUserMenu = Shade<
 >({
   shadowDomName: 'shade-current-user-menu',
   getInitialState: () => ({ currentUser: undefined, isOpened: new ObservableValue<boolean>(false) }),
-  constructed: ({ injector, updateState, getState, element }) => {
-    const observers = [
-      injector.getInstance(SessionService).currentUser.subscribe((usr) => {
-        updateState({ currentUser: usr || undefined })
-      }, true),
-      getState().isOpened.subscribe(async (isOpened) => {
-        try {
-          const menu = element.querySelector('.current-user-menu') as HTMLElement
-          const container = element.querySelector('.menu-container') as HTMLElement
-          if (isOpened) {
-            container.style.display = 'block'
-            container.style.opacity = '1'
-            await menu.animate(
-              [
-                { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
-                { transform: 'scale(1) translateY(0)', opacity: 1 },
-              ],
-              {
-                duration: 300,
-                easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
-                fill: 'forwards',
-              },
-            )
-          } else {
-            await promisifyAnimation(
-              menu,
-              [
-                { transform: 'scale(1) translateY(0)', opacity: 1 },
-                { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
-              ],
-              {
-                duration: 300,
-                easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
-                fill: 'forwards',
-              },
-            )
-            if (container.isConnected) {
-              container.style.opacity = '0'
-              container.style.display = 'none'
-            }
+  resources: ({ injector, updateState, getState, element }) => [
+    injector.getInstance(SessionService).currentUser.subscribe((usr) => {
+      updateState({ currentUser: usr || undefined })
+    }, true),
+    injector.getInstance(ThemeProviderService).theme.subscribe((theme) => {
+      const menu = element.querySelector('.current-user-menu') as HTMLElement
+      menu.style.backgroundColor = theme.background.paper
+    }, true),
+    getState().isOpened.subscribe(async (isOpened) => {
+      try {
+        const menu = element.querySelector('.current-user-menu') as HTMLElement
+        const container = element.querySelector('.menu-container') as HTMLElement
+        if (isOpened) {
+          container.style.display = 'block'
+          container.style.opacity = '1'
+          await menu.animate(
+            [
+              { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
+              { transform: 'scale(1) translateY(0)', opacity: 1 },
+            ],
+            {
+              duration: 300,
+              easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
+              fill: 'forwards',
+            },
+          )
+        } else {
+          await promisifyAnimation(
+            menu,
+            [
+              { transform: 'scale(1) translateY(0)', opacity: 1 },
+              { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
+            ],
+            {
+              duration: 300,
+              easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
+              fill: 'forwards',
+            },
+          )
+          if (container.isConnected) {
+            container.style.opacity = '0'
+            container.style.display = 'none'
           }
-        } catch (error) {
-          // ignore
         }
-      }),
-      new ClickAwayService(element, () => getState().isOpened.setValue(false)),
-    ]
-    return () => observers.map((o) => o.dispose())
-  },
+      } catch (error) {
+        // ignore
+      }
+    }),
+    new ClickAwayService(element, () => getState().isOpened.setValue(false)),
+  ],
 
   render: ({ getState, injector }) => {
     const { currentUser, isOpened } = getState()
-    return currentUser ? (
+    return (
       <div
         style={{ width: '48px', height: '48px' }}
         onclick={(ev) => {
@@ -108,7 +109,6 @@ export const CurrentUserMenu = Shade<
           <div
             className="current-user-menu"
             style={{
-              background: injector.getInstance(ThemeProviderService).theme.getValue().background.paper,
               position: 'relative',
               width: '192px',
               zIndex: '2',
@@ -120,7 +120,7 @@ export const CurrentUserMenu = Shade<
             }}>
             {serviceList
               .filter((service) =>
-                service.requiredRoles.every((requiredRole) => currentUser.roles.includes(requiredRole as any)),
+                service.requiredRoles.every((requiredRole) => currentUser?.roles.includes(requiredRole as any)),
               )
               .map((service) => (
                 <CurrentUserMenuItem
@@ -146,8 +146,6 @@ export const CurrentUserMenu = Shade<
           </div>
         </div>
       </div>
-    ) : (
-      <div />
     )
   },
 })
