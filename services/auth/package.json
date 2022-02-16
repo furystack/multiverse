@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@types/formidable": "^2.0.4",
-    "@types/node": "^17.0.14"
+    "@types/node": "^17.0.18"
   },
   "dependencies": {
     "@common/config": "^1.2.0",
