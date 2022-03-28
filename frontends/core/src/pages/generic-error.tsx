@@ -1,4 +1,4 @@
-import { Shade, createComponent, Screen } from '@furystack/shades'
+import { Shade, createComponent, ScreenService } from '@furystack/shades'
 import { getErrorMessage } from '@common/frontend-utils'
 import { Button } from '@furystack/shades-common-components'
 
@@ -17,7 +17,7 @@ export interface GenericErrorProps {
 export const GenericErrorPage = Shade<GenericErrorProps>({
   shadowDomName: 'multiverse-generic-error-page',
   render: ({ props, injector }) => {
-    const isDesktop = injector.getInstance(Screen).screenSize.atLeast.md.getValue()
+    const isDesktop = injector.getInstance(ScreenService).screenSize.atLeast.md.getValue()
     return (
       <div
         style={{

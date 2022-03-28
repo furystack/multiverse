@@ -73,7 +73,7 @@ jobs:
           testResultsFiles: '$(System.DefaultWorkingDirectory)/coverage/junit.xml'
       - script: yarn seed
         displayName: 'Seed test data'
-      - script: yarn cypress run --record
+      - script: yarn cypress run
         displayName: 'Cypress tests'
       - task: PublishTestResults@1
         displayName: Publish test results
@@ -81,15 +81,37 @@ jobs:
         inputs:
           testRunner: JUnit
           testResultsFiles: '$(System.DefaultWorkingDirectory)/testresults/output-**.xml'
+      - task: DockerCompose@0
+        displayName: logs
+        condition: always()
+        inputs:
+          action: Run a Docker Compose command
+          dockerComposeFile: '$(System.DefaultWorkingDirectory)/docker-compose.yml'
+          projectName: $(Build.Repository.Name)
+          dockerComposeCommand: "logs" 
+          arguments:
+            --no-color
+            --timestamps
+          # detached: true
+          # buildImages: true
+      # - script: docker-compose -f $(System.DefaultWorkingDirectory)/docker-compose.yml  logs > $(System.DefaultWorkingDirectory)/compose-logs.txt
+      #   displayName: Extract Docker Compose logs
+      #   condition: always()
+      # - task: PublishBuildArtifacts@1
+      #   displayName: Publish Docker Compose logs
+      #   condition: always()
+      #   inputs:
+      #     PathtoPublish: '$(System.DefaultWorkingDirectory)/compose-logs.txt'
+      #     ArtifactName: compose_logs
       - task: PublishBuildArtifacts@1
         displayName: Publish Cypress videos
-        condition: failed()
+        condition: or(failed(), canceled())
         inputs:
           PathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/videos'
           ArtifactName: cypress_videos
       - task: PublishBuildArtifacts@1
         displayName: Publish Cypress snapshot images
-        condition: failed()
+        condition: or(failed(), canceled())
         inputs:
           PathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/integration/__image_snapshots__'
           ArtifactName: cypress_snapshots
@@ -110,7 +132,7 @@ jobs:
             - checkout: self
             - task: NodeTool@0
               inputs:
-                versionSpec: '14.x'
+                versionSpec: '16.x'
               displayName: 'Install Node.js'
             - task: Cache@2
               inputs:

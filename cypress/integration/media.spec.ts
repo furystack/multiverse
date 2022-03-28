@@ -8,13 +8,6 @@ describe('Movies', () => {
     cy.get('multiverse-library-list').should('be.visible')
   })
 
-  it('Should be available from the User menu', () => {
-    cy.visit('/')
-    login(cy, 'testuser@gmail.com', 'password')
-    navigateFromUserMenu(cy, 'Movies')
-    cy.get('multiverse-library-list').should('be.visible')
-  })
-
   it('Should create and browse a Movie Library', () => {
     cy.visit('/')
     login(cy, 'testMovieAdmin@gmail.com', 'password')
