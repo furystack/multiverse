@@ -1,5 +1,5 @@
 import { PhysicalStore, StoreManager, FindOptions, WithOptionalId } from '@furystack/core'
-import { HttpAuthenticationSettings } from '@furystack/rest-service'
+import { PasswordCredential, PasswordAuthenticator } from '@furystack/security'
 import { Injector } from '@furystack/inject'
 import { auth } from '@common/models'
 import { v4 } from 'uuid'
@@ -52,6 +52,7 @@ export const createUser = async ({
   const sm = i.getInstance(StoreManager)
   const userStore = sm.getStoreFor(auth.User, '_id')
   const profileStore = sm.getStoreFor(auth.Profile, '_id')
+  const passwordStore = sm.getStoreFor(PasswordCredential, 'userName')
   const ghAccountStore = sm.getStoreFor(auth.GithubAccount, '_id')
   const googleAccountStore = sm.getStoreFor(auth.GoogleAccount, '_id')
 
@@ -59,7 +60,6 @@ export const createUser = async ({
     { filter: { username: { $eq: email } } },
     {
       username: email,
-      password: i.getInstance(HttpAuthenticationSettings).hashMethod(password),
       roles: userRoles,
       registrationDate: new Date().toISOString(),
     },
@@ -103,6 +103,16 @@ export const createUser = async ({
       accountLinkDate: new Date().toISOString(),
     },
     ghAccountStore,
+    i,
+  )
+
+  const passwordCredential = await i.getInstance(PasswordAuthenticator).getHasher().createCredential(email, password)
+  await getOrCreate(
+    {
+      filter: { userName: { $eq: email } },
+    },
+    passwordCredential,
+    passwordStore,
     i,
   )
 

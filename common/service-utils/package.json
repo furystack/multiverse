@@ -22,7 +22,7 @@
     "@furystack/mongodb-store": "^4.0.29",
     "@furystack/repository": "^5.0.29",
     "@furystack/rest": "^3.1.7",
-    "@furystack/rest-service": "^4.1.9",
+    "@furystack/rest-service": "^5.0.3",
     "@slack/webhook": "^6.1.0",
     "got": "^11.8.2",
     "mongodb": "^4.3.1",

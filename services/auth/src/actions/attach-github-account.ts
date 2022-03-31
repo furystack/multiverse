@@ -9,7 +9,7 @@ export const AttachGithubAccount: RequestAction<{
 }> = async ({ injector, getBody }) => {
   const logger = injector.logger.withScope('AttachGithubAccountAction')
 
-  const { password, ...currentUser } = (await injector.getCurrentUser()) as auth.User
+  const currentUser = (await injector.getCurrentUser()) as auth.User
   const { code, clientId } = await getBody()
   const githubApiPayload = await injector.getInstance(GithubAuthService).getGithubUserData({ code, clientId })
   const ghAccountStore = injector.getInstance(StoreManager).getStoreFor(auth.GithubAccount, '_id')

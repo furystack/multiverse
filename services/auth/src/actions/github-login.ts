@@ -35,6 +35,6 @@ export const GithubLoginAction: RequestAction<{
     throw new RequestError(`Found '${users.length}' associated user(s)`, 500)
   }
   await injector.getInstance(HttpUserContext).cookieLogin(users[0], response)
-  const { password, ...user } = users[0]
+  const user = users[0]
   return JsonResult({ ...user })
 }
