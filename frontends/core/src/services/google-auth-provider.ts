@@ -1,6 +1,6 @@
-import { Retrier } from '@furystack/utils'
 import { Injector } from '@furystack/inject/dist/injector'
 import { Injectable } from '@furystack/inject'
+import { sleepAsync } from '@furystack/utils'
 import { AuthApiService, SessionService } from '@common/frontend-utils'
 
 /**
@@ -119,20 +119,8 @@ export class GoogleOauthProvider {
       this.iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts')
 
       this.iframe.onload = async (ev) => {
-        let location: Location | null = null
-        await Retrier.create(async () => {
-          try {
-            // eslint-disable-next-line prefer-destructuring
-            location = ((ev.srcElement as HTMLIFrameElement).contentDocument as Document).location
-            return true
-          } catch (error) {
-            return false
-          }
-        })
-          .setup({
-            timeoutMs: 500,
-          })
-          .run()
+        await sleepAsync(500)
+        const location = ((ev.srcElement as HTMLIFrameElement).contentDocument as Document).location || null
 
         const iframeToken = location && this.getGoogleTokenFromUri(location)
         iframeToken ? resolve(iframeToken) : reject(Error('Token not found'))

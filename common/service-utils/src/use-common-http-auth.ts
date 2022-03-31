@@ -1,5 +1,6 @@
 import '@furystack/mongodb-store'
 import { Injector } from '@furystack/inject/dist/injector'
+import { PasswordCredential } from '@furystack/security'
 import { databases } from '@common/config'
 import { auth } from '@common/models'
 import { verifyAndCreateIndexes } from './create-indexes'
@@ -38,14 +39,24 @@ Injector.prototype.useCommonHttpAuth = function () {
         db: databases['common-auth'].dbName,
         collection: 'sessions',
         options: databases.standardOptions,
+      })
+      .useMongoDb({
+        primaryKey: 'userName',
+        model: PasswordCredential,
+        url: databases['common-auth'].sessionStoreUrl,
+        db: databases['common-auth'].dbName,
+        collection: 'passwordCredentials',
+        options: databases.standardOptions,
       }),
-  ).useHttpAuthentication({
-    enableBasicAuth: false,
-    cookieName: 'fsmvsc',
-    model: auth.User,
-    getUserStore: (sm) => sm.getStoreFor(auth.User, '_id'),
-    getSessionStore: (sm) => sm.getStoreFor(auth.Session, '_id'),
-  })
+  )
+    .useHttpAuthentication({
+      enableBasicAuth: false,
+      cookieName: 'fsmvsc',
+      model: auth.User,
+      getUserStore: (sm) => sm.getStoreFor(auth.User, '_id'),
+      getSessionStore: (sm) => sm.getStoreFor(auth.Session, '_id'),
+    })
+    .usePasswordPolicy()
 
   this.setupRepository((repo) =>
     repo
@@ -89,7 +100,6 @@ Injector.prototype.useCommonHttpAuth = function () {
     indexName: 'username',
     indexOptions: { unique: true },
   })
-
   return this
 }
 
