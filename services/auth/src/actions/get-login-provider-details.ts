@@ -1,5 +1,6 @@
 import { RequestAction, JsonResult } from '@furystack/rest-service'
 import { StoreManager } from '@furystack/core'
+import { PasswordCredential } from '@furystack/security'
 import { auth } from '@common/models'
 
 export const GetLoginProviderDetails: RequestAction<{
@@ -12,10 +13,9 @@ export const GetLoginProviderDetails: RequestAction<{
   const currentUser = await injector.getCurrentUser()
   const storeManager = injector.getInstance(StoreManager)
 
-  const [loadedUser] = await storeManager
-    .getStoreFor(auth.User, '_id')
-    .find({ top: 1, filter: { username: { $eq: currentUser.username } } })
-  const hasPassword = loadedUser.password ? true : false
+  const hasPassword = (await storeManager.getStoreFor(PasswordCredential, 'userName').get(currentUser.username))
+    ? true
+    : false
 
   const [google] = await storeManager
     .getStoreFor(auth.GoogleAccount, '_id')

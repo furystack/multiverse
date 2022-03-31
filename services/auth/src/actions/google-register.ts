@@ -41,7 +41,6 @@ export const GoogleRegisterAction: RequestAction<{
   }
 
   const { created } = await users.add({
-    password: '',
     roles: ['terms-accepted'],
     registrationDate,
     username: googleUserData.email,
@@ -55,9 +54,6 @@ export const GoogleRegisterAction: RequestAction<{
   } catch (error) {
     await logger.warning({ message: 'Failed to get Avatar', data: { error } })
   }
-
-  const { password, ...userToAddWithoutPw } = userToAdd
-
   await googleAcccounts.add({
     googleId: googleUserData.sub,
     googleApiPayload: googleUserData,
@@ -76,9 +72,9 @@ export const GoogleRegisterAction: RequestAction<{
 
   await logger.information({
     message: `User ${userToAdd.username} has been registered with Google Auth.`,
-    data: userToAddWithoutPw,
+    data: userToAdd,
   })
 
-  const { password: pw, ...user } = (await userContext.cookieLogin(userToAddWithoutPw, response)) as auth.User
+  const user = (await userContext.cookieLogin(userToAdd, response)) as auth.User
   return JsonResult(user)
 }
