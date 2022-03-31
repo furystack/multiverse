@@ -11,7 +11,7 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@types/node": "^17.0.14"
+    "@types/node": "^17.0.18"
   },
   "dependencies": {
     "@common/config": "^1.2.0",
@@ -22,7 +22,7 @@
     "@furystack/mongodb-store": "^4.0.29",
     "@furystack/repository": "^5.0.29",
     "@furystack/rest": "^3.1.7",
-    "@furystack/rest-service": "^4.1.9",
+    "@furystack/rest-service": "^5.0.3",
     "@slack/webhook": "^6.1.0",
     "got": "^11.8.2",
     "mongodb": "^4.3.1",

@@ -5,7 +5,7 @@ import { RequestAction, JsonResult } from '@furystack/rest-service'
 export const DetachGoogleAccount: RequestAction<{ result: Omit<auth.User, 'password'> }> = async ({ injector }) => {
   const logger = injector.logger.withScope('DetachGithubAccountAction')
 
-  const { password, ...currentUser } = (await injector.getCurrentUser()) as auth.User
+  const currentUser = (await injector.getCurrentUser()) as auth.User
   const googleAccountStore = injector.getInstance(StoreManager).getStoreFor(auth.GoogleAccount, '_id')
   const [googleAccount] = await googleAccountStore.find({ top: 1, filter: { username: { $eq: currentUser.username } } })
 
