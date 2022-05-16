@@ -2,14 +2,18 @@ import 'cypress-file-upload'
 import * as compareSnapshotCommand from 'cypress-visual-regression/dist/command'
 import { serviceNames } from '../../common/models'
 
-export const login = (cy: Cypress.cy, username: string, password: string) => {
+export const tryLogin = (cy: Cypress.cy, username: string, password: string) => {
   const loginButtonSelector = 'shade-login button[type=submit]'
   const usernameInputSelector = 'shade-login input[type=text][title=username]'
   const passwordFieldSelector = 'shade-login input[type=password]'
   cy.visit('/', { timeout: 120000 })
-  cy.get(usernameInputSelector).type(username).blur()
-  cy.get(passwordFieldSelector).type(password).blur()
+  cy.get(usernameInputSelector).clear().type(username).blur()
+  cy.get(passwordFieldSelector).clear().type(password).blur()
   cy.get(loginButtonSelector).click()
+}
+
+export const login = (cy: Cypress.cy, username: string, password: string) => {
+  tryLogin(cy, username, password)
   expectAndDismissNotification(cy, 'Welcome back ;)', 'success')
 }
 

@@ -1,4 +1,10 @@
-import { expectAndDismissNotification, login, logoutFromUserMenu, navigateFromUserMenu } from '../support/commands'
+import {
+  expectAndDismissNotification,
+  login,
+  logoutFromUserMenu,
+  navigateFromUserMenu,
+  tryLogin,
+} from '../support/commands'
 
 describe('Profile Management', () => {
   it('Should change the password and change it back', () => {
@@ -7,9 +13,9 @@ describe('Profile Management', () => {
     navigateFromUserMenu(cy, 'Profile')
     cy.get('.shade-tabs-header-container').contains('Change Password').scrollIntoView().click()
 
-    cy.contains('Current password').find('input').type('wrongCurrentPassword')
-    cy.contains('New password').find('input').type('newPassword')
-    cy.contains('Confirm new password').find('input').type('wrongNewPasswordConfirmation')
+    cy.contains('Current password').find('input').clear().type('wrongCurrentPassword')
+    cy.contains('New password').find('input').clear().type('newPassword')
+    cy.contains('Confirm new password').find('input').clear().type('wrongNewPasswordConfirmation')
     cy.get('button').contains('Change password').click()
     expectAndDismissNotification(cy, 'The password and the password confirmation should be the same', 'warning')
 
@@ -23,12 +29,16 @@ describe('Profile Management', () => {
 
     logoutFromUserMenu(cy)
 
+    // Cannot login with old username / password
+    tryLogin(cy, 'testuser@gmail.com', 'password')
+    expectAndDismissNotification(cy, 'Please check your credentials', 'warning')
+
     login(cy, 'testuser@gmail.com', 'newPassword')
     navigateFromUserMenu(cy, 'Profile')
     cy.get('.shade-tabs-header-container').contains('Change Password').scrollIntoView().click()
-    cy.contains('Current password').find('input').type('newPassword')
-    cy.contains('New password').find('input').type('password')
-    cy.contains('Confirm new password').find('input').type('password')
+    cy.contains('Current password').find('input').clear().type('newPassword')
+    cy.contains('New password').find('input').clear().type('password')
+    cy.contains('Confirm new password').find('input').clear().type('password')
     cy.get('button').contains('Change password').click()
     logoutFromUserMenu(cy)
 
