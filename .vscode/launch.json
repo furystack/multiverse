@@ -23,9 +23,6 @@
       "request": "launch",
       "name": "Seed",
       "program": "${workspaceFolder}/services/${input:service}/src/seed.ts",
-      // "outFiles": ["${workspaceFolder}/services/${input:service}/dist/**/*.js"],
-      "cwd": "${workspaceFolder}/services/${input:service}",
-      "skipFiles": ["<node_internals>/**"],
       "preLaunchTask": "npm: build:services"
     },
     {

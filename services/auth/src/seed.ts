@@ -1,9 +1,9 @@
-import { PhysicalStore, StoreManager, FindOptions, WithOptionalId } from '@furystack/core'
 import { PasswordCredential, PasswordAuthenticator } from '@furystack/security'
 import { Injector } from '@furystack/inject'
 import { auth } from '@common/models'
 import { getLogger } from '@furystack/logging'
 import { useCommonHttpAuth } from '@common/service-utils'
+import { FindOptions, PhysicalStore, StoreManager, WithOptionalId } from '@furystack/core'
 import { setupStores } from './setup-stores'
 
 let githubIndex = 0
@@ -178,7 +178,12 @@ const injector = new Injector()
 useCommonHttpAuth(injector)
 setupStores(injector)
 
-seed(injector).then(async () => {
-  injector.dispose()
-  process.exit(0)
-})
+seed(injector)
+  .then(async () => {
+    injector.dispose()
+    process.exit(0)
+  })
+  .catch((e) => {
+    console.error(e)
+    process.exit(1)
+  })
