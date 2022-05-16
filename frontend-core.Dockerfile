@@ -7,7 +7,7 @@
 # CMD ["nginx-debug", "-g daemon off;"]
 
 
-FROM node:14-alpine AS slim
+FROM node:18-alpine AS slim
 
 RUN apk update
 

@@ -1,6 +1,6 @@
 FROM furystack/multiverse-base:latest as base
 
-FROM node:14-alpine AS slim
+FROM node:18-alpine AS slim
 
 USER root
 
