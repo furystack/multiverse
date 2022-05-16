@@ -107,13 +107,13 @@ jobs:
         displayName: Publish Cypress videos
         condition: or(failed(), canceled())
         inputs:
-          PathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/videos'
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/e2e/cypress/videos'
           ArtifactName: cypress_videos
       - task: PublishBuildArtifacts@1
         displayName: Publish Cypress snapshot images
         condition: or(failed(), canceled())
         inputs:
-          PathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/integration/__image_snapshots__'
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/e2e/cypress/integration/__image_snapshots__'
           ArtifactName: cypress_snapshots
 
   - deployment: deploy
