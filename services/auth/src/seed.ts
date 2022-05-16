@@ -4,7 +4,7 @@ import { Injector } from '@furystack/inject'
 import { auth } from '@common/models'
 import { v4 } from 'uuid'
 import { getLogger } from '@furystack/logging'
-import { useCommonHttpAuth } from '@common/service-utils/src/use-common-http-auth'
+import { useCommonHttpAuth } from '@common/service-utils'
 import { setupStores } from './setup-stores'
 
 let githubIndex = 0

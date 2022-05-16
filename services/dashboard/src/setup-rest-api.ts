@@ -9,7 +9,7 @@ import {
 } from '@furystack/rest-service'
 import { apis, dashboard } from '@common/models'
 import { sites } from '@common/config'
-import { useCommonHttpAuth } from '@common/service-utils/src/use-common-http-auth'
+import { useCommonHttpAuth } from '@common/service-utils'
 import { GetWeatherForecastAction } from './actions/get-weather-forecast-action'
 
 export const setupRestApi = (injector: Injector) => {

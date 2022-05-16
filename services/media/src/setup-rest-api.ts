@@ -11,7 +11,7 @@ import {
   createDeleteEndpoint,
   useRestService,
 } from '@furystack/rest-service'
-import { useCommonHttpAuth } from '@common/service-utils/src/use-common-http-auth'
+import { useCommonHttpAuth } from '@common/service-utils'
 import { useWebsockets } from '@furystack/websocket-api'
 import { GetAvailableSubtitles } from './actions/get-available-subtitles'
 import { GetSubtitle } from './actions/get-subtitle'

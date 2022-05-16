@@ -16,7 +16,7 @@ import {
   Validate,
   useRestService,
 } from '@furystack/rest-service'
-import { useCommonHttpAuth } from '@common/service-utils/src/use-common-http-auth'
+import { useCommonHttpAuth } from '@common/service-utils'
 import {
   GetProfile,
   GetAvatar,
