@@ -7,6 +7,7 @@ import { FindOptions, PhysicalStore, StoreManager, WithOptionalId } from '@furys
 import { setupStores } from './setup-stores'
 
 let githubIndex = 0
+let googleIndex = 0
 
 /**
  * gets an existing instance if exists or create and return if not. Throws error on multiple result
@@ -80,7 +81,7 @@ export const createUser = async ({
   const googleAccount = await getOrCreate(
     { filter: { username: { $eq: email } } },
     {
-      googleId: 'random-google-id',
+      googleId: googleIndex++,
       username: email,
       googleApiPayload: {
         email,
