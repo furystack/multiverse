@@ -10,6 +10,7 @@ export interface SeriesListProps {
 }
 
 export const SeriesPage = Shade<SeriesListProps, { isDesktop: boolean }>({
+  shadowDomName: 'series-page',
   getInitialState: ({ injector }) => ({
     isDesktop: injector.getInstance(ScreenService).screenSize.atLeast.md.getValue(),
   }),

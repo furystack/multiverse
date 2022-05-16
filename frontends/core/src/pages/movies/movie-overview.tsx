@@ -8,6 +8,7 @@ export const MovieOverview = Shade<
   { movie: media.Movie; watchedSeconds: number; availableSubtitles: string[] },
   { roles: auth.User['roles']; isDesktop: boolean }
 >({
+  shadowDomName: 'shade-movie-overview',
   getInitialState: ({ injector }) => ({
     roles: injector.getInstance(SessionService).currentUser.getValue()?.roles || [],
     isDesktop: injector.getInstance(ScreenService).screenSize.atLeast.md.getValue(),

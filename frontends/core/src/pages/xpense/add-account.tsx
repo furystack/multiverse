@@ -6,6 +6,7 @@ import { WithOptionalId } from '@furystack/core'
 import { FullScreenForm } from '../../components/full-screen-form'
 
 export const AddXpenseAccountPage = Shade<{}, WithOptionalId<xpense.Account, '_id'>>({
+  shadowDomName: 'add-xpense-account-page',
   getInitialState: ({ injector }) => {
     const user = injector.getInstance(SessionService).currentUser.getValue()
     return {

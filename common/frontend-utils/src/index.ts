@@ -8,5 +8,3 @@ export * from './get-error-message'
 export * from './session'
 export * from './rest-params'
 export * from './my-avatar-service'
-
-import './injector-extensions'

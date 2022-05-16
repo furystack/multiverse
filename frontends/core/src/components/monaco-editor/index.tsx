@@ -8,6 +8,7 @@ export interface MonacoEditorProps {
   onchange?: (value: string) => void
 }
 export const MonacoEditor = Shade<MonacoEditorProps>({
+  shadowDomName: 'multiverse-monaco-editor',
   constructed: ({ element, props }) => {
     const editor = monaco.editor.create(element.firstChild as HTMLElement, props.options)
     editor.setValue(props.value || '')

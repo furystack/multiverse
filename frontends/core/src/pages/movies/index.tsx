@@ -2,6 +2,7 @@ import { Shade, createComponent, Router, LazyLoad } from '@furystack/shades'
 import { media } from '@common/models'
 import { MediaApiService } from '@common/frontend-utils'
 import { Fab, promisifyAnimation } from '@furystack/shades-common-components'
+import { isAuthorized } from '@furystack/core'
 import { Init } from '../init'
 import { GenericErrorPage } from '../generic-error'
 import { GenericMonacoEditor } from '../../components/editors/generic-monaco-editor'
@@ -56,7 +57,7 @@ export const MoviesPage = Shade({
                 loader={<Init message="Getting encoding tasks..." />}
                 error={(error, retry) => <GenericErrorPage error={error} retry={retry} />}
                 component={async () => {
-                  if (await injector.isAuthorized('movie-admin')) {
+                  if (await isAuthorized(injector, 'movie-admin')) {
                     return <EncodingTasks />
                   }
                   return (
@@ -108,7 +109,7 @@ export const MoviesPage = Shade({
                     action: '/movie-libraries',
                     query: { findOptions: { order: { name: 'ASC' } } },
                   })
-                  const isMovieAdmin = await injector.isAuthorized('movie-admin')
+                  const isMovieAdmin = await isAuthorized(injector, 'movie-admin')
                   return <LibraryList libraries={libs.entries as media.MovieLibrary[]} isMovieAdmin={isMovieAdmin} />
                 }}
               />

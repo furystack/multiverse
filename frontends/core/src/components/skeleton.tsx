@@ -4,6 +4,7 @@ import list from '../animations/loading-skeleton-list.json'
 import twoRows from '../animations/loading-skeleton-two-rows.json'
 
 export const Skeleton = Shade<{ variant: 'large' | 'list' | 'two-rows' } & Partial<HTMLElement>>({
+  shadowDomName: 'multiverse-skeleton',
   render: ({ props }) => {
     const src =
       props.variant === 'large'
