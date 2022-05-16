@@ -1,6 +1,7 @@
 import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
 import { RequestAction, JsonResult } from '@furystack/rest-service'
+import { getDataSetFor } from '@furystack/repository'
 
 export const GetWorkerTask: RequestAction<{
   result: media.EncodingTask
@@ -14,7 +15,7 @@ export const GetWorkerTask: RequestAction<{
   }
 
   const { taskId } = getUrlParams()
-  const task = await injector.getDataSetFor(media.EncodingTask, '_id').get(injector, taskId)
+  const task = await getDataSetFor(injector, media.EncodingTask, '_id').get(injector, taskId)
 
   if (task?.authToken !== token) {
     throw new RequestError('Failed to authorize with the token', 401)

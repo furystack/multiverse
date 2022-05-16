@@ -1,5 +1,4 @@
-import { Injector } from '@furystack/inject/dist/injector'
-import { Injectable } from '@furystack/inject'
+import { Injector, Injectable } from '@furystack/inject'
 import { sleepAsync } from '@furystack/utils'
 import { AuthApiService, SessionService } from '@common/frontend-utils'
 
@@ -17,6 +16,7 @@ export class GoogleAuthenticationOptions {
    * https://developers.google.com/identity/protocols/googlescopes
    */
   public scope: string[] = ['email', 'profile']
+
   public windowInstance = window
 }
 @Injectable()
@@ -193,20 +193,12 @@ export class GoogleOauthProvider {
   ) {}
 }
 
-declare module '@furystack/inject/dist/injector' {
-  // eslint-disable-next-line no-shadow
-  interface Injector {
-    useGoogleAuth(options?: Partial<GoogleAuthenticationOptions>): Injector
-  }
-}
-
-Injector.prototype.useGoogleAuth = function (options?: GoogleAuthenticationOptions) {
+export const useGoogleAuth = function (injector: Injector, options?: GoogleAuthenticationOptions) {
   const newOptions = new GoogleAuthenticationOptions()
   Object.assign(newOptions, options)
 
   if (!newOptions.redirectUri) {
     newOptions.redirectUri = `${window.location.origin}/`
   }
-  this.setExplicitInstance(newOptions, GoogleAuthenticationOptions)
-  return this
+  injector.setExplicitInstance(newOptions, GoogleAuthenticationOptions)
 }

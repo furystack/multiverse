@@ -1,5 +1,5 @@
 import { RequestAction, JsonResult } from '@furystack/rest-service'
-import { StoreManager } from '@furystack/core'
+import { getCurrentUser, StoreManager } from '@furystack/core'
 import { PasswordCredential } from '@furystack/security'
 import { auth } from '@common/models'
 
@@ -10,7 +10,7 @@ export const GetLoginProviderDetails: RequestAction<{
     github?: auth.GithubAccount
   }
 }> = async ({ injector }) => {
-  const currentUser = await injector.getCurrentUser()
+  const currentUser = await getCurrentUser(injector)
   const storeManager = injector.getInstance(StoreManager)
 
   const hasPassword = (await storeManager.getStoreFor(PasswordCredential, 'userName').get(currentUser.username))

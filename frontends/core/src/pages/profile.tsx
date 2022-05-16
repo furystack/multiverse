@@ -1,9 +1,8 @@
 import { createComponent, Shade } from '@furystack/shades'
 import { Tabs, Input, Button, colors, NotyService, Paper } from '@furystack/shades-common-components'
-import { auth } from '@common/models'
+import { auth, getRandomString } from '@common/models'
 import { AuthApiService, MyAvatarService, SessionService } from '@common/frontend-utils'
 import { MyAvatar, ImageAvatar } from '@common/components'
-import { v4 } from 'uuid'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 import { ChangePasswordForm } from '../components/change-password-form'
 import { UserSettingsEditor } from '../components/editors/user-settings'
@@ -42,7 +41,7 @@ export const ProfilePage = Shade<
   render: ({ injector, getState, updateState }) => {
     const { currentUser, profile, loginProviderDetails } = getState()
 
-    const uploadId = v4()
+    const uploadId = getRandomString()
 
     const reloadProviderDetails = async () => {
       /** */
@@ -79,7 +78,8 @@ export const ProfilePage = Shade<
                               })
                             }
                           }
-                        }}>
+                        }}
+                      >
                         <label className="uploadAvatar" htmlFor={uploadId} style={{ cursor: 'pointer' }}>
                           <MyAvatar
                             style={{ display: 'inline-block', width: '3em', height: '3em', cursor: 'pointer' }}
@@ -129,7 +129,8 @@ export const ProfilePage = Shade<
                           })
                         }
                       }
-                    }}>
+                    }}
+                  >
                     <Input
                       onTextChange={(displayName) => {
                         updateState({ displayName }, true)
@@ -198,7 +199,8 @@ export const ProfilePage = Shade<
                               .call({ method: 'POST', action: '/detachGoogleAccount' })
                             await reloadProviderDetails()
                           }
-                        }}>
+                        }}
+                      >
                         Disconnect
                       </Button>
                     </div>
@@ -216,7 +218,8 @@ export const ProfilePage = Shade<
                             body: { token },
                           })
                           await reloadProviderDetails()
-                        }}>
+                        }}
+                      >
                         Connect
                       </Button>
                     </div>
@@ -236,7 +239,8 @@ export const ProfilePage = Shade<
                           <a
                             href={loginProviderDetails.github.githubApiPayload.html_url}
                             target="_blank"
-                            style={{ color: colors.secondary.main }}>
+                            style={{ color: colors.secondary.main }}
+                          >
                             {loginProviderDetails.github.githubApiPayload.login}
                           </a>
                         </strong>
@@ -256,7 +260,8 @@ export const ProfilePage = Shade<
                             // await reloadProviderDetails()
                             /** */
                           }
-                        }}>
+                        }}
+                      >
                         Disconnect
                       </Button>
                     </div>
@@ -274,7 +279,8 @@ export const ProfilePage = Shade<
                           window.location.replace(
                             `https://github.com/login/oauth/authorize?client_id=${oauthData.githubClientId}&redirect_uri=${window.location.origin}/github-attach`,
                           )
-                        }}>
+                        }}
+                      >
                         Connect
                       </Button>
                     </div>

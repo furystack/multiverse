@@ -1,12 +1,13 @@
 import { RequestError } from '@furystack/rest'
 import { auth } from '@common/models'
 import { JsonResult, RequestAction } from '@furystack/rest-service'
+import { getDataSetFor } from '@furystack/repository'
 
 export const GetOrganization: RequestAction<{
   result: auth.Organization
   url: { organizationName: string }
 }> = async ({ injector, getUrlParams }) => {
-  const profileStore = injector.getDataSetFor(auth.Organization, '_id')
+  const profileStore = getDataSetFor(injector, auth.Organization, '_id')
   const { organizationName } = getUrlParams()
   const result = await profileStore.find(injector, {
     filter: {

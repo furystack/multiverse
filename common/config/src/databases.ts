@@ -16,15 +16,6 @@ export const databases = {
     dbName: 'multiverse-dashboard',
     dashboards: 'dashboards',
   },
-  xpense: {
-    mongoUrl: process.env.MONGO_XPENSE_URL || process.env.MONGO_URL || 'mongodb://localhost:27017',
-    dbName: 'multiverse-xpense',
-    accounts: 'accounts',
-    items: 'items',
-    replenishments: 'replenishments',
-    shops: 'shops',
-    shoppings: 'private-xpenses',
-  },
   media: {
     mongoUrl: process.env.MONGO_MULTIVERSE_URL || process.env.MONGO_URL || 'mongodb://localhost:27017',
     dbName: 'multiverse-media',

@@ -2,6 +2,7 @@ import { Icon as IconModel } from '@common/models/dist/common'
 import { createComponent, PartialElement, Shade } from '@furystack/shades'
 
 export const Icon = Shade<{ icon: IconModel; elementProps?: PartialElement<HTMLElement> }>({
+  shadowDomName: 'multiverse-icon',
   render: ({ props }) => {
     if (typeof props.icon === 'object') {
       if (props.icon.type === 'flaticon-essential') {

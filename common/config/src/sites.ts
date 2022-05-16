@@ -8,10 +8,6 @@ export const sites = {
       internalPort: process.env.DIAG_SERVICE_INTERNAL_PORT || 9091,
       apiPath: '/api/diag',
     },
-    xpense: {
-      internalPort: process.env.XPENSE_SERVICE_INTERNAL_PORT || 9092,
-      apiPath: '/api/xpense',
-    },
     media: {
       internalPort: process.env.MEDIA_SERVICE_INTERNAL_PORT || 9093,
       apiPath: '/api/media',

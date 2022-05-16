@@ -23,9 +23,6 @@
       "request": "launch",
       "name": "Seed",
       "program": "${workspaceFolder}/services/${input:service}/src/seed.ts",
-      // "outFiles": ["${workspaceFolder}/services/${input:service}/dist/**/*.js"],
-      "cwd": "${workspaceFolder}/services/${input:service}",
-      "skipFiles": ["<node_internals>/**"],
       "preLaunchTask": "npm: build:services"
     },
     {
@@ -91,7 +88,7 @@
       "id": "service",
       "type": "pickString",
       "description": "Select one service from above",
-      "options": ["auth", "dashboard", "diag", "media", "xpense"]
+      "options": ["auth", "dashboard", "diag", "media"]
     },
     {
       "id": "worker",

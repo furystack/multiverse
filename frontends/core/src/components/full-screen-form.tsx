@@ -22,13 +22,15 @@ export const FullScreenForm = Shade<FullScreenFormProps>({
           style={{
             maxWidth: '800px',
             flexGrow: '1',
-          }}>
+          }}
+        >
           <h1>{props.title}</h1>
           <form
             onsubmit={(ev) => {
               console.log(ev)
               props.onSubmit(ev)
-            }}>
+            }}
+          >
             {children}
             <hr />
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>{props.actions}</div>

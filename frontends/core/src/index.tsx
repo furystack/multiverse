@@ -1,12 +1,11 @@
 import 'reflect-metadata'
 
 import { createComponent, initializeShadeRoot } from '@furystack/shades'
-import { VerboseConsoleLogger } from '@furystack/logging'
+import { useLogging, getLogger, VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
-import { EnvironmentService, SiteRoots } from '@common/frontend-utils'
+import { EnvironmentService, SiteRoots, useSessionService } from '@common/frontend-utils'
 import { MultiverseApp } from './app'
-import './services/google-auth-provider'
-import '@furystack/rest'
+import { useGoogleAuth } from './services/google-auth-provider'
 
 declare global {
   interface Window {
@@ -24,7 +23,6 @@ const defaultSiteRoots: SiteRoots = {
   dashboard: apiRoot,
   diag: apiRoot,
   media: apiRoot,
-  xpense: apiRoot,
 }
 
 const shadeInjector = new Injector()
@@ -46,16 +44,16 @@ shadeInjector.setExplicitInstance(
 
 export const environmentOptions = {}
 
-shadeInjector.useLogging(VerboseConsoleLogger)
+useLogging(shadeInjector, VerboseConsoleLogger)
 
-shadeInjector.logger.withScope('Startup').verbose({
+getLogger(shadeInjector).withScope('Startup').verbose({
   message: 'Initializing Shade Frontend...',
   data: { environmentOptions },
 })
 
-shadeInjector.useGoogleAuth()
+useGoogleAuth(shadeInjector)
 
-shadeInjector.useSessionService()
+useSessionService(shadeInjector)
 
 const rootElement: HTMLDivElement = document.getElementById('root') as HTMLDivElement
 initializeShadeRoot({

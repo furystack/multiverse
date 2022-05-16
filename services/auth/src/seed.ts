@@ -1,11 +1,13 @@
-import { PhysicalStore, StoreManager, FindOptions, WithOptionalId } from '@furystack/core'
 import { PasswordCredential, PasswordAuthenticator } from '@furystack/security'
 import { Injector } from '@furystack/inject'
 import { auth } from '@common/models'
-import { v4 } from 'uuid'
+import { getLogger } from '@furystack/logging'
+import { useCommonHttpAuth } from '@common/service-utils'
+import { FindOptions, PhysicalStore, StoreManager, WithOptionalId } from '@furystack/core'
 import { setupStores } from './setup-stores'
 
 let githubIndex = 0
+let googleIndex = 0
 
 /**
  * gets an existing instance if exists or create and return if not. Throws error on multiple result
@@ -20,7 +22,7 @@ export const getOrCreate = async <T, TId extends keyof T>(
   i: Injector,
 ) => {
   const result = await store.find(filter)
-  const logger = i.logger.withScope('Seeder')
+  const logger = getLogger(i).withScope('Seeder')
   if (result.length === 1) {
     return result[0]
   } else if (result.length === 0) {
@@ -79,7 +81,7 @@ export const createUser = async ({
   const googleAccount = await getOrCreate(
     { filter: { username: { $eq: email } } },
     {
-      googleId: v4(),
+      googleId: googleIndex++,
       username: email,
       googleApiPayload: {
         email,
@@ -124,7 +126,7 @@ export const createUser = async ({
  * @param i The injector instance
  */
 export const seed = async (i: Injector) => {
-  const logger = i.logger.withScope('seeder')
+  const logger = getLogger(i).withScope('seeder')
   logger.verbose({ message: 'Seeding data...' })
   const password = 'password'
 
@@ -173,10 +175,16 @@ export const seed = async (i: Injector) => {
   logger.verbose({ message: 'Seeding data completed.' })
 }
 
-const injector = new Injector().useCommonHttpAuth()
+const injector = new Injector()
+useCommonHttpAuth(injector)
 setupStores(injector)
 
-seed(injector).then(async () => {
-  injector.dispose()
-  process.exit(0)
-})
+seed(injector)
+  .then(async () => {
+    injector.dispose()
+    process.exit(0)
+  })
+  .catch((e) => {
+    console.error(e)
+    process.exit(1)
+  })

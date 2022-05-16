@@ -3,12 +3,13 @@ import { StoreManager } from '@furystack/core'
 import { PasswordCredential, PasswordAuthenticator, SecurityPolicyManager } from '@furystack/security'
 import { auth } from '@common/models'
 import { HttpUserContext, JsonResult, RequestAction } from '@furystack/rest-service'
+import { getLogger } from '@furystack/logging'
 
 export const RegisterAction: RequestAction<{
   body: { email: string; password: string }
   result: Omit<auth.User, 'password'>
 }> = async ({ injector, getBody, response }) => {
-  const logger = injector.getLogger().withScope('RegisterAction')
+  const logger = getLogger(injector).withScope('RegisterAction')
   const storeManager = injector.getInstance(StoreManager)
   const { email, password } = await getBody()
   const userStore = storeManager.getStoreFor(auth.User, '_id')

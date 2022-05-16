@@ -1,9 +1,10 @@
 import { watch, FSWatcher } from 'chokidar'
 import { Injectable, Injector } from '@furystack/inject'
-import { ScopedLogger } from '@furystack/logging'
+import { getLogger, ScopedLogger } from '@furystack/logging'
 import { media } from '@common/models'
 import { StoreManager } from '@furystack/core'
 import Semaphore from 'semaphore-async-await'
+import { getDataSetFor } from '@furystack/repository'
 import { isMovieFile } from '../utils/is-movie-file'
 import { isSampleFile } from '../utils/is-sample-file'
 import { getFfprobeData } from '../utils/get-ffprobe-data'
@@ -22,21 +23,21 @@ export class MediaLibraryWatcher {
 
   private watchers = new Map<string, FSWatcher>()
 
-  private onMovieLibraryAdded = this.injector
-    .getDataSetFor(media.MovieLibrary, '_id')
-    .onEntityAdded.subscribe(({ entity }) => {
+  private onMovieLibraryAdded = getDataSetFor(this.injector, media.MovieLibrary, '_id').onEntityAdded.subscribe(
+    ({ entity }) => {
       this.initWatcherForLibrary(entity)
-    })
+    },
+  )
 
-  private onMovieLibraryRemoved = this.injector
-    .getDataSetFor(media.MovieLibrary, '_id')
-    .onEntityRemoved.subscribe(({ key }) => {
+  private onMovieLibraryRemoved = getDataSetFor(this.injector, media.MovieLibrary, '_id').onEntityRemoved.subscribe(
+    ({ key }) => {
       const watcher = this.watchers.get(key as any)
       if (watcher) {
         watcher.close()
         this.watchers.delete(key as any)
       }
-    })
+    },
+  )
 
   public async dispose() {
     this.onMovieLibraryAdded.dispose()
@@ -99,7 +100,7 @@ export class MediaLibraryWatcher {
         return
       }
 
-      const dataSet = this.injector.getDataSetFor(media.Movie, '_id')
+      const dataSet = getDataSetFor(this.injector, media.Movie, '_id')
 
       const movieEntries = await dataSet.find(this.injector, { top: 1, filter: { path: { $eq: name } } })
       if (!movieEntries.length) {
@@ -171,7 +172,7 @@ export class MediaLibraryWatcher {
   }
 
   constructor(private readonly injector: Injector) {
-    this.logger = injector.logger.withScope('MediaLibraryWatcher')
+    this.logger = getLogger(injector).withScope('MediaLibraryWatcher')
     this.init()
   }
 }

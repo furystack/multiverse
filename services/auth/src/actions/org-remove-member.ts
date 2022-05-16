@@ -1,13 +1,14 @@
 import { RequestError } from '@furystack/rest'
 import { auth } from '@common/models'
 import { JsonResult, RequestAction } from '@furystack/rest-service'
+import { getDataSetFor } from '@furystack/repository'
 
 export const OrganizationRemoveMember: RequestAction<{
   result: { success: boolean }
   body: { username: string }
   url: { organizationName: string }
 }> = async ({ getBody, getUrlParams, injector }) => {
-  const dataSet = injector.getDataSetFor(auth.Organization, '_id')
+  const dataSet = getDataSetFor(injector, auth.Organization, '_id')
 
   const { username } = await getBody()
   const { organizationName } = getUrlParams()

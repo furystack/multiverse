@@ -59,7 +59,8 @@ export const ChangePasswordForm = Shade<
               })
             }
           }
-        }}>
+        }}
+      >
         {props.showCurrentPassword ? (
           <Input
             labelTitle="Current password"

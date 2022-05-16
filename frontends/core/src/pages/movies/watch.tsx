@@ -107,7 +107,8 @@ export const Watch = Shade<
       <video-js
         className="video-js video-js-default-skin"
         style={{ width: '100%', height: '100%' }}
-        crossOrigin="use-credentials"></video-js>
+        crossOrigin="use-credentials"
+      ></video-js>
     )
   },
 })

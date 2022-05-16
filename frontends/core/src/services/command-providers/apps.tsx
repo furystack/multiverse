@@ -2,6 +2,7 @@ import { LocationService } from '@furystack/shades'
 import { Injector } from '@furystack/inject'
 import { CommandProvider } from '@furystack/shades-common-components'
 import { common, serviceList } from '@common/models'
+import { getCurrentUser } from '@furystack/core'
 import { createSuggestion, distinctByName } from './create-suggestion'
 
 export const createAppSuggestion = (s: {
@@ -23,7 +24,7 @@ export const appCommandProvider: CommandProvider = async ({ term, injector }) =>
   if (!term) {
     return []
   }
-  const currentUser = await injector.getCurrentUser()
+  const currentUser = await getCurrentUser(injector)
   const currentServiceList = serviceList.filter((service) =>
     service.requiredRoles.every((role) => currentUser?.roles.includes(role)),
   )
