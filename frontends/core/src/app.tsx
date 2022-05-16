@@ -1,7 +1,7 @@
 import { Injector } from '@furystack/inject'
 import { SessionService, SessionState } from '@common/frontend-utils'
 import { createComponent, LazyLoad, Router, Shade } from '@furystack/shades'
-import { defaultLightTheme, Loader, NotyList, ThemeProviderService } from '@furystack/shades-common-components'
+import { defaultLightTheme, NotyList, ThemeProviderService } from '@furystack/shades-common-components'
 import { Init, Login } from './pages'
 import { GenericErrorPage } from './pages/generic-error'
 
@@ -184,7 +184,7 @@ export const MultiverseApp = Shade<{}, { sessionState: SessionState }>({
           )
 
         default:
-          return <Loader />
+          return <Init message="Loading Application" />
       }
     }
 
