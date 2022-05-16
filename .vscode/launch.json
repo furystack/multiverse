@@ -91,7 +91,7 @@
       "id": "service",
       "type": "pickString",
       "description": "Select one service from above",
-      "options": ["auth", "dashboard", "diag", "media", "xpense"]
+      "options": ["auth", "dashboard", "diag", "media"]
     },
     {
       "id": "worker",
