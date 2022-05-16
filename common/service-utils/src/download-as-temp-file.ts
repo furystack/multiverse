@@ -2,10 +2,10 @@ import { createWriteStream } from 'fs'
 import { join } from 'path'
 import { get } from 'https'
 import { FileStores } from '@common/config'
-import { v4 } from 'uuid'
+import { getRandomString } from '@common/models'
 
 export const downloadAsTempFile = async (url: string) => {
-  const filePath = join(FileStores.tempdir, v4())
+  const filePath = join(FileStores.tempdir, getRandomString())
   const file = createWriteStream(filePath)
   return await new Promise<string>((resolve, reject) => {
     get(url, (response) => {

@@ -1,4 +1,4 @@
-import { login, navigateFromUserMenu, openUserMenu } from '../support/commands'
+import { login, navigateFromUserMenu } from '../support/commands'
 
 describe('Movies', () => {
   it('Should be available from the User menu', () => {

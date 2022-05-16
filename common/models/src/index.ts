@@ -6,6 +6,7 @@ export * as dashboard from './dashboard'
 export * as common from './common'
 export * from './services'
 export * from './owner'
+export * from './random'
 
 import * as authSchema from './json-schemas-auth.json'
 import * as dashboardSchema from './json-schemas-dashboard.json'

@@ -1,9 +1,8 @@
 import { createComponent, Shade } from '@furystack/shades'
 import { Tabs, Input, Button, colors, NotyService, Paper } from '@furystack/shades-common-components'
-import { auth } from '@common/models'
+import { auth, getRandomString } from '@common/models'
 import { AuthApiService, MyAvatarService, SessionService } from '@common/frontend-utils'
 import { MyAvatar, ImageAvatar } from '@common/components'
-import { v4 } from 'uuid'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 import { ChangePasswordForm } from '../components/change-password-form'
 import { UserSettingsEditor } from '../components/editors/user-settings'
@@ -42,7 +41,7 @@ export const ProfilePage = Shade<
   render: ({ injector, getState, updateState }) => {
     const { currentUser, profile, loginProviderDetails } = getState()
 
-    const uploadId = v4()
+    const uploadId = getRandomString()
 
     const reloadProviderDetails = async () => {
       /** */

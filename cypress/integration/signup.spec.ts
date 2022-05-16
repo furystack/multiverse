@@ -1,5 +1,3 @@
-import { v4 } from 'uuid'
-
 describe('Sign up', () => {
   it('Should alert if the password and the confirm password is different', (done) => {
     cy.on('window:alert', () => {
@@ -18,7 +16,7 @@ describe('Sign up', () => {
   it('Should log in a registered user', () => {
     cy.visit('/').contains('Sign up').click()
 
-    cy.get('input[required][title=E-mail]').should('be.visible').type(`${v4()}@testusers.com`)
+    cy.get('input[required][title=E-mail]').should('be.visible').type(`testRegistration@testusers.com`)
     cy.get('input[required][title=Password]').should('be.visible').type('asdasd123')
     cy.get('input[required][title="Confirm password"]').should('be.visible').type('asdasd123')
     cy.get('button[title=Register]').click()

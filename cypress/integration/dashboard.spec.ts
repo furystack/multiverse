@@ -1,5 +1,4 @@
-import { expectAndDismissNotification, login, navigateFromUserMenu, openUserMenu } from '../support/commands'
-import { v4 } from 'uuid'
+import { expectAndDismissNotification, login, navigateFromUserMenu } from '../support/commands'
 
 describe('Dashboard', () => {
   it('Should be available from the User menu', () => {
@@ -9,8 +8,8 @@ describe('Dashboard', () => {
   })
 
   it('Should create and select a dasboard', () => {
-    const dashboardName = `test-${v4()}`
-    const dashboardDescription = `test-${v4()}`
+    const dashboardName = `test-dashboard-${new Date().toISOString()}`
+    const dashboardDescription = `test-dashboard-description`
     login(cy, 'testuser@gmail.com', 'password')
 
     navigateFromUserMenu(cy, 'Dashboards')

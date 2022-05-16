@@ -2,7 +2,6 @@ import { PhysicalStore, StoreManager, FindOptions, WithOptionalId } from '@furys
 import { PasswordCredential, PasswordAuthenticator } from '@furystack/security'
 import { Injector } from '@furystack/inject'
 import { auth } from '@common/models'
-import { v4 } from 'uuid'
 import { getLogger } from '@furystack/logging'
 import { useCommonHttpAuth } from '@common/service-utils'
 import { setupStores } from './setup-stores'
@@ -81,7 +80,7 @@ export const createUser = async ({
   const googleAccount = await getOrCreate(
     { filter: { username: { $eq: email } } },
     {
-      googleId: v4(),
+      googleId: 'random-google-id',
       username: email,
       googleApiPayload: {
         email,

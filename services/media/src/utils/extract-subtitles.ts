@@ -1,9 +1,8 @@
 import { promises } from 'fs'
 import { join } from 'path'
-import { v4 } from 'uuid'
 import { FileStores } from '@common/config'
 import { execAsync, existsAsync } from '@common/service-utils'
-import { media } from '@common/models'
+import { getRandomString, media } from '@common/models'
 import { Injector } from '@furystack/inject'
 import rimraf from 'rimraf'
 import { getLogger } from '@furystack/logging'
@@ -30,7 +29,7 @@ export const extractSubtitles = async (options: { injector: Injector; movie: med
         streamIndex: stream.index,
       })) || []
 
-  const cwd = join(FileStores.tempdir, 'extract-subtitles', v4())
+  const cwd = join(FileStores.tempdir, 'extract-subtitles', getRandomString(16))
   await promises.mkdir(cwd, { recursive: true })
 
   await execAsync(

@@ -1,8 +1,7 @@
 import { join } from 'path'
-import { media } from '@common/models'
+import { getRandomString, media } from '@common/models'
 import { Injector } from '@furystack/inject'
 import { StoreManager } from '@furystack/core'
-import { v4 } from 'uuid'
 import { FileStores } from '@common/config'
 import rimraf from 'rimraf'
 import { existsAsync } from '@common/service-utils'
@@ -56,7 +55,7 @@ export const createEncodingTaskForMovie = async ({ movie, injector }: { movie: m
   })
 
   return await getDataSetFor(injector, media.EncodingTask, '_id').add(injector, {
-    authToken: v4(),
+    authToken: getRandomString(32),
     percent: 0,
     status: 'pending',
     mediaInfo: {

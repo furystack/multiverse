@@ -18,8 +18,7 @@
   },
   "dependencies": {
     "saslprep": "^1.0.3",
-    "tslib": "^2.4.0",
-    "uuid": "^8.3.2"
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@types/jest": "^27.5.1",

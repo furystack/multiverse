@@ -2,7 +2,6 @@ import { auth } from '@common/models'
 import { addStore, IdentityContext, InMemoryStore } from '@furystack/core'
 import { usingAsync } from '@furystack/utils'
 import { Injector } from '@furystack/inject'
-import { v4 } from 'uuid'
 import { AuthorizeOwnership } from './authorize-ownership'
 
 describe('authorizeOwnership', () => {
@@ -50,11 +49,11 @@ describe('authorizeOwnership', () => {
         primaryKey: '_id',
       })
       addStore(injector, orgStore)
-      const username = v4()
-      const organizationName = v4()
+      const username = `example-username`
+      const organizationName = `example-organization`
 
       await orgStore.add({
-        _id: v4(),
+        _id: 'example-user-id',
         name: organizationName,
         description: '',
         adminNames: [username],
@@ -102,11 +101,11 @@ describe('authorizeOwnership', () => {
         primaryKey: '_id',
       })
       addStore(injector, orgStore)
-      const username = v4()
-      const organizationName = v4()
+      const username = `example-username`
+      const organizationName = 'example-organization'
 
       await orgStore.add({
-        _id: v4(),
+        _id: 'example-user-id',
         name: organizationName,
         description: '',
         adminNames: [username],
@@ -153,11 +152,11 @@ describe('authorizeOwnership', () => {
         primaryKey: '_id',
       })
       addStore(injector, orgStore)
-      const username = v4()
-      const organizationName = v4()
+      const username = 'example-username'
+      const organizationName = 'example-organization'
 
       await orgStore.add({
-        _id: v4(),
+        _id: 'example-user-id',
         name: organizationName,
         description: '',
         adminNames: [],
