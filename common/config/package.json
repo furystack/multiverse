@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@types/node": "^17.0.33",
-    "tslib": "^2.4.0",
-    "mongodb": "^4.6.0"
+    "mongodb": "^4.6.0",
+    "tslib": "^2.4.0"
   }
 }

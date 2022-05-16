@@ -21,9 +21,11 @@
     "tslib": "^2.4.0",
     "uuid": "^8.3.2"
   },
-  "optionalDependencies": {
+  "devDependencies": {
+    "@types/jest": "^27.5.1",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
+    "conventional-changelog-conventionalcommits": "^4.6.3",
     "cypress": "^9.6.1",
     "cypress-file-upload": "^5.0.8",
     "cypress-visual-regression": "^1.7.0",
@@ -33,16 +35,12 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsdoc": "^39.2.9",
     "eslint-plugin-prettier": "^4.0.0",
+    "glob": "^8.0.3",
     "husky": "^8.0.1",
     "jest": "^28.1.0",
     "jest-junit": "^13.2.0",
     "lint-staged": "^12.4.1",
-    "prettier": "^2.6.2"
-  },
-  "devDependencies": {
-    "@types/jest": "^27.5.1",
-    "conventional-changelog-conventionalcommits": "^4.6.3",
-    "glob": "^8.0.3",
+    "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
     "ts-json-schema-generator": "1.0.0",
     "typescript": "^4.6.4"
