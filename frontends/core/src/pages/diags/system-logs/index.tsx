@@ -23,7 +23,8 @@ export const LogLevelCell = Shade<{ level: LogLevel }>({
           alignItems: 'center',
           justifyContent: 'center',
         }}
-        title={LogLevel[props.level]}>
+        title={LogLevel[props.level]}
+      >
         {getLevelIcon(props.level)}
       </span>
     )

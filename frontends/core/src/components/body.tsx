@@ -50,14 +50,16 @@ export const Body = Shade<
           width: '100%',
           height: '100%',
           overflow: 'hidden',
-        }}>
+        }}
+      >
         <div
           style={{
             paddingTop: '80px',
             width: '100%',
             height: 'calc(100% - 80px)',
             overflow: 'auto',
-          }}>
+          }}
+        >
           {sessionState === 'authenticated' && currentUser ? (
             currentUser.roles.includes('terms-accepted') ? (
               <Router
@@ -358,7 +360,8 @@ export const Body = Shade<
                       ),
                     },
                   ] as Array<Route<any>>
-                }></Router>
+                }
+              ></Router>
             ) : (
               <AcceptTermsPage />
             )

@@ -15,7 +15,8 @@ export const UserSettingsEditor = Shade<{ settings: auth.UserSettings; profileId
           position: 'absolute',
           width: 'calc(100% - 50px)',
           margin: '0 20px',
-        }}>
+        }}
+      >
         <GenericMonacoEditor<auth.UserSettings, 'authSchema', 'UserSettings'>
           schema="authSchema"
           entity="UserSettings"

@@ -203,7 +203,8 @@ export const MultiverseApp = Shade<{}, { sessionState: SessionState }>({
           fontFamily: 'Arial, Helvetica, sans-serif',
           lineHeight: '1.6',
         }}
-        className="eee">
+        className="eee"
+      >
         {Component()}
         <NotyList />
       </div>

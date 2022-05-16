@@ -12,7 +12,8 @@ export const EditUserPage = Shade<{ entry: auth.User }>({
           width: '100%',
           height: '100%',
           overflow: 'auto',
-        }}>
+        }}
+      >
         <GenericMonacoEditor<auth.User, 'authSchema', 'User'>
           schema="authSchema"
           entity="User"

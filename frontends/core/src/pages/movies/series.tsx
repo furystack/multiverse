@@ -50,7 +50,8 @@ export const SeriesPage = Shade<SeriesListProps, { isDesktop: boolean }>({
             justifyContent: 'center',
             alignItems: 'flex-start',
             flexWrap: !isDesktop ? 'wrap' : undefined,
-          }}>
+          }}
+        >
           <div style={{ padding: '2em' }}>
             <img
               src={props.series.omdbMetadata.Poster}
@@ -66,7 +67,8 @@ export const SeriesPage = Shade<SeriesListProps, { isDesktop: boolean }>({
               maxHeight: isDesktop ? 'calc(100% - 128px)' : undefined,
               overflow: 'hidden',
               overflowY: isDesktop ? 'auto' : undefined,
-            }}>
+            }}
+          >
             <h1>{props.series.omdbMetadata.Title}</h1>
             <p style={{ fontSize: '0.8em' }}>
               {props.series.omdbMetadata.Year?.toString()} &nbsp; {props.series.omdbMetadata.Genre}

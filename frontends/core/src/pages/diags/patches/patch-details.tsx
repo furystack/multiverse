@@ -11,7 +11,8 @@ export const PatchDetails = Shade<{ entry: diag.Patch }>({
           width: '100%',
           height: '100%',
           overflow: 'auto',
-        }}>
+        }}
+      >
         <GenericMonacoEditor<diag.Patch, 'diagSchema', 'Patch'>
           schema="diagSchema"
           entity="Patch"

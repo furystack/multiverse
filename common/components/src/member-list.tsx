@@ -38,7 +38,8 @@ export const MemberList = Shade<MemberListProps, MemberListState>({
               border: '1px solid rgba(0,0,0,0.3)',
               borderRadius: '25px',
               boxShadow: '1px 3px 3px rgba(0,0,0,0.1)',
-            }}>
+            }}
+          >
             <Avatar
               userName={u.username}
               style={{ width: '28px', height: '28px', marginRight: '0.4em', lineHeight: '100%' }}
@@ -51,7 +52,8 @@ export const MemberList = Shade<MemberListProps, MemberListState>({
                 onclick={() => {
                   props.onRemoveMember(u)
                   updateState({ users: getState().users.filter((usr) => usr.username !== u.username) })
-                }}>
+                }}
+              >
                 ❌
               </span>
             ) : null}

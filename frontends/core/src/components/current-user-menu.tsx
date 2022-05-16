@@ -19,7 +19,8 @@ const CurrentUserMenuItem = Shade<{ title: string; icon: common.Icon; onclick: (
           justifyContent: 'flex-start',
           margin: '3px',
         }}
-        title={props.title}>
+        title={props.title}
+      >
         <Icon
           icon={props.icon}
           elementProps={{
@@ -97,7 +98,8 @@ export const CurrentUserMenu = Shade<
         onclick={(ev) => {
           ev.preventDefault()
           isOpened.setValue(!isOpened.getValue())
-        }}>
+        }}
+      >
         <MyAvatar />
         <div
           className="menu-container"
@@ -105,7 +107,8 @@ export const CurrentUserMenu = Shade<
             display: isOpened.getValue() ? 'block' : 'none',
             opacity: isOpened.getValue() ? '1' : '0',
             position: 'absolute',
-          }}>
+          }}
+        >
           <div
             className="current-user-menu"
             style={{
@@ -117,7 +120,8 @@ export const CurrentUserMenu = Shade<
               padding: '1em',
               textAlign: 'right',
               userSelect: 'none',
-            }}>
+            }}
+          >
             {serviceList
               .filter((service) =>
                 service.requiredRoles.every((requiredRole) => currentUser?.roles.includes(requiredRole as any)),

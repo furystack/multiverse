@@ -198,7 +198,8 @@ export const MoviesPage = Shade({
                           style={{ marginBottom: '5em', transform: 'scale(0.75)' }}
                           onclick={() => {
                             window.history.pushState('', '', `/movies/edit-library/${libraryId}`)
-                          }}>
+                          }}
+                        >
                           <Icon
                             icon={{ type: 'flaticon-essential', name: '218-edit.svg' }}
                             elementProps={{ style: { width: '24px' } }}

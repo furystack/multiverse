@@ -24,7 +24,8 @@ export const RegisterPage = Shade({
           alignItems: 'center',
           justifyContent: 'center',
           flexDirection: 'column',
-        }}>
+        }}
+      >
         {error ? (
           <GenericErrorPage
             mainTitle="Failed to sign up 😒"
@@ -43,7 +44,8 @@ export const RegisterPage = Shade({
               overflowX: 'auto',
               padding: '1em 40px 2em',
               marginTop: '1em',
-            }}>
+            }}
+          >
             <h2>Sign up</h2>
             <p>By signing up with you accept the corporate blahblahblah...</p>
 
@@ -72,7 +74,8 @@ export const RegisterPage = Shade({
                   updateState({ error: e })
                 }
                 updateState({ isOperationInProgress: false })
-              }}>
+              }}
+            >
               <Input
                 type="email"
                 labelTitle="E-mail"
@@ -117,7 +120,8 @@ export const RegisterPage = Shade({
                   } catch (e) {
                     updateState({ error: e })
                   }
-                }}>
+                }}
+              >
                 Google
               </Button>
               <Button
@@ -130,7 +134,8 @@ export const RegisterPage = Shade({
                   window.location.replace(
                     `https://github.com/login/oauth/authorize?client_id=${oauthData.githubClientId}&redirect_uri=${window.location.origin}/github-register`,
                   )
-                }}>
+                }}
+              >
                 GitHub
               </Button>
             </div>

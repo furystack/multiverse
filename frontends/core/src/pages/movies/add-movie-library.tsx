@@ -23,7 +23,8 @@ export const AddMovieLibrary = Shade<unknown, Pick<media.MovieLibrary, 'name' | 
               onclick={() => {
                 history.pushState({}, '', '/movies')
                 injector.getInstance(LocationService).updateState()
-              }}>
+              }}
+            >
               Back
             </Button>
             <Button variant="contained" color="primary" type="submit">
@@ -39,7 +40,8 @@ export const AddMovieLibrary = Shade<unknown, Pick<media.MovieLibrary, 'name' | 
             body: getState(),
           })
           window.history.pushState('', '', '/movies?refresh=1')
-        }}>
+        }}
+      >
         <Input
           value={getState().name}
           labelTitle="Name"

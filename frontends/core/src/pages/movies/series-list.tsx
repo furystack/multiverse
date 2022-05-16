@@ -22,7 +22,8 @@ export const SeriesList = Shade<
           flexWrap: 'wrap',
           overflow: 'auto',
           width: '100%',
-        }}>
+        }}
+      >
         {getState().orderedSeries.map((s, index) => (
           <SeriesWidget
             size={348}

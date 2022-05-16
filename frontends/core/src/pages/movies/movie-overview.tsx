@@ -46,7 +46,8 @@ export const MovieOverview = Shade<
             justifyContent: 'center',
             alignItems: 'flex-start',
             flexWrap: 'wrap',
-          }}>
+          }}
+        >
           <div style={{ padding: '2em' }}>
             <img
               src={props.movie.metadata.thumbnailImageUrl}
@@ -78,7 +79,8 @@ export const MovieOverview = Shade<
                       await injector.getInstance(MovieService).saveWatchProgress(props.movie, 0)
                       history.pushState({}, '', `/movies/watch/${props.movie._id}`)
                       injector.getInstance(LocationService).updateState()
-                    }}>
+                    }}
+                  >
                     Watch from the beginning
                   </Button>
                 </span>
@@ -117,7 +119,8 @@ export const MovieOverview = Shade<
                               }': ${reason.toString()}`,
                             })
                           })
-                      }}>
+                      }}
+                    >
                       Re-encode
                     </Button>
                   ) : null}

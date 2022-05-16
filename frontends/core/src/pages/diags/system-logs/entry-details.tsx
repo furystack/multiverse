@@ -11,7 +11,8 @@ export const EntryDetails = Shade<{ entry: diag.LogEntry<any> }>({
           width: '100%',
           height: '100%',
           overflow: 'auto',
-        }}>
+        }}
+      >
         <GenericMonacoEditor<diag.LogEntry<any>, 'diagSchema', 'LogEntry'>
           schema="diagSchema"
           entity="LogEntry"
