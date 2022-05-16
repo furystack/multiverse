@@ -1,0 +1,10 @@
+{
+    "name": "e2e",
+    "version": "1.0.0",
+    "dependencies": {
+        "@common/models": "workspace:^",
+        "cypress": "^9.6.1",
+        "cypress-file-upload": "^5.0.8",
+        "cypress-visual-regression": "^1.7.0"
+    }
+}

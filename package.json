@@ -13,7 +13,8 @@
       "services/*",
       "common/*",
       "lib/*",
-      "workers/*"
+      "workers/*",
+      "e2e"
     ]
   },
   "dependencies": {
@@ -25,9 +26,6 @@
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
     "conventional-changelog-conventionalcommits": "^4.6.3",
-    "cypress": "^9.6.1",
-    "cypress-file-upload": "^5.0.8",
-    "cypress-visual-regression": "^1.7.0",
     "eslint": "^8.15.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-cypress": "^2.12.1",

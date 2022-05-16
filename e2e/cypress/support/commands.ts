@@ -1,5 +1,5 @@
 import 'cypress-file-upload'
-import { serviceNames } from '../../common/models'
+import { serviceNames } from '@common/models'
 import * as compareSnapshotCommand from 'cypress-visual-regression/dist/command'
 
 export const tryLogin = (cy: Cypress.cy, username: string, password: string) => {
