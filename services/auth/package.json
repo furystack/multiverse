@@ -29,7 +29,6 @@
     "@furystack/security": "^2.0.3",
     "@furystack/utils": "^3.0.3",
     "formidable": "^2.0.1",
-    "got": "^11.8.3",
     "tslib": "^2.4.0"
   }
 }

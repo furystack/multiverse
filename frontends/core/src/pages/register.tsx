@@ -71,9 +71,8 @@ export const RegisterPage = Shade({
                     sessionService.state.setValue('authenticated')
                   }
                 } catch (e) {
-                  updateState({ error: e })
+                  updateState({ error: e, isOperationInProgress: false })
                 }
-                updateState({ isOperationInProgress: false })
               }}
             >
               <Input

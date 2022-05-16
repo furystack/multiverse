@@ -1,6 +1,6 @@
 import { get } from 'https'
 import { Injectable, Injector } from '@furystack/inject'
-import got from 'got'
+// import got from 'got'
 import { getLogger, ScopedLogger } from '@furystack/logging'
 import { tokens } from '@common/config'
 import { auth } from '@common/models'
@@ -31,21 +31,22 @@ export class GithubAuthService {
       client_id: options.clientId,
       client_secret: clientSecret,
     })
-    const response = await got.post('https://github.com/login/oauth/access_token', {
+    const response = await fetch('https://github.com/login/oauth/access_token', {
       body,
+      method: 'POST',
       headers: {
         'Content-type': 'application/json',
         Accept: 'application/json',
       },
     })
-    const accessToken = JSON.parse(response.body).access_token
-    const currentUserResponse = await got.get({
-      url: 'https://api.github.com/user',
+    const json = await response.json()
+    const accessToken = json.access_token
+    const currentUserResponse = await fetch('https://api.github.com/user', {
       headers: {
         Authorization: `token ${accessToken}`,
       },
     })
-    return JSON.parse(currentUserResponse.body) as auth.GithubApiPayload
+    return (await currentUserResponse.json()) as auth.GithubApiPayload
   }
 
   /**
