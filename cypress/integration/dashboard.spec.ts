@@ -1,5 +1,5 @@
-import { v4 } from 'uuid'
 import { expectAndDismissNotification, login, navigateFromUserMenu, openUserMenu } from '../support/commands'
+import { v4 } from 'uuid'
 
 describe('Dashboard', () => {
   it('Should be available from the User menu', () => {

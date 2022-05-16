@@ -1,6 +1,6 @@
 import 'cypress-file-upload'
-import * as compareSnapshotCommand from 'cypress-visual-regression/dist/command'
 import { serviceNames } from '../../common/models'
+import * as compareSnapshotCommand from 'cypress-visual-regression/dist/command'
 
 export const tryLogin = (cy: Cypress.cy, username: string, password: string) => {
   const loginButtonSelector = 'shade-login button[type=submit]'
