@@ -42,7 +42,8 @@ export const Layout = Shade({
           fontFamily: 'Arial, Helvetica, sans-serif',
           lineHeight: '1.6',
         }}
-        className="eee">
+        className="eee"
+      >
         <Header />
         <Body />
       </div>

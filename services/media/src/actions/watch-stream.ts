@@ -5,6 +5,7 @@ import { media } from '@common/models'
 import { FileStores } from '@common/config'
 import { existsAsync } from '@common/service-utils'
 import { RequestAction, BypassResult } from '@furystack/rest-service'
+import { getDataSetFor } from '@furystack/repository'
 
 export const WatchStream: RequestAction<{
   url: {
@@ -17,7 +18,7 @@ export const WatchStream: RequestAction<{
 }> = async ({ getUrlParams, injector, request, response }) => {
   const params = getUrlParams()
   const chunk = params.chunk || 'dash.mpd'
-  const movie = await injector.getDataSetFor(media.Movie, '_id').get(injector, params.id)
+  const movie = await getDataSetFor(injector, media.Movie, '_id').get(injector, params.id)
   if (!movie) {
     throw new RequestError('not found', 404)
   }

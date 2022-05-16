@@ -91,7 +91,8 @@ export const MovieWidget = Shade<
               ev.stopImmediatePropagation()
               window.location.replace(url)
             }
-          }}>
+          }}
+        >
           <div
             style={{
               position: 'absolute',
@@ -104,7 +105,8 @@ export const MovieWidget = Shade<
               margin: '1em',
               justifyContent: 'space-between',
               filter: 'drop-shadow(black 0px 0px 5px) drop-shadow(black 0px 0px 8px) drop-shadow(black 0px 0px 10px)',
-            }}>
+            }}
+          >
             <div style={{ display: 'flex' }}>
               <div
                 title="Play movie"
@@ -114,7 +116,8 @@ export const MovieWidget = Shade<
                   ev.preventDefault()
                   window.history.pushState({}, '', `/movies/watch/${props.movie._id}`)
                   injector.getInstance(LocationService).updateState()
-                }}>
+                }}
+              >
                 <Icon icon={{ type: 'flaticon-essential', name: '025-play button.svg' }} />
               </div>
             </div>
@@ -123,7 +126,8 @@ export const MovieWidget = Shade<
                 {movie.availableFormats?.length ? null : (
                   <div
                     style={{ width: '16px' }}
-                    title="The media encoding for this movie has not finished. Pls re-encode it.">
+                    title="The media encoding for this movie has not finished. Pls re-encode it."
+                  >
                     <Icon icon={{ type: 'flaticon-essential', name: '058-error.svg' }} />
                   </div>
                 )}
@@ -135,7 +139,8 @@ export const MovieWidget = Shade<
                     history.pushState('', '', `/movies/${movie.libraryId}/edit/${movie._id}`)
                     injector.getInstance(LocationService).updateState()
                   }}
-                  title="Edit movie details">
+                  title="Edit movie details"
+                >
                   <Icon icon={{ type: 'flaticon-essential', name: '218-edit.svg' }} />
                 </div>
               </div>
@@ -165,7 +170,8 @@ export const MovieWidget = Shade<
               whiteSpace: 'nowrap',
               padding: '1em',
               background: 'rgba(0,0,0,0.7)',
-            }}>
+            }}
+          >
             {meta.title}
             <LazyLoad
               loader={<div />}

@@ -28,7 +28,7 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '16.x'
+          versionSpec: '18.x'
         displayName: 'Install Node.js'
       - task: Cache@2
         inputs:
@@ -73,7 +73,7 @@ jobs:
           testResultsFiles: '$(System.DefaultWorkingDirectory)/coverage/junit.xml'
       - script: yarn seed
         displayName: 'Seed test data'
-      - script: yarn cypress run
+      - script: yarn workspace e2e cypress run
         displayName: 'Cypress tests'
       - task: PublishTestResults@1
         displayName: Publish test results
@@ -107,13 +107,13 @@ jobs:
         displayName: Publish Cypress videos
         condition: or(failed(), canceled())
         inputs:
-          PathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/videos'
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/e2e/cypress/videos'
           ArtifactName: cypress_videos
       - task: PublishBuildArtifacts@1
         displayName: Publish Cypress snapshot images
         condition: or(failed(), canceled())
         inputs:
-          PathtoPublish: '$(System.DefaultWorkingDirectory)/cypress/integration/__image_snapshots__'
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/e2e/cypress/integration/__image_snapshots__'
           ArtifactName: cypress_snapshots
 
   - deployment: deploy
@@ -171,5 +171,3 @@ jobs:
               displayName: Build Media image
             - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./media-encoder.Dockerfile --tag furystack/multiverse-media-encoder:latest --tag furystack/multiverse-media-encoder:$(Build.BuildNumber) . --push
               displayName: Build Media Encoder worker image
-            - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./xpense.Dockerfile --tag furystack/multiverse-xpense:latest --tag furystack/multiverse-xpense:$(Build.BuildNumber) . --push
-              displayName: Build Xpense image

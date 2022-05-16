@@ -11,7 +11,6 @@ export type ServiceDescription<T> = {
 
 export const serviceNames = [
   'Profile',
-  'Xpense',
   'Organizations',
   'Feature Switches',
   'Users',
@@ -30,13 +29,6 @@ export const serviceList: Array<ServiceDescription<typeof serviceNames[number]>>
     description: 'Manage your personal info, contact data, login info',
     url: '/profile',
     requiredRoles: ['terms-accepted'],
-  },
-  {
-    name: 'Xpense',
-    icon: { type: 'flaticon-essential', name: '079-calculator.svg' },
-    description: 'Manage accounts, incomes and expences',
-    requiredRoles: ['terms-accepted'],
-    url: '/xpense',
   },
   {
     name: 'Organizations',

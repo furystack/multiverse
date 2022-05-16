@@ -1,6 +1,6 @@
 import { Shade, LazyLoad, createComponent } from '@furystack/shades'
 import { dashboard } from '@common/models'
-import { DashboardApiService, MediaApiService, XpenseApiService } from '@common/frontend-utils'
+import { DashboardApiService, MediaApiService } from '@common/frontend-utils'
 import { Init } from '../../pages'
 import { IconUrlWidget } from './icon-url-widget'
 import { BrokenWidget } from './broken-widget'
@@ -53,24 +53,6 @@ export const EntityShortcutWidget = Shade<dashboard.EntityShortcutWidget & { ind
                 icon={props.icon || movieLib.icon || '📋'}
                 name={props.name || movieLib.name}
                 url={`/movies/${props.id}`}
-              />
-            )
-          }
-
-          if (props.entityType === 'xpense-account') {
-            const { result: account } = await injector.getInstance(XpenseApiService).call({
-              method: 'GET',
-              action: '/accounts/:id',
-              url: { id: props.id },
-              query: {},
-            })
-            return (
-              <IconUrlWidget
-                index={props.index}
-                icon={props.icon || account.icon}
-                name={account.name}
-                description={account.description}
-                url={`/xpense/${account._id}`}
               />
             )
           }

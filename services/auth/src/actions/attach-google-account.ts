@@ -1,8 +1,9 @@
 import { RequestError } from '@furystack/rest'
 import { GoogleLoginService } from '@furystack/auth-google'
-import { StoreManager } from '@furystack/core'
+import { getCurrentUser, StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
 import { RequestAction, JsonResult } from '@furystack/rest-service'
+import { getLogger } from '@furystack/logging'
 
 /**
  * HTTP Request action for Google Logins
@@ -12,9 +13,9 @@ export const AttachGoogleAccountAction: RequestAction<{
   body: { token: string }
   result: Omit<auth.User, 'password'>
 }> = async ({ injector, getBody }) => {
-  const logger = injector.logger.withScope('AttachGoogleAccountAction')
+  const logger = getLogger(injector).withScope('AttachGoogleAccountAction')
 
-  const { password, ...currentUser } = (await injector.getCurrentUser()) as auth.User
+  const currentUser = (await getCurrentUser(injector)) as auth.User
   const googleAcccounts = injector.getInstance(StoreManager).getStoreFor(auth.GoogleAccount, '_id')
   const { token } = await getBody()
   const registrationDate = new Date().toISOString()

@@ -5,13 +5,14 @@ import { media } from '@common/models'
 import { FileStores } from '@common/config'
 import { existsAsync } from '@common/service-utils'
 import { RequestAction, JsonResult } from '@furystack/rest-service'
+import { getDataSetFor } from '@furystack/repository'
 
 export const GetAvailableSubtitles: RequestAction<{ url: { movieId: string }; result: string[] }> = async ({
   injector,
   getUrlParams,
 }) => {
   const params = getUrlParams()
-  const movie = await injector.getDataSetFor(media.Movie, '_id').get(injector, params.movieId)
+  const movie = await getDataSetFor(injector, media.Movie, '_id').get(injector, params.movieId)
   if (!movie) {
     throw new RequestError('not found', 404)
   }

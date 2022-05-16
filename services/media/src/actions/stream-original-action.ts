@@ -3,6 +3,7 @@ import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
 import { StoreManager } from '@furystack/core'
 import { RequestAction, BypassResult } from '@furystack/rest-service'
+import { getDataSetFor } from '@furystack/repository'
 
 export const StreamOriginalAction: RequestAction<{
   url: { movieId: string; accessToken?: string }
@@ -12,9 +13,10 @@ export const StreamOriginalAction: RequestAction<{
   let movie: media.Movie | undefined
 
   if (accessToken) {
-    const [job] = await injector
-      .getDataSetFor(media.EncodingTask, '_id')
-      .find(injector, { filter: { authToken: { $eq: accessToken }, status: { $ne: 'finished' } }, top: 1 })
+    const [job] = await getDataSetFor(injector, media.EncodingTask, '_id').find(injector, {
+      filter: { authToken: { $eq: accessToken }, status: { $ne: 'finished' } },
+      top: 1,
+    })
     if (!job) {
       throw new RequestError('Unauthorized', 401)
     }
@@ -22,7 +24,7 @@ export const StreamOriginalAction: RequestAction<{
     movie = await injector.getInstance(StoreManager).getStoreFor(media.Movie, '_id').get(movieId)
   } else {
     // normal load with user ctx
-    movie = await injector.getDataSetFor(media.Movie, '_id').get(injector, movieId)
+    movie = await getDataSetFor(injector, media.Movie, '_id').get(injector, movieId)
   }
 
   if (!movie) {

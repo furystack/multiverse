@@ -1,0 +1,16 @@
+{
+  "testFiles": "**/*.spec.*",
+  "supportFile": "cypress/support/index.ts",
+  "fixturesFolder": "cypress/fixtures",
+  "defaultCommandTimeout": 10000,
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "testresults/output-[hash].xml"
+  },
+  "ignoreTestFiles": ["**/__snapshots__/*", "**/__image_snapshots__/*"],
+  "screenshotsFolder": "./cypress/snapshots/actual",
+  "trashAssetsBeforeRuns": true,
+  "env": {
+    "failSilently": false
+  }
+}

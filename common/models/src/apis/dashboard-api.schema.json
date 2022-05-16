@@ -25,35 +25,21 @@
                     },
                     "units": {
                       "type": "string",
-                      "enum": [
-                        "standard",
-                        "metric",
-                        "imperial"
-                      ]
+                      "enum": ["standard", "metric", "imperial"]
                     }
                   },
-                  "required": [
-                    "city",
-                    "units"
-                  ],
+                  "required": ["city", "units"],
                   "additionalProperties": false
                 },
                 "result": {
                   "$ref": "#/definitions/WeatherData"
                 }
               },
-              "required": [
-                "query",
-                "result"
-              ],
+              "required": ["query", "result"],
               "additionalProperties": false
             }
           },
-          "required": [
-            "/boards",
-            "/boards/:id",
-            "/weather-forecast"
-          ],
+          "required": ["/boards", "/boards/:id", "/weather-forecast"],
           "additionalProperties": false
         },
         "POST": {
@@ -63,9 +49,7 @@
               "$ref": "#/definitions/PostEndpoint%3CPick%3CDashboard%2C(%22name%22%7C%22description%22%7C%22_id%22)%3E%2C%22_id%22%3E"
             }
           },
-          "required": [
-            "/boards"
-          ],
+          "required": ["/boards"],
           "additionalProperties": false
         },
         "PATCH": {
@@ -75,9 +59,7 @@
               "$ref": "#/definitions/PatchEndpoint%3CDashboard%2C%22_id%22%3E"
             }
           },
-          "required": [
-            "/boards/:id"
-          ],
+          "required": ["/boards/:id"],
           "additionalProperties": false
         },
         "PUT": {
@@ -91,9 +73,7 @@
               "body": {},
               "headers": {}
             },
-            "required": [
-              "result"
-            ],
+            "required": ["result"],
             "additionalProperties": false
           }
         },
@@ -108,18 +88,12 @@
               "body": {},
               "headers": {}
             },
-            "required": [
-              "result"
-            ],
+            "required": ["result"],
             "additionalProperties": false
           }
         }
       },
-      "required": [
-        "GET",
-        "POST",
-        "PATCH"
-      ],
+      "required": ["GET", "POST", "PATCH"],
       "additionalProperties": false
     },
     "GetCollectionEndpoint<Dashboard>": {
@@ -138,10 +112,7 @@
           "$ref": "#/definitions/GetCollectionResult%3CDashboard%3E"
         }
       },
-      "required": [
-        "query",
-        "result"
-      ],
+      "required": ["query", "result"],
       "additionalProperties": false,
       "description": "Rest endpoint model for getting / querying collections"
     },
@@ -161,52 +132,31 @@
           "properties": {
             "_id": {
               "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
+              "enum": ["ASC", "DESC"]
             },
             "name": {
               "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
+              "enum": ["ASC", "DESC"]
             },
             "description": {
               "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
+              "enum": ["ASC", "DESC"]
             },
             "owner": {
               "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
+              "enum": ["ASC", "DESC"]
             },
             "creationDate": {
               "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
+              "enum": ["ASC", "DESC"]
             },
             "modificationDate": {
               "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
+              "enum": ["ASC", "DESC"]
             },
             "widgets": {
               "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
+              "enum": ["ASC", "DESC"]
             }
           },
           "additionalProperties": false,
@@ -216,15 +166,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "enum": [
-              "_id",
-              "name",
-              "description",
-              "owner",
-              "creationDate",
-              "modificationDate",
-              "widgets"
-            ]
+            "enum": ["_id", "name", "description", "owner", "creationDate", "modificationDate", "widgets"]
           },
           "description": "The result set will be limited to these fields"
         },
@@ -582,10 +524,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "type",
-            "username"
-          ],
+          "required": ["type", "username"],
           "additionalProperties": false
         },
         {
@@ -599,10 +538,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "type",
-            "organizationName"
-          ],
+          "required": ["type", "organizationName"],
           "additionalProperties": false
         },
         {
@@ -613,9 +549,7 @@
               "const": "system"
             }
           },
-          "required": [
-            "type"
-          ],
+          "required": ["type"],
           "additionalProperties": false
         }
       ]
@@ -674,9 +608,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "type"
-      ],
+      "required": ["type"],
       "additionalProperties": false
     },
     "AppShortcutWidget": {
@@ -699,7 +631,6 @@
           "type": "string",
           "enum": [
             "Profile",
-            "Xpense",
             "Organizations",
             "Feature Switches",
             "Users",
@@ -713,10 +644,7 @@
           "description": "The Application name"
         }
       },
-      "required": [
-        "appName",
-        "type"
-      ],
+      "required": ["appName", "type"],
       "additionalProperties": false
     },
     "HtmlWidget": {
@@ -739,10 +667,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "content",
-        "type"
-      ],
+      "required": ["content", "type"],
       "additionalProperties": false
     },
     "IconUrlWidget": {
@@ -774,12 +699,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "icon",
-        "name",
-        "type",
-        "url"
-      ],
+      "required": ["icon", "name", "type", "url"],
       "additionalProperties": false
     },
     "Icon": {
@@ -1184,10 +1104,7 @@
           ]
         }
       },
-      "required": [
-        "type",
-        "name"
-      ],
+      "required": ["type", "name"],
       "additionalProperties": false
     },
     "MarkdownWidget": {
@@ -1210,10 +1127,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "content",
-        "type"
-      ],
+      "required": ["content", "type"],
       "additionalProperties": false
     },
     "MovieListWidget": {
@@ -1248,12 +1162,7 @@
           "description": "A size of a Movie widget"
         }
       },
-      "required": [
-        "movieIds",
-        "size",
-        "title",
-        "type"
-      ],
+      "required": ["movieIds", "size", "title", "type"],
       "additionalProperties": false
     },
     "ContinueMoviesWidget": {
@@ -1277,10 +1186,7 @@
           "description": "The number of last seen movies"
         }
       },
-      "required": [
-        "count",
-        "type"
-      ],
+      "required": ["count", "type"],
       "additionalProperties": false
     },
     "AppListWidget": {
@@ -1309,7 +1215,6 @@
             "type": "string",
             "enum": [
               "Profile",
-              "Xpense",
               "Organizations",
               "Feature Switches",
               "Users",
@@ -1324,11 +1229,7 @@
           "description": "A list of apps to display"
         }
       },
-      "required": [
-        "apps",
-        "title",
-        "type"
-      ],
+      "required": ["apps", "title", "type"],
       "additionalProperties": false
     },
     "EntityShortcutWidget": {
@@ -1349,13 +1250,7 @@
         },
         "entityType": {
           "type": "string",
-          "enum": [
-            "movie",
-            "dashboard",
-            "xpense-account",
-            "movie-library",
-            "series"
-          ],
+          "enum": ["movie", "dashboard", "movie-library", "series"],
           "description": "The Entity Type"
         },
         "id": {
@@ -1371,11 +1266,7 @@
           "description": "The Icon to display"
         }
       },
-      "required": [
-        "entityType",
-        "id",
-        "type"
-      ],
+      "required": ["entityType", "id", "type"],
       "additionalProperties": false
     },
     "WeatherWidget": {
@@ -1398,10 +1289,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "city",
-        "type"
-      ],
+      "required": ["city", "type"],
       "additionalProperties": false
     },
     "GetCollectionResult<Dashboard>": {
@@ -1419,10 +1307,7 @@
           "description": "List of the selected entities"
         }
       },
-      "required": [
-        "count",
-        "entries"
-      ],
+      "required": ["count", "entries"],
       "additionalProperties": false,
       "description": "Response Model for GetCollection"
     },
@@ -1456,15 +1341,7 @@
           }
         }
       },
-      "required": [
-        "_id",
-        "name",
-        "description",
-        "owner",
-        "creationDate",
-        "modificationDate",
-        "widgets"
-      ],
+      "required": ["_id", "name", "description", "owner", "creationDate", "modificationDate", "widgets"],
       "additionalProperties": false
     },
     "GetEntityEndpoint<Dashboard,\"_id\">": {
@@ -1477,15 +1354,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "_id",
-                  "name",
-                  "description",
-                  "owner",
-                  "creationDate",
-                  "modificationDate",
-                  "widgets"
-                ]
+                "enum": ["_id", "name", "description", "owner", "creationDate", "modificationDate", "widgets"]
               },
               "description": "The list of fields to select"
             }
@@ -1500,20 +1369,14 @@
               "description": "The entity's unique identifier"
             }
           },
-          "required": [
-            "id"
-          ],
+          "required": ["id"],
           "additionalProperties": false
         },
         "result": {
           "$ref": "#/definitions/Dashboard"
         }
       },
-      "required": [
-        "query",
-        "url",
-        "result"
-      ],
+      "required": ["query", "url", "result"],
       "additionalProperties": false,
       "description": "Endpoint model for getting a single entity"
     },
@@ -1539,13 +1402,7 @@
           }
         }
       },
-      "required": [
-        "cod",
-        "message",
-        "cnt",
-        "city",
-        "list"
-      ],
+      "required": ["cod", "message", "cnt", "city", "list"],
       "additionalProperties": false
     },
     "WeatherDataCity": {
@@ -1567,10 +1424,7 @@
               "type": "number"
             }
           },
-          "required": [
-            "lat",
-            "lon"
-          ],
+          "required": ["lat", "lon"],
           "additionalProperties": false
         },
         "country": {
@@ -1589,16 +1443,7 @@
           "type": "number"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "coord",
-        "country",
-        "population",
-        "timezone",
-        "sunrise",
-        "sunset"
-      ],
+      "required": ["id", "name", "coord", "country", "population", "timezone", "sunrise", "sunset"],
       "additionalProperties": false
     },
     "WeatherDataListEntry": {
@@ -1632,16 +1477,7 @@
               "type": "number"
             }
           },
-          "required": [
-            "temp",
-            "temp_min",
-            "temp_max",
-            "pressure",
-            "sea_level",
-            "grnd_level",
-            "humidity",
-            "temp_kf"
-          ],
+          "required": ["temp", "temp_min", "temp_max", "pressure", "sea_level", "grnd_level", "humidity", "temp_kf"],
           "additionalProperties": false
         },
         "weather": {
@@ -1662,12 +1498,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "id",
-              "main",
-              "description",
-              "icon"
-            ],
+            "required": ["id", "main", "description", "icon"],
             "additionalProperties": false
           }
         },
@@ -1680,9 +1511,7 @@
                 "type": "number"
               }
             },
-            "required": [
-              "type"
-            ],
+            "required": ["type"],
             "additionalProperties": false
           }
         },
@@ -1696,10 +1525,7 @@
               "type": "number"
             }
           },
-          "required": [
-            "speed",
-            "deg"
-          ],
+          "required": ["speed", "deg"],
           "additionalProperties": false
         },
         "sys": {
@@ -1709,23 +1535,14 @@
               "type": "string"
             }
           },
-          "required": [
-            "pod"
-          ],
+          "required": ["pod"],
           "additionalProperties": false
         },
         "dt_txt": {
           "type": "string"
         }
       },
-      "required": [
-        "main",
-        "weather",
-        "clouds",
-        "wind",
-        "sys",
-        "dt_txt"
-      ],
+      "required": ["main", "weather", "clouds", "wind", "sys", "dt_txt"],
       "additionalProperties": false
     },
     "PostEndpoint<Pick<Dashboard,(\"name\"|\"description\"|\"_id\")>,\"_id\">": {
@@ -1738,10 +1555,7 @@
           "$ref": "#/definitions/Pick%3CDashboard%2C(%22name%22%7C%22description%22%7C%22_id%22)%3E"
         }
       },
-      "required": [
-        "body",
-        "result"
-      ],
+      "required": ["body", "result"],
       "additionalProperties": false,
       "description": "Endpoint model for creating new entities"
     },
@@ -1759,10 +1573,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "description",
-        "name"
-      ]
+      "required": ["description", "name"]
     },
     "Pick<Dashboard,(\"name\"|\"description\"|\"_id\")>": {
       "type": "object",
@@ -1777,11 +1588,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "name",
-        "description",
-        "_id"
-      ],
+      "required": ["name", "description", "_id"],
       "additionalProperties": false
     },
     "PatchEndpoint<Dashboard,\"_id\">": {
@@ -1797,9 +1604,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "id"
-          ],
+          "required": ["id"],
           "additionalProperties": false
         },
         "result": {
@@ -1807,11 +1612,7 @@
           "additionalProperties": false
         }
       },
-      "required": [
-        "body",
-        "url",
-        "result"
-      ],
+      "required": ["body", "url", "result"],
       "additionalProperties": false,
       "description": "Endpoint model for updating entities"
     },

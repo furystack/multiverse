@@ -25,7 +25,8 @@ export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }
         style={{
           maxHeight: 'calc(100% - 100px)',
           margin: '0.5em 2em',
-        }}>
+        }}
+      >
         <Tabs
           tabs={[
             {

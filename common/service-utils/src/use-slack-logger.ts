@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@furystack/inject'
-import { AbstractLogger, LeveledLogEntry, Logger, LogLevel } from '@furystack/logging'
+import { AbstractLogger, getLogger, LeveledLogEntry, Logger, LogLevel, useLogging } from '@furystack/logging'
 import { Block, KnownBlock, MessageAttachment } from '@slack/types'
 import { IncomingWebhook } from '@slack/webhook'
 
@@ -110,25 +110,14 @@ export class SlackLogger extends AbstractLogger implements Logger {
   }
 }
 
-declare module '@furystack/inject/dist/injector' {
-  // eslint-disable-next-line no-shadow
-  interface Injector {
-    useSlackLogger: (slackUrl?: string) => Injector
-  }
-}
-
-Injector.prototype.useSlackLogger = function (slackUrl?: string) {
+export const useSlackLogger = function (injector: Injector, slackUrl?: string) {
   if (!slackUrl) {
-    this.logger
+    getLogger(injector)
       .withScope('use-slack-logger')
       .warning({ message: `No Slack logger url configured, messages won't be distributed to Slack` })
-    return this
+  } else {
+    const logger = new SlackLogger(new IncomingWebhook(slackUrl))
+    injector.setExplicitInstance(logger, SlackLogger)
+    useLogging(injector, SlackLogger)
   }
-
-  const logger = new SlackLogger(new IncomingWebhook(slackUrl))
-  this.setExplicitInstance(logger, SlackLogger)
-
-  this.useLogging(SlackLogger)
-
-  return this
 }

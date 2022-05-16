@@ -27,9 +27,9 @@ export const GoogleLoginAction: RequestAction<{
       throw new RequestError(`Found ${googleUser.length} user(s) with the username '${googleAccount[0].username}'`, 500)
     }
     await injector.getInstance(HttpUserContext).cookieLogin(googleUser[0], response)
-    const { password, ...user } = googleUser[0]
+    const user = googleUser[0]
 
-    return JsonResult({ ...user })
+    return JsonResult(user)
   } else {
     throw new RequestError('No user registered with this Google account.', 400)
   }

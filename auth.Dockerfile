@@ -1,14 +1,15 @@
 FROM furystack/multiverse-base:latest as base
 
-FROM node:14-alpine AS slim
+WORKDIR /home/node/app
+COPY --chown=node:node /services/auth /home/node/app/services/auth
+RUN yarn workspaces focus @service/auth --production
 
-COPY --from=base --chown=node:node /home/node/app/node_modules /home/node/app/node_modules
-COPY --from=base --chown=node:node /home/node/app/common /home/node/app/common
-COPY --from=base --chown=node:node /home/node/app/package.json /home/node/app/package.json
-COPY --from=base --chown=node:node /home/node/app/services/auth /home/node/app/services/auth
+FROM node:18-alpine as runner
+
+COPY --chown=node:node --from=base /home/node/app /home/node/app
 
 WORKDIR /home/node/app
-
 EXPOSE 9090
+USER node
 
 CMD ["yarn", "workspace", "@service/auth", "start"]
