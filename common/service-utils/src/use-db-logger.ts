@@ -63,9 +63,9 @@ export const useDbLogger = (settings: DbLoggerSettings) => {
     authorizeRemove: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
     authorizeUpdate: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
     authorizeGet: async (options) => {
-      const result = await isAuthorized(settings.injector, 'sys-diags')
+      const result = await isAuthorized(options.injector, 'sys-diags')
       if (!result) {
-        const user = await getCurrentUser(settings.injector)
+        const user = await getCurrentUser(options.injector)
         getLogger(options.injector)
           .withScope('db-logger')
           .warning({ message: `User '${user.username}' tried to retrieve log entries without 'sys-diags' role` })
