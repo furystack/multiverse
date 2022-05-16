@@ -14,5 +14,3 @@ COPY --chown=node:node /yarn.lock /home/node/app/yarn.lock
 COPY --chown=node:node /.yarnrc.yml /home/node/app/.yarnrc.yml
 
 WORKDIR /home/node/app
-
-USER node
