@@ -78,7 +78,7 @@
     "docker:diag": "docker build . --file ./diag.Dockerfile --tag furystack/multiverse-diag:latest",
     "docker:media": "docker build . --file ./media.Dockerfile --tag furystack/multiverse-media:latest",
     "docker:media-encoder": "docker build . --file ./media-encoder.Dockerfile --tag furystack/multiverse-media-encoder:latest",
-    "dockerize": "yarn docker:base && yarn docker:auth && yarn docker:diag && yarn docker:dashboard && yarn docker:media && yarn docker:frontend-core"
+    "dockerize": "yarn docker:auth && yarn docker:diag && yarn docker:dashboard && yarn docker:media && yarn docker:frontend-core"
   },
   "jest-junit": {
     "suiteName": "FuryStack Multiverse Jest tests",

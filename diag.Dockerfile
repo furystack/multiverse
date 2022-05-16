@@ -1,14 +1,10 @@
-FROM furystack/multiverse-base:latest as base
+FROM node:18-alpine
 
-FROM node:18-alpine AS slim
-
-COPY --from=base --chown=node:node /home/node/app/node_modules /home/node/app/node_modules
-COPY --from=base --chown=node:node /home/node/app/common /home/node/app/common
-COPY --from=base --chown=node:node /home/node/app/package.json /home/node/app/package.json
-COPY --from=base --chown=node:node /home/node/app/services/diag /home/node/app/services/diag
+COPY --chown=node:node / /home/node/app
 
 WORKDIR /home/node/app
 
-EXPOSE 9091
+RUN yarn workspaces focus @service/diag --production
 
+USER node
 CMD ["yarn", "workspace", "@service/diag", "start"]
