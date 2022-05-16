@@ -39,6 +39,7 @@ export const CurrentUserMenu = Shade<
   shadowDomName: 'shade-current-user-menu',
   getInitialState: () => ({ currentUser: undefined, isOpened: new ObservableValue<boolean>(false) }),
   resources: ({ injector, updateState, getState, element }) => [
+    new ClickAwayService(element, () => getState().isOpened.setValue(false)),
     injector.getInstance(SessionService).currentUser.subscribe((usr) => {
       updateState({ currentUser: usr || undefined })
     }, true),
@@ -86,7 +87,6 @@ export const CurrentUserMenu = Shade<
         // ignore
       }
     }),
-    new ClickAwayService(element, () => getState().isOpened.setValue(false)),
   ],
 
   render: ({ getState, injector }) => {
