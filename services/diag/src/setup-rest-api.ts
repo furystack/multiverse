@@ -1,10 +1,18 @@
 import { Injector } from '@furystack/inject'
 import { apis, diag } from '@common/models'
 import { sites } from '@common/config'
-import { Authorize, createGetCollectionEndpoint, createGetEntityEndpoint } from '@furystack/rest-service'
+import {
+  Authorize,
+  createGetCollectionEndpoint,
+  createGetEntityEndpoint,
+  useRestService,
+} from '@furystack/rest-service'
+import { useCommonHttpAuth } from '@common/service-utils/src/use-common-http-auth'
 
 export const setupRestApi = (injector: Injector) => {
-  injector.useCommonHttpAuth().useRestService<apis.DiagApi>({
+  useCommonHttpAuth(injector)
+  useRestService<apis.DiagApi>({
+    injector,
     port: parseInt(sites.services.diag.internalPort as string, 10),
     root: '/api/diag',
     api: {

@@ -6,11 +6,15 @@ import {
   createGetCollectionEndpoint,
   createGetEntityEndpoint,
   createPostEndpoint,
+  useRestService,
 } from '@furystack/rest-service'
+import { useCommonHttpAuth } from '@common/service-utils/src/use-common-http-auth'
 import { PostReplenishment, PostShopping } from './actions'
 
 export const setupRestApi = (injector: Injector) => {
-  injector.useCommonHttpAuth().useRestService<apis.XpenseApi>({
+  useCommonHttpAuth(injector)
+  useRestService<apis.XpenseApi>({
+    injector,
     port: parseInt(sites.services.xpense.internalPort as string, 10),
     root: '/api/xpense',
     api: {

@@ -11,8 +11,8 @@
   },
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@furystack/rest": "^3.1.7",
-    "tslib": "^2.3.1"
+    "@furystack/rest": "^4.0.2",
+    "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@types/ffprobe": "^1.1.3"

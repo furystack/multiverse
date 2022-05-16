@@ -4,6 +4,7 @@ import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
 import { HttpUserContext, JsonResult, RequestAction } from '@furystack/rest-service'
 import { downloadAsTempFile, saveAvatar } from '@common/service-utils'
+import { getLogger } from '@furystack/logging'
 
 /**
  * HTTP Request action for Google Logins
@@ -13,7 +14,7 @@ export const GoogleRegisterAction: RequestAction<{
   body: { token: string }
   result: Omit<auth.User, 'password'>
 }> = async ({ injector, getBody, response }) => {
-  const logger = injector.logger.withScope('GoogleRegisterAction')
+  const logger = getLogger(injector).withScope('GoogleRegisterAction')
   const storeManager = injector.getInstance(StoreManager)
   const userContext = injector.getInstance(HttpUserContext)
   const googleAcccounts = storeManager.getStoreFor(auth.GoogleAccount, '_id')

@@ -1,45 +1,47 @@
 import { Injector } from '@furystack/inject'
 import { media } from '@common/models'
 import { databases } from '@common/config'
-import '@furystack/mongodb-store'
+import { useMongoDb } from '@furystack/mongodb-store'
 
 export const setupStores = (injector: Injector) => {
-  injector.setupStores((sm) =>
-    sm
-      .useMongoDb({
-        model: media.MovieLibrary,
-        primaryKey: '_id',
-        url: databases.media.mongoUrl,
-        db: databases.media.dbName,
-        collection: databases.media.movieLibraries,
-      })
-      .useMongoDb({
-        model: media.Movie,
-        primaryKey: '_id',
-        url: databases.media.mongoUrl,
-        db: databases.media.dbName,
-        collection: databases.media.movies,
-      })
-      .useMongoDb({
-        model: media.Series,
-        primaryKey: '_id',
-        url: databases.media.mongoUrl,
-        db: databases.media.dbName,
-        collection: databases.media.series,
-      })
-      .useMongoDb({
-        model: media.MovieWatchHistoryEntry,
-        primaryKey: '_id',
-        url: databases.media.mongoUrl,
-        db: databases.media.dbName,
-        collection: databases.media.movieWatchEntries,
-      })
-      .useMongoDb({
-        model: media.EncodingTask,
-        primaryKey: '_id',
-        url: databases.media.mongoUrl,
-        db: databases.media.dbName,
-        collection: databases.media.encodingTasks,
-      }),
-  )
+  useMongoDb({
+    injector,
+    model: media.MovieLibrary,
+    primaryKey: '_id',
+    url: databases.media.mongoUrl,
+    db: databases.media.dbName,
+    collection: databases.media.movieLibraries,
+  })
+  useMongoDb({
+    injector,
+    model: media.Movie,
+    primaryKey: '_id',
+    url: databases.media.mongoUrl,
+    db: databases.media.dbName,
+    collection: databases.media.movies,
+  })
+  useMongoDb({
+    injector,
+    model: media.Series,
+    primaryKey: '_id',
+    url: databases.media.mongoUrl,
+    db: databases.media.dbName,
+    collection: databases.media.series,
+  })
+  useMongoDb({
+    injector,
+    model: media.MovieWatchHistoryEntry,
+    primaryKey: '_id',
+    url: databases.media.mongoUrl,
+    db: databases.media.dbName,
+    collection: databases.media.movieWatchEntries,
+  })
+  useMongoDb({
+    injector,
+    model: media.EncodingTask,
+    primaryKey: '_id',
+    url: databases.media.mongoUrl,
+    db: databases.media.dbName,
+    collection: databases.media.encodingTasks,
+  })
 }

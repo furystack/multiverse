@@ -3,6 +3,7 @@ import { xpense } from '@common/models'
 import { StoreManager } from '@furystack/core'
 import { MongodbStore } from '@furystack/mongodb-store'
 import { ObjectId } from 'mongodb'
+import { getLogger } from '@furystack/logging'
 
 export const ensureItemsForShopping = async ({
   injector,
@@ -11,7 +12,7 @@ export const ensureItemsForShopping = async ({
   injector: Injector
   shopping: xpense.Shopping
 }) => {
-  const logger = injector.logger.withScope('xpense/services/ensureItemsForShopping')
+  const logger = getLogger(injector).withScope('xpense/services/ensureItemsForShopping')
   const shopStore: MongodbStore<xpense.Shop, '_id'> = injector.getInstance(StoreManager).getStoreFor(xpense.Shop, '_id')
   const itemStore: MongodbStore<xpense.Item, '_id'> = injector.getInstance(StoreManager).getStoreFor(xpense.Item, '_id')
 

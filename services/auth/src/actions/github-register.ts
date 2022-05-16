@@ -3,6 +3,7 @@ import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
 import { HttpUserContext, JsonResult, RequestAction } from '@furystack/rest-service'
 import { downloadAsTempFile, saveAvatar } from '@common/service-utils'
+import { getLogger } from '@furystack/logging'
 import { GithubAuthService } from '../services/github-login-service'
 
 export const GithubRegisterAction: RequestAction<{
@@ -11,7 +12,7 @@ export const GithubRegisterAction: RequestAction<{
 }> = async ({ injector, getBody, response }) => {
   const { code, clientId } = await getBody()
 
-  const logger = injector.logger.withScope('GithubRegisterAction')
+  const logger = getLogger(injector).withScope('GithubRegisterAction')
 
   const storeManager = injector.getInstance(StoreManager)
 

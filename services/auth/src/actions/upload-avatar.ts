@@ -4,9 +4,10 @@ import { auth } from '@common/models'
 import { saveAvatar } from '@common/service-utils'
 import { FileStores } from '@common/config'
 import { RequestAction, JsonResult } from '@furystack/rest-service'
+import { getCurrentUser } from '@furystack/core'
 
 export const UploadAvatar: RequestAction<{ result: { success: boolean } }> = async ({ injector, request }) => {
-  const user = await injector.getCurrentUser<auth.User>()
+  const user = (await getCurrentUser(injector)) as auth.User
   const form = new IncomingForm({
     uploadDir: FileStores.tempdir,
   })

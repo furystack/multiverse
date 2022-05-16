@@ -3,6 +3,8 @@ import { PasswordCredential, PasswordAuthenticator } from '@furystack/security'
 import { Injector } from '@furystack/inject'
 import { auth } from '@common/models'
 import { v4 } from 'uuid'
+import { getLogger } from '@furystack/logging'
+import { useCommonHttpAuth } from '@common/service-utils/src/use-common-http-auth'
 import { setupStores } from './setup-stores'
 
 let githubIndex = 0
@@ -20,7 +22,7 @@ export const getOrCreate = async <T, TId extends keyof T>(
   i: Injector,
 ) => {
   const result = await store.find(filter)
-  const logger = i.logger.withScope('Seeder')
+  const logger = getLogger(i).withScope('Seeder')
   if (result.length === 1) {
     return result[0]
   } else if (result.length === 0) {
@@ -124,7 +126,7 @@ export const createUser = async ({
  * @param i The injector instance
  */
 export const seed = async (i: Injector) => {
-  const logger = i.logger.withScope('seeder')
+  const logger = getLogger(i).withScope('seeder')
   logger.verbose({ message: 'Seeding data...' })
   const password = 'password'
 
@@ -173,7 +175,8 @@ export const seed = async (i: Injector) => {
   logger.verbose({ message: 'Seeding data completed.' })
 }
 
-const injector = new Injector().useCommonHttpAuth()
+const injector = new Injector()
+useCommonHttpAuth(injector)
 setupStores(injector)
 
 seed(injector).then(async () => {

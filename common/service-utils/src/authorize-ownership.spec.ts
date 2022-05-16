@@ -1,13 +1,14 @@
 import { auth } from '@common/models'
-import { InMemoryStore } from '@furystack/core'
+import { addStore, InMemoryStore } from '@furystack/core'
 import { Injector } from '@furystack/inject'
+import { HttpUserContext } from '@furystack/rest-service'
 import { v4 } from 'uuid'
 import { AuthorizeOwnership } from './authorize-ownership'
 
 describe('authorizeOwnership', () => {
   it('Should authorize owners as user', async () => {
     const injector = new Injector()
-    injector.getCurrentUser = async () => ({ username: 'example-user', roles: [] } as any)
+    injector.getInstance(HttpUserContext).getCurrentUser = async () => ({ username: 'example-user', roles: [] } as any)
     const authorizer = AuthorizeOwnership({
       level: ['owner'],
     })
@@ -41,7 +42,7 @@ describe('authorizeOwnership', () => {
       model: auth.Organization,
       primaryKey: '_id',
     })
-    injector.setupStores((sb) => sb.addStore(orgStore))
+    addStore(injector, orgStore)
     const username = v4()
     const organizationName = v4()
 
@@ -58,7 +59,7 @@ describe('authorizeOwnership', () => {
       },
     })
 
-    injector.getCurrentUser = async () => ({ username, roles: [] } as any)
+    injector.getInstance(HttpUserContext).getCurrentUser = async () => ({ username, roles: [] } as any)
     const authorizer = AuthorizeOwnership({
       level: ['organizationOwner'],
     })
@@ -92,7 +93,7 @@ describe('authorizeOwnership', () => {
       model: auth.Organization,
       primaryKey: '_id',
     })
-    injector.setupStores((sb) => sb.addStore(orgStore))
+    addStore(injector, orgStore)
     const username = v4()
     const organizationName = v4()
 
@@ -108,7 +109,7 @@ describe('authorizeOwnership', () => {
       },
     })
 
-    injector.getCurrentUser = async () => ({ username, roles: [] } as any)
+    injector.getInstance(HttpUserContext).getCurrentUser = async () => ({ username, roles: [] } as any)
     const authorizer = AuthorizeOwnership({
       level: ['admin'],
     })
@@ -142,7 +143,7 @@ describe('authorizeOwnership', () => {
       model: auth.Organization,
       primaryKey: '_id',
     })
-    injector.setupStores((sb) => sb.addStore(orgStore))
+    addStore(injector, orgStore)
     const username = v4()
     const organizationName = v4()
 
@@ -158,7 +159,7 @@ describe('authorizeOwnership', () => {
       },
     })
 
-    injector.getCurrentUser = async () => ({ username, roles: [] } as any)
+    injector.getInstance(HttpUserContext).getCurrentUser = async () => ({ username, roles: [] } as any)
     const authorizer = AuthorizeOwnership({
       level: ['member'],
     })

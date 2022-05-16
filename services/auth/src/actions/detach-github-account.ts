@@ -1,11 +1,12 @@
-import { StoreManager } from '@furystack/core'
+import { getCurrentUser, StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
 import { RequestAction, JsonResult } from '@furystack/rest-service'
+import { getLogger } from '@furystack/logging'
 
 export const DetachGithubAccount: RequestAction<{ result: Omit<auth.User, 'password'> }> = async ({ injector }) => {
-  const logger = injector.logger.withScope('DetachGithubAccountAction')
+  const logger = getLogger(injector).withScope('DetachGithubAccountAction')
 
-  const currentUser = (await injector.getCurrentUser()) as auth.User
+  const currentUser = (await getCurrentUser(injector)) as auth.User
   const ghAccountStore = injector.getInstance(StoreManager).getStoreFor(auth.GithubAccount, '_id')
   const [ghAccount] = await ghAccountStore.find({ top: 1, filter: { username: { $eq: currentUser.username } } })
 

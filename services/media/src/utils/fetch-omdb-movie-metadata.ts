@@ -2,6 +2,7 @@ import { media } from '@common/models'
 import got from 'got'
 import { tokens } from '@common/config'
 import { Injector } from '@furystack/inject'
+import { getLogger } from '@furystack/logging'
 
 export const fetchOmdbMovieMetadata = async ({
   title,
@@ -29,7 +30,7 @@ export const fetchOmdbMovieMetadata = async ({
     const omdbMeta: media.OmdbMetadata = JSON.parse(omdbResult.body)
     return omdbMeta
   } catch (error) {
-    injector.logger
+    getLogger(injector)
       .withScope('fetch-omdb-metadata')
       .warning({ message: `Failed to fetch OMDB Movie metadata`, data: { error, title, year, season, episode } })
     return undefined

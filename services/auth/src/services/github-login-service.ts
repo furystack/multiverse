@@ -1,7 +1,7 @@
 import { get } from 'https'
 import { Injectable, Injector } from '@furystack/inject'
 import got from 'got'
-import { ScopedLogger } from '@furystack/logging'
+import { getLogger, ScopedLogger } from '@furystack/logging'
 import { tokens } from '@common/config'
 import { auth } from '@common/models'
 
@@ -52,6 +52,6 @@ export class GithubAuthService {
    *
    */
   constructor(injector: Injector) {
-    this.logger = injector.logger.withScope('GithubAuthService')
+    this.logger = getLogger(injector).withScope('GithubAuthService')
   }
 }

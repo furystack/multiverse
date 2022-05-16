@@ -1,16 +1,18 @@
-import { AbstractLogger, LoggerCollection, LogLevel } from '@furystack/logging'
-import { Injector } from '@furystack/inject/dist/injector'
-import { StoreManager } from '@furystack/core'
-import { Injectable } from '@furystack/inject'
+import { AbstractLogger, getLogger, LoggerCollection, LogLevel, useLogging } from '@furystack/logging'
+import { getCurrentUser, isAuthorized, StoreManager } from '@furystack/core'
+import { Injectable, Injector } from '@furystack/inject'
 import { Disposable } from '@furystack/utils'
+import { getRepository } from '@furystack/repository'
 import { databases } from '@common/config'
-import { MongodbStore } from '@furystack/mongodb-store'
+import { MongodbStore, useMongoDb } from '@furystack/mongodb-store'
 import { diag } from '@common/models'
-import '@furystack/repository'
+import { ApplicationContextService } from './application-context'
 
 @Injectable({ lifetime: 'singleton' })
 export class DbLoggerSettings {
   public minLevel?: LogLevel
+
+  public injector!: Injector
 }
 
 @Injectable({ lifetime: 'singleton' })
@@ -21,13 +23,13 @@ export class DbLogger extends AbstractLogger implements Disposable {
     this.isDisposing = true
     this.injector.getInstance(LoggerCollection).detach(this)
     this.addEntry = () => Promise.resolve()
-    await this.injector.logger
+    await getLogger(this.injector)
       .withScope(this.constructor.name)
       .information({ message: 'Disposing, no logs will be saved to the DB...' })
   }
   public readonly store: MongodbStore<diag.LogEntry<any>, '_id'>
   public async addEntry<T>(entry: import('@furystack/logging').LeveledLogEntry<T>): Promise<void> {
-    const { name: appName } = this.injector.getApplicationContext()
+    const { name: appName } = this.injector.getInstance(ApplicationContextService)
     if (!this.isDisposing) {
       if (entry.level >= (this.settings.minLevel || LogLevel.Information)) {
         await this.store.add({
@@ -45,47 +47,36 @@ export class DbLogger extends AbstractLogger implements Disposable {
   }
 }
 
-declare module '@furystack/inject/dist/injector' {
-  // eslint-disable-next-line no-shadow
-  interface Injector {
-    useDbLogger: (settings: DbLoggerSettings) => Injector
-  }
-}
+export const useDbLogger = (settings: DbLoggerSettings) => {
+  useMongoDb({
+    injector: settings.injector,
+    primaryKey: '_id',
+    model: diag.LogEntry,
+    collection: databases.diag.logCollection,
+    url: databases.diag.mongoUrl,
+    db: databases.diag.dbName,
+    options: { ...databases.standardOptions, maxPoolSize: 1, minPoolSize: 1 },
+  })
 
-Injector.prototype.useDbLogger = function (settings) {
-  this.setupStores((sm) =>
-    sm.useMongoDb({
-      primaryKey: '_id',
-      model: diag.LogEntry,
-      collection: databases.diag.logCollection,
-      url: databases.diag.mongoUrl,
-      db: databases.diag.dbName,
-      options: { ...databases.standardOptions, maxPoolSize: 1, minPoolSize: 1 },
-    }),
-  )
+  getRepository(settings.injector).createDataSet(diag.LogEntry, '_id', {
+    authorizeAdd: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
+    authorizeRemove: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
+    authorizeUpdate: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
+    authorizeGet: async (options) => {
+      const result = await isAuthorized(settings.injector, 'sys-diags')
+      if (!result) {
+        const user = await getCurrentUser(settings.injector)
+        getLogger(options.injector)
+          .withScope('db-logger')
+          .warning({ message: `User '${user.username}' tried to retrieve log entries without 'sys-diags' role` })
+      }
+      return {
+        isAllowed: result,
+        message: result ? '' : "Role 'sys-diags' required",
+      }
+    },
+  })
 
-  this.setupRepository((repo) =>
-    repo.createDataSet(diag.LogEntry, '_id', {
-      authorizeAdd: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
-      authorizeRemove: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
-      authorizeUpdate: async () => ({ isAllowed: false, message: 'The DataSet is read only' }),
-      authorizeGet: async (options) => {
-        const result = await options.injector.isAuthorized('sys-diags')
-        if (!result) {
-          const user = await options.injector.getCurrentUser()
-          options.injector.logger
-            .withScope('db-logger')
-            .warning({ message: `User '${user.username}' tried to retrieve log entries without 'sys-diags' role` })
-        }
-        return {
-          isAllowed: result,
-          message: result ? '' : "Role 'sys-diags' required",
-        }
-      },
-    }),
-  )
-
-  this.setExplicitInstance(settings, DbLoggerSettings)
-  this.useLogging(DbLogger)
-  return this
+  settings.injector.setExplicitInstance(settings, DbLoggerSettings)
+  useLogging(settings.injector, DbLogger)
 }

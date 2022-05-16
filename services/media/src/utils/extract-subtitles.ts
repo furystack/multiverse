@@ -6,9 +6,10 @@ import { execAsync, existsAsync } from '@common/service-utils'
 import { media } from '@common/models'
 import { Injector } from '@furystack/inject'
 import rimraf from 'rimraf'
+import { getLogger } from '@furystack/logging'
 
 export const extractSubtitles = async (options: { injector: Injector; movie: media.Movie }) => {
-  const logger = options.injector.logger.withScope('extract-subtitles')
+  const logger = getLogger(options.injector).withScope('extract-subtitles')
 
   logger.information({
     message: `Starting to extract subtitles for movie '${options.movie.metadata.title}'`,

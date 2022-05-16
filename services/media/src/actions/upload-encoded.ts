@@ -8,6 +8,7 @@ import { StoreManager } from '@furystack/core'
 import { existsAsync } from '@common/service-utils'
 import { RequestAction, JsonResult } from '@furystack/rest-service'
 import sanitize from 'sanitize-filename'
+import { getDataSetFor } from '@furystack/repository'
 
 export const UploadEncoded: RequestAction<{
   url: { movieId: string; accessToken: string }
@@ -62,7 +63,7 @@ export const UploadEncoded: RequestAction<{
 
   if (percent) {
     const percentNo = parseFloat(percent as string)
-    await await injector.getDataSetFor(media.EncodingTask, '_id').update(injector, job._id, {
+    await await getDataSetFor(injector, media.EncodingTask, '_id').update(injector, job._id, {
       ...(!job.startDate ? { startDate: new Date() } : {}),
       percent: percentNo,
       error,

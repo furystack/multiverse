@@ -1,6 +1,8 @@
 import { RequestError } from '@furystack/rest'
 import { xpense } from '@common/models'
 import { RequestAction, JsonResult } from '@furystack/rest-service'
+import { getCurrentUser } from '@furystack/core'
+import { getDataSetFor } from '@furystack/repository'
 import { ensureItemsForShopping } from '../services/ensure-items-for-shopping'
 import { recalculateHistory } from '../services/recalculate-history'
 
@@ -13,16 +15,16 @@ export const PostShopping: RequestAction<{
   url: { accountId: string }
   result: xpense.Shopping
 }> = async ({ injector, getBody, getUrlParams }) => {
-  const currentUser = await injector.getCurrentUser()
+  const currentUser = await getCurrentUser(injector)
   const body = await getBody()
   const { accountId } = getUrlParams()
-  const ds = injector.getDataSetFor(xpense.Account, '_id')
+  const ds = getDataSetFor(injector, xpense.Account, '_id')
   const account = await ds.get(injector, accountId)
   if (!account) {
     throw new RequestError('Account not found!', 404)
   }
 
-  const { created } = await injector.getDataSetFor(xpense.Shopping, '_id').add(injector, {
+  const { created } = await getDataSetFor(injector, xpense.Shopping, '_id').add(injector, {
     createdBy: currentUser.username,
     entries: body.entries,
     creationDate: new Date(body.creationDate).toISOString(),

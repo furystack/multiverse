@@ -5,13 +5,17 @@ import {
   createPostEndpoint,
   createPatchEndpoint,
   Authenticate,
+  useRestService,
 } from '@furystack/rest-service'
 import { apis, dashboard } from '@common/models'
 import { sites } from '@common/config'
+import { useCommonHttpAuth } from '@common/service-utils/src/use-common-http-auth'
 import { GetWeatherForecastAction } from './actions/get-weather-forecast-action'
 
 export const setupRestApi = (injector: Injector) => {
-  injector.useCommonHttpAuth().useRestService<apis.DashboardApi>({
+  useCommonHttpAuth(injector)
+  useRestService<apis.DashboardApi>({
+    injector,
     port: parseInt(sites.services.dashboard.internalPort as string, 10),
     root: '/api/dashboard',
     api: {

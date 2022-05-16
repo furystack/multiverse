@@ -14,7 +14,9 @@ import {
   createGetEntityEndpoint,
   RequestAction,
   Validate,
+  useRestService,
 } from '@furystack/rest-service'
+import { useCommonHttpAuth } from '@common/service-utils/src/use-common-http-auth'
 import {
   GetProfile,
   GetAvatar,
@@ -42,8 +44,9 @@ import { UploadAvatar } from './actions/upload-avatar'
 import { PostSettings } from './actions/post-settings'
 
 export const setupRestApi = async (injector: Injector) => {
-  injector.useCommonHttpAuth()
-  injector.useRestService<apis.AuthApi>({
+  useCommonHttpAuth(injector)
+  useRestService<apis.AuthApi>({
+    injector,
     port: parseInt(sites.services.auth.internalPort as any, 10),
     root: '/api/auth',
     api: {

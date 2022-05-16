@@ -6,12 +6,14 @@ import { v4 } from 'uuid'
 import { FileStores } from '@common/config'
 import rimraf from 'rimraf'
 import { existsAsync } from '@common/service-utils'
+import { getDataSetFor } from '@furystack/repository'
+import { getLogger } from '@furystack/logging'
 import { MediaMessaging } from '../services/media-messaging'
 
 export const createEncodingTaskForMovie = async ({ movie, injector }: { movie: media.Movie; injector: Injector }) => {
   injector.getInstance(MediaMessaging) // Has to ensure to it's initialized
 
-  const logger = injector.logger.withScope('createEncodingTaskForMovie')
+  const logger = getLogger(injector).withScope('createEncodingTaskForMovie')
   const library: media.MovieLibrary | undefined = await injector
     .getInstance(StoreManager)
     .getStoreFor(media.MovieLibrary, '_id')
@@ -53,7 +55,7 @@ export const createEncodingTaskForMovie = async ({ movie, injector }: { movie: m
     },
   })
 
-  return await injector.getDataSetFor(media.EncodingTask, '_id').add(injector, {
+  return await getDataSetFor(injector, media.EncodingTask, '_id').add(injector, {
     authToken: v4(),
     percent: 0,
     status: 'pending',

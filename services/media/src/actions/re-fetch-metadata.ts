@@ -1,6 +1,7 @@
 import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
 import { RequestAction, JsonResult } from '@furystack/rest-service'
+import { getDataSetFor } from '@furystack/repository'
 import { fetchOmdbMovieMetadata } from '../utils/fetch-omdb-movie-metadata'
 import { getUniversalMetadataFromOmdb } from '../utils/get-universal-metadata-from-omdb'
 import { getFallbackMetadata } from '../utils/get-fallback-metadata'
@@ -10,7 +11,7 @@ export const ReFetchMetadataAction: RequestAction<{ url: { movieId: string }; re
   injector,
 }) => {
   const { movieId } = getUrlParams()
-  const movies = injector.getDataSetFor(media.Movie, '_id')
+  const movies = getDataSetFor(injector, media.Movie, '_id')
 
   const movie = await movies.get(injector, movieId)
 
