@@ -150,7 +150,7 @@ export const setupRepository = (injector: Injector) => {
       const hasPerm = (await getCurrentUser(socketInjector)).roles.includes('movie-admin')
       if (hasPerm) {
         await new Promise<void>((resolve, reject) =>
-          ws.send(JSON.stringify({ event: 'update', task: change }), (err) => (err ? reject(err) : resolve())),
+          ws.send(JSON.stringify({ event: 'update', task: change }), (err: Error) => (err ? reject(err) : resolve())),
         )
       }
     })
@@ -166,7 +166,7 @@ export const setupRepository = (injector: Injector) => {
       const hasPerm = (await getCurrentUser(socketInjector)).roles.includes('movie-admin')
       if (hasPerm) {
         await new Promise<void>((resolve, reject) =>
-          ws.send(JSON.stringify({ event: 'remove', taskId: key }), (err) => (err ? reject(err) : resolve())),
+          ws.send(JSON.stringify({ event: 'remove', taskId: key }), (err: Error) => (err ? reject(err) : resolve())),
         )
       }
     })

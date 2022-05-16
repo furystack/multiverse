@@ -23,7 +23,6 @@ const defaultSiteRoots: SiteRoots = {
   dashboard: apiRoot,
   diag: apiRoot,
   media: apiRoot,
-  xpense: apiRoot,
 }
 
 const shadeInjector = new Injector()

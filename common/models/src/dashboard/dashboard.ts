@@ -24,7 +24,7 @@ export const defaultDashboard: Dashboard = {
     {
       type: 'app-list',
       title: 'Content',
-      apps: ['Movies', 'Xpense', 'Profile'],
+      apps: ['Movies', 'Profile'],
     },
     {
       type: 'app-list',

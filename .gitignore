@@ -66,3 +66,11 @@ frontends/*/webpack-stats.json
 cypress/videos
 cypress/screenshots
 testresults
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

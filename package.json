@@ -28,7 +28,7 @@
     "cypress-file-upload": "^5.0.8",
     "cypress-visual-regression": "^1.7.0",
     "eslint": "^8.15.0",
-    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsdoc": "^39.2.9",
@@ -43,7 +43,7 @@
     "@types/jest": "^27.5.1",
     "conventional-changelog-conventionalcommits": "^4.6.3",
     "glob": "^8.0.3",
-    "rimraf": "^3.0.1",
+    "rimraf": "^3.0.2",
     "ts-json-schema-generator": "1.0.0",
     "typescript": "^4.6.4"
   },
@@ -69,7 +69,7 @@
     "build": "yarn build:common && yarn build:workers && yarn build:services && yarn build:frontends",
     "test:unit": "jest --verbose",
     "test:cypress": "yarn seed && yarn cypress run",
-    "clean": "rimraf services/**/dist frontends/**/dist frontends/**/bundle common/**/dist **/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
+    "clean": "rimraf (common|services|frontends)/**/(dist|bundle|tsconfig.tsbuildinfo) tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache",
     "seed": "yarn workspace @service/auth seed",
     "create-schemas": "yarn workspace @common/models create-schemas",
@@ -80,11 +80,11 @@
     "docker:diag": "docker build . --file ./diag.Dockerfile --tag furystack/multiverse-diag:latest",
     "docker:media": "docker build . --file ./media.Dockerfile --tag furystack/multiverse-media:latest",
     "docker:media-encoder": "docker build . --file ./media-encoder.Dockerfile --tag furystack/multiverse-media-encoder:latest",
-    "docker:xpense": "docker build . --file ./xpense.Dockerfile --tag furystack/multiverse-xpense:latest",
-    "dockerize": "yarn docker:base && yarn docker:auth && yarn docker:diag && yarn docker:dashboard && yarn docker:media && yarn docker:xpense && yarn docker:frontend-core"
+    "dockerize": "yarn docker:base && yarn docker:auth && yarn docker:diag && yarn docker:dashboard && yarn docker:media && yarn docker:frontend-core"
   },
   "jest-junit": {
     "suiteName": "FuryStack Multiverse Jest tests",
     "outputDirectory": "./coverage"
-  }
+  },
+  "packageManager": "yarn@3.2.1"
 }

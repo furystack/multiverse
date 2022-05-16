@@ -178,55 +178,7 @@ export const Body = Shade<
                         />
                       ),
                     },
-                    {
-                      url: '/xpense/add-account',
-                      component: () => (
-                        <LazyLoad
-                          error={(error, retry) => (
-                            <GenericErrorPage
-                              subtitle="Something bad happened during loading the Add Account page"
-                              error={error}
-                              retry={retry}
-                            />
-                          )}
-                          component={async () => {
-                            const { AddXpenseAccountPage } = await import(
-                              /* webpackChunkName: "xpense-add-account" */ '../pages/xpense/add-account'
-                            )
-                            return <AddXpenseAccountPage />
-                          }}
-                          loader={<Init message="Loading Xpense..." />}
-                        />
-                      ),
-                    },
-                    {
-                      url: '/xpense',
-                      routingOptions: {
-                        end: false,
-                      },
-                      component: ({ match }) => (
-                        <LazyLoad
-                          error={(error, retry) => (
-                            <GenericErrorPage
-                              subtitle="Something bad happened during loading Xpense"
-                              error={error}
-                              retry={retry}
-                            />
-                          )}
-                          component={async () => {
-                            const { XpensePage } = await import(/* webpackChunkName: "xpense" */ '../pages/xpense')
-                            return (
-                              <XpensePage
-                                accountName={decodeURIComponent(match.params.accountName)}
-                                accountType={decodeURIComponent(match.params.type) as 'user' | 'organization'}
-                                accountOwner={decodeURIComponent(match.params.owner)}
-                              />
-                            )
-                          }}
-                          loader={<Init message="Loading Xpense..." />}
-                        />
-                      ),
-                    },
+
                     {
                       url: '/dashboard',
                       routingOptions: {

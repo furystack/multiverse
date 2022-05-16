@@ -7,7 +7,6 @@
     { "path": "auth" },
     { "path": "dashboard" },
     { "path": "diag" },
-    { "path": "xpense" },
     { "path": "media" }
   ]
 }

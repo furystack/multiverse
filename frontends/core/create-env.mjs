@@ -9,7 +9,6 @@ const exec = async () => {
     ...(process.env.API_ROOT_DASHBOARD ? { dashboard: process.env.API_ROOT_DASHBOARD } : {}),
     ...(process.env.API_ROOT_DIAG ? { diag: process.env.API_ROOT_DIAG } : {}),
     ...(process.env.API_ROOT_MEDIA ? { media: process.env.API_ROOT_MEDIA } : {}),
-    ...(process.env.API_ROOT_XPENSE ? { xpense: process.env.API_ROOT_XPENSE } : {}),
   }
 
   const __multiverse_api_root = process.env.API_ROOT

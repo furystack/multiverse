@@ -12,7 +12,6 @@ module.exports = {
     // '<rootDir>/services/dashboard',
     // '<rootDir>/services/diag',
     '<rootDir>/services/media',
-    // '<rootDir>/services/xpense',
   ],
   testEnvironment: 'node',
   moduleFileExtensions: ['js', 'json', 'node'],

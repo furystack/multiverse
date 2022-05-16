@@ -171,5 +171,3 @@ jobs:
               displayName: Build Media image
             - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./media-encoder.Dockerfile --tag furystack/multiverse-media-encoder:latest --tag furystack/multiverse-media-encoder:$(Build.BuildNumber) . --push
               displayName: Build Media Encoder worker image
-            - script: docker buildx build --platform linux/arm/v7,linux/arm64,linux/amd64 --file ./xpense.Dockerfile --tag furystack/multiverse-xpense:latest --tag furystack/multiverse-xpense:$(Build.BuildNumber) . --push
-              displayName: Build Xpense image
