@@ -4130,10 +4130,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "e2e@workspace:e2e"
   dependencies:
+    "@common/config": "workspace:^"
     "@common/models": "workspace:^"
     cypress: ^9.6.1
     cypress-file-upload: ^5.0.8
     cypress-visual-regression: ^1.7.0
+    typescript: ^4.6.4
   languageName: unknown
   linkType: soft
 
