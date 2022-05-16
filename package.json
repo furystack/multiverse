@@ -1,6 +1,6 @@
 {
   "name": "multiverse",
-  "version": "2021.08.19",
+  "version": "2022.05.16",
   "description": "A furystack-based microservice and microfrontend collection",
   "main": "services/auth/src/index.ts",
   "repository": "https://github.com/furystack/multiverse.git",
