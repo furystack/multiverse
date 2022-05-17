@@ -2,6 +2,7 @@ import { Shade, createComponent, LocationService, LazyLoad, Router } from '@fury
 import { AuthApiService } from '@common/frontend-utils'
 import { auth } from '@common/models'
 import { DataGrid, CollectionService } from '@furystack/shades-common-components'
+import { isAuthorized } from '@furystack/core'
 import { Init } from '../init'
 import { GenericErrorPage } from '../generic-error'
 import { EditUserPage } from './edit'
@@ -49,7 +50,7 @@ export const UsersPage = Shade<{}, { service: CollectionService<auth.User> }>({
                 loader={<Init message="Getting User Data..." />}
                 error={(error, retry) => <GenericErrorPage error={error} retry={retry} />}
                 component={async () => {
-                  if (await injector.isAuthorized('user-admin')) {
+                  if (await isAuthorized(injector, 'user-admin')) {
                     const { result: user } = await injector.getInstance(AuthApiService).call({
                       method: 'GET',
                       action: '/users/:id',

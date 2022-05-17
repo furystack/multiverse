@@ -3,6 +3,7 @@ import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
 import { HttpUserContext, JsonResult, RequestAction } from '@furystack/rest-service'
 import { downloadAsTempFile, saveAvatar } from '@common/service-utils'
+import { getLogger } from '@furystack/logging'
 import { GithubAuthService } from '../services/github-login-service'
 
 export const GithubRegisterAction: RequestAction<{
@@ -11,7 +12,7 @@ export const GithubRegisterAction: RequestAction<{
 }> = async ({ injector, getBody, response }) => {
   const { code, clientId } = await getBody()
 
-  const logger = injector.logger.withScope('GithubRegisterAction')
+  const logger = getLogger(injector).withScope('GithubRegisterAction')
 
   const storeManager = injector.getInstance(StoreManager)
 
@@ -26,41 +27,39 @@ export const GithubRegisterAction: RequestAction<{
   }
 
   const { created } = await storeManager.getStoreFor(auth.User, '_id').add({
-    password: '',
     roles: ['terms-accepted'],
     username: githubApiPayload.email || `${githubApiPayload.login}@github.com`,
     registrationDate,
   })
 
-  const newUser = created[0]
+  const user = created[0]
 
   await storeManager.getStoreFor(auth.GithubAccount, '_id').add({
     accountLinkDate: registrationDate,
-    username: newUser.username,
+    username: user.username,
     githubId: githubApiPayload.id,
     githubApiPayload,
   })
 
   await storeManager.getStoreFor(auth.Profile, '_id').add({
-    username: newUser.username,
-    displayName: newUser.username,
+    username: user.username,
+    displayName: user.username,
     description: '',
     userSettings: {
       theme: 'dark',
     },
   })
 
-  await injector.getInstance(HttpUserContext).cookieLogin(newUser, response)
-  const { password, ...user } = newUser
+  await injector.getInstance(HttpUserContext).cookieLogin(user, response)
   await logger.information({
-    message: `User ${newUser.username} has been registered with Github Auth.`,
-    data: newUser,
+    message: `User ${user.username} has been registered with Github Auth.`,
+    data: user,
   })
 
   try {
     const tempFilePath =
       githubApiPayload && githubApiPayload.avatar_url && (await downloadAsTempFile(githubApiPayload.avatar_url))
-    tempFilePath && (await saveAvatar({ injector, user: newUser, tempFilePath }))
+    tempFilePath && (await saveAvatar({ injector, user, tempFilePath }))
   } catch (error) {
     await logger.warning({ message: 'Failed to get Avatar', data: { error } })
   }

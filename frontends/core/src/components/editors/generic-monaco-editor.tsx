@@ -107,7 +107,8 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
                   title={action.name}
                   onclick={() => {
                     action.action({ injector, entity: JSON.parse(getState().currentData) })
-                  }}>
+                  }}
+                >
                   {action.name}
                 </Button>
               ))}
@@ -129,7 +130,8 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
                     .getInstance(NotyService)
                     .addNoty({ type: 'error', title: 'Failed to save', body: getErrorMessage(error) })
                 }
-              }}>
+              }}
+            >
               Save
             </Button>
           </div>

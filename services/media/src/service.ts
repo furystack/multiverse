@@ -1,6 +1,12 @@
-import { attachShutdownHandler, runPatches } from '@common/service-utils'
+import {
+  ApplicationContextService,
+  attachShutdownHandler,
+  runPatches,
+  useDbLogger,
+  useSlackLogger,
+} from '@common/service-utils'
 import { Injector } from '@furystack/inject'
-import { LogLevel, VerboseConsoleLogger } from '@furystack/logging'
+import { LogLevel, useLogging, VerboseConsoleLogger } from '@furystack/logging'
 import { tokens } from '@common/config'
 import { createInitialIndexes } from './patches'
 import { setupStores } from './setup-stores'
@@ -10,11 +16,11 @@ import { MediaLibraryWatcher } from './services/media-library-watcher'
 import { createSeriesIndex } from './patches/01-create-series-index'
 
 const injector = new Injector()
-injector
-  .setupApplicationContext({ name: 'media' })
-  .useDbLogger({ minLevel: LogLevel.Information })
-  .useLogging(VerboseConsoleLogger)
-  .useSlackLogger(tokens.slackLogger)
+
+injector.setExplicitInstance(new ApplicationContextService('media'))
+useDbLogger({ injector, minLevel: LogLevel.Information })
+useLogging(injector, VerboseConsoleLogger)
+useSlackLogger(injector, tokens.slackLogger)
 
 setupStores(injector)
 setupRepository(injector)

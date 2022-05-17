@@ -1,6 +1,5 @@
-import { Retrier } from '@furystack/utils'
-import { Injector } from '@furystack/inject/dist/injector'
-import { Injectable } from '@furystack/inject'
+import { Injector, Injectable } from '@furystack/inject'
+import { sleepAsync } from '@furystack/utils'
 import { AuthApiService, SessionService } from '@common/frontend-utils'
 
 /**
@@ -17,6 +16,7 @@ export class GoogleAuthenticationOptions {
    * https://developers.google.com/identity/protocols/googlescopes
    */
   public scope: string[] = ['email', 'profile']
+
   public windowInstance = window
 }
 @Injectable()
@@ -119,20 +119,8 @@ export class GoogleOauthProvider {
       this.iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts')
 
       this.iframe.onload = async (ev) => {
-        let location: Location | null = null
-        await Retrier.create(async () => {
-          try {
-            // eslint-disable-next-line prefer-destructuring
-            location = ((ev.srcElement as HTMLIFrameElement).contentDocument as Document).location
-            return true
-          } catch (error) {
-            return false
-          }
-        })
-          .setup({
-            timeoutMs: 500,
-          })
-          .run()
+        await sleepAsync(500)
+        const location = ((ev.srcElement as HTMLIFrameElement).contentDocument as Document).location || null
 
         const iframeToken = location && this.getGoogleTokenFromUri(location)
         iframeToken ? resolve(iframeToken) : reject(Error('Token not found'))
@@ -205,20 +193,12 @@ export class GoogleOauthProvider {
   ) {}
 }
 
-declare module '@furystack/inject/dist/injector' {
-  // eslint-disable-next-line no-shadow
-  interface Injector {
-    useGoogleAuth(options?: Partial<GoogleAuthenticationOptions>): Injector
-  }
-}
-
-Injector.prototype.useGoogleAuth = function (options?: GoogleAuthenticationOptions) {
+export const useGoogleAuth = function (injector: Injector, options?: GoogleAuthenticationOptions) {
   const newOptions = new GoogleAuthenticationOptions()
   Object.assign(newOptions, options)
 
   if (!newOptions.redirectUri) {
     newOptions.redirectUri = `${window.location.origin}/`
   }
-  this.setExplicitInstance(newOptions, GoogleAuthenticationOptions)
-  return this
+  injector.setExplicitInstance(newOptions, GoogleAuthenticationOptions)
 }

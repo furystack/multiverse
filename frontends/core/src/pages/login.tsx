@@ -42,7 +42,8 @@ export const Login = Shade<
           alignItems: 'center',
           justifyContent: 'center',
           width: '100%',
-        }}>
+        }}
+      >
         <div>
           <form
             style={
@@ -56,12 +57,14 @@ export const Login = Shade<
               ev.preventDefault()
               const state = getState()
               sessinService.login(state.username, state.password)
-            }}>
+            }}
+          >
             <h2
               style={{
                 fontWeight: 'lighter',
                 textAlign: 'center',
-              }}>
+              }}
+            >
               It's good to see you!
             </h2>
             <Input
@@ -101,13 +104,15 @@ export const Login = Shade<
             <div
               style={{
                 padding: '1em 0',
-              }}>
+              }}
+            >
               <Button
                 style={{ width: '100%' }}
                 disabled={getState().isOperationInProgress}
                 type="submit"
                 variant="contained"
-                color="primary">
+                color="primary"
+              >
                 <div
                   style={{
                     display: 'inline-flex',
@@ -115,7 +120,8 @@ export const Login = Shade<
                     justifyContent: 'center',
                     position: 'relative',
                     width: '100%',
-                  }}>
+                  }}
+                >
                   Login
                   {getState().isOperationInProgress ? (
                     <Loader
@@ -137,7 +143,8 @@ export const Login = Shade<
                 title="Google"
                 onclick={async () => {
                   await injector.getInstance(GoogleOauthProvider).login()
-                }}>
+                }}
+              >
                 Google
               </Button>
               <Button
@@ -152,7 +159,8 @@ export const Login = Shade<
                   )
                 }}
                 type="button"
-                title="Github">
+                title="Github"
+              >
                 GitHub
               </Button>
             </div>
@@ -163,7 +171,8 @@ export const Login = Shade<
                 fontSize: '10px',
                 marginTop: '1em',
                 textDecoration: 'underline',
-              }}>
+              }}
+            >
               <RouteLink href="/register">Sign up</RouteLink>
               <RouteLink href="/reset-password">Reset password</RouteLink>
               <RouteLink href="/contact">Contact</RouteLink>

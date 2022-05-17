@@ -63,6 +63,14 @@ dist
 frontend/bundle
 frontends/*/webpack-stats.json
 
-cypress/videos
-cypress/screenshots
+e2e/cypress/videos
+e2e/cypress/screenshots
 testresults
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

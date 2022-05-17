@@ -17,13 +17,15 @@ export const AcceptTermsPage = Shade({
             flexDirection: 'column',
             perspective: '400px',
             animation: 'shake 150ms 2 linear',
-          }}>
+          }}
+        >
           <div style={{ display: 'flex' }}>
             <lottie-player
               autoplay
               style={{ width: '250px', height: '250px', position: 'sticky', top: '0' }}
               mode="bounce"
-              src={JSON.stringify(acceptTerms)}></lottie-player>
+              src={JSON.stringify(acceptTerms)}
+            ></lottie-player>
             <div>
               <h1> Terms and Conditions </h1>
               <h3> In order to proceed, you have to accept the Terms and Conditions </h3>
@@ -38,7 +40,8 @@ export const AcceptTermsPage = Shade({
             color="primary"
             onclick={() => {
               injector.getInstance(SessionService).acceptTerms()
-            }}>
+            }}
+          >
             Accept
           </Button>
         </div>

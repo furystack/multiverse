@@ -40,7 +40,8 @@ export const OrganizationsPage = Shade<{}, { service: CollectionService<auth.Org
             /** */
             history.pushState({}, '', '/add-organization')
             injector.getInstance(LocationService).updateState()
-          }}>
+          }}
+        >
           ➕
         </Fab>
       </div>

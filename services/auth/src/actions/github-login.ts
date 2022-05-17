@@ -2,6 +2,7 @@ import { RequestError } from '@furystack/rest'
 import { HttpUserContext, JsonResult, RequestAction } from '@furystack/rest-service'
 import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
+import { getLogger } from '@furystack/logging'
 import { GithubAuthService } from '../services/github-login-service'
 
 export const GithubLoginAction: RequestAction<{
@@ -13,7 +14,7 @@ export const GithubLoginAction: RequestAction<{
   try {
     githubApiPayload = await injector.getInstance(GithubAuthService).getGithubUserData({ code, clientId })
   } catch (error) {
-    await injector.logger.error({
+    await getLogger(injector).error({
       scope: 'GithubLoginAction',
       message: 'Github Login error',
       data: { error },
@@ -35,6 +36,6 @@ export const GithubLoginAction: RequestAction<{
     throw new RequestError(`Found '${users.length}' associated user(s)`, 500)
   }
   await injector.getInstance(HttpUserContext).cookieLogin(users[0], response)
-  const { password, ...user } = users[0]
+  const user = users[0]
   return JsonResult({ ...user })
 }

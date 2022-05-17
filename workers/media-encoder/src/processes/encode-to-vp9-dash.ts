@@ -1,5 +1,6 @@
 import { media } from '@common/models'
 import { Injector } from '@furystack/inject'
+import { getLogger } from '@furystack/logging'
 import { ObservableValue, usingAsync } from '@furystack/utils'
 import ffmpeg from 'fluent-ffmpeg'
 import FormData from 'form-data'
@@ -17,7 +18,7 @@ export interface EncodeToVp9DashOptions {
 }
 
 export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
-  const logger = injector.logger.withScope('encodeToDash')
+  const logger = getLogger(injector).withScope('encodeToDash')
 
   const progress = new ObservableValue(0)
 

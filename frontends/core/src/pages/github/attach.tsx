@@ -32,7 +32,8 @@ export const GithubAttach = Shade<{ code: string }, { loginError?: string }>({
           alignItems: 'center',
           justifyContent: 'center',
           marginTop: '32px',
-        }}>
+        }}
+      >
         {!loginError ? (
           <div
             style={{
@@ -40,7 +41,8 @@ export const GithubAttach = Shade<{ code: string }, { loginError?: string }>({
               alignItems: 'center',
               justifyContent: 'center',
               flexDirection: 'column',
-            }}>
+            }}
+          >
             <Loader style={{ width: '128px', height: '128px', marginBottom: '32px' }} />
             Attaching Github Account
           </div>

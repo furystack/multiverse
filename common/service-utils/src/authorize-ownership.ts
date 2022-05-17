@@ -1,7 +1,7 @@
 import { Owner, auth } from '@common/models'
 import { Injector } from '@furystack/inject'
 import { AuthorizationResult } from '@furystack/repository'
-import { StoreManager } from '@furystack/core'
+import { getCurrentUser, StoreManager } from '@furystack/core'
 
 export interface AuthorizeOwnershipOptions {
   level: Array<'owner' | 'organizationOwner' | 'admin' | 'member'>
@@ -11,7 +11,7 @@ export const AuthorizeOwnership: <T extends { owner: Owner }>(
 ) => (authOptions: { injector: Injector; entity: T }) => Promise<AuthorizationResult> =
   (options) =>
   async ({ entity, injector }) => {
-    const usr = await injector.getCurrentUser()
+    const usr = await getCurrentUser(injector)
     const { owner } = entity
     if (options.level.includes('owner') && owner.type === 'user' && owner.username === usr.username) {
       return { isAllowed: true }

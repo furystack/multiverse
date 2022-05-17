@@ -1,11 +1,13 @@
 import { Injector } from '@furystack/inject'
+import { getLogger } from '@furystack/logging'
 import { ServerManager } from '@furystack/rest-service'
 import { Block, KnownBlock } from '@slack/types'
+import { ApplicationContextService } from './application-context'
 import { DbLogger } from './use-db-logger'
 
 export const attachShutdownHandler = (i: Injector) => {
-  const logger = i.logger.withScope('shutdown-handler')
-  const appName = i.getApplicationContext().name
+  const logger = getLogger(i).withScope('shutdown-handler')
+  const appName = i.getInstance(ApplicationContextService).name
 
   const onExit = async ({ code, reason, error }: { code: number; reason: string; error?: any }) => {
     process.removeAllListeners('exit')
