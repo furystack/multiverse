@@ -2,6 +2,9 @@ import { diag } from '@common/models'
 import { Injector } from '@furystack/inject'
 import { databases } from '@common/config'
 import { StoreManager } from '@furystack/core'
+import { getLogger } from '@furystack/logging'
+import { useMongoDb } from '@furystack/mongodb-store'
+import { ApplicationContextService } from './application-context'
 
 export interface PatchEntry {
   patchName: string
@@ -11,18 +14,17 @@ export interface PatchEntry {
 }
 
 export const runPatches = async (options: { injector: Injector; patches: PatchEntry[] }) => {
-  const { name: appName } = options.injector.getApplicationContext()
-  const logger = options.injector.logger.withScope('runPatches')
+  const { name: appName } = options.injector.getInstance(ApplicationContextService)
+  const logger = getLogger(options.injector).withScope('runPatches')
   await logger.verbose({ message: `Running patches for app '${appName}'...` })
-  options.injector.setupStores((sm) =>
-    sm.useMongoDb({
-      model: diag.Patch,
-      primaryKey: '_id',
-      url: databases.diag.mongoUrl,
-      db: databases.diag.dbName,
-      collection: databases.diag.patches,
-    }),
-  )
+  useMongoDb({
+    injector: options.injector,
+    model: diag.Patch,
+    primaryKey: '_id',
+    url: databases.diag.mongoUrl,
+    db: databases.diag.dbName,
+    collection: databases.diag.patches,
+  })
   const patchStore = options.injector.getInstance(StoreManager).getStoreFor(diag.Patch, '_id')
   for (const patch of options.patches) {
     if (patch.mode === 'once') {

@@ -7,6 +7,7 @@ export const FlatIconsEssentialsCollection = Shade<
     style?: Partial<CSSStyleDeclaration>
   } & PartialElement<HTMLImageElement>
 >({
+  shadowDomName: 'multiverse-flat-icons-essentials-collection',
   render: ({ props }) => {
     return <img {...props} src={`/static/${props.icon}`} alt="icon" style={props.style} />
   },

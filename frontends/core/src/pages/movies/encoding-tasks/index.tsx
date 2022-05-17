@@ -79,7 +79,8 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
                           })
                         }
                       }}
-                      title="Re-encode">
+                      title="Re-encode"
+                    >
                       <Button>Re-encode</Button>
                     </span>
                     <RouteLink href={`/movies/encoding-tasks/${entry._id}`}>
@@ -99,7 +100,8 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
                             },
                           })
                         }
-                      }}>
+                      }}
+                    >
                       Delete
                     </Button>
                   </div>
@@ -119,7 +121,8 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
                     height: '100%',
                     top: '0',
                     left: '0',
-                  }}>
+                  }}
+                >
                   {entry.status === 'pending' ? (
                     <span title="pending">⏳</span>
                   ) : entry.status === 'inProgress' ? (
@@ -147,7 +150,8 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
                   top: '0',
                   left: '0',
                   boxShadow: '0 0 0px 1px inset rgba(128,128,128,0.5)',
-                }}>
+                }}
+              >
                 <div
                   style={{
                     position: 'absolute',
@@ -180,7 +184,8 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
                     justifyContent: 'center',
                     flexDirection: 'column',
                     fontSize: '14px',
-                  }}>
+                  }}
+                >
                   <div>
                     Created at <strong>{entry.creationDate}</strong>
                   </div>

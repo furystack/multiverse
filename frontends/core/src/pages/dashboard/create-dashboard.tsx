@@ -34,7 +34,8 @@ export const CreateDashboard = Shade<{}, Pick<dashboard.Dashboard, 'name' | 'des
                 body: 'Failed to create Dashboard',
               })
             }
-          }}>
+          }}
+        >
           <Input
             name="dashboardName"
             value={getState().name}

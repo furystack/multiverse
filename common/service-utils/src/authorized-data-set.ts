@@ -1,8 +1,9 @@
+import { isAuthenticated } from '@furystack/core'
 import { Injector } from '@furystack/inject'
 import { DataSetSettings } from '@furystack/repository'
 
 export const authorizedOnly = async (options: { injector: Injector }) => {
-  const authorized = await options.injector.isAuthenticated()
+  const authorized = await isAuthenticated(options.injector)
   return {
     isAllowed: authorized,
     message: 'You are not authorized :(',

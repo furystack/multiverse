@@ -1,7 +1,7 @@
 import { Stats, createReadStream, promises } from 'fs'
 import { watch, FSWatcher } from 'chokidar'
 import { Injector } from '@furystack/inject'
-import { ScopedLogger } from '@furystack/logging'
+import { getLogger, ScopedLogger } from '@furystack/logging'
 import { ObservableValue, sleepAsync } from '@furystack/utils'
 import Semaphore from 'semaphore-async-await'
 import got, { Response } from 'got'
@@ -86,7 +86,7 @@ export class ChunkUploader {
   private readonly logger: ScopedLogger
 
   constructor(private readonly options: ChunkWatcherOptions) {
-    this.logger = options.injector.logger.withScope('ChunkUploader')
+    this.logger = getLogger(options.injector).withScope('ChunkUploader')
   }
 
   private async uploadWithRetries(path: string, percent: number, fileName: string): Promise<Response<string>> {

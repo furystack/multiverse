@@ -29,13 +29,15 @@ export const WeatherWidget = Shade<dashboard.WeatherWidget & { index: number }>(
           background: 'rgba(128,128,128,0.1)',
           transform: 'scale(0)',
           borderRadius: '8px',
-        }}>
+        }}
+      >
         <div
           style={{
             width: '100%',
             height: '100%',
             overflow: 'hidden',
-          }}>
+          }}
+        >
           <LazyLoad
             loader={<Loader style={{ width: '50%', height: '50%', margin: 'auto' }} />}
             error={(error, retry) => <GenericErrorPage error={error} retry={retry} />}
@@ -56,7 +58,8 @@ export const WeatherWidget = Shade<dashboard.WeatherWidget & { index: number }>(
                     height: '100%',
                     alignItems: 'center',
                     justifyContent: 'center',
-                  }}>
+                  }}
+                >
                   <div style={{ textAlign: 'center' }}>
                     <img
                       style={{ width: '156px', filter: 'drop-shadow(0px 0px 17px rgba(0,0,0,0.6))' }}
@@ -68,7 +71,8 @@ export const WeatherWidget = Shade<dashboard.WeatherWidget & { index: number }>(
                       style={{ position: 'absolute', top: '.5em', right: '.5em', fontSize: '2em' }}
                       href={`https://www.google.com/maps/@${result.city.coord.lat},${result.city.coord.lon},14z`}
                       target="blank"
-                      title="Open location on the map">
+                      title="Open location on the map"
+                    >
                       📍
                     </a>
                   </div>
@@ -77,7 +81,8 @@ export const WeatherWidget = Shade<dashboard.WeatherWidget & { index: number }>(
                     <span title="Temperature in Celsius">{`${currentWeather.main.temp}°`}</span>
                     <span
                       style={{ marginLeft: '.5em' }}
-                      title="Humidity in Percent">{`🌫${currentWeather.main.humidity}%`}</span>
+                      title="Humidity in Percent"
+                    >{`🌫${currentWeather.main.humidity}%`}</span>
                   </div>
                 </div>
               )

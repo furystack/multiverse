@@ -9,7 +9,10 @@ import {
   createPostEndpoint,
   createPatchEndpoint,
   createDeleteEndpoint,
+  useRestService,
 } from '@furystack/rest-service'
+import { useCommonHttpAuth } from '@common/service-utils'
+import { useWebsockets } from '@furystack/websocket-api'
 import { GetAvailableSubtitles } from './actions/get-available-subtitles'
 import { GetSubtitle } from './actions/get-subtitle'
 import { StreamOriginalAction } from './actions/stream-original-action'
@@ -25,7 +28,9 @@ import { ReFetchMetadataAction } from './actions/re-fetch-metadata'
 import { ReExtractSubtitles } from './actions/re-extract-subtitles'
 
 export const setupRestApi = (injector: Injector) => {
-  injector.useCommonHttpAuth().useRestService<apis.MediaApi>({
+  useCommonHttpAuth(injector)
+  useRestService<apis.MediaApi>({
+    injector,
     port: parseInt(sites.services.media.internalPort as string, 10),
     root: '/api/media',
     api: {
@@ -81,7 +86,7 @@ export const setupRestApi = (injector: Injector) => {
     },
   })
 
-  injector.useWebsockets({
+  useWebsockets(injector, {
     actions: [],
     port: parseInt(sites.services.media.internalPort as string, 10),
     path: '/api/media/encoder-updates',

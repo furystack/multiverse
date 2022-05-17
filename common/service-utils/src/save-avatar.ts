@@ -3,6 +3,8 @@ import { promises } from 'fs'
 import { auth } from '@common/models'
 import { FileStores } from '@common/config'
 import { Injector } from '@furystack/inject'
+import { getLogger } from '@furystack/logging'
+import { getDataSetFor } from '@furystack/repository'
 import { existsAsync } from './exists-async'
 
 export const saveAvatar = async ({
@@ -14,7 +16,7 @@ export const saveAvatar = async ({
   tempFilePath: string
   injector: Injector
 }) => {
-  const logger = injector.logger.withScope('saveAvatar')
+  const logger = getLogger(injector).withScope('saveAvatar')
 
   const extension = extname(tempFilePath).toLowerCase()
   const fileName = `${user.username}${extension}`
@@ -37,5 +39,5 @@ export const saveAvatar = async ({
   }
   await promises.copyFile(tempFilePath, fullPath)
   await promises.unlink(tempFilePath)
-  await injector.getDataSetFor(auth.User, '_id').update(injector, user._id, { avatarFile: fileName })
+  await getDataSetFor(injector, auth.User, '_id').update(injector, user._id, { avatarFile: fileName })
 }

@@ -91,7 +91,8 @@ export const SeriesWidget = Shade<
               ev.stopImmediatePropagation()
               window.location.replace(url)
             }
-          }}>
+          }}
+        >
           <div
             style={{
               position: 'absolute',
@@ -104,7 +105,8 @@ export const SeriesWidget = Shade<
               margin: '1em',
               justifyContent: 'space-between',
               filter: 'drop-shadow(black 0px 0px 5px) drop-shadow(black 0px 0px 8px) drop-shadow(black 0px 0px 10px)',
-            }}>
+            }}
+          >
             <div style={{ display: 'flex' }}>
               <div
                 title="Continue Watching" /** TODO */
@@ -114,7 +116,8 @@ export const SeriesWidget = Shade<
                   ev.preventDefault()
                   window.history.pushState({}, '', `/series/${series.imdbId}/continue`)
                   injector.getInstance(LocationService).updateState()
-                }}>
+                }}
+              >
                 <Icon icon={{ type: 'flaticon-essential', name: '025-play button.svg' }} />
               </div>
             </div>
@@ -128,7 +131,8 @@ export const SeriesWidget = Shade<
                     history.pushState('', '', `/series/${series.imdbId}/edit`) /** TODO */
                     injector.getInstance(LocationService).updateState()
                   }}
-                  title="Edit movie details">
+                  title="Edit movie details"
+                >
                   <Icon icon={{ type: 'flaticon-essential', name: '218-edit.svg' }} />
                 </div>
               </div>
@@ -158,7 +162,8 @@ export const SeriesWidget = Shade<
               whiteSpace: 'nowrap',
               padding: '1em',
               background: 'rgba(0,0,0,0.7)',
-            }}>
+            }}
+          >
             {meta.Title}
             {/* <LazyLoad
               loader={<div />}

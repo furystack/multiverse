@@ -29,11 +29,6 @@ export const entityValues: SchemaGenerationSetting[] = [
     outputFile: './src/json-schemas-media.json',
     type: '*',
   },
-  {
-    inputFile: './src/xpense/*.ts',
-    outputFile: './src/json-schemas-xpense.json',
-    type: '*',
-  },
 ]
 
 export const apiValues: SchemaGenerationSetting[] = [
@@ -56,11 +51,6 @@ export const apiValues: SchemaGenerationSetting[] = [
   {
     inputFile: './src/apis/media-api.ts',
     outputFile: './src/apis/media-api.schema.json',
-    type: '*',
-  },
-  {
-    inputFile: './src/apis/xpense-api.ts',
-    outputFile: './src/apis/xpense-api.schema.json',
     type: '*',
   },
 ]

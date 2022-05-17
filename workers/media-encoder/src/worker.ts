@@ -1,6 +1,6 @@
 // import { argv } from 'process'
 import { attachShutdownHandler, existsAsync } from '@common/service-utils'
-import { VerboseConsoleLogger } from '@furystack/logging'
+import { getLogger, useLogging, VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { FileStores } from '@common/config'
 import { RabbitListener } from './services/rabbit-listener'
@@ -9,9 +9,9 @@ import { TaskLogger } from './services/task-logger'
 // const namePostfix = argv[2] || 'default'
 
 export const injector = new Injector()
-injector.useLogging(VerboseConsoleLogger, TaskLogger)
+useLogging(injector, VerboseConsoleLogger, TaskLogger)
 
-const logger = injector.logger.withScope('INIT')
+const logger = getLogger(injector).withScope('INIT')
 ;(async () => {
   await logger.information({ message: 'Initializing media-encoder...' })
   const tempDirExists = await existsAsync(FileStores.mediaEncoderWorkerTemp)

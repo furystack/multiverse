@@ -77,7 +77,8 @@ export const IconUrlWidget = Shade<Omit<dashboard.IconUrlWidget, 'type'> & { ind
               ev.stopImmediatePropagation()
               window.location.replace(props.url)
             }
-          }}>
+          }}
+        >
           <Icon
             icon={props.icon}
             elementProps={{
@@ -99,7 +100,8 @@ export const IconUrlWidget = Shade<Omit<dashboard.IconUrlWidget, 'type'> & { ind
               overflow: 'hidden',
               textAlign: 'center',
               textOverflow: 'ellipsis',
-            }}>
+            }}
+          >
             {props.name}
           </div>
         </div>

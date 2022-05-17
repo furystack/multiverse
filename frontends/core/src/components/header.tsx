@@ -32,7 +32,8 @@ export const Header = Shade<unknown, { isDesktop: boolean }>({
               overflow: 'hidden',
               flexShrink: '1',
               textOverflow: 'hidden',
-            }}>
+            }}
+          >
             <img src="/static/galaxy.png" alt="Multiverse Logo" style={{ marginRight: '0.5em', flexGrow: '0' }} />
           </RouteLink>
           <CommandPalette
@@ -57,7 +58,8 @@ export const Header = Shade<unknown, { isDesktop: boolean }>({
             textOverflow: 'ellipsis',
             display: 'flex',
             lineHeight: '50px',
-          }}>
+          }}
+        >
           <RouteLink
             title="Multiverse"
             href="/"
@@ -69,7 +71,8 @@ export const Header = Shade<unknown, { isDesktop: boolean }>({
               overflow: 'hidden',
               flexShrink: '1',
               textOverflow: 'hidden',
-            }}>
+            }}
+          >
             <img src="/static/galaxy.png" alt="Multiverse Logo" style={{ marginRight: '1em' }} />
             <div style={{ overflow: 'hidden', textOverflow: 'ellipsos' }}>Multiverse</div>
           </RouteLink>

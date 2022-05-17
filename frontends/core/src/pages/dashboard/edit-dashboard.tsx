@@ -1,6 +1,7 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { dashboard } from '@common/models'
 import { DashboardApiService, AuthApiService } from '@common/frontend-utils'
+import { getCurrentUser } from '@furystack/core'
 import { GenericMonacoEditor } from '../../components/editors/generic-monaco-editor'
 
 export const EditDashboard = Shade<{ dashboard: dashboard.Dashboard }>({
@@ -23,7 +24,7 @@ export const EditDashboard = Shade<{ dashboard: dashboard.Dashboard }>({
           {
             name: 'Set as my default',
             action: async () => {
-              const currentUser = await injector.getCurrentUser()
+              const currentUser = await getCurrentUser(injector)
               const { result: profile } = await injector.getInstance(AuthApiService).call({
                 method: 'GET',
                 action: '/profiles/:username',

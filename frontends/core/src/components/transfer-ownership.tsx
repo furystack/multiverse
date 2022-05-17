@@ -35,13 +35,15 @@ export const TransferOwnership = Shade<
               alignItems: 'center',
               justifyContent: 'center',
               flexDirection: 'column',
-            }}>
+            }}
+          >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <lottie-player
                 autoplay
                 style={{ width: '192px' }}
                 loop={false}
-                src={JSON.stringify(alarm)}></lottie-player>
+                src={JSON.stringify(alarm)}
+              ></lottie-player>
               <p style={{ color: injector.getInstance(ThemeProviderService).theme.getValue().palette.warning.main }}>
                 You are going to transfer the ownership of this entry to an another organization or user. This operation
                 can cause that you'll lost access to your belongings and this <strong>cannot be undone</strong> so think
@@ -62,7 +64,8 @@ export const TransferOwnership = Shade<
               variant="contained"
               color="warning"
               style={{ padding: '1em 2em' }}
-              onclick={() => updateState({ understood: true })}>
+              onclick={() => updateState({ understood: true })}
+            >
               Understood
             </Button>
           </div>
@@ -78,7 +81,8 @@ export const TransferOwnership = Shade<
                       alignItems: 'center',
                       justifyContent: 'center',
                       flexDirection: 'column',
-                    }}>
+                    }}
+                  >
                     <Avatar
                       userName={newOwner.username}
                       style={{ width: '48px', height: '48px', marginBottom: '2em' }}
@@ -143,7 +147,8 @@ export const TransferOwnership = Shade<
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
-              }}>
+              }}
+            >
               <Button
                 disabled={newOwner === undefined || getState().newOwnerEntry === undefined}
                 style={{ padding: '1em 2em' }}
@@ -152,7 +157,8 @@ export const TransferOwnership = Shade<
                     newOwner: undefined,
                     newOwnerEntry: undefined,
                   })
-                }}>
+                }}
+              >
                 Select something else...
               </Button>
               <Button
@@ -178,7 +184,8 @@ export const TransferOwnership = Shade<
                       title: 'Error',
                     })
                   }
-                }}>
+                }}
+              >
                 Transfer Ownership
               </Button>
             </div>

@@ -1,4 +1,4 @@
-import { Injectable } from '@furystack/inject'
+import { Injector, Injectable } from '@furystack/inject'
 import { ObservableValue, usingAsync } from '@furystack/utils'
 import { IdentityContext, User as FUser } from '@furystack/core'
 import { auth } from '@common/models'
@@ -147,3 +147,6 @@ export class SessionService implements IdentityContext {
     this.init()
   }
 }
+
+export const useSessionService = (injector: Injector) =>
+  injector.setExplicitInstance(injector.getInstance(SessionService), IdentityContext)

@@ -7,6 +7,7 @@ import { createClient } from '@furystack/rest-client-got'
 import { Injector } from '@furystack/inject'
 import rimraf from 'rimraf'
 import { existsAsync } from '@common/service-utils'
+import { getLogger } from '@furystack/logging'
 import { TaskLogger } from '../services/task-logger'
 import { encodeToVp9Dash } from './encode-to-vp9-dash'
 import { encodeToX264Dash } from './encode-to-264-dash'
@@ -18,7 +19,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
     endpointUrl: mediaApiPath,
   })
 
-  const logger = options.injector.logger.withScope('encodeTask')
+  const logger = getLogger(options.injector).withScope('encodeTask')
   const uploadPath = PathHelper.joinPaths(
     mediaApiPath,
     'upload-encoded',

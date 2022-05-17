@@ -26,7 +26,8 @@ export const AddOrganizationPage = Shade<{}, Omit<auth.Organization, '_id'>>({
               onclick={() => {
                 history.pushState({}, '', '/organizations')
                 injector.getInstance(LocationService).updateState()
-              }}>
+              }}
+            >
               Back
             </Button>
             <Button type="submit" color="primary" variant="contained">
@@ -44,7 +45,8 @@ export const AddOrganizationPage = Shade<{}, Omit<auth.Organization, '_id'>>({
             },
           })
           history.pushState({}, '', `/organization/${encodeURIComponent(created.name)}`)
-        }}>
+        }}
+      >
         <Input
           autofocus
           required

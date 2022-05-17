@@ -54,7 +54,8 @@ export const DashboardList = Shade<{}, { service: CollectionService<dashboard.Da
           onclick={() => {
             window.history.pushState('', '', '/dashboard/new')
             injector.getInstance(LocationService).updateState()
-          }}>
+          }}
+        >
           ➕
         </Fab>
       </div>

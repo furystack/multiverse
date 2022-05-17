@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@furystack/inject'
 import { sleepAsync } from '@furystack/utils'
 import { messaging } from '@common/config'
 import { connect, Connection, Channel, ConsumeMessage } from 'amqplib'
-import { ScopedLogger } from '@furystack/logging'
+import { getLogger, ScopedLogger } from '@furystack/logging'
 import Semaphore from 'semaphore-async-await'
 import { encodeTask } from '../processes/encode-task'
 import { loadTaskDetails } from '../processes/load-task-details'
@@ -96,7 +96,7 @@ export class RabbitListener {
   private readonly logger: ScopedLogger
 
   constructor(private readonly injector: Injector) {
-    this.logger = injector.logger.withScope('rabbit-listener')
+    this.logger = getLogger(injector).withScope('rabbit-listener')
     this.init()
   }
 }

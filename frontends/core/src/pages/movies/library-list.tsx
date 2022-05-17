@@ -17,7 +17,8 @@ export const LibraryList = Shade<{ libraries: media.MovieLibrary[]; isMovieAdmin
           alignItems: 'center',
           flexWrap: 'wrap',
           overflow: 'auto',
-        }}>
+        }}
+      >
         {props.libraries.map((lib, index) => (
           <IconUrlWidget
             icon={lib.icon}
@@ -35,7 +36,8 @@ export const LibraryList = Shade<{ libraries: media.MovieLibrary[]; isMovieAdmin
               onclick={() => {
                 window.history.pushState('', '', '/movies/encoding-tasks')
                 injector.getInstance(LocationService).updateState()
-              }}>
+              }}
+            >
               <Icon
                 icon={{
                   type: 'flaticon-essential',
@@ -50,7 +52,8 @@ export const LibraryList = Shade<{ libraries: media.MovieLibrary[]; isMovieAdmin
               onclick={() => {
                 window.history.pushState('', '', '/movies/add-new-movie-library')
                 injector.getInstance(LocationService).updateState()
-              }}>
+              }}
+            >
               <Icon
                 icon={{
                   type: 'flaticon-essential',
