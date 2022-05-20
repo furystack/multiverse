@@ -28,7 +28,7 @@
     "@furystack/rest-service": "^6.0.4",
     "@furystack/security": "^2.0.3",
     "@furystack/utils": "^3.0.3",
-    "formidable": "^2.0.1",
+    "formidable": "^3.2.4",
     "tslib": "^2.4.0"
   }
 }
