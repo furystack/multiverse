@@ -25,7 +25,7 @@
     "@furystack/rest-client-got": "^2.0.4",
     "@furystack/utils": "^3.0.3",
     "@types/fluent-ffmpeg": "^2.1.20",
-    "amqplib": "^0.9.0",
+    "amqplib": "^0.10.0",
     "chokidar": "^3.5.3",
     "fluent-ffmpeg": "^2.1.2",
     "form-data": "^4.0.0",
