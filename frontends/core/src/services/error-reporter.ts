@@ -2,8 +2,6 @@ import { EnvironmentService } from '@common/frontend-utils'
 import { Injectable, Injected } from '@furystack/inject'
 @Injectable()
 export class ErrorReporter {
-
-    
   @Injected(EnvironmentService)
   private readonly env!: EnvironmentService
 
