@@ -1,9 +1,9 @@
-import { FlatIconEssentialNames } from '@common/models/dist/common/flaticon-essential-names'
+import { common } from '@common/models'
 import { createComponent, PartialElement, Shade } from '@furystack/shades'
 
 export const FlatIconsEssentialsCollection = Shade<
   {
-    icon: typeof FlatIconEssentialNames[number]
+    icon: typeof common.FlatIconEssentialNames[number]
     style?: Partial<CSSStyleDeclaration>
   } & PartialElement<HTMLImageElement>
 >({

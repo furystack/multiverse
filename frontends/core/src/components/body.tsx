@@ -1,6 +1,6 @@
 import { createComponent, Shade, Route, Router, LazyLoad } from '@furystack/shades'
 import { auth } from '@common/models'
-import { SessionService, SessionState, AuthApiService, MediaApiService } from '@common/frontend-utils'
+import { SessionService, SessionState, useAuthApi, useMediaApi } from '@common/frontend-utils'
 import { Loader } from '@furystack/shades-common-components'
 import { Init, WelcomePage } from '../pages'
 import { Page404 } from '../pages/404'
@@ -79,7 +79,7 @@ export const Body = Shade<
                           )}
                           component={async () => {
                             const { ProfilePage } = await import(/* webpackChunkName: "profile" */ '../pages/profile')
-                            const { result: loginProviderDetails } = await injector.getInstance(AuthApiService).call({
+                            const { result: loginProviderDetails } = await useAuthApi(injector)({
                               method: 'GET',
                               action: '/loginProviderDetails',
                             })
@@ -101,7 +101,7 @@ export const Body = Shade<
                             />
                           )}
                           component={async () => {
-                            const { result: profile } = await injector.getInstance(AuthApiService).call({
+                            const { result: profile } = await useAuthApi(injector)({
                               method: 'GET',
                               action: '/profiles/:username',
                               url: { username: currentUser.username },
@@ -169,7 +169,7 @@ export const Body = Shade<
                             const { OrganizationDetailsPage } = await import(
                               /* webpackChunkName: "edit-organization" */ '../pages/organizations/organization-details'
                             )
-                            const { result: org } = await injector.getInstance(AuthApiService).call({
+                            const { result: org } = await useAuthApi(injector)({
                               method: 'GET',
                               action: '/organization/:organizationName',
                               url: { organizationName: match.params.organizationName },
@@ -321,9 +321,9 @@ export const Body = Shade<
                             const { SeriesPage } = await import(
                               /* webpackChunkName: "movies" */ '../pages/movies/series'
                             )
-                            const mediaApi = injector.getInstance(MediaApiService)
+                            const mediaApi = useMediaApi(injector)
 
-                            const seriesResult = await mediaApi.call({
+                            const seriesResult = await mediaApi({
                               method: 'GET',
                               action: '/series',
                               query: {
@@ -340,7 +340,7 @@ export const Body = Shade<
                               return <Page404 />
                             }
 
-                            const movies = await mediaApi.call({
+                            const movies = await mediaApi({
                               method: 'GET',
                               action: '/movies',
                               query: {

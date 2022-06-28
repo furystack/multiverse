@@ -18,7 +18,7 @@ export class MonacoModelProvider {
     schema: TSchema
     entity: TEntity
   }) {
-    const key = `${schema}-${entity}`
+    const key = `${schema}-${entity as string}`
 
     if (this.modelCache.has(key)) {
       return this.modelCache.get(key) as monaco.editor.ITextModel
@@ -31,7 +31,7 @@ export class MonacoModelProvider {
         {
           uri: `http://multiverse.my.to/schemas/monaco-editor/schema-${key}.json`,
           fileMatch: [modelUri.toString()],
-          schema: { ...this.schemas[schema], $ref: `#/definitions/${entity}` },
+          schema: { ...this.schemas[schema], $ref: `#/definitions/${entity as string}` },
         },
       ],
     })

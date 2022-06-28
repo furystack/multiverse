@@ -1,4 +1,4 @@
-import { AuthApiService } from '@common/frontend-utils'
+import { useAuthApi } from '@common/frontend-utils'
 import { auth } from '@common/models'
 import { createComponent, Shade } from '@furystack/shades'
 import { Suggest } from '@furystack/shades-common-components'
@@ -19,7 +19,7 @@ export const SuggestUser = Shade<{
           props.onSelectUser(user)
         }}
         getEntries={async (term) => {
-          const { result: users } = await injector.getInstance(AuthApiService).call({
+          const { result: users } = await useAuthApi(injector)({
             method: 'GET',
             action: '/profiles',
             query: {

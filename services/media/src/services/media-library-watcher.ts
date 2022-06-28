@@ -1,6 +1,7 @@
 import { watch, FSWatcher } from 'chokidar'
-import { Injectable, Injector } from '@furystack/inject'
+import { Injectable, Injected, Injector } from '@furystack/inject'
 import { getLogger, ScopedLogger } from '@furystack/logging'
+import { Disposable } from '@furystack/utils'
 import { media } from '@common/models'
 import { StoreManager } from '@furystack/core'
 import Semaphore from 'semaphore-async-await'
@@ -17,31 +18,22 @@ import { fetchOmdbSeriesMetadata } from '../utils/fetch-omdb-series-metadata'
 
 @Injectable({ lifetime: 'singleton' })
 export class MediaLibraryWatcher {
-  private readonly logger: ScopedLogger
+  @Injected(Injector)
+  private readonly injector!: Injector
+
+  private logger!: ScopedLogger
 
   private readonly lock = new Semaphore(1)
 
   private watchers = new Map<string, FSWatcher>()
 
-  private onMovieLibraryAdded = getDataSetFor(this.injector, media.MovieLibrary, '_id').onEntityAdded.subscribe(
-    ({ entity }) => {
-      this.initWatcherForLibrary(entity)
-    },
-  )
+  private onMovieLibraryAdded?: Disposable
 
-  private onMovieLibraryRemoved = getDataSetFor(this.injector, media.MovieLibrary, '_id').onEntityRemoved.subscribe(
-    ({ key }) => {
-      const watcher = this.watchers.get(key as any)
-      if (watcher) {
-        watcher.close()
-        this.watchers.delete(key as any)
-      }
-    },
-  )
+  private onMovieLibraryRemoved?: Disposable
 
   public async dispose() {
-    this.onMovieLibraryAdded.dispose()
-    this.onMovieLibraryRemoved.dispose()
+    this.onMovieLibraryAdded?.dispose()
+    this.onMovieLibraryRemoved?.dispose()
     for (const watcher of this.watchers.values()) {
       watcher.close()
     }
@@ -162,17 +154,29 @@ export class MediaLibraryWatcher {
     this.watchers.set(library._id, libWatcher)
   }
 
-  private async init() {
+  public async init() {
+    this.logger = getLogger(this.injector).withScope('MediaLibraryWatcher')
+
+    this.onMovieLibraryAdded = getDataSetFor(this.injector, media.MovieLibrary, '_id').onEntityAdded.subscribe(
+      ({ entity }) => {
+        this.initWatcherForLibrary(entity)
+      },
+    )
+    this.onMovieLibraryRemoved = getDataSetFor(this.injector, media.MovieLibrary, '_id').onEntityRemoved.subscribe(
+      ({ key }) => {
+        const watcher = this.watchers.get(key as any)
+        if (watcher) {
+          watcher.close()
+          this.watchers.delete(key as any)
+        }
+      },
+    )
+
     const movieLibraries = await this.injector.getInstance(StoreManager).getStoreFor(media.MovieLibrary, '_id').find({})
     await this.logger.verbose({
       message: 'Initializing library watchers...',
       data: { paths: movieLibraries.map((m) => m.path) },
     })
     movieLibraries.map((lib) => this.initWatcherForLibrary(lib))
-  }
-
-  constructor(private readonly injector: Injector) {
-    this.logger = getLogger(injector).withScope('MediaLibraryWatcher')
-    this.init()
   }
 }

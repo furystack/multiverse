@@ -1,5 +1,5 @@
 import { Shade, createComponent, LazyLoad } from '@furystack/shades'
-import { MediaApiService } from '@common/frontend-utils'
+import { useMediaApi } from '@common/frontend-utils'
 import { Init } from '../../pages'
 import { GenericErrorPage } from '../../pages/generic-error'
 import { IconUrlWidget } from './icon-url-widget'
@@ -15,8 +15,8 @@ export const AllMovieLibrariesWidget = Shade({
           <GenericErrorPage subtitle="Error loading your Movie Libraries" error={error} retry={retry} />
         )}
         component={async () => {
-          const mediaApi = injector.getInstance(MediaApiService)
-          const { result: libraries } = await mediaApi.call({
+          const mediaApi = useMediaApi(injector)
+          const { result: libraries } = await mediaApi({
             method: 'GET',
             action: '/movie-libraries',
             query: {

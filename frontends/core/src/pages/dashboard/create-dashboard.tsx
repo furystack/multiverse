@@ -1,6 +1,6 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { dashboard } from '@common/models'
-import { DashboardApiService } from '@common/frontend-utils'
+import { useDashboardApi } from '@common/frontend-utils'
 import { Input, Button, NotyService } from '@furystack/shades-common-components'
 
 export const CreateDashboard = Shade<{}, Pick<dashboard.Dashboard, 'name' | 'description'>>({
@@ -13,7 +13,7 @@ export const CreateDashboard = Shade<{}, Pick<dashboard.Dashboard, 'name' | 'des
           onsubmit={async (ev) => {
             try {
               ev.preventDefault()
-              const { result: created } = await injector.getInstance(DashboardApiService).call({
+              const { result: created } = await useDashboardApi(injector)({
                 method: 'POST',
                 action: '/boards',
                 body: {

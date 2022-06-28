@@ -1,6 +1,6 @@
 import { Shade, createComponent, LazyLoad } from '@furystack/shades'
 import { auth, dashboard } from '@common/models'
-import { DashboardApiService } from '@common/frontend-utils'
+import { useDashboardApi } from '@common/frontend-utils'
 import { Dashboard } from '../components/dashboard'
 import { GenericErrorPage } from './generic-error'
 import { Init } from '.'
@@ -28,7 +28,7 @@ export const WelcomePage = Shade<{ profile: auth.Profile }>({
         component={async () => {
           const dashboardId = props.profile?.userSettings?.dashboardId
           if (dashboardId) {
-            const { result: entry } = await injector.getInstance(DashboardApiService).call({
+            const { result: entry } = await useDashboardApi(injector)({
               method: 'GET',
               action: '/boards/:id',
               url: { id: dashboardId },

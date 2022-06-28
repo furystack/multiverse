@@ -1,6 +1,6 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { Input, Button, NotyService } from '@furystack/shades-common-components'
-import { AuthApiService } from '@common/frontend-utils'
+import { useAuthApi } from '@common/frontend-utils'
 import { ResponseError } from '@furystack/rest-client-fetch'
 
 export const ChangePasswordForm = Shade<
@@ -25,7 +25,7 @@ export const ChangePasswordForm = Shade<
             return
           }
           try {
-            const { result } = await injector.getInstance(AuthApiService).call({
+            const { result } = await useAuthApi(injector)({
               method: 'POST',
               action: '/changePassword',
               body: {

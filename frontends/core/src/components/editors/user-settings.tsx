@@ -1,7 +1,7 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { deepMerge } from '@furystack/utils'
 import { auth } from '@common/models'
-import { AuthApiService, SessionService } from '@common/frontend-utils'
+import { useAuthApi, SessionService } from '@common/frontend-utils'
 import { GenericMonacoEditor } from './generic-monaco-editor'
 
 export const UserSettingsEditor = Shade<{ settings: auth.UserSettings; profileId: string }>({
@@ -23,7 +23,7 @@ export const UserSettingsEditor = Shade<{ settings: auth.UserSettings; profileId
           data={props.settings}
           title="Edit your user settings"
           onSave={async (settings) => {
-            await injector.getInstance(AuthApiService).call({
+            await useAuthApi(injector)({
               method: 'PATCH',
               action: '/profiles/:id',
               url: { id: props.profileId },

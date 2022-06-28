@@ -1,6 +1,6 @@
-import { Injector, Injectable } from '@furystack/inject'
+import { Injector, Injectable, Injected } from '@furystack/inject'
 import { sleepAsync } from '@furystack/utils'
-import { AuthApiService, SessionService } from '@common/frontend-utils'
+import { useAuthApi, SessionService } from '@common/frontend-utils'
 
 /**
  * Options for Google OAuth Authentication
@@ -21,6 +21,9 @@ export class GoogleAuthenticationOptions {
 }
 @Injectable()
 export class GoogleOauthProvider {
+  @Injected(Injector)
+  private readonly injector!: Injector
+
   /**
    * Disposes the OAuth provider
    */
@@ -36,7 +39,11 @@ export class GoogleOauthProvider {
     try {
       this.session.isOperationInProgress.setValue(true)
       const token = await this.getToken()
-      const { result: user } = await this.api.call({ method: 'POST', action: '/googleLogin', body: { token } })
+      const { result: user } = await useAuthApi(this.injector)({
+        method: 'POST',
+        action: '/googleLogin',
+        body: { token },
+      })
       if (user) {
         this.session.currentUser.setValue(user)
         this.session.state.setValue('authenticated')
@@ -53,7 +60,11 @@ export class GoogleOauthProvider {
     try {
       this.session.isOperationInProgress.setValue(true)
       const token = await this.getToken()
-      const { result: user } = await this.api.call({ method: 'POST', action: '/googleRegister', body: { token } })
+      const { result: user } = await useAuthApi(this.injector)({
+        method: 'POST',
+        action: '/googleRegister',
+        body: { token },
+      })
       if (user) {
         this.session.currentUser.setValue(user)
         this.session.state.setValue('authenticated')
@@ -139,7 +150,7 @@ export class GoogleOauthProvider {
    * @returns {Promise<string>} A promise that will be resolved with an id_token, or will be rejected in case of errors or if the dialog closes
    */
   public async getToken(): Promise<string> {
-    const { result: oauthData } = await this.api.call({
+    const { result: oauthData } = await useAuthApi(this.injector)({
       method: 'GET',
       action: '/oauth-data',
     })
@@ -186,11 +197,7 @@ export class GoogleOauthProvider {
    * @param {BaseRepository} _repository the Repository instance
    * @param {GoogleAuthenticationOptions} _options Additional options for the Provider
    */
-  constructor(
-    private readonly options: GoogleAuthenticationOptions,
-    private readonly api: AuthApiService,
-    private readonly session: SessionService,
-  ) {}
+  constructor(private readonly options: GoogleAuthenticationOptions, private readonly session: SessionService) {}
 }
 
 export const useGoogleAuth = function (injector: Injector, options?: GoogleAuthenticationOptions) {

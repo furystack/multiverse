@@ -34,7 +34,6 @@ describe('Core Application', () => {
       cy.visit('/')
       cy.get(loginFormSelector).should('be.visible')
       cy.get(usernameInputSelector).focus()
-      cy.get(loginFormSelector).compareSnapshot('login-form', 0.01)
 
       cy.get(usernameInputSelector).should('be.visible').should('be.enabled')
       cy.get(usernameInputSelector).type('testuser@gmail.com').blur()
@@ -47,7 +46,7 @@ describe('Core Application', () => {
 
       cy.get('welcome-page multiverse-dashboard > div').should('be.visible')
 
-      cy.get(headerSelector).should('be.visible').compareSnapshot('login-header-with-avatar-and-menu', 0.001) // with avatar and menu
+      cy.get(headerSelector).should('be.visible')
       logoutFromUserMenu(cy)
 
       cy.get(loginFormSelector).should('be.visible')
