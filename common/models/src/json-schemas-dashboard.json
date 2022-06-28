@@ -21,7 +21,9 @@
           "type": "string"
         }
       },
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "additionalProperties": false
     },
     "AppListWidget": {
@@ -64,7 +66,11 @@
           "description": "A list of apps to display"
         }
       },
-      "required": ["apps", "title", "type"],
+      "required": [
+        "apps",
+        "title",
+        "type"
+      ],
       "additionalProperties": false
     },
     "WidgetBase<\"app-list\">": {
@@ -84,7 +90,9 @@
           "type": "string"
         }
       },
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "additionalProperties": false
     },
     "AppShortcutWidget": {
@@ -120,7 +128,10 @@
           "description": "The Application name"
         }
       },
-      "required": ["appName", "type"],
+      "required": [
+        "appName",
+        "type"
+      ],
       "additionalProperties": false
     },
     "WidgetBase<\"app-shortcut\">": {
@@ -140,7 +151,9 @@
           "type": "string"
         }
       },
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "additionalProperties": false
     },
     "ContinueMoviesWidget": {
@@ -164,7 +177,10 @@
           "description": "The number of last seen movies"
         }
       },
-      "required": ["count", "type"],
+      "required": [
+        "count",
+        "type"
+      ],
       "additionalProperties": false
     },
     "WidgetBase<\"continue-movies\">": {
@@ -184,7 +200,9 @@
           "type": "string"
         }
       },
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "additionalProperties": false
     },
     "HtmlWidget": {
@@ -207,7 +225,10 @@
           "type": "string"
         }
       },
-      "required": ["content", "type"],
+      "required": [
+        "content",
+        "type"
+      ],
       "additionalProperties": false
     },
     "WidgetBase<\"html\">": {
@@ -227,7 +248,9 @@
           "type": "string"
         }
       },
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "additionalProperties": false
     },
     "IconUrlWidget": {
@@ -259,7 +282,12 @@
           "type": "string"
         }
       },
-      "required": ["icon", "name", "type", "url"],
+      "required": [
+        "icon",
+        "name",
+        "type",
+        "url"
+      ],
       "additionalProperties": false
     },
     "WidgetBase<\"icon-url-widget\">": {
@@ -279,7 +307,9 @@
           "type": "string"
         }
       },
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "additionalProperties": false
     },
     "Icon": {
@@ -684,7 +714,10 @@
           ]
         }
       },
-      "required": ["type", "name"],
+      "required": [
+        "type",
+        "name"
+      ],
       "additionalProperties": false
     },
     "MarkdownWidget": {
@@ -707,7 +740,10 @@
           "type": "string"
         }
       },
-      "required": ["content", "type"],
+      "required": [
+        "content",
+        "type"
+      ],
       "additionalProperties": false
     },
     "WidgetBase<\"markdown\">": {
@@ -727,7 +763,9 @@
           "type": "string"
         }
       },
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "additionalProperties": false
     },
     "MovieListWidget": {
@@ -762,7 +800,12 @@
           "description": "A size of a Movie widget"
         }
       },
-      "required": ["movieIds", "size", "title", "type"],
+      "required": [
+        "movieIds",
+        "size",
+        "title",
+        "type"
+      ],
       "additionalProperties": false
     },
     "WidgetBase<\"movie-list\">": {
@@ -782,7 +825,9 @@
           "type": "string"
         }
       },
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "additionalProperties": false
     },
     "EntityShortcutWidget": {
@@ -803,7 +848,12 @@
         },
         "entityType": {
           "type": "string",
-          "enum": ["movie", "dashboard", "movie-library", "series"],
+          "enum": [
+            "movie",
+            "dashboard",
+            "movie-library",
+            "series"
+          ],
           "description": "The Entity Type"
         },
         "id": {
@@ -819,7 +869,11 @@
           "description": "The Icon to display"
         }
       },
-      "required": ["entityType", "id", "type"],
+      "required": [
+        "entityType",
+        "id",
+        "type"
+      ],
       "additionalProperties": false
     },
     "WidgetBase<\"entity-shortcut\">": {
@@ -839,7 +893,9 @@
           "type": "string"
         }
       },
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "additionalProperties": false
     },
     "WeatherDataCity": {
@@ -861,7 +917,10 @@
               "type": "number"
             }
           },
-          "required": ["lat", "lon"],
+          "required": [
+            "lat",
+            "lon"
+          ],
           "additionalProperties": false
         },
         "country": {
@@ -880,7 +939,16 @@
           "type": "number"
         }
       },
-      "required": ["id", "name", "coord", "country", "population", "timezone", "sunrise", "sunset"],
+      "required": [
+        "id",
+        "name",
+        "coord",
+        "country",
+        "population",
+        "timezone",
+        "sunrise",
+        "sunset"
+      ],
       "additionalProperties": false
     },
     "WeatherDataListEntry": {
@@ -914,7 +982,16 @@
               "type": "number"
             }
           },
-          "required": ["temp", "temp_min", "temp_max", "pressure", "sea_level", "grnd_level", "humidity", "temp_kf"],
+          "required": [
+            "temp",
+            "temp_min",
+            "temp_max",
+            "pressure",
+            "sea_level",
+            "grnd_level",
+            "humidity",
+            "temp_kf"
+          ],
           "additionalProperties": false
         },
         "weather": {
@@ -935,7 +1012,12 @@
                 "type": "string"
               }
             },
-            "required": ["id", "main", "description", "icon"],
+            "required": [
+              "id",
+              "main",
+              "description",
+              "icon"
+            ],
             "additionalProperties": false
           }
         },
@@ -948,7 +1030,9 @@
                 "type": "number"
               }
             },
-            "required": ["type"],
+            "required": [
+              "type"
+            ],
             "additionalProperties": false
           }
         },
@@ -962,7 +1046,10 @@
               "type": "number"
             }
           },
-          "required": ["speed", "deg"],
+          "required": [
+            "speed",
+            "deg"
+          ],
           "additionalProperties": false
         },
         "sys": {
@@ -972,14 +1059,23 @@
               "type": "string"
             }
           },
-          "required": ["pod"],
+          "required": [
+            "pod"
+          ],
           "additionalProperties": false
         },
         "dt_txt": {
           "type": "string"
         }
       },
-      "required": ["main", "weather", "clouds", "wind", "sys", "dt_txt"],
+      "required": [
+        "main",
+        "weather",
+        "clouds",
+        "wind",
+        "sys",
+        "dt_txt"
+      ],
       "additionalProperties": false
     },
     "WeatherData": {
@@ -1004,7 +1100,13 @@
           }
         }
       },
-      "required": ["cod", "message", "cnt", "city", "list"],
+      "required": [
+        "cod",
+        "message",
+        "cnt",
+        "city",
+        "list"
+      ],
       "additionalProperties": false
     },
     "WeatherWidget": {
@@ -1027,7 +1129,10 @@
           "type": "string"
         }
       },
-      "required": ["city", "type"],
+      "required": [
+        "city",
+        "type"
+      ],
       "additionalProperties": false
     },
     "WidgetBase<\"weather\">": {
@@ -1047,7 +1152,9 @@
           "type": "string"
         }
       },
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "additionalProperties": false
     },
     "Widget": {
@@ -1114,7 +1221,15 @@
           }
         }
       },
-      "required": ["_id", "name", "description", "owner", "creationDate", "modificationDate", "widgets"],
+      "required": [
+        "_id",
+        "name",
+        "description",
+        "owner",
+        "creationDate",
+        "modificationDate",
+        "widgets"
+      ],
       "additionalProperties": false
     },
     "Owner": {
@@ -1130,7 +1245,10 @@
               "type": "string"
             }
           },
-          "required": ["type", "username"],
+          "required": [
+            "type",
+            "username"
+          ],
           "additionalProperties": false
         },
         {
@@ -1144,7 +1262,10 @@
               "type": "string"
             }
           },
-          "required": ["type", "organizationName"],
+          "required": [
+            "type",
+            "organizationName"
+          ],
           "additionalProperties": false
         },
         {
@@ -1155,7 +1276,9 @@
               "const": "system"
             }
           },
-          "required": ["type"],
+          "required": [
+            "type"
+          ],
           "additionalProperties": false
         }
       ]

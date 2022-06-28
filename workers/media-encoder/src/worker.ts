@@ -1,12 +1,9 @@
-// import { argv } from 'process'
 import { attachShutdownHandler, existsAsync } from '@common/service-utils'
 import { getLogger, useLogging, VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import { FileStores } from '@common/config'
 import { RabbitListener } from './services/rabbit-listener'
 import { TaskLogger } from './services/task-logger'
-
-// const namePostfix = argv[2] || 'default'
 
 export const injector = new Injector()
 useLogging(injector, VerboseConsoleLogger, TaskLogger)
@@ -24,6 +21,13 @@ const logger = getLogger(injector).withScope('INIT')
     process.exit(1)
   }
 })()
+  .catch((err) => {
+    console.error('Error during initialization', { err })
+    process.exit(1)
+  })
+  .then(() => {
+    console.log('Init completed')
+  })
 
-injector.getInstance(RabbitListener)
+injector.getInstance(RabbitListener).init()
 attachShutdownHandler(injector)

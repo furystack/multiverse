@@ -1,4 +1,5 @@
-import { Injectable, Injector } from '@furystack/inject'
+import { Injectable, Injected, Injector } from '@furystack/inject'
+import { Disposable } from '@furystack/utils'
 import { messaging } from '@common/config'
 import { media } from '@common/models'
 import { connect, Connection, Channel } from 'amqplib'
@@ -14,52 +15,14 @@ export class MediaMessaging {
   private initLock = new Semaphore(1)
   private isInitialized = false
 
-  private onEncodeTaskAdded = getDataSetFor(this.injector, media.EncodingTask, '_id').onEntityAdded.subscribe(
-    async ({ injector, entity }) => {
-      await this.init()
-      await this.getChannel().publish(
-        messaging.media.fanoutExchange,
-        messaging.media.routingKeys.encodingJobAdded,
-        Buffer.from(
-          JSON.stringify({
-            taskId: entity._id,
-            token: entity.authToken,
-          }),
-        ),
-        { persistent: true },
-      )
-      injector.getInstance(WebSocketApi).broadcast(async ({ injector: socketInjector, ws }) => {
-        if (await isAuthorized(socketInjector, 'movie-admin')) {
-          ws.send(JSON.stringify({ event: 'encoding-task-added', task: entity }))
-        }
-      })
-    },
-  )
+  @Injected(Injector)
+  private injector!: Injector
 
-  private readonly onEncodeTaskUpdated = getDataSetFor(
-    this.injector,
-    media.EncodingTask,
-    '_id',
-  ).onEntityUpdated.subscribe(({ injector, id, change }) => {
-    injector.getInstance(WebSocketApi).broadcast(async ({ injector: socketInjector, ws }) => {
-      if (await isAuthorized(socketInjector, 'movie-admin')) {
-        ws.send(JSON.stringify({ event: 'encoding-task-updated', id, change }))
-      }
-    })
-  })
+  private onEncodeTaskAdded?: Disposable
 
-  private readonly onEncodeTaskRemoved = getDataSetFor(
-    this.injector,
-    media.EncodingTask,
-    '_id',
-  ).onEntityRemoved.subscribe(({ injector, key }) => {
-    injector.getInstance(WebSocketApi).broadcast(async ({ injector: socketInjector, ws }) => {
-      if (await isAuthorized(socketInjector, 'movie-admin')) {
-        // ToDo: Check me
-        ws.send(JSON.stringify({ event: 'encoding-task-updated', task: { _id: key } }))
-      }
-    })
-  })
+  private onEncodeTaskUpdated?: Disposable
+
+  private onEncodeTaskRemoved?: Disposable
 
   public getChannel() {
     if (!this.channel) {
@@ -70,12 +33,12 @@ export class MediaMessaging {
 
   public async dispose() {
     this.channel?.close()
-    this.onEncodeTaskAdded.dispose()
-    this.onEncodeTaskUpdated.dispose()
-    this.onEncodeTaskRemoved.dispose()
+    this.onEncodeTaskAdded?.dispose()
+    this.onEncodeTaskUpdated?.dispose()
+    this.onEncodeTaskRemoved?.dispose()
   }
 
-  private async init() {
+  public async init() {
     if (!this.isInitialized) {
       try {
         await this.initLock.acquire()
@@ -93,10 +56,47 @@ export class MediaMessaging {
       } finally {
         this.initLock.release()
       }
-    }
-  }
+      this.onEncodeTaskAdded = getDataSetFor(this.injector, media.EncodingTask, '_id').onEntityAdded.subscribe(
+        async ({ injector, entity }) => {
+          await this.init()
+          await this.getChannel().publish(
+            messaging.media.fanoutExchange,
+            messaging.media.routingKeys.encodingJobAdded,
+            Buffer.from(
+              JSON.stringify({
+                taskId: entity._id,
+                token: entity.authToken,
+              }),
+            ),
+            { persistent: true },
+          )
+          injector.getInstance(WebSocketApi).broadcast(async ({ injector: socketInjector, ws }) => {
+            if (await isAuthorized(socketInjector, 'movie-admin')) {
+              ws.send(JSON.stringify({ event: 'encoding-task-added', task: entity }))
+            }
+          })
+        },
+      )
+      this.onEncodeTaskUpdated = getDataSetFor(this.injector, media.EncodingTask, '_id').onEntityUpdated.subscribe(
+        ({ injector, id, change }) => {
+          injector.getInstance(WebSocketApi).broadcast(async ({ injector: socketInjector, ws }) => {
+            if (await isAuthorized(socketInjector, 'movie-admin')) {
+              ws.send(JSON.stringify({ event: 'encoding-task-updated', id, change }))
+            }
+          })
+        },
+      )
 
-  constructor(private readonly injector: Injector) {
-    this.init()
+      this.onEncodeTaskRemoved = getDataSetFor(this.injector, media.EncodingTask, '_id').onEntityRemoved.subscribe(
+        ({ injector, key }) => {
+          injector.getInstance(WebSocketApi).broadcast(async ({ injector: socketInjector, ws }) => {
+            if (await isAuthorized(socketInjector, 'movie-admin')) {
+              // ToDo: Check me
+              ws.send(JSON.stringify({ event: 'encoding-task-updated', task: { _id: key } }))
+            }
+          })
+        },
+      )
+    }
   }
 }

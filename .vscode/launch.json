@@ -5,25 +5,32 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "node",
-      "request": "launch",
       "name": "Service",
-      // "program": "${workspaceFolder}/services/${input:service}/src/service.ts",
-      // "outFiles": ["${workspaceFolder}/services/${input:service}/dist/service.js"],
-      "program": "${workspaceFolder}/services/${input:service}/dist/service.js",
-      "cwd": "${workspaceFolder}/services/${input:service}",
-      // "skipFiles": ["<node_internals>/**"],
-      "preLaunchTask": "npm: build:services",
-      "env": {
-        "FILE_STORE_ENCODED_MEDIA": "d:\\temp\\MULTIVERSE_DEBUG\\encoded-media"
-      }
+      "request": "launch",
+      "runtimeExecutable": "yarn",
+      "args": [
+        "workspace",
+        "@service/${input:service}",
+        "start"
+      ],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node"
     },
     {
-      "type": "node",
-      "request": "launch",
       "name": "Seed",
-      "program": "${workspaceFolder}/services/${input:service}/src/seed.ts",
-      "preLaunchTask": "npm: build:services"
+      "request": "launch",
+      "runtimeExecutable": "yarn",
+      "args": [
+        "workspace",
+        "@service/${input:service}",
+        "seed"
+      ],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node"
     },
     {
       "type": "node",
@@ -36,19 +43,18 @@
       "preLaunchTask": "npm: build:common"
     },
     {
-      "type": "node",
-      "request": "launch",
       "name": "Worker",
-      "program": "${workspaceFolder}/workers/${input:worker}/src/worker.ts",
-      "outFiles": ["${workspaceFolder}/workers/${input:worker}/dist/**/*.js"],
-      "cwd": "${workspaceFolder}/workers/${input:worker}",
-      "skipFiles": ["<node_internals>/**"],
-      "preLaunchTask": "npm: build:workers",
-      "env": {
-        "ENABLE_NVENC": "true",
-        "MEDIA_ENCODER_WORKER_TEMP": "d:\\temp\\MULTIVERSE_DEBUG",
-        "FILE_STORE_ENCODED_MEDIA": "d:\\temp\\MULTIVERSE_DEBUG\\encoded-media"
-      }
+      "request": "launch",
+      "runtimeExecutable": "yarn",
+      "args": [
+        "workspace",
+        "@worker/${input:worker}",
+        "start"
+      ],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node"
     },
     {
       "type": "node",

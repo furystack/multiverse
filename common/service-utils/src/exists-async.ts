@@ -1,8 +1,8 @@
-import { promises } from 'fs'
+import { access } from 'fs/promises'
 
 export const existsAsync = async (path: string, mode?: number) => {
   try {
-    await promises.access(path, mode)
+    await access(path, mode)
   } catch {
     return false
   }

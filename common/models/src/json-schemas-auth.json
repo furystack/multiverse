@@ -402,9 +402,6 @@
         "username": {
           "type": "string"
         },
-        "password": {
-          "type": "string"
-        },
         "registrationDate": {
           "type": "string"
         },
@@ -428,7 +425,6 @@
       "required": [
         "_id",
         "username",
-        "password",
         "registrationDate",
         "roles"
       ],
