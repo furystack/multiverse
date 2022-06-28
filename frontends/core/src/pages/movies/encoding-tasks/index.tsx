@@ -1,7 +1,7 @@
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { media } from '@common/models'
 import { Button, CollectionService, DataGrid } from '@furystack/shades-common-components'
-import { MediaApiService } from '@common/frontend-utils'
+import { useMediaApi } from '@common/frontend-utils'
 import { EncodingTaskProgressUpdater } from '../../../services/encoding-task-progress-updater'
 
 export interface EncodingTaskState {
@@ -14,7 +14,7 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
   getInitialState: ({ injector }) => {
     const service = new CollectionService<media.EncodingTask>(
       async (findOptions) => {
-        const response = await injector.getInstance(MediaApiService).call({
+        const response = await useMediaApi(injector)({
           method: 'GET',
           action: '/encode/tasks',
           query: {
@@ -72,7 +72,7 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
                         ev.preventDefault()
                         ev.stopImmediatePropagation()
                         if (confirm('Re-encoding takes a lot of time. Are you sure?')) {
-                          injector.getInstance(MediaApiService).call({
+                          useMediaApi(injector)({
                             method: 'POST',
                             action: '/encode/reencode',
                             body: { movieId: entry.mediaInfo.movie._id },
@@ -92,7 +92,7 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
                     <Button
                       onclick={() => {
                         if (confirm('Really delete task?')) {
-                          injector.getInstance(MediaApiService).call({
+                          useMediaApi(injector)({
                             method: 'DELETE',
                             action: '/encode/tasks/:id',
                             url: {

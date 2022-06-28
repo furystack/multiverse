@@ -1,4 +1,4 @@
-import { Injector, Injectable } from '@furystack/inject'
+import { Injector, Injectable, Injected } from '@furystack/inject'
 import { ObservableValue, usingAsync } from '@furystack/utils'
 import { IdentityContext, User as FUser } from '@furystack/core'
 import { auth } from '@common/models'
@@ -8,7 +8,7 @@ import {
   defaultDarkTheme,
   defaultLightTheme,
 } from '@furystack/shades-common-components'
-import { AuthApiService } from './apis/auth-api'
+import { useAuthApi } from './apis/auth-api'
 import { getErrorMessage } from './get-error-message'
 
 export type SessionState = 'initializing' | 'offline' | 'unauthenticated' | 'authenticated'
@@ -26,25 +26,34 @@ export class SessionService implements IdentityContext {
   public isOperationInProgress = new ObservableValue(true)
 
   public loginError = new ObservableValue('')
-  private async init() {
-    await usingAsync(this.operation(), async () => {
-      try {
-        const { result } = await this.api.call({ method: 'GET', action: '/isAuthenticated' })
-        this.state.setValue(result.isAuthenticated ? 'authenticated' : 'unauthenticated')
-        if (result.isAuthenticated) {
-          const { result: usr } = await this.api.call({ method: 'GET', action: '/currentUser' })
-          this.currentUser.setValue(usr)
+
+  private isInitialized = false
+  public async init() {
+    if (!this.isInitialized) {
+      this.isInitialized = true
+      await usingAsync(this.operation(), async () => {
+        try {
+          const { result } = await useAuthApi(this.injector)({ method: 'GET', action: '/isAuthenticated' })
+          this.state.setValue(result.isAuthenticated ? 'authenticated' : 'unauthenticated')
+          if (result.isAuthenticated) {
+            const { result: usr } = await useAuthApi(this.injector)({ method: 'GET', action: '/currentUser' })
+            this.currentUser.setValue(usr)
+          }
+        } catch (error) {
+          this.state.setValue('offline')
         }
-      } catch (error) {
-        this.state.setValue('offline')
-      }
-    })
+      })
+    }
   }
 
   public async login(username: string, password: string) {
     await usingAsync(this.operation(), async () => {
       try {
-        const { result: usr } = await this.api.call({ method: 'POST', action: '/login', body: { username, password } })
+        const { result: usr } = await useAuthApi(this.injector)({
+          method: 'POST',
+          action: '/login',
+          body: { username, password },
+        })
         this.currentUser.setValue(usr)
         this.state.setValue('authenticated')
         this.notys.addNoty({
@@ -66,7 +75,7 @@ export class SessionService implements IdentityContext {
 
   public async logout() {
     await usingAsync(this.operation(), async () => {
-      this.api.call({ method: 'POST', action: '/logout' })
+      useAuthApi(this.injector)({ method: 'POST', action: '/logout' })
       this.currentUser.setValue(null)
       this.state.setValue('unauthenticated')
       this.notys.addNoty({
@@ -104,7 +113,7 @@ export class SessionService implements IdentityContext {
 
   public currentProfileUpdate = this.currentUser.subscribe(async (usr) => {
     if (usr) {
-      const { result: profile } = await this.api.call({
+      const { result: profile } = await useAuthApi(this.injector)({
         method: 'GET',
         action: '/profiles/:username',
         url: { username: usr.username },
@@ -128,7 +137,7 @@ export class SessionService implements IdentityContext {
   public async acceptTerms() {
     try {
       const lastUser = this.currentUser.getValue() as auth.User
-      this.api.call({
+      useAuthApi(this.injector)({
         method: 'POST',
         action: '/accept-terms',
       })
@@ -139,14 +148,18 @@ export class SessionService implements IdentityContext {
     }
   }
 
-  constructor(
-    private api: AuthApiService,
-    private readonly notys: NotyService,
-    private readonly themeProvider: ThemeProviderService,
-  ) {
-    this.init()
-  }
+  @Injected(NotyService)
+  private readonly notys!: NotyService
+
+  @Injected(ThemeProviderService)
+  private readonly themeProvider!: ThemeProviderService
+
+  @Injected(Injector)
+  private readonly injector!: Injector
 }
 
-export const useSessionService = (injector: Injector) =>
-  injector.setExplicitInstance(injector.getInstance(SessionService), IdentityContext)
+export const useSessionService = (injector: Injector) => {
+  const service = injector.getInstance(SessionService)
+  service.init()
+  injector.setExplicitInstance(service, IdentityContext)
+}

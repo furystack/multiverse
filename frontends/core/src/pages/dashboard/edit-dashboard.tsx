@@ -1,6 +1,6 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { dashboard } from '@common/models'
-import { DashboardApiService, AuthApiService } from '@common/frontend-utils'
+import { useDashboardApi, useAuthApi } from '@common/frontend-utils'
 import { getCurrentUser } from '@furystack/core'
 import { GenericMonacoEditor } from '../../components/editors/generic-monaco-editor'
 
@@ -25,12 +25,12 @@ export const EditDashboard = Shade<{ dashboard: dashboard.Dashboard }>({
             name: 'Set as my default',
             action: async () => {
               const currentUser = await getCurrentUser(injector)
-              const { result: profile } = await injector.getInstance(AuthApiService).call({
+              const { result: profile } = await useAuthApi(injector)({
                 method: 'GET',
                 action: '/profiles/:username',
                 url: { username: currentUser.username },
               })
-              injector.getInstance(AuthApiService).call({
+              useAuthApi(injector)({
                 method: 'PATCH',
                 action: '/profiles/:id',
                 url: { id: profile._id },
@@ -41,7 +41,7 @@ export const EditDashboard = Shade<{ dashboard: dashboard.Dashboard }>({
         ]}
         onSave={async (movie: dashboard.Dashboard) => {
           const { _id, ...body } = movie
-          await injector.getInstance(DashboardApiService).call({
+          await useDashboardApi(injector)({
             method: 'PATCH',
             action: '/boards/:id',
             url: { id: movie._id },

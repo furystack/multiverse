@@ -1,6 +1,6 @@
 import { Shade, createComponent, Router, LazyLoad } from '@furystack/shades'
 import { media } from '@common/models'
-import { MediaApiService } from '@common/frontend-utils'
+import { useMediaApi } from '@common/frontend-utils'
 import { Fab, promisifyAnimation } from '@furystack/shades-common-components'
 import { isAuthorized } from '@furystack/core'
 import { Init } from '../init'
@@ -38,7 +38,7 @@ export const MoviesPage = Shade({
                 )}
                 loader={<Init message="Loading Movie..." />}
                 component={async () => {
-                  const { result: movie } = await injector.getInstance(MediaApiService).call({
+                  const { result: movie } = await useMediaApi(injector)({
                     method: 'GET',
                     action: '/movies/:id',
                     url: { id: match.params.movieId },
@@ -77,7 +77,7 @@ export const MoviesPage = Shade({
                 loader={<Init message="Loading Task..." />}
                 error={(error, retry) => <GenericErrorPage error={error} retry={retry} />}
                 component={async () => {
-                  const { result: task } = await injector.getInstance(MediaApiService).call({
+                  const { result: task } = await useMediaApi(injector)({
                     method: 'GET',
                     action: '/encode/tasks/:id',
                     url: { id: match.params.encodingTaskId },
@@ -104,7 +104,7 @@ export const MoviesPage = Shade({
                 )}
                 loader={<Init message="Loading Libraries..." />}
                 component={async () => {
-                  const { result: libs } = await injector.getInstance(MediaApiService).call({
+                  const { result: libs } = await useMediaApi(injector)({
                     method: 'GET',
                     action: '/movie-libraries',
                     query: { findOptions: { order: { name: 'ASC' } } },
@@ -144,14 +144,14 @@ export const MoviesPage = Shade({
                   )}
                   loader={<Init message="Loading movies..." />}
                   component={async () => {
-                    const api = injector.getInstance(MediaApiService)
+                    const api = useMediaApi(injector)
                     const libraryId = match.params.libraryId as string
-                    const { result: movies } = await api.call({
+                    const { result: movies } = await api({
                       method: 'GET',
                       action: '/movies',
                       query: { findOptions: { filter: { libraryId: { $eq: libraryId } } } },
                     })
-                    const { result: watchProgresses } = await api.call({
+                    const { result: watchProgresses } = await api({
                       method: 'GET',
                       action: '/my-watch-progress',
                       query: {
@@ -171,7 +171,7 @@ export const MoviesPage = Shade({
 
                     const seriesIds = seriesMovies.map((m) => m.metadata.seriesId as string)
 
-                    const series = await api.call({
+                    const series = await api({
                       method: 'GET',
                       action: '/series',
                       query: {
@@ -227,7 +227,7 @@ export const MoviesPage = Shade({
                     />
                   )}
                   component={async () => {
-                    const { result: lib } = await injector.getInstance(MediaApiService).call({
+                    const { result: lib } = await useMediaApi(injector)({
                       method: 'GET',
                       action: '/movie-libraries/:id',
                       url: { id: libraryId },
@@ -240,7 +240,7 @@ export const MoviesPage = Shade({
                         data={lib as media.MovieLibrary}
                         title={`Edit movie library '${lib.name}'`}
                         onSave={async ({ _id, ...entity }) => {
-                          await injector.getInstance(MediaApiService).call({
+                          await useMediaApi(injector)({
                             method: 'PATCH',
                             action: '/movie-libraries/:id',
                             url: { id: libraryId },
@@ -274,13 +274,13 @@ export const MoviesPage = Shade({
                 )}
                 loader={<Init message="Loading movie..." />}
                 component={async () => {
-                  const { result: movie } = await injector.getInstance(MediaApiService).call({
+                  const { result: movie } = await useMediaApi(injector)({
                     method: 'GET',
                     action: '/movies/:id',
                     url: { id: match.params.movieId },
                     query: {},
                   })
-                  const { result: movieProgress } = await injector.getInstance(MediaApiService).call({
+                  const { result: movieProgress } = await useMediaApi(injector)({
                     method: 'GET',
                     action: '/my-watch-progress',
                     query: {
@@ -291,7 +291,7 @@ export const MoviesPage = Shade({
                     },
                   })
 
-                  const { result: subtitles } = await injector.getInstance(MediaApiService).call({
+                  const { result: subtitles } = await useMediaApi(injector)({
                     method: 'GET',
                     action: '/movies/:movieId/subtitles',
                     url: { movieId: match.params.movieId },
@@ -321,13 +321,13 @@ export const MoviesPage = Shade({
                 )}
                 loader={<Init message="Loading movie..." />}
                 component={async () => {
-                  const { result: movie } = await injector.getInstance(MediaApiService).call({
+                  const { result: movie } = await useMediaApi(injector)({
                     method: 'GET',
                     action: '/movies/:id',
                     url: { id: match.params.movieId },
                     query: {},
                   })
-                  const { result: movieProgress } = await injector.getInstance(MediaApiService).call({
+                  const { result: movieProgress } = await useMediaApi(injector)({
                     method: 'GET',
                     action: '/my-watch-progress',
                     query: {
@@ -338,7 +338,7 @@ export const MoviesPage = Shade({
                     },
                   })
 
-                  const { result: subtitles } = await injector.getInstance(MediaApiService).call({
+                  const { result: subtitles } = await useMediaApi(injector)({
                     method: 'GET',
                     action: '/movies/:movieId/subtitles',
                     url: { movieId: match.params.movieId },

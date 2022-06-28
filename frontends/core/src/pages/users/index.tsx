@@ -1,5 +1,5 @@
-import { Shade, createComponent, LocationService, LazyLoad, Router } from '@furystack/shades'
-import { AuthApiService } from '@common/frontend-utils'
+import { Shade, createComponent, LazyLoad, Router, RouteLink } from '@furystack/shades'
+import { useAuthApi } from '@common/frontend-utils'
 import { auth } from '@common/models'
 import { DataGrid, CollectionService } from '@furystack/shades-common-components'
 import { isAuthorized } from '@furystack/core'
@@ -12,7 +12,7 @@ export const UsersPage = Shade<{}, { service: CollectionService<auth.User> }>({
   getInitialState: ({ injector }) => {
     const service = new CollectionService<auth.User>(
       async (findOptions) => {
-        const { result } = await injector.getInstance(AuthApiService).call({
+        const { result } = await useAuthApi(injector)({
           method: 'GET',
           action: '/users',
           query: { findOptions },
@@ -34,12 +34,16 @@ export const UsersPage = Shade<{}, { service: CollectionService<auth.User> }>({
                 columns={['username', 'roles']}
                 service={getState().service}
                 headerComponents={{}}
-                rowComponents={{}}
-                styles={{}}
-                onDoubleClick={(entry) => {
-                  history.pushState({}, '', `/users/${encodeURIComponent(entry._id)}`)
-                  injector.getInstance(LocationService).updateState()
+                rowComponents={{
+                  username: (el) => {
+                    return (
+                      <div>
+                        <RouteLink href={`/users/${encodeURIComponent(el._id)}`}>{el.username}</RouteLink>
+                      </div>
+                    )
+                  },
                 }}
+                styles={{}}
               />
             ),
           },
@@ -51,7 +55,7 @@ export const UsersPage = Shade<{}, { service: CollectionService<auth.User> }>({
                 error={(error, retry) => <GenericErrorPage error={error} retry={retry} />}
                 component={async () => {
                   if (await isAuthorized(injector, 'user-admin')) {
-                    const { result: user } = await injector.getInstance(AuthApiService).call({
+                    const { result: user } = await useAuthApi(injector)({
                       method: 'GET',
                       action: '/users/:id',
                       url: {

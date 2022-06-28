@@ -1,6 +1,6 @@
 import { Button, Input } from '@furystack/shades-common-components'
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { AuthApiService, SessionService } from '@common/frontend-utils'
+import { useAuthApi, SessionService } from '@common/frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 import { GenericErrorPage } from './generic-error'
 
@@ -61,9 +61,11 @@ export const RegisterPage = Shade({
                 updateState({ isOperationInProgress: true })
 
                 try {
-                  const { result: user } = await injector
-                    .getInstance(AuthApiService)
-                    .call({ method: 'POST', action: '/register', body: { email, password } })
+                  const { result: user } = await useAuthApi(injector)({
+                    method: 'POST',
+                    action: '/register',
+                    body: { email, password },
+                  })
                   if (user && user.username === email) {
                     window.history.pushState('', '', '/')
                     injector.getInstance(LocationService).updateState()
@@ -126,7 +128,7 @@ export const RegisterPage = Shade({
               <Button
                 style={{ margin: '0 .3em' }}
                 onclick={async () => {
-                  const { result: oauthData } = await injector.getInstance(AuthApiService).call({
+                  const { result: oauthData } = await useAuthApi(injector)({
                     method: 'GET',
                     action: '/oauth-data',
                   })

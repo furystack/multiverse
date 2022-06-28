@@ -1,6 +1,6 @@
 import { Shade, Router, createComponent, LazyLoad } from '@furystack/shades'
 
-import { DashboardApiService } from '@common/frontend-utils'
+import { useDashboardApi } from '@common/frontend-utils'
 import { GenericErrorPage } from '../generic-error'
 import { Init } from '../init'
 import { Dashboard } from '../../components/dashboard'
@@ -35,7 +35,7 @@ export const DashboardsPage = Shade({
                 )}
                 component={async () => {
                   const { dashboardId } = match.params
-                  const { result } = await injector.getInstance(DashboardApiService).call({
+                  const { result } = await useDashboardApi(injector)({
                     method: 'GET',
                     action: '/boards/:id',
                     url: { id: dashboardId },
@@ -60,7 +60,7 @@ export const DashboardsPage = Shade({
                 )}
                 component={async () => {
                   const { dashboardId } = match.params
-                  const { result } = await injector.getInstance(DashboardApiService).call({
+                  const { result } = await useDashboardApi(injector)({
                     method: 'GET',
                     action: '/boards/:id',
                     url: { id: dashboardId },

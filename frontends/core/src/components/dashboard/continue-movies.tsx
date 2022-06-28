@@ -1,5 +1,5 @@
 import { Shade, createComponent, LazyLoad } from '@furystack/shades'
-import { MediaApiService } from '@common/frontend-utils'
+import { useMediaApi } from '@common/frontend-utils'
 import { media } from '@common/models'
 import { Init } from '../../pages'
 import { GenericErrorPage } from '../../pages/generic-error'
@@ -16,8 +16,8 @@ export const ContinueMoviesWidget = Shade<{ count: number }>({
           <GenericErrorPage subtitle="Error loading your Movie History" error={error} retry={retry} />
         )}
         component={async () => {
-          const mediaApi = injector.getInstance(MediaApiService)
-          const { result: progress } = await mediaApi.call({
+          const mediaApi = useMediaApi(injector)
+          const { result: progress } = await mediaApi({
             method: 'GET',
             action: '/my-watch-progress',
             query: {
@@ -33,7 +33,7 @@ export const ContinueMoviesWidget = Shade<{ count: number }>({
             return nothingToShow
           }
 
-          const { result: movies } = await mediaApi.call({
+          const { result: movies } = await mediaApi({
             method: 'GET',
             action: '/movies',
             query: { findOptions: { filter: { _id: { $in: progress.entries.map((e) => e.movieId) } } } },

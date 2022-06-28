@@ -1,4 +1,4 @@
-import { DashboardApiService } from '@common/frontend-utils'
+import { useDashboardApi } from '@common/frontend-utils'
 import { dashboard } from '@common/models'
 import { createComponent, LazyLoad, Shade } from '@furystack/shades'
 import { Loader, promisifyAnimation } from '@furystack/shades-common-components'
@@ -42,7 +42,7 @@ export const WeatherWidget = Shade<dashboard.WeatherWidget & { index: number }>(
             loader={<Loader style={{ width: '50%', height: '50%', margin: 'auto' }} />}
             error={(error, retry) => <GenericErrorPage error={error} retry={retry} />}
             component={async () => {
-              const { result } = await injector.getInstance(DashboardApiService).call({
+              const { result } = await useDashboardApi(injector)({
                 method: 'GET',
                 action: '/weather-forecast',
                 query: { units: 'metric', city: props.city },

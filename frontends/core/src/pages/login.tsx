@@ -1,6 +1,6 @@
 import { Button, Loader, Input } from '@furystack/shades-common-components'
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
-import { AuthApiService, SessionService } from '@common/frontend-utils'
+import { useAuthApi, SessionService } from '@common/frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 
 export const Login = Shade<
@@ -150,7 +150,7 @@ export const Login = Shade<
               <Button
                 onclick={async (ev) => {
                   ev.preventDefault()
-                  const { result: oauthData } = await injector.getInstance(AuthApiService).call({
+                  const { result: oauthData } = await useAuthApi(injector)({
                     method: 'GET',
                     action: '/oauth-data',
                   })

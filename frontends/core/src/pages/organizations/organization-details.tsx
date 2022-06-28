@@ -1,7 +1,7 @@
 import { Shade, createComponent, LazyLoad } from '@furystack/shades'
 import { Tabs, Input, Paper, NotyService } from '@furystack/shades-common-components'
 import { auth } from '@common/models'
-import { AuthApiService, SessionService } from '@common/frontend-utils'
+import { useAuthApi, SessionService } from '@common/frontend-utils'
 import { MemberList } from '@common/components'
 import { Init } from '../init'
 import { GenericErrorPage } from '../generic-error'
@@ -39,7 +39,7 @@ export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }
                   <LazyLoad
                     loader={<Init message="Loading Admins..." />}
                     component={async () => {
-                      const { result: users } = await injector.getInstance(AuthApiService).call({
+                      const { result: users } = await useAuthApi(injector)({
                         method: 'GET',
                         action: '/profiles',
                         query: { findOptions: { filter: { username: { $in: [...props.organization.adminNames] } } } },
@@ -51,7 +51,7 @@ export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }
                           canEdit={canEdit}
                           onAddMember={async (member) => {
                             try {
-                              await injector.getInstance(AuthApiService).call({
+                              await useAuthApi(injector)({
                                 method: 'POST',
                                 action: '/organization/:organizationName/addAdmin',
                                 url: { organizationName: props.organization.name },
@@ -72,7 +72,7 @@ export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }
                           }}
                           onRemoveMember={async (member) => {
                             try {
-                              await injector.getInstance(AuthApiService).call({
+                              await useAuthApi(injector)({
                                 method: 'POST',
                                 action: '/organization/:organizationName/removeAdmin',
                                 url: { organizationName: props.organization.name },
@@ -102,7 +102,7 @@ export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }
                   <LazyLoad
                     loader={<Init message="Loading Members..." />}
                     component={async () => {
-                      const { result: users } = await injector.getInstance(AuthApiService).call({
+                      const { result: users } = await useAuthApi(injector)({
                         method: 'GET',
                         action: '/profiles',
                         query: { findOptions: { filter: { username: { $in: [...props.organization.memberNames] } } } },
@@ -114,7 +114,7 @@ export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }
                           canEdit={canEdit}
                           onAddMember={async (member) => {
                             try {
-                              await injector.getInstance(AuthApiService).call({
+                              await useAuthApi(injector)({
                                 method: 'POST',
                                 action: '/organization/:organizationName/addMember',
                                 url: { organizationName: props.organization.name },
@@ -135,7 +135,7 @@ export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }
                           }}
                           onRemoveMember={async (member) => {
                             try {
-                              await injector.getInstance(AuthApiService).call({
+                              await useAuthApi(injector)({
                                 method: 'POST',
                                 action: '/organization/:organizationName/removeMember',
                                 url: { organizationName: props.organization.name },
@@ -173,7 +173,7 @@ export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }
                     name={organization.name}
                     currentOwner={organization.owner}
                     onTransfer={async (newOwner) => {
-                      await injector.getInstance(AuthApiService).call({
+                      await useAuthApi(injector)({
                         method: 'PATCH',
                         action: '/organizations/:organizationName',
                         url: {

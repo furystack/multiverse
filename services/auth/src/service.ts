@@ -26,4 +26,7 @@ import { setupRepository } from './setup-repository'
   await setupRestApi(injector)
   attachShutdownHandler(injector)
   runPatches({ injector, patches: [createInitialIndexes] })
-})()
+})().catch((reason) => {
+  console.error(reason)
+  process.exit(1)
+})

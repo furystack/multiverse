@@ -1,10 +1,10 @@
 import { AbstractLogger, getLogger, LoggerCollection, LogLevel, useLogging } from '@furystack/logging'
 import { getCurrentUser, isAuthorized, StoreManager } from '@furystack/core'
-import { Injectable, Injector } from '@furystack/inject'
+import { Injectable, Injected, Injector } from '@furystack/inject'
 import { Disposable } from '@furystack/utils'
 import { getRepository } from '@furystack/repository'
 import { databases } from '@common/config'
-import { MongodbStore, useMongoDb } from '@furystack/mongodb-store'
+import { useMongoDb } from '@furystack/mongodb-store'
 import { diag } from '@common/models'
 import { ApplicationContextService } from './application-context'
 
@@ -19,31 +19,37 @@ export class DbLoggerSettings {
 export class DbLogger extends AbstractLogger implements Disposable {
   private isDisposing = false
 
+  @Injected(LoggerCollection)
+  private readonly loggerCollection!: LoggerCollection
+
+  @Injected(StoreManager)
+  private readonly storeManager!: StoreManager
+
+  @Injected(ApplicationContextService)
+  private readonly applicationContextService!: ApplicationContextService
+
+  @Injected(DbLoggerSettings)
+  private readonly settings!: DbLoggerSettings
+
   public async dispose() {
     this.isDisposing = true
-    this.injector.getInstance(LoggerCollection).detach(this)
+    this.loggerCollection.detach(this)
     this.addEntry = () => Promise.resolve()
-    await getLogger(this.injector)
+    await this.loggerCollection
       .withScope(this.constructor.name)
       .information({ message: 'Disposing, no logs will be saved to the DB...' })
   }
-  public readonly store: MongodbStore<diag.LogEntry<any>, '_id'>
   public async addEntry<T>(entry: import('@furystack/logging').LeveledLogEntry<T>): Promise<void> {
-    const { name: appName } = this.injector.getInstance(ApplicationContextService)
+    const { name: appName } = this.applicationContextService
     if (!this.isDisposing) {
       if (entry.level >= (this.settings.minLevel || LogLevel.Information)) {
-        await this.store.add({
+        await this.storeManager.getStoreFor(diag.LogEntry, '_id').add({
           ...entry,
           creationDate: new Date(),
           appName,
         })
       }
     }
-  }
-
-  constructor(private injector: Injector, private readonly settings: DbLoggerSettings) {
-    super()
-    this.store = injector.getInstance(StoreManager).getStoreFor(diag.LogEntry, '_id')
   }
 }
 

@@ -1,7 +1,7 @@
 import { createComponent, Shade } from '@furystack/shades'
 import { Tabs, Input, Button, colors, NotyService, Paper } from '@furystack/shades-common-components'
 import { auth, getRandomString } from '@common/models'
-import { AuthApiService, MyAvatarService, SessionService } from '@common/frontend-utils'
+import { useAuthApi, MyAvatarService, SessionService } from '@common/frontend-utils'
 import { MyAvatar, ImageAvatar } from '@common/components'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 import { ChangePasswordForm } from '../components/change-password-form'
@@ -110,7 +110,7 @@ export const ProfilePage = Shade<
                         state.displayName !== state.profile.displayName
                       ) {
                         try {
-                          await injector.getInstance(AuthApiService).call({
+                          await useAuthApi(injector)({
                             method: 'PATCH',
                             action: '/profiles/:id',
                             url: { id: state.profile._id },
@@ -194,9 +194,7 @@ export const ProfilePage = Shade<
                               "Once disconnected, you won't be able to login with this Google account. Are you sure to disconnect?",
                             )
                           ) {
-                            await injector
-                              .getInstance(AuthApiService)
-                              .call({ method: 'POST', action: '/detachGoogleAccount' })
+                            await useAuthApi(injector)({ method: 'POST', action: '/detachGoogleAccount' })
                             await reloadProviderDetails()
                           }
                         }}
@@ -212,7 +210,7 @@ export const ProfilePage = Shade<
                         onclick={async () => {
                           /** */
                           const token = await injector.getInstance(GoogleOauthProvider).getToken()
-                          await injector.getInstance(AuthApiService).call({
+                          await useAuthApi(injector)({
                             method: 'POST',
                             action: '/attachGoogleAccount',
                             body: { token },
@@ -254,9 +252,7 @@ export const ProfilePage = Shade<
                               "Once disconnected, you won't be able to login with this Github account. Are you sure to disconnect?",
                             )
                           ) {
-                            await injector
-                              .getInstance(AuthApiService)
-                              .call({ method: 'POST', action: '/detachGithubAccount' })
+                            await useAuthApi(injector)({ method: 'POST', action: '/detachGithubAccount' })
                             // await reloadProviderDetails()
                             /** */
                           }
@@ -272,7 +268,7 @@ export const ProfilePage = Shade<
                         style={{ color: 'rgba(16,92,32)' }}
                         onclick={async (ev) => {
                           ev.preventDefault()
-                          const { result: oauthData } = await injector.getInstance(AuthApiService).call({
+                          const { result: oauthData } = await useAuthApi(injector)({
                             method: 'GET',
                             action: '/oauth-data',
                           })

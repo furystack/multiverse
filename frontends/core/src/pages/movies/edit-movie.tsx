@@ -1,6 +1,6 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { media } from '@common/models'
-import { MediaApiService } from '@common/frontend-utils'
+import { useMediaApi } from '@common/frontend-utils'
 import { GenericMonacoEditor } from '../../components/editors/generic-monaco-editor'
 import { MovieService } from '../../services/movie-service'
 
@@ -41,7 +41,7 @@ export const EditMovie = Shade<{ movie: media.Movie }>({
         ]}
         onSave={async (movie: media.Movie) => {
           const { _id, ...body } = movie
-          await injector.getInstance(MediaApiService).call({
+          await useMediaApi(injector)({
             method: 'PATCH',
             action: '/movies/:id',
             url: { id: movie._id },

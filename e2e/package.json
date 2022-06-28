@@ -2,11 +2,10 @@
     "name": "e2e",
     "version": "1.0.0",
     "dependencies": {
-        "@common/config": "workspace:^",
+        "@common/config": "^1.2.0",
         "@common/models": "workspace:^",
-        "cypress": "^9.6.1",
+        "cypress": "^10.2.0",
         "cypress-file-upload": "^5.0.8",
-        "cypress-visual-regression": "^1.7.0",
-        "typescript": "^4.6.4"
+        "typescript": "^4.7.4"
     }
 }

@@ -27,6 +27,6 @@ setupRepository(injector)
 setupRestApi(injector)
 attachShutdownHandler(injector)
 
-injector.getInstance(MediaLibraryWatcher) // To init fs watcher
+injector.getInstance(MediaLibraryWatcher).init() // To init fs watcher
 
 runPatches({ injector, patches: [createInitialIndexes, createSeriesIndex] })
