@@ -192,12 +192,11 @@ export class GoogleOauthProvider {
     return null
   }
 
-  /**
-   *
-   * @param {BaseRepository} _repository the Repository instance
-   * @param {GoogleAuthenticationOptions} _options Additional options for the Provider
-   */
-  constructor(private readonly options: GoogleAuthenticationOptions, private readonly session: SessionService) {}
+  @Injected(SessionService)
+  private readonly session!: SessionService
+
+  @Injected(GoogleAuthenticationOptions)
+  private readonly options!: GoogleAuthenticationOptions
 }
 
 export const useGoogleAuth = function (injector: Injector, options?: GoogleAuthenticationOptions) {
