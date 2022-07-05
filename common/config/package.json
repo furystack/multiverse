@@ -10,8 +10,8 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@types/node": "^18.0.0",
-    "mongodb": "^4.6.0",
+    "@types/node": "^18.0.1",
+    "mongodb": "^4.7.0",
     "tslib": "^2.4.0"
   }
 }
