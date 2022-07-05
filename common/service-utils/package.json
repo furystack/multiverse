@@ -28,7 +28,7 @@
     "@furystack/utils": "^3.0.5",
     "@slack/types": "^2.6.0",
     "@slack/webhook": "^6.1.0",
-    "mongodb": "^4.7.0",
+    "mongodb": "4.6.0",
     "tslib": "^2.4.0"
   }
 }
