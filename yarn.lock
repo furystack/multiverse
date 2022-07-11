@@ -431,9 +431,9 @@ __metadata:
     "@common/config": ^1.2.0
     "@common/frontend-utils": ^1.2.5
     "@common/models": "workspace:^"
-    "@furystack/shades": ^6.0.1
-    "@furystack/shades-common-components": ^3.1.2
-    "@furystack/shades-lottie": ^2.0.7
+    "@furystack/shades": ^6.0.2
+    "@furystack/shades-common-components": ^3.2.0
+    "@furystack/shades-lottie": ^2.0.8
     "@furystack/utils": ^3.0.5
     typescript: ^4.7.4
   languageName: unknown
@@ -443,7 +443,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@common/config@workspace:common/config"
   dependencies:
-    "@types/node": ^18.0.1
+    "@types/node": ^18.0.3
     mongodb: 4.6.0
     tslib: ^2.4.0
   languageName: unknown
@@ -455,12 +455,12 @@ __metadata:
   dependencies:
     "@common/config": ^1.2.0
     "@common/models": ^1.3.1
-    "@furystack/core": ^11.0.5
+    "@furystack/core": ^11.0.6
     "@furystack/inject": ^7.0.1
-    "@furystack/rest-client-fetch": ^4.0.6
-    "@furystack/shades-common-components": ^3.1.2
+    "@furystack/rest-client-fetch": ^4.0.7
+    "@furystack/shades-common-components": ^3.2.0
     "@furystack/utils": ^3.0.5
-    "@types/node": ^18.0.1
+    "@types/node": ^18.0.3
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -469,11 +469,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@common/models@workspace:common/models"
   dependencies:
-    "@furystack/core": ^11.0.5
+    "@furystack/core": ^11.0.6
     "@furystack/logging": ^3.0.5
-    "@furystack/rest": ^4.0.4
+    "@furystack/rest": ^4.0.5
     "@types/ffprobe": ^1.1.3
-    "@types/node": ^18.0.1
+    "@types/node": ^18.0.3
     ts-json-schema-generator: ^1.0.0
     tslib: ^2.4.0
   languageName: unknown
@@ -485,19 +485,19 @@ __metadata:
   dependencies:
     "@common/config": ^1.2.0
     "@common/models": ^1.3.1
-    "@furystack/core": ^11.0.5
+    "@furystack/core": ^11.0.6
     "@furystack/inject": ^7.0.1
     "@furystack/logging": ^3.0.5
-    "@furystack/mongodb-store": ^5.0.5
-    "@furystack/repository": ^6.0.5
-    "@furystack/rest": ^4.0.4
-    "@furystack/rest-service": ^6.0.6
-    "@furystack/security": ^2.0.5
+    "@furystack/mongodb-store": ^5.0.6
+    "@furystack/repository": ^6.0.6
+    "@furystack/rest": ^4.0.5
+    "@furystack/rest-service": ^6.0.7
+    "@furystack/security": ^2.0.6
     "@furystack/utils": ^3.0.5
-    "@slack/types": ^2.6.0
+    "@slack/types": ^2.7.0
     "@slack/webhook": ^6.1.0
     "@types/jest": ^28.1.4
-    "@types/node": ^18.0.1
+    "@types/node": ^18.0.3
     mongodb: 4.6.0
     tslib: ^2.4.0
   languageName: unknown
@@ -582,24 +582,24 @@ __metadata:
     "@common/config": ^1.2.0
     "@common/frontend-utils": "workspace:^"
     "@common/models": "workspace:^"
-    "@furystack/core": ^11.0.5
+    "@furystack/core": ^11.0.6
     "@furystack/inject": ^7.0.1
     "@furystack/logging": ^3.0.5
-    "@furystack/rest": ^4.0.4
-    "@furystack/rest-client-fetch": ^4.0.6
-    "@furystack/shades": ^6.0.1
-    "@furystack/shades-common-components": ^3.1.2
+    "@furystack/rest": ^4.0.5
+    "@furystack/rest-client-fetch": ^4.0.7
+    "@furystack/shades": ^6.0.2
+    "@furystack/shades-common-components": ^3.2.0
     "@furystack/utils": ^3.0.5
     "@relative-ci/agent": ^3.1.3
     "@types/marked": ^4.0.3
-    "@types/node": ^18.0.1
+    "@types/node": ^18.0.3
     "@types/video.js": ^7.3.42
     "@types/web": ^0.0.69
     clean-webpack-plugin: ^4.0.0
     copy-webpack-plugin: ^11.0.0
     css-loader: ^6.7.1
     file-loader: ^6.2.0
-    fork-ts-checker-webpack-plugin: ^7.2.11
+    fork-ts-checker-webpack-plugin: ^7.2.12
     html-webpack-plugin: ^5.5.0
     marked: ^4.0.17
     mini-css-extract-plugin: ^2.6.1
@@ -624,29 +624,29 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@furystack/auth-google@npm:^5.0.6":
-  version: 5.0.6
-  resolution: "@furystack/auth-google@npm:5.0.6"
+"@furystack/auth-google@npm:^5.0.7":
+  version: 5.0.7
+  resolution: "@furystack/auth-google@npm:5.0.7"
   dependencies:
-    "@furystack/core": ^11.0.5
+    "@furystack/core": ^11.0.6
     "@furystack/inject": ^7.0.1
-    "@furystack/rest": ^4.0.4
-    "@furystack/rest-service": ^6.0.6
+    "@furystack/rest": ^4.0.5
+    "@furystack/rest-service": ^6.0.7
     "@furystack/utils": ^3.0.5
     tslib: ^2.4.0
-  checksum: 73964d237b1f62ef013f7188ff1c5f36afc53307b1989954d07e2464ff77afa48a8177659b0a50ee92bff7f6889164aa4676aa85f4c9394b281c522b40c4b797
+  checksum: 0d0f71fccbc6a325d7165bacd3390ebb6fa7e9ae3eafd9b8bc0258ca8d67d2afa2d29b1433f48edd295ff173fb5457ea6ba9f8a09d54bd12c190d435d8cc94e1
   languageName: node
   linkType: hard
 
-"@furystack/core@npm:^11.0.5":
-  version: 11.0.5
-  resolution: "@furystack/core@npm:11.0.5"
+"@furystack/core@npm:^11.0.6":
+  version: 11.0.6
+  resolution: "@furystack/core@npm:11.0.6"
   dependencies:
     "@furystack/inject": ^7.0.1
     "@furystack/utils": ^3.0.5
     semaphore-async-await: ^1.5.1
     tslib: ^2.4.0
-  checksum: f9381481474b4c8532bc88d35f3121651b60662d25a73a8d801be7e7c758af130b4e00b84115d3d4d816b332cdc55150597020a5a4b657afb986007534fd1d25
+  checksum: 1e2d876d794e70870b9be378e46db5441a6cc578a7bf27856a9cfc05510c7328088d78d9734041e9bd49923e0cd67d5b996d9db0b5d0381340dbe0bd0e2c0a77
   languageName: node
   linkType: hard
 
@@ -671,141 +671,141 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@furystack/mongodb-store@npm:^5.0.5":
-  version: 5.0.5
-  resolution: "@furystack/mongodb-store@npm:5.0.5"
+"@furystack/mongodb-store@npm:^5.0.6":
+  version: 5.0.6
+  resolution: "@furystack/mongodb-store@npm:5.0.6"
   dependencies:
-    "@furystack/core": ^11.0.5
+    "@furystack/core": ^11.0.6
     "@furystack/inject": ^7.0.1
     "@furystack/logging": ^3.0.5
     "@furystack/utils": ^3.0.5
     mongodb: 4.6.0
     semaphore-async-await: ^1.5.1
     tslib: ^2.4.0
-  checksum: 5dc30d645d9beb7482186c7a62271ef606a9f5a56c78fc58b70b26192c8600267b68a2daea0490c9ae42d3d99db4db14bd3722869dd7c13dee6c2428fb2cbfa8
+  checksum: c7048e32b177e7fb219e0dee730870688ffa1cbd322db406dd821f8a5ff2e1108960e2e397d0fa5731cea5f5491bbb1bc7d34c74fed40e06022ee80d61a11337
   languageName: node
   linkType: hard
 
-"@furystack/repository@npm:^6.0.5":
-  version: 6.0.5
-  resolution: "@furystack/repository@npm:6.0.5"
+"@furystack/repository@npm:^6.0.6":
+  version: 6.0.6
+  resolution: "@furystack/repository@npm:6.0.6"
   dependencies:
-    "@furystack/core": ^11.0.5
+    "@furystack/core": ^11.0.6
     "@furystack/inject": ^7.0.1
     "@furystack/logging": ^3.0.5
     "@furystack/utils": ^3.0.5
     tslib: ^2.4.0
-  checksum: 40fbe35a5e00048fb6034275c1c205070b9bc0caed8cc942e44dceaa7998c91212f8c3037e66ddea37394d1f9dac46ed5f980c892f0bc3ee0dfe2a2e7826e8bb
+  checksum: 7d402e0f9994808cea6c0e4ba9d718ec0fe20cea203568bc7148c8abd9bf8711e91a20cc966c33cd5d4f92cbfb8533c1584cec813b9726150c587d4c48e5feef
   languageName: node
   linkType: hard
 
-"@furystack/rest-client-fetch@npm:^4.0.6":
-  version: 4.0.6
-  resolution: "@furystack/rest-client-fetch@npm:4.0.6"
+"@furystack/rest-client-fetch@npm:^4.0.7":
+  version: 4.0.7
+  resolution: "@furystack/rest-client-fetch@npm:4.0.7"
   dependencies:
     "@furystack/inject": ^7.0.1
     "@furystack/logging": ^3.0.5
-    "@furystack/rest": ^4.0.4
+    "@furystack/rest": ^4.0.5
     "@furystack/utils": ^3.0.5
     path-to-regexp: ^6.2.1
     tslib: ^2.4.0
-  checksum: 7c04f194cad5030ab040eadd4f9e064a3b0ddc2f218f2459ca65c7e299ca1fab3e8771a383d6921e52c82e44280e09d4d8756eefa137bef46bc2d13eae97f8e2
+  checksum: d073e7b062d18c16d846b3d91bf048d5f98cd35711371934d1c5ecb9b7f40c44aeda748034f605b73729e8dc1ea7900000e6f25bc8b12bb158ce883a4c890c69
   languageName: node
   linkType: hard
 
-"@furystack/rest-client-got@npm:^2.0.6":
-  version: 2.0.6
-  resolution: "@furystack/rest-client-got@npm:2.0.6"
+"@furystack/rest-client-got@npm:^2.0.7":
+  version: 2.0.7
+  resolution: "@furystack/rest-client-got@npm:2.0.7"
   dependencies:
     "@furystack/inject": ^7.0.1
     "@furystack/logging": ^3.0.5
-    "@furystack/rest": ^4.0.4
+    "@furystack/rest": ^4.0.5
     "@furystack/utils": ^3.0.5
     got: ^11.8.5
     path-to-regexp: ^6.2.1
     tslib: ^2.4.0
-  checksum: b5e3db7ae00301d7a3e526ab5a1afaef38b902857468dc38297e6b7835173edfced3b026336839f2da42422e7b2e0f68aea0888b5f47608595e1779145854714
+  checksum: 9a47306be627016865343cee188cb87103d34a397621d56cb1a90fd3d4149b8ff6f3cfbb1da260514f1f4d0866ad5712bf08e40c43a5cda907826272bcc93f59
   languageName: node
   linkType: hard
 
-"@furystack/rest-service@npm:^6.0.6":
-  version: 6.0.6
-  resolution: "@furystack/rest-service@npm:6.0.6"
+"@furystack/rest-service@npm:^6.0.7":
+  version: 6.0.7
+  resolution: "@furystack/rest-service@npm:6.0.7"
   dependencies:
-    "@furystack/core": ^11.0.5
+    "@furystack/core": ^11.0.6
     "@furystack/inject": ^7.0.1
     "@furystack/logging": ^3.0.5
-    "@furystack/repository": ^6.0.5
-    "@furystack/rest": ^4.0.4
-    "@furystack/security": ^2.0.5
+    "@furystack/repository": ^6.0.6
+    "@furystack/rest": ^4.0.5
+    "@furystack/security": ^2.0.6
     "@furystack/utils": ^3.0.5
     ajv: ^8.11.0
     ajv-formats: ^2.1.1
     path-to-regexp: ^6.2.1
     semaphore-async-await: ^1.5.1
     tslib: ^2.4.0
-  checksum: 15a525da0e7834138283d9a21734b4ca2bafa9358e5a61cdfb9088bb085f67aa980d686839add38949a42b6cb835d586947b7a433e2c1e4c76b862205b2d6d95
+  checksum: 14a65bb05114dc82c6a0fb2d29adcf4b1459a76c7f9a1b59a32a738d051de7fb13cbe2cbbda2e4be151f9c5f8422cd0f43fd3feaeef5df58de08f6ddc12bc4b5
   languageName: node
   linkType: hard
 
-"@furystack/rest@npm:^4.0.4":
-  version: 4.0.4
-  resolution: "@furystack/rest@npm:4.0.4"
+"@furystack/rest@npm:^4.0.5":
+  version: 4.0.5
+  resolution: "@furystack/rest@npm:4.0.5"
   dependencies:
     "@furystack/inject": ^7.0.1
     tslib: ^2.4.0
-  checksum: 2a55182dc75a9954206a6c902a2ffb125940555bffc15d98b4907a5ed7e521dcb1031b5ada87958c403c48c4ab2b1c1f6aa379e8629b7d7686cf5d61e3504cba
+  checksum: 5d874de9499b5309c2f6b69f70a39b7dc92bdcf8e42099fb95b202be7c0adad96a5ce7de211400b61b29276c14424db035e9e7ec5b1ef840e888b7ebd6dd1f02
   languageName: node
   linkType: hard
 
-"@furystack/security@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "@furystack/security@npm:2.0.5"
+"@furystack/security@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "@furystack/security@npm:2.0.6"
   dependencies:
-    "@furystack/core": ^11.0.5
+    "@furystack/core": ^11.0.6
     "@furystack/inject": ^7.0.1
     "@furystack/utils": ^3.0.5
     tslib: ^2.4.0
-  checksum: 65cde54979152bfdac130881a12b1d67f34a1e22ea54e7b0c699b5023371b3e9426595fc14616c45ee3b51ed732353fde1ea91672426a7709d19a7cb583da9d4
+  checksum: 974879dad3c63ffd8c2e0a135c4d715d49dadec89afb4c3fa113d41e5db52c0b7bde18192664031e3dfb2b347890854c177ae26a117e63fc3617bb0c099db0ea
   languageName: node
   linkType: hard
 
-"@furystack/shades-common-components@npm:^3.1.2":
-  version: 3.1.2
-  resolution: "@furystack/shades-common-components@npm:3.1.2"
+"@furystack/shades-common-components@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "@furystack/shades-common-components@npm:3.2.0"
   dependencies:
-    "@furystack/core": ^11.0.5
+    "@furystack/core": ^11.0.6
     "@furystack/inject": ^7.0.1
-    "@furystack/shades": ^6.0.1
+    "@furystack/shades": ^6.0.2
     "@furystack/utils": ^3.0.5
     path-to-regexp: ^6.2.1
     semaphore-async-await: ^1.5.1
     tslib: ^2.4.0
-  checksum: a23193649678662642ecc872cf22e709f13dfd9a470b7523669675c4ecb7a817967fc438bd9509a872a69b47d23ade046550c88a7ae637bf8aa3c138a348837e
+  checksum: ac8e701b13587a97e68d8765fae434e012d819302a345ac1f620146a2c438111ca9a9c897d5ac22490d05e29462501c394dbdc092031ec0d124294500e477cca
   languageName: node
   linkType: hard
 
-"@furystack/shades-lottie@npm:^2.0.7":
-  version: 2.0.7
-  resolution: "@furystack/shades-lottie@npm:2.0.7"
+"@furystack/shades-lottie@npm:^2.0.8":
+  version: 2.0.8
+  resolution: "@furystack/shades-lottie@npm:2.0.8"
   dependencies:
-    "@furystack/shades": ^6.0.1
+    "@furystack/shades": ^6.0.2
     "@lottiefiles/lottie-player": ^1.5.7
-  checksum: b5721f58dd8732cf8998c31d14b0258c931c5c18fdabe6ada84bb9a6bbadf8b7c923b0c1050884143a52d8ce1c675d31781eac724ac36795ac2ae029b476df0f
+  checksum: cd6fb74ea3ec9a4331f1c5dc75181d2ed518e9430ec9dd7d9081ab8e83d5b83da77f8a1ff5ea5138ec8b5884783f384b2ab610c98e2f1b646de9774a78fc3bf7
   languageName: node
   linkType: hard
 
-"@furystack/shades@npm:^6.0.1":
-  version: 6.0.1
-  resolution: "@furystack/shades@npm:6.0.1"
+"@furystack/shades@npm:^6.0.2":
+  version: 6.0.2
+  resolution: "@furystack/shades@npm:6.0.2"
   dependencies:
-    "@furystack/core": ^11.0.5
+    "@furystack/core": ^11.0.6
     "@furystack/inject": ^7.0.1
     "@furystack/utils": ^3.0.5
     path-to-regexp: ^6.2.1
     semaphore-async-await: ^1.5.1
     tslib: ^2.4.0
-  checksum: 438f0d901c784950dbfbbc6656f57ae9e19516b6b784a1e0bbb744ef34f130f954ac82b13e0b7ed4cce1802cb65a60fa5e01490d33596ba9ad1f25c6b678aafc
+  checksum: 9bcbce197a9d6f3dfc5b1e6a9359a64b01c74346607a6c20e91f3265cac22351c343bc5392f6ff3cc1de4d3a5d218f5badf8e6eb8ece8d1b555bf70cc0cd1539
   languageName: node
   linkType: hard
 
@@ -818,18 +818,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@furystack/websocket-api@npm:^8.0.6":
-  version: 8.0.6
-  resolution: "@furystack/websocket-api@npm:8.0.6"
+"@furystack/websocket-api@npm:^8.0.7":
+  version: 8.0.7
+  resolution: "@furystack/websocket-api@npm:8.0.7"
   dependencies:
-    "@furystack/core": ^11.0.5
+    "@furystack/core": ^11.0.6
     "@furystack/inject": ^7.0.1
     "@furystack/logging": ^3.0.5
-    "@furystack/rest-service": ^6.0.6
+    "@furystack/rest-service": ^6.0.7
     "@furystack/utils": ^3.0.5
     tslib: ^2.4.0
     ws: ^8.8.0
-  checksum: c1f3eacbda192e1eae4293340c97d7f65d40fc327a361987d98633678a6fc69b1995cb0cb9d70041d6ffaff381d5b5c3f3f5d0a66c2d4931f89b55cefa00ca3d
+  checksum: 6b4a510b6e1eee87edbd11db49f58c878db048d99de78b60117983c819a2faf1155f2e42cfb9919f87036d61230630880b4bafdb998aed53a5ebf021ddcd31cb
   languageName: node
   linkType: hard
 
@@ -1282,18 +1282,18 @@ __metadata:
     "@common/config": ^1.2.0
     "@common/models": "workspace:^"
     "@common/service-utils": ^1.2.6
-    "@furystack/auth-google": ^5.0.6
-    "@furystack/core": ^11.0.5
+    "@furystack/auth-google": ^5.0.7
+    "@furystack/core": ^11.0.6
     "@furystack/inject": ^7.0.1
     "@furystack/logging": ^3.0.5
-    "@furystack/mongodb-store": ^5.0.5
-    "@furystack/repository": ^6.0.5
-    "@furystack/rest": ^4.0.4
-    "@furystack/rest-service": ^6.0.6
-    "@furystack/security": ^2.0.5
+    "@furystack/mongodb-store": ^5.0.6
+    "@furystack/repository": ^6.0.6
+    "@furystack/rest": ^4.0.5
+    "@furystack/rest-service": ^6.0.7
+    "@furystack/security": ^2.0.6
     "@furystack/utils": ^3.0.5
     "@types/formidable": ^2.0.5
-    "@types/node": ^18.0.1
+    "@types/node": ^18.0.3
     formidable: ^2.0.1
     tslib: ^2.4.0
   languageName: unknown
@@ -1306,15 +1306,15 @@ __metadata:
     "@common/config": ^1.2.0
     "@common/models": "workspace:^"
     "@common/service-utils": ^1.2.6
-    "@furystack/auth-google": ^5.0.6
-    "@furystack/core": ^11.0.5
+    "@furystack/auth-google": ^5.0.7
+    "@furystack/core": ^11.0.6
     "@furystack/inject": ^7.0.1
     "@furystack/logging": ^3.0.5
-    "@furystack/mongodb-store": ^5.0.5
-    "@furystack/repository": ^6.0.5
-    "@furystack/rest": ^4.0.4
-    "@furystack/rest-service": ^6.0.6
-    "@types/node": ^18.0.1
+    "@furystack/mongodb-store": ^5.0.6
+    "@furystack/repository": ^6.0.6
+    "@furystack/rest": ^4.0.5
+    "@furystack/rest-service": ^6.0.7
+    "@types/node": ^18.0.3
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -1326,15 +1326,15 @@ __metadata:
     "@common/config": ^1.2.0
     "@common/models": "workspace:^"
     "@common/service-utils": ^1.2.6
-    "@furystack/auth-google": ^5.0.6
-    "@furystack/core": ^11.0.5
+    "@furystack/auth-google": ^5.0.7
+    "@furystack/core": ^11.0.6
     "@furystack/inject": ^7.0.1
     "@furystack/logging": ^3.0.5
-    "@furystack/mongodb-store": ^5.0.5
-    "@furystack/repository": ^6.0.5
-    "@furystack/rest": ^4.0.4
-    "@furystack/rest-service": ^6.0.6
-    "@types/node": ^18.0.1
+    "@furystack/mongodb-store": ^5.0.6
+    "@furystack/repository": ^6.0.6
+    "@furystack/rest": ^4.0.5
+    "@furystack/rest-service": ^6.0.7
+    "@types/node": ^18.0.3
     tslib: ^2.4.0
   languageName: unknown
   linkType: soft
@@ -1346,21 +1346,21 @@ __metadata:
     "@common/config": ^1.2.0
     "@common/models": "workspace:^"
     "@common/service-utils": ^1.2.6
-    "@furystack/auth-google": ^5.0.6
-    "@furystack/core": ^11.0.5
+    "@furystack/auth-google": ^5.0.7
+    "@furystack/core": ^11.0.6
     "@furystack/inject": ^7.0.1
     "@furystack/logging": ^3.0.5
-    "@furystack/mongodb-store": ^5.0.5
-    "@furystack/repository": ^6.0.5
-    "@furystack/rest": ^4.0.4
-    "@furystack/rest-service": ^6.0.6
+    "@furystack/mongodb-store": ^5.0.6
+    "@furystack/repository": ^6.0.6
+    "@furystack/rest": ^4.0.5
+    "@furystack/rest-service": ^6.0.7
     "@furystack/utils": ^3.0.5
-    "@furystack/websocket-api": ^8.0.6
+    "@furystack/websocket-api": ^8.0.7
     "@types/amqplib": ^0.8.2
     "@types/ffprobe": ^1.1.3
     "@types/formidable": ^2.0.5
     "@types/jest": ^28.1.4
-    "@types/node": ^18.0.1
+    "@types/node": ^18.0.3
     "@types/rimraf": ^3.0.2
     "@types/ws": ^8.5.3
     amqplib: ^0.10.0
@@ -1413,10 +1413,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@slack/types@npm:^2.6.0":
-  version: 2.6.0
-  resolution: "@slack/types@npm:2.6.0"
-  checksum: edb70190f970ce2fb806da48d4cba9968ad89fcce4925b84fd65b56a571dd3299208f6eb22d64a4bbb8ed8acb8ca4ae691879c9adae6ab46e9a9ac8ce5382f74
+"@slack/types@npm:^2.7.0":
+  version: 2.7.0
+  resolution: "@slack/types@npm:2.7.0"
+  checksum: f1a0fc7ce412771833b9837a3dbe4c7c235564841f2c4d2b4e5c796ff3c8baf9aa058ff4bba4118b466c07c37e7dee41eff5329e6fe81ae06d9b0859b37529e5
   languageName: node
   linkType: hard
 
@@ -1765,7 +1765,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=12.0.0, @types/node@npm:^18.0.1":
+"@types/node@npm:*, @types/node@npm:>=12.0.0":
   version: 18.0.1
   resolution: "@types/node@npm:18.0.1"
   checksum: be14b251c54cc2b4ca78ac6eadf2fe5e831e487f2e17848f21d576295945b538271dcc674d0bba582b3f8d95b84f6826e99b6ba4710c76f165a8bdd4d4f0618e
@@ -1776,6 +1776,13 @@ __metadata:
   version: 14.18.21
   resolution: "@types/node@npm:14.18.21"
   checksum: 4ed35b76609647a4e36a194702e31cdda9ed42174ddaf7937bc5498984e98a99e8a42ea895ea17dd9c5ec18080112c29ab670c34f90eb9f7a4703b85b31e34fa
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^18.0.3":
+  version: 18.0.3
+  resolution: "@types/node@npm:18.0.3"
+  checksum: 5dec59fbbc1186c808b53df1ca717dad034dbd6a901c75f5b052c845618b531b05f27217122c6254db99529a68618e4cfc534ae3dbf4e88754e9e572df80defa
   languageName: node
   linkType: hard
 
@@ -2309,15 +2316,15 @@ __metadata:
     "@common/config": ^1.2.0
     "@common/models": ^1.2.0
     "@common/service-utils": ^1.2.6
-    "@furystack/core": ^11.0.5
+    "@furystack/core": ^11.0.6
     "@furystack/inject": ^7.0.1
     "@furystack/logging": ^3.0.5
-    "@furystack/rest": ^4.0.4
-    "@furystack/rest-client-got": ^2.0.6
+    "@furystack/rest": ^4.0.5
+    "@furystack/rest-client-got": ^2.0.7
     "@furystack/utils": ^3.0.5
     "@types/amqplib": ^0.8.2
     "@types/fluent-ffmpeg": ^2.1.20
-    "@types/node": ^18.0.1
+    "@types/node": ^18.0.3
     "@types/rimraf": ^3.0.2
     amqplib: ^0.10.0
     chokidar: ^3.5.3
@@ -5031,9 +5038,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fork-ts-checker-webpack-plugin@npm:^7.2.11":
-  version: 7.2.11
-  resolution: "fork-ts-checker-webpack-plugin@npm:7.2.11"
+"fork-ts-checker-webpack-plugin@npm:^7.2.12":
+  version: 7.2.12
+  resolution: "fork-ts-checker-webpack-plugin@npm:7.2.12"
   dependencies:
     "@babel/code-frame": ^7.16.7
     chalk: ^4.1.2
@@ -5053,7 +5060,7 @@ __metadata:
   peerDependenciesMeta:
     vue-template-compiler:
       optional: true
-  checksum: b02942753e1c90b62ca674bfa004bc1561049b0c8c0fdc4d62bb13c156c93a0f2f496a7d3f95f93adcbac46c830bf83ba4c9fdef64cf871cdedf2f69f403511f
+  checksum: 79ccc4e6275c3f3e04e29bfcf13fe3eec1c61e285c1df942c14c92644a5c4f49deb4044cc73bef3becf24fa567a7fb6e37987f1fe2cae69f63fb4eba93bd9caa
   languageName: node
   linkType: hard
 

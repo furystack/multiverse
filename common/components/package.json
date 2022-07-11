@@ -17,9 +17,9 @@
     "@common/config": "^1.2.0",
     "@common/frontend-utils": "^1.2.5",
     "@common/models": "workspace:^",
-    "@furystack/shades": "^6.0.1",
-    "@furystack/shades-common-components": "^3.1.2",
-    "@furystack/shades-lottie": "^2.0.7",
+    "@furystack/shades": "^6.0.2",
+    "@furystack/shades-common-components": "^3.2.0",
+    "@furystack/shades-lottie": "^2.0.8",
     "@furystack/utils": "^3.0.5"
   },
   "typings": "dist/index.d.ts",
