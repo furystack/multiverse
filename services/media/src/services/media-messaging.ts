@@ -1,5 +1,5 @@
 import { Injectable, Injected, Injector } from '@furystack/inject'
-import { Disposable } from '@furystack/utils'
+import { Disposable, sleepAsync } from '@furystack/utils'
 import { messaging } from '@common/config'
 import { media } from '@common/models'
 import { connect, Connection, Channel } from 'amqplib'
@@ -43,7 +43,18 @@ export class MediaMessaging {
       try {
         await this.initLock.acquire()
         if (!this.isInitialized) {
-          this.connection = await connect(messaging.host, {})
+          try {
+            this.connection = await connect(messaging.host, {})
+          } catch (error) {
+            // Retry in case of too fast Docker Compose initialization
+            if ((error as any).code === 'ECONNREFUSED') {
+              await sleepAsync(5000)
+              this.connection = await connect(messaging.host, {})
+            } else {
+              throw error
+            }
+          }
+
           this.channel = await this.connection.createChannel()
           await this.channel.assertExchange(messaging.media.fanoutExchange, 'fanout')
           await this.channel.assertQueue(messaging.media.queues.encodeVideo, { durable: true })
