@@ -1,5 +1,4 @@
 import { media } from '@common/models'
-import got from 'got'
 import { tokens } from '@common/config'
 import { Injector } from '@furystack/inject'
 import { getLogger } from '@furystack/logging'
@@ -26,8 +25,11 @@ export const fetchOmdbMovieMetadata = async ({
   ].join('&')
 
   try {
-    const omdbResult = await got(`http://www.omdbapi.com/?apikey=${tokens.omdbApiKey}&${query}`)
-    const omdbMeta: media.OmdbMetadata = JSON.parse(omdbResult.body)
+    const omdbResult = await fetch(`http://www.omdbapi.com/?apikey=${tokens.omdbApiKey}&${query}`)
+    if (!omdbResult.ok) {
+      throw new Error('Failed to fetch OMDb data')
+    }
+    const omdbMeta: media.OmdbMetadata = await omdbResult.json()
     return omdbMeta
   } catch (error) {
     getLogger(injector)

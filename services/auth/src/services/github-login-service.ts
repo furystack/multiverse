@@ -1,7 +1,5 @@
-import { get } from 'https'
-import { Injectable, Injector } from '@furystack/inject'
-// import got from 'got'
-import { getLogger, ScopedLogger } from '@furystack/logging'
+import { Injectable, Injected, Injector } from '@furystack/inject'
+import { getLogger } from '@furystack/logging'
 import { tokens } from '@common/config'
 import { auth } from '@common/models'
 
@@ -9,8 +7,6 @@ import { auth } from '@common/models'
 export class GithubAuthService {
   public authUrl = 'https://api.github.com/user'
 
-  public get = get
-  public readonly logger: ScopedLogger
   /**
    * Returns the extracted Github Authentication data from the token.
    * @param token
@@ -18,12 +14,14 @@ export class GithubAuthService {
   public async getGithubUserData(options: { code: string; clientId: string }): Promise<auth.GithubApiPayload> {
     const clientSecret = tokens.githubClientSecret
     if (!clientSecret) {
-      await this.logger.error({
-        message: `Github Client secret has not been set up in the GITHUB_CLIENT_SECRET env. variable.`,
-        data: {
-          sendToSlack: true,
-        },
-      })
+      await getLogger(this.injector)
+        .withScope(this.constructor.name)
+        .error({
+          message: `Github Client secret has not been set up in the GITHUB_CLIENT_SECRET env. variable.`,
+          data: {
+            sendToSlack: true,
+          },
+        })
       throw Error('Github Authentication failed')
     }
     const body = JSON.stringify({
@@ -41,7 +39,7 @@ export class GithubAuthService {
     })
     const json = await response.json()
     const accessToken = json.access_token
-    const currentUserResponse = await fetch('https://api.github.com/user', {
+    const currentUserResponse = await fetch(this.authUrl, {
       headers: {
         Authorization: `token ${accessToken}`,
       },
@@ -49,10 +47,6 @@ export class GithubAuthService {
     return (await currentUserResponse.json()) as auth.GithubApiPayload
   }
 
-  /**
-   *
-   */
-  constructor(injector: Injector) {
-    this.logger = getLogger(injector).withScope('GithubAuthService')
-  }
+  @Injected(Injector)
+  private readonly injector!: Injector
 }
