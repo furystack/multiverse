@@ -1,10 +1,10 @@
-import { Injectable } from '@furystack/inject'
-import { AuthApiService, SessionService } from '@common/frontend-utils'
+import { Injectable, Injected, Injector } from '@furystack/inject'
+import { useAuthApi, SessionService } from '@common/frontend-utils'
 
-@Injectable({ lifetime: 'singleton' })
+@Injectable({ lifetime: 'transient' })
 export class GithubAuthProvider {
   private async getClientId() {
-    const { result: oauthData } = await this.api.call({
+    const { result: oauthData } = await useAuthApi(this.injector)({
       method: 'GET',
       action: '/oauth-data',
     })
@@ -15,7 +15,7 @@ export class GithubAuthProvider {
     try {
       this.session.isOperationInProgress.setValue(true)
       const clientId = await this.getClientId()
-      const { result: user } = await this.api.call({
+      const { result: user } = await useAuthApi(this.injector)({
         method: 'POST',
         action: '/githubLogin',
         body: {
@@ -36,7 +36,7 @@ export class GithubAuthProvider {
     try {
       this.session.isOperationInProgress.setValue(true)
       const clientId = await this.getClientId()
-      const { result: user } = await this.api.call({
+      const { result: user } = await useAuthApi(this.injector)({
         method: 'POST',
         action: '/githubRegister',
         body: { code, clientId },
@@ -52,15 +52,16 @@ export class GithubAuthProvider {
 
   public async attach(code: string) {
     const clientId = await this.getClientId()
-    await this.api.call({
+    await useAuthApi(this.injector)({
       method: 'POST',
       action: '/attachGithubAccount',
       body: { clientId, code },
     })
   }
 
-  /**
-   *
-   */
-  constructor(private readonly session: SessionService, private readonly api: AuthApiService) {}
+  @Injected(SessionService)
+  private readonly session!: SessionService
+
+  @Injected(Injector)
+  private readonly injector!: Injector
 }

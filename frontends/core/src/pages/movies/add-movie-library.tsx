@@ -1,7 +1,7 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { media } from '@common/models'
 import { Input, Button } from '@furystack/shades-common-components'
-import { MediaApiService } from '@common/frontend-utils'
+import { useMediaApi } from '@common/frontend-utils'
 import { FullScreenForm } from '../../components/full-screen-form'
 
 export const AddMovieLibrary = Shade<unknown, Pick<media.MovieLibrary, 'name' | 'path' | 'icon'>>({
@@ -34,7 +34,7 @@ export const AddMovieLibrary = Shade<unknown, Pick<media.MovieLibrary, 'name' | 
         }
         onSubmit={async (ev) => {
           ev.preventDefault()
-          await injector.getInstance(MediaApiService).call({
+          await useMediaApi(injector)({
             method: 'POST',
             action: '/movie-libraries',
             body: getState(),

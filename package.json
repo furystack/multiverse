@@ -1,6 +1,6 @@
 {
   "name": "multiverse",
-  "version": "2022.05.16",
+  "version": "2022.08.03",
   "description": "A furystack-based microservice and microfrontend collection",
   "main": "services/auth/src/index.ts",
   "repository": "https://github.com/furystack/multiverse.git",
@@ -18,25 +18,25 @@
     ]
   },
   "devDependencies": {
-    "@types/jest": "^27.5.1",
-    "@typescript-eslint/eslint-plugin": "^5.24.0",
-    "@typescript-eslint/parser": "^5.24.0",
-    "conventional-changelog-conventionalcommits": "^4.6.3",
-    "eslint": "^8.15.0",
+    "@types/jest": "^28.1.6",
+    "@typescript-eslint/eslint-plugin": "^5.32.0",
+    "@typescript-eslint/parser": "^5.32.0",
+    "conventional-changelog-conventionalcommits": "^5.0.0",
+    "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsdoc": "^39.2.9",
-    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-jsdoc": "^39.3.4",
+    "eslint-plugin-prettier": "^4.2.1",
     "glob": "^8.0.3",
     "husky": "^8.0.1",
-    "jest": "^28.1.0",
-    "jest-junit": "^13.2.0",
-    "lint-staged": "^12.4.1",
-    "prettier": "^2.6.2",
+    "jest": "^28.1.3",
+    "jest-junit": "^14.0.0",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
     "ts-json-schema-generator": "1.0.0",
-    "typescript": "^4.6.4"
+    "typescript": "^4.7.4"
   },
   "husky": {
     "hooks": {
@@ -59,7 +59,6 @@
     "build:frontends": "yarn workspace @frontend/core build",
     "build": "yarn build:common && yarn build:workers && yarn build:services && yarn build:frontends",
     "test:unit": "jest --verbose",
-    "test:cypress": "yarn seed && yarn cypress run",
     "clean": "rimraf (common|services|frontends)/**/(dist|bundle|tsconfig.tsbuildinfo) tsconfig.tsbuildinfo",
     "lint": "eslint . --ext .tsx,.ts --cache",
     "seed": "yarn workspace @service/auth seed",
@@ -77,5 +76,5 @@
     "suiteName": "FuryStack Multiverse Jest tests",
     "outputDirectory": "./coverage"
   },
-  "packageManager": "yarn@3.2.1"
+  "packageManager": "yarn@3.2.2"
 }

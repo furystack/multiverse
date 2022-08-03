@@ -1,7 +1,6 @@
 import { tokens } from '@common/config'
 import { dashboard } from '@common/models'
 import { JsonResult, RequestAction } from '@furystack/rest-service'
-import got from 'got'
 
 const weatherForecastCache = new Map<string, dashboard.WeatherData>()
 
@@ -16,7 +15,7 @@ export const GetWeatherForecastAction: RequestAction<{
   if (weatherForecastCache.has(key)) {
     return JsonResult(weatherForecastCache.get(key) as dashboard.WeatherData)
   }
-  const result = await got(
+  const result = await fetch(
     `https://community-open-weather-map.p.rapidapi.com/forecast?q=${encodeURIComponent(
       city,
     )}&units=${encodeURIComponent(units)}`,
@@ -29,7 +28,10 @@ export const GetWeatherForecastAction: RequestAction<{
       },
     },
   )
-  const weatherData = JSON.parse(result.body)
+  if (!result.ok) {
+    throw new Error('Failed to fetch weather forecast')
+  }
+  const weatherData = await result.json()
   weatherForecastCache.set(key, weatherData)
   setTimeout(() => {
     // delete after 3 hours

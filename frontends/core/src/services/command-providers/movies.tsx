@@ -1,4 +1,4 @@
-import { MediaApiService } from '@common/frontend-utils'
+import { useMediaApi } from '@common/frontend-utils'
 import { media } from '@common/models'
 import { createComponent } from '@furystack/shades'
 import { CommandProvider } from '@furystack/shades-common-components'
@@ -6,8 +6,8 @@ import { MovieWidget } from '../../components/dashboard/movie-widget'
 
 export const continueMovieProvider: CommandProvider = async ({ injector, term }) => {
   if (term.toLowerCase().startsWith('cont') || term.toLowerCase().includes('movie')) {
-    const mediaApi = injector.getInstance(MediaApiService)
-    const { result: progress } = await mediaApi.call({
+    const mediaApi = useMediaApi(injector)
+    const { result: progress } = await mediaApi({
       method: 'GET',
       action: '/my-watch-progress',
       query: {
@@ -21,7 +21,7 @@ export const continueMovieProvider: CommandProvider = async ({ injector, term })
     if (!progress.entries.length) {
       return []
     }
-    const { result: movies } = await mediaApi.call({
+    const { result: movies } = await mediaApi({
       method: 'GET',
       action: '/movies',
       query: { findOptions: { filter: { _id: { $in: progress.entries.map((e) => e.movieId) } } } },

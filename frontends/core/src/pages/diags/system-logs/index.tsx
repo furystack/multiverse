@@ -1,8 +1,8 @@
-import { Shade, createComponent, LocationService } from '@furystack/shades'
+import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { LogLevel } from '@furystack/logging'
 import { diag } from '@common/models'
 import { DataGrid, CollectionService } from '@furystack/shades-common-components'
-import { DiagApiService } from '@common/frontend-utils'
+import { useDiagApi } from '@common/frontend-utils'
 import { getLevelIcon } from './get-level-icon'
 
 export interface SystemLogsState {
@@ -36,7 +36,7 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
   getInitialState: ({ injector }) => ({
     systemLogsService: new CollectionService<diag.LogEntry<any>>(
       async (findOptions) => {
-        const { result } = await injector.getInstance(DiagApiService).call({
+        const { result } = await useDiagApi(injector)({
           method: 'GET',
           action: '/logEntries',
           query: { findOptions },
@@ -46,7 +46,7 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
       { top: 20, order: { creationDate: 'DESC' } },
     ),
   }),
-  render: ({ getState, injector }) => {
+  render: ({ getState }) => {
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <DataGrid<diag.LogEntry<any>>
@@ -54,7 +54,6 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
           service={getState().systemLogsService}
           styles={{
             cell: {
-              // textAlign: 'center',
               textOverflow: 'ellipsis',
               overflow: 'hidden',
             },
@@ -63,12 +62,12 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
           headerComponents={{}}
           rowComponents={{
             level: (entry) => <LogLevelCell level={entry.level} />,
-            message: (entry) => <span style={{ wordBreak: 'break-all' }}>{entry.message}</span>,
+            message: (entry) => (
+              <RouteLink href={`/diags/logs/${entry._id}`}>
+                <span style={{ wordBreak: 'break-all' }}>{entry.message}</span>
+              </RouteLink>
+            ),
             creationDate: (entry) => <span>{entry.creationDate.toString().replace(/([T|Z])/g, ' ')}</span>,
-          }}
-          onDoubleClick={(entry) => {
-            window.history.pushState('', '', `/diags/logs/${entry._id}`)
-            injector.getInstance(LocationService).updateState()
           }}
         />
       </div>

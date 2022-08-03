@@ -1,7 +1,7 @@
-import { Shade, createComponent, LocationService } from '@furystack/shades'
+import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { CollectionService, DataGrid } from '@furystack/shades-common-components'
 import { diag } from '@common/models'
-import { DiagApiService } from '@common/frontend-utils'
+import { useDiagApi } from '@common/frontend-utils'
 
 export const PatchList = Shade<{}, { service: CollectionService<diag.Patch> }>({
   shadowDomName: 'multiverse-patch-list',
@@ -9,7 +9,7 @@ export const PatchList = Shade<{}, { service: CollectionService<diag.Patch> }>({
     return {
       service: new CollectionService<diag.Patch>(
         async (findOptions) => {
-          const { result } = await injector.getInstance(DiagApiService).call({
+          const { result } = await useDiagApi(injector)({
             method: 'GET',
             action: '/patches',
             query: { findOptions },
@@ -20,7 +20,7 @@ export const PatchList = Shade<{}, { service: CollectionService<diag.Patch> }>({
       ),
     }
   },
-  render: ({ getState, injector }) => {
+  render: ({ getState }) => {
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <DataGrid<diag.Patch>
@@ -35,10 +35,8 @@ export const PatchList = Shade<{}, { service: CollectionService<diag.Patch> }>({
             wrapper: { background: 'rgba(128,128,128,0.03)' },
           }}
           headerComponents={{}}
-          rowComponents={{}}
-          onDoubleClick={(entry) => {
-            window.history.pushState('', '', `/diags/patches/${entry._id}`)
-            injector.getInstance(LocationService).updateState()
+          rowComponents={{
+            name: (el) => <RouteLink href={`/diags/patches/${el._id}`}>{el.name}</RouteLink>,
           }}
         />
       </div>

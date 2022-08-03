@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@furystack/inject'
+import { Injectable, Injected, Injector } from '@furystack/inject'
 import { sleepAsync } from '@furystack/utils'
 import { messaging } from '@common/config'
 import { connect, Connection, Channel, ConsumeMessage } from 'amqplib'
@@ -9,6 +9,9 @@ import { loadTaskDetails } from '../processes/load-task-details'
 
 @Injectable({ lifetime: 'singleton' })
 export class RabbitListener {
+  @Injected(Injector)
+  private readonly injector!: Injector
+
   private connection?: Connection
   private channel?: Channel
   private initLock = new Semaphore(1)
@@ -24,7 +27,10 @@ export class RabbitListener {
     await this.connection?.close()
   }
 
-  private async init() {
+  private logger!: ScopedLogger
+
+  public async init() {
+    this.logger = getLogger(this.injector).withScope('rabbit-listener')
     try {
       await this.initLock.acquire()
       this.connection = await connect(messaging.host)
@@ -91,12 +97,5 @@ export class RabbitListener {
           }
         })
     }
-  }
-
-  private readonly logger: ScopedLogger
-
-  constructor(private readonly injector: Injector) {
-    this.logger = getLogger(injector).withScope('rabbit-listener')
-    this.init()
   }
 }

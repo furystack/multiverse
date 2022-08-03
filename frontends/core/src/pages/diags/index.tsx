@@ -1,5 +1,5 @@
 import { Shade, Router, createComponent, LazyLoad } from '@furystack/shades'
-import { DiagApiService } from '@common/frontend-utils'
+import { useDiagApi } from '@common/frontend-utils'
 import { GenericErrorPage } from '../generic-error'
 import { Init } from '../init'
 import { SystemLogs } from './system-logs'
@@ -28,7 +28,7 @@ export const DiagsPage = Shade({
                   )}
                   component={async () => {
                     const { logEntryId } = match.params
-                    const { result } = await injector.getInstance(DiagApiService).call({
+                    const { result } = await useDiagApi(injector)({
                       method: 'GET',
                       action: '/logEntries/:id',
                       url: { id: logEntryId },
@@ -56,7 +56,7 @@ export const DiagsPage = Shade({
                   )}
                   component={async () => {
                     const { patchId } = match.params
-                    const { result } = await injector.getInstance(DiagApiService).call({
+                    const { result } = await useDiagApi(injector)({
                       method: 'GET',
                       action: '/patches/:id',
                       url: { id: patchId },

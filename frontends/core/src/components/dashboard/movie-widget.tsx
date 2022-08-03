@@ -1,7 +1,7 @@
 import { Shade, RouteLink, createComponent, LocationService, LazyLoad } from '@furystack/shades'
 import { media, auth } from '@common/models'
 import { promisifyAnimation } from '@furystack/shades-common-components'
-import { SessionService, MediaApiService } from '@common/frontend-utils'
+import { SessionService, useMediaApi } from '@common/frontend-utils'
 import { Icon } from '../icon'
 
 const focus = (el: HTMLElement) => {
@@ -180,7 +180,7 @@ export const MovieWidget = Shade<
                   props.watchHistory ||
                   (movie.metadata.duration &&
                     (
-                      await injector.getInstance(MediaApiService).call({
+                      await useMediaApi(injector)({
                         method: 'GET',
                         action: '/my-watch-progress',
                         query: {

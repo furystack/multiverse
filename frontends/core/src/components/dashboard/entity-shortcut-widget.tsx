@@ -1,6 +1,6 @@
 import { Shade, LazyLoad, createComponent } from '@furystack/shades'
 import { dashboard } from '@common/models'
-import { DashboardApiService, MediaApiService } from '@common/frontend-utils'
+import { useDashboardApi, useMediaApi } from '@common/frontend-utils'
 import { Init } from '../../pages'
 import { IconUrlWidget } from './icon-url-widget'
 import { BrokenWidget } from './broken-widget'
@@ -15,7 +15,7 @@ export const EntityShortcutWidget = Shade<dashboard.EntityShortcutWidget & { ind
         error={(error) => <BrokenWidget widgetData={{ props, error }} message={'Failed to display widget'} />}
         component={async () => {
           if (props.entityType === 'dashboard') {
-            const { result: board } = await injector.getInstance(DashboardApiService).call({
+            const { result: board } = await useDashboardApi(injector)({
               method: 'GET',
               action: '/boards/:id',
               url: { id: props.id },
@@ -32,7 +32,7 @@ export const EntityShortcutWidget = Shade<dashboard.EntityShortcutWidget & { ind
             )
           }
           if (props.entityType === 'movie') {
-            const { result: movie } = await injector.getInstance(MediaApiService).call({
+            const { result: movie } = await useMediaApi(injector)({
               method: 'GET',
               action: '/movies/:id',
               url: { id: props.id },
@@ -41,7 +41,7 @@ export const EntityShortcutWidget = Shade<dashboard.EntityShortcutWidget & { ind
             return <MovieWidget index={props.index} movie={movie} size={256} />
           }
           if (props.entityType === 'movie-library') {
-            const { result: movieLib } = await injector.getInstance(MediaApiService).call({
+            const { result: movieLib } = await useMediaApi(injector)({
               method: 'GET',
               action: '/movie-libraries/:id',
               url: { id: props.id },

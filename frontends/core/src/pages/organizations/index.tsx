@@ -1,5 +1,5 @@
-import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { AuthApiService } from '@common/frontend-utils'
+import { Shade, createComponent, LocationService, RouteLink } from '@furystack/shades'
+import { useAuthApi } from '@common/frontend-utils'
 import { auth } from '@common/models'
 import { DataGrid, Fab, colors, CollectionService } from '@furystack/shades-common-components'
 
@@ -8,7 +8,7 @@ export const OrganizationsPage = Shade<{}, { service: CollectionService<auth.Org
   getInitialState: ({ injector }) => {
     const service = new CollectionService<auth.Organization>(
       async (findOptions) => {
-        const { result } = await injector.getInstance(AuthApiService).call({
+        const { result } = await useAuthApi(injector)({
           method: 'GET',
           action: '/organizations',
           query: { findOptions },
@@ -26,12 +26,14 @@ export const OrganizationsPage = Shade<{}, { service: CollectionService<auth.Org
           columns={['name', 'description']}
           service={getState().service}
           headerComponents={{}}
-          rowComponents={{}}
-          styles={{}}
-          onDoubleClick={(entry) => {
-            history.pushState({}, '', `/organization/${encodeURIComponent(entry.name)}`)
-            injector.getInstance(LocationService).updateState()
+          rowComponents={{
+            name: (el) => (
+              <div>
+                <RouteLink href={`/organization/${encodeURIComponent(el.name)}`}>{el.name}</RouteLink>
+              </div>
+            ),
           }}
+          styles={{}}
         />
         <Fab
           title="Create new organization"

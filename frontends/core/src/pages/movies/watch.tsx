@@ -1,9 +1,10 @@
 import { Shade, createComponent, PartialElement } from '@furystack/shades'
-import { ObservableValue } from '@furystack/utils'
+import { ObservableValue, PathHelper } from '@furystack/utils'
 import { media } from '@common/models'
 import { sites } from '@common/config'
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
+import { EnvironmentService } from '@common/frontend-utils'
 import { MovieService } from '../../services/movie-service'
 
 declare global {
@@ -28,7 +29,15 @@ export const Watch = Shade<
     const subtitleStreams = props.movie.ffprobe.streams.filter((s) => (s.codec_type as any) === 'subtitle')
     const sources = [
       ...formats.sortBy('codec', 'desc').map((f) => ({
-        src: `${sites.services.media.apiPath}/watch-stream/${props.movie._id}/${f.codec}/${f.mode}/dash.mpd`,
+        src: PathHelper.joinPaths(
+          injector.getInstance(EnvironmentService).siteRoots.media,
+          sites.services.media.apiPath,
+          'watch-stream',
+          props.movie._id,
+          f.codec,
+          f.mode,
+          'dash.mpd',
+        ),
         type: f.mode === 'dash' ? 'application/dash+xml' : 'unknown',
         withCredentials: true,
       })),

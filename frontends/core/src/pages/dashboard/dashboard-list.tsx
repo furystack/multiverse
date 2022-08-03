@@ -1,7 +1,7 @@
-import { Shade, createComponent, LocationService } from '@furystack/shades'
+import { Shade, createComponent, LocationService, RouteLink } from '@furystack/shades'
 import { CollectionService, DataGrid, Fab } from '@furystack/shades-common-components'
 import { dashboard } from '@common/models'
-import { DashboardApiService } from '@common/frontend-utils'
+import { useDashboardApi } from '@common/frontend-utils'
 
 export const DashboardList = Shade<{}, { service: CollectionService<dashboard.Dashboard> }>({
   shadowDomName: 'multiverse-dashboard-list',
@@ -9,7 +9,7 @@ export const DashboardList = Shade<{}, { service: CollectionService<dashboard.Da
     return {
       service: new CollectionService<dashboard.Dashboard>(
         async (findOptions) => {
-          const { result } = await injector.getInstance(DashboardApiService).call({
+          const { result } = await useDashboardApi(injector)({
             method: 'GET',
             action: '/boards',
             query: { findOptions },
@@ -39,14 +39,10 @@ export const DashboardList = Shade<{}, { service: CollectionService<dashboard.Da
             name: (el) => {
               return (
                 <div>
-                  {el.name} <br /> {el.description}
+                  <RouteLink href={`/dashboard/edit/${el._id}`}>{el.name}</RouteLink> <br /> {el.description}
                 </div>
               )
             },
-          }}
-          onDoubleClick={(entry) => {
-            window.history.pushState('', '', `/dashboard/edit/${entry._id}`)
-            injector.getInstance(LocationService).updateState()
           }}
         />
         <Fab

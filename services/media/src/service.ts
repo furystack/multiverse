@@ -14,6 +14,7 @@ import { setupRestApi } from './setup-rest-api'
 import { setupRepository } from './setup-repository'
 import { MediaLibraryWatcher } from './services/media-library-watcher'
 import { createSeriesIndex } from './patches/01-create-series-index'
+import { MediaMessaging } from './services/media-messaging'
 
 const injector = new Injector()
 
@@ -27,6 +28,7 @@ setupRepository(injector)
 setupRestApi(injector)
 attachShutdownHandler(injector)
 
-injector.getInstance(MediaLibraryWatcher) // To init fs watcher
+injector.getInstance(MediaLibraryWatcher).init() // To init fs watcher
+injector.getInstance(MediaMessaging).init() // To init fs watcher
 
 runPatches({ injector, patches: [createInitialIndexes, createSeriesIndex] })

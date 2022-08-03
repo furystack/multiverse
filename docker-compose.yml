@@ -20,30 +20,39 @@ services:
     volumes:
       - multiverse-dev-db:/data/db
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:management-alpine
     ports:
       - 5672:5672
       - 15672:15672
     restart: unless-stopped
   multiverse-auth:
+    depends_on:
+      - mongo
     image: furystack/multiverse-auth
     environment:
       - MONGO_URL=mongodb://mongo:27017
     ports:
       - 9090:9090
   multiverse-dashboard:
+    depends_on:
+      - mongo
     image: furystack/multiverse-dashboard
     environment:
       - MONGO_URL=mongodb://mongo:27017
     ports:
       - 9094:9094
   multiverse-diag:
+    depends_on:
+      - mongo
     image: furystack/multiverse-diag
     environment:
       - MONGO_URL=mongodb://mongo:27017
     ports:
       - 9091:9091
   multiverse-media:
+    depends_on:
+      - rabbitmq
+      - mongo
     image: furystack/multiverse-media
     environment:
       - MONGO_URL=mongodb://mongo:27017

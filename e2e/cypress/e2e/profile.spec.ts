@@ -57,7 +57,7 @@ describe('Profile Management', () => {
 
     expectAndDismissNotification(cy, 'Your avatar has been updated', 'success')
 
-    cy.get('shade-profile-page div.profileHeader').compareSnapshot('profile-header', 0.001)
+    cy.get('shade-profile-page div.profileHeader').should('be.visible')
   })
 
   it('Should update the theme from the personal settings JSON', () => {
@@ -75,7 +75,7 @@ describe('Profile Management', () => {
     cy.get(saveButtonSelector).should('be.visible').click()
     expectAndDismissNotification(cy, 'Your changes has been saved succesfully')
 
-    cy.get('shade-app-bar > div').should('be.visible').compareSnapshot('light-header', 0.001)
+    cy.get('shade-app-bar > div').should('be.visible')
     navigateFromUserMenu(cy, 'Profile')
     cy.get('shade-tabs div').contains('Personal settings', { matchCase: false }).scrollIntoView().click()
     cy.get('user-settings-editor').then((el) => {
@@ -86,6 +86,6 @@ describe('Profile Management', () => {
     // cy.wait(5000)
     cy.get(saveButtonSelector).click()
     expectAndDismissNotification(cy, 'Your changes has been saved succesfully')
-    cy.get('shade-app-bar > div').compareSnapshot('dark-header', 0.001)
+    cy.get('shade-app-bar > div')
   })
 })

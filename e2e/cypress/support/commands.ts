@@ -1,6 +1,5 @@
 import 'cypress-file-upload'
 import { serviceNames } from '@common/models'
-import * as compareSnapshotCommand from 'cypress-visual-regression/dist/command'
 
 export const tryLogin = (cy: Cypress.cy, username: string, password: string) => {
   const loginButtonSelector = 'shade-login button[type=submit]'
@@ -47,8 +46,6 @@ export const expectAndDismissNotification = (
       .should('not.exist')
   })
 }
-
-compareSnapshotCommand()
 
 Cypress.on('uncaught:exception', (err) => {
   // returning false here prevents Cypress from

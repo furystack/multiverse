@@ -1,8 +1,9 @@
 import { EnvironmentService } from '@common/frontend-utils'
-import { Injectable } from '@furystack/inject'
+import { Injectable, Injected } from '@furystack/inject'
 @Injectable()
 export class ErrorReporter {
-  constructor(private readonly env: EnvironmentService) {}
+  @Injected(EnvironmentService)
+  private readonly env!: EnvironmentService
 
   public sendErrorReport(error: Error, context?: string) {
     const title = `Automated Bug Report - ${error.message}`

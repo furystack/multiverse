@@ -1,6 +1,6 @@
 import { Shade, createComponent } from '@furystack/shades'
 import { auth } from '@common/models'
-import { AuthApiService } from '@common/frontend-utils'
+import { useAuthApi } from '@common/frontend-utils'
 import { GenericMonacoEditor } from '../../components/editors/generic-monaco-editor'
 
 export const EditUserPage = Shade<{ entry: auth.User }>({
@@ -21,7 +21,7 @@ export const EditUserPage = Shade<{ entry: auth.User }>({
           data={props.entry}
           onSave={async (entry) => {
             const { _id, ...patchData } = entry
-            await injector.getInstance(AuthApiService).call({
+            await useAuthApi(injector)({
               method: 'PATCH',
               action: '/users/:id',
               url: {

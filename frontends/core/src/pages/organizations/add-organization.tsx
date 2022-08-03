@@ -1,7 +1,7 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { Input, Button } from '@furystack/shades-common-components'
 import { auth } from '@common/models'
-import { AuthApiService, SessionService } from '@common/frontend-utils'
+import { SessionService, useAuthApi } from '@common/frontend-utils'
 import { FullScreenForm } from '../../components/full-screen-form'
 
 export const AddOrganizationPage = Shade<{}, Omit<auth.Organization, '_id'>>({
@@ -37,7 +37,7 @@ export const AddOrganizationPage = Shade<{}, Omit<auth.Organization, '_id'>>({
         }
         onSubmit={async (ev) => {
           ev.preventDefault()
-          const { result: created } = await injector.getInstance(AuthApiService).call({
+          const { result: created } = await useAuthApi(injector)({
             method: 'POST',
             action: '/organizations',
             body: {

@@ -29,7 +29,7 @@ describe('Logging', () => {
   it('Should open a log entry details with double click', () => {
     login(cy, 'testSysDiags@gmail.com', 'password')
     cy.visit('/diags/logs')
-    cy.get('log-level-cell').last().scrollIntoView().dblclick()
+    cy.get('system-logs-page shade-data-grid route-link').last().scrollIntoView().click()
     cy.contains('Event details').should('be.visible')
     cy.get('button[title="Go Back"]').click()
     cy.get('log-level-cell').last().scrollIntoView().should('be.visible')

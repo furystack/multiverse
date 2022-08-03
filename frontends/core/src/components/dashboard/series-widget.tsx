@@ -172,7 +172,7 @@ export const SeriesWidget = Shade<
                   props.watchHistory ||
                   (movie.metadata.duration &&
                     (
-                      await injector.getInstance(MediaApiService).call({
+                      await useMediaApi(injector)({
                         method: 'GET',
                         action: '/my-watch-progress',
                         query: {
