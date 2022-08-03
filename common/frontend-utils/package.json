@@ -11,12 +11,12 @@
   "dependencies": {
     "@common/config": "^1.2.0",
     "@common/models": "^1.3.1",
-    "@furystack/core": "^11.0.6",
-    "@furystack/inject": "^7.0.1",
-    "@furystack/rest-client-fetch": "^4.0.7",
-    "@furystack/shades-common-components": "^3.2.0",
-    "@furystack/utils": "^3.0.5",
-    "@types/node": "^18.0.3",
+    "@furystack/core": "^11.0.7",
+    "@furystack/inject": "^7.0.2",
+    "@furystack/rest-client-fetch": "^4.0.8",
+    "@furystack/shades-common-components": "^3.2.1",
+    "@furystack/utils": "^3.0.6",
+    "@types/node": "^18.6.3",
     "tslib": "^2.4.0"
   }
 }
