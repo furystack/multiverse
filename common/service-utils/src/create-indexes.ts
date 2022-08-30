@@ -3,7 +3,7 @@ import { MongodbStore } from '@furystack/mongodb-store'
 import { StoreManager } from '@furystack/core'
 import { IndexSpecification, CreateIndexesOptions } from 'mongodb'
 
-export const verifyAndCreateIndexes = async <T>(options: {
+export const verifyAndCreateIndexes = async <T extends object>(options: {
   injector: Injector
   model: Constructable<T>
   indexName: string
