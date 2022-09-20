@@ -11,7 +11,6 @@ export const setupStores = (injector: Injector) => {
     url: databases['common-auth'].mongoUrl,
     db: databases['common-auth'].dbName,
     collection: 'google-accounts',
-    options: databases.standardOptions,
   })
   useMongoDb({
     injector,
@@ -20,7 +19,6 @@ export const setupStores = (injector: Injector) => {
     url: databases['common-auth'].mongoUrl,
     db: databases['common-auth'].dbName,
     collection: 'github-accounts',
-    options: databases.standardOptions,
   })
   useMongoDb({
     injector,
@@ -29,6 +27,5 @@ export const setupStores = (injector: Injector) => {
     url: databases['common-auth'].mongoUrl,
     db: databases['common-auth'].dbName,
     collection: 'profiles',
-    options: databases.standardOptions,
   })
 }

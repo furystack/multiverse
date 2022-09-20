@@ -61,7 +61,7 @@ export const useDbLogger = (settings: DbLoggerSettings) => {
     collection: databases.diag.logCollection,
     url: databases.diag.mongoUrl,
     db: databases.diag.dbName,
-    options: { ...databases.standardOptions, maxPoolSize: 1, minPoolSize: 1 },
+    options: { maxPoolSize: 1, minPoolSize: 1 },
   })
 
   getRepository(settings.injector).createDataSet(diag.LogEntry, '_id', {

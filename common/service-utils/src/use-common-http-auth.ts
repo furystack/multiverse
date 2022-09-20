@@ -18,7 +18,6 @@ export const useCommonHttpAuth = function (injector: Injector) {
     url: databases['common-auth'].mongoUrl,
     db: databases['common-auth'].dbName,
     collection: databases['common-auth'].usersCollection,
-    options: databases.standardOptions,
   })
   useMongoDb({
     injector,
@@ -27,7 +26,6 @@ export const useCommonHttpAuth = function (injector: Injector) {
     url: databases['common-auth'].mongoUrl,
     db: databases['common-auth'].dbName,
     collection: 'organizations',
-    options: databases.standardOptions,
   })
   useMongoDb({
     injector,
@@ -36,7 +34,6 @@ export const useCommonHttpAuth = function (injector: Injector) {
     url: databases['common-auth'].sessionStoreUrl,
     db: databases['common-auth'].dbName,
     collection: 'sessions',
-    options: databases.standardOptions,
   })
   useMongoDb({
     injector,
@@ -45,7 +42,6 @@ export const useCommonHttpAuth = function (injector: Injector) {
     url: databases['common-auth'].sessionStoreUrl,
     db: databases['common-auth'].dbName,
     collection: 'passwordCredentials',
-    options: databases.standardOptions,
   })
 
   useHttpAuthentication(injector, {
