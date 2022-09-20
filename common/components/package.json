@@ -11,15 +11,15 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^4.8.2"
+    "typescript": "^4.8.3"
   },
   "dependencies": {
     "@common/config": "^1.2.0",
     "@common/frontend-utils": "^1.2.5",
     "@common/models": "workspace:^",
-    "@furystack/shades": "^6.0.6",
-    "@furystack/shades-common-components": "^3.3.1",
-    "@furystack/shades-lottie": "^2.0.12",
+    "@furystack/shades": "^6.0.8",
+    "@furystack/shades-common-components": "^3.4.1",
+    "@furystack/shades-lottie": "^2.0.14",
     "@furystack/utils": "^3.0.8"
   },
   "typings": "dist/index.d.ts",
