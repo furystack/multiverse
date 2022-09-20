@@ -55,7 +55,7 @@
     "pretty": true,
     "skipLibCheck": false,
     "resolveJsonModule": true,
-    "types": ["./typings"]
+    "types": ["./typings", "node"]
   },
   "references": [
     { "path": "../../common/components" },
