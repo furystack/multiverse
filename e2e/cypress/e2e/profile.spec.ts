@@ -50,10 +50,7 @@ describe('Profile Management', () => {
     navigateFromUserMenu(cy, 'Profile')
     cy.get('shade-profile-page multiverse-my-avatar').should('be.visible')
 
-    cy.get('shade-profile-page input[type=file]').attachFile(
-      { filePath: 'images/test-avatar.png', encoding: 'base64' },
-      { force: true },
-    )
+    cy.get('shade-profile-page input[type=file]').selectFile('cypress/fixtures/images/test-avatar.png', { force: true })
 
     expectAndDismissNotification(cy, 'Your avatar has been updated', 'success')
 
