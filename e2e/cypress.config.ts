@@ -1,6 +1,7 @@
-const { sites } = require('@common/config')
+import { sites } from '@common/config'
+import { defineConfig } from 'cypress'
 
-module.exports = {
+export default defineConfig({
   fixturesFolder: 'cypress/fixtures',
   defaultCommandTimeout: 10000,
   reporter: 'junit',
@@ -18,5 +19,6 @@ module.exports = {
     specPattern: 'cypress/e2e/**/*.spec.*',
     excludeSpecPattern: ['**/__snapshots__/*', '**/__image_snapshots__/*'],
     baseUrl: sites.frontends.core,
+    projectId: '3zrp8x',
   },
-}
+})
