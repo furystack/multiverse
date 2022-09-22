@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { defineConfig } = require('cypress')
 
-export default defineConfig({
+module.exports = defineConfig({
   fixturesFolder: 'cypress/fixtures',
   defaultCommandTimeout: 10000,
   reporter: 'junit',
