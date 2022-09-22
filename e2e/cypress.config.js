@@ -1,4 +1,3 @@
-import { sites } from '@common/config'
 import { defineConfig } from 'cypress'
 
 export default defineConfig({
@@ -18,7 +17,7 @@ export default defineConfig({
     // You may want to clean this up later by importing these.
     specPattern: 'cypress/e2e/**/*.spec.*',
     excludeSpecPattern: ['**/__snapshots__/*', '**/__image_snapshots__/*'],
-    baseUrl: sites.frontends.core,
+    baseUrl: 'http://localhost:8080',
     projectId: '3zrp8x',
   },
 })
