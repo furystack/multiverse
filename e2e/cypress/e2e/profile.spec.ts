@@ -65,7 +65,7 @@ describe('Profile Management', () => {
     cy.get('shade-tabs div').contains('Personal settings', { matchCase: false }).scrollIntoView().click()
     cy.get('user-settings-editor').then((el) => {
       const editor: any = el[0]
-      editor.props.setValue({ ...editor.props.currentValue, settings: { theme: 'light' } })
+      editor.props = { ...editor.props.currentValue, settings: { theme: 'light' } }
       editor.updateComponent()
     })
     // cy.wait(5000)
@@ -77,7 +77,7 @@ describe('Profile Management', () => {
     cy.get('shade-tabs div').contains('Personal settings', { matchCase: false }).scrollIntoView().click()
     cy.get('user-settings-editor').then((el) => {
       const editor: any = el[0]
-      editor.props.setValue({ ...editor.props.currentValue, settings: { theme: 'dark' } })
+      editor.props = { ...editor.props.currentValue, settings: { theme: 'dark' } }
       editor.updateComponent()
     })
     // cy.wait(5000)
