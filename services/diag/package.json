@@ -17,14 +17,14 @@
     "@common/config": "^1.2.0",
     "@common/models": "workspace:^",
     "@common/service-utils": "^1.2.6",
-    "@furystack/auth-google": "^5.0.13",
-    "@furystack/core": "^11.0.12",
-    "@furystack/inject": "^7.0.4",
-    "@furystack/logging": "^3.0.8",
-    "@furystack/mongodb-store": "^5.0.12",
-    "@furystack/repository": "^6.0.12",
-    "@furystack/rest": "^4.0.11",
-    "@furystack/rest-service": "^6.1.4",
+    "@furystack/auth-google": "^5.0.14",
+    "@furystack/core": "^11.0.13",
+    "@furystack/inject": "^7.0.5",
+    "@furystack/logging": "^3.0.9",
+    "@furystack/mongodb-store": "^5.0.13",
+    "@furystack/repository": "^6.0.13",
+    "@furystack/rest": "^4.0.12",
+    "@furystack/rest-service": "^6.1.5",
     "tslib": "^2.4.0"
   }
 }
