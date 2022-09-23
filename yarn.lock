@@ -623,7 +623,6 @@ __metadata:
     "@types/marked": ^4.0.7
     "@types/node": ^18.7.18
     "@types/video.js": ^7.3.48
-    "@types/web": ^0.0.73
     clean-webpack-plugin: ^4.0.0
     copy-webpack-plugin: ^11.0.0
     css-loader: ^6.7.1
@@ -1389,7 +1388,6 @@ __metadata:
     "@types/jest": ^29.0.3
     "@types/node": ^18.7.18
     "@types/rimraf": ^3.0.2
-    "@types/ws": ^8.5.3
     amqplib: ^0.10.3
     chokidar: ^3.5.3
     ffprobe: ^1.1.2
@@ -1933,13 +1931,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/web@npm:^0.0.73":
-  version: 0.0.73
-  resolution: "@types/web@npm:0.0.73"
-  checksum: dcbe6c9d00bf4c5ce95c47dd6dc0942abb8453fe35aa4facc09f31a4976e2ffa343aa7a83ba59fea96c5749c2b1228735fa3d91f1f30e47aeb91c0bb1bc19237
-  languageName: node
-  linkType: hard
-
 "@types/webidl-conversions@npm:*":
   version: 7.0.0
   resolution: "@types/webidl-conversions@npm:7.0.0"
@@ -1957,7 +1948,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ws@npm:^8.5.1, @types/ws@npm:^8.5.3":
+"@types/ws@npm:^8.5.1":
   version: 8.5.3
   resolution: "@types/ws@npm:8.5.3"
   dependencies:
