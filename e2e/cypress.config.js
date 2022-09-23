@@ -1,6 +1,7 @@
-const { sites } = require('@common/config')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { defineConfig } = require('cypress')
 
-module.exports = {
+module.exports = defineConfig({
   fixturesFolder: 'cypress/fixtures',
   defaultCommandTimeout: 10000,
   reporter: 'junit',
@@ -17,6 +18,7 @@ module.exports = {
     // You may want to clean this up later by importing these.
     specPattern: 'cypress/e2e/**/*.spec.*',
     excludeSpecPattern: ['**/__snapshots__/*', '**/__image_snapshots__/*'],
-    baseUrl: sites.frontends.core,
+    baseUrl: 'http://localhost:8080',
+    projectId: '3zrp8x',
   },
-}
+})

@@ -50,10 +50,7 @@ describe('Profile Management', () => {
     navigateFromUserMenu(cy, 'Profile')
     cy.get('shade-profile-page multiverse-my-avatar').should('be.visible')
 
-    cy.get('shade-profile-page input[type=file]').attachFile(
-      { filePath: 'images/test-avatar.png', encoding: 'base64' },
-      { force: true },
-    )
+    cy.get('shade-profile-page input[type=file]').selectFile('cypress/fixtures/images/test-avatar.png', { force: true })
 
     expectAndDismissNotification(cy, 'Your avatar has been updated', 'success')
 
@@ -68,7 +65,7 @@ describe('Profile Management', () => {
     cy.get('shade-tabs div').contains('Personal settings', { matchCase: false }).scrollIntoView().click()
     cy.get('user-settings-editor').then((el) => {
       const editor: any = el[0]
-      editor.props.setValue({ ...editor.props.currentValue, settings: { theme: 'light' } })
+      editor.props = { ...editor.props, settings: { theme: 'light' } }
       editor.updateComponent()
     })
     // cy.wait(5000)
@@ -80,7 +77,7 @@ describe('Profile Management', () => {
     cy.get('shade-tabs div').contains('Personal settings', { matchCase: false }).scrollIntoView().click()
     cy.get('user-settings-editor').then((el) => {
       const editor: any = el[0]
-      editor.props.setValue({ ...editor.props.currentValue, settings: { theme: 'dark' } })
+      editor.props = { ...editor.props, settings: { theme: 'dark' } }
       editor.updateComponent()
     })
     // cy.wait(5000)

@@ -25,8 +25,4 @@ export const databases = {
     movies: 'movies',
     series: 'series',
   },
-  standardOptions: {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-  } as import('mongodb').MongoClientOptions,
 }

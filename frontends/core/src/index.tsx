@@ -11,7 +11,9 @@ declare global {
   interface Window {
     __multiverse_api_root?: string
     __multiverse_site_roots?: SiteRoots
-    process: {}
+    process: {
+      env: any
+    }
   }
 }
 

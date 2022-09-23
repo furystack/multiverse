@@ -11,6 +11,5 @@ export const setupStores = (injector: Injector) => {
     url: databases.dashboard.mongoUrl,
     db: databases.dashboard.dbName,
     collection: databases.dashboard.dashboards,
-    options: databases.standardOptions,
   })
 }

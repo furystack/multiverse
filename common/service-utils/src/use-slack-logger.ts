@@ -28,15 +28,15 @@ export class SlackLogger extends AbstractLogger implements Logger {
    *
    * @param entry The Entry object
    */
-  public async addEntry<
-    T extends {
+  public async addEntry(
+    entry: LeveledLogEntry<any> & {
       sendToSlack?: boolean
       blocks?: Array<Block | KnownBlock>
       title?: string
       attachments?: MessageAttachment[]
       error?: Error
     },
-  >(entry: LeveledLogEntry<T>): Promise<void> {
+  ): Promise<void> {
     const shouldSendToSlack = entry.data?.sendToSlack === true
     if (shouldSendToSlack) {
       await this.hook

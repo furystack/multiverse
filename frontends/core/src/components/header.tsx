@@ -81,8 +81,8 @@ export const Header = Shade<unknown, { isDesktop: boolean }>({
             routes={serviceList.map((s) => ({
               url: s.url,
               routingOptions: { end: false },
-              onVisit: animations.showSlide,
-              onLeave: animations.hideSlide,
+              onVisit: ({ element }) => animations.showSlide(element),
+              onLeave: ({ element }) => animations.hideSlide(element),
               component: () => (
                 <RouteLink style={{ display: 'inline-flex' }} href={s.url}>
                   -{' '}
