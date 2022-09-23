@@ -1,6 +1,6 @@
 import { createComponent, RouteLink, Shade, ScreenService, Router } from '@furystack/shades'
 
-import { AppBar, animations, CommandPalette } from '@furystack/shades-common-components'
+import { AppBar, CommandPalette, showSlide, hideSlide } from '@furystack/shades-common-components'
 import { serviceList } from '@common/models'
 import { getCommandProviders } from '../services/command-providers'
 import { Icon } from './icon'
@@ -81,8 +81,12 @@ export const Header = Shade<unknown, { isDesktop: boolean }>({
             routes={serviceList.map((s) => ({
               url: s.url,
               routingOptions: { end: false },
-              onVisit: ({ element }) => animations.showSlide(element),
-              onLeave: ({ element }) => animations.hideSlide(element),
+              onVisit: async ({ element }) => {
+                await showSlide(element)
+              },
+              onLeave: async ({ element }) => {
+                await hideSlide(element)
+              },
               component: () => (
                 <RouteLink style={{ display: 'inline-flex' }} href={s.url}>
                   -{' '}
