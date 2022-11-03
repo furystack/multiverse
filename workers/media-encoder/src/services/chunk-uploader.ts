@@ -62,13 +62,13 @@ export class ChunkUploader {
         await this.lock.acquire()
 
         const response = await this.uploadWithRetries(path, percent, fileName)
-        if (JSON.parse(response.body).success) {
+        if (response.success) {
           await this.logger.verbose({ message: `Chunk '${fileName}' uploaded - ${(percent || 0).toFixed(2)}% done.` })
           if (!fileName.includes('dash.mpd') && !fileName.includes('init-stream')) {
             await promises.unlink(path)
           }
         } else {
-          await this.logger.warning({ message: `Chunk '${fileName}' unexpected response: ${response.body}` })
+          await this.logger.warning({ message: `Chunk '${fileName}' unexpected response: ${JSON.stringify(response)}` })
         }
       } catch (error) {
         await this.logger.warning({
@@ -88,7 +88,7 @@ export class ChunkUploader {
     this.logger = getLogger(options.injector).withScope('ChunkUploader')
   }
 
-  private async uploadWithRetries(path: string, percent: number, fileName: string): Promise<string> {
+  private async uploadWithRetries(path: string, percent: number, fileName: string): Promise<any> {
     let retries = 0
     let form!: FormData
     do {
@@ -102,7 +102,7 @@ export class ChunkUploader {
           method: 'POST',
           body: form as any,
         })
-        return await response.text()
+        return await response.json()
       } catch (error) {
         if (retries >= this.options.retries) {
           await this.logger.error({
