@@ -22,7 +22,7 @@
     "@furystack/inject": "^7.1.1",
     "@furystack/logging": "^3.1.1",
     "@furystack/rest": "^4.1.1",
-    "@furystack/rest-client-got": "^2.1.0",
+    "@furystack/rest-client-fetch": "^4.1.1",
     "@furystack/utils": "^3.1.1",
     "@types/fluent-ffmpeg": "^2.1.20",
     "amqplib": "^0.10.3",
