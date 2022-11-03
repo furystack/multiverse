@@ -1,5 +1,5 @@
 import { apis, media } from '@common/models'
-import { createClient } from '@furystack/rest-client-got'
+import { createClient } from '@furystack/rest-client-fetch'
 import { mediaApiPath } from './encode-task'
 
 export const loadTaskDetails = async ({ taskId, token }: { taskId: string; token: string }) => {
@@ -16,6 +16,6 @@ export const loadTaskDetails = async ({ taskId, token }: { taskId: string; token
       'task-token': token,
     },
   })
-  const task: media.EncodingTask = body.getJson()
+  const task: media.EncodingTask = body.result
   return task
 }

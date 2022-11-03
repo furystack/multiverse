@@ -4,7 +4,6 @@ import { Injector } from '@furystack/inject'
 import { getLogger, ScopedLogger } from '@furystack/logging'
 import { ObservableValue, sleepAsync } from '@furystack/utils'
 import Semaphore from 'semaphore-async-await'
-import got, { Response } from 'got'
 import { media } from '@common/models'
 import FormData from 'form-data'
 
@@ -63,13 +62,13 @@ export class ChunkUploader {
         await this.lock.acquire()
 
         const response = await this.uploadWithRetries(path, percent, fileName)
-        if (JSON.parse(response.body).success) {
+        if (response.success) {
           await this.logger.verbose({ message: `Chunk '${fileName}' uploaded - ${(percent || 0).toFixed(2)}% done.` })
           if (!fileName.includes('dash.mpd') && !fileName.includes('init-stream')) {
             await promises.unlink(path)
           }
         } else {
-          await this.logger.warning({ message: `Chunk '${fileName}' unexpected response: ${response.body}` })
+          await this.logger.warning({ message: `Chunk '${fileName}' unexpected response: ${JSON.stringify(response)}` })
         }
       } catch (error) {
         await this.logger.warning({
@@ -89,7 +88,7 @@ export class ChunkUploader {
     this.logger = getLogger(options.injector).withScope('ChunkUploader')
   }
 
-  private async uploadWithRetries(path: string, percent: number, fileName: string): Promise<Response<string>> {
+  private async uploadWithRetries(path: string, percent: number, fileName: string): Promise<any> {
     let retries = 0
     let form!: FormData
     do {
@@ -99,19 +98,11 @@ export class ChunkUploader {
         form.append('mode', this.options.mode)
         form.append('chunk', createReadStream(path, { autoClose: true }))
         form.append('percent', percent)
-        return await got(this.options.uploadPath, {
+        const response = await fetch(this.options.uploadPath, {
           method: 'POST',
-          body: form,
-          encoding: 'utf-8',
-          cache: false,
-          agent: false,
-          timeout: {
-            socket: 20000,
-          },
-          retry: {
-            methods: ['POST'],
-          },
+          body: form as any,
         })
+        return await response.json()
       } catch (error) {
         if (retries >= this.options.retries) {
           await this.logger.error({

@@ -4,7 +4,6 @@ import { getLogger } from '@furystack/logging'
 import { ObservableValue, usingAsync } from '@furystack/utils'
 import ffmpeg from 'fluent-ffmpeg'
 import FormData from 'form-data'
-import got from 'got'
 import { ChunkUploader } from '../services/chunk-uploader'
 import { injector } from '../worker'
 
@@ -93,11 +92,9 @@ export const encodeToVp9Dash = async (options: EncodeToVp9DashOptions) => {
             error.stderr = stderr
 
             form.append('error', JSON.stringify(error))
-            await got(options.uploadPath, {
+            await fetch(options.uploadPath, {
               method: 'POST',
               body: form as any,
-              encoding: 'utf-8',
-              retry: 10,
             })
             await logger.warning({ message: 'ffmpeg vp9 encoding failed', data: { error } })
             reject(error)
