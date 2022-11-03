@@ -4,7 +4,6 @@ import { Injector } from '@furystack/inject'
 import { getLogger, ScopedLogger } from '@furystack/logging'
 import { ObservableValue, sleepAsync } from '@furystack/utils'
 import Semaphore from 'semaphore-async-await'
-import got, { Response } from 'got'
 import { media } from '@common/models'
 import FormData from 'form-data'
 
@@ -89,7 +88,7 @@ export class ChunkUploader {
     this.logger = getLogger(options.injector).withScope('ChunkUploader')
   }
 
-  private async uploadWithRetries(path: string, percent: number, fileName: string): Promise<Response<string>> {
+  private async uploadWithRetries(path: string, percent: number, fileName: string): Promise<string> {
     let retries = 0
     let form!: FormData
     do {
@@ -99,19 +98,11 @@ export class ChunkUploader {
         form.append('mode', this.options.mode)
         form.append('chunk', createReadStream(path, { autoClose: true }))
         form.append('percent', percent)
-        return await got(this.options.uploadPath, {
+        const response = await fetch(this.options.uploadPath, {
           method: 'POST',
-          body: form,
-          encoding: 'utf-8',
-          cache: false,
-          agent: false,
-          timeout: {
-            socket: 20000,
-          },
-          retry: {
-            methods: ['POST'],
-          },
+          body: form as any,
         })
+        return await response.text()
       } catch (error) {
         if (retries >= this.options.retries) {
           await this.logger.error({
