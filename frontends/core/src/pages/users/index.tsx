@@ -10,8 +10,9 @@ import { EditUserPage } from './edit'
 export const UsersPage = Shade<{}, { service: CollectionService<auth.User> }>({
   shadowDomName: 'shade-users-page',
   getInitialState: ({ injector }) => {
-    const service = new CollectionService<auth.User>(
-      async (findOptions) => {
+    const service = new CollectionService<auth.User>({
+      defaultSettings: { top: 20, order: { username: 'ASC' } },
+      loader: async (findOptions) => {
         const { result } = await useAuthApi(injector)({
           method: 'GET',
           action: '/users',
@@ -19,8 +20,7 @@ export const UsersPage = Shade<{}, { service: CollectionService<auth.User> }>({
         })
         return result
       },
-      { top: 20, order: { username: 'ASC' } },
-    )
+    })
     return { service }
   },
   render: ({ getState, injector }) => {

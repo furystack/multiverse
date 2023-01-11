@@ -7,8 +7,8 @@ export const DashboardList = Shade<{}, { service: CollectionService<dashboard.Da
   shadowDomName: 'multiverse-dashboard-list',
   getInitialState: ({ injector }) => {
     return {
-      service: new CollectionService<dashboard.Dashboard>(
-        async (findOptions) => {
+      service: new CollectionService<dashboard.Dashboard>({
+        loader: async (findOptions) => {
           const { result } = await useDashboardApi(injector)({
             method: 'GET',
             action: '/boards',
@@ -16,8 +16,8 @@ export const DashboardList = Shade<{}, { service: CollectionService<dashboard.Da
           })
           return result
         },
-        { top: 20, order: { creationDate: 'DESC' } },
-      ),
+        defaultSettings: { top: 20, order: { creationDate: 'DESC' } },
+      }),
     }
   },
   render: ({ getState, injector }) => {

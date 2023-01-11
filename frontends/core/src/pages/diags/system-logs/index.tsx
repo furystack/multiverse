@@ -34,8 +34,8 @@ export const LogLevelCell = Shade<{ level: LogLevel }>({
 export const SystemLogs = Shade<unknown, SystemLogsState>({
   shadowDomName: 'system-logs-page',
   getInitialState: ({ injector }) => ({
-    systemLogsService: new CollectionService<diag.LogEntry<any>>(
-      async (findOptions) => {
+    systemLogsService: new CollectionService<diag.LogEntry<any>>({
+      loader: async (findOptions) => {
         const { result } = await useDiagApi(injector)({
           method: 'GET',
           action: '/logEntries',
@@ -43,8 +43,8 @@ export const SystemLogs = Shade<unknown, SystemLogsState>({
         })
         return result
       },
-      { top: 20, order: { creationDate: 'DESC' } },
-    ),
+      defaultSettings: { top: 20, order: { creationDate: 'DESC' } },
+    }),
   }),
   render: ({ getState }) => {
     return (

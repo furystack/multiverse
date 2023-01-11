@@ -6,8 +6,8 @@ import { DataGrid, Fab, colors, CollectionService } from '@furystack/shades-comm
 export const OrganizationsPage = Shade<{}, { service: CollectionService<auth.Organization> }>({
   shadowDomName: 'shade-organizations-page',
   getInitialState: ({ injector }) => {
-    const service = new CollectionService<auth.Organization>(
-      async (findOptions) => {
+    const service = new CollectionService<auth.Organization>({
+      loader: async (findOptions) => {
         const { result } = await useAuthApi(injector)({
           method: 'GET',
           action: '/organizations',
@@ -15,8 +15,9 @@ export const OrganizationsPage = Shade<{}, { service: CollectionService<auth.Org
         })
         return result
       },
-      { top: 20, order: { name: 'ASC' } },
-    )
+      defaultSettings: { top: 20, order: { name: 'ASC' } },
+    })
+
     return { service }
   },
   render: ({ getState, injector }) => {

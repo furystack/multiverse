@@ -12,8 +12,8 @@ export interface EncodingTaskState {
 export const EncodingTasks = Shade<{}, EncodingTaskState>({
   shadowDomName: 'encoding-tasks',
   getInitialState: ({ injector }) => {
-    const service = new CollectionService<media.EncodingTask>(
-      async (findOptions) => {
+    const service = new CollectionService<media.EncodingTask>({
+      loader: async (findOptions) => {
         const response = await useMediaApi(injector)({
           method: 'GET',
           action: '/encode/tasks',
@@ -26,8 +26,9 @@ export const EncodingTasks = Shade<{}, EncodingTaskState>({
         })
         return response.result
       },
-      { order: { creationDate: 'DESC' } },
-    )
+      defaultSettings: { order: { creationDate: 'DESC' } },
+    })
+
     const taskUpdater = new EncodingTaskProgressUpdater(service)
     return {
       service,
