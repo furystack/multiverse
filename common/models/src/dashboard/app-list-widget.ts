@@ -9,5 +9,5 @@ export interface AppListWidget extends WidgetBase<'app-list'> {
   /**
    * A list of apps to display
    */
-  apps: Array<typeof serviceNames[number]>
+  apps: Array<(typeof serviceNames)[number]>
 }

@@ -5,5 +5,5 @@ export class User {
   public username!: string
   public registrationDate!: string
   public avatarFile?: string
-  public roles!: Array<typeof roles[number]>
+  public roles!: Array<(typeof roles)[number]>
 }

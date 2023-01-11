@@ -47,7 +47,7 @@ export const createUser = async ({
 }: {
   email: string
   password: string
-  userRoles: Array<typeof auth.roles[number]>
+  userRoles: Array<(typeof auth.roles)[number]>
   i: Injector
   displayName?: string
 }) => {

@@ -5,5 +5,5 @@ export interface AppShortcutWidget extends WidgetBase<'app-shortcut'> {
   /**
    * The Application name
    */
-  appName: typeof serviceNames[number]
+  appName: (typeof serviceNames)[number]
 }

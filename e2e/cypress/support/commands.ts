@@ -25,7 +25,7 @@ export const logoutFromUserMenu = (cy: Cypress.cy) => {
   expectAndDismissNotification(cy, 'Come back soon...', 'info')
 }
 
-export const navigateFromUserMenu = (cy: Cypress.cy, app: typeof serviceNames[number]) => {
+export const navigateFromUserMenu = (cy: Cypress.cy, app: (typeof serviceNames)[number]) => {
   openUserMenu(cy)
   cy.get(`shade-current-user-menu`).contains(app).scrollIntoView().click()
 }
