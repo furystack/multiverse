@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 import type { ChildrenList } from '@furystack/shades'
 import { Shade, createComponent } from '@furystack/shades'
 import type { Injector } from '@furystack/inject'
-import { Button, defaultLightTheme, NotyService, ThemeProviderService } from '@furystack/shades-common-components'
-import { getErrorMessage } from '@common/frontend-utils'
+import { Button, NotyService } from '@furystack/shades-common-components'
+import { getErrorMessage, ThemeService } from '@common/frontend-utils'
+import { Trace } from '@furystack/utils'
 import type { MonacoEditorProps } from '../monaco-editor'
 import { MonacoEditor } from '../monaco-editor'
 import type { SchemaNames, EntityNames } from '../../services/monaco-model-provider'
@@ -38,7 +38,7 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
       currentData: data,
       isDirty: false,
       lastSavedData: data,
-      isLight: injector.getInstance(ThemeProviderService).theme.getValue() === defaultLightTheme,
+      isLight: injector.getInstance(ThemeService).themeName === 'light',
     }
   },
   constructed: ({ props, getState, injector, updateState }) => {
@@ -50,9 +50,13 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
       }
       return undefined
     }
-
-    const themeChanged = injector.getInstance(ThemeProviderService).theme.subscribe((t) => {
-      updateState({ isLight: t === defaultLightTheme })
+    const themeProvider = injector.getInstance(ThemeService)
+    const themeChanged = Trace.method({
+      object: themeProvider,
+      method: themeProvider.setTheme,
+      onFinished: () => {
+        updateState({ isLight: injector.getInstance(ThemeService).themeName === 'light' })
+      },
     })
 
     const saveListener = (ev: KeyboardEvent) => {

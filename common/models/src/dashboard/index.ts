@@ -12,7 +12,7 @@ import type { WeatherWidget } from './weather-widget'
 import type { Widget } from './widget'
 import type { WidgetBase } from './widget-base'
 
-import type { Dashboard } from './dashboard'
+export { Dashboard } from './dashboard'
 import { defaultDashboard } from './dashboard'
 
 export {
@@ -29,6 +29,5 @@ export {
   WeatherWidget,
   Widget,
   WidgetBase,
-  Dashboard,
   defaultDashboard,
 }

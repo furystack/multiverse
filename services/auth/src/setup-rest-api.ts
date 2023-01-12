@@ -53,12 +53,13 @@ export const setupRestApi = async (injector: Injector) => {
       GET: {
         '/currentUser': GetCurrentUser as RequestAction<{ result: auth.User }>,
         '/isAuthenticated': IsAuthenticated,
+        '/profiles/:username/avatar': GetAvatar,
+        '/profiles/:username': GetProfile,
         '/profiles': Validate({
           schema: apis.authApiSchema,
           schemaName: 'GetCollectionEndpoint<Profile>',
         })(createGetCollectionEndpoint({ model: auth.Profile, primaryKey: '_id' })),
-        '/profiles/:username': GetProfile,
-        '/profiles/:username/avatar': GetAvatar,
+
         '/organizations': createGetCollectionEndpoint({ model: auth.Organization, primaryKey: '_id' }),
         '/organization/:organizationName': GetOrganization,
         '/loginProviderDetails': Authenticate()(GetLoginProviderDetails),

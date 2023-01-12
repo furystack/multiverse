@@ -44,7 +44,7 @@ export const TransferOwnership = Shade<
                 loop={false}
                 src={JSON.stringify(alarm)}
               ></lottie-player>
-              <p style={{ color: injector.getInstance(ThemeProviderService).theme.getValue().palette.warning.main }}>
+              <p style={{ color: injector.getInstance(ThemeProviderService).theme.palette.warning.main }}>
                 You are going to transfer the ownership of this entry to an another organization or user. This operation
                 can cause that you'll lost access to your belongings and this <strong>cannot be undone</strong> so think
                 it twice.
