@@ -1,7 +1,8 @@
 import { Injector, Injectable, Injected } from '@furystack/inject'
 import { ObservableValue, usingAsync } from '@furystack/utils'
-import { IdentityContext, User as FUser } from '@furystack/core'
-import { auth } from '@common/models'
+import type { User as FUser } from '@furystack/core'
+import { IdentityContext } from '@furystack/core'
+import type { auth } from '@common/models'
 import {
   NotyService,
   ThemeProviderService,

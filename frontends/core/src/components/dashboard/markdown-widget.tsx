@@ -1,5 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { dashboard } from '@common/models'
+import type { dashboard } from '@common/models'
 import { marked } from 'marked'
 
 export const MarkdownWidget = Shade<dashboard.MarkdownWidget>({

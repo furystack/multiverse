@@ -1,5 +1,5 @@
 import { useAuthApi } from '@common/frontend-utils'
-import { auth } from '@common/models'
+import type { auth } from '@common/models'
 import { createComponent, Shade } from '@furystack/shades'
 import { Suggest } from '@furystack/shades-common-components'
 

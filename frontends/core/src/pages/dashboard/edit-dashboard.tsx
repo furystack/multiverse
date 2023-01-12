@@ -1,5 +1,5 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { dashboard } from '@common/models'
+import type { dashboard } from '@common/models'
 import { useDashboardApi, useAuthApi } from '@common/frontend-utils'
 import { getCurrentUser } from '@furystack/core'
 import { GenericMonacoEditor } from '../../components/editors/generic-monaco-editor'

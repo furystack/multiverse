@@ -1,6 +1,7 @@
 import { createComponent, Shade } from '@furystack/shades'
 import { Tabs, Input, Button, colors, NotyService, Paper } from '@furystack/shades-common-components'
-import { auth, getRandomString } from '@common/models'
+import type { auth } from '@common/models'
+import { getRandomString } from '@common/models'
 import { useAuthApi, MyAvatarService, SessionService } from '@common/frontend-utils'
 import { MyAvatar, ImageAvatar } from '@common/components'
 import { GoogleOauthProvider } from '../services/google-auth-provider'

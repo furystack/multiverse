@@ -1,4 +1,4 @@
-import { serviceNames } from '@common/models'
+import type { serviceNames } from '@common/models'
 
 export const tryLogin = (cy: Cypress.cy, username: string, password: string) => {
   const loginButtonSelector = 'shade-login button[type=submit]'

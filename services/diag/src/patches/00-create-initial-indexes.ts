@@ -1,4 +1,5 @@
-import { verifyAndCreateIndexes, PatchEntry } from '@common/service-utils'
+import type { PatchEntry } from '@common/service-utils'
+import { verifyAndCreateIndexes } from '@common/service-utils'
 import { diag } from '@common/models'
 
 export const createInitialIndexes: PatchEntry = {

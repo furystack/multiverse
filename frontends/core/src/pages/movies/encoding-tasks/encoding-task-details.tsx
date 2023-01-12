@@ -1,5 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { media } from '@common/models'
+import type { media } from '@common/models'
 import { GenericMonacoEditor } from '../../../components/editors/generic-monaco-editor'
 
 export const EncodingTaskDetails = Shade<{ encodingTask: media.EncodingTask }>({

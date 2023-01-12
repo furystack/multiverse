@@ -1,5 +1,6 @@
-import { Injector } from '@furystack/inject'
-import { apis, diag } from '@common/models'
+import type { Injector } from '@furystack/inject'
+import type { apis } from '@common/models'
+import { diag } from '@common/models'
 import { sites } from '@common/config'
 import {
   Authorize,

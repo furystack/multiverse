@@ -1,5 +1,5 @@
-import { Owner } from '../owner'
-import { Widget } from '.'
+import type { Owner } from '../owner'
+import type { Widget } from './widget'
 
 export class Dashboard {
   _id!: string

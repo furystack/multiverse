@@ -1,7 +1,8 @@
 import { AbstractLogger, getLogger, LoggerCollection, LogLevel, useLogging } from '@furystack/logging'
 import { getCurrentUser, isAuthorized, StoreManager } from '@furystack/core'
-import { Injectable, Injected, Injector } from '@furystack/inject'
-import { Disposable } from '@furystack/utils'
+import type { Injector } from '@furystack/inject'
+import { Injectable, Injected } from '@furystack/inject'
+import type { Disposable } from '@furystack/utils'
 import { getRepository } from '@furystack/repository'
 import { databases } from '@common/config'
 import { useMongoDb } from '@furystack/mongodb-store'
@@ -39,6 +40,7 @@ export class DbLogger extends AbstractLogger implements Disposable {
       .withScope(this.constructor.name)
       .information({ message: 'Disposing, no logs will be saved to the DB...' })
   }
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   public async addEntry<T>(entry: import('@furystack/logging').LeveledLogEntry<T>): Promise<void> {
     const { name: appName } = this.applicationContextService
     if (!this.isDisposing) {

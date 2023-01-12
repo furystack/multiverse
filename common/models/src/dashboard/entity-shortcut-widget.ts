@@ -1,5 +1,5 @@
-import { Icon } from '../common'
-import { WidgetBase } from './widget-base'
+import type { Icon } from '../common'
+import type { WidgetBase } from './widget-base'
 
 export interface EntityShortcutWidget extends WidgetBase<'entity-shortcut'> {
   /**

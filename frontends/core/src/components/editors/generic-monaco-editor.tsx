@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import { Shade, createComponent, ChildrenList } from '@furystack/shades'
-import { Injector } from '@furystack/inject'
+import type { ChildrenList } from '@furystack/shades'
+import { Shade, createComponent } from '@furystack/shades'
+import type { Injector } from '@furystack/inject'
 import { Button, defaultLightTheme, NotyService, ThemeProviderService } from '@furystack/shades-common-components'
 import { getErrorMessage } from '@common/frontend-utils'
-import { MonacoEditor, MonacoEditorProps } from '../monaco-editor'
-import { SchemaNames, EntityNames, MonacoModelProvider } from '../../services/monaco-model-provider'
+import type { MonacoEditorProps } from '../monaco-editor'
+import { MonacoEditor } from '../monaco-editor'
+import type { SchemaNames, EntityNames } from '../../services/monaco-model-provider'
+import { MonacoModelProvider } from '../../services/monaco-model-provider'
 
 export interface GenericMonacoEditorProps<T, TSchema extends SchemaNames, TEntity extends EntityNames<TSchema>> {
   data: T

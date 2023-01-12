@@ -1,5 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { media } from '@common/models'
+import type { media } from '@common/models'
 import { useMediaApi } from '@common/frontend-utils'
 import { GenericMonacoEditor } from '../../components/editors/generic-monaco-editor'
 import { MovieService } from '../../services/movie-service'

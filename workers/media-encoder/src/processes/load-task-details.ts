@@ -1,4 +1,4 @@
-import { apis, media } from '@common/models'
+import type { apis, media } from '@common/models'
 import { createClient } from '@furystack/rest-client-fetch'
 import { mediaApiPath } from './encode-task'
 

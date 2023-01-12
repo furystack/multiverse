@@ -1,7 +1,7 @@
-import { Injector } from '@furystack/inject'
+import type { Injector } from '@furystack/inject'
 import { getLogger } from '@furystack/logging'
 import { ServerManager } from '@furystack/rest-service'
-import { Block, KnownBlock } from '@slack/types'
+import type { Block, KnownBlock } from '@slack/types'
 import { ApplicationContextService } from './application-context'
 import { DbLogger } from './use-db-logger'
 

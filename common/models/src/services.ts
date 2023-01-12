@@ -1,5 +1,5 @@
-import { roles } from './auth/roles'
-import { Icon } from './common'
+import type { roles } from './auth/roles'
+import type { Icon } from './common'
 
 export type ServiceDescription<T> = {
   name: T

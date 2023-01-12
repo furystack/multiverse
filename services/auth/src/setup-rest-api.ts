@@ -1,6 +1,7 @@
-import { Injector } from '@furystack/inject'
+import type { Injector } from '@furystack/inject'
 import { apis, auth } from '@common/models'
 import { sites } from '@common/config'
+import type { RequestAction } from '@furystack/rest-service'
 import {
   GetCurrentUser,
   IsAuthenticated,
@@ -12,7 +13,6 @@ import {
   createPatchEndpoint,
   Authorize,
   createGetEntityEndpoint,
-  RequestAction,
   Validate,
   useRestService,
 } from '@furystack/rest-service'

@@ -1,4 +1,4 @@
-import { media } from '@common/models'
+import type { media } from '@common/models'
 
 export const getUniversalMetadataFromOmdb = (omdbMeta: media.FetchedOmdbMetadata): media.MovieUniversalMetadata => ({
   title: omdbMeta.Title,

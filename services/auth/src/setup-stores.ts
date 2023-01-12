@@ -1,4 +1,4 @@
-import { Injector } from '@furystack/inject'
+import type { Injector } from '@furystack/inject'
 import { auth } from '@common/models'
 import { databases } from '@common/config'
 import { useMongoDb } from '@furystack/mongodb-store'

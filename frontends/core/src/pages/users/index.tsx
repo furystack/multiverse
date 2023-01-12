@@ -1,6 +1,6 @@
 import { Shade, createComponent, LazyLoad, Router, RouteLink } from '@furystack/shades'
 import { useAuthApi } from '@common/frontend-utils'
-import { auth } from '@common/models'
+import type { auth } from '@common/models'
 import { DataGrid, CollectionService } from '@furystack/shades-common-components'
 import { isAuthorized } from '@furystack/core'
 import { Init } from '../init'

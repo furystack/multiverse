@@ -1,6 +1,7 @@
-import { Owner, auth } from '@common/models'
-import { Injector } from '@furystack/inject'
-import { AuthorizationResult } from '@furystack/repository'
+import type { Owner } from '@common/models'
+import { auth } from '@common/models'
+import type { Injector } from '@furystack/inject'
+import type { AuthorizationResult } from '@furystack/repository'
 import { getCurrentUser, StoreManager } from '@furystack/core'
 
 export interface AuthorizeOwnershipOptions {

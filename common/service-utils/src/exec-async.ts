@@ -1,4 +1,5 @@
-import { exec, ExecOptions } from 'child_process'
+import type { ExecOptions } from 'child_process'
+import { exec } from 'child_process'
 
 export const execAsync = async (command: string, options: ExecOptions) => {
   return await new Promise<string>((resolve, reject) =>

@@ -1,6 +1,6 @@
 import { Shade, RouteLink, createComponent } from '@furystack/shades'
 import { promisifyAnimation } from '@furystack/shades-common-components'
-import { dashboard } from '@common/models'
+import type { dashboard } from '@common/models'
 import { Icon } from '../icon'
 
 const focus = (el: HTMLElement) => {

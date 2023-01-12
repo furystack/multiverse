@@ -1,7 +1,7 @@
 import { PathHelper } from '@furystack/utils'
 import { sites } from '@common/config'
-import { CollectionService } from '@furystack/shades-common-components'
-import { media } from '@common/models'
+import type { CollectionService } from '@furystack/shades-common-components'
+import type { media } from '@common/models'
 
 export class EncodingTaskProgressUpdater {
   public dispose() {

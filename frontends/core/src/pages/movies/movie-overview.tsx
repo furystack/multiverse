@@ -1,5 +1,5 @@
 import { SessionService } from '@common/frontend-utils'
-import { auth, media } from '@common/models'
+import type { auth, media } from '@common/models'
 import { createComponent, LocationService, RouteLink, ScreenService, Shade } from '@furystack/shades'
 import { Button, promisifyAnimation, NotyService } from '@furystack/shades-common-components'
 import { MovieService } from '../../services/movie-service'

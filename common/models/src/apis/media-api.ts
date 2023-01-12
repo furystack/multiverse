@@ -1,4 +1,4 @@
-import {
+import type {
   RestApi,
   GetCollectionEndpoint,
   GetEntityEndpoint,
@@ -6,10 +6,10 @@ import {
   PatchEndpoint,
   DeleteEndpoint,
 } from '@furystack/rest'
-import { CreateResult } from '@furystack/core'
-import { LeveledLogEntry } from '@furystack/logging'
-import { Movie, MovieLibrary, MovieWatchHistoryEntry, EncodingTask, EncodingType, Series } from '../media'
-import { media } from '..'
+import type { CreateResult } from '@furystack/core'
+import type { LeveledLogEntry } from '@furystack/logging'
+import type { Movie, MovieLibrary, MovieWatchHistoryEntry, EncodingTask, EncodingType, Series } from '../media'
+import type { media } from '..'
 
 export interface MediaApi extends RestApi {
   GET: {

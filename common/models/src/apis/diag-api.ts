@@ -1,6 +1,6 @@
-import { RestApi, GetCollectionEndpoint, GetEntityEndpoint } from '@furystack/rest'
-import { LogEntry } from '../diag/log-entry'
-import { Patch } from '../diag'
+import type { RestApi, GetCollectionEndpoint, GetEntityEndpoint } from '@furystack/rest'
+import type { LogEntry } from '../diag/log-entry'
+import type { Patch } from '../diag'
 
 export interface DiagApi extends RestApi {
   GET: {

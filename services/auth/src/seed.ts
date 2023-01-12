@@ -3,7 +3,8 @@ import { Injector } from '@furystack/inject'
 import { auth } from '@common/models'
 import { getLogger } from '@furystack/logging'
 import { useCommonHttpAuth } from '@common/service-utils'
-import { FindOptions, PhysicalStore, StoreManager, WithOptionalId } from '@furystack/core'
+import type { FindOptions, PhysicalStore, WithOptionalId } from '@furystack/core'
+import { StoreManager } from '@furystack/core'
 import { setupStores } from './setup-stores'
 
 let githubIndex = 0

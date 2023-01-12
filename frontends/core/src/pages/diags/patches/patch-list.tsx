@@ -1,6 +1,6 @@
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { CollectionService, DataGrid } from '@furystack/shades-common-components'
-import { diag } from '@common/models'
+import type { diag } from '@common/models'
 import { useDiagApi } from '@common/frontend-utils'
 
 export const PatchList = Shade<{}, { service: CollectionService<diag.Patch> }>({

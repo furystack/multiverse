@@ -1,6 +1,6 @@
 import { Shade, createComponent, LazyLoad } from '@furystack/shades'
 import { useMediaApi } from '@common/frontend-utils'
-import { media } from '@common/models'
+import type { media } from '@common/models'
 import { Init } from '../../pages'
 import { GenericErrorPage } from '../../pages/generic-error'
 import { MovieWidget } from './movie-widget'

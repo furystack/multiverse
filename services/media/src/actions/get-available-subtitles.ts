@@ -4,7 +4,8 @@ import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
 import { FileStores } from '@common/config'
 import { existsAsync } from '@common/service-utils'
-import { RequestAction, JsonResult } from '@furystack/rest-service'
+import type { RequestAction } from '@furystack/rest-service'
+import { JsonResult } from '@furystack/rest-service'
 import { getDataSetFor } from '@furystack/repository'
 
 export const GetAvailableSubtitles: RequestAction<{ url: { movieId: string }; result: string[] }> = async ({

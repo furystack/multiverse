@@ -1,5 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { diag } from '@common/models'
+import type { diag } from '@common/models'
 import { GenericMonacoEditor } from '../../../components/editors/generic-monaco-editor'
 
 export const PatchDetails = Shade<{ entry: diag.Patch }>({

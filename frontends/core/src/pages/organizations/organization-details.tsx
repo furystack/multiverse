@@ -1,6 +1,6 @@
 import { Shade, createComponent, LazyLoad } from '@furystack/shades'
 import { Tabs, Input, Paper, NotyService } from '@furystack/shades-common-components'
-import { auth } from '@common/models'
+import type { auth } from '@common/models'
 import { useAuthApi, SessionService } from '@common/frontend-utils'
 import { MemberList } from '@common/components'
 import { Init } from '../init'

@@ -1,5 +1,5 @@
 import { SuggestUser, SuggestOrganization, Avatar } from '@common/components'
-import { auth, Owner } from '@common/models'
+import type { auth, Owner } from '@common/models'
 import { createComponent, Shade } from '@furystack/shades'
 import { Button, NotyService, ThemeProviderService } from '@furystack/shades-common-components'
 import alarm from '../animations/alarm.json'

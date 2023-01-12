@@ -1,6 +1,7 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { ObservableValue } from '@furystack/utils'
-import { auth, common, serviceList } from '@common/models'
+import type { auth, common } from '@common/models'
+import { serviceList } from '@common/models'
 import { MyAvatar } from '@common/components'
 import { SessionService } from '@common/frontend-utils'
 import { ClickAwayService, promisifyAnimation, ThemeProviderService } from '@furystack/shades-common-components'

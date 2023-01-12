@@ -1,6 +1,6 @@
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { LogLevel } from '@furystack/logging'
-import { diag } from '@common/models'
+import type { diag } from '@common/models'
 import { DataGrid, CollectionService } from '@furystack/shades-common-components'
 import { useDiagApi } from '@common/frontend-utils'
 import { getLevelIcon } from './get-level-icon'

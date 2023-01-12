@@ -1,6 +1,6 @@
 import { Shade, createComponent, LocationService, RouteLink } from '@furystack/shades'
 import { useAuthApi } from '@common/frontend-utils'
-import { auth } from '@common/models'
+import type { auth } from '@common/models'
 import { DataGrid, Fab, colors, CollectionService } from '@furystack/shades-common-components'
 
 export const OrganizationsPage = Shade<{}, { service: CollectionService<auth.Organization> }>({

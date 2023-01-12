@@ -1,4 +1,4 @@
-import { LeveledLogEntry, LogLevel } from '@furystack/logging'
+import type { LeveledLogEntry, LogLevel } from '@furystack/logging'
 
 export class LogEntry<T = any> implements LeveledLogEntry<T> {
   public _id!: string

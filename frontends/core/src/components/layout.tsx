@@ -1,5 +1,5 @@
 import { createComponent, Shade } from '@furystack/shades'
-import { Injector } from '@furystack/inject'
+import type { Injector } from '@furystack/inject'
 import { defaultLightTheme, ThemeProviderService } from '@furystack/shades-common-components'
 import { Body } from './body'
 import { Header } from './header'

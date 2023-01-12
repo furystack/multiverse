@@ -1,4 +1,4 @@
-import { dashboard } from '@common/models'
+import type { dashboard } from '@common/models'
 import { Shade, createComponent } from '@furystack/shades'
 import { AppShortcutWidget } from './app-shortcut-widget'
 import { ContinueMoviesWidget } from './continue-movies'

@@ -1,4 +1,5 @@
-import { RequestAction, JsonResult } from '@furystack/rest-service'
+import type { RequestAction } from '@furystack/rest-service'
+import { JsonResult } from '@furystack/rest-service'
 import { auth } from '@common/models'
 import { deepMerge } from '@furystack/utils'
 import { getCurrentUser } from '@furystack/core'

@@ -1,4 +1,4 @@
-import { auth } from '@common/models'
+import type { auth } from '@common/models'
 import { Shade, createComponent } from '@furystack/shades'
 import { Avatar } from './avatar'
 import { SuggestUser } from './suggest-user'

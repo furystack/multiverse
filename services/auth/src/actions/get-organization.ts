@@ -1,6 +1,7 @@
 import { RequestError } from '@furystack/rest'
 import { auth } from '@common/models'
-import { JsonResult, RequestAction } from '@furystack/rest-service'
+import type { RequestAction } from '@furystack/rest-service'
+import { JsonResult } from '@furystack/rest-service'
 import { getDataSetFor } from '@furystack/repository'
 
 export const GetOrganization: RequestAction<{

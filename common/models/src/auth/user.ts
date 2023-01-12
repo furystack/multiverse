@@ -1,4 +1,4 @@
-import { roles } from './roles'
+import type { roles } from './roles'
 
 export class User {
   public _id!: string

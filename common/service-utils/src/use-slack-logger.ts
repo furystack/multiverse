@@ -1,6 +1,8 @@
-import { Injectable, Injector } from '@furystack/inject'
-import { AbstractLogger, getLogger, LeveledLogEntry, Logger, LogLevel, useLogging } from '@furystack/logging'
-import { Block, KnownBlock, MessageAttachment } from '@slack/types'
+import type { Injector } from '@furystack/inject'
+import { Injectable } from '@furystack/inject'
+import type { LeveledLogEntry, Logger } from '@furystack/logging'
+import { AbstractLogger, getLogger, LogLevel, useLogging } from '@furystack/logging'
+import type { Block, KnownBlock, MessageAttachment } from '@slack/types'
 import { IncomingWebhook } from '@slack/webhook'
 
 export const getSlackIconForLogLevel = (level: LogLevel) => {

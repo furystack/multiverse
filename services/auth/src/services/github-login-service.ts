@@ -1,7 +1,7 @@
 import { Injectable, Injected, Injector } from '@furystack/inject'
 import { getLogger } from '@furystack/logging'
 import { tokens } from '@common/config'
-import { auth } from '@common/models'
+import type { auth } from '@common/models'
 
 @Injectable()
 export class GithubAuthService {

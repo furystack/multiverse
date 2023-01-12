@@ -1,6 +1,6 @@
 import { Shade, createComponent, LocationService, RouteLink } from '@furystack/shades'
 import { CollectionService, DataGrid, Fab } from '@furystack/shades-common-components'
-import { dashboard } from '@common/models'
+import type { dashboard } from '@common/models'
 import { useDashboardApi } from '@common/frontend-utils'
 
 export const DashboardList = Shade<{}, { service: CollectionService<dashboard.Dashboard> }>({

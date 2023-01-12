@@ -1,5 +1,5 @@
 import { Shade, LazyLoad, createComponent } from '@furystack/shades'
-import { dashboard } from '@common/models'
+import type { dashboard } from '@common/models'
 import { useDashboardApi, useMediaApi } from '@common/frontend-utils'
 import { Init } from '../../pages'
 import { IconUrlWidget } from './icon-url-widget'

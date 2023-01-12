@@ -1,5 +1,5 @@
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
-import { media } from '@common/models'
+import type { media } from '@common/models'
 import { Button, CollectionService, DataGrid } from '@furystack/shades-common-components'
 import { useMediaApi } from '@common/frontend-utils'
 import { EncodingTaskProgressUpdater } from '../../../services/encoding-task-progress-updater'

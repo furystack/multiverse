@@ -1,6 +1,6 @@
-import { RestApi, GetCollectionEndpoint, GetEntityEndpoint, PostEndpoint, PatchEndpoint } from '@furystack/rest'
-import { Dashboard } from '../dashboard'
-import { WeatherData } from '../dashboard/weather-data'
+import type { RestApi, GetCollectionEndpoint, GetEntityEndpoint, PostEndpoint, PatchEndpoint } from '@furystack/rest'
+import type { Dashboard } from '../dashboard'
+import type { WeatherData } from '../dashboard/weather-data'
 
 export interface DashboardApi extends RestApi {
   GET: {

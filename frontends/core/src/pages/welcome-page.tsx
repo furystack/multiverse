@@ -1,5 +1,6 @@
 import { Shade, createComponent, LazyLoad } from '@furystack/shades'
-import { auth, dashboard } from '@common/models'
+import type { auth } from '@common/models'
+import { dashboard } from '@common/models'
 import { useDashboardApi } from '@common/frontend-utils'
 import { Dashboard } from '../components/dashboard'
 import { GenericErrorPage } from './generic-error'

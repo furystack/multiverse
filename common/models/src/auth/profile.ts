@@ -1,4 +1,4 @@
-import { UserSettings } from './user-settings'
+import type { UserSettings } from './user-settings'
 
 export class Profile {
   public _id!: string

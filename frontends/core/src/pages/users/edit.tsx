@@ -1,5 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { auth } from '@common/models'
+import type { auth } from '@common/models'
 import { useAuthApi } from '@common/frontend-utils'
 import { GenericMonacoEditor } from '../../components/editors/generic-monaco-editor'
 
