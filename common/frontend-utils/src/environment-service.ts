@@ -1,6 +1,6 @@
-import { sites } from '@common/config'
+import type { sites } from '@common/config'
 
-export type SiteRoots = { [K in keyof typeof sites['services']]: string }
+export type SiteRoots = { [K in keyof (typeof sites)['services']]: string }
 
 export class EnvironmentService {
   public readonly nodeEnv: 'development' | 'production'

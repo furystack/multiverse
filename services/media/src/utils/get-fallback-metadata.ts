@@ -1,4 +1,4 @@
-import { media } from '@common/models'
+import type { media } from '@common/models'
 
 const getYear = (segment: string) => {
   const yearStr = segment.split(/['.'|' ']/).find((v) => {

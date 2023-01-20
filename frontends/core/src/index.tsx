@@ -3,7 +3,8 @@ import 'reflect-metadata'
 import { createComponent, initializeShadeRoot } from '@furystack/shades'
 import { useLogging, getLogger, VerboseConsoleLogger } from '@furystack/logging'
 import { Injector } from '@furystack/inject'
-import { EnvironmentService, SiteRoots, useSessionService } from '@common/frontend-utils'
+import type { SiteRoots } from '@common/frontend-utils'
+import { ThemeService, EnvironmentService, useSessionService } from '@common/frontend-utils'
 import { MultiverseApp } from './app'
 import { useGoogleAuth } from './services/google-auth-provider'
 
@@ -45,6 +46,9 @@ shadeInjector.setExplicitInstance(
 )
 
 export const environmentOptions = {}
+
+const themeService = shadeInjector.getInstance(ThemeService)
+themeService.setTheme('dark')
 
 useLogging(shadeInjector, VerboseConsoleLogger)
 

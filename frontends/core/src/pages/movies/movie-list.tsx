@@ -1,5 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { media } from '@common/models'
+import type { media } from '@common/models'
 import { MovieWidget } from '../../components/dashboard/movie-widget'
 
 export const MovieList = Shade<

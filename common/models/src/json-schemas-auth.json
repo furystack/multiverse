@@ -330,11 +330,7 @@
       "type": "object",
       "properties": {
         "theme": {
-          "type": "string",
-          "enum": [
-            "light",
-            "dark"
-          ]
+          "$ref": "#/definitions/ThemePreset"
         },
         "dashboardId": {
           "type": "string"
@@ -344,6 +340,13 @@
         "theme"
       ],
       "additionalProperties": false
+    },
+    "ThemePreset": {
+      "type": "string",
+      "enum": [
+        "light",
+        "dark"
+      ]
     },
     "Profile": {
       "type": "object",

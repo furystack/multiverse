@@ -5,7 +5,8 @@ import { auth } from '@common/models'
 import { FileStores } from '@common/config'
 import { StoreManager } from '@furystack/core'
 import { existsAsync } from '@common/service-utils'
-import { BypassResult, RequestAction } from '@furystack/rest-service'
+import type { RequestAction } from '@furystack/rest-service'
+import { BypassResult } from '@furystack/rest-service'
 
 export const GetAvatar: RequestAction<{
   result: unknown

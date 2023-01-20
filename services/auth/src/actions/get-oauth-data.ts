@@ -1,4 +1,5 @@
-import { JsonResult, RequestAction } from '@furystack/rest-service'
+import type { RequestAction } from '@furystack/rest-service'
+import { JsonResult } from '@furystack/rest-service'
 import { tokens } from '@common/config'
 
 export const getOauthData: RequestAction<{

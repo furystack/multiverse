@@ -1,4 +1,4 @@
-import { Injector } from '@furystack/inject'
+import type { Injector } from '@furystack/inject'
 import { dashboard } from '@common/models'
 import { AuthorizeOwnership, getOrgsForCurrentUser } from '@common/service-utils'
 import { getRepository } from '@furystack/repository'

@@ -1,39 +1,22 @@
-import { Injector } from '@furystack/inject'
-import { SessionService, SessionState } from '@common/frontend-utils'
+import type { SessionState } from '@common/frontend-utils'
+import { SessionService, ThemeService } from '@common/frontend-utils'
 import { createComponent, LazyLoad, Router, Shade } from '@furystack/shades'
-import { defaultLightTheme, NotyList, ThemeProviderService } from '@furystack/shades-common-components'
+import { NotyList, ThemeProviderService } from '@furystack/shades-common-components'
 import { Init, Login } from './pages'
 import { GenericErrorPage } from './pages/generic-error'
-
-const lightBackground = 'linear-gradient(to right bottom, #ebebf8, #e3e3f6, #dcdcf4, #d4d4f2, #cdcdf0)'
-const darkBackground = 'linear-gradient(to right bottom, #2b3036, #292c31, #27282d, #242428, #212023)'
-
-const getStyles = (injector: Injector): Partial<CSSStyleDeclaration> => {
-  const themeProvider = injector.getInstance(ThemeProviderService)
-  const isLight = themeProvider.theme.getValue() === defaultLightTheme
-  const backgroundImage = isLight ? lightBackground : darkBackground
-  const color = themeProvider.getTextColor(themeProvider.theme.getValue().background.paper)
-  return {
-    backgroundImage,
-    color,
-  }
-}
 
 export const MultiverseApp = Shade<{}, { sessionState: SessionState }>({
   shadowDomName: 'furystack-multiverse-app',
   getInitialState: () => ({ sessionState: 'initializing' }),
-  resources: ({ injector, updateState, element }) => {
+  resources: ({ injector, updateState }) => {
     const sessionService = injector.getInstance(SessionService)
-    return [
-      sessionService.state.subscribe((sessionState) => updateState({ sessionState })),
-      injector.getInstance(ThemeProviderService).theme.subscribe(() => {
-        const styles = getStyles(injector)
-        Object.assign((element.querySelector('div') as HTMLDivElement).style, styles)
-      }, true),
-    ]
+    return [sessionService.state.subscribe((sessionState) => updateState({ sessionState }))]
   },
   render: ({ getState, injector }) => {
     const { sessionState } = getState()
+
+    const themeProvider = injector.getInstance(ThemeProviderService)
+    const themeService = injector.getInstance(ThemeService)
 
     const Component = () => {
       switch (sessionState) {
@@ -192,7 +175,6 @@ export const MultiverseApp = Shade<{}, { sessionState: SessionState }>({
       <div
         id="Layout"
         style={{
-          ...getStyles(injector),
           position: 'fixed',
           top: '0',
           left: '0',
@@ -202,6 +184,8 @@ export const MultiverseApp = Shade<{}, { sessionState: SessionState }>({
           flexDirection: 'column',
           fontFamily: 'Arial, Helvetica, sans-serif',
           lineHeight: '1.6',
+          background: themeService.getBackground(),
+          color: themeProvider.theme.text.secondary,
         }}
         className="eee"
       >

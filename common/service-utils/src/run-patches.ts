@@ -1,5 +1,5 @@
 import { diag } from '@common/models'
-import { Injector } from '@furystack/inject'
+import type { Injector } from '@furystack/inject'
 import { databases } from '@common/config'
 import { StoreManager } from '@furystack/core'
 import { getLogger } from '@furystack/logging'

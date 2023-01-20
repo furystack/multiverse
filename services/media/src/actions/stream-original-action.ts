@@ -2,7 +2,8 @@ import { promises, createReadStream } from 'fs'
 import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
 import { StoreManager } from '@furystack/core'
-import { RequestAction, BypassResult } from '@furystack/rest-service'
+import type { RequestAction } from '@furystack/rest-service'
+import { BypassResult } from '@furystack/rest-service'
 import { getDataSetFor } from '@furystack/repository'
 
 export const StreamOriginalAction: RequestAction<{

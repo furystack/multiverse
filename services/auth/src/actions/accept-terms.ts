@@ -1,7 +1,8 @@
 import { auth } from '@common/models'
 import { getCurrentUser, StoreManager } from '@furystack/core'
 import { getLogger } from '@furystack/logging'
-import { RequestAction, JsonResult } from '@furystack/rest-service'
+import type { RequestAction } from '@furystack/rest-service'
+import { JsonResult } from '@furystack/rest-service'
 
 export const AcceptTermsAction: RequestAction<{ result: { success: boolean } }> = async ({ injector }) => {
   const user = (await getCurrentUser(injector)) as auth.User

@@ -1,4 +1,5 @@
-import { Shade, createComponent, PartialElement } from '@furystack/shades'
+import type { PartialElement } from '@furystack/shades'
+import { Shade, createComponent } from '@furystack/shades'
 import { SessionService, MyAvatarService } from '@common/frontend-utils'
 import { Avatar } from './avatar'
 

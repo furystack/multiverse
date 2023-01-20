@@ -1,6 +1,7 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { ObservableValue } from '@furystack/utils'
-import { auth, common, serviceList } from '@common/models'
+import type { auth, common } from '@common/models'
+import { serviceList } from '@common/models'
 import { MyAvatar } from '@common/components'
 import { SessionService } from '@common/frontend-utils'
 import { ClickAwayService, promisifyAnimation, ThemeProviderService } from '@furystack/shades-common-components'
@@ -44,10 +45,7 @@ export const CurrentUserMenu = Shade<
     injector.getInstance(SessionService).currentUser.subscribe((usr) => {
       updateState({ currentUser: usr || undefined })
     }, true),
-    injector.getInstance(ThemeProviderService).theme.subscribe((theme) => {
-      const menu = element.querySelector('.current-user-menu') as HTMLElement
-      menu.style.backgroundColor = theme.background.paper
-    }, true),
+
     getState().isOpened.subscribe(async (isOpened) => {
       try {
         const menu = element.querySelector('.current-user-menu') as HTMLElement
@@ -92,6 +90,7 @@ export const CurrentUserMenu = Shade<
 
   render: ({ getState, injector }) => {
     const { currentUser, isOpened } = getState()
+    const themeProvider = injector.getInstance(ThemeProviderService)
     return (
       <div
         style={{ width: '48px', height: '48px' }}
@@ -120,6 +119,7 @@ export const CurrentUserMenu = Shade<
               padding: '1em',
               textAlign: 'right',
               userSelect: 'none',
+              backgroundColor: themeProvider.theme.background.paper,
             }}
           >
             {serviceList

@@ -1,5 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { media } from '@common/models'
+import type { media } from '@common/models'
 import { SeriesWidget } from '../../components/dashboard/series-widget'
 
 export const SeriesList = Shade<

@@ -1,5 +1,6 @@
-import { CommandProvider } from '@furystack/shades-common-components'
-import { SuggestionOptions, createSuggestion, distinctByName } from './create-suggestion'
+import type { CommandProvider } from '@furystack/shades-common-components'
+import type { SuggestionOptions } from './create-suggestion'
+import { createSuggestion, distinctByName } from './create-suggestion'
 
 export const BrowserCommands: SuggestionOptions[] = [
   {

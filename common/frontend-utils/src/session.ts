@@ -1,15 +1,12 @@
 import { Injector, Injectable, Injected } from '@furystack/inject'
 import { ObservableValue, usingAsync } from '@furystack/utils'
-import { IdentityContext, User as FUser } from '@furystack/core'
-import { auth } from '@common/models'
-import {
-  NotyService,
-  ThemeProviderService,
-  defaultDarkTheme,
-  defaultLightTheme,
-} from '@furystack/shades-common-components'
+import type { User as FUser } from '@furystack/core'
+import { IdentityContext } from '@furystack/core'
+import type { auth } from '@common/models'
+import { NotyService } from '@furystack/shades-common-components'
 import { useAuthApi } from './apis/auth-api'
 import { getErrorMessage } from './get-error-message'
+import { ThemeService } from './theme-service'
 
 export type SessionState = 'initializing' | 'offline' | 'unauthenticated' | 'authenticated'
 
@@ -128,9 +125,9 @@ export class SessionService implements IdentityContext {
 
   public themeUpdater = this.currentProfile.subscribe((profile) => {
     if (profile?.userSettings) {
-      this.themeProvider.theme.setValue(profile.userSettings.theme === 'dark' ? defaultDarkTheme : defaultLightTheme)
+      this.themeService.setTheme(profile.userSettings.theme === 'dark' ? 'dark' : 'light')
     } else {
-      this.themeProvider.theme.setValue(defaultDarkTheme)
+      this.themeService.setTheme('dark')
     }
   })
 
@@ -151,8 +148,8 @@ export class SessionService implements IdentityContext {
   @Injected(NotyService)
   private readonly notys!: NotyService
 
-  @Injected(ThemeProviderService)
-  private readonly themeProvider!: ThemeProviderService
+  @Injected(ThemeService)
+  private readonly themeService!: ThemeService
 
   @Injected(Injector)
   private readonly injector!: Injector

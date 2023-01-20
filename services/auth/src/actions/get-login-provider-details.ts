@@ -1,4 +1,5 @@
-import { RequestAction, JsonResult } from '@furystack/rest-service'
+import type { RequestAction } from '@furystack/rest-service'
+import { JsonResult } from '@furystack/rest-service'
 import { getCurrentUser, StoreManager } from '@furystack/core'
 import { PasswordCredential } from '@furystack/security'
 import { auth } from '@common/models'

@@ -842,6 +842,57 @@
             ],
             "additionalProperties": false
           }
+        },
+        "HEAD": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "result": {},
+              "url": {},
+              "query": {},
+              "body": {},
+              "headers": {}
+            },
+            "required": [
+              "result"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "CONNECT": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "result": {},
+              "url": {},
+              "query": {},
+              "body": {},
+              "headers": {}
+            },
+            "required": [
+              "result"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "TRACE": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "result": {},
+              "url": {},
+              "query": {},
+              "body": {},
+              "headers": {}
+            },
+            "required": [
+              "result"
+            ],
+            "additionalProperties": false
+          }
         }
       },
       "required": [
@@ -858,9 +909,6 @@
           "type": "string"
         },
         "username": {
-          "type": "string"
-        },
-        "password": {
           "type": "string"
         },
         "registrationDate": {
@@ -886,7 +934,6 @@
       "required": [
         "_id",
         "username",
-        "password",
         "registrationDate",
         "roles"
       ],
@@ -1153,11 +1200,7 @@
       "type": "object",
       "properties": {
         "theme": {
-          "type": "string",
-          "enum": [
-            "light",
-            "dark"
-          ]
+          "$ref": "#/definitions/ThemePreset"
         },
         "dashboardId": {
           "type": "string"
@@ -1167,6 +1210,13 @@
         "theme"
       ],
       "additionalProperties": false
+    },
+    "ThemePreset": {
+      "type": "string",
+      "enum": [
+        "light",
+        "dark"
+      ]
     },
     "GetCollectionEndpoint<Profile>": {
       "type": "object",
@@ -1299,6 +1349,15 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string"
+                },
+                "$endsWith": {
+                  "type": "string"
+                },
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -1342,6 +1401,15 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string"
+                },
+                "$endsWith": {
+                  "type": "string"
+                },
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -1385,6 +1453,15 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string"
+                },
+                "$endsWith": {
+                  "type": "string"
+                },
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -1428,6 +1505,15 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string"
+                },
+                "$endsWith": {
+                  "type": "string"
+                },
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -1671,6 +1757,15 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string"
+                },
+                "$endsWith": {
+                  "type": "string"
+                },
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -1714,6 +1809,15 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string"
+                },
+                "$endsWith": {
+                  "type": "string"
+                },
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -1757,6 +1861,15 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string"
+                },
+                "$endsWith": {
+                  "type": "string"
+                },
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -1800,6 +1913,15 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string"
+                },
+                "$endsWith": {
+                  "type": "string"
+                },
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -2103,7 +2225,7 @@
           "type": "object",
           "properties": {
             "findOptions": {
-              "$ref": "#/definitions/FindOptions%3CUser%2C(%22_id%22%7C%22username%22%7C%22password%22%7C%22registrationDate%22%7C%22avatarFile%22%7C%22roles%22)%5B%5D%3E"
+              "$ref": "#/definitions/FindOptions%3CUser%2C(%22_id%22%7C%22username%22%7C%22registrationDate%22%7C%22avatarFile%22%7C%22roles%22)%5B%5D%3E"
             }
           },
           "additionalProperties": false
@@ -2119,7 +2241,7 @@
       "additionalProperties": false,
       "description": "Rest endpoint model for getting / querying collections"
     },
-    "FindOptions<User,(\"_id\"|\"username\"|\"password\"|\"registrationDate\"|\"avatarFile\"|\"roles\")[]>": {
+    "FindOptions<User,(\"_id\"|\"username\"|\"registrationDate\"|\"avatarFile\"|\"roles\")[]>": {
       "type": "object",
       "properties": {
         "top": {
@@ -2141,13 +2263,6 @@
               ]
             },
             "username": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            },
-            "password": {
               "type": "string",
               "enum": [
                 "ASC",
@@ -2186,7 +2301,6 @@
             "enum": [
               "_id",
               "username",
-              "password",
               "registrationDate",
               "avatarFile",
               "roles"
@@ -2235,6 +2349,15 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string"
+                },
+                "$endsWith": {
+                  "type": "string"
+                },
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -2278,49 +2401,15 @@
             {
               "type": "object",
               "properties": {
-                "$regex": {
-                  "type": "string"
-                }
-              },
-              "additionalProperties": false
-            },
-            {
-              "type": "object",
-              "properties": {
-                "$eq": {
+                "$startsWith": {
                   "type": "string"
                 },
-                "$ne": {
+                "$endsWith": {
                   "type": "string"
-                }
-              },
-              "additionalProperties": false
-            },
-            {
-              "type": "object",
-              "properties": {
-                "$in": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
                 },
-                "$nin": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              },
-              "additionalProperties": false
-            }
-          ]
-        },
-        "password": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -2364,6 +2453,15 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string"
+                },
+                "$endsWith": {
+                  "type": "string"
+                },
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -2561,7 +2659,6 @@
                 "enum": [
                   "_id",
                   "username",
-                  "password",
                   "registrationDate",
                   "avatarFile",
                   "roles"
@@ -2598,9 +2695,9 @@
       "description": "Endpoint model for getting a single entity"
     },
     "Omit<User,\"password\">": {
-      "$ref": "#/definitions/Pick%3CUser%2CExclude%3C(%22_id%22%7C%22username%22%7C%22password%22%7C%22registrationDate%22%7C%22avatarFile%22%7C%22roles%22)%2C%22password%22%3E%3E"
+      "$ref": "#/definitions/Pick%3CUser%2CExclude%3C(%22_id%22%7C%22username%22%7C%22registrationDate%22%7C%22avatarFile%22%7C%22roles%22)%2C%22password%22%3E%3E"
     },
-    "Pick<User,Exclude<(\"_id\"|\"username\"|\"password\"|\"registrationDate\"|\"avatarFile\"|\"roles\"),\"password\">>": {
+    "Pick<User,Exclude<(\"_id\"|\"username\"|\"registrationDate\"|\"avatarFile\"|\"roles\"),\"password\">>": {
       "type": "object",
       "properties": {
         "_id": {
@@ -2824,9 +2921,6 @@
           "type": "string"
         },
         "username": {
-          "type": "string"
-        },
-        "password": {
           "type": "string"
         },
         "registrationDate": {

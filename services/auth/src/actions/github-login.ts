@@ -1,5 +1,6 @@
 import { RequestError } from '@furystack/rest'
-import { HttpUserContext, JsonResult, RequestAction } from '@furystack/rest-service'
+import type { RequestAction } from '@furystack/rest-service'
+import { HttpUserContext, JsonResult } from '@furystack/rest-service'
 import { StoreManager } from '@furystack/core'
 import { auth } from '@common/models'
 import { getLogger } from '@furystack/logging'

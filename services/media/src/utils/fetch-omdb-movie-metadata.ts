@@ -1,6 +1,6 @@
-import { media } from '@common/models'
+import type { media } from '@common/models'
 import { tokens } from '@common/config'
-import { Injector } from '@furystack/inject'
+import type { Injector } from '@furystack/inject'
 import { getLogger } from '@furystack/logging'
 
 export const fetchOmdbMovieMetadata = async ({

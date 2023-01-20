@@ -1,4 +1,4 @@
-import { Injector } from '@furystack/inject'
+import type { Injector } from '@furystack/inject'
 import { auth } from '@common/models'
 import { getRepository } from '@furystack/repository'
 import { getCurrentUser } from '@furystack/core'

@@ -1,7 +1,8 @@
 import { LocationService } from '@furystack/shades'
-import { Injector } from '@furystack/inject'
-import { CommandProvider } from '@furystack/shades-common-components'
-import { common, serviceList } from '@common/models'
+import type { Injector } from '@furystack/inject'
+import type { CommandProvider } from '@furystack/shades-common-components'
+import type { common } from '@common/models'
+import { serviceList } from '@common/models'
 import { getCurrentUser } from '@furystack/core'
 import { createSuggestion, distinctByName } from './create-suggestion'
 

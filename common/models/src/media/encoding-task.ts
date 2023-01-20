@@ -1,6 +1,6 @@
-import { LeveledLogEntry } from '@furystack/logging'
-import { Movie } from './movie'
-import { MovieLibrary } from './movie-library'
+import type { LeveledLogEntry } from '@furystack/logging'
+import type { Movie } from './movie'
+import type { MovieLibrary } from './movie-library'
 
 export class EncodingTask {
   _id!: string

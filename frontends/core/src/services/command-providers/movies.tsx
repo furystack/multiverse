@@ -1,7 +1,7 @@
 import { useMediaApi } from '@common/frontend-utils'
-import { media } from '@common/models'
+import type { media } from '@common/models'
 import { createComponent } from '@furystack/shades'
-import { CommandProvider } from '@furystack/shades-common-components'
+import type { CommandProvider } from '@furystack/shades-common-components'
 import { MovieWidget } from '../../components/dashboard/movie-widget'
 
 export const continueMovieProvider: CommandProvider = async ({ injector, term }) => {

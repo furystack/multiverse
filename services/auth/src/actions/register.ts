@@ -2,7 +2,8 @@ import { RequestError } from '@furystack/rest'
 import { StoreManager } from '@furystack/core'
 import { PasswordCredential, PasswordAuthenticator, SecurityPolicyManager } from '@furystack/security'
 import { auth } from '@common/models'
-import { HttpUserContext, JsonResult, RequestAction } from '@furystack/rest-service'
+import type { RequestAction } from '@furystack/rest-service'
+import { HttpUserContext, JsonResult } from '@furystack/rest-service'
 import { getLogger } from '@furystack/logging'
 
 export const RegisterAction: RequestAction<{

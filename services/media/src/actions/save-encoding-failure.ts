@@ -1,8 +1,9 @@
 import { RequestError } from '@furystack/rest'
 import { StoreManager } from '@furystack/core'
 import { media } from '@common/models'
-import { LeveledLogEntry } from '@furystack/logging'
-import { RequestAction, JsonResult } from '@furystack/rest-service'
+import type { LeveledLogEntry } from '@furystack/logging'
+import type { RequestAction } from '@furystack/rest-service'
+import { JsonResult } from '@furystack/rest-service'
 
 export const SaveEncodingFailureAction: RequestAction<{
   body: { accessToken: string; error: any; log: Array<LeveledLogEntry<any>> }

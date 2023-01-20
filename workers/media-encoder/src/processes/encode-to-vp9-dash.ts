@@ -1,5 +1,5 @@
-import { media } from '@common/models'
-import { Injector } from '@furystack/inject'
+import type { media } from '@common/models'
+import type { Injector } from '@furystack/inject'
 import { getLogger } from '@furystack/logging'
 import { ObservableValue, usingAsync } from '@furystack/utils'
 import ffmpeg from 'fluent-ffmpeg'

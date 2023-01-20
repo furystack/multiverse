@@ -96,6 +96,57 @@
             ],
             "additionalProperties": false
           }
+        },
+        "HEAD": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "result": {},
+              "url": {},
+              "query": {},
+              "body": {},
+              "headers": {}
+            },
+            "required": [
+              "result"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "CONNECT": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "result": {},
+              "url": {},
+              "query": {},
+              "body": {},
+              "headers": {}
+            },
+            "required": [
+              "result"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "TRACE": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "result": {},
+              "url": {},
+              "query": {},
+              "body": {},
+              "headers": {}
+            },
+            "required": [
+              "result"
+            ],
+            "additionalProperties": false
+          }
         }
       },
       "required": [
@@ -250,6 +301,15 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string"
+                },
+                "$endsWith": {
+                  "type": "string"
+                },
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -353,8 +413,21 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string",
+                  "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+                },
+                "$endsWith": {
+                  "type": "string",
+                  "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+                },
+                "$like": {
+                  "type": "string",
+                  "description": "A well-defined scope for grouping entries, e.g. a component or service name."
+                },
                 "$regex": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "A well-defined scope for grouping entries, e.g. a component or service name."
                 }
               },
               "additionalProperties": false
@@ -400,8 +473,21 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string",
+                  "description": "The message string"
+                },
+                "$endsWith": {
+                  "type": "string",
+                  "description": "The message string"
+                },
+                "$like": {
+                  "type": "string",
+                  "description": "The message string"
+                },
                 "$regex": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "The message string"
                 }
               },
               "additionalProperties": false
@@ -493,6 +579,15 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string"
+                },
+                "$endsWith": {
+                  "type": "string"
+                },
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -536,8 +631,21 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "$endsWith": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "$like": {
+                  "type": "string",
+                  "format": "date-time"
+                },
                 "$regex": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "date-time"
                 }
               },
               "additionalProperties": false
@@ -882,6 +990,15 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string"
+                },
+                "$endsWith": {
+                  "type": "string"
+                },
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -925,6 +1042,15 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string"
+                },
+                "$endsWith": {
+                  "type": "string"
+                },
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -968,6 +1094,15 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string"
+                },
+                "$endsWith": {
+                  "type": "string"
+                },
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -1011,6 +1146,15 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string"
+                },
+                "$endsWith": {
+                  "type": "string"
+                },
+                "$like": {
+                  "type": "string"
+                },
                 "$regex": {
                   "type": "string"
                 }
@@ -1054,8 +1198,33 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string",
+                  "enum": [
+                    "completed",
+                    "failed"
+                  ]
+                },
+                "$endsWith": {
+                  "type": "string",
+                  "enum": [
+                    "completed",
+                    "failed"
+                  ]
+                },
+                "$like": {
+                  "type": "string",
+                  "enum": [
+                    "completed",
+                    "failed"
+                  ]
+                },
                 "$regex": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "completed",
+                    "failed"
+                  ]
                 }
               },
               "additionalProperties": false
@@ -1113,8 +1282,21 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "$endsWith": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "$like": {
+                  "type": "string",
+                  "format": "date-time"
+                },
                 "$regex": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "date-time"
                 }
               },
               "additionalProperties": false
@@ -1160,8 +1342,21 @@
             {
               "type": "object",
               "properties": {
+                "$startsWith": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "$endsWith": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "$like": {
+                  "type": "string",
+                  "format": "date-time"
+                },
                 "$regex": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "date-time"
                 }
               },
               "additionalProperties": false

@@ -1,6 +1,6 @@
 import { join } from 'path'
 import { getRandomString, media } from '@common/models'
-import { Injector } from '@furystack/inject'
+import type { Injector } from '@furystack/inject'
 import { StoreManager } from '@furystack/core'
 import { FileStores } from '@common/config'
 import rimraf from 'rimraf'

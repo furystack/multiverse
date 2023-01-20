@@ -1,6 +1,7 @@
-import { Injector } from '@furystack/inject'
+import type { Injector } from '@furystack/inject'
 import { apis, auth } from '@common/models'
 import { sites } from '@common/config'
+import type { RequestAction } from '@furystack/rest-service'
 import {
   GetCurrentUser,
   IsAuthenticated,
@@ -12,7 +13,6 @@ import {
   createPatchEndpoint,
   Authorize,
   createGetEntityEndpoint,
-  RequestAction,
   Validate,
   useRestService,
 } from '@furystack/rest-service'
@@ -53,12 +53,13 @@ export const setupRestApi = async (injector: Injector) => {
       GET: {
         '/currentUser': GetCurrentUser as RequestAction<{ result: auth.User }>,
         '/isAuthenticated': IsAuthenticated,
+        '/profiles/:username/avatar': GetAvatar,
+        '/profiles/:username': GetProfile,
         '/profiles': Validate({
           schema: apis.authApiSchema,
           schemaName: 'GetCollectionEndpoint<Profile>',
         })(createGetCollectionEndpoint({ model: auth.Profile, primaryKey: '_id' })),
-        '/profiles/:username': GetProfile,
-        '/profiles/:username/avatar': GetAvatar,
+
         '/organizations': createGetCollectionEndpoint({ model: auth.Organization, primaryKey: '_id' }),
         '/organization/:organizationName': GetOrganization,
         '/loginProviderDetails': Authenticate()(GetLoginProviderDetails),

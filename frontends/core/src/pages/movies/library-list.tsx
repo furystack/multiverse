@@ -1,5 +1,5 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { media } from '@common/models'
+import type { media } from '@common/models'
 import { Fab } from '@furystack/shades-common-components'
 import { IconUrlWidget } from '../../components/dashboard/icon-url-widget'
 import { Icon } from '../../components/icon'

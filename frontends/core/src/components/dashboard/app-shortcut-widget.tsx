@@ -1,5 +1,6 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { dashboard, serviceList } from '@common/models'
+import type { dashboard } from '@common/models'
+import { serviceList } from '@common/models'
 import { IconUrlWidget } from './icon-url-widget'
 import { BrokenWidget } from './broken-widget'
 

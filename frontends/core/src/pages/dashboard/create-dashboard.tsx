@@ -1,5 +1,5 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { dashboard } from '@common/models'
+import type { dashboard } from '@common/models'
 import { useDashboardApi } from '@common/frontend-utils'
 import { Input, Button, NotyService } from '@furystack/shades-common-components'
 

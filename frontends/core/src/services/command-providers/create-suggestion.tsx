@@ -1,7 +1,7 @@
 import { createComponent } from '@furystack/shades'
-import { Injector } from '@furystack/inject'
-import { CommandPaletteSuggestionResult } from '@furystack/shades-common-components'
-import { common } from '@common/models'
+import type { Injector } from '@furystack/inject'
+import type { CommandPaletteSuggestionResult } from '@furystack/shades-common-components'
+import type { common } from '@common/models'
 import { Icon } from '../../components/icon'
 
 export interface SuggestionOptions {

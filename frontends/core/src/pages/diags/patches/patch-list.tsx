@@ -1,14 +1,14 @@
 import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { CollectionService, DataGrid } from '@furystack/shades-common-components'
-import { diag } from '@common/models'
+import type { diag } from '@common/models'
 import { useDiagApi } from '@common/frontend-utils'
 
 export const PatchList = Shade<{}, { service: CollectionService<diag.Patch> }>({
   shadowDomName: 'multiverse-patch-list',
   getInitialState: ({ injector }) => {
     return {
-      service: new CollectionService<diag.Patch>(
-        async (findOptions) => {
+      service: new CollectionService<diag.Patch>({
+        loader: async (findOptions) => {
           const { result } = await useDiagApi(injector)({
             method: 'GET',
             action: '/patches',
@@ -16,8 +16,8 @@ export const PatchList = Shade<{}, { service: CollectionService<diag.Patch> }>({
           })
           return result
         },
-        { top: 20, order: { startDate: 'DESC' } },
-      ),
+        defaultSettings: { top: 20, order: { startDate: 'DESC' } },
+      }),
     }
   },
   render: ({ getState }) => {

@@ -1,4 +1,4 @@
-import { WidgetBase } from './widget-base'
+import type { WidgetBase } from './widget-base'
 
 export interface MovieListWidget extends WidgetBase<'movie-list'> {
   /**

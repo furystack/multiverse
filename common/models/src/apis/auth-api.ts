@@ -1,10 +1,10 @@
-import { RestApi, GetCollectionEndpoint, PostEndpoint, PatchEndpoint, GetEntityEndpoint } from '@furystack/rest'
-import { User } from '../auth/user'
-import { Profile } from '../auth/profile'
-import { Organization } from '../auth/organization'
-import { GoogleAccount } from '../auth/google-account'
-import { GithubAccount } from '../auth/github-account'
-import { UserSettings } from '../auth'
+import type { RestApi, GetCollectionEndpoint, PostEndpoint, PatchEndpoint, GetEntityEndpoint } from '@furystack/rest'
+import type { User } from '../auth/user'
+import type { Profile } from '../auth/profile'
+import type { Organization } from '../auth/organization'
+import type { GoogleAccount } from '../auth/google-account'
+import type { GithubAccount } from '../auth/github-account'
+import type { UserSettings } from '../auth'
 
 export interface AuthApi extends RestApi {
   GET: {

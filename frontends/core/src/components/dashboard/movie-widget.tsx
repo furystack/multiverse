@@ -1,5 +1,5 @@
 import { Shade, RouteLink, createComponent, LocationService, LazyLoad } from '@furystack/shades'
-import { media, auth } from '@common/models'
+import type { media, auth } from '@common/models'
 import { promisifyAnimation } from '@furystack/shades-common-components'
 import { SessionService, useMediaApi } from '@common/frontend-utils'
 import { Icon } from '../icon'

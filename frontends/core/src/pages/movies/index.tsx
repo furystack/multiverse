@@ -1,5 +1,5 @@
 import { Shade, createComponent, Router, LazyLoad } from '@furystack/shades'
-import { media } from '@common/models'
+import type { media } from '@common/models'
 import { useMediaApi } from '@common/frontend-utils'
 import { Fab, promisifyAnimation } from '@furystack/shades-common-components'
 import { isAuthorized } from '@furystack/core'

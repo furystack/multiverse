@@ -1,6 +1,6 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { Input, Button } from '@furystack/shades-common-components'
-import { auth } from '@common/models'
+import type { auth } from '@common/models'
 import { SessionService, useAuthApi } from '@common/frontend-utils'
 import { FullScreenForm } from '../../components/full-screen-form'
 

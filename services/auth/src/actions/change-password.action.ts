@@ -1,6 +1,7 @@
 import { getCurrentUser } from '@furystack/core'
 import { RequestError } from '@furystack/rest'
-import { JsonResult, RequestAction } from '@furystack/rest-service'
+import type { RequestAction } from '@furystack/rest-service'
+import { JsonResult } from '@furystack/rest-service'
 import { PasswordAuthenticator, UnauthenticatedError } from '@furystack/security'
 
 export const ChangePasswordAction: RequestAction<{

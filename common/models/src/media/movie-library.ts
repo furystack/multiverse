@@ -1,4 +1,4 @@
-import { Owner } from '../owner'
+import type { Owner } from '../owner'
 
 export type Vp9EncodingType = {
   mode: 'dash'

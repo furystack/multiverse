@@ -3,7 +3,8 @@ import { Injector } from '@furystack/inject'
 import { auth } from '@common/models'
 import { getLogger } from '@furystack/logging'
 import { useCommonHttpAuth } from '@common/service-utils'
-import { FindOptions, PhysicalStore, StoreManager, WithOptionalId } from '@furystack/core'
+import type { FindOptions, PhysicalStore, WithOptionalId } from '@furystack/core'
+import { StoreManager } from '@furystack/core'
 import { setupStores } from './setup-stores'
 
 let githubIndex = 0
@@ -47,7 +48,7 @@ export const createUser = async ({
 }: {
   email: string
   password: string
-  userRoles: Array<typeof auth.roles[number]>
+  userRoles: Array<(typeof auth.roles)[number]>
   i: Injector
   displayName?: string
 }) => {

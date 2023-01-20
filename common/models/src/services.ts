@@ -1,12 +1,12 @@
-import { roles } from './auth/roles'
-import { Icon } from './common'
+import type { roles } from './auth/roles'
+import type { Icon } from './common'
 
 export type ServiceDescription<T> = {
   name: T
   description: string
   url: string
   icon: Icon
-  requiredRoles: Array<typeof roles[number]>
+  requiredRoles: Array<(typeof roles)[number]>
 }
 
 export const serviceNames = [
@@ -22,7 +22,7 @@ export const serviceNames = [
   'Dashboards',
 ] as const
 
-export const serviceList: Array<ServiceDescription<typeof serviceNames[number]>> = [
+export const serviceList: Array<ServiceDescription<(typeof serviceNames)[number]>> = [
   {
     name: 'Profile',
     icon: { type: 'flaticon-essential', name: '364-user.svg' },

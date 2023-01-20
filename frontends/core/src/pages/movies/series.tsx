@@ -1,5 +1,5 @@
-import { media } from '@common/models'
-import { PartialResult } from '@furystack/core'
+import type { media } from '@common/models'
+import type { PartialResult } from '@furystack/core'
 import { createComponent, ScreenService, Shade } from '@furystack/shades'
 import { promisifyAnimation } from '@furystack/shades-common-components'
 import { MovieListWidget } from '../../components/dashboard/movie-list'

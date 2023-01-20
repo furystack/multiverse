@@ -1,14 +1,14 @@
 import { Shade, createComponent, LocationService, RouteLink } from '@furystack/shades'
 import { CollectionService, DataGrid, Fab } from '@furystack/shades-common-components'
-import { dashboard } from '@common/models'
+import type { dashboard } from '@common/models'
 import { useDashboardApi } from '@common/frontend-utils'
 
 export const DashboardList = Shade<{}, { service: CollectionService<dashboard.Dashboard> }>({
   shadowDomName: 'multiverse-dashboard-list',
   getInitialState: ({ injector }) => {
     return {
-      service: new CollectionService<dashboard.Dashboard>(
-        async (findOptions) => {
+      service: new CollectionService<dashboard.Dashboard>({
+        loader: async (findOptions) => {
           const { result } = await useDashboardApi(injector)({
             method: 'GET',
             action: '/boards',
@@ -16,8 +16,8 @@ export const DashboardList = Shade<{}, { service: CollectionService<dashboard.Da
           })
           return result
         },
-        { top: 20, order: { creationDate: 'DESC' } },
-      ),
+        defaultSettings: { top: 20, order: { creationDate: 'DESC' } },
+      }),
     }
   },
   render: ({ getState, injector }) => {

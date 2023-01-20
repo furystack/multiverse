@@ -1,9 +1,11 @@
 import { RequestError } from '@furystack/rest'
-import { IncomingForm, Fields, Files } from 'formidable'
-import { auth } from '@common/models'
+import type { Fields, Files } from 'formidable'
+import { IncomingForm } from 'formidable'
+import type { auth } from '@common/models'
 import { saveAvatar } from '@common/service-utils'
 import { FileStores } from '@common/config'
-import { RequestAction, JsonResult } from '@furystack/rest-service'
+import type { RequestAction } from '@furystack/rest-service'
+import { JsonResult } from '@furystack/rest-service'
 import { getCurrentUser } from '@furystack/core'
 
 export const UploadAvatar: RequestAction<{ result: { success: boolean } }> = async ({ injector, request }) => {

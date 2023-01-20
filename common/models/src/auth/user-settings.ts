@@ -1,4 +1,6 @@
+import type { ThemePreset } from '../common/theme-preset'
+
 export interface UserSettings {
-  theme: 'light' | 'dark'
+  theme: ThemePreset
   dashboardId?: string
 }

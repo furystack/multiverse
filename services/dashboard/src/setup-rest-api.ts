@@ -1,4 +1,4 @@
-import { Injector } from '@furystack/inject'
+import type { Injector } from '@furystack/inject'
 import {
   createGetCollectionEndpoint,
   createGetEntityEndpoint,
@@ -7,7 +7,8 @@ import {
   Authenticate,
   useRestService,
 } from '@furystack/rest-service'
-import { apis, dashboard } from '@common/models'
+import type { apis } from '@common/models'
+import { dashboard } from '@common/models'
 import { sites } from '@common/config'
 import { useCommonHttpAuth } from '@common/service-utils'
 import { GetWeatherForecastAction } from './actions/get-weather-forecast-action'

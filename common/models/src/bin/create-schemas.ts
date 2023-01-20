@@ -15,9 +15,9 @@ export const entityValues: SchemaGenerationSetting[] = [
     type: '*',
   },
   {
-    inputFile: './src/dashboard/*.ts',
+    inputFile: './src/dashboard/index.ts',
     outputFile: './src/json-schemas-dashboard.json',
-    type: '*',
+    type: 'Dashboard',
   },
   {
     inputFile: './src/diag/*.ts',

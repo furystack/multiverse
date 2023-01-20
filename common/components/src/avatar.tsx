@@ -1,4 +1,5 @@
-import { Shade, createComponent, PartialElement } from '@furystack/shades'
+import type { PartialElement } from '@furystack/shades'
+import { Shade, createComponent } from '@furystack/shades'
 import { PathHelper } from '@furystack/utils'
 import { sites } from '@common/config'
 

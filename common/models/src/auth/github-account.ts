@@ -1,4 +1,4 @@
-import { GithubApiPayload } from './github-api-payload'
+import type { GithubApiPayload } from './github-api-payload'
 
 export class GithubAccount {
   _id!: string

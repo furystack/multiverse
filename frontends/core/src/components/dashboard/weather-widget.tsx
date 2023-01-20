@@ -1,5 +1,5 @@
 import { useDashboardApi } from '@common/frontend-utils'
-import { dashboard } from '@common/models'
+import type { dashboard } from '@common/models'
 import { createComponent, LazyLoad, Shade } from '@furystack/shades'
 import { Loader, promisifyAnimation } from '@furystack/shades-common-components'
 import { GenericErrorPage } from '../../pages/generic-error'

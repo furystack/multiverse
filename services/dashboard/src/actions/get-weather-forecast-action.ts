@@ -1,6 +1,7 @@
 import { tokens } from '@common/config'
-import { dashboard } from '@common/models'
-import { JsonResult, RequestAction } from '@furystack/rest-service'
+import type { dashboard } from '@common/models'
+import type { RequestAction } from '@furystack/rest-service'
+import { JsonResult } from '@furystack/rest-service'
 
 const weatherForecastCache = new Map<string, dashboard.WeatherData>()
 

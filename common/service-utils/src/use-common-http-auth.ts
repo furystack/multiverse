@@ -1,5 +1,5 @@
 import { useMongoDb } from '@furystack/mongodb-store'
-import { Injector } from '@furystack/inject'
+import type { Injector } from '@furystack/inject'
 import { usePasswordPolicy, PasswordCredential } from '@furystack/security'
 import { databases } from '@common/config'
 import { auth } from '@common/models'

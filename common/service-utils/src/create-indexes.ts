@@ -1,7 +1,7 @@
-import { Injector, Constructable } from '@furystack/inject'
+import type { Injector, Constructable } from '@furystack/inject'
 import { MongodbStore } from '@furystack/mongodb-store'
 import { StoreManager } from '@furystack/core'
-import { IndexSpecification, CreateIndexesOptions } from 'mongodb'
+import type { IndexSpecification, CreateIndexesOptions } from 'mongodb'
 
 export const verifyAndCreateIndexes = async <T extends object>(options: {
   injector: Injector

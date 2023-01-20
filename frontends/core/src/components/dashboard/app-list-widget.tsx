@@ -1,5 +1,5 @@
 import { Shade, createComponent } from '@furystack/shades'
-import { dashboard } from '@common/models'
+import type { dashboard } from '@common/models'
 import { AppShortcutWidget } from './app-shortcut-widget'
 
 export const AppListWidget = Shade<dashboard.AppListWidget>({

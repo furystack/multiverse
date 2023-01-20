@@ -1,5 +1,5 @@
 import { useMediaApi } from '@common/frontend-utils'
-import { media } from '@common/models'
+import type { media } from '@common/models'
 import { Injectable, Injected, Injector } from '@furystack/inject'
 
 @Injectable({ lifetime: 'transient' })

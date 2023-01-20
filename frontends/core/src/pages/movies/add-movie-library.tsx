@@ -1,5 +1,5 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import { media } from '@common/models'
+import type { media } from '@common/models'
 import { Input, Button } from '@furystack/shades-common-components'
 import { useMediaApi } from '@common/frontend-utils'
 import { FullScreenForm } from '../../components/full-screen-form'

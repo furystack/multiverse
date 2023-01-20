@@ -1,6 +1,7 @@
 import { RequestError } from '@furystack/rest'
 import { media } from '@common/models'
-import { RequestAction, JsonResult } from '@furystack/rest-service'
+import type { RequestAction } from '@furystack/rest-service'
+import { JsonResult } from '@furystack/rest-service'
 import { getDataSetFor } from '@furystack/repository'
 import { getCurrentUser } from '@furystack/core'
 import { getLogger } from '@furystack/logging'
