@@ -3,29 +3,30 @@ import { CollectionService, DataGrid } from '@furystack/shades-common-components
 import type { diag } from '@common/models'
 import { useDiagApi } from '@common/frontend-utils'
 
-export const PatchList = Shade<{}, { service: CollectionService<diag.Patch> }>({
+export const PatchList = Shade({
   shadowDomName: 'multiverse-patch-list',
-  getInitialState: ({ injector }) => {
-    return {
-      service: new CollectionService<diag.Patch>({
-        loader: async (findOptions) => {
-          const { result } = await useDiagApi(injector)({
-            method: 'GET',
-            action: '/patches',
-            query: { findOptions },
-          })
-          return result
-        },
-        defaultSettings: { top: 20, order: { startDate: 'DESC' } },
-      }),
-    }
-  },
-  render: ({ getState }) => {
+
+  render: ({ useDisposable, injector }) => {
+    const service = useDisposable(
+      'service',
+      () =>
+        new CollectionService<diag.Patch>({
+          loader: async (findOptions) => {
+            const { result } = await useDiagApi(injector)({
+              method: 'GET',
+              action: '/patches',
+              query: { findOptions },
+            })
+            return result
+          },
+          defaultSettings: { top: 20, order: { startDate: 'DESC' } },
+        }),
+    )
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <DataGrid<diag.Patch>
           columns={['appName', 'name', 'description', 'status', 'startDate']}
-          service={getState().service}
+          service={service}
           styles={{
             cell: {
               textAlign: 'center',

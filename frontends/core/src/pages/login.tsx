@@ -11,7 +11,7 @@ export const Login = Shade({
 
     const [userName, setUserName] = useState('userName', '')
     const [password, setPassword] = useState('password', '')
-    const [error, setError] = useObservable('error', sessionService.loginError)
+    const [error] = useObservable('error', sessionService.loginError)
     const [isOperationInProgress] = useObservable('isOperationInProgress', sessionService.isOperationInProgress)
 
     return (

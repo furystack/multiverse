@@ -4,12 +4,11 @@ import { getErrorMessage, SessionService } from '@common/frontend-utils'
 import { GithubAuthProvider } from '../../services/github-auth-provider'
 import { GenericErrorPage } from '../generic-error'
 
-export const GithubLogin = Shade<{ code: string }, { loginError?: string }>({
+export const GithubLogin = Shade<{ code: string }>({
   shadowDomName: 'shade-github-login',
-  getInitialState: () => ({
-    loginError: undefined,
-  }),
-  constructed: async ({ props, injector, updateState }) => {
+  constructed: async ({ props, injector, useState }) => {
+    const [, setLoginError] = useState<string | undefined>('loginError', undefined)
+
     const location = injector.getInstance(SessionService).currentUser.subscribe(() => {
       window.history.pushState('', '', '/')
     })
@@ -17,12 +16,13 @@ export const GithubLogin = Shade<{ code: string }, { loginError?: string }>({
       await injector.getInstance(GithubAuthProvider).login(props.code)
     } catch (error) {
       const errorMsg = await getErrorMessage(error)
-      updateState({ loginError: errorMsg })
+      setLoginError(errorMsg)
     }
     return () => location.dispose()
   },
-  render: ({ getState }) => {
-    const { loginError } = getState()
+  render: ({ useState }) => {
+    const [loginError] = useState<string | undefined>('loginError', undefined)
+
     return (
       <div
         style={{
