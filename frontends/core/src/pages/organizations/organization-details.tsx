@@ -31,6 +31,7 @@ export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }
           tabs={[
             {
               header: <div>General info</div>,
+              hash: 'general',
               component: (
                 <div style={{ padding: '2em' }}>
                   <Input type="text" readOnly={!canEdit} value={organization?.name} labelTitle="Name" />
@@ -167,6 +168,7 @@ export const OrganizationDetailsPage = Shade<{ organization: auth.Organization }
 
             {
               header: <div>Transfer Ownership</div>,
+              hash: 'transfer-ownership',
               component: (
                 <div>
                   <TransferOwnership

@@ -6,15 +6,14 @@ import { GenericErrorPage } from './generic-error'
 
 export const RegisterPage = Shade({
   shadowDomName: 'register-page',
-  getInitialState: () => ({
-    error: '' as unknown,
-    email: '',
-    password: '',
-    confirmPassword: '',
-    isOperationInProgress: false,
-  }),
-  render: ({ injector, getState, updateState }) => {
-    const { error } = getState()
+
+  render: ({ injector, useState }) => {
+    const [error, setError] = useState<unknown>('error', '')
+    const [email, setEmail] = useState('email', '')
+    const [password, setPassword] = useState('password', '')
+    const [confirmPassword, setConfirmPassword] = useState('confirmPassword', '')
+    const [isOperationInProgress, setIsOperationInProgress] = useState('isOperationInProgress', false)
+
     return (
       <div
         style={{
@@ -52,13 +51,12 @@ export const RegisterPage = Shade({
             <form
               onsubmit={async (ev) => {
                 ev.preventDefault()
-                const { email, password, confirmPassword } = getState()
                 if (password !== confirmPassword) {
                   alert('Password and Confirm Password does not match :(')
                   return
                 }
                 const sessionService = injector.getInstance(SessionService)
-                updateState({ isOperationInProgress: true })
+                setIsOperationInProgress(true)
 
                 try {
                   const { result: user } = await useAuthApi(injector)({
@@ -73,7 +71,8 @@ export const RegisterPage = Shade({
                     sessionService.state.setValue('authenticated')
                   }
                 } catch (e) {
-                  updateState({ error: e, isOperationInProgress: false })
+                  setError(e)
+                  setIsOperationInProgress(false)
                 }
               }}
             >
@@ -82,30 +81,28 @@ export const RegisterPage = Shade({
                 labelTitle="E-mail"
                 required
                 autofocus
-                value={getState().email}
-                disabled={getState().isOperationInProgress}
+                value={email}
+                disabled={isOperationInProgress}
                 title="E-mail"
-                onchange={(ev) => {
-                  updateState({ email: (ev.target as HTMLInputElement).value }, true)
-                }}
+                onTextChange={setEmail}
               />
               <Input
                 type="password"
-                value={getState().password}
+                value={password}
                 labelTitle="Password"
                 title="Password"
                 required
-                disabled={getState().isOperationInProgress}
-                onchange={(ev) => updateState({ password: (ev.target as HTMLInputElement).value }, true)}
+                disabled={isOperationInProgress}
+                onTextChange={setPassword}
               />
               <Input
                 type="password"
-                value={getState().confirmPassword}
+                value={confirmPassword}
                 labelTitle="Confirm password"
                 title="Confirm password"
                 required
-                disabled={getState().isOperationInProgress}
-                onchange={(ev) => updateState({ confirmPassword: (ev.target as HTMLInputElement).value }, true)}
+                disabled={isOperationInProgress}
+                onTextChange={setConfirmPassword}
               />
               <Button title="Register" type="submit">
                 Register
@@ -119,7 +116,7 @@ export const RegisterPage = Shade({
                   try {
                     await injector.getInstance(GoogleOauthProvider).signup()
                   } catch (e) {
-                    updateState({ error: e })
+                    setError(e)
                   }
                 }}
               >
