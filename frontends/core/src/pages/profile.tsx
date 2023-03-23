@@ -8,39 +8,18 @@ import { GoogleOauthProvider } from '../services/google-auth-provider'
 import { ChangePasswordForm } from '../components/change-password-form'
 import { UserSettingsEditor } from '../components/editors/user-settings'
 
-export const ProfilePage = Shade<
-  {
-    loginProviderDetails: { hasPassword: boolean; google?: auth.GoogleAccount; github?: auth.GithubAccount }
-    currentUser: Omit<auth.User, 'password'>
-  },
-  {
-    profile: auth.Profile
-    loginProviderDetails: { hasPassword: boolean; google?: auth.GoogleAccount; github?: auth.GithubAccount }
-    currentUser: Omit<auth.User, 'password'>
-    displayName: string
-    description: string
-  }
->({
+export const ProfilePage = Shade<{
+  loginProviderDetails: { hasPassword: boolean; google?: auth.GoogleAccount; github?: auth.GithubAccount }
+  currentUser: Omit<auth.User, 'password'>
+}>({
   shadowDomName: 'shade-profile-page',
-  getInitialState: ({ props, injector }) => {
-    const session = injector.getInstance(SessionService)
-    const profile = session.currentProfile.getValue()
-    return {
-      loginProviderDetails: props.loginProviderDetails,
-      currentUser: props.currentUser,
-      profile,
-      displayName: profile.displayName,
-      description: profile.description,
-    }
-  },
-  constructed: ({ injector, updateState }) => {
-    const profileChange = injector.getInstance(SessionService).currentProfile.subscribe((profile) => {
-      updateState({ profile, displayName: profile.displayName, description: profile.description })
-    })
-    return () => profileChange.dispose()
-  },
-  render: ({ injector, getState, updateState }) => {
-    const { currentUser, profile, loginProviderDetails } = getState()
+  render: ({ injector, useObservable, props, useState }) => {
+    const [profile] = useObservable('profile', injector.getInstance(SessionService).currentProfile)
+
+    const { currentUser, loginProviderDetails } = props
+
+    const [description, setDescription] = useState('description', profile.description)
+    const [displayName, setDisplayName] = useState('displayName', profile.displayName)
 
     const uploadId = getRandomString()
 
@@ -54,6 +33,7 @@ export const ProfilePage = Shade<
         tabs={[
           {
             header: <div>🎴 General info</div>,
+            hash: 'general',
             component: (
               <div style={{ margin: '1em' }}>
                 <Paper>
@@ -105,17 +85,13 @@ export const ProfilePage = Shade<
                     }}
                     onsubmit={async (ev) => {
                       ev.preventDefault()
-                      const state = getState()
-                      if (
-                        state.description !== state.profile.description ||
-                        state.displayName !== state.profile.displayName
-                      ) {
+                      if (description !== profile.description || displayName !== profile.displayName) {
                         try {
                           await useAuthApi(injector)({
                             method: 'PATCH',
                             action: '/profiles/:id',
-                            url: { id: state.profile._id },
-                            body: { displayName: state.displayName, description: state.description },
+                            url: { id: profile._id },
+                            body: { displayName, description },
                           })
                           injector.getInstance(NotyService).addNoty({
                             type: 'success',
@@ -133,9 +109,7 @@ export const ProfilePage = Shade<
                     }}
                   >
                     <Input
-                      onTextChange={(displayName) => {
-                        updateState({ displayName }, true)
-                      }}
+                      onTextChange={setDisplayName}
                       type="text"
                       labelTitle="Display name"
                       value={profile.displayName}
@@ -144,9 +118,7 @@ export const ProfilePage = Shade<
                       type="text"
                       labelTitle="Short introduction"
                       value={profile.description}
-                      onTextChange={(description) => {
-                        updateState({ description }, true)
-                      }}
+                      onTextChange={setDescription}
                     />
                     <Button type="submit" variant="contained" style={{ alignSelf: 'flex-end' }}>
                       Save Changes
@@ -160,6 +132,7 @@ export const ProfilePage = Shade<
           },
           {
             header: <div> 🚪 Login</div>,
+            hash: 'login',
             component: (
               <div style={{ border: '1px solid #aaa', padding: '1em' }}>
                 <div style={{ borderBottom: '1px solid #555', paddingBottom: '2em' }}>
@@ -288,6 +261,7 @@ export const ProfilePage = Shade<
           },
           {
             header: <div> 🔑 Change Password</div>,
+            hash: 'change-password',
             component: (
               <div>
                 <ChangePasswordForm
@@ -299,6 +273,7 @@ export const ProfilePage = Shade<
           },
           {
             header: <div>⚙ Personal settings</div>,
+            hash: 'personal-settings',
             component: <UserSettingsEditor profileId={profile._id} settings={profile.userSettings} />,
           },
         ]}

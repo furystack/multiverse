@@ -17,17 +17,20 @@ declare global {
   }
 }
 
-export const Watch = Shade<
-  { movie: media.Movie; watchedSeconds: number; availableSubtitles: string[] },
-  { watchedSeconds: ObservableValue<number> }
->({
-  getInitialState: ({ props }) => ({
-    watchedSeconds: new ObservableValue(props.watchedSeconds),
-  }),
+export const Watch = Shade<{ movie: media.Movie; watchedSeconds: number; availableSubtitles: string[] }>({
   shadowDomName: 'multiverse-movie-watch',
-  constructed: ({ props, injector, getState, element }) => {
+  constructed: ({ props, injector, useObservable, element }) => {
+    const [, setWatchedSeconds] = useObservable(
+      'watchedSeconds',
+      new ObservableValue(props.watchedSeconds),
+      (newWatchedSeconds) => {
+        injector.getInstance(MovieService).saveWatchProgress(props.movie, newWatchedSeconds)
+      },
+    )
+
     const formats = props.movie.availableFormats || []
     const subtitleStreams = props.movie.ffprobe.streams.filter((s) => (s.codec_type as any) === 'subtitle')
+
     const sources = [
       ...formats.sortBy('codec', 'desc').map((f) => ({
         src: PathHelper.joinPaths(
@@ -83,7 +86,7 @@ export const Watch = Shade<
       ),
     )
 
-    player.on('error', (_ev) => {
+    player.on('error', () => {
       if (confirm('There was an error during encoded video playback. Try the original content?'))
         player.src({
           src: `${sites.services.media.apiPath}/stream-original/${props.movie._id}`,
@@ -94,21 +97,16 @@ export const Watch = Shade<
     })
 
     player.on('pause', () => {
-      getState().watchedSeconds.setValue(player.currentTime())
-    })
-
-    const subscription = getState().watchedSeconds.subscribe((watchedSeconds) => {
-      injector.getInstance(MovieService).saveWatchProgress(props.movie, watchedSeconds)
+      setWatchedSeconds(player.currentTime())
     })
 
     const interval = setInterval(() => {
-      getState().watchedSeconds.setValue(player.currentTime())
+      setWatchedSeconds(player.currentTime())
     }, 1000 * 60)
 
     return async () => {
-      getState().watchedSeconds.setValue(player.currentTime())
+      setWatchedSeconds(player.currentTime())
       player.dispose()
-      subscription.dispose()
       clearInterval(interval)
     }
   },
