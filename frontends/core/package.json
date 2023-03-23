@@ -57,6 +57,6 @@
     "path-to-regexp": "^6.2.1",
     "reflect-metadata": "^0.1.13",
     "shaka-player": "^4.3.5",
-    "video.js": "^8.0.4"
+    "video.js": "^8.2.1"
   }
 }

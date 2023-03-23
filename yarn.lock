@@ -671,7 +671,7 @@ __metadata:
     tslib: ^2.5.0
     typescript: ^5.0.2
     url-loader: ^4.1.1
-    video.js: ^8.0.4
+    video.js: ^8.2.1
     webpack: ^5.76.3
     webpack-bundle-analyzer: ^4.8.0
     webpack-cli: ^5.0.1
@@ -1336,7 +1336,7 @@ __metadata:
     "@furystack/utils": ^3.1.7
     "@types/formidable": ^2.0.5
     "@types/node": ^18.15.5
-    formidable: ^2.1.1
+    formidable: ^2.1.2
     tslib: ^2.5.0
   languageName: unknown
   linkType: soft
@@ -1407,7 +1407,7 @@ __metadata:
     amqplib: ^0.10.3
     chokidar: ^3.5.3
     ffprobe: ^1.1.2
-    formidable: ^2.1.1
+    formidable: ^2.1.2
     rimraf: ^4.4.1
     sanitize-filename: ^1.6.3
     semaphore-async-await: ^1.5.1
@@ -5059,7 +5059,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"formidable@npm:^2.1.1":
+"formidable@npm:^2.1.2":
   version: 2.1.2
   resolution: "formidable@npm:2.1.2"
   dependencies:
@@ -9986,21 +9986,21 @@ __metadata:
 
 "typescript@patch:typescript@^5.0.2#~builtin<compat/typescript>":
   version: 5.0.2
-  resolution: "typescript@patch:typescript@npm%3A5.0.2#~builtin<compat/typescript>::version=5.0.2&hash=ad5954"
+  resolution: "typescript@patch:typescript@npm%3A5.0.2#~builtin<compat/typescript>::version=5.0.2&hash=85af82"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: bdbf3d0aac0d6cf010fbe0536753dc19f278eb4aba88140dcd25487dfe1c56ca8b33abc0dcd42078790a939b08ebc4046f3e9bb961d77d3d2c3cfa9829da4d53
+  checksum: b63cb742fbb9aeb3085e002ad8f10d5fd963606aa4d6b3b65b4e76c396ff09739f03b5dbae08e1698c3bce9d5619d3f67aeb7ee470ed4016bd345b3cfe37b54a
   languageName: node
   linkType: hard
 
 "typescript@patch:typescript@~4.9.3#~builtin<compat/typescript>":
   version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=ad5954"
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 8f6260acc86b56bfdda6004bc53f32ea548f543e8baef7071c8e34d29d292f3e375c8416556c8de10b24deef6933cd1c16a8233dc84a3dd43a13a13265d0faab
+  checksum: ab417a2f398380c90a6cf5a5f74badd17866adf57f1165617d6a551f059c3ba0a3e4da0d147b3ac5681db9ac76a303c5876394b13b3de75fdd5b1eaa06181c9d
   languageName: node
   linkType: hard
 
@@ -10178,7 +10178,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"video.js@npm:^7 || ^8, video.js@npm:^8.0.4":
+"video.js@npm:^7 || ^8, video.js@npm:^8.2.1":
   version: 8.2.1
   resolution: "video.js@npm:8.2.1"
   dependencies:
