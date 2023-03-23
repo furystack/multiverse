@@ -2,17 +2,13 @@ import { Shade, createComponent } from '@furystack/shades'
 import type { media } from '@common/models'
 import { SeriesWidget } from '../../components/dashboard/series-widget'
 
-export const SeriesList = Shade<
-  { series: media.Series[]; movies: media.Movie[]; watchProgresses: media.MovieWatchHistoryEntry[] },
-  { orderedSeries: media.Series[]; order: keyof media.Series; orderType: 'asc' | 'desc' }
->({
-  getInitialState: ({ props }) => ({
-    order: '_id',
-    orderType: 'desc',
-    orderedSeries: props.series.sortBy('_id', 'desc'),
-  }),
+export const SeriesList = Shade<{
+  series: media.Series[]
+  movies: media.Movie[]
+  watchProgresses: media.MovieWatchHistoryEntry[]
+}>({
   shadowDomName: 'multiverse-series-list',
-  render: ({ props, getState }) => {
+  render: ({ props }) => {
     return (
       <div
         style={{
@@ -24,7 +20,7 @@ export const SeriesList = Shade<
           width: '100%',
         }}
       >
-        {getState().orderedSeries.map((s, index) => (
+        {props.series.sortBy('_id', 'desc').map((s, index) => (
           <SeriesWidget
             size={348}
             series={s}

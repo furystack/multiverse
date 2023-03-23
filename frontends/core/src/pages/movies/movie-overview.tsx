@@ -1,19 +1,12 @@
 import { SessionService } from '@common/frontend-utils'
-import type { auth, media } from '@common/models'
+import type { media } from '@common/models'
 import { createComponent, LocationService, RouteLink, ScreenService, Shade } from '@furystack/shades'
 import { Button, promisifyAnimation, NotyService } from '@furystack/shades-common-components'
 import { MovieService } from '../../services/movie-service'
 
-export const MovieOverview = Shade<
-  { movie: media.Movie; watchedSeconds: number; availableSubtitles: string[] },
-  { roles: auth.User['roles']; isDesktop: boolean }
->({
+export const MovieOverview = Shade<{ movie: media.Movie; watchedSeconds: number; availableSubtitles: string[] }>({
   shadowDomName: 'shade-movie-overview',
-  getInitialState: ({ injector }) => ({
-    roles: injector.getInstance(SessionService).currentUser.getValue()?.roles || [],
-    isDesktop: injector.getInstance(ScreenService).screenSize.atLeast.md.getValue(),
-  }),
-  constructed: ({ injector, updateState, element }) => {
+  constructed: ({ element }) => {
     promisifyAnimation(
       element.querySelector('img'),
       [
@@ -27,15 +20,11 @@ export const MovieOverview = Shade<
         fill: 'forwards',
       },
     )
-    const subscribers = [
-      injector.getInstance(SessionService).currentUser.subscribe((usr) => {
-        updateState({ roles: usr?.roles })
-      }),
-      injector.getInstance(ScreenService).screenSize.atLeast.md.subscribe((isDesktop) => updateState({ isDesktop })),
-    ]
-    return () => subscribers.forEach((sub) => sub.dispose())
   },
-  render: ({ props, getState, injector }) => {
+  render: ({ props, useObservable, injector }) => {
+    const [currentUser] = useObservable('currentUser', injector.getInstance(SessionService).currentUser)
+    const [isDesktop] = useObservable('isDesktop', injector.getInstance(ScreenService).screenSize.atLeast.md)
+
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <div
@@ -55,7 +44,7 @@ export const MovieOverview = Shade<
               style={{ boxShadow: '3px 3px 8px rgba(0,0,0,0.3)', borderRadius: '8px', opacity: '0' }}
             />
           </div>
-          <div style={{ padding: '2em', maxWidth: '800px', minWidth: getState().isDesktop ? '550px' : undefined }}>
+          <div style={{ padding: '2em', maxWidth: '800px', minWidth: isDesktop ? '550px' : undefined }}>
             <h1>{props.movie.metadata.title}</h1>
             <p style={{ fontSize: '0.8em' }}>
               {props.movie.metadata.year?.toString()} &nbsp; {props.movie.metadata.genre.join(', ')}
@@ -91,7 +80,7 @@ export const MovieOverview = Shade<
                   </Button>
                 </RouteLink>
               )}
-              {getState().roles.includes('movie-admin') ? (
+              {currentUser?.roles.includes('movie-admin') ? (
                 <span>
                   <RouteLink href={`/movies/${props.movie.libraryId}/edit/${props.movie._id}`}>
                     <Button>Edit</Button>
