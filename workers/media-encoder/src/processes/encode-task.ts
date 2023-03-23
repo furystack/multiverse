@@ -6,7 +6,7 @@ import { FileStores } from '@common/config'
 import { PathHelper } from '@furystack/utils'
 import { createClient } from '@furystack/rest-client-fetch'
 import type { Injector } from '@furystack/inject'
-import rimraf from 'rimraf'
+import { rimraf } from 'rimraf'
 import { existsAsync } from '@common/service-utils'
 import { getLogger } from '@furystack/logging'
 import { TaskLogger } from '../services/task-logger'
@@ -51,7 +51,7 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
 
   if (encodingTempDirExists) {
     await logger.information({ message: 'The Temp dir already exists. Cleaning up...' })
-    await new Promise<void>((resolve, reject) => rimraf(encodingTempDir, (err) => (err ? reject(err) : resolve())))
+    await rimraf(encodingTempDir)
   }
   await promises.mkdir(encodingTempDir, { recursive: true })
 
@@ -96,7 +96,8 @@ export const encodeTask = async (options: { task: media.EncodingTask; injector: 
         log: taskLogger.getAllEntries(),
       },
     })
-    await new Promise<void>((resolve, reject) => rimraf(encodingTempDir, (err) => (err ? reject(err) : resolve())))
+
+    await rimraf(encodingTempDir)
     await logger.information({ message: 'Task finished, the task has been finialized.' })
     taskLogger.flush()
     return true
