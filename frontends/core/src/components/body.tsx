@@ -1,7 +1,6 @@
 import type { Route } from '@furystack/shades'
 import { createComponent, Shade, Router, LazyLoad } from '@furystack/shades'
 import type { auth } from '@common/models'
-import type { SessionState } from '@common/frontend-utils'
 import { SessionService, useAuthApi, useMediaApi } from '@common/frontend-utils'
 import { Loader } from '@furystack/shades-common-components'
 import { Init, WelcomePage } from '../pages'
@@ -9,33 +8,15 @@ import { Page404 } from '../pages/404'
 import { GenericErrorPage } from '../pages/generic-error'
 import { AcceptTermsPage } from '../pages/accept-terms'
 
-export const Body = Shade<
-  unknown,
-  { sessionState: SessionState; currentUser: Omit<auth.User, 'password'> | null; isOperationInProgress: boolean }
->({
+export const Body = Shade<unknown>({
   shadowDomName: 'shade-app-body',
-  getInitialState: ({ injector }) => {
+
+  render: ({ useObservable, injector }) => {
     const sessionService = injector.getInstance(SessionService)
-    return {
-      sessionState: sessionService.state.getValue(),
-      currentUser: sessionService.currentUser.getValue(),
-      isOperationInProgress: sessionService.isOperationInProgress.getValue(),
-    }
-  },
-  resources: ({ injector, updateState }) => {
-    const session = injector.getInstance(SessionService)
-    return [
-      session.state.subscribe((newState) => {
-        updateState({
-          sessionState: newState,
-        })
-      }, true),
-      session.currentUser.subscribe((currentUser) => updateState({ currentUser })),
-      session.isOperationInProgress.subscribe((isOperationInProgress) => updateState({ isOperationInProgress })),
-    ]
-  },
-  render: ({ getState, injector }) => {
-    const { currentUser, sessionState, isOperationInProgress } = getState()
+
+    const [sessionState] = useObservable('sessionState', sessionService.state)
+    const [currentUser] = useObservable('currentUser', sessionService.currentUser)
+    const [isOperationInProgress] = useObservable('isOperationInProgress', sessionService.isOperationInProgress)
 
     if (isOperationInProgress)
       return (
@@ -65,7 +46,7 @@ export const Body = Shade<
           {sessionState === 'authenticated' && currentUser ? (
             currentUser.roles.includes('terms-accepted') ? (
               <Router
-                notFound={() => <Page404 />}
+                notFound={<Page404 />}
                 routes={
                   [
                     {

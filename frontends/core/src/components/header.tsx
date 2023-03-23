@@ -5,19 +5,11 @@ import { serviceList } from '@common/models'
 import { getCommandProviders } from '../services/command-providers'
 import { Icon } from './icon'
 import { CurrentUserMenu } from './current-user-menu'
-export const Header = Shade<unknown, { isDesktop: boolean }>({
-  getInitialState: ({ injector }) => ({
-    isDesktop: injector.getInstance(ScreenService).screenSize.atLeast.md.getValue(),
-  }),
+export const Header = Shade({
   shadowDomName: 'shade-app-header',
-  constructed: ({ injector, updateState }) => {
-    const isDesktopObserver = injector
-      .getInstance(ScreenService)
-      .screenSize.atLeast.md.subscribe((val) => updateState({ isDesktop: val }))
-    return () => isDesktopObserver.dispose()
-  },
-  render: ({ getState }) => {
-    const { isDesktop } = getState()
+
+  render: ({ useObservable, injector }) => {
+    const [isDesktop] = useObservable('isDesktop', injector.getInstance(ScreenService).screenSize.atLeast.md)
     if (!isDesktop) {
       return (
         <AppBar>
@@ -77,7 +69,7 @@ export const Header = Shade<unknown, { isDesktop: boolean }>({
             <div style={{ overflow: 'hidden', textOverflow: 'ellipsos' }}>Multiverse</div>
           </RouteLink>
           <Router
-            notFound={() => <div />}
+            notFound={<div />}
             routes={serviceList.map((s) => ({
               url: s.url,
               routingOptions: { end: false },

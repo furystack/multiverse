@@ -1,12 +1,13 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
-import type { dashboard } from '@common/models'
 import { useDashboardApi } from '@common/frontend-utils'
 import { Input, Button, NotyService } from '@furystack/shades-common-components'
 
-export const CreateDashboard = Shade<{}, Pick<dashboard.Dashboard, 'name' | 'description'>>({
-  getInitialState: () => ({ name: '', description: '' }),
+export const CreateDashboard = Shade({
   shadowDomName: 'multiverse-create-dashboard',
-  render: ({ injector, getState, updateState }) => {
+  render: ({ injector, useState }) => {
+    const [name, setName] = useState('name', '')
+    const [description, setDescription] = useState('description', '')
+
     return (
       <div>
         <form
@@ -17,7 +18,8 @@ export const CreateDashboard = Shade<{}, Pick<dashboard.Dashboard, 'name' | 'des
                 method: 'POST',
                 action: '/boards',
                 body: {
-                  ...getState(),
+                  name,
+                  description,
                 },
               })
               window.history.pushState('', '', `/dashboard/edit/${created._id}`)
@@ -36,19 +38,13 @@ export const CreateDashboard = Shade<{}, Pick<dashboard.Dashboard, 'name' | 'des
             }
           }}
         >
-          <Input
-            name="dashboardName"
-            value={getState().name}
-            labelTitle="Board Name"
-            required
-            onTextChange={(text) => updateState({ name: text }, true)}
-          />
+          <Input name="dashboardName" value={name} labelTitle="Board Name" required onTextChange={setName} />
           <Input
             name="dashboardDescription"
-            value={getState().name}
+            value={description}
             labelTitle="Description"
             required
-            onTextChange={(text) => updateState({ description: text }, true)}
+            onTextChange={setDescription}
           />
           <Button type="submit">Create Dashboard</Button>
         </form>

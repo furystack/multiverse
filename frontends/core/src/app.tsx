@@ -1,19 +1,15 @@
-import type { SessionState } from '@common/frontend-utils'
 import { SessionService, ThemeService } from '@common/frontend-utils'
 import { createComponent, LazyLoad, Router, Shade } from '@furystack/shades'
 import { NotyList, ThemeProviderService } from '@furystack/shades-common-components'
 import { Init, Login } from './pages'
 import { GenericErrorPage } from './pages/generic-error'
 
-export const MultiverseApp = Shade<{}, { sessionState: SessionState }>({
+export const MultiverseApp = Shade({
   shadowDomName: 'furystack-multiverse-app',
-  getInitialState: () => ({ sessionState: 'initializing' }),
-  resources: ({ injector, updateState }) => {
+
+  render: ({ useObservable, injector }) => {
     const sessionService = injector.getInstance(SessionService)
-    return [sessionService.state.subscribe((sessionState) => updateState({ sessionState }))]
-  },
-  render: ({ getState, injector }) => {
-    const { sessionState } = getState()
+    const [sessionState] = useObservable('sessionState', sessionService.state)
 
     const themeProvider = injector.getInstance(ThemeProviderService)
     const themeService = injector.getInstance(ThemeService)
@@ -162,7 +158,7 @@ export const MultiverseApp = Shade<{}, { sessionState: SessionState }>({
                   ),
                 },
               ]}
-              notFound={() => <Login style={{ height: '100%' }} />}
+              notFound={<Login style={{ height: '100%' }} />}
             />
           )
 

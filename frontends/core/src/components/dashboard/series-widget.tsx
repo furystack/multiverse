@@ -1,5 +1,5 @@
 import { Shade, RouteLink, createComponent, LocationService } from '@furystack/shades'
-import type { media, auth } from '@common/models'
+import type { media } from '@common/models'
 import { promisifyAnimation } from '@furystack/shades-common-components'
 import { SessionService } from '@common/frontend-utils'
 import { Icon } from '../icon'
@@ -34,17 +34,14 @@ const blur = (el: HTMLElement) => {
   )
 }
 
-export const SeriesWidget = Shade<
-  {
-    size: number
-    series: media.Series
-    index: number
-    watchHistoryEntries: media.MovieWatchHistoryEntry[]
-  },
-  { currentUser: Omit<auth.User, 'password'> | null }
->({
+export const SeriesWidget = Shade<{
+  size: number
+  series: media.Series
+  index: number
+  watchHistoryEntries: media.MovieWatchHistoryEntry[]
+}>({
   shadowDomName: 'multiverse-series-widget',
-  getInitialState: ({ injector }) => ({ currentUser: injector.getInstance(SessionService).currentUser.getValue() }),
+  // getInitialState: ({ injector }) => ({ currentUser: injector.getInstance(SessionService).currentUser.getValue() }),
   constructed: ({ props, element }) => {
     setTimeout(() => {
       promisifyAnimation(
@@ -59,10 +56,11 @@ export const SeriesWidget = Shade<
       )
     })
   },
-  render: ({ props, injector, getState }) => {
+  render: ({ props, injector, useObservable }) => {
     const { series } = props
     const meta = series.omdbMetadata
     const url = `/series/${series.imdbId}`
+    const [currentUser] = useObservable('currentUser', injector.getInstance(SessionService).currentUser)
     return (
       <RouteLink tabIndex={0} title={meta.Plot || meta.Title} href={url}>
         <div
@@ -121,7 +119,7 @@ export const SeriesWidget = Shade<
                 <Icon icon={{ type: 'flaticon-essential', name: '025-play button.svg' }} />
               </div>
             </div>
-            {getState().currentUser?.roles.includes('movie-admin') ? (
+            {currentUser?.roles.includes('movie-admin') ? (
               <div style={{ display: 'flex' }}>
                 <div
                   style={{ width: '16px', height: '16px', marginLeft: '1em' }}

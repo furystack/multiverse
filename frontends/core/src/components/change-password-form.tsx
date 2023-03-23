@@ -3,19 +3,22 @@ import { Input, Button, NotyService } from '@furystack/shades-common-components'
 import { useAuthApi } from '@common/frontend-utils'
 import { ResponseError } from '@furystack/rest-client-fetch'
 
-export const ChangePasswordForm = Shade<
-  { style?: Partial<CSSStyleDeclaration>; showCurrentPassword?: boolean; onUpdated?: () => void },
-  { currentPassword: string; newPassword: string; confirmNewPassword: string }
->({
+export const ChangePasswordForm = Shade<{
+  style?: Partial<CSSStyleDeclaration>
+  showCurrentPassword?: boolean
+  onUpdated?: () => void
+}>({
   shadowDomName: 'shade-change-password-form',
-  getInitialState: () => ({ currentPassword: '', newPassword: '', confirmNewPassword: '' }),
-  render: ({ props, updateState, getState, injector }) => {
+  render: ({ props, useState, injector }) => {
+    const [currentPassword, setCurrentPassword] = useState('currentPassword', '')
+    const [newPassword, setNewPassword] = useState('newPassword', '')
+    const [confirmNewPassword, setConfirmNewPassword] = useState('confirmNewPassword', '')
+
     return (
       <form
         style={props.style}
         onsubmit={async (ev) => {
           ev.preventDefault()
-          const { currentPassword, newPassword, confirmNewPassword } = getState()
           if (newPassword !== confirmNewPassword) {
             injector.getInstance(NotyService).addNoty({
               type: 'warning',
@@ -39,7 +42,9 @@ export const ChangePasswordForm = Shade<
                 title: 'Success',
                 body: 'Your password has been changed.',
               })
-              updateState({ confirmNewPassword: '', currentPassword: '', newPassword: '' }, true)
+              setCurrentPassword('')
+              setNewPassword('')
+              setConfirmNewPassword('')
               props.onUpdated && props.onUpdated()
               return
             }
@@ -67,22 +72,16 @@ export const ChangePasswordForm = Shade<
             type="password"
             required
             name="currentPassword"
-            onchange={(ev) => updateState({ currentPassword: (ev.target as HTMLInputElement).value }, true)}
+            onTextChange={setCurrentPassword}
           />
         ) : null}
-        <Input
-          labelTitle="New password"
-          type="password"
-          name="newPassword"
-          required
-          onchange={(ev) => updateState({ newPassword: (ev.target as HTMLInputElement).value }, true)}
-        />
+        <Input labelTitle="New password" type="password" name="newPassword" required onTextChange={setNewPassword} />
         <Input
           labelTitle="Confirm new password"
           type="password"
           name="confirmNewPassword"
           required
-          onchange={(ev) => updateState({ confirmNewPassword: (ev.target as HTMLInputElement).value }, true)}
+          onTextChange={setConfirmNewPassword}
         />
         <Button color="primary" variant="contained" type="submit">
           Change password

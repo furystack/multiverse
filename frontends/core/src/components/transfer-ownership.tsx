@@ -15,20 +15,21 @@ export const isProfile = (owner: any): owner is auth.Profile => {
   return (owner as auth.Profile).username ? true : false
 }
 
-export const TransferOwnership = Shade<
-  TransferOwnershipProps,
-  { newOwner?: auth.Profile | auth.Organization; newOwnerEntry?: Owner; understood: boolean }
->({
-  getInitialState: () => ({ understood: false }),
+export const TransferOwnership = Shade<TransferOwnershipProps>({
   shadowDomName: 'multiverse-transfer-ownership',
-  render: ({ props, injector, getState, updateState }) => {
-    const { newOwner } = getState()
+  render: ({ props, injector, useState }) => {
+    const [newOwner, setNewOwner] = useState<auth.Profile | auth.Organization | undefined>('newOwner', undefined)
+
+    const [newOwnerEntry, setNewOwnerEntry] = useState<Owner | undefined>('newOwnerEntry', undefined)
+
+    const [understood, setUnderstood] = useState('understood', false)
+
     return (
       <div style={{ padding: '1em 2em' }}>
         <h1>
           Transfer ownership: <strong>{props.name}</strong>
         </h1>
-        {!getState().understood ? (
+        {!understood ? (
           <div
             style={{
               display: 'flex',
@@ -64,14 +65,14 @@ export const TransferOwnership = Shade<
               variant="contained"
               color="warning"
               style={{ padding: '1em 2em' }}
-              onclick={() => updateState({ understood: true })}
+              onclick={() => setUnderstood(true)}
             >
               Understood
             </Button>
           </div>
         ) : (
           <div>
-            {newOwner && getState().newOwnerEntry ? (
+            {newOwner && newOwnerEntry ? (
               <div>
                 <h3>The new owner will be: </h3>
                 {isProfile(newOwner) ? (
@@ -108,12 +109,10 @@ export const TransferOwnership = Shade<
                   <SuggestUser
                     prefix="🔑"
                     onSelectUser={(user) => {
-                      updateState({
-                        newOwner: user,
-                        newOwnerEntry: {
-                          type: 'user',
-                          username: user.username,
-                        },
+                      setNewOwner(user)
+                      setNewOwnerEntry({
+                        type: 'user',
+                        username: user.username,
                       })
                     }}
                   />
@@ -129,12 +128,10 @@ export const TransferOwnership = Shade<
                   <SuggestOrganization
                     prefix="🔑"
                     onSelectOrganization={(org) => {
-                      updateState({
-                        newOwner: org,
-                        newOwnerEntry: {
-                          type: 'organization',
-                          organizationName: org.name,
-                        },
+                      setNewOwner(org)
+                      setNewOwnerEntry({
+                        type: 'organization',
+                        organizationName: org.name,
                       })
                     }}
                   />
@@ -150,25 +147,22 @@ export const TransferOwnership = Shade<
               }}
             >
               <Button
-                disabled={newOwner === undefined || getState().newOwnerEntry === undefined}
+                disabled={newOwner === undefined || newOwnerEntry === undefined}
                 style={{ padding: '1em 2em' }}
                 onclick={() => {
-                  updateState({
-                    newOwner: undefined,
-                    newOwnerEntry: undefined,
-                  })
+                  setNewOwner(undefined)
+                  setNewOwnerEntry(undefined)
                 }}
               >
                 Select something else...
               </Button>
               <Button
-                disabled={newOwner === undefined || getState().newOwnerEntry === undefined}
+                disabled={newOwner === undefined || newOwnerEntry === undefined}
                 variant="contained"
                 color="warning"
                 style={{ padding: '1em 2em' }}
                 onclick={async () => {
                   try {
-                    const { newOwnerEntry } = getState()
                     if (newOwnerEntry) {
                       await props.onTransfer(newOwnerEntry)
                       injector.getInstance(NotyService).addNoty({

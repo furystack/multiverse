@@ -3,29 +3,31 @@ import { CollectionService, DataGrid, Fab } from '@furystack/shades-common-compo
 import type { dashboard } from '@common/models'
 import { useDashboardApi } from '@common/frontend-utils'
 
-export const DashboardList = Shade<{}, { service: CollectionService<dashboard.Dashboard> }>({
+export const DashboardList = Shade({
   shadowDomName: 'multiverse-dashboard-list',
-  getInitialState: ({ injector }) => {
-    return {
-      service: new CollectionService<dashboard.Dashboard>({
-        loader: async (findOptions) => {
-          const { result } = await useDashboardApi(injector)({
-            method: 'GET',
-            action: '/boards',
-            query: { findOptions },
-          })
-          return result
-        },
-        defaultSettings: { top: 20, order: { creationDate: 'DESC' } },
-      }),
-    }
-  },
-  render: ({ getState, injector }) => {
+
+  render: ({ useDisposable, injector }) => {
+    const service = useDisposable(
+      'service',
+      () =>
+        new CollectionService<dashboard.Dashboard>({
+          loader: async (findOptions) => {
+            const { result } = await useDashboardApi(injector)({
+              method: 'GET',
+              action: '/boards',
+              query: { findOptions },
+            })
+            return result
+          },
+          defaultSettings: { top: 20, order: { creationDate: 'DESC' } },
+        }),
+    )
+
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <DataGrid<dashboard.Dashboard>
           columns={['name', 'owner', 'creationDate']}
-          service={getState().service}
+          service={service}
           styles={{
             cell: {
               textAlign: 'center',

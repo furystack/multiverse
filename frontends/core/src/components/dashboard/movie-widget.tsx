@@ -1,5 +1,5 @@
 import { Shade, RouteLink, createComponent, LocationService, LazyLoad } from '@furystack/shades'
-import type { media, auth } from '@common/models'
+import type { media } from '@common/models'
 import { promisifyAnimation } from '@furystack/shades-common-components'
 import { SessionService, useMediaApi } from '@common/frontend-utils'
 import { Icon } from '../icon'
@@ -34,17 +34,13 @@ const blur = (el: HTMLElement) => {
   )
 }
 
-export const MovieWidget = Shade<
-  {
-    size: number
-    movie: media.Movie
-    index: number
-    watchHistory?: media.MovieWatchHistoryEntry
-  },
-  { currentUser: Omit<auth.User, 'password'> | null }
->({
+export const MovieWidget = Shade<{
+  size: number
+  movie: media.Movie
+  index: number
+  watchHistory?: media.MovieWatchHistoryEntry
+}>({
   shadowDomName: 'multiverse-movie-widget',
-  getInitialState: ({ injector }) => ({ currentUser: injector.getInstance(SessionService).currentUser.getValue() }),
   constructed: ({ props, element }) => {
     setTimeout(() => {
       promisifyAnimation(
@@ -59,10 +55,13 @@ export const MovieWidget = Shade<
       )
     })
   },
-  render: ({ props, injector, getState }) => {
+  render: ({ props, injector, useObservable }) => {
     const { movie } = props
     const meta = movie.metadata
     const url = `/movies/overview/${movie._id}`
+
+    const [currentUser] = useObservable('currentUser', injector.getInstance(SessionService).currentUser)
+
     return (
       <RouteLink tabIndex={0} title={meta.plot || meta.title} href={url}>
         <div
@@ -121,7 +120,7 @@ export const MovieWidget = Shade<
                 <Icon icon={{ type: 'flaticon-essential', name: '025-play button.svg' }} />
               </div>
             </div>
-            {getState().currentUser?.roles.includes('movie-admin') ? (
+            {currentUser?.roles.includes('movie-admin') ? (
               <div style={{ display: 'flex' }}>
                 {movie.availableFormats?.length ? null : (
                   <div
