@@ -11,10 +11,10 @@
   },
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@furystack/core": "^11.2.8",
+    "@furystack/core": "^11.2.9",
     "@furystack/logging": "^3.1.7",
-    "@furystack/rest": "^4.1.13",
-    "@types/node": "^18.15.5",
+    "@furystack/rest": "^4.1.14",
+    "@types/node": "^18.15.9",
     "ts-json-schema-generator": "^1.2.0",
     "tslib": "^2.5.0"
   },

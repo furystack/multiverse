@@ -6,7 +6,6 @@ import { GenericErrorPage } from './generic-error'
 
 export const RegisterPage = Shade({
   shadowDomName: 'register-page',
-
   render: ({ injector, useState }) => {
     const [error, setError] = useState<unknown>('error', '')
     const [email, setEmail] = useState('email', '')
@@ -78,6 +77,7 @@ export const RegisterPage = Shade({
             >
               <Input
                 type="email"
+                name="email"
                 labelTitle="E-mail"
                 required
                 autofocus
@@ -88,6 +88,7 @@ export const RegisterPage = Shade({
               />
               <Input
                 type="password"
+                name="password"
                 value={password}
                 labelTitle="Password"
                 title="Password"
@@ -97,6 +98,7 @@ export const RegisterPage = Shade({
               />
               <Input
                 type="password"
+                name="confirmPassword"
                 value={confirmPassword}
                 labelTitle="Confirm password"
                 title="Confirm password"
@@ -104,6 +106,7 @@ export const RegisterPage = Shade({
                 disabled={isOperationInProgress}
                 onTextChange={setConfirmPassword}
               />
+              <button type="submit" style={{ display: 'none' }} />
               <Button title="Register" type="submit">
                 Register
               </Button>
