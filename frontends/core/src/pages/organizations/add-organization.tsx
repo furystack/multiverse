@@ -4,17 +4,17 @@ import type { auth } from '@common/models'
 import { SessionService, useAuthApi } from '@common/frontend-utils'
 import { FullScreenForm } from '../../components/full-screen-form'
 
-export const AddOrganizationPage = Shade<{}, Omit<auth.Organization, '_id'>>({
-  getInitialState: ({ injector }) => ({
-    adminNames: [],
-    memberNames: [],
-    description: '',
-    name: '',
-    owner: { type: 'user', username: injector.getInstance(SessionService).currentUser.getValue()?.username || '' },
-    icon: '💳',
-  }),
+export const AddOrganizationPage = Shade({
   shadowDomName: 'shade-add-organization-page',
-  render: ({ getState, injector, updateState }) => {
+  render: ({ injector, useState }) => {
+    const [newOrganization, setNewOrganization] = useState<Omit<auth.Organization, '_id'>>('newOrganization', {
+      adminNames: [],
+      memberNames: [],
+      description: '',
+      name: '',
+      owner: { type: 'user', username: injector.getInstance(SessionService).currentUser.getValue()?.username || '' },
+      icon: '💳',
+    })
     return (
       <FullScreenForm
         title="Create new Organization"
@@ -41,7 +41,7 @@ export const AddOrganizationPage = Shade<{}, Omit<auth.Organization, '_id'>>({
             method: 'POST',
             action: '/organizations',
             body: {
-              ...getState(),
+              ...newOrganization,
             },
           })
           history.pushState({}, '', `/organization/${encodeURIComponent(created.name)}`)
@@ -52,13 +52,18 @@ export const AddOrganizationPage = Shade<{}, Omit<auth.Organization, '_id'>>({
           required
           type="text"
           labelTitle="Name"
-          onTextChange={(value) => updateState({ name: value }, true)}
+          onTextChange={(value) => setNewOrganization({ ...newOrganization, name: value })}
         />
-        <Input required type="text" labelTitle="Icon" onTextChange={(value) => updateState({ icon: value }, true)} />
+        <Input
+          required
+          type="text"
+          labelTitle="Icon"
+          onTextChange={(value) => setNewOrganization({ ...newOrganization, icon: value })}
+        />
         <Input
           type="text"
           labelTitle="Description"
-          onTextChange={(value) => updateState({ description: value }, true)}
+          onTextChange={(value) => setNewOrganization({ ...newOrganization, description: value })}
         />
       </FullScreenForm>
     )

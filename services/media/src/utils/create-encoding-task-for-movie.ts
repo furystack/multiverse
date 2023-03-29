@@ -3,7 +3,7 @@ import { getRandomString, media } from '@common/models'
 import type { Injector } from '@furystack/inject'
 import { StoreManager } from '@furystack/core'
 import { FileStores } from '@common/config'
-import rimraf from 'rimraf'
+import { rimraf } from 'rimraf'
 import { existsAsync } from '@common/service-utils'
 import { getDataSetFor } from '@furystack/repository'
 import { getLogger } from '@furystack/logging'
@@ -27,7 +27,7 @@ export const createEncodingTaskForMovie = async ({ movie, injector }: { movie: m
   const targetPath = join(FileStores.encodedMedia, library.encoding.codec, library.encoding.mode, movie._id)
   const targetExists = await existsAsync(targetPath)
   if (targetExists) {
-    await new Promise<void>((resolve, reject) => rimraf(targetPath, {}, (err) => (err ? reject(err) : resolve())))
+    rimraf(targetPath)
     await logger.verbose({
       message: `The previous encoding data was cleaned up for encoding movie '${movie.metadata.title}' in ${targetPath}`,
       data: {

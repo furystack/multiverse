@@ -14,19 +14,14 @@ export type MemberListProps = { users: auth.Profile[]; addLabel: string } & (
     }
 )
 
-export interface MemberListState {
-  users: auth.Profile[]
-}
-
-export const MemberList = Shade<MemberListProps, MemberListState>({
+export const MemberList = Shade<MemberListProps>({
   shadowDomName: 'multiverse-member-list',
-  getInitialState: ({ props }) => ({
-    users: props.users,
-  }),
-  render: ({ props, getState, updateState }) => {
+  render: ({ props, useState }) => {
+    const [users, setUsers] = useState('users', props.users)
+
     return (
       <div style={{ display: 'flex', background: 'rgba(128,128,128,0.2)', flexWrap: 'wrap', position: 'relative' }}>
-        {getState().users.map((u) => (
+        {users.map((u) => (
           <div
             style={{
               display: 'flex',
@@ -51,7 +46,7 @@ export const MemberList = Shade<MemberListProps, MemberListState>({
                 title="Remove"
                 onclick={() => {
                   props.onRemoveMember(u)
-                  updateState({ users: getState().users.filter((usr) => usr.username !== u.username) })
+                  setUsers(users.filter((usr) => usr.username !== u.username))
                 }}
               >
                 ❌
@@ -68,9 +63,9 @@ export const MemberList = Shade<MemberListProps, MemberListState>({
             prefix=""
             onSelectUser={(user) => {
               props.onAddMember(user)
-              updateState({ users: [...getState().users, user] })
+              setUsers([...users, user])
             }}
-            exclude={(user) => (getState().users.find((usr) => usr.username === user.username) ? true : false)}
+            exclude={(user) => (users.find((usr) => usr.username === user.username) ? true : false)}
           />
         ) : null}
       </div>

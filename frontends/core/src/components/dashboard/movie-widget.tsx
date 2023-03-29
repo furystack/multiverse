@@ -1,5 +1,5 @@
 import { Shade, RouteLink, createComponent, LocationService, LazyLoad } from '@furystack/shades'
-import type { media, auth } from '@common/models'
+import type { media } from '@common/models'
 import { promisifyAnimation } from '@furystack/shades-common-components'
 import { SessionService, useMediaApi } from '@common/frontend-utils'
 import { Icon } from '../icon'
@@ -34,35 +34,30 @@ const blur = (el: HTMLElement) => {
   )
 }
 
-export const MovieWidget = Shade<
-  {
-    size: number
-    movie: media.Movie
-    index: number
-    watchHistory?: media.MovieWatchHistoryEntry
-  },
-  { currentUser: Omit<auth.User, 'password'> | null }
->({
+export const MovieWidget = Shade<{
+  size: number
+  movie: media.Movie
+  index: number
+  watchHistory?: media.MovieWatchHistoryEntry
+}>({
   shadowDomName: 'multiverse-movie-widget',
-  getInitialState: ({ injector }) => ({ currentUser: injector.getInstance(SessionService).currentUser.getValue() }),
   constructed: ({ props, element }) => {
     setTimeout(() => {
-      promisifyAnimation(
-        element.querySelector('route-link div'),
-        [{ transform: 'scale(0)' }, { transform: 'scale(1)' }],
-        {
-          fill: 'forwards',
-          delay: (props.index || 0) * 160 + Math.random() * 100,
-          duration: 700,
-          easing: 'cubic-bezier(0.190, 1.000, 0.220, 1.000)',
-        },
-      )
+      promisifyAnimation(element.querySelector('a div'), [{ transform: 'scale(0)' }, { transform: 'scale(1)' }], {
+        fill: 'forwards',
+        delay: (props.index || 0) * 160 + Math.random() * 100,
+        duration: 700,
+        easing: 'cubic-bezier(0.190, 1.000, 0.220, 1.000)',
+      })
     })
   },
-  render: ({ props, injector, getState }) => {
+  render: ({ props, injector, useObservable }) => {
     const { movie } = props
     const meta = movie.metadata
     const url = `/movies/overview/${movie._id}`
+
+    const [currentUser] = useObservable('currentUser', injector.getInstance(SessionService).currentUser)
+
     return (
       <RouteLink tabIndex={0} title={meta.plot || meta.title} href={url}>
         <div
@@ -121,7 +116,7 @@ export const MovieWidget = Shade<
                 <Icon icon={{ type: 'flaticon-essential', name: '025-play button.svg' }} />
               </div>
             </div>
-            {getState().currentUser?.roles.includes('movie-admin') ? (
+            {currentUser?.roles.includes('movie-admin') ? (
               <div style={{ display: 'flex' }}>
                 {movie.availableFormats?.length ? null : (
                   <div

@@ -5,7 +5,7 @@ import { execAsync, existsAsync } from '@common/service-utils'
 import type { media } from '@common/models'
 import { getRandomString } from '@common/models'
 import type { Injector } from '@furystack/inject'
-import rimraf from 'rimraf'
+import { rimraf } from 'rimraf'
 import { getLogger } from '@furystack/logging'
 
 export const extractSubtitles = async (options: { injector: Injector; movie: media.Movie }) => {
@@ -54,7 +54,8 @@ export const extractSubtitles = async (options: { injector: Injector; movie: med
 
   await Promise.all(files.map((file) => promises.copyFile(join(cwd, file), join(subtitlesDir, file))))
   await Promise.all(files.map((file) => promises.unlink(join(cwd, file))))
-  await new Promise<void>((resolve, reject) => rimraf(cwd, {}, (err) => (err ? reject(err) : resolve())))
+  rimraf(cwd)
+
   logger.information({
     message: `Subtitles has been extracted from stream for movie '${options.movie.metadata.title}'`,
     data: {

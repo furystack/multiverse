@@ -22,7 +22,7 @@ export const MoviesPage = Shade({
   render: ({ injector }) => {
     return (
       <Router
-        notFound={() => <GenericErrorPage />}
+        notFound={<GenericErrorPage />}
         routes={[
           {
             url: '/movies/:libraryId/edit/:movieId',

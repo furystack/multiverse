@@ -3,34 +3,16 @@ import { Shade, createComponent, RouteLink } from '@furystack/shades'
 import { useAuthApi, SessionService } from '@common/frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 
-export const Login = Shade<
-  unknown,
-  { username: string; password: string; isOperationInProgress: boolean; error?: string }
->({
+export const Login = Shade({
   shadowDomName: 'shade-login',
-  getInitialState: ({ injector }) => {
+
+  render: ({ injector, useState, useObservable }) => {
     const sessionService = injector.getInstance(SessionService)
-    return {
-      username: '',
-      password: '',
-      error: sessionService.loginError.getValue(),
-      isOperationInProgress: sessionService.isOperationInProgress.getValue(),
-    }
-  },
-  resources: ({ injector, updateState }) => {
-    const sessionService = injector.getInstance(SessionService)
-    return [
-      sessionService.isOperationInProgress.subscribe((isOperationInProgress) => {
-        updateState({ isOperationInProgress })
-      }, true),
-      sessionService.loginError.subscribe((error) => {
-        updateState({ error })
-      }, true),
-    ]
-  },
-  render: ({ injector, getState, updateState }) => {
-    const { username, password } = getState()
-    const sessinService = injector.getInstance(SessionService)
+
+    const [userName, setUserName] = useState('userName', '')
+    const [password, setPassword] = useState('password', '')
+    const [error] = useObservable('error', sessionService.loginError)
+    const [isOperationInProgress] = useObservable('isOperationInProgress', sessionService.isOperationInProgress)
 
     return (
       <div
@@ -55,8 +37,7 @@ export const Login = Shade<
             className="login-form"
             onsubmit={(ev) => {
               ev.preventDefault()
-              const state = getState()
-              sessinService.login(state.username, state.password)
+              sessionService.login(userName, password)
             }}
           >
             <h2
@@ -70,16 +51,11 @@ export const Login = Shade<
             <Input
               labelTitle="Username"
               required
-              disabled={getState().isOperationInProgress}
+              disabled={isOperationInProgress}
               placeholder="The user's login name"
-              value={username}
+              value={userName}
               onchange={(ev) => {
-                updateState(
-                  {
-                    username: (ev.target as HTMLInputElement).value,
-                  },
-                  true,
-                )
+                setUserName((ev.target as HTMLInputElement).value)
               }}
               title="username"
               autofocus
@@ -88,19 +64,15 @@ export const Login = Shade<
             <Input
               labelTitle="Password"
               required
-              disabled={getState().isOperationInProgress}
+              disabled={isOperationInProgress}
               placeholder="The password for the user"
               value={password}
               type="password"
               onchange={(ev) => {
-                updateState(
-                  {
-                    password: (ev.target as HTMLInputElement).value,
-                  },
-                  true,
-                )
+                setPassword((ev.target as HTMLInputElement).value)
               }}
             />
+            {error && <div>{error.toString()}</div> /** TODO: Check me */}
             <div
               style={{
                 padding: '1em 0',
@@ -108,7 +80,7 @@ export const Login = Shade<
             >
               <Button
                 style={{ width: '100%' }}
-                disabled={getState().isOperationInProgress}
+                disabled={isOperationInProgress}
                 type="submit"
                 variant="contained"
                 color="primary"
@@ -123,7 +95,7 @@ export const Login = Shade<
                   }}
                 >
                   Login
-                  {getState().isOperationInProgress ? (
+                  {isOperationInProgress ? (
                     <Loader
                       style={{
                         width: '12px',

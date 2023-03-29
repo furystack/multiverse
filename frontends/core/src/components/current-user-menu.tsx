@@ -1,6 +1,6 @@
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { ObservableValue } from '@furystack/utils'
-import type { auth, common } from '@common/models'
+import type { common } from '@common/models'
 import { serviceList } from '@common/models'
 import { MyAvatar } from '@common/components'
 import { SessionService } from '@common/frontend-utils'
@@ -34,77 +34,75 @@ const CurrentUserMenuItem = Shade<{ title: string; icon: common.Icon; onclick: (
   },
 })
 
-export const CurrentUserMenu = Shade<
-  { isDesktop: boolean },
-  { currentUser?: Omit<auth.User, 'password'>; isOpened: ObservableValue<boolean> }
->({
+export const CurrentUserMenu = Shade<{ isDesktop: boolean }>({
   shadowDomName: 'shade-current-user-menu',
-  getInitialState: () => ({ currentUser: undefined, isOpened: new ObservableValue<boolean>(false) }),
-  resources: ({ injector, updateState, getState, element }) => [
-    new ClickAwayService(element, () => getState().isOpened.setValue(false)),
-    injector.getInstance(SessionService).currentUser.subscribe((usr) => {
-      updateState({ currentUser: usr || undefined })
-    }, true),
 
-    getState().isOpened.subscribe(async (isOpened) => {
-      try {
-        const menu = element.querySelector('.current-user-menu') as HTMLElement
-        const container = element.querySelector('.menu-container') as HTMLElement
-        if (isOpened) {
-          container.style.display = 'block'
-          container.style.opacity = '1'
-          await menu.animate(
-            [
-              { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
-              { transform: 'scale(1) translateY(0)', opacity: 1 },
-            ],
-            {
-              duration: 300,
-              easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
-              fill: 'forwards',
-            },
-          )
-        } else {
-          await promisifyAnimation(
-            menu,
-            [
-              { transform: 'scale(1) translateY(0)', opacity: 1 },
-              { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
-            ],
-            {
-              duration: 300,
-              easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
-              fill: 'forwards',
-            },
-          )
-          if (container.isConnected) {
-            container.style.opacity = '0'
-            container.style.display = 'none'
+  render: ({ useObservable, useDisposable, injector, element }) => {
+    const [currentUser] = useObservable('currentUser', injector.getInstance(SessionService).currentUser)
+
+    const [isOpened, setIsOpened] = useObservable(
+      'isOpened',
+      new ObservableValue(false),
+      async (newIsOpened) => {
+        try {
+          const menu = element.querySelector('.current-user-menu') as HTMLElement
+          const container = element.querySelector('.menu-container') as HTMLElement
+          if (newIsOpened) {
+            container.style.display = 'block'
+            container.style.opacity = '1'
+            await menu.animate(
+              [
+                { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
+                { transform: 'scale(1) translateY(0)', opacity: 1 },
+              ],
+              {
+                duration: 300,
+                easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
+                fill: 'forwards',
+              },
+            )
+          } else {
+            await promisifyAnimation(
+              menu,
+              [
+                { transform: 'scale(1) translateY(0)', opacity: 1 },
+                { transform: 'scale(0.5) translateY(-100%)', opacity: 0 },
+              ],
+              {
+                duration: 300,
+                easing: 'cubic-bezier(0.175, 0.885, 0.320, 1)',
+                fill: 'forwards',
+              },
+            )
+            if (container.isConnected) {
+              container.style.opacity = '0'
+              container.style.display = 'none'
+            }
           }
+        } catch (error) {
+          // ignore
         }
-      } catch (error) {
-        // ignore
-      }
-    }),
-  ],
+      },
+      true,
+    )
 
-  render: ({ getState, injector }) => {
-    const { currentUser, isOpened } = getState()
+    useDisposable('clickAwayService', () => new ClickAwayService(element, () => setIsOpened(false)))
+
     const themeProvider = injector.getInstance(ThemeProviderService)
     return (
       <div
         style={{ width: '48px', height: '48px' }}
         onclick={(ev) => {
           ev.preventDefault()
-          isOpened.setValue(!isOpened.getValue())
+          setIsOpened(!isOpened)
         }}
       >
         <MyAvatar />
         <div
           className="menu-container"
           style={{
-            display: isOpened.getValue() ? 'block' : 'none',
-            opacity: isOpened.getValue() ? '1' : '0',
+            display: isOpened ? 'block' : 'none',
+            opacity: isOpened ? '1' : '0',
             position: 'absolute',
           }}
         >

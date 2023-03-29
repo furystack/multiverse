@@ -4,9 +4,11 @@ import { auth } from '@common/models'
 import { useAuthApi, SessionService } from '@common/frontend-utils'
 import { GenericMonacoEditor } from './generic-monaco-editor'
 
-export const UserSettingsEditor = Shade<{ settings: auth.UserSettings; profileId: string }>({
+export const UserSettingsEditor = Shade({
   shadowDomName: 'user-settings-editor',
-  render: ({ props, injector }) => {
+  render: ({ injector, useObservable }) => {
+    const sessionService = injector.getInstance(SessionService)
+    const [profile] = useObservable('userSettings', sessionService.currentProfile)
     return (
       <div
         style={{
@@ -20,20 +22,16 @@ export const UserSettingsEditor = Shade<{ settings: auth.UserSettings; profileId
         <GenericMonacoEditor<auth.UserSettings, 'authSchema', 'UserSettings'>
           schema="authSchema"
           entity="UserSettings"
-          data={props.settings}
+          data={profile.userSettings}
           title="Edit your user settings"
           onSave={async (settings) => {
             await useAuthApi(injector)({
               method: 'PATCH',
               action: '/profiles/:id',
-              url: { id: props.profileId },
+              url: { id: profile._id },
               body: { userSettings: settings },
             })
-            const profile = injector.getInstance(SessionService).currentProfile
-            await profile.setValue({
-              ...profile.getValue(),
-              userSettings: deepMerge({ ...auth.DefaultUserSettings }, settings),
-            })
+            sessionService.reloadProfile()
           }}
         />
       </div>

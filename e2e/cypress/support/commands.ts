@@ -35,7 +35,7 @@ export const expectAndDismissNotification = (
   text: string,
   type?: 'error' | 'warning' | 'info' | 'success',
 ) => {
-  cy.get(`shade-noty div.noty${type ? `.${type}` : ''}`).within(() => {
+  cy.get(`shade-noty.noty${type ? `.${type}` : ''}`).within(() => {
     cy.contains(text)
       .should('be.visible')
       .parent()

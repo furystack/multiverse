@@ -2,17 +2,9 @@ import { Shade, createComponent } from '@furystack/shades'
 import type { media } from '@common/models'
 import { MovieWidget } from '../../components/dashboard/movie-widget'
 
-export const MovieList = Shade<
-  { movies: media.Movie[]; watchProgresses: media.MovieWatchHistoryEntry[] },
-  { orderedMovies: media.Movie[]; order: keyof media.Movie; orderType: 'asc' | 'desc' }
->({
-  getInitialState: ({ props }) => ({
-    order: '_id',
-    orderType: 'desc',
-    orderedMovies: props.movies.sortBy('_id', 'desc'),
-  }),
+export const MovieList = Shade<{ movies: media.Movie[]; watchProgresses: media.MovieWatchHistoryEntry[] }>({
   shadowDomName: 'multiverse-movie-list',
-  render: ({ props, getState }) => {
+  render: ({ props }) => {
     return (
       <div
         style={{
@@ -24,7 +16,7 @@ export const MovieList = Shade<
           width: '100%',
         }}
       >
-        {getState().orderedMovies.map((m, index) => (
+        {props.movies.sortBy('_id', 'desc').map((m, index) => (
           <MovieWidget
             size={348}
             movie={m}

@@ -9,41 +9,37 @@ export interface EncodingTaskState {
   taskUpdater: EncodingTaskProgressUpdater
 }
 
-export const EncodingTasks = Shade<{}, EncodingTaskState>({
+export const EncodingTasks = Shade({
   shadowDomName: 'encoding-tasks',
-  getInitialState: ({ injector }) => {
-    const service = new CollectionService<media.EncodingTask>({
-      loader: async (findOptions) => {
-        const response = await useMediaApi(injector)({
-          method: 'GET',
-          action: '/encode/tasks',
-          query: {
-            findOptions: {
-              ...findOptions,
-              select: ['_id', 'mediaInfo', 'status', 'startDate', 'creationDate', 'finishDate', 'percent'],
-            },
+  render: ({ useDisposable, injector }) => {
+    const service = useDisposable(
+      'service',
+      () =>
+        new CollectionService<media.EncodingTask>({
+          loader: async (findOptions) => {
+            const response = await useMediaApi(injector)({
+              method: 'GET',
+              action: '/encode/tasks',
+              query: {
+                findOptions: {
+                  ...findOptions,
+                  select: ['_id', 'mediaInfo', 'status', 'startDate', 'creationDate', 'finishDate', 'percent'],
+                },
+              },
+            })
+            return response.result
           },
-        })
-        return response.result
-      },
-      defaultSettings: { order: { creationDate: 'DESC' } },
-    })
+          defaultSettings: { order: { creationDate: 'DESC' } },
+        }),
+    )
 
-    const taskUpdater = new EncodingTaskProgressUpdater(service)
-    return {
-      service,
-      taskUpdater,
-    }
-  },
-  constructed: ({ getState }) => {
-    return () => getState().taskUpdater.dispose()
-  },
-  render: ({ getState, injector }) => {
+    useDisposable('taskUpdater', () => new EncodingTaskProgressUpdater(service))
+
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <DataGrid<media.EncodingTask>
           columns={['mediaInfo', 'status', 'percent', 'creationDate']}
-          service={getState().service}
+          service={service}
           styles={{
             cell: {
               textAlign: 'center',

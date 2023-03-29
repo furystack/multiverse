@@ -3,7 +3,7 @@ import { Shade, createComponent } from '@furystack/shades'
 import type { Injector } from '@furystack/inject'
 import { Button, NotyService } from '@furystack/shades-common-components'
 import { getErrorMessage, ThemeService } from '@common/frontend-utils'
-import { Trace } from '@furystack/utils'
+import { ObservableValue } from '@furystack/utils'
 import type { MonacoEditorProps } from '../monaco-editor'
 import { MonacoEditor } from '../monaco-editor'
 import type { SchemaNames, EntityNames } from '../../services/monaco-model-provider'
@@ -20,51 +20,30 @@ export interface GenericMonacoEditorProps<T, TSchema extends SchemaNames, TEntit
   onSave?: (data: T) => Promise<void>
 }
 
-export interface GenericMonacoEditorState {
-  lastSavedData: string
-  currentData: string
-  isDirty: boolean
-  isLight: boolean
-}
-
 export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity extends EntityNames<TSchema>>(
   props: GenericMonacoEditorProps<T, TSchema, TEntity>,
   children: ChildrenList,
-) => JSX.Element<any, any> = Shade<GenericMonacoEditorProps<any, any, any>, GenericMonacoEditorState>({
+) => JSX.Element<any> = Shade<GenericMonacoEditorProps<any, any, any>>({
   shadowDomName: 'shades-generic-monaco-editor',
-  getInitialState: ({ props, injector }) => {
-    const data = JSON.stringify(props.data, undefined, 2)
-    return {
-      currentData: data,
-      isDirty: false,
-      lastSavedData: data,
-      isLight: injector.getInstance(ThemeService).themeName === 'light',
-    }
-  },
-  constructed: ({ props, getState, injector, updateState }) => {
+  constructed: ({ props, useState, injector, useDisposable }) => {
     const oldOnBeforeUnload = window.onbeforeunload
     window.onbeforeunload = () => {
-      const state = getState()
-      if (props.readOnly !== true && state.currentData !== state.lastSavedData) {
+      const [lastSavedData] = useState('lastSavedData', JSON.stringify(props.data))
+      const [currentData] = useState('currentData', lastSavedData)
+      if (props.readOnly !== false && currentData !== lastSavedData) {
         return 'Are you sure you want to leave?'
       }
       return undefined
     }
-    const themeProvider = injector.getInstance(ThemeService)
-    const themeChanged = Trace.method({
-      object: themeProvider,
-      method: themeProvider.setTheme,
-      onFinished: () => {
-        updateState({ isLight: injector.getInstance(ThemeService).themeName === 'light' })
-      },
-    })
 
     const saveListener = (ev: KeyboardEvent) => {
+      const [lastSavedData] = useState('lastSavedData', JSON.stringify(props.data))
+      const currentData = useDisposable('currentData', () => new ObservableValue(lastSavedData))
       if (ev.ctrlKey && ev.key.toLocaleLowerCase() === 's') {
         ev.preventDefault()
         ev.stopPropagation()
         props
-          .onSave?.(JSON.parse(getState().currentData))
+          .onSave?.(JSON.parse(currentData.getValue()))
           .then(() =>
             injector
               .getInstance(NotyService)
@@ -83,16 +62,20 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
     return () => {
       window.removeEventListener('keydown', saveListener, true)
       window.onbeforeunload = oldOnBeforeUnload
-      themeChanged.dispose()
     }
   },
-  render: ({ props, injector, updateState, getState }) => {
+  render: ({ props, injector, useObservable, useDisposable, useState }) => {
+    const [themeName] = useObservable('themeName', injector.getInstance(ThemeService).themeNameObservable)
+
+    const [lastSavedData] = useState('lastSavedData', JSON.stringify(props.data))
+    const currentData = useDisposable('currentData', () => new ObservableValue(lastSavedData))
+
     const monacoProps: MonacoEditorProps = {
       ...props.monacoProps,
       options: {
         readOnly: props.readOnly,
         ...props.monacoProps?.options,
-        theme: getState().isLight ? 'vs-light' : 'vs-dark',
+        theme: themeName === 'light' ? 'vs-light' : 'vs-dark',
         automaticLayout: true,
         model: injector
           .getInstance(MonacoModelProvider)
@@ -113,7 +96,7 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
                 <Button
                   title={action.name}
                   onclick={() => {
-                    action.action({ injector, entity: JSON.parse(getState().currentData) })
+                    action.action({ injector, entity: JSON.parse(currentData.getValue()) })
                   }}
                 >
                   {action.name}
@@ -128,7 +111,7 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
               disabled={props.readOnly}
               onclick={async () => {
                 try {
-                  await (props.onSave && props.onSave(JSON.parse(getState().currentData)))
+                  await (props.onSave && props.onSave(JSON.parse(currentData.getValue())))
                   injector
                     .getInstance(NotyService)
                     .addNoty({ type: 'success', title: 'Saved', body: 'Your changes has been saved succesfully' })
@@ -149,7 +132,7 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
             value={JSON.stringify(props.data, undefined, 2)}
             onchange={(v) => {
               try {
-                updateState({ currentData: JSON.stringify(JSON.parse(v)) }, true)
+                currentData.setValue(JSON.stringify(JSON.parse(v)))
               } catch (error) {
                 // serialization error, ignore
               }

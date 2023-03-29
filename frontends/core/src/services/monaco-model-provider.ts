@@ -28,6 +28,7 @@ export class MonacoModelProvider {
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
       validate: true,
       schemas: [
+        ...(monaco.languages.json.jsonDefaults.diagnosticsOptions.schemas || []),
         {
           uri: `http://multiverse.my.to/schemas/monaco-editor/schema-${key}.json`,
           fileMatch: [modelUri.toString()],

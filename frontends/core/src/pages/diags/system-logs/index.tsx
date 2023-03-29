@@ -5,12 +5,6 @@ import { DataGrid, CollectionService } from '@furystack/shades-common-components
 import { useDiagApi } from '@common/frontend-utils'
 import { getLevelIcon } from './get-level-icon'
 
-export interface SystemLogsState {
-  error?: Error
-  selectedEntry?: diag.LogEntry<any>
-  systemLogsService: CollectionService<diag.LogEntry<any>>
-}
-
 export const LogLevelCell = Shade<{ level: LogLevel }>({
   shadowDomName: 'log-level-cell',
   render: ({ props }) => {
@@ -31,27 +25,31 @@ export const LogLevelCell = Shade<{ level: LogLevel }>({
   },
 })
 
-export const SystemLogs = Shade<unknown, SystemLogsState>({
+export const SystemLogs = Shade({
   shadowDomName: 'system-logs-page',
-  getInitialState: ({ injector }) => ({
-    systemLogsService: new CollectionService<diag.LogEntry<any>>({
-      loader: async (findOptions) => {
-        const { result } = await useDiagApi(injector)({
-          method: 'GET',
-          action: '/logEntries',
-          query: { findOptions },
-        })
-        return result
-      },
-      defaultSettings: { top: 20, order: { creationDate: 'DESC' } },
-    }),
-  }),
-  render: ({ getState }) => {
+
+  render: ({ useDisposable, injector }) => {
+    const systemLogsService = useDisposable(
+      'service',
+      () =>
+        new CollectionService<diag.LogEntry<any>>({
+          loader: async (findOptions) => {
+            const { result } = await useDiagApi(injector)({
+              method: 'GET',
+              action: '/logEntries',
+              query: { findOptions },
+            })
+            return result
+          },
+          defaultSettings: { top: 20, order: { creationDate: 'DESC' } },
+        }),
+    )
+
     return (
       <div style={{ width: '100%', height: '100%' }}>
         <DataGrid<diag.LogEntry<any>>
           columns={['level', 'appName', 'scope', 'message', 'creationDate']}
-          service={getState().systemLogsService}
+          service={systemLogsService}
           styles={{
             cell: {
               textOverflow: 'ellipsis',

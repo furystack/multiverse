@@ -9,12 +9,9 @@ export interface SeriesListProps {
   movies: Array<PartialResult<media.Movie, ['_id', 'metadata']>>
 }
 
-export const SeriesPage = Shade<SeriesListProps, { isDesktop: boolean }>({
+export const SeriesPage = Shade<SeriesListProps>({
   shadowDomName: 'series-page',
-  getInitialState: ({ injector }) => ({
-    isDesktop: injector.getInstance(ScreenService).screenSize.atLeast.md.getValue(),
-  }),
-  constructed: ({ injector, updateState, element }) => {
+  constructed: ({ element }) => {
     promisifyAnimation(
       element.querySelector('img'),
       [
@@ -28,13 +25,9 @@ export const SeriesPage = Shade<SeriesListProps, { isDesktop: boolean }>({
         fill: 'forwards',
       },
     )
-    const subscribers = [
-      injector.getInstance(ScreenService).screenSize.atLeast.md.subscribe((isDesktop) => updateState({ isDesktop })),
-    ]
-    return () => subscribers.forEach((sub) => sub.dispose())
   },
-  render: ({ props, getState }) => {
-    const { isDesktop } = getState()
+  render: ({ props, useObservable, injector }) => {
+    const [isDesktop] = useObservable('isDesktop', injector.getInstance(ScreenService).screenSize.atLeast.md)
 
     const seasons = Array.from(
       new Set(props.movies.map((m) => m.metadata.season).filter((s) => !isNaN(s as number))),

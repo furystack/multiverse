@@ -4,25 +4,24 @@ import { getErrorMessage } from '@common/frontend-utils'
 import { GithubAuthProvider } from '../../services/github-auth-provider'
 import { GenericErrorPage } from '../generic-error'
 
-export const GithubAttach = Shade<{ code: string }, { loginError?: string }>({
+export const GithubAttach = Shade<{ code: string }>({
   shadowDomName: 'shade-github-attach',
-  getInitialState: () => ({
-    loginError: undefined,
-  }),
-  constructed: async ({ props, injector, updateState }) => {
+
+  constructed: async ({ props, injector, useState }) => {
+    const [, setLoginError] = useState<string | undefined>('loginError', undefined)
+
     try {
       await injector.getInstance(GithubAuthProvider).attach(props.code)
       history.pushState({}, '', '/profile#tab-1')
     } catch (error) {
-      const loginError =
+      const errorMsg =
         (await getErrorMessage(error)) || 'There was an error during you have tried attaching the account.'
-      updateState({
-        loginError,
-      })
+      setLoginError(errorMsg)
     }
   },
-  render: ({ getState }) => {
-    const { loginError } = getState()
+  render: ({ useState }) => {
+    const [loginError] = useState<string | undefined>('loginError', undefined)
+
     return (
       <div
         style={{

@@ -1,20 +1,20 @@
-import { Button, Input } from '@furystack/shades-common-components'
+import { Button, Form, Input } from '@furystack/shades-common-components'
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { useAuthApi, SessionService } from '@common/frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 import { GenericErrorPage } from './generic-error'
 
+type FormPayload = {
+  email: string
+  password: string
+  confirmPassword: string
+}
 export const RegisterPage = Shade({
   shadowDomName: 'register-page',
-  getInitialState: () => ({
-    error: '' as unknown,
-    email: '',
-    password: '',
-    confirmPassword: '',
-    isOperationInProgress: false,
-  }),
-  render: ({ injector, getState, updateState }) => {
-    const { error } = getState()
+  render: ({ injector, useState }) => {
+    const [error, setError] = useState<unknown>('error', '')
+    const [isOperationInProgress, setIsOperationInProgress] = useState('isOperationInProgress', false)
+
     return (
       <div
         style={{
@@ -49,16 +49,18 @@ export const RegisterPage = Shade({
             <h2>Sign up</h2>
             <p>By signing up with you accept the corporate blahblahblah...</p>
 
-            <form
-              onsubmit={async (ev) => {
-                ev.preventDefault()
-                const { email, password, confirmPassword } = getState()
-                if (password !== confirmPassword) {
-                  alert('Password and Confirm Password does not match :(')
-                  return
-                }
+            <Form<FormPayload>
+              validate={(formData): formData is FormPayload => {
+                return (
+                  formData.email?.length &&
+                  formData.password?.length &&
+                  formData.confirmPassword?.length &&
+                  formData.password === formData.confirmPassword
+                )
+              }}
+              onSubmit={async ({ email, password }) => {
                 const sessionService = injector.getInstance(SessionService)
-                updateState({ isOperationInProgress: true })
+                setIsOperationInProgress(true)
 
                 try {
                   const { result: user } = await useAuthApi(injector)({
@@ -73,44 +75,52 @@ export const RegisterPage = Shade({
                     sessionService.state.setValue('authenticated')
                   }
                 } catch (e) {
-                  updateState({ error: e, isOperationInProgress: false })
+                  setError(e)
+                  setIsOperationInProgress(false)
                 }
               }}
             >
               <Input
                 type="email"
+                name="email"
                 labelTitle="E-mail"
                 required
                 autofocus
-                value={getState().email}
-                disabled={getState().isOperationInProgress}
+                disabled={isOperationInProgress}
                 title="E-mail"
-                onchange={(ev) => {
-                  updateState({ email: (ev.target as HTMLInputElement).value }, true)
-                }}
+                getHelperText={() => "We'll never share your email with anyone else."}
               />
               <Input
                 type="password"
-                value={getState().password}
+                name="password"
                 labelTitle="Password"
                 title="Password"
                 required
-                disabled={getState().isOperationInProgress}
-                onchange={(ev) => updateState({ password: (ev.target as HTMLInputElement).value }, true)}
+                disabled={isOperationInProgress}
+                getHelperText={() => 'Password must be at least 8 characters long.'}
               />
               <Input
                 type="password"
-                value={getState().confirmPassword}
+                name="confirmPassword"
                 labelTitle="Confirm password"
                 title="Confirm password"
                 required
-                disabled={getState().isOperationInProgress}
-                onchange={(ev) => updateState({ confirmPassword: (ev.target as HTMLInputElement).value }, true)}
+                disabled={isOperationInProgress}
+                getHelperText={() => 'Please confirm your password.'}
+                getValidationResult={({ state }) => {
+                  const pwValue = (
+                    state.element?.parentElement?.querySelector('input[name=password]') as HTMLInputElement
+                  )?.value
+                  return pwValue && pwValue !== state.value
+                    ? { isValid: false, message: 'Passwords do not match' }
+                    : { isValid: true }
+                }}
               />
+              <button type="submit" style={{ display: 'none' }} />
               <Button title="Register" type="submit">
                 Register
               </Button>
-            </form>
+            </Form>
             <p>You can also sign up using the following accounts:</p>
             <div>
               <Button
@@ -119,7 +129,7 @@ export const RegisterPage = Shade({
                   try {
                     await injector.getInstance(GoogleOauthProvider).signup()
                   } catch (e) {
-                    updateState({ error: e })
+                    setError(e)
                   }
                 }}
               >

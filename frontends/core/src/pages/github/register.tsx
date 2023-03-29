@@ -4,12 +4,12 @@ import { Loader } from '@furystack/shades-common-components'
 import { GithubAuthProvider } from '../../services/github-auth-provider'
 import { GenericErrorPage } from '../generic-error'
 
-export const GithubRegister = Shade<{ code: string }, { loginError?: string }>({
+export const GithubRegister = Shade<{ code: string }>({
   shadowDomName: 'shade-github-register',
-  getInitialState: () => ({
-    loginError: undefined,
-  }),
-  constructed: async ({ props, injector, updateState }) => {
+
+  constructed: async ({ props, injector, useState }) => {
+    const [, setLoginError] = useState<string | undefined>('loginError', undefined)
+
     const location = injector.getInstance(SessionService).currentUser.subscribe(() => {
       window.history.pushState('', '', '/')
       injector.getInstance(LocationService).updateState()
@@ -17,13 +17,13 @@ export const GithubRegister = Shade<{ code: string }, { loginError?: string }>({
     try {
       await injector.getInstance(GithubAuthProvider).register(props.code)
     } catch (error) {
-      const loginError = (await getErrorMessage(error)) || 'Failed to register.'
-      updateState({ loginError })
+      const errorMessage = (await getErrorMessage(error)) || 'Failed to register.'
+      setLoginError(errorMessage)
     }
     return () => location.dispose()
   },
-  render: ({ getState }) => {
-    const { loginError } = getState()
+  render: ({ useState }) => {
+    const [loginError] = useState<string | undefined>('loginError', undefined)
     return (
       <div
         style={{

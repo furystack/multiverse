@@ -7,23 +7,25 @@ import { Init } from '../init'
 import { GenericErrorPage } from '../generic-error'
 import { EditUserPage } from './edit'
 
-export const UsersPage = Shade<{}, { service: CollectionService<auth.User> }>({
+export const UsersPage = Shade({
   shadowDomName: 'shade-users-page',
-  getInitialState: ({ injector }) => {
-    const service = new CollectionService<auth.User>({
-      defaultSettings: { top: 20, order: { username: 'ASC' } },
-      loader: async (findOptions) => {
-        const { result } = await useAuthApi(injector)({
-          method: 'GET',
-          action: '/users',
-          query: { findOptions },
-        })
-        return result
-      },
-    })
-    return { service }
-  },
-  render: ({ getState, injector }) => {
+
+  render: ({ injector, useDisposable }) => {
+    const service = useDisposable(
+      'service',
+      () =>
+        new CollectionService<auth.User>({
+          defaultSettings: { top: 20, order: { username: 'ASC' } },
+          loader: async (findOptions) => {
+            const { result } = await useAuthApi(injector)({
+              method: 'GET',
+              action: '/users',
+              query: { findOptions },
+            })
+            return result
+          },
+        }),
+    )
     return (
       <Router
         routes={[
@@ -32,7 +34,7 @@ export const UsersPage = Shade<{}, { service: CollectionService<auth.User> }>({
             component: () => (
               <DataGrid<auth.User>
                 columns={['username', 'roles']}
-                service={getState().service}
+                service={service}
                 headerComponents={{}}
                 rowComponents={{
                   username: (el) => {

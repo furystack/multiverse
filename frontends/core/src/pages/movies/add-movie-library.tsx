@@ -4,14 +4,16 @@ import { Input, Button } from '@furystack/shades-common-components'
 import { useMediaApi } from '@common/frontend-utils'
 import { FullScreenForm } from '../../components/full-screen-form'
 
-export const AddMovieLibrary = Shade<unknown, Pick<media.MovieLibrary, 'name' | 'path' | 'icon'>>({
+export const AddMovieLibrary = Shade({
   shadowDomName: 'multiverse-add-movie-library',
-  getInitialState: () => ({
-    path: '',
-    icon: '🍿',
-    name: '',
-  }),
-  render: ({ getState, updateState, injector }) => {
+
+  render: ({ injector, useState }) => {
+    const [newMovieLib, setNewMovieLib] = useState<Pick<media.MovieLibrary, 'name' | 'path' | 'icon'>>('newMovieLib', {
+      path: '',
+      icon: '🍿',
+      name: '',
+    })
+
     return (
       <FullScreenForm
         title="Create Movie Library"
@@ -37,28 +39,28 @@ export const AddMovieLibrary = Shade<unknown, Pick<media.MovieLibrary, 'name' | 
           await useMediaApi(injector)({
             method: 'POST',
             action: '/movie-libraries',
-            body: getState(),
+            body: newMovieLib,
           })
           window.history.pushState('', '', '/movies?refresh=1')
         }}
       >
         <Input
-          value={getState().name}
+          value={newMovieLib.name}
           labelTitle="Name"
           required
-          onTextChange={(text) => updateState({ name: text }, true)}
+          onTextChange={(text) => setNewMovieLib({ ...newMovieLib, name: text })}
         />
         <Input
-          value={getState().path}
+          value={newMovieLib.path}
           labelTitle="Path"
           required
-          onTextChange={(text) => updateState({ path: text }, true)}
+          onTextChange={(text) => setNewMovieLib({ ...newMovieLib, path: text })}
         />
         <Input
-          value={getState().icon}
+          value={newMovieLib.icon}
           labelTitle="Icon"
           required
-          onTextChange={(text) => updateState({ icon: text }, true)}
+          onTextChange={(text) => setNewMovieLib({ ...newMovieLib, icon: text })}
         />
       </FullScreenForm>
     )
