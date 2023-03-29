@@ -66,7 +66,7 @@ export const Body = Shade<unknown>({
                               method: 'GET',
                               action: '/loginProviderDetails',
                             })
-                            return <ProfilePage loginProviderDetails={loginProviderDetails} currentUser={currentUser} />
+                            return <ProfilePage loginProviderDetails={loginProviderDetails} />
                           }}
                           loader={<Init message="Loading your Profile..." />}
                         />

@@ -10,13 +10,15 @@ export interface MonacoEditorProps {
 export const MonacoEditor = Shade<MonacoEditorProps>({
   shadowDomName: 'multiverse-monaco-editor',
   constructed: ({ element, props }) => {
-    const editor = monaco.editor.create(element.firstChild as HTMLElement, props.options)
+    const editor = monaco.editor.create(element.firstChild as HTMLElement, {
+      ...props.options,
+    })
     editor.setValue(props.value || '')
-    props.onchange &&
-      editor.onKeyUp(() => {
-        const value = editor.getValue()
-        props.onchange && props.onchange(value)
-      })
+    editor.onKeyUp(() => {
+      const value = editor.getValue()
+      props.onchange?.(value)
+    })
+    return () => editor.dispose()
   },
   render: () => {
     return <div style={{ width: '100%', height: '100%' }}></div>

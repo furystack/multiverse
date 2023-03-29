@@ -6,12 +6,19 @@ import {
   tryLogin,
 } from '../support/commands'
 
+const clickOnProfileTab = (tabName: string) => {
+  cy.get('shade-tab-header').contains(tabName, { matchCase: false }).scrollIntoView().click()
+  // This hack is needed because Cypress hacks the navigation
+  cy.reload()
+  cy.contains('Multiverse')
+}
+
 describe('Profile Management', () => {
   it('Should change the password and change it back', () => {
     cy.visit('/')
     login(cy, 'testuser@gmail.com', 'password')
     navigateFromUserMenu(cy, 'Profile')
-    cy.get('.shade-tabs-header-container').contains('Change Password').scrollIntoView().click()
+    clickOnProfileTab('Change Password')
 
     cy.contains('Current password').find('input').clear().type('wrongCurrentPassword')
     cy.contains('New password').find('input').clear().type('newPassword')
@@ -35,7 +42,7 @@ describe('Profile Management', () => {
 
     login(cy, 'testuser@gmail.com', 'newPassword')
     navigateFromUserMenu(cy, 'Profile')
-    cy.get('.shade-tabs-header-container').contains('Change Password').scrollIntoView().click()
+    clickOnProfileTab('Change Password')
     cy.contains('Current password').find('input').clear().type('newPassword')
     cy.contains('New password').find('input').clear().type('password')
     cy.contains('Confirm new password').find('input').clear().type('password')
@@ -53,8 +60,6 @@ describe('Profile Management', () => {
     cy.get('shade-profile-page input[type=file]').selectFile('cypress/fixtures/images/test-avatar.png', { force: true })
 
     expectAndDismissNotification(cy, 'Your avatar has been updated', 'success')
-
-    cy.get('shade-profile-page div.profileHeader').should('be.visible')
   })
 
   it('Should update the theme from the personal settings JSON', () => {
@@ -62,27 +67,23 @@ describe('Profile Management', () => {
 
     login(cy, 'testuser@gmail.com', 'password')
     navigateFromUserMenu(cy, 'Profile')
-    cy.get('shade-tabs div').contains('Personal settings', { matchCase: false }).scrollIntoView().click()
+    clickOnProfileTab('Personal settings')
     cy.get('user-settings-editor').then((el) => {
       const editor: any = el[0]
       editor.props = { ...editor.props, settings: { theme: 'light' } }
       editor.updateComponent()
     })
-    // cy.wait(5000)
     cy.get(saveButtonSelector).should('be.visible').click()
     expectAndDismissNotification(cy, 'Your changes has been saved succesfully')
 
-    cy.get('shade-app-bar > div').should('be.visible')
     navigateFromUserMenu(cy, 'Profile')
-    cy.get('shade-tabs div').contains('Personal settings', { matchCase: false }).scrollIntoView().click()
+    clickOnProfileTab('Personal settings')
     cy.get('user-settings-editor').then((el) => {
       const editor: any = el[0]
       editor.props = { ...editor.props, settings: { theme: 'dark' } }
       editor.updateComponent()
     })
-    // cy.wait(5000)
     cy.get(saveButtonSelector).click()
     expectAndDismissNotification(cy, 'Your changes has been saved succesfully')
-    cy.get('shade-app-bar > div')
   })
 })

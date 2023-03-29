@@ -3,6 +3,7 @@ import { Shade, createComponent } from '@furystack/shades'
 import type { Injector } from '@furystack/inject'
 import { Button, NotyService } from '@furystack/shades-common-components'
 import { getErrorMessage, ThemeService } from '@common/frontend-utils'
+import { ObservableValue } from '@furystack/utils'
 import type { MonacoEditorProps } from '../monaco-editor'
 import { MonacoEditor } from '../monaco-editor'
 import type { SchemaNames, EntityNames } from '../../services/monaco-model-provider'
@@ -24,7 +25,7 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
   children: ChildrenList,
 ) => JSX.Element<any> = Shade<GenericMonacoEditorProps<any, any, any>>({
   shadowDomName: 'shades-generic-monaco-editor',
-  constructed: ({ props, useState, injector }) => {
+  constructed: ({ props, useState, injector, useDisposable }) => {
     const oldOnBeforeUnload = window.onbeforeunload
     window.onbeforeunload = () => {
       const [lastSavedData] = useState('lastSavedData', JSON.stringify(props.data))
@@ -37,12 +38,12 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
 
     const saveListener = (ev: KeyboardEvent) => {
       const [lastSavedData] = useState('lastSavedData', JSON.stringify(props.data))
-      const [currentData] = useState('currentData', lastSavedData)
+      const currentData = useDisposable('currentData', () => new ObservableValue(lastSavedData))
       if (ev.ctrlKey && ev.key.toLocaleLowerCase() === 's') {
         ev.preventDefault()
         ev.stopPropagation()
         props
-          .onSave?.(JSON.parse(currentData))
+          .onSave?.(JSON.parse(currentData.getValue()))
           .then(() =>
             injector
               .getInstance(NotyService)
@@ -63,11 +64,11 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
       window.onbeforeunload = oldOnBeforeUnload
     }
   },
-  render: ({ props, injector, useObservable, useState }) => {
+  render: ({ props, injector, useObservable, useDisposable, useState }) => {
     const [themeName] = useObservable('themeName', injector.getInstance(ThemeService).themeNameObservable)
 
     const [lastSavedData] = useState('lastSavedData', JSON.stringify(props.data))
-    const [currentData, setCurrentData] = useState('currentData', lastSavedData)
+    const currentData = useDisposable('currentData', () => new ObservableValue(lastSavedData))
 
     const monacoProps: MonacoEditorProps = {
       ...props.monacoProps,
@@ -95,7 +96,7 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
                 <Button
                   title={action.name}
                   onclick={() => {
-                    action.action({ injector, entity: JSON.parse(currentData) })
+                    action.action({ injector, entity: JSON.parse(currentData.getValue()) })
                   }}
                 >
                   {action.name}
@@ -110,7 +111,7 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
               disabled={props.readOnly}
               onclick={async () => {
                 try {
-                  await (props.onSave && props.onSave(JSON.parse(currentData)))
+                  await (props.onSave && props.onSave(JSON.parse(currentData.getValue())))
                   injector
                     .getInstance(NotyService)
                     .addNoty({ type: 'success', title: 'Saved', body: 'Your changes has been saved succesfully' })
@@ -131,7 +132,7 @@ export const GenericMonacoEditor: <T, TSchema extends SchemaNames, TEntity exten
             value={JSON.stringify(props.data, undefined, 2)}
             onchange={(v) => {
               try {
-                setCurrentData(JSON.stringify(JSON.parse(v)))
+                currentData.setValue(JSON.stringify(JSON.parse(v)))
               } catch (error) {
                 // serialization error, ignore
               }
