@@ -108,18 +108,21 @@ export class SessionService implements IdentityContext {
     return currentUser as unknown as TUser
   }
 
-  public currentProfileUpdate = this.currentUser.subscribe(async (usr) => {
-    if (usr) {
+  public reloadProfile = async () => {
+    const username = this.currentUser.getValue()?.username
+    if (username) {
       const { result: profile } = await useAuthApi(this.injector)({
         method: 'GET',
         action: '/profiles/:username',
-        url: { username: usr.username },
+        url: { username },
       })
       this.currentProfile.setValue(profile)
     } else {
       this.currentProfile.setValue(null as any)
     }
-  })
+  }
+
+  public currentProfileUpdate = this.currentUser.subscribe(() => this.reloadProfile())
 
   public currentProfile = new ObservableValue<auth.Profile>()
 
