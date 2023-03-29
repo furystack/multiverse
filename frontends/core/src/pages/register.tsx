@@ -1,16 +1,18 @@
-import { Button, Input } from '@furystack/shades-common-components'
+import { Button, Form, Input } from '@furystack/shades-common-components'
 import { Shade, createComponent, LocationService } from '@furystack/shades'
 import { useAuthApi, SessionService } from '@common/frontend-utils'
 import { GoogleOauthProvider } from '../services/google-auth-provider'
 import { GenericErrorPage } from './generic-error'
 
+type FormPayload = {
+  email: string
+  password: string
+  confirmPassword: string
+}
 export const RegisterPage = Shade({
   shadowDomName: 'register-page',
   render: ({ injector, useState }) => {
     const [error, setError] = useState<unknown>('error', '')
-    const [email, setEmail] = useState('email', '')
-    const [password, setPassword] = useState('password', '')
-    const [confirmPassword, setConfirmPassword] = useState('confirmPassword', '')
     const [isOperationInProgress, setIsOperationInProgress] = useState('isOperationInProgress', false)
 
     return (
@@ -47,13 +49,16 @@ export const RegisterPage = Shade({
             <h2>Sign up</h2>
             <p>By signing up with you accept the corporate blahblahblah...</p>
 
-            <form
-              onsubmit={async (ev) => {
-                ev.preventDefault()
-                if (password !== confirmPassword) {
-                  alert('Password and Confirm Password does not match :(')
-                  return
-                }
+            <Form<FormPayload>
+              validate={(formData): formData is FormPayload => {
+                return (
+                  formData.email?.length &&
+                  formData.password?.length &&
+                  formData.confirmPassword?.length &&
+                  formData.password === formData.confirmPassword
+                )
+              }}
+              onSubmit={async ({ email, password }) => {
                 const sessionService = injector.getInstance(SessionService)
                 setIsOperationInProgress(true)
 
@@ -81,36 +86,41 @@ export const RegisterPage = Shade({
                 labelTitle="E-mail"
                 required
                 autofocus
-                value={email}
                 disabled={isOperationInProgress}
                 title="E-mail"
-                onTextChange={setEmail}
+                getHelperText={() => "We'll never share your email with anyone else."}
               />
               <Input
                 type="password"
                 name="password"
-                value={password}
                 labelTitle="Password"
                 title="Password"
                 required
                 disabled={isOperationInProgress}
-                onTextChange={setPassword}
+                getHelperText={() => 'Password must be at least 8 characters long.'}
               />
               <Input
                 type="password"
                 name="confirmPassword"
-                value={confirmPassword}
                 labelTitle="Confirm password"
                 title="Confirm password"
                 required
                 disabled={isOperationInProgress}
-                onTextChange={setConfirmPassword}
+                getHelperText={() => 'Please confirm your password.'}
+                getValidationResult={({ state }) => {
+                  const pwValue = (
+                    state.element?.parentElement?.querySelector('input[name=password]') as HTMLInputElement
+                  )?.value
+                  return pwValue && pwValue !== state.value
+                    ? { isValid: false, message: 'Passwords do not match' }
+                    : { isValid: true }
+                }}
               />
               <button type="submit" style={{ display: 'none' }} />
               <Button title="Register" type="submit">
                 Register
               </Button>
-            </form>
+            </Form>
             <p>You can also sign up using the following accounts:</p>
             <div>
               <Button

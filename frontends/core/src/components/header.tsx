@@ -17,10 +17,10 @@ export const Header = Shade({
             title="Multiverse"
             href="/"
             style={{
+              display: 'inline-flex',
               marginRight: '1em',
               cursor: 'pointer',
               placeContent: 'center',
-              display: 'flex',
               overflow: 'hidden',
               flexShrink: '1',
               textOverflow: 'hidden',
