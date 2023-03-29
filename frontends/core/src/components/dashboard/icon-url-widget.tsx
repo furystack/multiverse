@@ -37,16 +37,12 @@ export const IconUrlWidget = Shade<Omit<dashboard.IconUrlWidget, 'type'> & { ind
   shadowDomName: 'icon-url-widget',
   render: ({ props, element }) => {
     setTimeout(() => {
-      promisifyAnimation(
-        element.querySelector('route-link div'),
-        [{ transform: 'scale(0)' }, { transform: 'scale(1)' }],
-        {
-          fill: 'forwards',
-          delay: (props.index || 0) * 160 + Math.random() * 100,
-          duration: 700,
-          easing: 'cubic-bezier(0.190, 1.000, 0.220, 1.000)',
-        },
-      )
+      promisifyAnimation(element.querySelector('a div'), [{ transform: 'scale(0)' }, { transform: 'scale(1)' }], {
+        fill: 'forwards',
+        delay: (props.index || 0) * 160 + Math.random() * 100,
+        duration: 700,
+        easing: 'cubic-bezier(0.190, 1.000, 0.220, 1.000)',
+      })
     })
 
     return (
